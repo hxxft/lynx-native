@@ -161,7 +161,7 @@ class RenderObject : public LayoutObject, public EventTarget {
 protected:
     void GetVisibleChildren(RenderObject *renderer,
                             std::vector<RenderObject *> &visible_chidren);
-    int GetVisibleChildrenLength(RenderObject* child);
+    int GetVisibleChildrenLength(RenderObject* renderer);
     void RecalculateLayoutPosition(base::Position &position);
     void HandleFixedStyle();
     void AddFixedChildIfHave(RenderObject* child);

@@ -74,12 +74,12 @@ void RenderObject::GetVisibleChildren(
     }
 }
 
-int RenderObject::GetVisibleChildrenLength(RenderObject* child) {
+int RenderObject::GetVisibleChildrenLength(RenderObject* renderer) {
     int length = 0;
-    if (!child->IsInvisible()) {
+    if (!renderer->IsInvisible()) {
         length++;
     } else {
-        RenderObject* child = static_cast<RenderObject*>(child->FirstChild());
+        RenderObject* child = static_cast<RenderObject*>(renderer->FirstChild());
         while (child) {
             length += GetVisibleChildrenLength(child);
             child = static_cast<RenderObject*>(child->Next());
@@ -241,9 +241,8 @@ void RenderObject::SetAttribute(const std::string &key,
     if (!IsInvisible()) {
         RenderCommand* cmd = lynx_new RendererAttrUpdateCommand(impl(), key, value, RenderCommand::CMD_SET_ATTR);
         render_tree_host_->UpdateRenderObject(cmd);
-
-        attributes_[key] = value;
     }
+    attributes_[key] = value;
 }
 
 bool RenderObject::HasAttribute(const std::string &key) {
