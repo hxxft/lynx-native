@@ -1,0 +1,8 @@
+source 'https://github.com/CocoaPods/Specs.git'
+platform :ios, '7.0'
+
+target 'lynx' do
+pod 'SDWebImage', '~> 4.0'
+pod 'SDWebImage/WebP'
+pod 'AFNetworking', '~> 3.0'
+end

@@ -1,0 +1,31 @@
+// Copyright 2017 The Lynx Authors. All rights reserved.
+
+#ifndef LYNX_RENDER_RENDER_OBJECT_TYPE_H_
+#define LYNX_RENDER_RENDER_OBJECT_TYPE_H_
+
+namespace lynx {
+enum RenderObjectType {
+    LYNX_NONE = -1,
+    LYNX_BODY,
+    LYNX_VIEW,
+    LYNX_LABEL,
+    LYNX_LISTVIEW,
+    LYNX_CELLVIEW,
+    LYNX_LISTSHADOW,
+    LYNX_IMAGEVIEW,
+    LYNX_SCROLLVIEW,
+    LYNX_INPUT,
+    LYNX_SWIPER,
+    LYNX_LAYOUT_VIEW,
+    LYNX_TEXT_NODE,
+    LYNX_TEXT_AREA,
+    LYNX_SWITCH,
+    LYNX_SLIDER,
+    LYNX_BUTTON,
+    LYNX_RADIO,
+    LYNX_RADIO_GROUP,
+    LYNX_CHECKBOX,
+};
+}  // namespace lynx
+
+#endif  // LYNX_RENDER_RENDER_OBJECT_TYPE_H_

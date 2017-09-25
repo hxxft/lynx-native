@@ -1,0 +1,20 @@
+{
+    "application": {
+        "packageName": "com.AirQ",
+        "icon": "air_cond_icon.png",
+        "name": "Air Q",
+        "versionCode": "",
+        "versionName": "",
+        "mainPage": "Launch.vue",
+        "pages": [
+            {
+                "name": "Launch.vue",
+                "screenOrientation": ""
+            },
+            {
+                "name": "App.vue",
+                "screenOrientation": ""
+            }
+        ]
+    }
+}

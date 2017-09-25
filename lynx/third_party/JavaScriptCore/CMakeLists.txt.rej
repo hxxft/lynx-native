@@ -1,0 +1,33 @@
+***************
+*** 1543,1549 ****
+  
+  target_include_directories(LLIntOffsetsExtractor PRIVATE ${JavaScriptCore_INCLUDE_DIRECTORIES})
+  
+- add_subdirectory(shell)
+  
+  WEBKIT_WRAP_SOURCELIST(${JavaScriptCore_SOURCES})
+  WEBKIT_FRAMEWORK(JavaScriptCore)
+--- 1543,1549 ----
+  
+  target_include_directories(LLIntOffsetsExtractor PRIVATE ${JavaScriptCore_INCLUDE_DIRECTORIES})
+  
++ # add_subdirectory(shell)
+  
+  WEBKIT_WRAP_SOURCELIST(${JavaScriptCore_SOURCES})
+  WEBKIT_FRAMEWORK(JavaScriptCore)
+***************
+*** 1555,1560 ****
+          install(TARGETS JavaScriptCore DESTINATION "${LIB_INSTALL_DIR}")
+      endif ()
+  endif ()
+  
+  # Force staging of shared scripts, even if they aren't directly used to build JavaScriptCore.
+  
+--- 1555,1561 ----
+          install(TARGETS JavaScriptCore DESTINATION "${LIB_INSTALL_DIR}")
+      endif ()
+  endif ()
++ set_target_properties(JavaScriptCore PROPERTIES OUTPUT_NAME jsc)
+  
+  # Force staging of shared scripts, even if they aren't directly used to build JavaScriptCore.
+  
