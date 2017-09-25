@@ -17,6 +17,8 @@
 
 - (void) loadHtmlData:(NSString *) html;
 
+- (void) loadHtml:(NSString *)url withSource:(NSString*)html;
+
 - (NSString *) runScript:(NSString *)script;
 
 - (void) destroy;

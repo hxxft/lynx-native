@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		423986421F7917FC008775F6 /* assets.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 423986411F7917FC008775F6 /* assets.bundle */; };
+		4239864B1F793F42008775F6 /* LynxFilePathUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 4239864A1F793F42008775F6 /* LynxFilePathUtility.m */; };
 		423E18721F0639D100813438 /* jsc_context.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 423E18701F0639D100813438 /* jsc_context.cpp */; };
 		4259BF451F161DB30031D3B0 /* observer_list.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4259BF431F161DB30031D3B0 /* observer_list.cpp */; };
 		426776671F73FB3A009012DC /* view_stub.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 426776651F73FB39009012DC /* view_stub.cpp */; };
@@ -22,7 +24,6 @@
 		4273D2321F04B84700321655 /* window_object.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4273D2301F04B84700321655 /* window_object.cpp */; };
 		4276131D1F21EDEB002BE870 /* touch_dispatcher.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 427613181F21EDEB002BE870 /* touch_dispatcher.cpp */; };
 		4276131E1F21EDEB002BE870 /* touch_event.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4276131A1F21EDEB002BE870 /* touch_event.cpp */; };
-		42BBCFBD1F766EBA00701711 /* index.html in Resources */ = {isa = PBXBuildFile; fileRef = 42BBCFBC1F766EBA00701711 /* index.html */; };
 		42D7BD6D1DCB7E99000BE5A5 /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 42D7BD6C1DCB7E99000BE5A5 /* JavaScriptCore.framework */; };
 		42D7BD751DCB8C27000BE5A5 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 42D7BD741DCB8C27000BE5A5 /* UIKit.framework */; };
 		5C7CD5C8675C8191C96DB698 /* libPods-lynx.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BE0761E22DF76E8A9BE04005 /* libPods-lynx.a */; };
@@ -58,7 +59,6 @@
 		BC5DBD731F5C60A5005A47E3 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = BC5DBD6C1F5C60A5005A47E3 /* Info.plist */; };
 		BC5DBD741F5C60A5005A47E3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BC5DBD6D1F5C60A5005A47E3 /* LaunchScreen.storyboard */; };
 		BC5DBD751F5C60A5005A47E3 /* LynxViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BC5DBD6F1F5C60A5005A47E3 /* LynxViewController.m */; };
-		BC5DBD781F5C60E5005A47E3 /* test.js in Resources */ = {isa = PBXBuildFile; fileRef = BC5DBD771F5C60E5005A47E3 /* test.js */; };
 		BC5DBD801F5E79D8005A47E3 /* LynxStyleConvector.mm in Sources */ = {isa = PBXBuildFile; fileRef = BC5DBD7F1F5E79D8005A47E3 /* LynxStyleConvector.mm */; };
 		BC5DBD831F5E7A05005A47E3 /* LynxFrameRateController.mm in Sources */ = {isa = PBXBuildFile; fileRef = BC5DBD821F5E7A05005A47E3 /* LynxFrameRateController.mm */; };
 		BC5DBD961F5E7D96005A47E3 /* LynxImageDownloader.mm in Sources */ = {isa = PBXBuildFile; fileRef = BC5DBD931F5E7D96005A47E3 /* LynxImageDownloader.mm */; };
@@ -164,6 +164,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		423986411F7917FC008775F6 /* assets.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = assets.bundle; path = lynx/assets.bundle; sourceTree = "<group>"; };
+		423986491F793E5B008775F6 /* LynxFilePathUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LynxFilePathUtility.h; sourceTree = "<group>"; };
+		4239864A1F793F42008775F6 /* LynxFilePathUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LynxFilePathUtility.m; sourceTree = "<group>"; };
 		423E18701F0639D100813438 /* jsc_context.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = jsc_context.cpp; path = jsc/jsc_context.cpp; sourceTree = "<group>"; };
 		423E18711F0639D100813438 /* jsc_context.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = jsc_context.h; path = jsc/jsc_context.h; sourceTree = "<group>"; };
 		4259BF431F161DB30031D3B0 /* observer_list.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = observer_list.cpp; sourceTree = "<group>"; };
@@ -202,7 +205,6 @@
 		4276131B1F21EDEB002BE870 /* touch_event.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = touch_event.h; sourceTree = "<group>"; };
 		4276131C1F21EDEB002BE870 /* touch_event_info.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = touch_event_info.h; sourceTree = "<group>"; };
 		42B188151E598BFA00934968 /* thread_manager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = thread_manager.h; sourceTree = "<group>"; };
-		42BBCFBC1F766EBA00701711 /* index.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = index.html; sourceTree = "<group>"; };
 		42CA2DB81E60269900E1200E /* platform_string.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = platform_string.h; sourceTree = "<group>"; };
 		42D7BCD61DCB440C000BE5A5 /* lynx.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = lynx.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		42D7BCEF1DCB440C000BE5A5 /* lynx.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = lynx.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -279,7 +281,6 @@
 		BC5DBD6D1F5C60A5005A47E3 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = lynx/LaunchScreen.storyboard; sourceTree = SOURCE_ROOT; };
 		BC5DBD6E1F5C60A5005A47E3 /* LynxViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LynxViewController.h; path = lynx/LynxViewController.h; sourceTree = SOURCE_ROOT; };
 		BC5DBD6F1F5C60A5005A47E3 /* LynxViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LynxViewController.m; path = lynx/LynxViewController.m; sourceTree = SOURCE_ROOT; };
-		BC5DBD771F5C60E5005A47E3 /* test.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = test.js; sourceTree = "<group>"; };
 		BC5DBD7E1F5E79D8005A47E3 /* LynxStyleConvector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LynxStyleConvector.h; sourceTree = "<group>"; };
 		BC5DBD7F1F5E79D8005A47E3 /* LynxStyleConvector.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = LynxStyleConvector.mm; sourceTree = "<group>"; };
 		BC5DBD811F5E7A05005A47E3 /* LynxFrameRateController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LynxFrameRateController.h; sourceTree = "<group>"; };
@@ -616,6 +617,7 @@
 		42D7BCCD1DCB440C000BE5A5 = {
 			isa = PBXGroup;
 			children = (
+				423986411F7917FC008775F6 /* assets.bundle */,
 				BC9D34941E1E015D009BD30A /* Core */,
 				BCE8BAAE1DF59F9A008B4A45 /* Foundation.framework */,
 				BCE8BA791DF54DA0008B4A45 /* CoreFoundation.framework */,
@@ -643,7 +645,6 @@
 			children = (
 				BC5DBD7D1F5E79D8005A47E3 /* Base */,
 				BC5DBD791F5E7874005A47E3 /* UI */,
-				BC5DBD761F5C60E5005A47E3 /* Resource */,
 				BC5DBD671F5C60A5005A47E3 /* AppDelegate.h */,
 				BC5DBD681F5C60A5005A47E3 /* AppDelegate.m */,
 				BC5DBD691F5C60A5005A47E3 /* Demo.storyboard */,
@@ -771,16 +772,6 @@
 			path = lib_json;
 			sourceTree = "<group>";
 		};
-		BC5DBD761F5C60E5005A47E3 /* Resource */ = {
-			isa = PBXGroup;
-			children = (
-				42BBCFBC1F766EBA00701711 /* index.html */,
-				BC5DBD771F5C60E5005A47E3 /* test.js */,
-			);
-			name = Resource;
-			path = lynx/Resource;
-			sourceTree = SOURCE_ROOT;
-		};
 		BC5DBD791F5E7874005A47E3 /* UI */ = {
 			isa = PBXGroup;
 			children = (
@@ -822,6 +813,8 @@
 				BC31B0251F6282AB00C0234C /* LynxRuntime.mm */,
 				BC31B0271F6284D200C0234C /* LynxRenderTreeHostImpl.h */,
 				BC31B0281F6284D200C0234C /* LynxRenderTreeHostImpl.mm */,
+				423986491F793E5B008775F6 /* LynxFilePathUtility.h */,
+				4239864A1F793F42008775F6 /* LynxFilePathUtility.m */,
 			);
 			name = Base;
 			path = Lynx/Base;
@@ -1341,11 +1334,10 @@
 				BC41C2421F04EC2000EB4BA3 /* json_valueiterator.inl in Resources */,
 				BC41C20B1F04EC2000EB4BA3 /* init.sh in Resources */,
 				BC41C2251F04EC2000EB4BA3 /* CMakeLists.txt in Resources */,
-				BC5DBD781F5C60E5005A47E3 /* test.js in Resources */,
 				BC9D343A1E1DEC92009BD30A /* Assets.xcassets in Resources */,
 				BC41C2451F04EC2000EB4BA3 /* version.h.in in Resources */,
 				BC5DBD731F5C60A5005A47E3 /* Info.plist in Resources */,
-				42BBCFBD1F766EBA00701711 /* index.html in Resources */,
+				423986421F7917FC008775F6 /* assets.bundle in Resources */,
 				BC5DBD741F5C60A5005A47E3 /* LaunchScreen.storyboard in Resources */,
 				BC41C2441F04EC2000EB4BA3 /* sconscript in Resources */,
 			);
@@ -1483,6 +1475,7 @@
 				BC5DBDBA1F5EF76F005A47E3 /* IOSScrollView.mm in Sources */,
 				4259BF451F161DB30031D3B0 /* observer_list.cpp in Sources */,
 				BC31B01A1F6264E600C0234C /* LynxUIFactory.m in Sources */,
+				4239864B1F793F42008775F6 /* LynxFilePathUtility.m in Sources */,
 				BC6D1CDF1F558C38007DD652 /* lynx_function_object.cpp in Sources */,
 				BC6D1D3C1F55C3E0007DD652 /* memory_debug.cpp in Sources */,
 				BC6D1CF61F558DCD007DD652 /* console.cpp in Sources */,

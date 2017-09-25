@@ -27,6 +27,10 @@ class URLParser {
         }
         return url;
     }
+    
+    std::string URLProtocol() {
+        return uri_.protocol_;
+    }
 
     std::string Query() {
         return uri_.query_;

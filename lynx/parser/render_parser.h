@@ -13,10 +13,10 @@ namespace parser {
     class RenderParser {
     public:
         RenderParser(lynx::RenderTreeHost* tree_host,
-                     jscore::ThreadManager* thread_manager) :
+                     jscore::Runtime* runtime) :
             input_(),
             tokenizer_(),
-            tree_builder_(tree_host, thread_manager),
+            tree_builder_(tree_host, runtime),
             token_() {}
         
         ~RenderParser() {}

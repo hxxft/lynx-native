@@ -30,6 +30,12 @@
     runtime_->LoadUrl(std::string([url UTF8String]));
 }
 
+- (void)loadHtml:(NSString *)url withSource:(NSString*)html{
+    base::PlatformString scoped_url(url);
+    base::PlatformString scoped_source(html);
+    runtime_->LoadHTML(scoped_url.ToString(), scoped_source.ToString());
+}
+
 - (void)loadHtmlData:(NSString *)html {
     base::PlatformString scoped_source(html);
     runtime_->LoadHTML(scoped_source.ToString());

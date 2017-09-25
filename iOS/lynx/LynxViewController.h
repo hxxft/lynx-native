@@ -2,7 +2,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface LynxViewController : UIViewController
+@interface LynxViewController : UIViewController 
 
 
 @end

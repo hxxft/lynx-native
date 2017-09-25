@@ -3,6 +3,7 @@
 #import "LynxView.h"
 #import "LynxUIBody.h"
 #import "LynxRenderObjectImpl.h"
+#import "LynxFilePathUtility.h"
 
 #include "runtime/jsc/jsc_runtime.h"
 #include "layout/css_style.h"
@@ -67,7 +68,7 @@ using namespace lynx;
 -(void) loadHTMLFile:(NSString*)htmlFile
 {
     if (nil != htmlFile) {
-        NSString* file = [[NSBundle mainBundle] pathForResource:htmlFile ofType:@"html"];
+        NSString* file = [LynxFilePathUtility toFilePath:htmlFile];
         NSData* fileData = [NSData dataWithContentsOfFile:file];
         if (nil != fileData && fileData.length > 0)
         {
@@ -75,7 +76,7 @@ using namespace lynx;
                                                            encoding:NSUTF8StringEncoding];
             if (nil != htmlString && htmlString.length > 0)
             {
-                [self loadHTMLData:htmlString];
+                [_runtime loadHtml:htmlFile withSource:htmlString];
             }
         }
     }
