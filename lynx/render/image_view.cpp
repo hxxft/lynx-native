@@ -6,6 +6,7 @@
 #include "render/render_tree_host.h"
 
 namespace lynx {
+const static char* kImageSrcAttribute = "src";
 
 ImageView::ImageView(const char *tag_name,
                      uint64_t id,
@@ -33,4 +34,14 @@ base::Size ImageView::Measure(int width, int height) {
 void ImageView::Layout(int left, int top, int right, int bottom) {
     RenderObject::Layout(left, top, right, bottom);
 }
+
+void ImageView::SetAttribute(const std::string &key, const std::string &value) {
+
+    if(key.compare(kImageSrcAttribute) == 0) {
+        RenderObject::SetAttribute(key, render_tree_host_->page_location() + value);
+    }else{
+        RenderObject::SetAttribute(key, value);
+    }
+}
+
 }  // namespace lynx

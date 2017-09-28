@@ -72,7 +72,7 @@ public class App {
         for (int i = 0; i < pages.size(); i++) {
             Page page = pages.get(i);
             if (page.getName().equals(name)
-                    || page.getSimpleName().equals(name)) {
+                    || page.getPageName().equals(name)) {
                 return page;
             }
         }
@@ -87,7 +87,7 @@ public class App {
     }
 
     public boolean isLegalPage(Page page) {
-        return isLegalPage(page.getSimpleName());
+        return isLegalPage(page.getPageName());
     }
 
 }

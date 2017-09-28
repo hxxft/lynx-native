@@ -2,6 +2,7 @@
 package com.lynx.net.external;
 
 import android.content.Context;
+import android.os.AsyncTask;
 import android.util.Log;
 import android.webkit.WebResourceResponse;
 
@@ -17,6 +18,7 @@ import com.lynx.net.NetResponse;
 import com.lynx.net.RequestInterceptor;
 import com.lynx.net.util.HttpHeaderUtil;
 import com.lynx.net.util.URLUtil;
+import com.lynx.resources.ResourceManager;
 import com.lynx.utils.StringUtil;
 
 import java.util.ArrayList;
@@ -56,8 +58,29 @@ public class VolleyRequestManager extends NetRequestManager {
     }
 
     @Override
-    public void fetch(NetRequest request) {
-        NetRequestBuilder info = request.getNetRequestInfo();
+    public void fetch(final NetRequest request) {
+        final NetRequestBuilder info = request.getNetRequestInfo();
+
+        if(ResourceManager.isLocalResource(info.getUrl())) {
+            AsyncTask<NetRequest, Object, String> task = new AsyncTask<NetRequest, Object, String>() {
+                NetRequest mRequest;
+                @Override
+                protected String doInBackground(NetRequest... params) {
+                    mRequest = params[0];
+                    return ResourceManager.instance().reader().readResourceAsString(mRequest.getNetRequestInfo().getUrl());
+                }
+
+                @Override
+                protected void onPostExecute(String s) {
+                    super.onPostExecute(s);
+                    mRequest.getNetResponse().onResponse(s);
+                }
+            };
+            task.execute(request);
+            return;
+        }
+
+
         if (info.getMethod() == NetMethod.GET) {
             get(request);
         } else if (info.getMethod() == NetMethod.POST) {

@@ -43,8 +43,10 @@ public class LynxActivityDelegate implements DebugDevHost{
 
         Page currentPage = app.getPage(pageName);
 
-        mLynxView.loadHTMLData(currentPage.getHtmlUri(),
-                ResourceManager.instance().getString(currentPage.getHtmlUri()));
+        mLynxView.loadHTMLData(currentPage.getResourceURL(),
+                ResourceManager.instance().reader().readResourceAsString(
+                        ResourceManager.toRealURL(currentPage.getLayoutResourceURL())));
+
         mLynxView.setBackgroundColor(Color.WHITE);
         mActivity.setContentView(mLynxView);
     }

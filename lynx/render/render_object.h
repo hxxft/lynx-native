@@ -55,7 +55,7 @@ class RenderObject : public LayoutObject, public EventTarget {
 
     virtual void InsertBefore(RenderObject* child, RenderObject* reference);
 
-    void SetAttribute(const std::string& key, const std::string& value);
+    virtual void SetAttribute(const std::string& key, const std::string& value);
     bool HasAttribute(const std::string& key);
     void RemoveAttribute(const std::string& key);
 

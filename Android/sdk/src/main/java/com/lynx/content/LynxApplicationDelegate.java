@@ -13,6 +13,7 @@ import com.lynx.resources.ResourceManager;
 public class LynxApplicationDelegate {
     private Application mApplication;
     private Manifest mManifest;
+    private String mManifestResourceURL = "Asset://manifest.json";
 
     public LynxApplicationDelegate(Application application) {
         mApplication = application;
@@ -23,8 +24,8 @@ public class LynxApplicationDelegate {
             DevSupportManager.getInstance().initialize();
         }
         RuntimeManager.prepare(mApplication);
-        mManifest = ResourceManager.instance()
-                .getObjectFromGson(Manifest.MATNIFEST_URI, Manifest.class);
+        mManifest = ResourceManager.instance().reader().
+                readResourceAsJSON(ResourceManager.toRealURL(mManifestResourceURL), Manifest.class);
     }
 
     public App getAppInfo() {

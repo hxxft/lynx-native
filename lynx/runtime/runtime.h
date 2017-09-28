@@ -70,7 +70,6 @@ private:
     base::ScopedPtr<ThreadManager> thread_manager_;
     base::ScopedRefPtr<lynx::RenderTreeHost> render_tree_host_;
  private:
-    std::string page_location_;
     base::ScopedPtr<net::URLRequestContext> url_request_context_;
     base::ScopedRefPtr<loader::LynxLoader> loader_;
     base::ScopedPtr<JSContext> context_;

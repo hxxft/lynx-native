@@ -26,7 +26,8 @@ RenderTreeHost::RenderTreeHost(
       context_(context),
       thread_manager_(thread_manager),
       render_root_(root),
-      did_first_layout_(false) {
+      did_first_layout_(false),
+      page_location_("") {
 
 #if OS_ANDROID
     render_tree_host_impl_ = lynx_new RenderTreeHostImplAndroid(

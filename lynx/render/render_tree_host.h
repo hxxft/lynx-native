@@ -61,6 +61,14 @@ class RenderTreeHost : public base::RefCountPtr<RenderTreeHost> {
         return context_;
     }
 
+    std::string page_location() {
+        return page_location_;
+    }
+
+    void set_page_location(const std::string& page_location) {
+        page_location_ = page_location;
+    }
+
  private:
     void PrepareCommit(const BeginFrameData& data);
 
@@ -73,6 +81,7 @@ class RenderTreeHost : public base::RefCountPtr<RenderTreeHost> {
     base::Size view_port_;
     bool did_first_layout_;
     std::map<std::string, RenderObject*> renderer_id_map_;
+    std::string page_location_;
 };
 }  // namespace lynx
 

@@ -3,68 +3,55 @@ package com.lynx.resources;
 
 import android.content.Context;
 
-import com.google.gson.Gson;
-
-import java.io.IOException;
-import java.io.InputStream;
-
 public class ResourceManager {
-
-    public static final String PROTOCOL_ASSETS = "Assets://";
 
     private static ResourceManager sResourceManager = null;
 
-    private Context mContext;
+    private ResourceReader mReader;
+
+    public static String ASSET_PROTOCOL = "Asset://";
+    public static String DATA_PROTOCOL = "Data://";
+    public static String DEBUG_PROTOCOL = "Debug://";
+
+    public static String kAssetModeApplicationLocation = "file:///android_asset/";
+    public static String kDataModeApplicationLocation = "file://";
+    public static String kDebugModeApplicationLocation = "http://127.0.0.1:3000/";
+
+    private static String FILE_PROTOCOL = "file://";
+
+    public static String toRealURL(String resource) {
+        String resourceURL = resource;
+        if(resource.startsWith(ASSET_PROTOCOL)) {
+            resourceURL =  kAssetModeApplicationLocation + resource.replace(ASSET_PROTOCOL, "");
+        }else if(resource.startsWith(DATA_PROTOCOL)) {
+            resourceURL =  kDataModeApplicationLocation + resource.replace(DATA_PROTOCOL, "");
+        }else if(resource.startsWith(DEBUG_PROTOCOL)) {
+            resourceURL =  kDebugModeApplicationLocation + resource.replace(DEBUG_PROTOCOL, "");
+        }
+
+        return resourceURL;
+    }
+
+    public static boolean isLocalResource(String readResourceURL) {
+        if(readResourceURL.startsWith(FILE_PROTOCOL)) {
+            return true;
+        }
+        return false;
+    }
+
+    public ResourceReader reader() {
+        return mReader;
+    }
 
     public static void init(Context context) {
         sResourceManager = new ResourceManager(context);
     }
 
     private ResourceManager(Context context) {
-        mContext = context;
+        mReader = new ResourceReader(context);
     }
 
-    public String getString(String path) {
-        return (String) getResource(path, Resource.Type.STRING).getContent();
-    }
 
-    public <T> T getObjectFromGson(String path, Class<T> clazz) {
-        String gsonStr = getString(path);
-        return new Gson().fromJson(gsonStr, clazz);
-    }
-
-    public Resource getResource(String path, Resource.Type type) {
-
-        if (path.startsWith(PROTOCOL_ASSETS)) {
-            return getResourceFromAssets(path, type);
-        }
-
-        return null;
-    }
-
-    private Resource getResourceFromAssets(String path, Resource.Type type) {
-
-        path = path.replace(PROTOCOL_ASSETS, "");
-
-        InputStream in = null;
-
-        try {
-            in = mContext.getAssets().open(path);
-            return Resource.Convector.toResouce(in, type);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            if (in != null) {
-                try {
-                    in.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-        return null;
-
-    }
 
     public static ResourceManager instance() {
         if(sResourceManager == null) {

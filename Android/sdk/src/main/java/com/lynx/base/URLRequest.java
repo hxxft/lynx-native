@@ -30,14 +30,8 @@ public class URLRequest {
     @Keep
     @CalledByNative
     public void fetch() {
-        final String url = mRequest.getNetRequestInfo().getUrl();
-        if (url.startsWith(ResourceManager.PROTOCOL_ASSETS)) {
-            String response = ResourceManager.instance().getString(url);
-            if (mDelegate != 0) {
-                nativeOnSuccess(mDelegate, url, response);
-            }
-            return;
-        }
+       final String url = mRequest.getNetRequestInfo().getUrl();
+
         mRequest.fetch(new StringNetResponse(url) {
             @Override
             public void onResponse(String response) {

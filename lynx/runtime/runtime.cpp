@@ -16,7 +16,6 @@ namespace jscore {
 
     Runtime::Runtime(JSContext* context)
             : thread_manager_(lynx_new ThreadManager()),
-              page_location_(""),
               url_request_context_(lynx_new net::URLRequestContext(this)),
               loader_(lynx_new loader::HTMLLoader(this)),
               context_(context),
@@ -42,13 +41,16 @@ namespace jscore {
     }
 
     void Runtime::LoadUrl(const std::string& url, int type) {
+        if(type == loader::LynxLoader::MAIN_FILE) {
+            render_tree_host_->set_page_location(url);
+        }
         loader_->Load(url, type);
         thread_manager_->RunOnJSThread(
                 base::Bind(&Runtime::LoadUrlOnJSThread, weak_ptr_, url));
     }
 
     void Runtime::LoadScript(const std::string& url, int type) {
-        std::string transformed_url = loader::ToCompleteUrl(url, page_location_);
+        std::string transformed_url = url + render_tree_host_->page_location();
         loader_->Load(transformed_url, type);
     }
 
@@ -64,8 +66,7 @@ namespace jscore {
 
 
     void Runtime::LoadHTML(const std::string& url, const std::string& html) {
-        page_location_ = url;
-//        context_->LoadUrl(url);
+        render_tree_host_->set_page_location(url);
         LoadHTML(html);
     }
 
@@ -132,7 +133,7 @@ namespace jscore {
     }
 
     std::string Runtime::GetPageUrl() {
-        return page_location_;
+        return render_tree_host()->page_location();
 //        return context_->GetPageUrl();
     }
 }  // namespace jscore
