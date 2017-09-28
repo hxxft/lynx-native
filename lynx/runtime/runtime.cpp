@@ -50,7 +50,7 @@ namespace jscore {
     }
 
     void Runtime::LoadScript(const std::string& url, int type) {
-        std::string transformed_url = url + render_tree_host_->page_location();
+        std::string transformed_url = render_tree_host_->page_location() + url;
         loader_->Load(transformed_url, type);
     }
 
