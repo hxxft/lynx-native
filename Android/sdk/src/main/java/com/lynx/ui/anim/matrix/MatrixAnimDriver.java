@@ -72,7 +72,7 @@ public class MatrixAnimDriver extends AnimDriver {
                 }
 
                 if (!TextUtils.isEmpty(animEvent)) {
-                    ui.postEvent(animEvent, true);
+                    ui.postEvent(animEvent, null);
                 }
                 // Opacity Animation enable when view's alpha > 0 so that set alpha to
                 // enable animation. And reset origin value when stop.
@@ -90,7 +90,7 @@ public class MatrixAnimDriver extends AnimDriver {
                     onAnimationStart(animation);
                 }
                 if (!mIsStop && !TextUtils.isEmpty(animEvent)) {
-                    ui.postEvent(animEvent, false);
+                    ui.postEvent(animEvent, null);
                 }
             }
 

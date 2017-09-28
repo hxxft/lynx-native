@@ -3,6 +3,6 @@ package com.lynx.core.tree;
 
 public enum LynxUIActionType {
     DO_EVENT_NONE,
-    DO_EVENT_ACTION,
-    DO_UPDATE_DATA_ACTION,
+    DO_UNORDERED_ACTION,
+    DO_ORDERED_ACTION
 }

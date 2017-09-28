@@ -141,16 +141,9 @@ class RenderObject : public LayoutObject, public EventTarget {
         return GetTarget();
     }
 
-    void PerformTouch(TouchEvent* event);
-    void PerformMotion(TouchEvent* event);
-    void OnCapturingTouchEvent(TouchEvent* event);
-    bool IsEventListenerEmpty();
-    const std::vector<RenderObject*> GetFixedNodes();
-
     uint64_t id() {
         return id_;
     }
-
 
     enum RENDER_OBJECT_ATTRS {
         SCROLL_TOP,

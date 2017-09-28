@@ -9,16 +9,20 @@ import android.view.ViewGroup;
 import com.lynx.base.Position;
 import com.lynx.base.Size;
 import com.lynx.base.Style;
+import com.lynx.core.base.LynxEvent;
 import com.lynx.core.base.LynxObject;
 import com.lynx.core.impl.RenderImplInterface;
 import com.lynx.core.impl.RenderObjectAttr;
 import com.lynx.core.impl.RenderObjectImpl;
-import com.lynx.core.tree.LynxUIEventAction;
-import com.lynx.core.tree.LynxUIUpdateDataAction;
+import com.lynx.core.touch.TouchEventInfo;
+import com.lynx.core.touch.TouchTarget;
+import com.lynx.core.touch.gesture.GestureEventInfo;
+import com.lynx.core.tree.LynxUIAction;
 import com.lynx.ui.anim.AnimDriver;
 import com.lynx.ui.anim.AnimProperties;
 import com.lynx.ui.body.LynxUIBody;
 import com.lynx.ui.drawable.UIBackgroundDrawable;
+import com.lynx.ui.event.TGEventEmitter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +32,11 @@ import static android.view.View.LAYER_TYPE_HARDWARE;
 import static android.view.View.LAYER_TYPE_NONE;
 import static com.lynx.ui.LynxUIFactory.UI_TYPE_CELLVIEW;
 
-public abstract class LynxUI<T extends View> implements RenderImplInterface {
+public abstract class LynxUI<T extends View> implements RenderImplInterface, TouchTarget {
+
+    public final static String ATTR_STOP_PROPAGATION = "stop-propagation";
+    public final static String ATTR_CAPTURE = "capture";
+    public final static String ATTR_PREVENT_DEFAULT = "prevent-default";
 
     protected T mView;
     protected RenderObjectImpl mRenderObjectImpl;
@@ -38,10 +46,17 @@ public abstract class LynxUI<T extends View> implements RenderImplInterface {
     private AnimProperties mOldAnimProperties;
     private UIBackgroundDrawable mBgDrawable;
 
+    // Touch
+    private TGEventEmitter mTGEventEmitter;
+    private boolean mStopPropagationEnable = false;
+    private boolean mPreventDefaultEnable = false;
+    private boolean mCaptureEnable = false;
+
     public LynxUI(Context context) {
         initialize();
         mView = createView(context);
         mBgDrawable = new UIBackgroundDrawable();
+        mTGEventEmitter = new TGEventEmitter(this);
     }
 
     public void initialize() {
@@ -79,7 +94,21 @@ public abstract class LynxUI<T extends View> implements RenderImplInterface {
     }
 
     @Override
-    public void setAttribute(String key, String value) {}
+    public void setAttribute(String key, String value) {
+        switch (key) {
+            case ATTR_CAPTURE:
+                mCaptureEnable = Boolean.valueOf(value);
+                break;
+            case ATTR_PREVENT_DEFAULT:
+                mPreventDefaultEnable = Boolean.valueOf(value);
+                break;
+            case ATTR_STOP_PROPAGATION:
+                mStopPropagationEnable = Boolean.valueOf(value);
+                break;
+            default:
+                break;
+        }
+    }
 
     @Override
     public void updateStyle(Style style) {
@@ -103,10 +132,12 @@ public abstract class LynxUI<T extends View> implements RenderImplInterface {
 
     @Override
     public void addEventListener(String event) {
+        mTGEventEmitter.setEnable(event, true);
     }
 
     @Override
     public void removeEventListener(String event) {
+        mTGEventEmitter.setEnable(event, false);
     }
 
     @Override
@@ -298,17 +329,34 @@ public abstract class LynxUI<T extends View> implements RenderImplInterface {
         }
     }
 
-    public void postEvent(String event, Object... params) {
+    public void postEvent(String eventName) {
+        postEvent(eventName, null);
+    }
+
+    public void postEvent(final String eventName, final LynxEvent event) {
         if (mRenderObjectImpl != null && getRootUI() != null) {
-            getRootUI().collect(
-                    new LynxUIEventAction(mRenderObjectImpl, event, params));
+            getRootUI().collect(new LynxUIAction.OrderedAction(mRenderObjectImpl) {
+                @Override
+                public void doAction() {
+                    mTarget.dispatchEvent(eventName, new Object[]{event});
+                }
+            });
         }
     }
 
-    public void updateData(RenderObjectAttr key, Object params) {
+    public void updateData(final RenderObjectAttr key, final Object params) {
         if (mRenderObjectImpl != null && getRootUI() != null) {
-            getRootUI().collect(
-                    new LynxUIUpdateDataAction(mRenderObjectImpl, key, params));
+            getRootUI().collect(new LynxUIAction.UnorderedAction(mRenderObjectImpl) {
+                @Override
+                public String key() {
+                    return key.name();
+                }
+
+                @Override
+                public void doAction() {
+                    mTarget.updateData(key, params);
+                }
+            });
         }
     }
 
@@ -327,5 +375,40 @@ public abstract class LynxUI<T extends View> implements RenderImplInterface {
             return (LynxUIBody) root;
         }
         return null;
+    }
+
+    // TouchTarget & Gesture Target Implement
+    @Override
+    public void performTouch(TouchEventInfo info) {
+        if (!isCaptureEnable()) {
+            mTGEventEmitter.emitTouchEvent(info);
+        }
+    }
+
+    @Override
+    public void performGesture(GestureEventInfo info) {
+        mTGEventEmitter.emitGestureEvent(info);
+    }
+
+    @Override
+    public void onCapturingTouchEvent(TouchEventInfo info) {
+        if (isCaptureEnable()) {
+            mTGEventEmitter.emitTouchEvent(info);
+        }
+    }
+
+    @Override
+    public boolean isPreventDefault() {
+        return mPreventDefaultEnable;
+    }
+
+    @Override
+    public boolean isStopPropagation() {
+        return mStopPropagationEnable;
+    }
+
+    @Override
+    public boolean isCaptureEnable() {
+        return mCaptureEnable;
     }
 }

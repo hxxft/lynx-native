@@ -4,7 +4,6 @@
 #define LYNX_RENDER_BODY_H_
 
 #include "render/view.h"
-#include "render/touch/touch_dispatcher.h"
 
 namespace lynx {
 
@@ -16,7 +15,6 @@ class Body : public View {
     virtual void Layout(int left, int top, int right, int bottom);
     void Layout();
     void LayoutWithTick(int tick);
-    virtual void DispatchEvent(const std::string& event, base::ScopedPtr<jscore::LynxArray> args);
     base::Size& body_size() {
         return body_size_;
     }
@@ -24,7 +22,6 @@ class Body : public View {
     jscore::ThreadManager* thread_manager_;
     base::Size body_size_;
     bool did_first_layout_;
-    base::ScopedPtr<TouchDispatcher> touch_dispatcher_;
     base::WeakPtr<Body> weak_ptr_;
 };
 }  // namespace lynx
