@@ -9,7 +9,6 @@
 #include "render/render_tree_host.h"
 #include "render/impl/render_object_impl.h"
 #include "render/impl/render_command.h"
-#include "render/touch/touch_event.h"
 
 namespace lynx {
 
@@ -409,37 +408,6 @@ void RenderObject::RemoveFixedChild(RenderObject* fixed_child) {
                                                               RenderCommand::CMD_ADD_VIEW);
         render_tree_host_->UpdateRenderObject(cmd_move_to_parent);
     }
-}
-
-void RenderObject::PerformTouch(TouchEvent* event) {
-    auto it = event_listener_map_.find(event->touch_event_type());
-    if (it != event_listener_map_.end()) {
-        jscore::LynxArray* array = lynx_new jscore::LynxArray();
-        jscore::LynxValue *value = jscore::LynxValue::MakeObjectTemplate(event);
-        array->Push(value);
-        DispatchEvent(event->touch_event_type(), jscore::LynxValue::MakeArrayScoped(array));
-    }
-}
-
-void RenderObject::PerformMotion(TouchEvent* event) {
-    auto it = event_listener_map_.find(event->motion_event_type());
-    if (it != event_listener_map_.end()) {
-        jscore::LynxArray* array = lynx_new jscore::LynxArray();
-        jscore::LynxValue* value = jscore::LynxValue::MakeObjectTemplate(event);
-        array->Push(value);
-        DispatchEvent(event->motion_event_type(), jscore::LynxValue::MakeArrayScoped(array));
-    }
-}
-
-void RenderObject::OnCapturingTouchEvent(TouchEvent* event) {
-}
-
-bool RenderObject::IsEventListenerEmpty() {
-    return event_listener_map_.empty();
-}
-
-const std::vector<RenderObject*> RenderObject::GetFixedNodes() {
-    return fixed_children_;
 }
 
 }  // namespace lynx

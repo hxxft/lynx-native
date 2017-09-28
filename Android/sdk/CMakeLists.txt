@@ -71,8 +71,6 @@ add_library(lynx SHARED
             	${CMAKE_SOURCE_DIR}/../../lynx/render/impl/render_object_impl.cpp
             	${CMAKE_SOURCE_DIR}/../../lynx/render/impl/render_command.cpp
             	${CMAKE_SOURCE_DIR}/../../lynx/render/impl/command_collector.cpp
-            	${CMAKE_SOURCE_DIR}/../../lynx/render/touch/touch_dispatcher.cpp
-            	${CMAKE_SOURCE_DIR}/../../lynx/render/touch/touch_event.cpp
             	${CMAKE_SOURCE_DIR}/../../lynx/layout/css_color.cpp
             	${CMAKE_SOURCE_DIR}/../../lynx/layout/css_style.cpp
             	${CMAKE_SOURCE_DIR}/../../lynx/layout/css_layout.cpp

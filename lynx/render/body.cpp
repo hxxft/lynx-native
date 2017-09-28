@@ -2,7 +2,6 @@
 
 #include "base/debug/memory_debug.h"
 #include "render/body.h"
-#include "render/touch/touch_dispatcher.h"
 #include "render/impl/render_command.h"
 #include "render/render_object_type.h"
 
@@ -15,7 +14,6 @@ Body::Body(jscore::ThreadManager* manager, RenderTreeHost* host):
     thread_manager_(manager),
     body_size_(),
     did_first_layout_(false),
-    touch_dispatcher_(lynx_new TouchDispatcher(this)),
     weak_ptr_(this) {
 }
 
@@ -44,13 +42,4 @@ void Body::LayoutWithTick(int tick) {
         base::Bind(&Body::LayoutWithTick, weak_ptr_, tick), tick);
 }
 
-void Body::DispatchEvent(const std::string& event, base::ScopedPtr<jscore::LynxArray> args) {
-    if (TouchEventInfo::IsTouchEvent(event) ||
-            TouchEventInfo::IsMotionEvent(event)) {
-        TouchEventInfo info = TouchEventInfo::MakeInfo(args.Get());
-        touch_dispatcher_->DispatchTouchEvent(info);
-    } else {
-        EventTarget::DispatchEvent(event, args);
-    }
-}
 }  // namespace lynx

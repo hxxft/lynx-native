@@ -4,6 +4,7 @@
 
 #include "runtime/base/lynx_value.h"
 #include "runtime/element.h"
+#include "runtime/jsc/jsc_helper.h"
 #include "runtime/base/lynx_array.h"
 #include "runtime/jsc/objects/object_template.h"
 
@@ -282,8 +283,8 @@ namespace jscore {
         Element *element = static_cast<Element *>(object);
         if(array.Get() != NULL && array->Size() == 2) {
             lynx::RenderObject* render_object = element->render_object();
-            render_object->SetStyle(array->Get(0)->data_.str,
-                                        array->Get(1)->data_.str);
+            render_object->SetStyle(JSCHelper::ConvertToString(array->Get(0)),
+                                    JSCHelper::ConvertToString(array->Get(1)));
         }
         return base::ScopedPtr<LynxValue>(NULL);
     }
@@ -529,7 +530,7 @@ namespace jscore {
     void Element::ProtectChild(JSContext* context, Element* child) {
         if (child->object_wrap() == NULL) {
             // Create JSObject immediately
-            jscore::JSCHelper::ConvertToJSObject(static_cast<JSCContext*>(context)->GetContext(),
+            JSCHelper::ConvertToJSObject(static_cast<JSCContext*>(context)->GetContext(),
                                                  child);
         }
         child->object_wrap()->Protect();
@@ -538,7 +539,7 @@ namespace jscore {
     void Element::UnprotectChild(JSContext* context, Element* child) {
         if (child->object_wrap() == NULL) {
             // Create JSObject immediately
-            jscore::JSCHelper::ConvertToJSObject(static_cast<JSCContext*>(context)->GetContext(),
+            JSCHelper::ConvertToJSObject(static_cast<JSCContext*>(context)->GetContext(),
                                                  child);
         }
         child->object_wrap()->Unprotect();
