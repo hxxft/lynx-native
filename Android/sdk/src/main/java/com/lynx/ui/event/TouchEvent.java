@@ -6,6 +6,7 @@ import com.lynx.core.base.LynxArray;
 import com.lynx.core.base.LynxEvent;
 import com.lynx.core.base.LynxObject;
 import com.lynx.core.touch.TouchEventInfo;
+import com.lynx.utils.PixelUtil;
 
 /* package */ class TouchEvent extends LynxEvent {
 
@@ -25,8 +26,8 @@ import com.lynx.core.touch.TouchEventInfo;
         LynxArray touches = new LynxArray();
         for (int i = 0; i < info.getPointerCount(); i++) {
             LynxObject touch = new LynxObject();
-            touch.setProperty(KEY_CLIENT_X, info.getX(i) / Style.sDensity);
-            touch.setProperty(KEY_CLIENT_Y, info.getY(i) / Style.sDensity);
+            touch.setProperty(KEY_CLIENT_X, PixelUtil.pxToLynxNumber(info.getX(i)));
+            touch.setProperty(KEY_CLIENT_Y, PixelUtil.pxToLynxNumber(info.getY(i)));
             touches.add(touch);
         }
         setProperty(KEY_TOUCHES, touches);

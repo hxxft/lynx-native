@@ -6,8 +6,9 @@ import android.content.Context;
 import com.lynx.net.NetRequestManager;
 import com.lynx.net.cookie.LynxCookieStore;
 import com.lynx.resources.ResourceManager;
+import com.lynx.utils.ScreenUtil;
 
-public class RuntimeManager {
+public class LynxRuntimeManager {
 
     private static boolean mInited = false;
 
