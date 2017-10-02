@@ -1,17 +1,16 @@
 // Copyright 2017 The Lynx Authors. All rights reserved.
 package com.lynx.ui;
 
-import android.app.Activity;
 import android.content.Context;
-import android.util.DisplayMetrics;
 import android.view.View;
 
 import com.lynx.base.FrameRateController;
 import com.lynx.base.Size;
 import com.lynx.core.LynxRuntime;
-import com.lynx.core.RuntimeManager;
+import com.lynx.core.LynxRuntimeManager;
 import com.lynx.core.tree.LynxRenderTreeHostImpl;
 import com.lynx.ui.body.AndroidBody;
+import com.lynx.utils.ScreenUtil;
 import com.lynx.utils.StringUtil;
 
 import java.io.FileInputStream;
@@ -23,9 +22,6 @@ public class LynxView extends AndroidBody {
 
     private LynxRuntime mRuntime;
 
-    private double mDensity;
-    private int mScreenWidth;
-    private int mScreenHeight;
     private boolean mNeedStartCtrl = false;
 
     private FrameRateController mController;
@@ -35,10 +31,11 @@ public class LynxView extends AndroidBody {
     public LynxView(Context context) {
         super(context);
 
-        mRuntime = RuntimeManager.getIdleRuntime();
-        getScreenMetrics(context);
+        mRuntime = LynxRuntimeManager.getIdleRuntime();
         mRenderTreeHostImpl = mRuntime.active(this,
-                mScreenWidth, mScreenHeight, mDensity);
+                ScreenUtil.getScreenWidth(),
+                ScreenUtil.getScreenHeight(),
+                ScreenUtil.getScreenDensity());
 
         mRenderTreeHostImpl.setRootUI(mUIGroup);
         mUIGroup.bindData(mRenderTreeHostImpl.mRootRender);
@@ -61,14 +58,6 @@ public class LynxView extends AndroidBody {
     public void loadScriptFile(String file) throws FileNotFoundException {
         String content = StringUtil.convertToString(new FileInputStream(file));
         mRuntime.runScript(content);
-    }
-
-    private void getScreenMetrics(Context context) {
-        DisplayMetrics metric = new DisplayMetrics();
-        ((Activity)context).getWindowManager().getDefaultDisplay().getMetrics(metric);
-        mDensity = metric.density;
-        mScreenHeight = metric.heightPixels;
-        mScreenWidth = metric.widthPixels;
     }
 
     @Override

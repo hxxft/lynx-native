@@ -344,24 +344,11 @@ namespace jscore {
         return base::ScopedPtr<LynxValue>(NULL);
     }
 
-    base::ScopedPtr<LynxValue> Element::HasChildNodesCallback(LynxObjectTemplate* object, base::ScopedPtr<LynxArray> array) {
+    base::ScopedPtr<LynxValue>
+    Element::HasChildNodesCallback(LynxObjectTemplate* object, base::ScopedPtr<LynxArray> array) {
         Element* element = static_cast<Element*>(object);
         lynx::RenderObject* render_object = element->render_object();
-        lynx::RenderObject* render_child = static_cast<lynx::RenderObject*>(render_object->FirstChild());
-
-        if(render_object->GetChildCount() == 0) {
-            return base::ScopedPtr<LynxValue>(LynxValue::MakeBool(false));
-        }
-
-        while (render_child) {
-            Element* child_element = NULL;
-
-            if (!render_child->IsPrivate()) {
-                return base::ScopedPtr<LynxValue>(LynxValue::MakeBool(true));
-            }
-            render_child = static_cast<lynx::RenderObject*>(render_child->Next());
-        }
-        return base::ScopedPtr<LynxValue>(LynxValue::MakeBool(false));
+        return LynxValue::MakeValueScoped(LynxValue::MakeBool(render_object->GetChildCount() != 0));
     }
 
     base::ScopedPtr<LynxValue> Element::GetTagNameCallback(LynxObjectTemplate* object) {
