@@ -4,6 +4,7 @@
 
 #include <string>
 #include <jni.h>
+#include <runtime/base/lynx_object.h>
 #include "base/scoped_ptr.h"
 
 #include "base/android/scoped_java_ref.h"
@@ -35,6 +36,8 @@ namespace base {
                     (JNIEnv* env, jscore::LynxArray*);
             static base::android::ScopedLocalJavaRef<jobject> ConvertToJNIArray
                     (JNIEnv* env, jscore::LynxArray*);
+            static base::android::ScopedLocalJavaRef<jobject> ConvertToJNIObject
+                    (JNIEnv* env, jscore::LynxObject*);
 
             inline static int ConvertToInt(JNIEnv* env, jobject jobj) {
                 int value = JType::IntValue(env, jobj);

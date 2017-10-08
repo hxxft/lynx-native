@@ -90,6 +90,10 @@ class JType {
     static void SetLynxObjectProperties(JNIEnv *env,
                                         jobject jjsobj,
                                         jobject array);
+    static void SetLynxObjectProperty(JNIEnv *env,
+                                        jobject jjsobj,
+                                        jobject key,
+                                        jobject value);
     static ScopedLocalJavaRef<jobject> GetLynxObjectProperties(JNIEnv *env, jobject jjsobj);
 
     static void Init(JNIEnv* env, Type type);
@@ -147,6 +151,7 @@ class JType {
     static jclass lynx_object_clazz;
     static jmethodID lynx_object_ctor;
     static jmethodID lynx_object_set_properties_method;
+    static jmethodID lynx_object_set_property_method;
     static jmethodID lynx_object_get_properties_method;
 };
 

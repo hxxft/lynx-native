@@ -35,6 +35,7 @@ public class LynxObject {
         return mPropertiesMap.get(key);
     }
 
+    @Keep
     public void setProperty(Object key, Object value) {
         mPropertiesMap.put(key, value);
         if (mProperties == null) {

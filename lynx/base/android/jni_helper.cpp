@@ -1,4 +1,5 @@
 // Copyright 2017 The Lynx Authors. All rights reserved.
+#include <runtime/base/lynx_value.h>
 #include "runtime/base/lynx_value.h"
 #include "runtime/base/lynx_function_object_android.h"
 #include "base/android/jni_helper.h"
@@ -45,6 +46,10 @@ namespace base {
                     obj = base::android::ScopedLocalJavaRef<jobject>
                             (env, ConvertToJNIArray(env, value->data_.lynx_array).Release());
                     break;
+                case jscore::LynxValue::VALUE_LYNX_OBJECT:
+                    obj = base::android::ScopedLocalJavaRef<jobject>
+                            (env, ConvertToJNIObject(env, value->data_.lynx_object).Release());
+                    break;
                 default:
                     break;
             }
@@ -74,6 +79,22 @@ namespace base {
                                                           java_object_array.Get(),
                                                           i,
                                                           java_object.Get());
+            }
+            return java_object_array;
+        }
+
+        base::android::ScopedLocalJavaRef<jobject> JNIHelper::ConvertToJNIObject
+                (JNIEnv* env, jscore::LynxObject* object) {
+            ScopedLocalJavaRef<jobject> java_object_array =
+                    base::android::JType::NewLynxObject(env);
+            for (int i = 0; i < object->Size(); ++i) {
+                std::string key = object->GetName(i);
+                base::android::ScopedLocalJavaRef<jobject> java_object
+                        = ConvertToJNIObject(env, object->GetProperty(key));
+                base::android::JType::SetLynxObjectProperty(env,
+                                                            java_object_array.Get(),
+                                                            ConvertToJNIString(env, key).Get(),
+                                                            java_object.Get());
             }
             return java_object_array;
         }
