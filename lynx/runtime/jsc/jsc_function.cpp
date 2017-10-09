@@ -62,10 +62,20 @@ namespace jscore {
                                             kJSPropertyAttributeReadOnly, NULL);
             }
         }
+        JSValueRef exception = nullptr;
 
         JSStringRef function_key = JSStringCreateWithUTF8CString(lynx_function_key_.c_str());
         JSObjectRef function = (JSObjectRef)JSObjectGetProperty(ctx, JSContextGetGlobalObject(ctx), function_key, NULL);
-        JSObjectCallAsFunction(ctx, function, target_object, argc, array.Get(), NULL);
+        JSObjectCallAsFunction(ctx, function, target_object, argc, array.Get(), &exception);
         JSStringRelease(function_key);
+
+        if (exception) {
+            int type = JSValueGetType(ctx, exception);
+
+            std::string str = JSCHelper::ConvertToString(ctx, exception);
+            if (!str.empty()) {
+                LOGD("lynx-js-console", "js error: %s", str.c_str());
+            }
+        }
     }
 }
