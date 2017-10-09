@@ -19,13 +19,12 @@ public class LynxApplicationDelegate {
     }
 
     public void onCreate() {
-
         LynxRuntimeManager.prepare(mApplication);
         mManifest = ResourceManager.instance().reader().
                 readResourceAsJSON(ResourceManager.toRealURL(mManifestResourceURL), Manifest.class);
-        if(mManifest.isDebuggable()) {
+//        if(mManifest.isDebuggable()) {
             DevSupportManager.getInstance().initialize();
-        }
+//        }
     }
 
     public App getAppInfo() {

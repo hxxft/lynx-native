@@ -8,7 +8,10 @@ public enum RenderObjectAttr {
     SCROLL_LEFT(1),
     GET_TEXT(2),
     TEXT_LAYOUT(3),
-    ANIMATE_PROPS(4);
+    ANIMATE_PROPS(4),
+    CANVAS_DRAW(5),
+    CANVAS_APPEND(6),
+    CANVAS_IMAGE_DATA(7);
 
     private int mValue;
     RenderObjectAttr(int value) {

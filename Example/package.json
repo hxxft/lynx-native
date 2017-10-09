@@ -12,6 +12,8 @@
     "pack": "npm run build && node pack/pack.js"
   },
   "dependencies": {
+    "@meili/xcore-canvas": "0.0.13",
+    "@mogu/xcore-vue": "^2.1.17",
     "vue": "^1.0.0"
   },
   "devDependencies": {

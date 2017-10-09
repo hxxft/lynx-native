@@ -6,6 +6,7 @@
 #include "runtime/jsc/objects/object_template.h"
 #include "runtime/jsc/jsc_helper.h"
 #include <sstream>
+#include "runtime/jsc/Performance.h"
 
 namespace jscore {
     JSCFunction::JSCFunction(JSCContext* context, JSObjectRef function) : LynxFunction(context) {
@@ -36,6 +37,7 @@ namespace jscore {
     }
 
     void JSCFunction::Run(void* target, LynxArray* args) {
+//        Performance p("invoke_void_function");
         if (target == 0) {
             return;
         }

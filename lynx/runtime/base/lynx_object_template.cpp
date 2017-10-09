@@ -1,5 +1,6 @@
 // Copyright 2017 The Lynx Authors. All rights reserved.
 
+#include "JavaScriptCore/JavaScript.h"
 #include "lynx_object_template.h"
 
 #include "runtime/base/lynx_object.h"

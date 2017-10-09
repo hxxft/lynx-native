@@ -7,7 +7,6 @@
 #include <string>
 
 #include "base/android/scoped_java_ref.h"
-#include "render/render_object.h"
 #include "render/impl/render_object_impl.h"
 #include "runtime/thread_manager.h"
 #include "runtime/base/lynx_array.h"
@@ -29,6 +28,9 @@ class RenderObjectImplAndroid : public RenderObjectImpl {
     void UpdateData(JNIEnv *env, jint attr, jobject value);
     void FreeJavaRef(JNIEnv *env);
     void ConstructJavaRef(JNIEnv *env, jobject object);
+    base::ScopedPtr<jscore::LynxObject> GetImagePixel(int x, int y, int w,int h);
+
+    base::android::ScopedGlobalJavaRef<jobject> native_bitmap_;
 
  private:
     virtual void UpdateStyle(const lynx::CSSStyle& style);

@@ -1,5 +1,8 @@
 // Copyright 2017 The Lynx Authors. All rights reserved.
 
+#include <android/bitmap.h>
+#include "render/canvas_view.h"
+
 #include "render/android/render_object_impl_android.h"
 
 #include "base/android/jni_helper.h"
@@ -12,6 +15,7 @@
 #include "render/render_tree_host.h"
 
 #include "RenderObjectImpl_jni.h"
+#include "render/render_object.h"
 
 void DispatchEvent(JNIEnv* env,
                    jobject jcaller,
@@ -221,11 +225,59 @@ void RenderObjectImplAndroid::DispatchEvent(
 void RenderObjectImplAndroid::UpdateData(JNIEnv *env,
                                          jint attr,
                                          jobject value) {
+
+    if(attr == lynx::RenderObject::RENDER_OBJECT_ATTRS::CANVAS_IMAGE_DATA){
+        native_bitmap_.Reset(env, value);
+        return;
+    }
     base::ScopedPtr<jscore::LynxValue> value_transformed =
             base::android::JNIHelper::ConvertToLynxValue(env, value);
     if (render_object_weak_ptr_.IsValid()) {
         render_object_weak_ptr_->UpdateData(attr, value_transformed);
     }
+}
+
+typedef struct {
+    uint8_t alpha;
+    uint8_t red;
+    uint8_t green;
+    uint8_t blue;
+} argb;
+
+base::ScopedPtr<jscore::LynxObject> RenderObjectImplAndroid::GetImagePixel(int x, int y, int w,int h){
+    base::ScopedPtr<jscore::LynxObject> ret(lynx_new jscore::LynxObject());
+    JNIEnv* env = base::android::AttachCurrentThread();
+    if(native_bitmap_.Get() != NULL){
+        AndroidBitmapInfo bmp_info={0};
+        if(AndroidBitmap_getInfo(env, native_bitmap_.Get(), &bmp_info)<0) {
+            return ret;
+        }
+        int* pixels_data = NULL;
+        if(AndroidBitmap_lockPixels(env, native_bitmap_.Get(),(void**)&pixels_data)){
+            return ret;
+        }
+        int column;
+        int row;
+        int height = h > (bmp_info.height-y) ? (bmp_info.height-y) : h;
+        int width = w > (bmp_info.width-x) ? (bmp_info.width-x) : w;
+        ret->Set("height", jscore::LynxValue::MakeInt(height).Release());
+        ret->Set("width", jscore::LynxValue::MakeInt(width).Release());
+        // 拼接返回对象
+        base::ScopedPtr<jscore::LynxArray> pixels(lynx_new jscore::LynxArray());
+        argb * line = (argb *) pixels_data;
+        for (row = y; row < (y+height); row++) {
+            for(column = x; column < (x+width); column++){
+                int index = row * bmp_info.width + column;
+                pixels->Push(jscore::LynxValue::MakeInt(line[index].red).Release());
+                pixels->Push(jscore::LynxValue::MakeInt(line[index].green).Release());
+                pixels->Push(jscore::LynxValue::MakeInt(line[index].blue).Release());
+                pixels->Push(jscore::LynxValue::MakeInt(line[index].alpha).Release());
+            }
+        }
+        ret->Set("data", pixels.Release());
+        AndroidBitmap_unlockPixels(env, native_bitmap_.Get());
+    }
+    return ret;
 }
 
 void RenderObjectImplAndroid::FreeJavaRef(JNIEnv *env) {
