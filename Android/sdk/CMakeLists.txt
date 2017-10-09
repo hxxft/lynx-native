@@ -95,6 +95,7 @@ add_library(lynx SHARED
             	${CMAKE_SOURCE_DIR}/../../lynx/render/input.cpp
             	${CMAKE_SOURCE_DIR}/../../lynx/render/swiper_view.cpp
             	${CMAKE_SOURCE_DIR}/../../lynx/render/extended_view.cpp
+            	${CMAKE_SOURCE_DIR}/../../lynx/render/canvas_view.cpp
             	${CMAKE_SOURCE_DIR}/../../lynx/render/image_view.cpp
             	${CMAKE_SOURCE_DIR}/../../lynx/render/list_view.cpp
             	${CMAKE_SOURCE_DIR}/../../lynx/render/cell_view.cpp
@@ -131,6 +132,8 @@ add_library(lynx SHARED
             	${CMAKE_SOURCE_DIR}/../../lynx/runtime/screen.cpp
             	${CMAKE_SOURCE_DIR}/../../lynx/runtime/console.cpp
             	${CMAKE_SOURCE_DIR}/../../lynx/runtime/document.cpp
+            	${CMAKE_SOURCE_DIR}/../../lynx/runtime/canvas.cpp
+            	${CMAKE_SOURCE_DIR}/../../lynx/runtime/canvas_2d_context.cpp
             	${CMAKE_SOURCE_DIR}/../../lynx/runtime/body.cpp
             	${CMAKE_SOURCE_DIR}/../../lynx/runtime/element.cpp
             	${CMAKE_SOURCE_DIR}/../../lynx/runtime/timed_task.cpp
@@ -145,6 +148,7 @@ add_library(lynx SHARED
             	${CMAKE_SOURCE_DIR}/../../lynx/runtime/jsc/objects/window_object.cpp
             	${CMAKE_SOURCE_DIR}/../../lynx/runtime/jsc/objects/object_template.cpp
                 ${CMAKE_SOURCE_DIR}/../../lynx/runtime/jsc/objects/function_object.cpp
+                ${CMAKE_SOURCE_DIR}/../../lynx/runtime/jsc/Performance.cpp
             	${CMAKE_SOURCE_DIR}/../../lynx/net/url_request_context.cpp
             	${CMAKE_SOURCE_DIR}/../../lynx/net/url_request_ghost_delegate.cpp
             	${CMAKE_SOURCE_DIR}/../../lynx/net/android/url_request_android.cpp
@@ -184,6 +188,7 @@ target_link_libraries(lynx
                       #${CMAKE_SOURCE_DIR}/../../lynx/v8/libv8.cr.so
                       #${CMAKE_SOURCE_DIR}/../../lynx/v8/libv8_libbase.cr.so
                       #${CMAKE_SOURCE_DIR}/../../lynx/v8/libv8_libplatform.cr.so
+                      jnigraphics
                       )
 
 #target_link_libraries(lynx

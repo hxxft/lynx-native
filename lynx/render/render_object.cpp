@@ -1,6 +1,5 @@
 // Copyright 2017 The Lynx Authors. All rights reserved.
 
-#include "render/render_object.h"
 
 #include <sstream>
 #include <vector>
@@ -9,6 +8,8 @@
 #include "render/impl/render_object_impl.h"
 #include "render/render_tree_host.h"
 #include "runtime/base/lynx_value.h"
+#include "runtime/base/lynx_array.h"
+#include "render/render_object.h"
 
 namespace lynx {
 
@@ -28,6 +29,7 @@ RenderObject::RenderObject(const char* tag_name,
       scroll_top_(0),
       scroll_left_(0),
       text_(""),
+      canvas_cmds_(0),
       is_fixed_(false),
       render_object_type_(type),
       impl_(impl),
@@ -292,10 +294,12 @@ void RenderObject::UpdateData(int key,
       break;
     case RENDER_OBJECT_ATTRS::GET_TEXT:
       text_ = value->data_.i;
+      break;
     default:
       break;
   }
 }
+
 
 void RenderObject::SetData(int key, base::ScopedPtr<jscore::LynxValue> value) {
   switch (key) {
@@ -403,5 +407,20 @@ void RenderObject::RemoveFixedChild(RenderObject* fixed_child) {
     render_tree_host_->UpdateRenderObject(cmd_move_to_parent);
   }
 }
+
+void RenderObject::ReceiveCanvasRenderCmd(base::ScopedPtr<base::CanvasRenderCommand>& cmd_single){
+    if(canvas_cmds_.Get() == NULL){
+        canvas_cmds_.Reset(lynx_new jscore::LynxArray());
+    }
+    if(cmd_single->cmd_type_.compare("drawCmd") == 0){
+        RenderCommand* cmd = lynx_new RendererDataUpdateCommand(impl(), 5, std::move(canvas_cmds_), RenderCommand::CMD_SET_DATA);
+        render_tree_host_->UpdateRenderObject(cmd);
+    }else if(cmd_single->cmd_type_.compare("appendCmd") == 0){
+        RenderCommand* cmd = lynx_new RendererDataUpdateCommand(impl(), 6, std::move(canvas_cmds_), RenderCommand::CMD_SET_DATA);
+        render_tree_host_->UpdateRenderObject(cmd);
+    }else{
+        canvas_cmds_->Push(cmd_single.Release());
+    }
+};
 
 }  // namespace lynx

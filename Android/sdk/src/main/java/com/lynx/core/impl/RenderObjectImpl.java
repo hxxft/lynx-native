@@ -6,6 +6,8 @@ import com.lynx.base.Position;
 import com.lynx.base.Size;
 import com.lynx.base.Style;
 import com.lynx.base.SupposeJSThread;
+import com.lynx.core.base.LynxArray;
+import com.lynx.core.base.LynxObject;
 import com.lynx.ui.LynxUI;
 import com.lynx.ui.LynxUIFactory;
 import com.lynx.ui.recycler.ILynxUIRecycler;
