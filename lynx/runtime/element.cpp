@@ -8,6 +8,8 @@
 #include "runtime/base/lynx_array.h"
 #include "runtime/jsc/objects/object_template.h"
 
+#include "render/event_target.h"
+
 namespace jscore {
 
     //static int ElementObjectCount = 0;
@@ -328,6 +330,18 @@ namespace jscore {
     base::ScopedPtr<LynxValue>
     Element::StartAnimateWithCallbackCallback(LynxObjectTemplate* object,
                                               base::ScopedPtr<LynxArray> array) {
+        Element *element = static_cast<Element *>(object);
+        lynx::RenderObject* render_object = element->render_object();
+        if (array.Get() != NULL && array->Size() > 1) {
+            LynxFunction* js_function = array->Get(1)->data_.lynx_function;
+            std::string event = lynx::kAnimateEvent + js_function->GetKey();
+            //render_object->AddEventListener(event, js_function, false);
+
+            LynxObject* properties = array->Get(0)->data_.lynx_object;
+            properties->Set("name", LynxValue::MakeString(event.c_str()));
+            render_object->SetData(lynx::RenderObject::ANIMATE_PROPS, base::ScopedPtr<LynxValue>(properties));
+            array->Release();
+        }
 
         return base::ScopedPtr<LynxValue>(NULL);
     }
@@ -348,7 +362,8 @@ namespace jscore {
     Element::HasChildNodesCallback(LynxObjectTemplate* object, base::ScopedPtr<LynxArray> array) {
         Element* element = static_cast<Element*>(object);
         lynx::RenderObject* render_object = element->render_object();
-        return LynxValue::MakeValueScoped(LynxValue::MakeBool(render_object->GetChildCount() != 0));
+
+        return base::ScopedPtr<LynxValue>(LynxValue::MakeBool(render_object->GetChildCount() != 0));
     }
 
     base::ScopedPtr<LynxValue> Element::GetTagNameCallback(LynxObjectTemplate* object) {

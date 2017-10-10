@@ -30,7 +30,10 @@ import java.util.Map;
 
 import static android.view.View.LAYER_TYPE_HARDWARE;
 import static android.view.View.LAYER_TYPE_NONE;
+import static android.view.View.LAYER_TYPE_SOFTWARE;
+import static com.lynx.core.impl.RenderObjectAttr.ANIMATE_PROPS;
 import static com.lynx.ui.LynxUIFactory.UI_TYPE_CELLVIEW;
+import static com.lynx.ui.LynxUIFactory.UI_TYPE_LABEL;
 
 public abstract class LynxUI<T extends View> implements RenderImplInterface, TouchTarget {
 
@@ -142,6 +145,9 @@ public abstract class LynxUI<T extends View> implements RenderImplInterface, Tou
 
     @Override
     public void setData(int attr, Object param) {
+        if(attr == ANIMATE_PROPS.value()) {
+            startAnimWithCallback((LynxObject)param);
+        }
     }
 
     public void setBackground(Style style) {
@@ -303,11 +309,11 @@ public abstract class LynxUI<T extends View> implements RenderImplInterface, Tou
     }
 
     // TODO: 17/8/8 实现接口
-    public void startAnimWithCallback(final LynxObject properties, final String animEvent) {
+    public void startAnimWithCallback(final LynxObject properties) {
 
         AnimProperties animProperties = AnimProperties.createFrom(properties);
 
-        AnimDriver driver = AnimDriver.create(this, animEvent, mOldAnimProperties, animProperties);
+        AnimDriver driver = AnimDriver.create(this, (String)properties.getProperty("name"), mOldAnimProperties, animProperties);
         driver.startAnim();
         mOldAnimProperties = animProperties;
 
@@ -335,10 +341,15 @@ public abstract class LynxUI<T extends View> implements RenderImplInterface, Tou
 
     public void postEvent(final String eventName, final LynxEvent event) {
         if (mRenderObjectImpl != null && getRootUI() != null) {
-            getRootUI().collect(new LynxUIAction.OrderedAction(mRenderObjectImpl) {
+            getRootUI().collect(new LynxUIAction.UnorderedAction(mRenderObjectImpl) {
                 @Override
                 public void doAction() {
                     mTarget.dispatchEvent(eventName, new Object[]{event});
+                }
+
+                @Override
+                public String key() {
+                    return eventName;
                 }
             });
         }

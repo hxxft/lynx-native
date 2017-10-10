@@ -150,6 +150,7 @@ class RenderObject : public LayoutObject, public EventTarget {
         SCROLL_LEFT,
         GET_TEXT,
         TEXT_LAYOUT,
+        ANIMATE_PROPS,
     };
 protected:
     void GetVisibleChildren(RenderObject *renderer,

@@ -6,9 +6,10 @@ import android.support.annotation.NonNull;
 import android.text.Layout;
 
 import com.lynx.base.Style;
-import com.lynx.core.impl.RenderObjectAttr;
 import com.lynx.core.impl.RenderObjectImpl;
 import com.lynx.ui.LynxUI;
+
+import static com.lynx.core.impl.RenderObjectAttr.TEXT_LAYOUT;
 
 public class LynxUILabel extends LynxUI<AndroidLabel> {
 
@@ -22,7 +23,7 @@ public class LynxUILabel extends LynxUI<AndroidLabel> {
     }
 
     public Layout getLayout() {
-        return (Layout) mRenderObjectImpl.getData(RenderObjectAttr.TEXT_LAYOUT.value());
+        return (Layout) mRenderObjectImpl.getData(TEXT_LAYOUT.value());
     }
 
     @Override
@@ -35,7 +36,10 @@ public class LynxUILabel extends LynxUI<AndroidLabel> {
 
     @Override
     public void setData(int attr, Object param) {
-        mView.invalidate();
+        if(attr == TEXT_LAYOUT.value()) {
+            mView.invalidate();
+        }
+        super.setData(attr, param);
     }
 
     protected void setPadding(@NonNull Style style) {

@@ -12,6 +12,9 @@
 
 namespace lynx {
 //typedef jscore::JSFunction EventListener;
+
+static std::string kAnimateEvent = "@LynxAnimate@";
+
 class JSArray;
 class EventListener {
 public:

@@ -7,7 +7,8 @@ public enum RenderObjectAttr {
     SCROLL_TOP(0),
     SCROLL_LEFT(1),
     GET_TEXT(2),
-    TEXT_LAYOUT(3);
+    TEXT_LAYOUT(3),
+    ANIMATE_PROPS(4);
 
     private int mValue;
     RenderObjectAttr(int value) {
