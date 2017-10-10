@@ -194,7 +194,10 @@ export default {
     this.createFish(50);
     setInterval(
       () => {
+        var start = new Date().getTime();//起始时间
         this.draw()
+        var end = new Date().getTime();//接受时间
+        console.log((end - start)+"ms");
       }, 16.7);
   },
   methods: {

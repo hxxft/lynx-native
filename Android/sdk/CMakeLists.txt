@@ -112,6 +112,7 @@ add_library(lynx SHARED
             	${CMAKE_SOURCE_DIR}/../../lynx/runtime/jsc/objects/window_object.cpp
             	${CMAKE_SOURCE_DIR}/../../lynx/runtime/jsc/objects/object_template.cpp
                 ${CMAKE_SOURCE_DIR}/../../lynx/runtime/jsc/objects/function_object.cpp
+                ${CMAKE_SOURCE_DIR}/../../lynx/runtime/jsc/Performance.cpp
             	${CMAKE_SOURCE_DIR}/../../lynx/net/url_request_context.cpp
             	${CMAKE_SOURCE_DIR}/../../lynx/net/url_request_ghost_delegate.cpp
             	${CMAKE_SOURCE_DIR}/../../lynx/net/android/url_request_android.cpp
