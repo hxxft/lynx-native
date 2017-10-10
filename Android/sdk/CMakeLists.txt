@@ -12,7 +12,7 @@ add_definitions(-DDEBUG_MEMORY=0)
 #set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall")
 
 # strip lib
-set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -s")
+#set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -s")
 
 
 include_directories(${CMAKE_SOURCE_DIR}/../../lynx
@@ -36,6 +36,7 @@ add_library(lynx SHARED
                 ${CMAKE_SOURCE_DIR}/../../lynx/base/android/scoped_java_ref.cpp
                 ${CMAKE_SOURCE_DIR}/../../lynx/base/debug/memory_debug.cpp
                 ${CMAKE_SOURCE_DIR}/../../lynx/base/debug/memory_tracker.cpp
+                ${CMAKE_SOURCE_DIR}/../../lynx/base/debug/timing_tracker.cpp
                 ${CMAKE_SOURCE_DIR}/../../lynx/base/observer/observer_list.cpp
             	${CMAKE_SOURCE_DIR}/../../lynx/base/threading/thread.cpp
             	${CMAKE_SOURCE_DIR}/../../lynx/base/threading/message_loop.cpp
