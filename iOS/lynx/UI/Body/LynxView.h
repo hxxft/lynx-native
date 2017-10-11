@@ -25,7 +25,7 @@
 
 -(void) loadScriptFile:(NSString*)scriptFile;
 
--(void) loadHTMLFile:(NSString*)htmlFile;
+-(void) loadPage:(NSString*)htmlFile;
 
 -(void) loadUrl:(NSString*)url;
 

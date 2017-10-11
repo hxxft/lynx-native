@@ -25,7 +25,7 @@
     [self.view addSubview:_lynxView];
 
     //[_lynxView loadScriptFile:@"test"];
-    [_lynxView loadHTMLFile:@"Assets://assets.bundle/app/index.html"];
+    [_lynxView loadPage:@"Assets://assets.bundle/App/"];
 //    NSString *url = @"http://localhost:8080/";
 //    [_lynxView loadUrl:url];
 }
@@ -33,6 +33,14 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (id) initWithName:(NSString*) name {
+    self = [super init];
+    if(self != nil) {
+        self.page_name_ = name;
+    }
+    return self;
 }
 
 - (void)dealloc {

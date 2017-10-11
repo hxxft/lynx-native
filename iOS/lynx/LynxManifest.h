@@ -1,13 +1,14 @@
-//
-//  LynxManifest.h
-//  lynx
-//
-//  Created by dli on 2017/9/28.
-//  Copyright © 2017年 lynx. All rights reserved.
-//
+// Copyright 2017 The Lynx Authors. All rights reserved.
 
-#ifndef LynxManifest_h
-#define LynxManifest_h
+#ifndef LYNX_APP_LYNX_MANIFEST_H_
+#define LYNX_APP_LYNX_MANIFEST_H_
 
+#import <Foundation/Foundation.h>
+#import "LynxApplicationInfo.h"
 
-#endif /* LynxManifest_h */
+@interface LynxManifest : NSObject {
+    LynxApplicationInfo* application_info_;
+}
+@end
+
+#endif  // LYNX_APP_LYNX_MANIFEST_H_

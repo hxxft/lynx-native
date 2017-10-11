@@ -1,0 +1,15 @@
+{
+  "application": {
+    "packageName": "com.Example",
+    "icon": "icon.png",
+    "name": "Example",
+    "versionCode": "",
+    "versionName": "",
+    "mainPage": "App.vue",
+    "pages": [
+      {
+        "name": "App.vue"
+      }
+    ]
+  }
+}

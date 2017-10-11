@@ -171,12 +171,12 @@ module.exports = function normalizeComponent (
 /* harmony export (immutable) */ __webpack_exports__["a"] = createApp;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__src_app_vue__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__src_App_vue__ = __webpack_require__(5);
  
                 
                 function createApp () { 
                 const app = new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({ 
-                render: h => h(__WEBPACK_IMPORTED_MODULE_1__src_app_vue__["a" /* default */]) 
+                render: h => h(__WEBPACK_IMPORTED_MODULE_1__src_App_vue__["a" /* default */]) 
                 }) 
                 return { app } 
                 } 
@@ -188,7 +188,7 @@ module.exports = function normalizeComponent (
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(process, global) {/*!
- * Vue.js v2.4.2
+ * Vue.js v1.0.0
  * (c) 2014-2017 Evan You
  * Released under the MIT License.
  */
@@ -646,7 +646,7 @@ function parsePath (path) {
 
 /*  */
 
-var warn = noop;
+var warn$1 = noop;
 var tip = noop;
 var formatComponentName = (null); // work around flow check
 
@@ -657,7 +657,7 @@ if (process.env.NODE_ENV !== 'production') {
     .replace(classifyRE, function (c) { return c.toUpperCase(); })
     .replace(/[-_]/g, ''); };
 
-  warn = function (msg, vm) {
+  warn$1 = function (msg, vm) {
     var trace = vm ? generateComponentTrace(vm) : '';
 
     if (config.warnHandler) {
@@ -746,7 +746,7 @@ function handleError (err, vm, info) {
     config.errorHandler.call(null, err, vm, info);
   } else {
     if (process.env.NODE_ENV !== 'production') {
-      warn(("Error in " + info + ": \"" + (err.toString()) + "\""), vm);
+      warn$1(("Error in " + info + ": \"" + (err.toString()) + "\""), vm);
     }
     /* istanbul ignore else */
     if (inBrowser && typeof console !== 'undefined') {
@@ -772,6 +772,7 @@ var isEdge = UA && UA.indexOf('edge/') > 0;
 var isAndroid = UA && UA.indexOf('android') > 0;
 var isIOS = UA && /iphone|ipad|ipod|ios/.test(UA);
 var isChrome = UA && /chrome\/\d+/.test(UA) && !isEdge;
+var isLynx = UA && UA.indexOf('lynx') > -1;
 
 // Firefix has a "watch" function on Object.prototype...
 var nativeWatch = ({}).watch;
@@ -836,7 +837,6 @@ var nextTick = (function () {
     }
   }
 
-  // Lynx Modify
   // the nextTick behavior leverages the microtask queue, which can be accessed
   // via either native Promise.then or MutationObserver.
   // MutationObserver has wider support, however it is seriously bugged in
@@ -854,7 +854,7 @@ var nextTick = (function () {
   //     // microtask queue but the queue isn't being flushed, until the browser
   //     // needs to do some other work, e.g. handle a timer. Therefore we can
   //     // "force" the microtask queue to be flushed by adding an empty timer.
-  //     if (isIOS) setTimeout(noop)
+  //     if (isLynx) setTimeout(noop)
   //   }
   // } else if (typeof MutationObserver !== 'undefined' && (
   //   isNative(MutationObserver) ||
@@ -880,9 +880,10 @@ var nextTick = (function () {
   //     setTimeout(nextTickHandler, 0)
   //   }
   // }
+
   timerFunc = function () {
-    setTimeout(nextTickHandler, 0);
-  };
+      setTimeout(nextTickHandler, 0);
+    };
 
   return function queueNextTick (cb, ctx) {
     var _resolve;
@@ -891,6 +892,7 @@ var nextTick = (function () {
         try {
           cb.call(ctx);
         } catch (e) {
+          console.log('error======>'+JSON.stringify(e));
           handleError(e, ctx, 'nextTick');
         }
       } else if (_resolve) {
@@ -1210,7 +1212,7 @@ function set (target, key, val) {
   }
   var ob = (target).__ob__;
   if (target._isVue || (ob && ob.vmCount)) {
-    process.env.NODE_ENV !== 'production' && warn(
+    process.env.NODE_ENV !== 'production' && warn$1(
       'Avoid adding reactive properties to a Vue instance or its root $data ' +
       'at runtime - declare it upfront in the data option.'
     );
@@ -1235,7 +1237,7 @@ function del (target, key) {
   }
   var ob = (target).__ob__;
   if (target._isVue || (ob && ob.vmCount)) {
-    process.env.NODE_ENV !== 'production' && warn(
+    process.env.NODE_ENV !== 'production' && warn$1(
       'Avoid deleting properties on a Vue instance or its root $data ' +
       '- just set it to null.'
     );
@@ -1280,7 +1282,7 @@ var strats = config.optionMergeStrategies;
 if (process.env.NODE_ENV !== 'production') {
   strats.el = strats.propsData = function (parent, child, vm, key) {
     if (!vm) {
-      warn(
+      warn$1(
         "option \"" + key + "\" can only be used during instance " +
         'creation with the `new` keyword.'
       );
@@ -1361,7 +1363,7 @@ strats.data = function (
 ) {
   if (!vm) {
     if (childVal && typeof childVal !== 'function') {
-      process.env.NODE_ENV !== 'production' && warn(
+      process.env.NODE_ENV !== 'production' && warn$1(
         'The "data" option should be a function ' +
         'that returns a per-instance value in component ' +
         'definitions.',
@@ -1473,7 +1475,7 @@ function checkComponents (options) {
   for (var key in options.components) {
     var lower = key.toLowerCase();
     if (isBuiltInTag(lower) || config.isReservedTag(lower)) {
-      warn(
+      warn$1(
         'Do not use built-in or reserved HTML elements as component ' +
         'id: ' + key
       );
@@ -1498,7 +1500,7 @@ function normalizeProps (options) {
         name = camelize(val);
         res[name] = { type: null };
       } else if (process.env.NODE_ENV !== 'production') {
-        warn('props must be strings when using array syntax.');
+        warn$1('props must be strings when using array syntax.');
       }
     }
   } else if (isPlainObject(props)) {
@@ -1612,7 +1614,7 @@ function resolveAsset (
   // fallback to prototype chain
   var res = assets[id] || assets[camelizedId] || assets[PascalCaseId];
   if (process.env.NODE_ENV !== 'production' && warnMissing && !res) {
-    warn(
+    warn$1(
       'Failed to resolve ' + type.slice(0, -1) + ': ' + id,
       options
     );
@@ -1666,7 +1668,7 @@ function getPropDefaultValue (vm, prop, key) {
   var def = prop.default;
   // warn against non-factory defaults for Object & Array
   if (process.env.NODE_ENV !== 'production' && isObject(def)) {
-    warn(
+    warn$1(
       'Invalid default value for prop "' + key + '": ' +
       'Props with type Object/Array must use a factory function ' +
       'to return the default value.',
@@ -1699,7 +1701,7 @@ function assertProp (
   absent
 ) {
   if (prop.required && absent) {
-    warn(
+    warn$1(
       'Missing required prop: "' + name + '"',
       vm
     );
@@ -1722,7 +1724,7 @@ function assertProp (
     }
   }
   if (!valid) {
-    warn(
+    warn$1(
       'Invalid prop: type check failed for prop "' + name + '".' +
       ' Expected ' + expectedTypes.map(capitalize).join(', ') +
       ', got ' + Object.prototype.toString.call(value).slice(8, -1) + '.',
@@ -1733,7 +1735,7 @@ function assertProp (
   var validator = prop.validator;
   if (validator) {
     if (!validator(value)) {
-      warn(
+      warn$1(
         'Invalid prop: custom validator check failed for prop "' + name + '".',
         vm
       );
@@ -1799,7 +1801,7 @@ if (process.env.NODE_ENV !== 'production') {
   );
 
   var warnNonPresent = function (target, key) {
-    warn(
+    warn$1(
       "Property or method \"" + key + "\" is not defined on the instance but " +
       "referenced during render. Make sure to declare reactive data " +
       "properties in the data option.",
@@ -1816,7 +1818,7 @@ if (process.env.NODE_ENV !== 'production') {
     config.keyCodes = new Proxy(config.keyCodes, {
       set: function set (target, key, value) {
         if (isBuiltInModifier(key)) {
-          warn(("Avoid overwriting built-in modifier in config.keyCodes: ." + key));
+          warn$1(("Avoid overwriting built-in modifier in config.keyCodes: ." + key));
           return false
         } else {
           target[key] = value;
@@ -2022,7 +2024,7 @@ function updateListeners (
     old = oldOn[name];
     event = normalizeEvent(name);
     if (isUndef(cur)) {
-      process.env.NODE_ENV !== 'production' && warn(
+      process.env.NODE_ENV !== 'production' && warn$1(
         "Invalid handler for event \"" + (event.name) + "\": got " + String(cur),
         vm
       );
@@ -2287,7 +2289,7 @@ function resolveAsyncComponent (
     });
 
     var reject = once(function (reason) {
-      process.env.NODE_ENV !== 'production' && warn(
+      process.env.NODE_ENV !== 'production' && warn$1(
         "Failed to resolve async component: " + (String(factory)) +
         (reason ? ("\nReason: " + reason) : '')
       );
@@ -2689,14 +2691,14 @@ function mountComponent (
       /* istanbul ignore if */
       if ((vm.$options.template && vm.$options.template.charAt(0) !== '#') ||
         vm.$options.el || el) {
-        warn(
+        warn$1(
           'You are using the runtime-only build of Vue where the template ' +
           'compiler is not available. Either pre-compile the templates into ' +
           'render functions, or use the compiler-included build.',
           vm
         );
       } else {
-        warn(
+        warn$1(
           'Failed to mount component: template or render function not defined.',
           vm
         );
@@ -2917,7 +2919,7 @@ function flushSchedulerQueue () {
     if (process.env.NODE_ENV !== 'production' && has[id] != null) {
       circular[id] = (circular[id] || 0) + 1;
       if (circular[id] > MAX_UPDATE_COUNT) {
-        warn(
+        warn$1(
           'You may have an infinite update loop ' + (
             watcher.user
               ? ("in watcher with expression \"" + (watcher.expression) + "\"")
@@ -3048,7 +3050,7 @@ var Watcher = function Watcher (
     this.getter = parsePath(expOrFn);
     if (!this.getter) {
       this.getter = function () {};
-      process.env.NODE_ENV !== 'production' && warn(
+      process.env.NODE_ENV !== 'production' && warn$1(
         "Failed watching path: \"" + expOrFn + "\" " +
         'Watcher only accepts simple dot-delimited paths. ' +
         'For full control, use a function instead.',
@@ -3285,7 +3287,7 @@ function initState (vm) {
 function checkOptionType (vm, name) {
   var option = vm.$options[name];
   if (!isPlainObject(option)) {
-    warn(
+    warn$1(
       ("component option \"" + name + "\" should be an object."),
       vm
     );
@@ -3307,14 +3309,14 @@ function initProps (vm, propsOptions) {
     /* istanbul ignore else */
     if (process.env.NODE_ENV !== 'production') {
       if (isReservedAttribute(key) || config.isReservedAttr(key)) {
-        warn(
+        warn$1(
           ("\"" + key + "\" is a reserved attribute and cannot be used as component prop."),
           vm
         );
       }
       defineReactive$$1(props, key, value, function () {
         if (vm.$parent && !isUpdatingChildComponent) {
-          warn(
+          warn$1(
             "Avoid mutating a prop directly since the value will be " +
             "overwritten whenever the parent component re-renders. " +
             "Instead, use a data or computed property based on the prop's " +
@@ -3345,7 +3347,7 @@ function initData (vm) {
     : data || {};
   if (!isPlainObject(data)) {
     data = {};
-    process.env.NODE_ENV !== 'production' && warn(
+    process.env.NODE_ENV !== 'production' && warn$1(
       'data functions should return an object:\n' +
       'https://vuejs.org/v2/guide/components.html#data-Must-Be-a-Function',
       vm
@@ -3360,14 +3362,14 @@ function initData (vm) {
     var key = keys[i];
     if (process.env.NODE_ENV !== 'production') {
       if (methods && hasOwn(methods, key)) {
-        warn(
+        warn$1(
           ("method \"" + key + "\" has already been defined as a data property."),
           vm
         );
       }
     }
     if (props && hasOwn(props, key)) {
-      process.env.NODE_ENV !== 'production' && warn(
+      process.env.NODE_ENV !== 'production' && warn$1(
         "The data property \"" + key + "\" is already declared as a prop. " +
         "Use prop default value instead.",
         vm
@@ -3399,7 +3401,7 @@ function initComputed (vm, computed) {
     var userDef = computed[key];
     var getter = typeof userDef === 'function' ? userDef : userDef.get;
     if (process.env.NODE_ENV !== 'production' && getter == null) {
-      warn(
+      warn$1(
         ("Getter is missing for computed property \"" + key + "\"."),
         vm
       );
@@ -3414,9 +3416,9 @@ function initComputed (vm, computed) {
       defineComputed(vm, key, userDef);
     } else if (process.env.NODE_ENV !== 'production') {
       if (key in vm.$data) {
-        warn(("The computed property \"" + key + "\" is already defined in data."), vm);
+        warn$1(("The computed property \"" + key + "\" is already defined in data."), vm);
       } else if (vm.$options.props && key in vm.$options.props) {
-        warn(("The computed property \"" + key + "\" is already defined as a prop."), vm);
+        warn$1(("The computed property \"" + key + "\" is already defined as a prop."), vm);
       }
     }
   }
@@ -3439,7 +3441,7 @@ function defineComputed (target, key, userDef) {
   if (process.env.NODE_ENV !== 'production' &&
       sharedPropertyDefinition.set === noop) {
     sharedPropertyDefinition.set = function () {
-      warn(
+      warn$1(
         ("Computed property \"" + key + "\" was assigned to but it has no setter."),
         this
       );
@@ -3470,14 +3472,14 @@ function initMethods (vm, methods) {
     vm[key] = methods[key] == null ? noop : bind(methods[key], vm);
     if (process.env.NODE_ENV !== 'production') {
       if (methods[key] == null) {
-        warn(
+        warn$1(
           "method \"" + key + "\" has an undefined value in the component definition. " +
           "Did you reference the function correctly?",
           vm
         );
       }
       if (props && hasOwn(props, key)) {
-        warn(
+        warn$1(
           ("method \"" + key + "\" has already been defined as a prop."),
           vm
         );
@@ -3526,14 +3528,14 @@ function stateMixin (Vue) {
   propsDef.get = function () { return this._props };
   if (process.env.NODE_ENV !== 'production') {
     dataDef.set = function (newData) {
-      warn(
+      warn$1(
         'Avoid replacing instance root $data. ' +
         'Use nested data properties instead.',
         this
       );
     };
     propsDef.set = function () {
-      warn("$props is readonly.", this);
+      warn$1("$props is readonly.", this);
     };
   }
   Object.defineProperty(Vue.prototype, '$data', dataDef);
@@ -3582,7 +3584,7 @@ function initInjections (vm) {
       /* istanbul ignore else */
       if (process.env.NODE_ENV !== 'production') {
         defineReactive$$1(vm, key, result[key], function () {
-          warn(
+          warn$1(
             "Avoid mutating an injected value directly since the changes will be " +
             "overwritten whenever the provided component re-renders. " +
             "injection being mutated: \"" + key + "\"",
@@ -3617,7 +3619,7 @@ function resolveInject (inject, vm) {
         source = source.$parent;
       }
       if (process.env.NODE_ENV !== 'production' && !source) {
-        warn(("Injection \"" + key + "\" not found"), vm);
+        warn$1(("Injection \"" + key + "\" not found"), vm);
       }
     }
     return result
@@ -3766,7 +3768,7 @@ function createComponent (
   // reject.
   if (typeof Ctor !== 'function') {
     if (process.env.NODE_ENV !== 'production') {
-      warn(("Invalid Component definition: " + (String(Ctor))), context);
+      warn$1(("Invalid Component definition: " + (String(Ctor))), context);
     }
     return
   }
@@ -3935,7 +3937,7 @@ function _createElement (
   normalizationType
 ) {
   if (isDef(data) && isDef((data).__ob__)) {
-    process.env.NODE_ENV !== 'production' && warn(
+    process.env.NODE_ENV !== 'production' && warn$1(
       "Avoid using observed data object as vnode data: " + (JSON.stringify(data)) + "\n" +
       'Always create fresh vnode data objects in each render!',
       context
@@ -3954,7 +3956,7 @@ function _createElement (
   if (process.env.NODE_ENV !== 'production' &&
     isDef(data) && isDef(data.key) && !isPrimitive(data.key)
   ) {
-    warn(
+    warn$1(
       'Avoid using non-primitive value as key, ' +
       'use string/number value instead.',
       context
@@ -4079,7 +4081,7 @@ function renderSlot (
     var slotNodes = this.$slots[name];
     // warn duplicate slot usage
     if (slotNodes && process.env.NODE_ENV !== 'production') {
-      slotNodes._rendered && warn(
+      slotNodes._rendered && warn$1(
         "Duplicate presence of slot \"" + name + "\" found in the same render tree " +
         "- this will likely cause render errors.",
         this
@@ -4131,7 +4133,7 @@ function bindObjectProps (
 ) {
   if (value) {
     if (!isObject(value)) {
-      process.env.NODE_ENV !== 'production' && warn(
+      process.env.NODE_ENV !== 'production' && warn$1(
         'v-bind without argument expects an Object or Array value',
         this
       );
@@ -4235,7 +4237,7 @@ function markStaticNode (node, key, isOnce) {
 function bindObjectListeners (data, value) {
   if (value) {
     if (!isPlainObject(value)) {
-      process.env.NODE_ENV !== 'production' && warn(
+      process.env.NODE_ENV !== 'production' && warn$1(
         'v-on without argument expects an Object value',
         this
       );
@@ -4275,10 +4277,10 @@ function initRender (vm) {
   /* istanbul ignore else */
   if (process.env.NODE_ENV !== 'production') {
     defineReactive$$1(vm, '$attrs', parentData && parentData.attrs, function () {
-      !isUpdatingChildComponent && warn("$attrs is readonly.", vm);
+      !isUpdatingChildComponent && warn$1("$attrs is readonly.", vm);
     }, true);
     defineReactive$$1(vm, '$listeners', vm.$options._parentListeners, function () {
-      !isUpdatingChildComponent && warn("$listeners is readonly.", vm);
+      !isUpdatingChildComponent && warn$1("$listeners is readonly.", vm);
     }, true);
   } else {
     defineReactive$$1(vm, '$attrs', parentData && parentData.attrs, null, true);
@@ -4333,7 +4335,7 @@ function renderMixin (Vue) {
     // return empty vnode in case the render function errored out
     if (!(vnode instanceof VNode)) {
       if (process.env.NODE_ENV !== 'production' && Array.isArray(vnode)) {
-        warn(
+        warn$1(
           'Multiple root nodes returned from render function. Render function ' +
           'should return a single root node.',
           vm
@@ -4507,7 +4509,7 @@ function Vue$3 (options) {
   if (process.env.NODE_ENV !== 'production' &&
     !(this instanceof Vue$3)
   ) {
-    warn('Vue is a constructor and should be called with the `new` keyword');
+    warn$1('Vue is a constructor and should be called with the `new` keyword');
   }
   this._init(options);
 }
@@ -4575,7 +4577,7 @@ function initExtend (Vue) {
     var name = extendOptions.name || Super.options.name;
     if (process.env.NODE_ENV !== 'production') {
       if (!/^[a-zA-Z][\w-]*$/.test(name)) {
-        warn(
+        warn$1(
           'Invalid component name: "' + name + '". Component names ' +
           'can only contain alphanumeric characters and the hyphen, ' +
           'and must start with a letter.'
@@ -4664,7 +4666,7 @@ function initAssetRegisters (Vue) {
         /* istanbul ignore if */
         if (process.env.NODE_ENV !== 'production') {
           if (type === 'component' && config.isReservedTag(id)) {
-            warn(
+            warn$1(
               'Do not use built-in or reserved HTML elements as component ' +
               'id: ' + id
             );
@@ -4795,7 +4797,7 @@ function initGlobalAPI (Vue) {
   configDef.get = function () { return config; };
   if (process.env.NODE_ENV !== 'production') {
     configDef.set = function () {
-      warn(
+      warn$1(
         'Do not replace the Vue.config object, set individual fields instead.'
       );
     };
@@ -4806,7 +4808,7 @@ function initGlobalAPI (Vue) {
   // NOTE: these are not considered part of the public API - avoid relying on
   // them unless you are aware of the risk.
   Vue.util = {
-    warn: warn,
+    warn: warn$1,
     extend: extend,
     mergeOptions: mergeOptions,
     defineReactive: defineReactive$$1
@@ -4846,7 +4848,7 @@ Object.defineProperty(Vue$3.prototype, '$ssrContext', {
   }
 });
 
-Vue$3.version = '2.4.2';
+Vue$3.version = '1.0.0';
 
 /*  */
 
@@ -4992,6 +4994,10 @@ var isHTMLTag = makeMap(
   'content,element,shadow,template,blockquote,iframe,tfoot'
 );
 
+var isLynxTag = makeMap(
+  'view,label,listview,scrollview,viewstub'
+);
+
 // this map is intentionally selective, only covering SVG elements that may
 // contain child elements.
 var isSVG = makeMap(
@@ -5001,19 +5007,13 @@ var isSVG = makeMap(
   true
 );
 
-// Lynx Modify
-var isLynxTag = makeMap(
-  'view,label,img,listview,scrollview,viewstub'
-);
-
 
 
 var isReservedTag = function (tag) {
-  return isHTMLTag(tag) || isSVG(tag)
+  return isHTMLTag(tag) || isSVG(tag) || isLynxTag(tag)
 };
 
 function getTagNamespace (tag) {
-  // Lynx Modify
   // if (isSVG(tag)) {
   //   return 'svg'
   // }
@@ -5024,34 +5024,30 @@ function getTagNamespace (tag) {
   // }
 }
 
+var unknownElementCache = Object.create(null);
 function isUnknownElement (tag) {
-  // Lynx Modify
-  if(isLynxTag(tag)) {
+  /* istanbul ignore if */
+  if (!inBrowser) {
+    return true
+  }
+  if (isReservedTag(tag)) {
     return false
   }
-  return true
-  // /* istanbul ignore if */
-  // if (!inBrowser) {
-  //   return true
-  // }
-  // if (isReservedTag(tag)) {
-  //   return false
-  // }
-  // tag = tag.toLowerCase()
-  // /* istanbul ignore if */
-  // if (unknownElementCache[tag] != null) {
-  //   return unknownElementCache[tag]
-  // }
-  // const el = document.createElement(tag)
-  // if (tag.indexOf('-') > -1) {
-  //   // http://stackoverflow.com/a/28210364/1070244
-  //   return (unknownElementCache[tag] = (
-  //     el.constructor === window.HTMLUnknownElement ||
-  //     el.constructor === window.HTMLElement
-  //   ))
-  // } else {
-  //   return (unknownElementCache[tag] = /HTMLUnknownElement/.test(el.toString()))
-  // }
+  tag = tag.toLowerCase();
+  /* istanbul ignore if */
+  if (unknownElementCache[tag] != null) {
+    return unknownElementCache[tag]
+  }
+  var el = document.createElement(tag);
+  if (tag.indexOf('-') > -1) {
+    // http://stackoverflow.com/a/28210364/1070244
+    return (unknownElementCache[tag] = (
+      el.constructor === window.HTMLUnknownElement ||
+      el.constructor === window.HTMLElement
+    ))
+  } else {
+    return (unknownElementCache[tag] = /HTMLUnknownElement/.test(el.toString()))
+  }
 }
 
 /*  */
@@ -5063,7 +5059,7 @@ function query (el) {
   if (typeof el === 'string') {
     var selected = document.querySelector(el);
     if (!selected) {
-      process.env.NODE_ENV !== 'production' && warn(
+      process.env.NODE_ENV !== 'production' && warn$1(
         'Cannot find element: ' + el
       );
       return document.createElement('div')
@@ -5075,9 +5071,15 @@ function query (el) {
 }
 
 /*  */
-
 function createElement$1 (tagName, vnode) {
-  var elm = document.createElement(tagName);
+  //console.log('createElement: ' + tagName)
+  var elm;
+  if (!isLynx && isLynxTag(tagName)) {
+    elm = document.createElement('div');
+    elm.setAttribute('tag', tagName);
+  }else {
+    elm = document.createElement(tagName);
+  }
   if (tagName !== 'select') {
     return elm
   }
@@ -5093,15 +5095,16 @@ function createElementNS (namespace, tagName) {
 }
 
 function createTextNode (text) {
-  return document.createTextNode(text)
+    return document.createTextNode(text)
 }
 
 function createComment (text) {
-  // Lynx Modify
-  return document.createElement('view')
+  return document.createElement('view');
+  //return document.createComment(text)
 }
 
 function insertBefore (parentNode, newNode, referenceNode) {
+  console.log('insertBefore');
   parentNode.insertBefore(newNode, referenceNode);
 }
 
@@ -5110,6 +5113,7 @@ function removeChild (node, child) {
 }
 
 function appendChild (node, child) {
+  //console.log('appendChild ' + node.tagName + ', ' + child.tagName)
   node.appendChild(child);
 }
 
@@ -5126,7 +5130,7 @@ function tagName (node) {
 }
 
 function setTextContent (node, text) {
-  node.textContent = text;
+    node.textContent = text;
 }
 
 function setAttribute (node, key, val) {
@@ -5307,7 +5311,7 @@ function createPatchFunction (backend) {
           !(config.ignoredElements.length && config.ignoredElements.indexOf(tag) > -1) &&
           config.isUnknownElement(tag)
         ) {
-          warn(
+          warn$1(
             'Unknown custom element: <' + tag + '> - did you ' +
             'register the component correctly? For recursive components, ' +
             'make sure to provide the "name" option.',
@@ -5575,7 +5579,7 @@ function createPatchFunction (backend) {
           elmToMove = oldCh[idxInOld];
           /* istanbul ignore if */
           if (process.env.NODE_ENV !== 'production' && !elmToMove) {
-            warn(
+            warn$1(
               'It seems there are duplicate keys that is causing an update error. ' +
               'Make sure each v-for item has a unique key.'
             );
@@ -5680,7 +5684,6 @@ function createPatchFunction (backend) {
 
   // Note: this is a browser-only function so we can assume elms are DOM nodes.
   function hydrate (elm, vnode, insertedVnodeQueue) {
-                            console.log('hydrate: '+elm.tagName+', '+vnode.tag)
     if (isTrue(vnode.isComment) && isDef(vnode.asyncFactory)) {
       vnode.elm = elm;
       vnode.isAsyncPlaceholder = true;
@@ -5790,7 +5793,7 @@ function createPatchFunction (backend) {
               invokeInsertHook(vnode, insertedVnodeQueue, true);
               return oldVnode
             } else if (process.env.NODE_ENV !== 'production') {
-              warn(
+              warn$1(
                 'The client-side rendered virtual DOM tree is not matching ' +
                 'server-rendered content. This is likely caused by incorrect ' +
                 'HTML markup, for example nesting block-level elements inside ' +
@@ -6296,10 +6299,41 @@ var domProps = {
 
 /*  */
 
-// Lynx Modify
+
+
+// normalize possible array / string values into Object
+
+
+/**
+ * parent component style should be after child's
+ * so that parent component's style could override it
+ */
+
+/*  */
+var ruleStyles = makeMap(
+  'width,height,minWidth,maxWidth,minHeight,maxHeight,margin,padding,' +
+  'marginLeft,marginTop,marginRight,marginBottom,' +
+  'paddingLeft,paddingTop,paddingRight,paddingBottom,' +
+  'left,top,right,bottom,borderWidth,borderRadius,' +
+  'fontSize,lineHeight'
+);
+
 function setStyles(elm, styles) {
   for(var key in styles) {
-    elm.setStyle(key, styles[key]);
+    
+    var value;
+    if (!isLynx && ruleStyles(key)) {
+      value = Math.round(styles[key] * document.body.clientWidth / 750);
+      value += 'px';
+    }else{
+      value = styles[key];
+    }
+    //console.log('style '+key + ': '+value)
+    if(elm.style) {
+        elm.style[key] = value;
+      }else{
+        elm.setStyle(key, value);
+      }
   }
 }
 
@@ -6313,9 +6347,52 @@ function isEmptyObject (obj) {
 }
 
 var normalize = cached(function (prop) {
+  //emptyStyle = emptyStyle || document.createElement('div').style
   prop = camelize(prop);
   return prop
+  // if (prop !== 'filter' && (prop in emptyStyle)) {
+  //   return prop
+  // }
+  // const capName = prop.charAt(0).toUpperCase() + prop.slice(1)
+  // for (let i = 0; i < vendorNames.length; i++) {
+  //   const name = vendorNames[i] + capName
+  //   if (name in emptyStyle) {
+  //     return name
+  //   }
+  // }
 });
+
+// prop value to css map
+var styleValueToCssMap = function (styleValue) {
+  var cssMap = {};
+  try {
+    var cssRules = styleValue.split(';');
+    cssRules.forEach(function (rule) {
+      var ruleMeans = rule.split(':');
+      if (ruleMeans.length === 2) {
+        var k = ruleMeans[0].trim();
+        var v = ruleMeans[1].trim();
+        if (v !== 'undefined') {
+          cssMap[camelize(k)] = isNaN(v) ? v : +v;
+        } else {
+          if (NODE_ENV !== 'production') {
+            warn(
+              ("dynamic style invalid, " + k + " get " + v)
+            );
+          }
+        }
+      }
+    });
+  } catch (e) {
+    if (NODE_ENV !== 'production') {
+      warn(
+        'style invalid, ' +
+        'please check if it spell error.'
+      );
+    }
+  }
+  return cssMap
+};
 
 function setStaticStyles (oldVnode, vnode) {
   var elm = vnode.elm;
@@ -6337,8 +6414,9 @@ function setStaticStyles (oldVnode, vnode) {
   }
 
   // extend static style styles
-  if (!isEmptyObject(vnode.data.staticStyle)) {
-    style = extend(style || {}, vnode.data.staticStyle);
+  if (vnode.data.staticStyle) {
+    var cssMap = styleValueToCssMap(vnode.data.staticStyle);
+    style = extend(style || {}, cssMap);
   }
 
   var preStyles = {};
@@ -6468,99 +6546,6 @@ var style = {
   create: createStyle,
   update: updateStyle
 };
-
-
-// import { getStyle, normalizeStyleBinding } from 'web/util/style'
-// import { cached, camelize, extend, isDef, isUndef } from 'shared/util'
-
-// const cssVarRE = /^--/
-// const importantRE = /\s*!important$/
-// const setProp = (el, name, val) => {
-//   /* istanbul ignore if */
-//   if (cssVarRE.test(name)) {
-//     el.style.setProperty(name, val)
-//   } else if (importantRE.test(val)) {
-//     el.style.setProperty(name, val.replace(importantRE, ''), 'important')
-//   } else {
-//     const normalizedName = normalize(name)
-//     if (Array.isArray(val)) {
-//       // Support values array created by autoprefixer, e.g.
-//       // {display: ["-webkit-box", "-ms-flexbox", "flex"]}
-//       // Set them one by one, and the browser will only set those it can recognize
-//       for (let i = 0, len = val.length; i < len; i++) {
-//         el.style[normalizedName] = val[i]
-//       }
-//     } else {
-//       el.style[normalizedName] = val
-//     }
-//   }
-// }
-
-// const vendorNames = ['Webkit', 'Moz', 'ms']
-
-// let emptyStyle
-// const normalize = cached(function (prop) {
-//   emptyStyle = emptyStyle || document.createElement('div').style
-//   prop = camelize(prop)
-//   if (prop !== 'filter' && (prop in emptyStyle)) {
-//     return prop
-//   }
-//   const capName = prop.charAt(0).toUpperCase() + prop.slice(1)
-//   for (let i = 0; i < vendorNames.length; i++) {
-//     const name = vendorNames[i] + capName
-//     if (name in emptyStyle) {
-//       return name
-//     }
-//   }
-// })
-
-// function updateStyle (oldVnode: VNodeWithData, vnode: VNodeWithData) {
-//   const data = vnode.data
-//   const oldData = oldVnode.data
-
-//   if (isUndef(data.staticStyle) && isUndef(data.style) &&
-//     isUndef(oldData.staticStyle) && isUndef(oldData.style)
-//   ) {
-//     return
-//   }
-
-//   let cur, name
-//   const el: any = vnode.elm
-//   const oldStaticStyle: any = oldData.staticStyle
-//   const oldStyleBinding: any = oldData.normalizedStyle || oldData.style || {}
-
-//   // if static style exists, stylebinding already merged into it when doing normalizeStyleData
-//   const oldStyle = oldStaticStyle || oldStyleBinding
-
-//   const style = normalizeStyleBinding(vnode.data.style) || {}
-
-//   // store normalized style under a different key for next diff
-//   // make sure to clone it if it's reactive, since the user likley wants
-//   // to mutate it.
-//   vnode.data.normalizedStyle = isDef(style.__ob__)
-//     ? extend({}, style)
-//     : style
-
-//   const newStyle = getStyle(vnode, true)
-
-//   for (name in oldStyle) {
-//     if (isUndef(newStyle[name])) {
-//       setProp(el, name, '')
-//     }
-//   }
-//   for (name in newStyle) {
-//     cur = newStyle[name]
-//     if (cur !== oldStyle[name]) {
-//       // ie9 setting to null has no effect, must use empty string
-//       setProp(el, name, cur == null ? '' : cur)
-//     }
-//   }
-// }
-
-// export default {
-//   create: updateStyle,
-//   update: updateStyle
-// }
 
 /*  */
 
@@ -7058,13 +7043,13 @@ function leave (vnode, rm) {
 // only used in dev mode
 function checkDuration (val, name, vnode) {
   if (typeof val !== 'number') {
-    warn(
+    warn$1(
       "<transition> explicit " + name + " duration is not a valid number - " +
       "got " + (JSON.stringify(val)) + ".",
       vnode.context
     );
   } else if (isNaN(val)) {
-    warn(
+    warn$1(
       "<transition> explicit " + name + " duration is NaN - " +
       'the duration expression might be incorrect.',
       vnode.context
@@ -7204,7 +7189,7 @@ function setSelected (el, binding, vm) {
   var value = binding.value;
   var isMultiple = el.multiple;
   if (isMultiple && !Array.isArray(value)) {
-    process.env.NODE_ENV !== 'production' && warn(
+    process.env.NODE_ENV !== 'production' && warn$1(
       "<select multiple v-model=\"" + (binding.expression) + "\"> " +
       "expects an Array value for its binding, but got " + (Object.prototype.toString.call(value).slice(8, -1)),
       vm
@@ -7421,7 +7406,7 @@ var Transition = {
 
     // warn multiple elements
     if (process.env.NODE_ENV !== 'production' && children.length > 1) {
-      warn(
+      warn$1(
         '<transition> can only be used on a single element. Use ' +
         '<transition-group> for lists.',
         this.$parent
@@ -7434,7 +7419,7 @@ var Transition = {
     if (process.env.NODE_ENV !== 'production' &&
       mode && mode !== 'in-out' && mode !== 'out-in'
     ) {
-      warn(
+      warn$1(
         'invalid <transition> mode: ' + mode,
         this.$parent
       );
@@ -7557,7 +7542,7 @@ var TransitionGroup = {
         } else if (process.env.NODE_ENV !== 'production') {
           var opts = c.componentOptions;
           var name = opts ? (opts.Ctor.options.name || opts.tag || '') : c.tag;
-          warn(("<transition-group> children must be keyed: <" + name + ">"));
+          warn$1(("<transition-group> children must be keyed: <" + name + ">"));
         }
       }
     }
@@ -7761,7 +7746,7 @@ module.exports = Vue$3;
 
 /* harmony default export */ __webpack_exports__["a"] = ({
   data: function data() {
-    return { style: { "container": { "flexDirection": "column" } } };
+    return { style: { "container": { "flexDirection": "column", "justifyContent": "center", "alignItems": "center" } } };
   },
 
   components: {
@@ -7780,39 +7765,14 @@ module.exports = Vue$3;
 //
 //
 //
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["a"] = ({
   name: 'show',
   data: function data() {
-    return { style: { "title": { "fontSize": "70" }, "progress-view": { "height": "10", "backgroundColor": "#0f0" }, "container": { "width": "750", "flexDirection": "column" }, "view-container": { "width": "700", "height": "120", "marginBottom": "20", "marginLeft": "10", "marginRight": "10", "paddingTop": "20", "paddingBottom": "20", "borderWidth": "2", "borderColor": "#ccc", "borderRadius": "8", "flexDirection": "column" } },
+    return { style: { "title": { "color": "#ff5577", "fontSize": "70" }, "view-container": { "width": "700", "marginTop": "20", "marginBottom": "20", "marginLeft": "10", "marginRight": "10", "paddingTop": "20", "paddingBottom": "20", "borderWidth": "2", "borderColor": "#ccc", "borderRadius": "8", "flexDirection": "column", "justifyContent": "center", "alignItems": "center" } },
       show: true,
-      hello: 'hello 123',
-      start: 0,
-      left: '0',
-      viewTop: '20',
-      progressWidth: '0'
+      hello: 'hello world'
     };
-  },
-
-
-  methods: {
-    touchStartFunc: function touchStartFunc(e) {
-      this.start = e.touches[0].clientY;
-      console.log(e.touches[0].clientY);
-    },
-    touchmoveFunc: function touchmoveFunc(e) {
-      var offset = e.touches[0].clientY - this.start;
-      this.progressWidth = offset + '';
-      this.viewTop = offset + '';
-    },
-    touchendFunc: function touchendFunc(e) {
-      var offset = 0;
-      this.progressWidth = offset + '';
-      this.viewTop = offset + '';
-    }
   }
 });
 
@@ -7821,8 +7781,8 @@ module.exports = Vue$3;
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_lynx_vue_loader_lib_selector_type_script_index_0_app_vue__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_lynx_vue_loader_lib_template_compiler_index_id_data_v_1ee37df2_hasScoped_false_transformToRequire_video_src_source_src_img_src_image_xlink_href_preserveWhitespace_false_node_modules_lynx_vue_loader_lib_selector_type_template_index_0_app_vue__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_lynx_vue_loader_lib_selector_type_script_index_0_App_vue__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_lynx_vue_loader_lib_template_compiler_index_id_data_v_6f3c9df3_hasScoped_false_transformToRequire_video_src_source_src_img_src_image_xlink_href_preserveWhitespace_false_node_modules_lynx_vue_loader_lib_selector_type_template_index_0_App_vue__ = __webpack_require__(8);
 var disposed = false
 var normalizeComponent = __webpack_require__(0)
 /* script */
@@ -7834,14 +7794,14 @@ var __vue_scopeId__ = null
 /* moduleIdentifier (server only) */
 var __vue_module_identifier__ = null
 var Component = normalizeComponent(
-  __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_lynx_vue_loader_lib_selector_type_script_index_0_app_vue__["a" /* default */],
-  __WEBPACK_IMPORTED_MODULE_1__node_modules_lynx_vue_loader_lib_template_compiler_index_id_data_v_1ee37df2_hasScoped_false_transformToRequire_video_src_source_src_img_src_image_xlink_href_preserveWhitespace_false_node_modules_lynx_vue_loader_lib_selector_type_template_index_0_app_vue__["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_lynx_vue_loader_lib_selector_type_script_index_0_App_vue__["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_1__node_modules_lynx_vue_loader_lib_template_compiler_index_id_data_v_6f3c9df3_hasScoped_false_transformToRequire_video_src_source_src_img_src_image_xlink_href_preserveWhitespace_false_node_modules_lynx_vue_loader_lib_selector_type_template_index_0_App_vue__["a" /* default */],
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "src/app.vue"
+Component.options.__file = "src/App.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] app.vue: functional components are not supported with templates, they should use render functions.")}
+if (Component.options.functional) {console.error("[vue-loader] App.vue: functional components are not supported with templates, they should use render functions.")}
 
 /* hot reload */
 if (false) {(function () {
@@ -7850,9 +7810,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-1ee37df2", Component.options)
+    hotAPI.createRecord("data-v-6f3c9df3", Component.options)
   } else {
-    hotAPI.reload("data-v-1ee37df2", Component.options)
+    hotAPI.reload("data-v-6f3c9df3", Component.options)
   }
 })()}
 
@@ -7865,7 +7825,7 @@ if (false) {(function () {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_lynx_vue_loader_lib_selector_type_script_index_0_Hello_vue__ = __webpack_require__(4);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_lynx_vue_loader_lib_template_compiler_index_id_data_v_92426efa_hasScoped_false_transformToRequire_video_src_source_src_img_src_image_xlink_href_preserveWhitespace_false_node_modules_lynx_vue_loader_lib_selector_type_template_index_0_Hello_vue__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_lynx_vue_loader_lib_template_compiler_index_id_data_v_37d2d212_hasScoped_false_transformToRequire_video_src_source_src_img_src_image_xlink_href_preserveWhitespace_false_node_modules_lynx_vue_loader_lib_selector_type_template_index_0_Hello_vue__ = __webpack_require__(7);
 var disposed = false
 var normalizeComponent = __webpack_require__(0)
 /* script */
@@ -7878,7 +7838,7 @@ var __vue_scopeId__ = null
 var __vue_module_identifier__ = null
 var Component = normalizeComponent(
   __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_lynx_vue_loader_lib_selector_type_script_index_0_Hello_vue__["a" /* default */],
-  __WEBPACK_IMPORTED_MODULE_1__node_modules_lynx_vue_loader_lib_template_compiler_index_id_data_v_92426efa_hasScoped_false_transformToRequire_video_src_source_src_img_src_image_xlink_href_preserveWhitespace_false_node_modules_lynx_vue_loader_lib_selector_type_template_index_0_Hello_vue__["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_1__node_modules_lynx_vue_loader_lib_template_compiler_index_id_data_v_37d2d212_hasScoped_false_transformToRequire_video_src_source_src_img_src_image_xlink_href_preserveWhitespace_false_node_modules_lynx_vue_loader_lib_selector_type_template_index_0_Hello_vue__["a" /* default */],
   __vue_scopeId__,
   __vue_module_identifier__
 )
@@ -7893,9 +7853,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-92426efa", Component.options)
+    hotAPI.createRecord("data-v-37d2d212", Component.options)
   } else {
-    hotAPI.reload("data-v-92426efa", Component.options)
+    hotAPI.reload("data-v-37d2d212", Component.options)
   }
 })()}
 
@@ -7908,7 +7868,30 @@ if (false) {(function () {
 
 "use strict";
 var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('viewstub', {
+  return _c('view', {
+    staticClass: "view-container"
+  }, [_c('label', {
+    staticClass: "title"
+  }, [_vm._v(_vm._s(_vm.hello))])])
+}
+var staticRenderFns = []
+render._withStripped = true
+var esExports = { render: render, staticRenderFns: staticRenderFns }
+/* harmony default export */ __webpack_exports__["a"] = (esExports);
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-37d2d212", esExports)
+  }
+}
+
+/***/ }),
+/* 8 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('view', {
     staticClass: "container",
     attrs: {
       "id": "app"
@@ -7922,49 +7905,7 @@ var esExports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-1ee37df2", esExports)
-  }
-}
-
-/***/ }),
-/* 8 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('viewstub', {
-    staticClass: "container"
-  }, [_c('view', {
-    staticClass: "progress-view",
-    style: ({
-      width: _vm.progressWidth
-    })
-  }), _c('view', {
-    staticClass: "view-container",
-    style: ({
-      marginTop: _vm.viewTop
-    }),
-    on: {
-      "touchstart": _vm.touchStartFunc,
-      "touchmove": _vm.touchmoveFunc,
-      "touchend": _vm.touchendFunc
-    }
-  }, [_c('label', {
-    ref: "labelNode",
-    staticClass: "title",
-    style: ({
-      marginLeft: _vm.left
-    })
-  }, [_vm._v(_vm._s(_vm.hello))])])])
-}
-var staticRenderFns = []
-render._withStripped = true
-var esExports = { render: render, staticRenderFns: staticRenderFns }
-/* harmony default export */ __webpack_exports__["a"] = (esExports);
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-92426efa", esExports)
+     require("vue-hot-reload-api").rerender("data-v-6f3c9df3", esExports)
   }
 }
 

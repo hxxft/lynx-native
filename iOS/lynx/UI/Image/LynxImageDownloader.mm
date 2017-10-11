@@ -2,6 +2,7 @@
 
 #import "LynxImageDownloader.h"
 #import "UIImageView+WebCache.h"
+#import "LynxFilePathUtility.h"
 
 @implementation ImageDownLoader
 
@@ -19,7 +20,9 @@
 -(BOOL) downloadImage:(NSString*)url then:(cbImageDownloadFinish)block {
     SDWebImageManager *manager = [SDWebImageManager sharedManager];
     
-    [manager loadImageWithURL:[NSURL URLWithString:url]
+    NSString* path = [LynxFilePathUtility toFilePath:url];
+    NSURL* ns_url = [NSURL fileURLWithPath:path];
+    [manager loadImageWithURL:ns_url
                           options:SDWebImageRetryFailed
                          progress:^(NSInteger receivedSize, NSInteger expectedSize, NSURL *targetURL) {}
                         completed:^(UIImage *image, NSData *data, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL)     {

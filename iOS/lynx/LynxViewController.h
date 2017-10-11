@@ -4,6 +4,9 @@
 
 @interface LynxViewController : UIViewController 
 
+@property(copy) NSString* page_name_;
+
+- (id) initWithName:(NSString*) name;
 
 @end
 

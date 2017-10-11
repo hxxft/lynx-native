@@ -65,10 +65,12 @@ using namespace lynx;
     }
 }
 
--(void) loadHTMLFile:(NSString*)htmlFile
+-(void) loadPage:(NSString*)pagePath
 {
-    if (nil != htmlFile) {
-        NSString* file = [LynxFilePathUtility toFilePath:htmlFile];
+    if (nil != pagePath) {
+        NSString* pageLayoutPath = [pagePath stringByAppendingString:@"index.html"];
+
+        NSString* file = [LynxFilePathUtility toFilePath:pageLayoutPath];
         NSData* fileData = [NSData dataWithContentsOfFile:file];
         if (nil != fileData && fileData.length > 0)
         {
@@ -76,7 +78,7 @@ using namespace lynx;
                                                            encoding:NSUTF8StringEncoding];
             if (nil != htmlString && htmlString.length > 0)
             {
-                [_runtime loadHtml:htmlFile withSource:htmlString];
+                [_runtime loadHtml:pagePath withSource:htmlString];
             }
         }
     }

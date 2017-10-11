@@ -3,17 +3,25 @@
 
 
 #import <Foundation/Foundation.h>
+#import "LynxResourceReader.h"
 
-@interface LynxResourceManager : NSObject
-//{
-//    NSString* asset_mode_application_location_;
-//    NSString* data_mode_application_location_;
-//    NSString* debug_mode_application_location_;
-//}
+@interface LynxResourceManager : NSObject {
+    @private
+    NSString* asset_mode_application_location_;
+    NSString* data_mode_application_location_;
+    NSString* debug_mode_application_location_;
+    
+    NSString* asset_protocol_;
+    NSString* data_protocol_;
+    NSString* debug_protocol_;
+}
 
-//- (void) initialize;
+- (id) init;
++ (LynxResourceManager*) instance;
 
-//- (NSURL*) toResourceURL:(NSString*) resource;
+@property (readonly, nonatomic) LynxResourceReader* reader;
+
+- (NSURL*) toResourceURL:(NSString*) resource;
 
 @end
 
