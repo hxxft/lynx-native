@@ -191,7 +191,7 @@ export default {
     // this.$refs.canvasfps.initCtx(ctxfps);
     fpsMeter = new FpsMeter(0, "fish");
 
-    this.createFish(50);
+    this.createFish(100);
     setInterval(
       () => {
         var start = new Date().getTime();//起始时间
