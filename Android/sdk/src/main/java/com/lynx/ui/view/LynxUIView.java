@@ -26,15 +26,48 @@ public class LynxUIView extends LynxUIGroup<AndroidViewGroup> {
     }
 
     @Override
-    public void insertChild(RenderObjectImpl child, int index) {
+    public void insertChild(RenderObjectImpl child, int i) {
+        // Find the target index of thi child, and add to body view
         if (!child.hasUI()) {
             attachChildElement(child);
         }
-        View impl = child.getUI().getView();
-        if (impl.getParent() != null) {
-            ((ViewGroup) impl.getParent()).removeView(impl);
+
+        // Remove self from parent
+        View childView = child.getUI().getView();
+        ViewGroup parent = (ViewGroup) childView.getParent();
+        if(parent != null) {
+            parent.removeView(childView);
         }
-        mView.addView(impl, index);
+
+        // Find the target position to insert
+        int curZIndex = child.getStyle() == null ? 0 : child.getStyle().mZIndex;
+        int nearestZIndex = Integer.MAX_VALUE;
+        RenderObjectImpl nearestItem = null;
+        for (int j = 0; j < mRenderObjectImpl.getChildCount(); j++) {
+            RenderObjectImpl renderObjectImpl = mRenderObjectImpl.getChildAt(j);
+            if (renderObjectImpl == null) {
+                continue;
+            }
+            int tempZIndex = renderObjectImpl.getStyle() == null ?
+                    0 : renderObjectImpl.getStyle().mZIndex;
+            if (tempZIndex > curZIndex) {
+                if (nearestZIndex > tempZIndex) {
+                    nearestZIndex = tempZIndex;
+                    nearestItem = renderObjectImpl;
+                }
+            }
+        }
+
+        // Insert View
+        if (nearestItem != null) {
+            int index = mView.indexOfChild(nearestItem.getUI().getView());
+            mView.addView(childView, index);
+        } else {
+            if (i < 0) {
+                i = mRenderObjectImpl.getChildCount() - 1;
+            }
+            mView.addView(childView, i);
+        }
     }
 
     /**

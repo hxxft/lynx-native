@@ -46,51 +46,6 @@ public class LynxUIBody extends LynxUIView {
         }
     }
 
-    @Override
-    public void insertChild(RenderObjectImpl child, int i) {
-        // Find the target index of thi child, and add to body view
-        if (!child.hasUI()) {
-            attachChildElement(child);
-        }
-
-        // Remove self from parent
-        View childView = child.getUI().getView();
-        ViewGroup parent = (ViewGroup) childView.getParent();
-        if(parent != null) {
-            parent.removeView(childView);
-        }
-
-        // Find the target position to insert
-        int curZIndex = child.getStyle() == null ? 0 : child.getStyle().mZIndex;
-        int nearestZIndex = Integer.MAX_VALUE;
-        RenderObjectImpl nearestItem = null;
-        for (int j = 0; j < mRenderObjectImpl.getChildCount(); j++) {
-            RenderObjectImpl renderObjectImpl = mRenderObjectImpl.getChildAt(j);
-            if (renderObjectImpl == null) {
-                continue;
-            }
-            int tempZIndex = renderObjectImpl.getStyle() == null ?
-                    0 : renderObjectImpl.getStyle().mZIndex;
-            if (tempZIndex > curZIndex) {
-                if (nearestZIndex > tempZIndex) {
-                    nearestZIndex = tempZIndex;
-                    nearestItem = renderObjectImpl;
-                }
-            }
-        }
-
-        if (nearestItem != null) {
-            int index = mView.indexOfChild(nearestItem.getUI().getView());
-            mView.addView(childView, index);
-        } else {
-            if (i < 0) {
-                i = mRenderObjectImpl.getChildCount() - 1;
-            }
-            mView.addView(childView, i);
-        }
-
-    }
-
     @SupposeUIThread
     public void collect(LynxUIAction action) {
         ((LynxView) mView).getHostImpl().collect(action);
