@@ -1,6 +1,7 @@
 // Copyright 2017 The Lynx Authors. All rights reserved.
 
 #include <sstream>
+#include <runtime/base/lynx_value.h>
 #include "runtime/base/lynx_value.h"
 #include "runtime/jsc/objects/object_template.h"
 #include "runtime/jsc/objects/function_object.h"
@@ -72,19 +73,40 @@ namespace jscore {
             case LynxValue::Type::VALUE_LYNX_ARRAY: {
                 std::stringstream stream;
                 int length = value->data_.lynx_array->Size();
+                stream<<"[";
                 for (int i = 0; i < length; ++i) {
                     stream << ConvertToString(value->data_.lynx_array->Get(i));
                     if (i != length - 1) {
-                        stream << ',';
+                        stream << ", ";
                     }
                 }
+                stream<<"]";
                 result = stream.str();
             }
                 break;
-            case LynxValue::Type::VALUE_LYNX_OBJECT:
+            case LynxValue::Type::VALUE_LYNX_OBJECT: {
+                    std::stringstream stream;
+                    int length = value->data_.lynx_object->Size();
+                    stream << "{";
+                    for (int i = 0; i < length; ++i) {
+                        std::string name = value->data_.lynx_object->GetName(i);
+                        stream << name << ": "
+                        << ConvertToString(value->data_.lynx_object->GetProperty(name));
+                        if (i != length - 1) {
+                            stream << ", ";
+                        }
+                    }
+                    stream << "}";
+                    result = stream.str();
+                }
+                break;
             case LynxValue::Type::VALUE_LYNX_FUNCTION_OBJECT:
+                result = "function";
+                break;
             case LynxValue::Type::VALUE_LYNX_OBJECT_TEMPLATE:
+                break;
             case LynxValue::Type::VALUE_NULL:
+                result = "null";
                 break;
             default:
                 break;
