@@ -38,6 +38,13 @@ namespace jscore {
                 class_wrap->SetJSStaticFunction(it.first.c_str(),
                                                 ObjectTemplate::MethodCallback, NULL);
             }
+
+            const std::unordered_map<std::string, JSObjectCallAsFunctionCallback>& raw_method_map
+                    = object->raw_methods();
+            for (auto& it : raw_method_map) {
+                class_wrap->SetJSStaticFunction(it.first.c_str(),
+                                                it.second, NULL);
+            }
         }
     }
 

@@ -8,6 +8,8 @@
 #include <vector>
 #include "base/scoped_ptr.h"
 
+#include "JavaScriptCore/JavaScript.h"
+
 namespace jscore {
     class LynxValue;
     class LynxArray;
@@ -33,6 +35,8 @@ namespace jscore {
         virtual ~LynxObjectTemplate();
         void RegisterMethodCallback(std::string method_name,
                                     LynxMethodCallback callback);
+        void RegisterRawMethodCallback(std::string method_name,
+                                       JSObjectCallAsFunctionCallback callback);
         void RegisterAccessorCallback(std::string field_name,
                                      LynxGetPropertyCallback get_callback,
                                      LynxSetPropertyCallback set_callback);
@@ -53,6 +57,10 @@ namespace jscore {
             return methods_;
         }
 
+        inline const std::unordered_map<std::string, JSObjectCallAsFunctionCallback>& raw_methods() const {
+            return raw_methods_;
+        }
+
         inline const std::unordered_map<std::string, Field>& fields() const {
             return fields_;
         }
@@ -68,6 +76,7 @@ namespace jscore {
     private:
 
         std::unordered_map<std::string, LynxMethodCallback> methods_;
+        std::unordered_map<std::string, JSObjectCallAsFunctionCallback> raw_methods_;
         std::unordered_map<std::string, Field> fields_;
         std::string class_name_;
 
