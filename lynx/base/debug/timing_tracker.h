@@ -4,15 +4,16 @@
 #define BASE_DEBUG_TIMING_PERFORMANCE_H_
 
 
-#include<sys/time.h>
+#include <chrono>
+
 namespace base {
-    class TimeingTracker {
+    class TimingTracker {
     public:
-        TimeingTracker(const char *log);
-        ~TimeingTracker();
+        TimingTracker(const char *log);
+        ~TimingTracker();
 
     private:
-        timeval time_;
+        std::chrono::time_point<std::chrono::system_clock, std::chrono::nanoseconds> start_;
         const char *log_;
     };
 }

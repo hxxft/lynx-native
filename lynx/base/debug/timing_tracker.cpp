@@ -4,18 +4,15 @@
 #include "base/debug/timing_tracker.h"
 
 namespace base {
-    TimeingTracker::TimeingTracker(const char* log) {
+    TimingTracker::TimingTracker(const char* log) {
         log_ = log;
-        gettimeofday(&time_, nullptr);
+        start_ = std::chrono::high_resolution_clock::now();
     }
 
-    TimeingTracker::~TimeingTracker() {
-        timeval end;
-        gettimeofday(&end, nullptr);
-
-        long micros_start = (time_.tv_sec * 1000 * 1000) + (time_.tv_usec);
-        long micros_end = (end.tv_sec * 1000 * 1000) + (end.tv_usec);
-        long interval = micros_end - micros_start;
-        LOGD("lynx-timing", "%s end(%lfms)",log_, interval/1000.0);
+    TimingTracker::~TimingTracker() {
+        auto finish = std::chrono::high_resolution_clock::now();
+        double cost = std::chrono::duration_cast<std::chrono::nanoseconds>(finish-start_).count()
+                      / 1000000.0;
+        LOGD("lynx-timing", "%s end(%lfms)", log_, cost);
     }
 }
