@@ -61,9 +61,9 @@ namespace jscore {
         static base::ScopedPtr<LynxValue> GetCancelableCallback(LynxObjectTemplate* object);
         static base::ScopedPtr<LynxValue> GetTargetCallback(LynxObjectTemplate* object);
         static base::ScopedPtr<LynxValue> GetCurrentTargetCallback(LynxObjectTemplate* object);
-        static base::ScopedPtr<LynxValue> StopPropagationCallback(LynxObjectTemplate* object, base::ScopedPtr<LynxArray> value);
-        static base::ScopedPtr<LynxValue> PreventDefaultCallback(LynxObjectTemplate* object, base::ScopedPtr<LynxArray> value);
-        static base::ScopedPtr<LynxValue> InitEventCallback(LynxObjectTemplate* object, base::ScopedPtr<LynxArray> value);
+        static base::ScopedPtr<LynxValue> StopPropagationCallback(LynxObjectTemplate* object, base::ScopedPtr<LynxArray>& value);
+        static base::ScopedPtr<LynxValue> PreventDefaultCallback(LynxObjectTemplate* object, base::ScopedPtr<LynxArray>& value);
+        static base::ScopedPtr<LynxValue> InitEventCallback(LynxObjectTemplate* object, base::ScopedPtr<LynxArray>& value);
         void Reset();
 
         lynx::RenderObject* current_target_;

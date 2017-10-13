@@ -15,17 +15,17 @@ namespace jscore {
 
     }
 
-    void LynxObjectTemplate::RegisterMethodCallback(std::string method_name,
+    void LynxObjectTemplate::RegisterMethodCallback(const std::string& method_name,
                                                 LynxMethodCallback callback) {
         methods_[method_name] = callback;
     }
 
-    void LynxObjectTemplate::RegisterRawMethodCallback(std::string method_name,
+    void LynxObjectTemplate::RegisterRawMethodCallback(const std::string& method_name,
                                                        JSObjectCallAsFunctionCallback callback) {
         raw_methods_[method_name] = callback;
     }
 
-    void LynxObjectTemplate::RegisterAccessorCallback(std::string field_name,
+    void LynxObjectTemplate::RegisterAccessorCallback(const std::string& field_name,
                                                         LynxGetPropertyCallback get_callback,
                                                         LynxSetPropertyCallback set_callback) {
         Field field;
@@ -38,7 +38,8 @@ namespace jscore {
         fields_[field_name] = field;
     }
 
-    base::ScopedPtr<LynxValue> LynxObjectTemplate::MethodCallback(std::string name, base::ScopedPtr<LynxArray> value) {
+    base::ScopedPtr<LynxValue>
+    LynxObjectTemplate::MethodCallback(const std::string& name, base::ScopedPtr<LynxArray>& value) {
         auto it = methods_.find(name);
         if (it != methods_.end()) {
             LynxMethodCallback callback = it->second;
@@ -47,7 +48,8 @@ namespace jscore {
         return base::ScopedPtr<LynxValue>();
     }
 
-    void LynxObjectTemplate::SetPropertyCallback(std::string name, base::ScopedPtr<LynxValue> value) {
+    void LynxObjectTemplate::SetPropertyCallback(const std::string& name,
+                                                 base::ScopedPtr<LynxValue> value) {
         auto it = fields_.find(name);
         if (it != fields_.end()) {
             Field field = it->second;
@@ -58,7 +60,7 @@ namespace jscore {
         }
     }
 
-    base::ScopedPtr<LynxValue> LynxObjectTemplate::GetPropertyCallback(std::string name) {
+    base::ScopedPtr<LynxValue> LynxObjectTemplate::GetPropertyCallback(const std::string& name) {
         auto it = fields_.find(name);
         if (it != fields_.end()) {
             Field field = it->second;

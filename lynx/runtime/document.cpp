@@ -54,7 +54,7 @@ namespace jscore {
     }
 
     base::ScopedPtr<LynxValue>
-    Document::QuerySelectorCallback(LynxObjectTemplate* object, base::ScopedPtr<LynxArray> array) {
+    Document::QuerySelectorCallback(LynxObjectTemplate* object, base::ScopedPtr<LynxArray>& array) {
         Document* document = static_cast<Document*>(object);
         if(array.Get() != NULL && array->Size() > 0) {
             std::string text = array->Get(0)->data_.str;
@@ -81,7 +81,7 @@ namespace jscore {
 
     base::ScopedPtr<LynxValue>
     Document::CreateElementCallback(LynxObjectTemplate* object,
-                                    base::ScopedPtr<LynxArray> array) {
+                                    base::ScopedPtr<LynxArray>& array) {
         Document* document = static_cast<Document*>(object);
         if (array.Get() != NULL
             && array->Size() > 0
@@ -97,13 +97,13 @@ namespace jscore {
 
     base::ScopedPtr<LynxValue>
     Document::CreateDomCallback(LynxObjectTemplate* object,
-                                base::ScopedPtr<LynxArray> array) {
+                                base::ScopedPtr<LynxArray>& array) {
         return base::ScopedPtr<LynxValue>(NULL);
     }
 
     base::ScopedPtr<LynxValue>
     Document::CreateTextNodeCallback(LynxObjectTemplate* object,
-                                base::ScopedPtr<LynxArray> array) {
+                                base::ScopedPtr<LynxArray>& array) {
         Document* document = static_cast<Document*>(object);
         if (array.Get() != NULL
             && array->Size() > 0
@@ -119,32 +119,32 @@ namespace jscore {
 
     base::ScopedPtr<LynxValue>
     Document::AddEventListenerCallback(LynxObjectTemplate* object,
-                                       base::ScopedPtr<LynxArray> array) {
+                                       base::ScopedPtr<LynxArray>& array) {
         return base::ScopedPtr<LynxValue>(NULL);
     }
 
     base::ScopedPtr<LynxValue>
     Document::RemoveEventListenerCallback(LynxObjectTemplate* object,
-                                          base::ScopedPtr<LynxArray> array) {
+                                          base::ScopedPtr<LynxArray>& array) {
 
         return base::ScopedPtr<LynxValue>(NULL);
     }
 
     base::ScopedPtr<LynxValue>
     Document::DispatchEventCallback(LynxObjectTemplate* object,
-                                    base::ScopedPtr<LynxArray> array) {
+                                    base::ScopedPtr<LynxArray>& array) {
         return base::ScopedPtr<LynxValue>(NULL);
     }
 
     base::ScopedPtr<LynxValue>
     Document::CreateEventCallback(LynxObjectTemplate* object,
-                                  base::ScopedPtr<LynxArray> array) {
+                                  base::ScopedPtr<LynxArray>& array) {
         return base::ScopedPtr<LynxValue>(NULL);
     }
 
     base::ScopedPtr<LynxValue>
     Document::GetElementByIdCallback(LynxObjectTemplate* object,
-                                     base::ScopedPtr<LynxArray> array) {
+                                     base::ScopedPtr<LynxArray>& array) {
         Document* document = static_cast<Document*>(object);
         if (array.Get() != NULL
                 && array->Size() > 0

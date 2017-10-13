@@ -19,7 +19,7 @@ namespace jscore {
     }
 
     base::ScopedPtr<LynxValue>
-    Console::LogCallback(LynxObjectTemplate* object, base::ScopedPtr<LynxArray> array) {
+    Console::LogCallback(LynxObjectTemplate* object, base::ScopedPtr<LynxArray>& array) {
         if (array.Get() != NULL && array->Size() > 0) {
             if(array->Size() == 1) {
                 LOGD("lynx-js-log", "%s", JSCHelper::ConvertToString(array->Get(0)).c_str());
@@ -31,4 +31,5 @@ namespace jscore {
         }
         return base::ScopedPtr<LynxValue>(NULL);
     }
+
 }

@@ -20,7 +20,7 @@ namespace jscore {
     public:
 
         typedef base::ScopedPtr<jscore::LynxValue> (*LynxMethodCallback)
-                (jscore::LynxObjectTemplate*, base::ScopedPtr<jscore::LynxArray>);
+                (jscore::LynxObjectTemplate*, base::ScopedPtr<jscore::LynxArray>&);
         typedef base::ScopedPtr<jscore::LynxValue> (*LynxGetPropertyCallback)
                 (jscore::LynxObjectTemplate*);
         typedef void (*LynxSetPropertyCallback)
@@ -33,17 +33,18 @@ namespace jscore {
 
         LynxObjectTemplate();
         virtual ~LynxObjectTemplate();
-        void RegisterMethodCallback(std::string method_name,
+        void RegisterMethodCallback(const std::string& method_name,
                                     LynxMethodCallback callback);
-        void RegisterRawMethodCallback(std::string method_name,
+        void RegisterRawMethodCallback(const std::string& method_name,
                                        JSObjectCallAsFunctionCallback callback);
-        void RegisterAccessorCallback(std::string field_name,
+        void RegisterAccessorCallback(const std::string& field_name,
                                      LynxGetPropertyCallback get_callback,
                                      LynxSetPropertyCallback set_callback);
 
-        base::ScopedPtr<LynxValue> MethodCallback(std::string name, base::ScopedPtr<LynxArray> value);
-        void SetPropertyCallback(std::string name, base::ScopedPtr<LynxValue> value);
-        base::ScopedPtr<LynxValue> GetPropertyCallback(std::string name);
+        base::ScopedPtr<LynxValue> MethodCallback(const std::string& name,
+                                                  base::ScopedPtr<LynxArray>& value);
+        void SetPropertyCallback(const std::string& name, base::ScopedPtr<LynxValue> value);
+        base::ScopedPtr<LynxValue> GetPropertyCallback(const std::string& name);
 
         inline void set_class_name(std::string class_name) {
             class_name_ = class_name;

@@ -13,7 +13,7 @@ namespace jscore {
 
     private:
         static base::ScopedPtr<LynxValue>
-        LogCallback(LynxObjectTemplate* object, base::ScopedPtr<LynxArray> array);
+        LogCallback(LynxObjectTemplate* object, base::ScopedPtr<LynxArray>& array);
     };
 
 }

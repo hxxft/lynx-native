@@ -32,51 +32,51 @@ namespace jscore {
         JSContext* context_;
 
         static base::ScopedPtr<LynxValue>
-        AppendChildCallback(LynxObjectTemplate* object, base::ScopedPtr<LynxArray> array);
+        AppendChildCallback(LynxObjectTemplate* object, base::ScopedPtr<LynxArray>& array);
         static base::ScopedPtr<LynxValue>
-        AppendChildrenCallback(LynxObjectTemplate* object, base::ScopedPtr<LynxArray> array);
+        AppendChildrenCallback(LynxObjectTemplate* object, base::ScopedPtr<LynxArray>& array);
         static base::ScopedPtr<LynxValue>
-        InsertChildAtIndexCallback(LynxObjectTemplate* object, base::ScopedPtr<LynxArray> array);
+        InsertChildAtIndexCallback(LynxObjectTemplate* object, base::ScopedPtr<LynxArray>& array);
         static base::ScopedPtr<LynxValue>
-        RemoveChildByIndexCallback(LynxObjectTemplate* object, base::ScopedPtr<LynxArray> array);
+        RemoveChildByIndexCallback(LynxObjectTemplate* object, base::ScopedPtr<LynxArray>& array);
         static base::ScopedPtr<LynxValue>
-        InsertBeforeCallback(LynxObjectTemplate* object, base::ScopedPtr<LynxArray> array);
+        InsertBeforeCallback(LynxObjectTemplate* object, base::ScopedPtr<LynxArray>& array);
         static base::ScopedPtr<LynxValue>
-        RemoveChildCallback(LynxObjectTemplate* object, base::ScopedPtr<LynxArray> array);
+        RemoveChildCallback(LynxObjectTemplate* object, base::ScopedPtr<LynxArray>& array);
         static base::ScopedPtr<LynxValue>
-        GetChildByIndexCallback(LynxObjectTemplate* object, base::ScopedPtr<LynxArray> array);
+        GetChildByIndexCallback(LynxObjectTemplate* object, base::ScopedPtr<LynxArray>& array);
         static base::ScopedPtr<LynxValue>
-        AddEventListenerCallback(LynxObjectTemplate* object, base::ScopedPtr<LynxArray> array);
+        AddEventListenerCallback(LynxObjectTemplate* object, base::ScopedPtr<LynxArray>& array);
         static base::ScopedPtr<LynxValue>
-        RemoveEventListenerCallback(LynxObjectTemplate* object, base::ScopedPtr<LynxArray> array);
+        RemoveEventListenerCallback(LynxObjectTemplate* object, base::ScopedPtr<LynxArray>& array);
         static base::ScopedPtr<LynxValue>
-        SetAttributionCallback(LynxObjectTemplate* object, base::ScopedPtr<LynxArray> array);
+        SetAttributionCallback(LynxObjectTemplate* object, base::ScopedPtr<LynxArray>& array);
         static base::ScopedPtr<LynxValue>
-        SetAttributeCallback(LynxObjectTemplate* object, base::ScopedPtr<LynxArray> array);
+        SetAttributeCallback(LynxObjectTemplate* object, base::ScopedPtr<LynxArray>& array);
         static base::ScopedPtr<LynxValue>
-        HasAttributeCallback(LynxObjectTemplate* object, base::ScopedPtr<LynxArray> array);
+        HasAttributeCallback(LynxObjectTemplate* object, base::ScopedPtr<LynxArray>& array);
         static base::ScopedPtr<LynxValue>
-        RemoveAttributeCallback(LynxObjectTemplate* object, base::ScopedPtr<LynxArray> array);
+        RemoveAttributeCallback(LynxObjectTemplate* object, base::ScopedPtr<LynxArray>& array);
         static base::ScopedPtr<LynxValue>
-        SetStyleCallback(LynxObjectTemplate* object, base::ScopedPtr<LynxArray> array);
+        SetStyleCallback(LynxObjectTemplate* object, base::ScopedPtr<LynxArray>& array);
         static base::ScopedPtr<LynxValue>
-        SetTextCallback(LynxObjectTemplate* object, base::ScopedPtr<LynxArray> array);
+        SetTextCallback(LynxObjectTemplate* object, base::ScopedPtr<LynxArray>& array);
         static base::ScopedPtr<LynxValue>
-        GetTextCallback(LynxObjectTemplate* object, base::ScopedPtr<LynxArray> array);
+        GetTextCallback(LynxObjectTemplate* object, base::ScopedPtr<LynxArray>& array);
         static base::ScopedPtr<LynxValue>
-        StartCallback(LynxObjectTemplate* object, base::ScopedPtr<LynxArray> array);
+        StartCallback(LynxObjectTemplate* object, base::ScopedPtr<LynxArray>& array);
         static base::ScopedPtr<LynxValue>
-        StopCallback(LynxObjectTemplate* object, base::ScopedPtr<LynxArray> array);
+        StopCallback(LynxObjectTemplate* object, base::ScopedPtr<LynxArray>& array);
         static base::ScopedPtr<LynxValue>
-        StopAnimateCallback(LynxObjectTemplate* object, base::ScopedPtr<LynxArray> array);
+        StopAnimateCallback(LynxObjectTemplate* object, base::ScopedPtr<LynxArray>& array);
         static base::ScopedPtr<LynxValue>
-        StartAnimateWithCallbackCallback(LynxObjectTemplate* object, base::ScopedPtr<LynxArray> array);
+        StartAnimateWithCallbackCallback(LynxObjectTemplate* object, base::ScopedPtr<LynxArray>& array);
         static base::ScopedPtr<LynxValue>
-        SetPullViewCallback(LynxObjectTemplate* object, base::ScopedPtr<LynxArray> array);
+        SetPullViewCallback(LynxObjectTemplate* object, base::ScopedPtr<LynxArray>& array);
         static base::ScopedPtr<LynxValue>
-        ClosePullViewCallback(LynxObjectTemplate* object, base::ScopedPtr<LynxArray> array);
+        ClosePullViewCallback(LynxObjectTemplate* object, base::ScopedPtr<LynxArray>& array);
         static base::ScopedPtr<LynxValue>
-        HasChildNodesCallback(LynxObjectTemplate* object, base::ScopedPtr<LynxArray> array);
+        HasChildNodesCallback(LynxObjectTemplate* object, base::ScopedPtr<LynxArray>& array);
 
 
         static base::ScopedPtr<LynxValue> GetTagNameCallback(LynxObjectTemplate* object);
