@@ -18,6 +18,8 @@ SwiperView::SwiperView(
 }
 
 base::Size SwiperView::Measure(int width, int height) {
+    if (!ShouldRemeasure(width, height) || !IsDirty())
+        return measured_size_;
     measured_size_.height_ = 0;
     measured_size_.width_ = 0;
     base::Size measured_size;

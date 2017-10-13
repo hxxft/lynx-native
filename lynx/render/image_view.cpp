@@ -20,7 +20,7 @@ ImageView::ImageView(const char *tag_name,
 }
 
 base::Size ImageView::Measure(int width, int height) {
-    if (IsDirty()) {
+    if (ShouldRemeasure(width, height) || IsDirty()) {
         if (!CSS_IS_UNDEFINED(style_.height())) {
             measured_size_.height_ = style_.height();
         }
@@ -39,9 +39,10 @@ void ImageView::SetAttribute(const std::string &key, const std::string &value) {
 
     if(key.compare(kImageSrcAttribute) == 0) {
         RenderObject::SetAttribute(key, render_tree_host_->page_location() + value);
-    }else{
+    } else {
         RenderObject::SetAttribute(key, value);
     }
+
 }
 
 }  // namespace lynx

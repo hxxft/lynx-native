@@ -69,6 +69,13 @@ class Position {
         return true;
     }
 
+    bool NeedToReset(int left, int top, int right, int bottom) {
+        return !(left_ == left &&
+            top_ == top &&
+            right_ == right &&
+            bottom_ == bottom);
+    }
+
     inline int GetWidth() const {
         int width = right_ - left_;
         return width > 0 ? width : 0;
