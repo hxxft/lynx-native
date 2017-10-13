@@ -72,7 +72,7 @@ namespace jscore {
     }
 
     base::ScopedPtr<LynxValue>
-    Element::AppendChildCallback(LynxObjectTemplate* object, base::ScopedPtr<LynxArray> array) {
+    Element::AppendChildCallback(LynxObjectTemplate* object, base::ScopedPtr<LynxArray>& array) {
         Element *element = static_cast<Element *>(object);
         if (array.Get() != NULL && array->Size() > 0) {
             lynx::RenderObject* render_object = element->render_object();
@@ -88,7 +88,7 @@ namespace jscore {
     }
 
     base::ScopedPtr<LynxValue>
-    Element::AppendChildrenCallback(LynxObjectTemplate* object, base::ScopedPtr<LynxArray> array) {
+    Element::AppendChildrenCallback(LynxObjectTemplate* object, base::ScopedPtr<LynxArray>& array) {
         Element *element = static_cast<Element *>(object);
         if (array.Get() != NULL && array->Size() > 0) {
             lynx::RenderObject* render_object = element->render_object();
@@ -107,7 +107,7 @@ namespace jscore {
     }
 
     base::ScopedPtr<LynxValue>
-    Element::InsertChildAtIndexCallback(LynxObjectTemplate* object, base::ScopedPtr<LynxArray> array) {
+    Element::InsertChildAtIndexCallback(LynxObjectTemplate* object, base::ScopedPtr<LynxArray>& array) {
         Element *element = static_cast<Element *>(object);
         if (array.Get() != NULL && array->Size() > 1) {
             lynx::RenderObject* render_object = element->render_object();
@@ -124,7 +124,7 @@ namespace jscore {
     }
 
     base::ScopedPtr<LynxValue>
-    Element::RemoveChildByIndexCallback(LynxObjectTemplate* object, base::ScopedPtr<LynxArray> array) {
+    Element::RemoveChildByIndexCallback(LynxObjectTemplate* object, base::ScopedPtr<LynxArray>& array) {
         Element *element = static_cast<Element *>(object);
         if (array.Get() != NULL && array->Size() > 0) {
             lynx::RenderObject* render_parent = element->render_object();
@@ -140,7 +140,7 @@ namespace jscore {
     }
 
     base::ScopedPtr<LynxValue>
-    Element::InsertBeforeCallback(LynxObjectTemplate* object, base::ScopedPtr<LynxArray> array) {
+    Element::InsertBeforeCallback(LynxObjectTemplate* object, base::ScopedPtr<LynxArray>& array) {
         Element *element = static_cast<Element *>(object);
         if (array.Get() != NULL && array->Size() > 0) {
             lynx::RenderObject* render_object = element->render_object();
@@ -162,7 +162,7 @@ namespace jscore {
     }
 
     base::ScopedPtr<LynxValue>
-    Element::RemoveChildCallback(LynxObjectTemplate* object, base::ScopedPtr<LynxArray> array) {
+    Element::RemoveChildCallback(LynxObjectTemplate* object, base::ScopedPtr<LynxArray>& array) {
         Element *element = static_cast<Element *>(object);
         if (array.Get() != NULL && array->Size() > 0) {
             lynx::RenderObject* render_object = element->render_object();
@@ -176,7 +176,7 @@ namespace jscore {
     }
 
     base::ScopedPtr<LynxValue>
-    Element::GetChildByIndexCallback(LynxObjectTemplate* object, base::ScopedPtr<LynxArray> array) {
+    Element::GetChildByIndexCallback(LynxObjectTemplate* object, base::ScopedPtr<LynxArray>& array) {
         Element *element = static_cast<Element *>(object);
         if (array.Get() != NULL && array->Size() > 0) {
             lynx::RenderObject* render_object = element->render_object_.Get();
@@ -191,7 +191,7 @@ namespace jscore {
     }
 
     base::ScopedPtr<LynxValue>
-    Element::AddEventListenerCallback(LynxObjectTemplate* object, base::ScopedPtr<LynxArray> array) {
+    Element::AddEventListenerCallback(LynxObjectTemplate* object, base::ScopedPtr<LynxArray>& array) {
         Element *element = static_cast<Element *>(object);
         if (array.Get() != NULL && array->Size() > 1) {
             lynx::RenderObject* render_object = element->render_object();
@@ -207,7 +207,7 @@ namespace jscore {
     }
 
     base::ScopedPtr<LynxValue>
-    Element::RemoveEventListenerCallback(LynxObjectTemplate* object, base::ScopedPtr<LynxArray> array) {
+    Element::RemoveEventListenerCallback(LynxObjectTemplate* object, base::ScopedPtr<LynxArray>& array) {
         Element *element = static_cast<Element *>(object);
         if (array.Get() != NULL && array->Size() > 1) {
             lynx::RenderObject* render_object = element->render_object();
@@ -219,7 +219,7 @@ namespace jscore {
     }
 
     base::ScopedPtr<LynxValue>
-    Element::SetAttributionCallback(LynxObjectTemplate* object, base::ScopedPtr<LynxArray> array) {
+    Element::SetAttributionCallback(LynxObjectTemplate* object, base::ScopedPtr<LynxArray>& array) {
         Element *element = static_cast<Element *>(object);
         if (array.Get() != NULL
             && array->Size() > 0
@@ -236,7 +236,7 @@ namespace jscore {
     }
 
     base::ScopedPtr<LynxValue>
-    Element::SetAttributeCallback(LynxObjectTemplate* object, base::ScopedPtr<LynxArray> array) {
+    Element::SetAttributeCallback(LynxObjectTemplate* object, base::ScopedPtr<LynxArray>& array) {
         Element *element = static_cast<Element *>(object);
         if(array.Get() != NULL && array->Size() == 2
            && array->Get(0)->type_ == LynxValue::VALUE_STRING) {
@@ -248,7 +248,7 @@ namespace jscore {
     }
 
     base::ScopedPtr<LynxValue>
-    Element::HasAttributeCallback(LynxObjectTemplate* object, base::ScopedPtr<LynxArray> array) {
+    Element::HasAttributeCallback(LynxObjectTemplate* object, base::ScopedPtr<LynxArray>& array) {
         Element *element = static_cast<Element *>(object);
         if(array.Get() != NULL && array->Size() == 1) {
             lynx::RenderObject* render_object = element->render_object();
@@ -259,7 +259,7 @@ namespace jscore {
     }
 
     base::ScopedPtr<LynxValue>
-    Element::RemoveAttributeCallback(LynxObjectTemplate* object, base::ScopedPtr<LynxArray> array) {
+    Element::RemoveAttributeCallback(LynxObjectTemplate* object, base::ScopedPtr<LynxArray>& array) {
         Element *element = static_cast<Element *>(object);
         if(array.Get() != NULL && array->Size() == 1) {
             lynx::RenderObject* render_object = element->render_object();
@@ -269,7 +269,7 @@ namespace jscore {
     }
 
     base::ScopedPtr<LynxValue>
-    Element::SetStyleCallback(LynxObjectTemplate* object, base::ScopedPtr<LynxArray> array) {
+    Element::SetStyleCallback(LynxObjectTemplate* object, base::ScopedPtr<LynxArray>& array) {
         /*
         Element *element = static_cast<Element *>(object);
         lynx::RenderObject* render_object = element->render_object();
@@ -292,7 +292,7 @@ namespace jscore {
     }
 
     base::ScopedPtr<LynxValue>
-    Element::SetTextCallback(LynxObjectTemplate* object, base::ScopedPtr<LynxArray> array) {
+    Element::SetTextCallback(LynxObjectTemplate* object, base::ScopedPtr<LynxArray>& array) {
         Element *element = static_cast<Element *>(object);
         if(array.Get() != NULL && array->Size() > 0) {
             lynx::RenderObject* render_object = element->render_object();
@@ -303,33 +303,33 @@ namespace jscore {
     }
 
     base::ScopedPtr<LynxValue>
-    Element::GetTextCallback(LynxObjectTemplate* object, base::ScopedPtr<LynxArray> array) {
+    Element::GetTextCallback(LynxObjectTemplate* object, base::ScopedPtr<LynxArray>& array) {
         Element *element = static_cast<Element *>(object);
         lynx::RenderObject* render_object = element->render_object_.Get();
         return base::ScopedPtr<LynxValue>(LynxValue::MakeString(render_object->GetText().c_str()));
     }
 
     base::ScopedPtr<LynxValue>
-    Element::StartCallback(LynxObjectTemplate* object, base::ScopedPtr<LynxArray> array) {
+    Element::StartCallback(LynxObjectTemplate* object, base::ScopedPtr<LynxArray>& array) {
 
         return base::ScopedPtr<LynxValue>(NULL);
     }
 
     base::ScopedPtr<LynxValue>
-    Element::StopCallback(LynxObjectTemplate* object, base::ScopedPtr<LynxArray> array) {
+    Element::StopCallback(LynxObjectTemplate* object, base::ScopedPtr<LynxArray>& array) {
 
         return base::ScopedPtr<LynxValue>(NULL);
     }
 
     base::ScopedPtr<LynxValue>
-    Element::StopAnimateCallback(LynxObjectTemplate* object, base::ScopedPtr<LynxArray> array) {
+    Element::StopAnimateCallback(LynxObjectTemplate* object, base::ScopedPtr<LynxArray>& array) {
 
         return base::ScopedPtr<LynxValue>(NULL);
     }
 
     base::ScopedPtr<LynxValue>
     Element::StartAnimateWithCallbackCallback(LynxObjectTemplate* object,
-                                              base::ScopedPtr<LynxArray> array) {
+                                              base::ScopedPtr<LynxArray>& array) {
         Element *element = static_cast<Element *>(object);
         lynx::RenderObject* render_object = element->render_object();
         if (array.Get() != NULL && array->Size() > 1) {
@@ -347,19 +347,19 @@ namespace jscore {
     }
 
     base::ScopedPtr<LynxValue>
-    Element::SetPullViewCallback(LynxObjectTemplate* object, base::ScopedPtr<LynxArray> array) {
+    Element::SetPullViewCallback(LynxObjectTemplate* object, base::ScopedPtr<LynxArray>& array) {
 
         return base::ScopedPtr<LynxValue>(NULL);
     }
 
     base::ScopedPtr<LynxValue>
-    Element::ClosePullViewCallback(LynxObjectTemplate* object, base::ScopedPtr<LynxArray> array) {
+    Element::ClosePullViewCallback(LynxObjectTemplate* object, base::ScopedPtr<LynxArray>& array) {
 
         return base::ScopedPtr<LynxValue>(NULL);
     }
 
     base::ScopedPtr<LynxValue>
-    Element::HasChildNodesCallback(LynxObjectTemplate* object, base::ScopedPtr<LynxArray> array) {
+    Element::HasChildNodesCallback(LynxObjectTemplate* object, base::ScopedPtr<LynxArray>& array) {
         Element* element = static_cast<Element*>(object);
         lynx::RenderObject* render_object = element->render_object();
 

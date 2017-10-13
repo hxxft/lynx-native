@@ -33,13 +33,13 @@ namespace jscore {
 
     base::ScopedPtr<LynxValue>
     Loader::TraceCallback(LynxObjectTemplate* object,
-                             base::ScopedPtr<LynxArray> array) {
+                             base::ScopedPtr<LynxArray>& array) {
         return LynxValue::MakeValueScoped(NULL);
     }
 
     base::ScopedPtr<LynxValue>
     Loader::ScriptCallback(LynxObjectTemplate* object,
-                             base::ScopedPtr<LynxArray> array) {
+                             base::ScopedPtr<LynxArray>& array) {
         Loader* loader = static_cast<Loader*>(object);
         if (array.Get() != NULL && array->Size() > 0
                 && array->Get(0)->type_ == LynxValue::Type::VALUE_STRING) {

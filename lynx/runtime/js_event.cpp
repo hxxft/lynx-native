@@ -73,21 +73,21 @@ namespace jscore {
 
     base::ScopedPtr<LynxValue>
     JSEvent::StopPropagationCallback(LynxObjectTemplate* object,
-                                     base::ScopedPtr<LynxArray> array) {
+                                     base::ScopedPtr<LynxArray>& array) {
         static_cast<JSEvent*>(object)->StopPropagation();
         return base::ScopedPtr<LynxValue>();
     }
 
     base::ScopedPtr<LynxValue>
     JSEvent::PreventDefaultCallback(LynxObjectTemplate* object,
-                                    base::ScopedPtr<LynxArray> array) {
+                                    base::ScopedPtr<LynxArray>& array) {
         static_cast<JSEvent*>(object)->PreventDefault();
         return base::ScopedPtr<LynxValue>();
     }
 
     base::ScopedPtr<LynxValue>
     JSEvent::InitEventCallback(LynxObjectTemplate* object,
-                               base::ScopedPtr<LynxArray> array) {
+                               base::ScopedPtr<LynxArray>& array) {
         static_cast<JSEvent*>(object)->InitEvent(array->Get(0)->data_.str,
                                                  array->Get(1)->data_.b,
                                                  array->Get(2)->data_.b);

@@ -56,7 +56,7 @@ namespace jscore {
     }
 
     base::ScopedPtr<LynxValue>
-    Location::ReplaceCallback(LynxObjectTemplate* object, base::ScopedPtr<LynxArray> array) {
+    Location::ReplaceCallback(LynxObjectTemplate* object, base::ScopedPtr<LynxArray>& array) {
         Location* location = static_cast<Location*>(object);
         if (array.Get() != NULL && array->Size() > 0) {
             LynxValue* value = array->Get(0);
@@ -70,7 +70,7 @@ namespace jscore {
 
 
     base::ScopedPtr<LynxValue>
-    Location::ReloadCallback(LynxObjectTemplate* object, base::ScopedPtr<LynxArray> array) {
+    Location::ReloadCallback(LynxObjectTemplate* object, base::ScopedPtr<LynxArray>& array) {
         Location* location = static_cast<Location*>(object);
         if (array.Get() != NULL && array->Size() > 0) {
             LynxValue* value = array->Get(0);
@@ -82,7 +82,7 @@ namespace jscore {
     }
 
     base::ScopedPtr<LynxValue>
-    Location::AssignCallback(LynxObjectTemplate *object, base::ScopedPtr<LynxArray> array) {
+    Location::AssignCallback(LynxObjectTemplate *object, base::ScopedPtr<LynxArray>& array) {
         Location* location = static_cast<Location*>(object);
         if (array.Get() != NULL && array->Size() > 0) {
             LynxValue* value = array->Get(0);

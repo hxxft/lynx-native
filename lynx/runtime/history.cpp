@@ -71,7 +71,7 @@ namespace jscore {
 
     base::ScopedPtr<LynxValue>
     History::ForwardCallback(LynxObjectTemplate* object,
-                             base::ScopedPtr<LynxArray> array) {
+                             base::ScopedPtr<LynxArray>& array) {
         History* history = static_cast<History*>(object);
         history->Forward();
         history->Load();
@@ -80,7 +80,7 @@ namespace jscore {
 
     base::ScopedPtr<LynxValue>
     History::BackCallback(LynxObjectTemplate* object,
-                             base::ScopedPtr<LynxArray> array) {
+                             base::ScopedPtr<LynxArray>& array) {
         History* history = static_cast<History*>(object);
         history->Back();
         history->Load();
@@ -89,7 +89,7 @@ namespace jscore {
 
     base::ScopedPtr<LynxValue>
     History::GoCallback(LynxObjectTemplate* object,
-                             base::ScopedPtr<LynxArray> array) {
+                             base::ScopedPtr<LynxArray>& array) {
         History* history = static_cast<History*>(object);
         if (array.Get() != NULL && array->Size() > 0) {
             LynxValue* value = array->Get(0);

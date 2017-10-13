@@ -24,23 +24,23 @@ namespace jscore {
         JSContext* context_;
 
         static base::ScopedPtr<LynxValue>
-        CreateElementCallback(LynxObjectTemplate* object, base::ScopedPtr<LynxArray> array);
+        CreateElementCallback(LynxObjectTemplate* object, base::ScopedPtr<LynxArray>& array);
         static base::ScopedPtr<LynxValue>
-        CreateDomCallback(LynxObjectTemplate* object, base::ScopedPtr<LynxArray> array);
+        CreateDomCallback(LynxObjectTemplate* object, base::ScopedPtr<LynxArray>& array);
         static base::ScopedPtr<LynxValue>
-        CreateTextNodeCallback(LynxObjectTemplate* object, base::ScopedPtr<LynxArray> array);
+        CreateTextNodeCallback(LynxObjectTemplate* object, base::ScopedPtr<LynxArray>& array);
         static base::ScopedPtr<LynxValue>
-        AddEventListenerCallback(LynxObjectTemplate* object, base::ScopedPtr<LynxArray> array);
+        AddEventListenerCallback(LynxObjectTemplate* object, base::ScopedPtr<LynxArray>& array);
         static base::ScopedPtr<LynxValue>
-        RemoveEventListenerCallback(LynxObjectTemplate* object, base::ScopedPtr<LynxArray> array);
+        RemoveEventListenerCallback(LynxObjectTemplate* object, base::ScopedPtr<LynxArray>& array);
         static base::ScopedPtr<LynxValue>
-        DispatchEventCallback(LynxObjectTemplate* object, base::ScopedPtr<LynxArray> array);
+        DispatchEventCallback(LynxObjectTemplate* object, base::ScopedPtr<LynxArray>& array);
         static base::ScopedPtr<LynxValue>
-        CreateEventCallback(LynxObjectTemplate* object, base::ScopedPtr<LynxArray> array);
+        CreateEventCallback(LynxObjectTemplate* object, base::ScopedPtr<LynxArray>& array);
         static base::ScopedPtr<LynxValue>
-        GetElementByIdCallback(LynxObjectTemplate* object, base::ScopedPtr<LynxArray> array);
+        GetElementByIdCallback(LynxObjectTemplate* object, base::ScopedPtr<LynxArray>& array);
         static base::ScopedPtr<LynxValue>
-        QuerySelectorCallback(LynxObjectTemplate* object, base::ScopedPtr<LynxArray> array);
+        QuerySelectorCallback(LynxObjectTemplate* object, base::ScopedPtr<LynxArray>& array);
 
         static base::ScopedPtr<LynxValue> GetDomainCallback(LynxObjectTemplate* object);
         static base::ScopedPtr<LynxValue> GetCookieCallback(LynxObjectTemplate* object);
