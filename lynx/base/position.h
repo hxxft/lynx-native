@@ -69,6 +69,16 @@ class Position {
         return true;
     }
 
+    bool NeedToUpdate(int left, int top, int right, int bottom) {
+        if (left_ == left &&
+                top_ == top &&
+                right_ == right &&
+                bottom_ == bottom) {
+            return false;
+        }
+        return true;
+    }
+
     inline int GetWidth() const {
         return right_ - left_;
     }

@@ -164,7 +164,9 @@ base::Size RenderObject::Measure(int width, int height) {
     if (old_size.Update(measured_size_.width_, measured_size_.height_) && !IsInvisible()) {
         base::Size size(base::Size::Descriptor::GetSize(measured_size_.width_),
                         base::Size::Descriptor::GetSize(measured_size_.height_));
-        RenderCommand* cmd = lynx_new RendererSizeUpdateCommand(impl(), size, RenderCommand::CMD_SET_SIZE);
+        RenderCommand* cmd = lynx_new RendererSizeUpdateCommand(impl(),
+                                                                size,
+                                                                RenderCommand::CMD_SET_SIZE);
         render_tree_host_->UpdateRenderObject(cmd);
     }
     return measured_size_;
@@ -176,10 +178,12 @@ void RenderObject::Layout(int left, int top, int right, int bottom) {
     offset_height_ = bottom - top;
     offset_width_ = right - left;
 
-    if (measured_position_.Update(left, top, right, bottom) && !IsInvisible()) {
-        base::Position position(measured_position_);
+    if (measured_position_.NeedToUpdate(left, top, right, bottom) && !IsInvisible()) {
+        base::Position position(left, top, right, bottom);
         RecalculateLayoutPosition(position);
-        RenderCommand* cmd = lynx_new RendererPosUpdateCommand(impl(), position, RenderCommand::CMD_SET_POSITION);
+        RenderCommand* cmd = lynx_new RendererPosUpdateCommand(impl(),
+                                                               position,
+                                                               RenderCommand::CMD_SET_POSITION);
         render_tree_host_->UpdateRenderObject(cmd);
     }
     LayoutObject::Layout(left, top, right, bottom);
@@ -188,7 +192,10 @@ void RenderObject::Layout(int left, int top, int right, int bottom) {
 void RenderObject::SetText(const std::string& text) {
     text_ = text;
     if (!IsInvisible()) {
-        RenderCommand* cmd = lynx_new RendererAttrUpdateCommand(impl(), "", text, RenderCommand::CMD_SET_LABEL_TEXT);
+        RenderCommand* cmd = lynx_new RendererAttrUpdateCommand(impl(),
+                                                                "",
+                                                                text,
+                                                                RenderCommand::CMD_SET_LABEL_TEXT);
         render_tree_host_->UpdateRenderObject(cmd);
     }
     Dirty();
