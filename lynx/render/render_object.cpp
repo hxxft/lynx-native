@@ -271,16 +271,12 @@ void RenderObject::FlushStyle() {
 }
 
 void RenderObject::SetScrollLeft(int scroll_left) {
-    base::ScopedPtr<jscore::LynxValue> param = jscore::LynxValue::MakeValueScoped(
-            jscore::LynxValue::MakeInt(scroll_left)
-    );
+    base::ScopedPtr<jscore::LynxValue> param = jscore::LynxValue::MakeInt(scroll_left);
     SetData(RENDER_OBJECT_ATTRS::SCROLL_LEFT, param);
 }
 
 void RenderObject::SetScrollTop(int scroll_top) {
-    base::ScopedPtr<jscore::LynxValue> param = jscore::LynxValue::MakeValueScoped(
-            jscore::LynxValue::MakeInt(scroll_top)
-    );
+    base::ScopedPtr<jscore::LynxValue> param = jscore::LynxValue::MakeInt(scroll_top);
     SetData(RENDER_OBJECT_ATTRS::SCROLL_TOP, param);
 }
 

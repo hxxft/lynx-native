@@ -31,7 +31,7 @@ namespace base {
             static std::string ConvertToString(JNIEnv* env, jstring value);
 
             static base::android::ScopedLocalJavaRef<jobject> ConvertToJNIObject
-                    (JNIEnv *env, jscore::LynxValue *);
+                    (JNIEnv *env, jscore::LynxValue*);
             static base::android::ScopedLocalJavaRef<jobjectArray> ConvertToJNIObjectArray
                     (JNIEnv* env, jscore::LynxArray*);
             static base::android::ScopedLocalJavaRef<jobject> ConvertToJNIArray
@@ -64,39 +64,41 @@ namespace base {
                 return (bool)(value == JNI_TRUE);
             }
 
-            static jscore::LynxObject* ConvertToLynxObject(JNIEnv *env,
+            static base::ScopedPtr<jscore::LynxObject> ConvertToLynxObject(JNIEnv *env,
                                                            jobject value);
-            static jscore::LynxFunctionObject* ConvertToLynxFunctionObject(JNIEnv *env,
-                                                                           jobject value);
-            static jscore::LynxArray* ConvertToLynxArray(JNIEnv *env,
+            static base::ScopedPtr<jscore::LynxFunctionObject> ConvertToLynxFunctionObject(
+                    JNIEnv *env,
+                    jobject value);
+            static base::ScopedPtr<jscore::LynxArray> ConvertToLynxArray(JNIEnv *env,
                                                          jobject value);
-            static jscore::LynxArray* ConvertToLynxArray(JNIEnv *env,
+            static base::ScopedPtr<jscore::LynxArray> ConvertToLynxArray(JNIEnv *env,
                                                          jobject value,
                                                          char type);
-            static jscore::LynxArray* ConvertToLynxArray(JNIEnv *env,
+            static base::ScopedPtr<jscore::LynxArray> ConvertToLynxArray(JNIEnv *env,
                                                          jintArray java_array);
-            static jscore::LynxArray* ConvertToLynxArray(JNIEnv *env,
+            static base::ScopedPtr<jscore::LynxArray> ConvertToLynxArray(JNIEnv *env,
                                                          jshortArray java_array);
-            static jscore::LynxArray* ConvertToLynxArray(JNIEnv *env,
+            static base::ScopedPtr<jscore::LynxArray> ConvertToLynxArray(JNIEnv *env,
                                                          jlongArray java_array);
-            static jscore::LynxArray* ConvertToLynxArray(JNIEnv *env,
+            static base::ScopedPtr<jscore::LynxArray> ConvertToLynxArray(JNIEnv *env,
                                                          jfloatArray java_array);
-            static jscore::LynxArray* ConvertToLynxArray(JNIEnv *env,
+            static base::ScopedPtr<jscore::LynxArray> ConvertToLynxArray(JNIEnv *env,
                                                          jdoubleArray java_array);
-            static jscore::LynxArray* ConvertToLynxArray(JNIEnv *env,
+            static base::ScopedPtr<jscore::LynxArray> ConvertToLynxArray(JNIEnv *env,
                                                          jbooleanArray java_array);
-            static jscore::LynxArray* ConvertToLynxArray(JNIEnv *env,
+            static base::ScopedPtr<jscore::LynxArray> ConvertToLynxArray(JNIEnv *env,
                                                          jbyteArray java_array);
-            static jscore::LynxArray* ConvertToLynxArray(JNIEnv *env,
+            static base::ScopedPtr<jscore::LynxArray> ConvertToLynxArray(JNIEnv *env,
                                                          const jobjectArray args);
-            static jscore::LynxValue* ConvertToLynxValue(JNIEnv *env,
+            static base::ScopedPtr<jscore::LynxValue> ConvertToLynxValue(JNIEnv *env,
                                                          jobject value,
                                                          const std::string &type);
-            static jscore::LynxValue* ConvertToLynxValue(JNIEnv *env, jobject java_obj);
+            static base::ScopedPtr<jscore::LynxValue> ConvertToLynxValue(JNIEnv *env,
+                                                                         jobject java_obj);
 
 
         private:
-            static jscore::LynxValue* ConvertToLynxValue(JNIEnv *env,
+            static base::ScopedPtr<jscore::LynxValue> ConvertToLynxValue(JNIEnv *env,
                                                          jobject value,
                                                          char first,
                                                          char second);

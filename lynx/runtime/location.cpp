@@ -96,56 +96,47 @@ namespace jscore {
 
     base::ScopedPtr<LynxValue> Location::GetHashCallback(LynxObjectTemplate* object) {
         Location* location = static_cast<Location*>(object);
-        LynxValue *value = LynxValue::MakeString(location->hash());
-        return base::ScopedPtr<LynxValue>(value);
+        return LynxValue::MakeString(location->hash());
     }
 
     base::ScopedPtr<LynxValue> Location::GetHostCallback(LynxObjectTemplate* object) {
         Location* location = static_cast<Location*>(object);
-        LynxValue *value = LynxValue::MakeString(location->host());
-        return base::ScopedPtr<LynxValue>(value);
+        return LynxValue::MakeString(location->host());
     }
 
     base::ScopedPtr<LynxValue> Location::GetHostNameCallback(LynxObjectTemplate* object) {
         Location* location = static_cast<Location*>(object);
-        LynxValue *value = LynxValue::MakeString(location->hostname());
-        return base::ScopedPtr<LynxValue>(value);
+        return LynxValue::MakeString(location->hostname());
     }
 
     base::ScopedPtr<LynxValue> Location::GetHrefCallback(LynxObjectTemplate* object) {
         Location* location = static_cast<Location*>(object);
-        LynxValue *value = LynxValue::MakeString(location->href());
-        return base::ScopedPtr<LynxValue>(value);
+        return LynxValue::MakeString(location->href());
     }
 
     base::ScopedPtr<LynxValue> Location::GetPathNameCallback(LynxObjectTemplate* object) {
         Location* location = static_cast<Location*>(object);
-        LynxValue *value = LynxValue::MakeString(location->pathname());
-        return base::ScopedPtr<LynxValue>(value);
+        return LynxValue::MakeString(location->pathname());
     }
 
     base::ScopedPtr<LynxValue> Location::GetPortCallback(LynxObjectTemplate* object) {
         Location* location = static_cast<Location*>(object);
-        LynxValue *value = LynxValue::MakeString(location->port());
-        return base::ScopedPtr<LynxValue>(value);
+        return LynxValue::MakeString(location->port());
     }
 
     base::ScopedPtr<LynxValue> Location::GetProtocolCallback(LynxObjectTemplate* object) {
         Location* location = static_cast<Location*>(object);
-        LynxValue *value = LynxValue::MakeString(location->protocol());
-        return base::ScopedPtr<LynxValue>(value);
+        return LynxValue::MakeString(location->protocol());
     }
 
     base::ScopedPtr<LynxValue> Location::GetSearchCallback(LynxObjectTemplate* object) {
         Location* location = static_cast<Location*>(object);
-        LynxValue *value = LynxValue::MakeString(location->search());
-        return base::ScopedPtr<LynxValue>(value);
+        return LynxValue::MakeString(location->search());
     }
 
     base::ScopedPtr<LynxValue> Location::GetOriginCallback(LynxObjectTemplate* object) {
         Location* location = static_cast<Location*>(object);
-        LynxValue *value = LynxValue::MakeString(location->origin());
-        return base::ScopedPtr<LynxValue>(value);
+        return LynxValue::MakeString(location->origin());
     }
 
     void Location::SetHashCallback(LynxObjectTemplate* object,

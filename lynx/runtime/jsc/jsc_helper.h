@@ -26,12 +26,12 @@ namespace jscore {
         static std::string ConvertToString(JSContextRef ctx, JSValueRef value);
         static std::string ConvertToString(JSContextRef ctx, JSStringRef value);
         static std::string ConvertToString(LynxValue* value);
-        static LynxValue* ConvertToLynxValue(JSContextRef ctx, JSValueRef value);
-        static LynxArray* ConvertToLynxArray(JSContextRef ctx, JSObjectRef value);
-        static LynxArray* ConvertToLynxArray(JSContextRef ctx, JSValueRef *value, int length);
-        static LynxObject* ConvertToLynxObject(JSContextRef ctx, JSObjectRef value);
+        static base::ScopedPtr<LynxValue> ConvertToLynxValue(JSContextRef ctx, JSValueRef value);
+        static base::ScopedPtr<LynxArray> ConvertToLynxArray(JSContextRef ctx, JSObjectRef value);
+        static base::ScopedPtr<LynxArray> ConvertToLynxArray(JSContextRef ctx, JSValueRef *value, int length);
+        static base::ScopedPtr<LynxObject> ConvertToLynxObject(JSContextRef ctx, JSObjectRef value);
         static LynxObjectTemplate* ConvertToLynxObjectTemplate(JSContextRef ctx, JSObjectRef value);
-        static LynxValue* ConvertToLynxFunction(JSContextRef ctx, JSObjectRef value);
+        static base::ScopedPtr<LynxValue> ConvertToLynxFunction(JSContextRef ctx, JSObjectRef value);
 
         static JSValueRef ConvertToJSString(JSContextRef ctx, const std::string &s);
         static JSValueRef ConvertToJSString(JSContextRef ctx, const char* s);

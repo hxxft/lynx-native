@@ -12,8 +12,7 @@ namespace jscore {
             : java_object_(env, java_object) {
         base::android::ScopedLocalJavaRef<jobject> scoped_java_object
                 = Java_LynxFunctionObject_getMethodNameArray(env, java_object);
-        base::ScopedPtr<LynxArray> array = LynxValue::MakeArrayScoped(
-                base::android::JNIHelper::ConvertToLynxArray(env, scoped_java_object.Get()));
+        base::ScopedPtr<LynxArray> array = base::android::JNIHelper::ConvertToLynxArray(env, scoped_java_object.Get());
         for (int i = 0; i < array->Size(); ++i) {
             LynxValue* value = array->Get(i);
             assert(value->type_ == LynxValue::Type::VALUE_STRING);
@@ -48,9 +47,8 @@ namespace jscore {
                                              java_object,
                                                (jstring) java_name.Get(),
                                                (jobjectArray) args.Get());
-        jscore::LynxValue* js_result = base::android::JNIHelper::ConvertToLynxValue(env,
-                                                                                    result.Get());
-        return LynxValue::MakeValueScoped(js_result);
+        return base::android::JNIHelper::ConvertToLynxValue(env,
+                                                            result.Get());
     }
 
 }

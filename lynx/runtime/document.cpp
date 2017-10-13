@@ -58,9 +58,8 @@ namespace jscore {
         Document* document = static_cast<Document*>(object);
         if(array.Get() != NULL && array->Size() > 0) {
             std::string text = array->Get(0)->data_.str;
-            LynxValue *value = LynxValue::MakeObjectTemplate(document->QuerySelector(text));
-            return base::ScopedPtr<LynxValue>(value);
-        }
+            return LynxValue::MakeObjectTemplate(document->QuerySelector(text));
+    }
         return base::ScopedPtr<LynxValue>(NULL);
     }
 
@@ -89,8 +88,7 @@ namespace jscore {
             std::string tag_name = array->Get(0)->data_.str;
             Element* element = document->CreateElement(tag_name);
 
-            LynxValue *value = LynxValue::MakeObjectTemplate(element);
-            return base::ScopedPtr<LynxValue>(value);
+            return LynxValue::MakeObjectTemplate(element);
         }
         return base::ScopedPtr<LynxValue>(NULL);
     }
@@ -111,8 +109,7 @@ namespace jscore {
             std::string text = array->Get(0)->data_.str;
             Element* element = document->CreateTextNode(text);
 
-            LynxValue *value = LynxValue::MakeObjectTemplate(element);
-            return base::ScopedPtr<LynxValue>(value);
+            return LynxValue::MakeObjectTemplate(element);
         }
         return base::ScopedPtr<LynxValue>(NULL);
     }
@@ -151,20 +148,17 @@ namespace jscore {
                 && array->Get(0)->type_ == LynxValue::Type::VALUE_STRING) {
             std::string id = array->Get(0)->data_.str;
             Element* element = document->GetElementById(id);
-            LynxValue *value = LynxValue::MakeObjectTemplate(element);
-            return base::ScopedPtr<LynxValue>(value);
+            return LynxValue::MakeObjectTemplate(element);
         }
         return base::ScopedPtr<LynxValue>(NULL);
     }
 
     base::ScopedPtr<LynxValue> Document::GetDomainCallback(LynxObjectTemplate* object) {
-        LynxValue *value = LynxValue::MakeString("");
-        return base::ScopedPtr<LynxValue>(value);
+        return LynxValue::MakeString("");
     }
 
     base::ScopedPtr<LynxValue> Document::GetCookieCallback(LynxObjectTemplate* object) {
-        LynxValue *value = LynxValue::MakeString("");
-        return base::ScopedPtr<LynxValue>(value);
+        return LynxValue::MakeString("");
     }
 
     base::ScopedPtr<LynxValue> Document::GetReadyStateCallback(LynxObjectTemplate* object) {

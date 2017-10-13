@@ -209,12 +209,12 @@ void RenderObjectImplAndroid::DispatchEvent(
     jstring event,
     jobjectArray args) {
     std::string event_str = base::android::JNIHelper::ConvertToString(env, event);
-    jscore::LynxArray* array = base::android::JNIHelper::ConvertToLynxArray(env, args);
-    base::ScopedPtr<jscore::LynxArray> scoped_args(array);
+    base::ScopedPtr<jscore::LynxArray> array =
+            base::android::JNIHelper::ConvertToLynxArray(env, args);
     if (render_object_weak_ptr_.IsValid()) {
         render_object_weak_ptr_->DispatchEvent(
                 event_str,
-                scoped_args);
+                array);
     }
 }
 
@@ -222,8 +222,7 @@ void RenderObjectImplAndroid::UpdateData(JNIEnv *env,
                                          jint attr,
                                          jobject value) {
     base::ScopedPtr<jscore::LynxValue> value_transformed =
-            jscore::LynxValue::MakeValueScoped(
-                    base::android::JNIHelper::ConvertToLynxValue(env, value));
+            base::android::JNIHelper::ConvertToLynxValue(env, value);
     if (render_object_weak_ptr_.IsValid()) {
         render_object_weak_ptr_->UpdateData(attr, value_transformed);
     }

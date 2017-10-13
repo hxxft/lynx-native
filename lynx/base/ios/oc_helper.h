@@ -17,9 +17,9 @@ namespace base {
             static id ConvertToOCValue(jscore::LynxValue* value);
             static NSMutableArray* ConvertToOCArray(jscore::LynxArray* array);
             
-            static jscore::LynxArray* ConvertToLynxArray(NSMutableArray *array);
-            static jscore::LynxObject* ConvertToLynxObject(NSMutableDictionary *dic);
-            static jscore::LynxValue* ConvertToLynxValue(id value);
+            static base::ScopedPtr<jscore::LynxArray> ConvertToLynxArray(NSMutableArray *array);
+            static base::ScopedPtr<jscore::LynxObject> ConvertToLynxObject(NSMutableDictionary *dic);
+            static base::ScopedPtr<jscore::LynxValue> ConvertToLynxValue(id value);
         };
     }
 }

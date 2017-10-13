@@ -50,80 +50,89 @@ namespace jscore {
             PlatformValue* platform_value;
         } data_;
 
-        inline static LynxValue* MakeBool(bool value) {
-            LynxValue *lynx_value = lynx_new LynxValue(LynxValue::Type::VALUE_BOOL);
+        inline static base::ScopedPtr<LynxValue> MakeBool(bool value) {
+            base::ScopedPtr<LynxValue> lynx_value(lynx_new LynxValue(LynxValue::Type::VALUE_BOOL));
             lynx_value->data_.b = value;
             return lynx_value;
         }
 
-        inline static LynxValue* MakeLong(long value) {
-            LynxValue *lynx_value = lynx_new LynxValue(LynxValue::Type::VALUE_LONG);
+        inline static base::ScopedPtr<LynxValue> MakeLong(long value) {
+            base::ScopedPtr<LynxValue> lynx_value(lynx_new LynxValue(LynxValue::Type::VALUE_LONG));
             lynx_value->data_.l = value;
             return lynx_value;
         }
 
-        inline static LynxValue* MakeInt(int value) {
-            LynxValue *lynx_value = lynx_new LynxValue(LynxValue::Type::VALUE_INT);
+        inline static base::ScopedPtr<LynxValue> MakeInt(int value) {
+            base::ScopedPtr<LynxValue> lynx_value(lynx_new LynxValue(LynxValue::Type::VALUE_INT));
             lynx_value->data_.i = value;
             return lynx_value;
         }
 
-        inline static LynxValue* MakeFloat(float value) {
-            LynxValue *lynx_value = lynx_new LynxValue(LynxValue::Type::VALUE_FLOAT);
+        inline static base::ScopedPtr<LynxValue> MakeFloat(float value) {
+            base::ScopedPtr<LynxValue> lynx_value(
+                    lynx_new LynxValue(LynxValue::Type::VALUE_FLOAT));
             lynx_value->data_.f = value;
             return lynx_value;
         }
 
-        inline static LynxValue* MakeDouble(double value) {
-            LynxValue *lynx_value = lynx_new LynxValue(LynxValue::Type::VALUE_DOUBLE);
+        inline static base::ScopedPtr<LynxValue> MakeDouble(double value) {
+            base::ScopedPtr<LynxValue> lynx_value(
+                    lynx_new LynxValue(LynxValue::Type::VALUE_DOUBLE));
             lynx_value->data_.d = value;
             return lynx_value;
         }
 
-        static LynxValue* MakeString(std::string& value) {
-            LynxValue *lynx_value = lynx_new LynxValue(LynxValue::Type::VALUE_STRING);
+        static base::ScopedPtr<LynxValue> MakeString(std::string& value) {
+            base::ScopedPtr<LynxValue> lynx_value(
+                    lynx_new LynxValue(LynxValue::Type::VALUE_STRING));
             char* str = lynx_new char[value.size() + 1];
             strcpy(str, value.c_str());
             lynx_value->data_.str = str;
             return lynx_value;
         }
 
-        static LynxValue* MakeString(const std::string& value) {
-            LynxValue *lynx_value = lynx_new LynxValue(LynxValue::Type::VALUE_STRING);
+        static base::ScopedPtr<LynxValue> MakeString(const std::string& value) {
+            base::ScopedPtr<LynxValue> lynx_value(
+                    lynx_new LynxValue(LynxValue::Type::VALUE_STRING));
             char* str = lynx_new char[value.size() + 1];
             strcpy(str, value.c_str());
             lynx_value->data_.str = str;
             return lynx_value;
         }
 
-        static LynxValue* MakeString(std::string&& value) {
-            LynxValue *lynx_value = lynx_new LynxValue(LynxValue::Type::VALUE_STRING);
+        static base::ScopedPtr<LynxValue> MakeString(std::string&& value) {
+            base::ScopedPtr<LynxValue> lynx_value(
+                    lynx_new LynxValue(LynxValue::Type::VALUE_STRING));
             char* str = lynx_new char[value.size() + 1];
             strcpy(str, value.c_str());
             lynx_value->data_.str = str;
             return lynx_value;
         }
 
-        inline static LynxValue* MakeFunctionObject(LynxFunctionObject* object) {
-            LynxValue *lynx_object = lynx_new LynxValue(LynxValue::Type::VALUE_LYNX_FUNCTION_OBJECT);
+        inline static base::ScopedPtr<LynxValue> MakeFunctionObject(LynxFunctionObject* object) {
+            base::ScopedPtr<LynxValue> lynx_object(
+                    lynx_new LynxValue(LynxValue::Type::VALUE_LYNX_FUNCTION_OBJECT));
             lynx_object->data_.lynx_function_object = object;
             return lynx_object;
         }
 
-        inline static LynxValue* MakeObjectTemplate(LynxObjectTemplate *object) {
-            LynxValue *lynx_object = lynx_new LynxValue(LynxValue::Type::VALUE_LYNX_OBJECT_TEMPLATE);
+        inline static base::ScopedPtr<LynxValue> MakeObjectTemplate(LynxObjectTemplate *object) {
+            base::ScopedPtr<LynxValue> lynx_object(
+                    lynx_new LynxValue(LynxValue::Type::VALUE_LYNX_OBJECT_TEMPLATE));
             lynx_object->data_.lynx_object_template = object;
             return lynx_object;
         }
 
-        inline static LynxValue* MakeLynxFunction(LynxFunction* function) {
-            LynxValue *lynx_value = lynx_new LynxValue(LynxValue::Type::VALUE_LYNX_FUNCTION);
+        inline static base::ScopedPtr<LynxValue> MakeLynxFunction(LynxFunction* function) {
+            base::ScopedPtr<LynxValue> lynx_value(
+                    lynx_new LynxValue(LynxValue::Type::VALUE_LYNX_FUNCTION));
             lynx_value->data_.lynx_function = function;
             return lynx_value;
         }
 
-        inline static LynxValue* MakePlatformValue(PlatformValue* platform_value) {
-            LynxValue *lynx_object = lynx_new LynxValue(LynxValue::Type::VALUE_PLATFORM);
+        inline static base::ScopedPtr<LynxValue> MakePlatformValue(PlatformValue* platform_value) {
+            base::ScopedPtr<LynxValue> lynx_object(
+                    lynx_new LynxValue(LynxValue::Type::VALUE_PLATFORM));
             lynx_object->data_.platform_value = platform_value;
             return lynx_object;
         }

@@ -44,8 +44,8 @@ namespace base {
             return array;
         }
         
-        jscore::LynxValue* OCHelper::ConvertToLynxValue(id value) {
-            jscore::LynxValue* lynx_value = 0;
+        base::ScopedPtr<jscore::LynxValue> OCHelper::ConvertToLynxValue(id value) {
+            base::ScopedPtr<jscore::LynxValue> lynx_value;
             if ([value isKindOfClass:[NSNumber class]]) {
                 NSNumber *number = SAFE_CONVERT(value, NSNumber);
                 char type = number.objCType[0];
@@ -69,30 +69,30 @@ namespace base {
                 NSString *str = SAFE_CONVERT(value, NSString);
                 lynx_value = jscore::LynxValue::MakeString([str UTF8String]);
             } else if ([value isKindOfClass:[NSMutableDictionary class]]) {
-                lynx_value = ConvertToLynxObject(SAFE_CONVERT(value, NSMutableDictionary));
+                lynx_value = base::ScopedPtr<jscore::LynxValue>(ConvertToLynxObject(SAFE_CONVERT(value, NSMutableDictionary)).Release());
             }
             return lynx_value;
         }
         
-        jscore::LynxObject* OCHelper::ConvertToLynxObject(NSMutableDictionary *dic) {
-            if (!dic) return NULL;
-            jscore::LynxObject* lynx_object = lynx_new jscore::LynxObject();
+        base::ScopedPtr<jscore::LynxObject> OCHelper::ConvertToLynxObject(NSMutableDictionary *dic) {
+            if (!dic) return base::ScopedPtr<jscore::LynxObject>();
+            base::ScopedPtr<jscore::LynxObject> lynx_object(lynx_new jscore::LynxObject());
             NSArray *key_array = [dic allKeys];
             for (NSUInteger i = 0; i < key_array.count; ++i) {
                 NSString *key = SAFE_CONVERT([key_array objectAtIndex:i], NSString);
                 id item = [dic objectForKey:key];
-                lynx_object->Set([key UTF8String], ConvertToLynxValue(item));
+                lynx_object->Set([key UTF8String], ConvertToLynxValue(item).Release());
             }
             return lynx_object;
         }
         
-        jscore::LynxArray* OCHelper::ConvertToLynxArray(NSMutableArray *array) {
-            if (!array) return NULL;
+        base::ScopedPtr<jscore::LynxArray> OCHelper::ConvertToLynxArray(NSMutableArray *array) {
+            if (!array) return base::ScopedPtr<jscore::LynxArray>();
             NSUInteger length = array.count;
-            jscore::LynxArray* lynx_array = lynx_new jscore::LynxArray();
+            base::ScopedPtr<jscore::LynxArray> lynx_array(lynx_new jscore::LynxArray());
             for (NSUInteger i = 0; i < length; ++i) {
                 id value = [array objectAtIndex:i];
-                jscore::LynxValue* lynx_value = ConvertToLynxValue(value);
+                jscore::LynxValue* lynx_value = ConvertToLynxValue(value).Release();
                 lynx_array->Push(lynx_value);
             }
             return lynx_array;

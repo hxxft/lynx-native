@@ -2,6 +2,8 @@
 
 #include <sstream>
 #include <runtime/base/lynx_value.h>
+#include <string>
+#include <base/debug/timing_tracker.h>
 #include "runtime/base/lynx_value.h"
 #include "runtime/jsc/objects/object_template.h"
 #include "runtime/jsc/objects/function_object.h"
@@ -115,20 +117,19 @@ namespace jscore {
     }
     
     std::string JSCHelper::ConvertToString(JSContextRef ctx, JSValueRef value) {
-        std::string str;
         if(JSValueIsString(ctx, value) || JSValueIsObject(ctx, value)) {
             JSStringRef js_str = JSValueToStringCopy(ctx, value, NULL);
             size_t len = JSStringGetMaximumUTF8CStringSize(js_str);
             base::ScopedPtr<char[]> ch(lynx_new char[len]);
-            JSStringGetUTF8CString(js_str, ch.Get(), len);
-            str = ch.Get();
+            size_t size = JSStringGetUTF8CString(js_str, ch.Get(), len);
             JSStringRelease(js_str);
+            return std::string(ch.Get(), size - 1);
         }
-        return str;
+        return "";
     }
 
-    LynxValue* JSCHelper::ConvertToLynxValue(JSContextRef ctx, JSValueRef value) {
-        LynxValue* js_value = 0;
+    base::ScopedPtr<LynxValue> JSCHelper::ConvertToLynxValue(JSContextRef ctx, JSValueRef value) {
+        base::ScopedPtr<LynxValue> js_value;
         if (JSValueIsBoolean(ctx, value)) {
             js_value = LynxValue::MakeBool(JSValueToBoolean(ctx, value));
         } else if (JSValueIsNumber(ctx, value)) {
@@ -136,7 +137,8 @@ namespace jscore {
             js_value = (number - (int) number) == 0 ?
                        LynxValue::MakeInt(number) : LynxValue::MakeDouble(number);
         } else if (JSValueIsArray(ctx, value)) {
-            js_value = ConvertToLynxArray(ctx, (JSObjectRef) value);
+            js_value = base::ScopedPtr<LynxValue>(
+                    ConvertToLynxArray(ctx, (JSObjectRef) value).Release());
         } else if (JSValueIsObject(ctx, value)) {
             if (JSObjectIsFunction(ctx, (JSObjectRef) value)) {
                 js_value = ConvertToLynxFunction(ctx, (JSObjectRef) value);
@@ -144,7 +146,8 @@ namespace jscore {
                 js_value = LynxValue::MakeObjectTemplate(
                         ConvertToLynxObjectTemplate(ctx, (JSObjectRef) value));
             } else {
-                js_value = ConvertToLynxObject(ctx, (JSObjectRef) value);
+                js_value = base::ScopedPtr<LynxValue>(
+                        ConvertToLynxObject(ctx, (JSObjectRef) value).Release());
             }
         } else if (JSValueIsString(ctx, value)) {
             js_value = LynxValue::MakeString(ConvertToString(ctx, value));
@@ -152,28 +155,28 @@ namespace jscore {
         return js_value;
     }
 
-    LynxArray* JSCHelper::ConvertToLynxArray(JSContextRef ctx, JSObjectRef value) {
-        LynxArray* array = lynx_new LynxArray;
+    base::ScopedPtr<LynxArray> JSCHelper::ConvertToLynxArray(JSContextRef ctx, JSObjectRef value) {
+        base::ScopedPtr<LynxArray> array(lynx_new LynxArray());
         JSStringRef name = JSStringCreateWithUTF8CString("length");
         int length = JSValueToNumber(ctx, JSObjectGetProperty(ctx, value, name, NULL), NULL);
         JSStringRelease(name);
         for (int i = 0; i < length; ++i) {
             JSValueRef temp = JSObjectGetPropertyAtIndex(ctx, value, i, NULL);
-            array->Push(ConvertToLynxValue(ctx, temp));
+            array->Push(ConvertToLynxValue(ctx, temp).Release());
         }
         return array;
     }
 
-    LynxArray* JSCHelper::ConvertToLynxArray(JSContextRef ctx, JSValueRef *value, int length) {
-        LynxArray* array = lynx_new LynxArray();
+    base::ScopedPtr<LynxArray> JSCHelper::ConvertToLynxArray(JSContextRef ctx, JSValueRef *value, int length) {
+        base::ScopedPtr<LynxArray> array (lynx_new LynxArray());
         for (int i = 0; i < length; ++i) {
-            array->Push(ConvertToLynxValue(ctx, value[i]));
+            array->Push(ConvertToLynxValue(ctx, value[i]).Release());
         }
         return array;
     }
 
-    LynxObject* JSCHelper::ConvertToLynxObject(JSContextRef ctx, JSObjectRef value) {
-        LynxObject* lynx_object = lynx_new LynxObject();
+    base::ScopedPtr<LynxObject> JSCHelper::ConvertToLynxObject(JSContextRef ctx, JSObjectRef value) {
+        base::ScopedPtr<LynxObject> lynx_object(lynx_new LynxObject());
         JSObjectRef obj = JSValueToObject(ctx, value, NULL);
         JSPropertyNameArrayRef names = JSObjectCopyPropertyNames(ctx, obj);
         size_t len = JSPropertyNameArrayGetCount(names);
@@ -181,7 +184,7 @@ namespace jscore {
             JSStringRef key = JSPropertyNameArrayGetNameAtIndex(names, i);
             std::string key_str = JSCHelper::ConvertToString(ctx, key);
             JSValueRef value = JSObjectGetProperty(ctx, obj, key, NULL);
-            LynxValue* lynx_value = ConvertToLynxValue(ctx, value);
+            LynxValue* lynx_value = ConvertToLynxValue(ctx, value).Release();
             lynx_object->Set(key_str, lynx_value);
         }
         JSPropertyNameArrayRelease(names);
@@ -192,20 +195,19 @@ namespace jscore {
         return ObjectWrap::Unwrap<ObjectTemplate>(value)->target();
     }
 
-    LynxValue* JSCHelper::ConvertToLynxFunction(JSContextRef ctx, JSObjectRef value) {
+    base::ScopedPtr<LynxValue> JSCHelper::ConvertToLynxFunction(JSContextRef ctx, JSObjectRef value) {
         JSCContext* context = static_cast<JSCContext*>(JSObjectGetPrivate(JSContextGetGlobalObject(ctx)));
         JSCFunction* function = lynx_new JSCFunction(context,
                                               JSContextGetGlobalObject(ctx),
                                               value);
-        LynxValue *result = LynxValue::MakeLynxFunction(function);
-        return result;
+        return LynxValue::MakeLynxFunction(function);
     }
 
     JSValueRef JSCHelper::ConvertToJSValue(JSContextRef ctx, jscore::LynxValue* value) {
-        JSValueRef js_obj = NULL;
         if (value == 0) {
             return JSValueMakeNull(ctx);
         }
+        JSValueRef js_obj = NULL;
         switch (value->type_) {
             case LynxValue::Type::VALUE_INT:
                 js_obj = ConvertToJSInt(ctx, value);

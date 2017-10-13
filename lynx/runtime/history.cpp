@@ -108,8 +108,7 @@ namespace jscore {
     base::ScopedPtr<LynxValue>
     History::GetLengthCallback(LynxObjectTemplate* object) {
         History* history = static_cast<History*>(object);
-        LynxValue* length = LynxValue::MakeInt(history->GetLength());
-        return LynxValue::MakeValueScoped(length);
+        return LynxValue::MakeInt(history->GetLength());
     }
     
 }
