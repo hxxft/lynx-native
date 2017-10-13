@@ -99,12 +99,14 @@ namespace base {
             return java_object_array;
         }
 
-        jscore::LynxObject* JNIHelper::ConvertToLynxObject(JNIEnv *env, jobject obj) {
+        base::ScopedPtr<jscore::LynxObject> JNIHelper::ConvertToLynxObject(JNIEnv *env,
+                                                                           jobject obj) {
             base::android::ScopedLocalJavaRef<jobject> properties_array_java
                     = base::android::JType::GetLynxObjectProperties(env, obj);
-            jscore::LynxObject* js_obj = lynx_new jscore::LynxObject();
+            base::ScopedPtr<jscore::LynxObject> js_obj(lynx_new jscore::LynxObject());
             if (!properties_array_java.IsNull()) {
-                base::ScopedPtr<jscore::LynxArray> js_properties_array(ConvertToLynxArray(env, properties_array_java.Get()));
+                base::ScopedPtr<jscore::LynxArray> js_properties_array(
+                        ConvertToLynxArray(env, properties_array_java.Get()));
                 for (int i = 0; i < js_properties_array->Size(); i += 2) {
                     base::ScopedPtr<jscore::LynxValue> str_ref(js_properties_array->Get(i));
                     js_obj->Set(str_ref->data_.str, js_properties_array->Get(i + 1));
@@ -114,20 +116,21 @@ namespace base {
             return js_obj;
         }
 
-        jscore::LynxFunctionObject* JNIHelper::ConvertToLynxFunctionObject(JNIEnv *env,
-                                                                           jobject value) {
-            jscore::LynxFunctionObjectAndroid* function_object
-                    = lynx_new jscore::LynxFunctionObjectAndroid(env, value);
-            return function_object;
+        base::ScopedPtr<jscore::LynxFunctionObject> JNIHelper::ConvertToLynxFunctionObject(
+                JNIEnv *env,
+                jobject value) {
+            return base::ScopedPtr<jscore::LynxFunctionObject>(
+                    lynx_new jscore::LynxFunctionObjectAndroid(env, value));
         }
 
-        jscore::LynxArray* JNIHelper::ConvertToLynxArray(JNIEnv *env, jobject java_array) {
+        base::ScopedPtr<jscore::LynxArray> JNIHelper::ConvertToLynxArray(JNIEnv *env,
+                                                                         jobject java_array) {
             int length = (int) base::android::JType::GetLynxArrayLength(env, java_array);
             jstring types_j = base::android::JType::GetLynxArrayElementTypes(env, java_array);
             const char* types_c = env->GetStringUTFChars(types_j, JNI_FALSE);
             std::string types(types_c);
 
-            jscore::LynxArray* lynx_array = lynx_new jscore::LynxArray();
+            base::ScopedPtr<jscore::LynxArray> lynx_array(lynx_new jscore::LynxArray());
             for (int i = 0; i < length; ++i) {
                 base::android::ScopedLocalJavaRef<jobject> java_obj
                         = base::android::JType::GetLynxArrayElement(env, java_array, i);
@@ -137,7 +140,7 @@ namespace base {
                                                                types[i] == base::android::kArrayFlag
                                                                ?
                                                                types[i++]
-                                                               : base::android::kVoidType);
+                                                               : base::android::kVoidType).Release();
                 lynx_array->Push(object);
             }
             env->ReleaseStringUTFChars(types_j, types_c);
@@ -145,11 +148,12 @@ namespace base {
             return lynx_array;
         }
 
-        jscore::LynxArray* JNIHelper::ConvertToLynxArray(JNIEnv *env, const jobjectArray args) {
+        base::ScopedPtr<jscore::LynxArray> JNIHelper::ConvertToLynxArray(JNIEnv *env,
+                                                                         const jobjectArray args) {
             std::string types = base::android::ParamsTransform::Transform(env, args);
             int length = types.size();
             int i = 0;
-            jscore::LynxArray* values = lynx_new jscore::LynxArray();
+            base::ScopedPtr<jscore::LynxArray> values(lynx_new jscore::LynxArray());
             for (; i < length; ++i) {
                 base::android::ScopedLocalJavaRef<jobject> arg
                         (env, env->GetObjectArrayElement(args, i));
@@ -159,25 +163,25 @@ namespace base {
                                                                types[i] == base::android::kArrayFlag
                                                                ?
                                                                types[i++]
-                                                               : base::android::kVoidType);
+                                                               : base::android::kVoidType).Release();
                 values->Push(object);
             }
             return values;
         }
 
-        jscore::LynxValue* JNIHelper::ConvertToLynxValue(JNIEnv *env, jobject java_obj) {
+        base::ScopedPtr<jscore::LynxValue> JNIHelper::ConvertToLynxValue(JNIEnv *env, jobject java_obj) {
             if (java_obj == 0) {
-                return NULL;
+                return base::ScopedPtr<jscore::LynxValue>();
             }
             std::string type = ParamsTransform::Transform(env, java_obj);
             return ConvertToLynxValue(env, java_obj, type);
         }
 
-        jscore::LynxValue* JNIHelper::ConvertToLynxValue(JNIEnv *env,
+        base::ScopedPtr<jscore::LynxValue> JNIHelper::ConvertToLynxValue(JNIEnv *env,
                                                          jobject java_obj,
                                                          char first_char,
                                                          char second_char) {
-            jscore::LynxValue* value = 0;
+            base::ScopedPtr<jscore::LynxValue> value;
             switch (first_char) {
                 case base::android::kIntType:
                     value = jscore::LynxValue::MakeInt(ConvertToInt(env, java_obj));
@@ -198,17 +202,20 @@ namespace base {
                     value = jscore::LynxValue::MakeString(ConvertToString(env, (jstring) java_obj));
                     break;
                 case base::android::kLynxArrayType: // LynxArray
-                    value = ConvertToLynxArray(env, java_obj);
+                    value = base::ScopedPtr<jscore::LynxValue>(
+                            ConvertToLynxArray(env, java_obj).Release());
                     break;
                 case base::android::kLynxObjectType: // LynxObject
-                    value = ConvertToLynxObject(env, java_obj);
+                    value = base::ScopedPtr<jscore::LynxValue>(
+                            ConvertToLynxObject(env, java_obj).Release());
                     break;
                 case base::android::kLynxFunctionObjectType: // LynxFunctionObject
                     value = jscore::LynxValue::MakeFunctionObject(
-                            ConvertToLynxFunctionObject(env, java_obj));
+                            ConvertToLynxFunctionObject(env, java_obj).Release());
                     break;
                 case base::android::kArrayFlag:
-                    value = ConvertToLynxArray(env, java_obj, second_char);
+                    value = base::ScopedPtr<jscore::LynxValue>(
+                            ConvertToLynxArray(env, java_obj, second_char).Release());
                     break;
                 case base::android::kVoidType:
                 default:
@@ -217,7 +224,7 @@ namespace base {
             return value;
         }
 
-        jscore::LynxValue* JNIHelper::ConvertToLynxValue(JNIEnv *env,
+        base::ScopedPtr<jscore::LynxValue> JNIHelper::ConvertToLynxValue(JNIEnv *env,
                                                          jobject java_obj,
                                                          const std::string &type) {
             char first_char = type[0];
@@ -225,7 +232,7 @@ namespace base {
             return ConvertToLynxValue(env, java_obj, first_char, second_char);
         }
 
-        jscore::LynxArray *JNIHelper::ConvertToLynxArray(JNIEnv *env,
+        base::ScopedPtr<jscore::LynxArray> JNIHelper::ConvertToLynxArray(JNIEnv *env,
                                                          jobject value,
                                                          char type) {
             switch (type) {
@@ -242,7 +249,7 @@ namespace base {
                 default:
                     break;
             }
-            jscore::LynxArray* array = lynx_new jscore::LynxArray();
+            base::ScopedPtr<jscore::LynxArray> array(lynx_new jscore::LynxArray());
             int length = env->GetArrayLength((jarray) value);
 
             for (int i = 0; i < length; ++i) {
@@ -252,17 +259,18 @@ namespace base {
                 switch (type) {
                     case base::android::kStringType: // String
                         element = jscore::LynxValue::MakeString(ConvertToString(env,
-                                                                              (jstring) temp.Get()));
+                                                                              (jstring) temp.Get()))
+                                .Release();
                         break;
                     case base::android::kLynxArrayType: // LynxArray
-                        element = ConvertToLynxArray(env, temp.Get());
+                        element = ConvertToLynxArray(env, temp.Get()).Release();
                         break;
                     case base::android::kLynxObjectType: // LynxObject
-                        element = ConvertToLynxObject(env, temp.Get());
+                        element = ConvertToLynxObject(env, temp.Get()).Release();
                         break;
                     case base::android::kLynxFunctionObjectType: // LynxFunctionObject
                         element = jscore::LynxValue::MakeFunctionObject(
-                                ConvertToLynxFunctionObject(env, temp.Get()));
+                                ConvertToLynxFunctionObject(env, temp.Get()).Release()).Release();
                         break;
                     case base::android::kVoidType:
                     default:
@@ -274,78 +282,85 @@ namespace base {
         }
 
 
-        jscore::LynxArray* JNIHelper::ConvertToLynxArray(JNIEnv *env, jintArray java_array) {
+        base::ScopedPtr<jscore::LynxArray> JNIHelper::ConvertToLynxArray(JNIEnv *env,
+                                                                         jintArray java_array) {
             int length = env->GetArrayLength(java_array);
             jint* element = env->GetIntArrayElements(java_array, 0);
-            jscore::LynxArray* array = lynx_new jscore::LynxArray();
+            base::ScopedPtr<jscore::LynxArray> array(lynx_new jscore::LynxArray());
             for (int i = 0; i < length; ++i) {
-                jscore::LynxValue* value = jscore::LynxValue::MakeInt(element[i]);
+                jscore::LynxValue* value = jscore::LynxValue::MakeInt(element[i]).Release();
                 array->Push(value);
             }
             return array;
         }
 
-        jscore::LynxArray* JNIHelper::ConvertToLynxArray(JNIEnv *env, jshortArray java_array) {
+        base::ScopedPtr<jscore::LynxArray> JNIHelper::ConvertToLynxArray(JNIEnv *env,
+                                                                         jshortArray java_array) {
             int length = env->GetArrayLength(java_array);
             jshort* element = env->GetShortArrayElements(java_array, 0);
-            jscore::LynxArray* array = lynx_new jscore::LynxArray();
+            base::ScopedPtr<jscore::LynxArray> array(lynx_new jscore::LynxArray());
             for (int i = 0; i < length; ++i) {
-                jscore::LynxValue* value = jscore::LynxValue::MakeInt(element[i]);
+                jscore::LynxValue* value = jscore::LynxValue::MakeInt(element[i]).Release();
                 array->Push(value);
             }
             return array;
         }
 
-        jscore::LynxArray* JNIHelper::ConvertToLynxArray(JNIEnv *env, jlongArray java_array) {
+        base::ScopedPtr<jscore::LynxArray> JNIHelper::ConvertToLynxArray(JNIEnv *env,
+                                                                         jlongArray java_array) {
             int length = env->GetArrayLength(java_array);
             jlong* element = env->GetLongArrayElements(java_array, 0);
-            jscore::LynxArray* array = lynx_new jscore::LynxArray();
+            base::ScopedPtr<jscore::LynxArray> array(lynx_new jscore::LynxArray());
             for (int i = 0; i < length; ++i) {
-                jscore::LynxValue* value = jscore::LynxValue::MakeInt(element[i]);
+                jscore::LynxValue* value = jscore::LynxValue::MakeInt(element[i]).Release();
                 array->Push(value);
             }
             return array;
         }
 
-        jscore::LynxArray* JNIHelper::ConvertToLynxArray(JNIEnv *env, jfloatArray java_array) {
+        base::ScopedPtr<jscore::LynxArray> JNIHelper::ConvertToLynxArray(JNIEnv *env,
+                                                                         jfloatArray java_array) {
             int length = env->GetArrayLength(java_array);
             jfloat* element = env->GetFloatArrayElements(java_array, 0);
-            jscore::LynxArray* array = lynx_new jscore::LynxArray();
+            base::ScopedPtr<jscore::LynxArray> array(lynx_new jscore::LynxArray());
             for (int i = 0; i < length; ++i) {
-                jscore::LynxValue* value = jscore::LynxValue::MakeDouble(element[i]);
+                jscore::LynxValue* value = jscore::LynxValue::MakeDouble(element[i]).Release();
                 array->Push(value);
             }
             return array;
         }
 
-        jscore::LynxArray* JNIHelper::ConvertToLynxArray(JNIEnv *env, jdoubleArray java_array) {
+        base::ScopedPtr<jscore::LynxArray> JNIHelper::ConvertToLynxArray(JNIEnv *env,
+                                                                         jdoubleArray java_array) {
             int length = env->GetArrayLength(java_array);
             jdouble* element = env->GetDoubleArrayElements(java_array, 0);
-            jscore::LynxArray* array = lynx_new jscore::LynxArray();
+            base::ScopedPtr<jscore::LynxArray> array(lynx_new jscore::LynxArray());
             for (int i = 0; i < length; ++i) {
-                jscore::LynxValue* value = jscore::LynxValue::MakeDouble(element[i]);
+                jscore::LynxValue* value = jscore::LynxValue::MakeDouble(element[i]).Release();
                 array->Push(value);
             }
             return array;
         }
 
-        jscore::LynxArray* JNIHelper::ConvertToLynxArray(JNIEnv *env, jbooleanArray java_array) {
+        base::ScopedPtr<jscore::LynxArray> JNIHelper::ConvertToLynxArray(JNIEnv *env,
+                                                                         jbooleanArray java_array) {
             int length = env->GetArrayLength(java_array);
             jboolean* element = env->GetBooleanArrayElements(java_array, 0);
-            jscore::LynxArray* array = lynx_new jscore::LynxArray();
+            base::ScopedPtr<jscore::LynxArray> array(lynx_new jscore::LynxArray());
             for (int i = 0; i < length; ++i) {
-                jscore::LynxValue* value = jscore::LynxValue::MakeBool(element[i]);
+                jscore::LynxValue* value = jscore::LynxValue::MakeBool(element[i]).Release();
                 array->Push(value);
             }
             return array;
         }
 
-        jscore::LynxArray* JNIHelper::ConvertToLynxArray(JNIEnv *env, jbyteArray java_array) {
+        base::ScopedPtr<jscore::LynxArray> JNIHelper::ConvertToLynxArray(JNIEnv *env,
+                                                                         jbyteArray java_array) {
             int length = env->GetArrayLength(java_array);
             jbyte* element = env->GetByteArrayElements(java_array, 0);
-            jscore::LynxArray* array = lynx_new jscore::LynxArray();
+            base::ScopedPtr<jscore::LynxArray> array(lynx_new jscore::LynxArray());
             for (int i = 0; i < length; ++i) {
-                jscore::LynxValue* value = jscore::LynxValue::MakeInt(element[i]);
+                jscore::LynxValue* value = jscore::LynxValue::MakeInt(element[i]).Release();
                 array->Push(value);
             }
             return array;

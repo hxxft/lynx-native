@@ -47,9 +47,9 @@ base::Size LabelMeasurer::MeasureLabelSizeAndSetTextLayout(RenderObject *render_
     JNIEnv *env = base::android::AttachCurrentThread();
     base::Size measured_size = MeasureLabelSize(render_object, size, text);
 
-    jscore::LynxValue *data = jscore::LynxValue::MakePlatformValue(
+    auto data = jscore::LynxValue::MakePlatformValue(
             lynx_new jscore::PlatformValue(env, Java_LabelMeasurer_getTextLayout(env).Get()));
-    render_object->SetData(RenderObject::TEXT_LAYOUT, jscore::LynxValue::MakeValueScoped(data));
+    render_object->SetData(RenderObject::TEXT_LAYOUT, data);
 
     base::android::CheckException(env);
     return measured_size;

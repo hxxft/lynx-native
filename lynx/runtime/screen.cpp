@@ -18,13 +18,11 @@ namespace jscore {
 
     base::ScopedPtr<LynxValue> Screen::GetWidthCallback(LynxObjectTemplate* object) {
         int width = config::GlobalConfigData::GetInstance()->screen_width();
-        LynxValue *value = LynxValue::MakeInt(width);
-        return LynxValue::MakeValueScoped(value);
+        return LynxValue::MakeInt(width);
     }
 
     base::ScopedPtr<LynxValue> Screen::GetHeightCallback(LynxObjectTemplate* object) {
         int height = config::GlobalConfigData::GetInstance()->screen_height();
-        LynxValue *value = LynxValue::MakeInt(height);
-        return LynxValue::MakeValueScoped(value);
+        return LynxValue::MakeInt(height);
     }
 }

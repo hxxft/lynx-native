@@ -338,8 +338,9 @@ namespace jscore {
             //render_object->AddEventListener(event, js_function, false);
 
             LynxObject* properties = array->Get(0)->data_.lynx_object;
-            properties->Set("name", LynxValue::MakeString(event.c_str()));
-            render_object->SetData(lynx::RenderObject::ANIMATE_PROPS, base::ScopedPtr<LynxValue>(properties));
+            properties->Set("name", LynxValue::MakeString(event.c_str()).Release());
+            render_object->SetData(lynx::RenderObject::ANIMATE_PROPS,
+                                   base::ScopedPtr<LynxValue>(properties));
             array->Release();
         }
 
@@ -368,13 +369,11 @@ namespace jscore {
 
     base::ScopedPtr<LynxValue> Element::GetTagNameCallback(LynxObjectTemplate* object) {
         Element *element = static_cast<Element *>(object);
-        LynxValue* value = LynxValue::MakeString(element->render_object()->tag_name());
-        return LynxValue::MakeValueScoped(value);
+        return LynxValue::MakeString(element->render_object()->tag_name());
     }
 
     base::ScopedPtr<LynxValue> Element::GetNodeTypeCallback(LynxObjectTemplate* object) {
-        LynxValue* value = LynxValue::MakeInt(1);
-        return LynxValue::MakeValueScoped(value);
+        return LynxValue::MakeInt(1);
     }
 
     base::ScopedPtr<LynxValue> Element::GetParentNodeCallback(LynxObjectTemplate* object) {
@@ -383,64 +382,54 @@ namespace jscore {
         lynx::RenderObject* parent = const_cast<lynx::RenderObject*>(render_object->Parent());
         if (parent) {
             Element* parent_element = static_cast<Element*>(parent->GetJSRef());
-            LynxValue *value = LynxValue::MakeObjectTemplate(parent_element);
-            return LynxValue::MakeValueScoped(value);
+            return LynxValue::MakeObjectTemplate(parent_element);
         }
         return LynxValue::MakeValueScoped(NULL);
     }
 
     base::ScopedPtr<LynxValue> Element::GetOffsetTopCallback(LynxObjectTemplate* object) {
         Element *element = static_cast<Element *>(object);
-        LynxValue* value = LynxValue::MakeInt(element->render_object()->offset_top());
-        return LynxValue::MakeValueScoped(value);
+        return LynxValue::MakeInt(element->render_object()->offset_top());
     }
 
     base::ScopedPtr<LynxValue> Element::GetOffsetLeftCallback(LynxObjectTemplate* object) {
         Element *element = static_cast<Element *>(object);
-        LynxValue* value = LynxValue::MakeInt(element->render_object()->offset_left());
-        return LynxValue::MakeValueScoped(value);
+        return LynxValue::MakeInt(element->render_object()->offset_left());
     }
 
     base::ScopedPtr<LynxValue> Element::GetOffsetWidthCallback(LynxObjectTemplate* object) {
         Element *element = static_cast<Element *>(object);
-        LynxValue* value = LynxValue::MakeInt(element->render_object()->offset_width());
-        return LynxValue::MakeValueScoped(value);
+        return LynxValue::MakeInt(element->render_object()->offset_width());
     }
 
     base::ScopedPtr<LynxValue> Element::GetOffsetHeightCallback(LynxObjectTemplate* object) {
         Element *element = static_cast<Element *>(object);
-        LynxValue* value = LynxValue::MakeInt(element->render_object()->offset_height());
-        return LynxValue::MakeValueScoped(value);
+        return LynxValue::MakeInt(element->render_object()->offset_height());
     }
 
     base::ScopedPtr<LynxValue> Element::GetScrollWidthCallback(LynxObjectTemplate* object) {
         Element *element = static_cast<Element *>(object);
-        LynxValue* value = LynxValue::MakeInt(element->render_object()->scroll_width());
-        return LynxValue::MakeValueScoped(value);
+        return LynxValue::MakeInt(element->render_object()->scroll_width());
     }
 
     base::ScopedPtr<LynxValue> Element::GetScrollHeightCallback(LynxObjectTemplate* object) {
         Element *element = static_cast<Element *>(object);
-        LynxValue* value = LynxValue::MakeInt(element->render_object()->scroll_height());
-        return LynxValue::MakeValueScoped(value);
+        return LynxValue::MakeInt(element->render_object()->scroll_height());
     }
 
     base::ScopedPtr<LynxValue> Element::GetScrollTopCallback(LynxObjectTemplate* object) {
         Element *element = static_cast<Element *>(object);
-        LynxValue* value = LynxValue::MakeInt(element->render_object()->scroll_top());
-        return LynxValue::MakeValueScoped(value);
+        return LynxValue::MakeInt(element->render_object()->scroll_top());
     }
 
     base::ScopedPtr<LynxValue> Element::GetScrollLeftCallback(LynxObjectTemplate* object) {
         Element *element = static_cast<Element *>(object);
-        LynxValue* value = LynxValue::MakeInt(element->render_object()->scroll_left());
-        return LynxValue::MakeValueScoped(value);
+        return LynxValue::MakeInt(element->render_object()->scroll_left());
     }
 
     base::ScopedPtr<LynxValue> Element::GetTextContentCallback(LynxObjectTemplate* object) {
         Element *element = static_cast<Element *>(object);
-        LynxValue* value = LynxValue::MakeString(element->render_object()->GetText());
-        return LynxValue::MakeValueScoped(value);
+        return LynxValue::MakeString(element->render_object()->GetText());
     }
 
     void Element::SetTextContentCallback(LynxObjectTemplate* object,
@@ -456,8 +445,7 @@ namespace jscore {
         lynx::RenderObject* next = render_object->NextSibling();
         if(next) {
             Element* next_element = static_cast<Element*>(next->GetJSRef());
-            LynxValue *value = LynxValue::MakeObjectTemplate(next_element);
-            return base::ScopedPtr<LynxValue>(value);
+            return LynxValue::MakeObjectTemplate(next_element);
         }
         return base::ScopedPtr<LynxValue>(NULL);
     }
@@ -471,8 +459,7 @@ namespace jscore {
                            static_cast<lynx::RenderObject*>(render_child->FirstChild())
                             : render_child;
             Element* next_element = static_cast<Element*>(render_child->GetJSRef());
-            LynxValue *value = LynxValue::MakeObjectTemplate(next_element);
-            return base::ScopedPtr<LynxValue>(value);
+            return LynxValue::MakeObjectTemplate(next_element);
         }
         return base::ScopedPtr<LynxValue>(NULL);
     }
@@ -498,7 +485,7 @@ namespace jscore {
                 child_element = static_cast<Element*>(render_child->GetJSRef());
             }
 
-            array->Push(LynxValue::MakeObjectTemplate(child_element));
+            array->Push(LynxValue::MakeObjectTemplate(child_element).Release());
             render_child = static_cast<lynx::RenderObject*>(render_child->Next());
         }
         return LynxValue::MakeValueScoped(array);
