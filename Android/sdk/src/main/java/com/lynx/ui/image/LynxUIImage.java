@@ -233,13 +233,19 @@ public class LynxUIImage
 
     private void setPadding() {
         int borderWidth = (int) mRenderObjectImpl.getStyle().mBorderWidth;
+        int paddingLeft = mRenderObjectImpl.getStyle().mPaddingLeft;
+        int paddingRight = mRenderObjectImpl.getStyle().mPaddingRight;
+        int paddingTop = mRenderObjectImpl.getStyle().mPaddingTop;
+        int paddingBottom = mRenderObjectImpl.getStyle().mPaddingBottom;
         if (isAnimatedImage
                 || (borderWidth > 0
                     && mRenderObjectImpl.getStyle().mBorderRadius == 0)) {
-            mView.setPadding(borderWidth, borderWidth, borderWidth, borderWidth);
-        } else {
-            mView.setPadding(0, 0, 0, 0);
+            paddingLeft +=borderWidth;
+            paddingTop += borderWidth;
+            paddingRight += borderWidth;
+            paddingBottom += borderWidth;
         }
+        mView.setPadding(paddingLeft, paddingTop, paddingRight, paddingBottom);
     }
 
     private void setScale(){
