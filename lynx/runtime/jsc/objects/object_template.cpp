@@ -17,7 +17,7 @@ namespace jscore {
     void ObjectTemplate::BindingClass(ClassWrap* class_wrap, LynxObjectTemplate* object) {
         if (object != 0) {
 
-            auto field_map = object->fields();
+            auto& field_map = object->fields();
             for (auto& it : field_map) {
                 LynxObjectTemplate::Field field = it.second;
                 JSObjectGetPropertyCallback get = ObjectTemplate::GetPropertyCallback;
@@ -30,13 +30,13 @@ namespace jscore {
                                              NULL);
             }
 
-            auto method_map = object->methods();
+            auto& method_map = object->methods();
             for (auto& it : method_map) {
                 class_wrap->SetJSStaticFunction(it.first.c_str(),
                                                 ObjectTemplate::MethodCallback, NULL);
             }
 
-            const std::unordered_map<std::string, JSObjectCallAsFunctionCallback>& raw_method_map
+            auto& raw_method_map
                     = object->raw_methods();
             for (auto& it : raw_method_map) {
                 class_wrap->SetJSStaticFunction(it.first.c_str(),
