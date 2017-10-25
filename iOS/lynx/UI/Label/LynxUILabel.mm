@@ -24,7 +24,7 @@
     self.view.textColor = COLOR_CONVERT(style.font_color_);
     self.view.textAlignment = [CSSStyleConvector ConvectToTextAlignment:style.text_align_];
     if (style.font_weight_ == lynx::CSSTEXT_FONT_WEIGHT_BOLD) {
-        self.view.font = [UIFont boldSystemFontOfSize:(style.font_size_)];
+        self.view.font = [UIFont boldSystemFontOfSize:style.font_size_];
     } else {
         self.view.font = [UIFont systemFontOfSize:style.font_size_];
     }

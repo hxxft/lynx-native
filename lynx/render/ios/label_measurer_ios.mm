@@ -22,14 +22,12 @@ namespace lynx {
         
         CSSStyle style = render_object->style_;
         NSString* label_text = [[NSString alloc]initWithUTF8String:text.c_str()];
-        
         UIFont* ui_font;
         if (style.font_weight_ == lynx::CSSTEXT_FONT_WEIGHT_BOLD) {
-            ui_font = [UIFont boldSystemFontOfSize:(style.font_size_)];
+            ui_font = [UIFont boldSystemFontOfSize:style.font_size_];
         } else {
             ui_font = [UIFont systemFontOfSize:style.font_size_];
         }
-        
         NSMutableParagraphStyle* font_style = [[NSMutableParagraphStyle alloc] init];
         NSMutableDictionary* font_attribution = [[NSMutableDictionary alloc] init];
         
