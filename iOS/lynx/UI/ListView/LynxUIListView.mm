@@ -5,7 +5,7 @@
 
 @implementation LynxUIListView 
 
-- (UIView *)createView:(LynxRenderObjectImpl *)impl {
+- (id)createView:(LynxRenderObjectImpl *)impl {
     UITableView *view = [[UITableView alloc] init];
     _controller = [[LynxListViewController alloc] init:(UITableView *)view withUI:self];
     view.dataSource = _controller;
@@ -16,13 +16,12 @@
 }
 
 - (void) setData:(id) value withKey:(LynxRenderObjectAttr) attr; {
-    UITableView *listView = SAFE_CONVERT(self.view, UITableView);
     switch (attr) {
         case SCROLL_LEFT:
-            [listView setContentOffset:CGPointMake([SAFE_CONVERT(value, NSNumber) intValue], 0) animated:YES];
+            [self.view setContentOffset:CGPointMake([SAFE_CONVERT(value, NSNumber) intValue], 0) animated:YES];
             break;
         case SCROLL_TOP:
-            [listView setContentOffset:CGPointMake(0, [SAFE_CONVERT(value, NSNumber) intValue]) animated:YES];
+            [self.view setContentOffset:CGPointMake(0, [SAFE_CONVERT(value, NSNumber) intValue]) animated:YES];
             break;
         default:
             break;
