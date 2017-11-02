@@ -67,6 +67,7 @@ namespace base {
         static jfieldID padding_top_field_;
         static jfieldID padding_bottom_field_;
         static jfieldID position_type_field_;
+        static jfieldID object_fit_field_;
 
     };
 }
