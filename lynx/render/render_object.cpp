@@ -29,6 +29,7 @@ RenderObject::RenderObject(const char* tag_name,
       scroll_top_(0),
       scroll_left_(0),
       text_(""),
+      render_cmds_(""),
       is_fixed_(false),
       render_object_type_(type),
       impl_(proxy),
@@ -239,6 +240,15 @@ void RenderObject::RemoveChild(ContainerNode* child) {
 void RenderObject::SetAttribute(const std::string &key,
                                 const std::string &value) {
     if (!IsInvisible()) {
+        if(key.compare("renderCmd") == 0){
+            render_cmds_ +=  ("^"+value);
+            return;
+        }else if(key.compare("postRender") == 0){
+            RenderCommand* cmd = lynx_new RendererAttrUpdateCommand(impl(), "renderCmd", render_cmds_, RenderCommand::CMD_SET_ATTR);
+            render_tree_host_->UpdateRenderObject(cmd);
+            render_cmds_ = "";
+            return;
+        }
         RenderCommand* cmd = lynx_new RendererAttrUpdateCommand(impl(), key, value, RenderCommand::CMD_SET_ATTR);
         render_tree_host_->UpdateRenderObject(cmd);
 

@@ -2,6 +2,7 @@
 
 #include "render/render_tree_host.h"
 
+#include "runtime/canvas.h"
 #include "runtime/element.h"
 #include "runtime/runtime.h"
 #include "render/render_object.h"
@@ -47,10 +48,10 @@ RenderTreeHost::~RenderTreeHost() {
 
 void RenderTreeHost::UpdateRenderObject(RenderCommand* command) {
     // exec command immediately
-    thread_manager_->RunOnUIThread(command);
+    //thread_manager_->RunOnUIThread(command);
 
     // collect command and wait vsync signal to exec
-    //collector_.Collect(command);
+    collector_.Collect(command);
 }
 
 void RenderTreeHost::ForceLayout(int left, int top, int right, int bottom) {
@@ -95,7 +96,12 @@ void RenderTreeHost::RendererSync(RenderObject* renderer) {
     RenderObject* child = static_cast<RenderObject*>(renderer->FirstChild());
     while(child) {
         if(!child->IsPrivate()) {
-            jscore::Element *element = lynx_new jscore::Element(context_, child);
+            jscore::Element *element = NULL;
+            if(child->IsCanvas()) {
+                element = lynx_new jscore::Canvas(context_, child);
+            }else {
+                element = lynx_new jscore::Element(context_, child);
+            }
             jscore::Element::ProtectChild(context_, element);
         }
         RendererSync(child);

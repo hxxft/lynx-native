@@ -125,6 +125,10 @@ class RenderObject : public LayoutObject, public EventTarget {
         return render_object_type_ == LYNX_CELLVIEW;
     }
 
+    const bool IsCanvas() {
+        return render_object_type_ == LYNX_CANVAS;
+    }
+
     void SetHost(RenderTreeHost* host) {
         render_tree_host_ = host;
     }
@@ -184,6 +188,8 @@ protected:
     int scroll_left_;
 
     std::string text_;
+
+    std::string render_cmds_;
 
     std::map<std::string, std::string> attributes_;
 

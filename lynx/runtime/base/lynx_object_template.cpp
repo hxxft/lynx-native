@@ -1,5 +1,6 @@
 // Copyright 2017 The Lynx Authors. All rights reserved.
 
+#include "JavaScriptCore/JavaScript.h"
 #include "lynx_object_template.h"
 #include "runtime/base/lynx_object.h"
 #include "runtime/base/lynx_value.h"
@@ -17,6 +18,11 @@ namespace jscore {
     void LynxObjectTemplate::RegisterMethodCallback(std::string method_name,
                                                 LynxMethodCallback callback) {
         methods_[method_name] = callback;
+    }
+
+    void LynxObjectTemplate::RegisterRawMethodCallback(std::string method_name,
+                                                           JSObjectCallAsFunctionCallback callback) {
+        raw_methods_[method_name] = callback;
     }
 
     void LynxObjectTemplate::RegisterAccessorCallback(std::string field_name,

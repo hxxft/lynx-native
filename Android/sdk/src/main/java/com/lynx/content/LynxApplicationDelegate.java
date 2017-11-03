@@ -3,7 +3,6 @@ package com.lynx.content;
 
 import android.app.Application;
 
-import com.lynx.BuildConfig;
 import com.lynx.content.info.App;
 import com.lynx.content.info.Manifest;
 import com.lynx.core.RuntimeManager;
@@ -19,9 +18,9 @@ public class LynxApplicationDelegate {
     }
 
     public void onCreate() {
-        if(BuildConfig.DEBUG) {
+        //if(BuildConfig.DEBUG) {
             DevSupportManager.getInstance().initialize();
-        }
+        //}
         RuntimeManager.prepare(mApplication);
         mManifest = ResourceManager.instance()
                 .getObjectFromGson(Manifest.MATNIFEST_URI, Manifest.class);

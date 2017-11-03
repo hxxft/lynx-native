@@ -12,7 +12,7 @@ add_definitions(-DDEBUG_MEMORY=0)
 #set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall")
 
 # strip lib
-set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -s")
+#set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -s")
 
 
 include_directories(${CMAKE_SOURCE_DIR}/../../lynx
@@ -96,6 +96,8 @@ add_library(lynx SHARED
             	${CMAKE_SOURCE_DIR}/../../lynx/runtime/screen.cpp
             	${CMAKE_SOURCE_DIR}/../../lynx/runtime/console.cpp
             	${CMAKE_SOURCE_DIR}/../../lynx/runtime/document.cpp
+            	${CMAKE_SOURCE_DIR}/../../lynx/runtime/canvas.cpp
+            	${CMAKE_SOURCE_DIR}/../../lynx/runtime/canvas_2d_context.cpp
             	${CMAKE_SOURCE_DIR}/../../lynx/runtime/body.cpp
             	${CMAKE_SOURCE_DIR}/../../lynx/runtime/element.cpp
             	${CMAKE_SOURCE_DIR}/../../lynx/runtime/timed_task.cpp
@@ -110,6 +112,7 @@ add_library(lynx SHARED
             	${CMAKE_SOURCE_DIR}/../../lynx/runtime/jsc/objects/window_object.cpp
             	${CMAKE_SOURCE_DIR}/../../lynx/runtime/jsc/objects/object_template.cpp
                 ${CMAKE_SOURCE_DIR}/../../lynx/runtime/jsc/objects/function_object.cpp
+                ${CMAKE_SOURCE_DIR}/../../lynx/runtime/jsc/Performance.cpp
             	${CMAKE_SOURCE_DIR}/../../lynx/net/url_request_context.cpp
             	${CMAKE_SOURCE_DIR}/../../lynx/net/url_request_ghost_delegate.cpp
             	${CMAKE_SOURCE_DIR}/../../lynx/net/android/url_request_android.cpp

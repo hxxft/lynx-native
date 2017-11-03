@@ -71,7 +71,10 @@ class RenderFactory {
                                  ++id,
                                  RenderObjectImpl::Create(manager, LYNX_RADIO_GROUP),
                                  host);
-        } else {
+        } else if (tag.compare("canvas") == 0){
+            return lynx_new ExtendedView("canvas", LYNX_CANVAS, ++id, host);
+        }else{
+
             LOGE("[LYNX ERROR]", "Element Tag(%s) is Not Support", tag.c_str());
         }
         return NULL;

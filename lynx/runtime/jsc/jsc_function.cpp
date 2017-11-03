@@ -6,6 +6,7 @@
 #include "runtime/jsc/objects/object_template.h"
 #include "runtime/jsc/jsc_helper.h"
 #include <sstream>
+#include "runtime/jsc/Performance.h"
 
 namespace jscore {
     JSCFunction::JSCFunction(JSCContext* context, JSObjectRef target, JSObjectRef function) : LynxFunction(context) {
@@ -34,6 +35,7 @@ namespace jscore {
     }
 
     void JSCFunction::Run(void* target, LynxArray* args) {
+        Performance p("invoke_void_function");
         if (target == 0) {
             return;
         }
@@ -62,10 +64,20 @@ namespace jscore {
                                             kJSPropertyAttributeReadOnly, NULL);
             }
         }
+        JSValueRef exception = nullptr;
 
         JSStringRef function_key = JSStringCreateWithUTF8CString(lynx_function_key_.c_str());
         JSObjectRef function = (JSObjectRef)JSObjectGetProperty(ctx, JSContextGetGlobalObject(ctx), function_key, NULL);
-        JSObjectCallAsFunction(ctx, function, target_object, argc, array.Get(), NULL);
+        JSObjectCallAsFunction(ctx, function, target_object, argc, array.Get(), &exception);
         JSStringRelease(function_key);
+
+        if (exception) {
+            int type = JSValueGetType(ctx, exception);
+
+            std::string str = JSCHelper::ConvertToString(ctx, exception);
+            if (!str.empty()) {
+                LOGD("lynx-js-console", "js error: %s", str.c_str());
+            }
+        }
     }
 }
