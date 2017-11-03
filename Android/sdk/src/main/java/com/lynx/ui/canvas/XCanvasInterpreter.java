@@ -214,7 +214,6 @@ public class XCanvasInterpreter {
         Target mTarget = new Target() {
             @Override
             public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-                Log.i("ccc", "onBitmapLoaded");
                 if(null == mImageCache.get(attributes[0])){
                     mImageCache.put(attributes[0],bitmap);
                     mImpl.invalidate();
