@@ -17,6 +17,12 @@ namespace lepus {
     
     class Visitor;
     
+    enum LexicalOp {
+        LexicalOp_None,
+        LexicalOp_Read,
+        LexicalOp_Write,
+    };
+    
     enum LexicalScoping {
         LexicalScoping_Unknow,
         LexicalScoping_Global,
@@ -30,7 +36,7 @@ virtual void Accept(Visitor* visitor, void* data);
     class ASTree {
     public:
         virtual ~ASTree() {}
-        virtual void Accept(Visitor* visitor, void* data) = 0;
+        virtual void Accept(Visitor* visitor, void* data) {}
     };
     
     class ChunkAST : public ASTree {
@@ -73,8 +79,9 @@ virtual void Accept(Visitor* visitor, void* data);
     class LiteralAST : public ASTree {
     public:
         LiteralAST(const Token& token)
-        :token_(token)
-        ,scope_(LexicalScoping_Unknow){
+        :token_(token),
+         scope_(LexicalScoping_Unknow),
+         lex_op_(LexicalOp_None){
             
         }
         
@@ -86,10 +93,15 @@ virtual void Accept(Visitor* visitor, void* data);
             return scope_;
         }
         
+        LexicalOp& lex_op() {
+            return lex_op_;
+        }
+        
         AST_ACCEPT_VISITOR
     private:
         Token token_;
         LexicalScoping scope_;
+        LexicalOp lex_op_;
     };
     
     class NamesAST : public ASTree {
@@ -276,18 +288,25 @@ virtual void Accept(Visitor* visitor, void* data);
     
     class AssignStatement : public ASTree {
     public:
-        AssignStatement(ASTree* variable, ASTree* expression)
-        :variable_(variable), expression_(expression){
+        AssignStatement(const Token& assignment, ASTree* variable, ASTree* expression)
+        :assignment_(assignment), variable_(variable), expression_(expression){
+        }
+        
+        Token& assignment() {
+            return assignment_;
         }
         
         base::ScopedPtr<ASTree>& variable() {
             return variable_;
         }
+        
         base::ScopedPtr<ASTree>& expression() {
             return expression_;
         }
+        
         AST_ACCEPT_VISITOR
     private:
+        Token assignment_;
         base::ScopedPtr<ASTree> variable_;
         base::ScopedPtr<ASTree> expression_;
     };

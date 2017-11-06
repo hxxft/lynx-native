@@ -12,11 +12,12 @@
 #include "base/scoped_ptr.h"
 #include "lepus/token.h"
 #include "parser/input_stream.h"
+#include "lepus/string.h"
 
 namespace lepus {
     class Scanner {
     public:
-        Scanner(parser::InputStream* input);
+        Scanner(parser::InputStream* input, StringPool* string_pool);
         void NextToken(Token& token);
     private:
         void ParseNewLine();
@@ -24,6 +25,7 @@ namespace lepus {
         void ParseMultiLineComment();
         void ParseNumber(Token& token);
         void ParseEqual(Token& token, int equal);
+        void ParseTokenCharacter(Token& token, int token_character);
         void ParseId(Token& token);
         
         int NextCharacter() {
@@ -37,6 +39,7 @@ namespace lepus {
         }
         
         parser::InputStream* input_stream_;
+        StringPool* string_pool_;
         int current_character_;
         int line_;
         int column_;

@@ -233,11 +233,19 @@ namespace lepus {
         
         if(type == ExprType_Var) {
             ASTree* ast = nullptr;
-            if(LookAhead().token_ == '=') {
-                NextToken();
+            if(LookAhead().token_ == '=' ||
+               LookAhead().token_ == Token_ASSIGN_ADD ||
+               LookAhead().token_ == Token_ASSIGN_SUB ||
+               LookAhead().token_ == Token_ASSIGN_MUL ||
+               LookAhead().token_ == Token_ASSIGN_DIV ||
+               LookAhead().token_ == Token_ASSIGN_MOD ||
+               LookAhead().token_ == Token_ASSIGN_BIT_OR ||
+               LookAhead().token_ == Token_ASSIGN_BIT_AND ||
+               LookAhead().token_ == Token_ASSIGN_BIT_XOR) {
+                Token assignment = NextToken();
                 ast = ParseExpression();
+                return new AssignStatement(assignment, expr, ast);
             }
-            return new AssignStatement(expr, ast);
                 
         }else if(type == ExprType_FunctionCall) {
             return expr;
@@ -284,11 +292,11 @@ namespace lepus {
     
     ASTree* Parser::ParseExpression(ASTree* left, int left_priority, Token token) {
         ASTree* expression = nullptr;
-        if(LookAhead().token_ == '-' || LookAhead().token_ == Token_Not) {
+        if(LookAhead().token_ == '-' || LookAhead().token_ == '!') {
             NextToken();
-            UnaryExpression* expression= new UnaryExpression;
-            expression->op_token() = current_token_;
-            expression->expression().Reset(ParseExpression(nullptr, 90, Token()));
+            expression = new UnaryExpression;
+            static_cast<UnaryExpression*>(expression)->op_token() = current_token_;
+            static_cast<UnaryExpression*>(expression)->expression().Reset(ParseExpression(new ASTree, 90, Token()));
         }else if(IsPrimaryExpr(LookAhead().token_)){
             expression = ParsePrimaryExpr();
         }else{

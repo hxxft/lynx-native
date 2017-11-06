@@ -3,14 +3,20 @@
 
 #include "lepus/visitor.h"
 #include "lepus/value.h"
+#include "lepus/string.h"
 #include <unordered_map>
 
 namespace lepus {
+    typedef Value (*NativeFunction)(const std::vector<Value>& args);
     class Interpreter : public Visitor{
     public:
-        Interpreter():variables_map_(), parent_(nullptr){
-            Initialize();
+        Interpreter()
+        : string_pool_(nullptr),
+          variables_map_(),
+          parent_(nullptr){
+//            Initialize();
         }
+        
         virtual ~Interpreter(){}
         virtual void Visit(ChunkAST* ast, void* data);
         virtual void Visit(BlockAST* ast, void* data);
@@ -31,18 +37,37 @@ namespace lepus {
         virtual void Visit(MemberAccessorAST* ast, void* data);
         virtual void Visit(FunctionCallAST* ast, void* data);
         
-        void Call(const std::string& name, const std::vector<Value>& args);
+        void Call(const String* name, const std::vector<Value>& args);
         
         void set_parent(Interpreter* parent) {
             parent_ = parent;
         }
         
-    private:
-        void SearchVariable(const std::string& name, Value* value);
-        void AssignVariable(const std::string& name, Value* value);
+        void set_string_pool(StringPool* string_pool) {
+            string_pool_ = string_pool;
+        }
         void Initialize();
+    private:
+        enum ValueOp
+        {
+            ValueOp_None,
+            ValueOp_Read,
+            ValueOp_Write,
+        };
+        struct ValueData {
+            Value value_;
+            ValueOp op_;
+            int assigment_;
+            ValueData():value_(), op_(ValueOp_Read),assigment_(-1) {
+                
+            }
+        };
+        void SearchVariable(const String* name, ValueData* value);
+        void AssignVariable(const String* name, ValueData* value);
         
-        std::unordered_map<std::string, Value> variables_map_;
+        
+        StringPool* string_pool_;
+        std::unordered_map<String*, Value> variables_map_;
         Interpreter* parent_;
     };
 }

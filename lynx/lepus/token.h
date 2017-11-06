@@ -10,6 +10,7 @@
 #define LYNX_LEPUS_TOKEN_H_
 
 #include <iostream>
+#include "lepus/string.h"
 
 namespace lepus {
     enum TokenType {
@@ -41,15 +42,26 @@ namespace lepus {
         Token_NotEqual  = 281,
         Token_LessEqual = 282,
         Token_GreaterEqual = 283,
-        Token_Concat       = 284,
-        Token_VarArg       = 285,
-        Token_EOF          = 286,
+        Token_INC       = 284,  // ++
+        Token_DEC       = 285,  // --
+        Token_ASSIGN_BIT_OR = 286, // |=
+        Token_ASSIGN_BIT_XOR = 287, // ^=
+        Token_ASSIGN_BIT_AND = 288, // &=
+        Token_ASSIGN_SHL = 289,      // <<=
+        Token_ASSIGN_SAR = 290,      // >>>=
+        Token_ASSIGN_SHR = 291,      // >>>=
+        Token_ASSIGN_ADD = 292,      // +=
+        Token_ASSIGN_SUB = 293,      // -=
+        Token_ASSIGN_MUL = 294,      // *=
+        Token_ASSIGN_DIV = 295,      // /=
+        Token_ASSIGN_MOD = 296,      // %=
+        Token_EOF          = 297,
     };
     
     struct Token {
         union {
             double number_;
-            std::string* str_;
+            String* str_;
         };
         
         char* module_;
@@ -61,15 +73,49 @@ namespace lepus {
             
         }
         
-        void Print(){
-            if(token_ < Token_And)
-                std::cout << (char)token_ << std::endl;
-            else if(token_ == Token_Number) {
-                std::cout << number_ << std::endl;
-            }else if(token_ != Token_EOF){
-                std::cout << *str_ << std::endl;
+        Token(Token& token) {
+            str_ = nullptr;
+            if(token.token_ == Token_Number){
+                number_ = token.number_;
+            }else if(token.str_){
+                str_ = token.str_;
+                str_->AddRef();
             }
-            
+            module_ = nullptr;
+            token_ = token.token_;
+            line_ = token.line_;
+            column_ = token.column_;
+        }
+        
+        Token(const Token& token) {
+            str_ = nullptr;
+            if(token.token_ == Token_Number){
+                number_ = token.number_;
+            }else if(token.str_){
+                str_ = token.str_;
+                str_->AddRef();
+            }
+            module_ = nullptr;
+            token_ = token.token_;
+            line_ = token.line_;
+            column_ = token.column_;
+        }
+        
+        ~Token() {
+            if(token_ != Token_Number && token_ != Token_EOF && str_) {
+                str_->Release();
+            }
+        }
+        
+        void Print(){
+            if(token_ < Token_And) {
+                printf("%c", (char)token_);
+            }
+            else if(token_ == Token_Number) {
+                printf("%lf", number_);
+            }else if(token_ != Token_EOF){
+                printf("%s", str_->c_str());
+            }
         }
     };
 }

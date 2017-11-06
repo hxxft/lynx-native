@@ -1,4 +1,7 @@
 var scaleRate = (850 - 650) / 650
+
+print(scaleRate)
+
 var topHeight = (608 - 150 * (1 + scaleRate)) * 2
 var p = 0
 var totalP = 0
@@ -12,12 +15,16 @@ function onDispatchScrollEvent() {
     lastScrollTop = e.target.scrollTop
 }
 
-function onScrollEvent1(){
-    var i = 2
-    print(p)
-    print(750 * (i - 1) * p)
-   // translateY = -300 * (i - 1) * p
-}
+// function onScrollEvent1(scrollTop, scrollLeft){
+//     var i = 2
+//     print(p)
+//     print(750 * (i - 1) * p)
+//    // translateY = -300 * (i - 1) * p
+// }
+
+// function onTouchEvent(touchX, touchY) {
+
+// }
 
 
 // function onScrollEvent2(e){

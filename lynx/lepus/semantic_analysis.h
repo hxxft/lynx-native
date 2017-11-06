@@ -4,6 +4,7 @@
 
 #include "lepus/syntax_tree.h"
 #include "lepus/visitor.h"
+#include "lepus/string.h"
 
 #include <unordered_set>
 #include <string>
@@ -11,7 +12,7 @@
 namespace {
     struct LexicalBlock {
         base::ScopedPtr<LexicalBlock> parent_;
-        std::unordered_set<std::string> names_;
+        std::unordered_set<lepus::String*> names_;
         
         LexicalBlock() : parent_(nullptr) {}
     };
@@ -53,8 +54,8 @@ namespace lepus {
         void EnterBlock();
         void LeaveBlock();
         
-        void InsertName(const std::string& name);
-        LexicalScoping SearchName(const std::string& name);
+        void InsertName(const String* name);
+        LexicalScoping SearchName(const String* name);
         
         base::ScopedPtr<LexicalFunction> current_function_;
     };

@@ -2,28 +2,9 @@
 #include "lepus/semantic_analysis.h"
 
 #include "lepus/exception.h"
+#include "lepus/guard.h"
 
 namespace lepus {
-    
-    template<class Class>
-    class Guard {
-    public:
-        typedef void (Class::*CallbackFunc)();
-        Guard(Class* ptr, CallbackFunc enter, CallbackFunc leave)
-        :ptr_(ptr), enter_(enter), leave_(leave){
-            if(ptr_ && enter_)
-                (ptr_->*enter_)();
-        }
-        
-        Guard() {
-            if(ptr_ && enter_)
-                (ptr_->*leave_)();
-        }
-    private:
-        Class* ptr_;
-        CallbackFunc enter_;
-        CallbackFunc leave_;
-    };
     
     enum ExprType
     {
@@ -62,16 +43,16 @@ namespace lepus {
         current_function_->current_block_ = block->parent_;
     }
     
-    void SemanticAnalysis::InsertName(const std::string& name) {
-        current_function_->current_block_->names_.insert(name);
+    void SemanticAnalysis::InsertName(const String* name) {
+        current_function_->current_block_->names_.insert(const_cast<String*>(name));
     }
     
-    LexicalScoping SemanticAnalysis::SearchName(const std::string& name) {
+    LexicalScoping SemanticAnalysis::SearchName(const String* name) {
         LexicalFunction* function = current_function_.Get();
         while(function) {
             LexicalBlock* block = function->current_block_.Get();
             while(block) {
-                std::unordered_set<std::string>::iterator iter = block->names_.find(name);
+                std::unordered_set<String*>::iterator iter = block->names_.find(const_cast<String*>(name));
                 if(iter != block->names_.end()) {
                     return function == current_function_.Get() ? LexicalScoping_Local : LexicalScoping_Upvalue;
                 }
@@ -127,14 +108,14 @@ namespace lepus {
                 break;
         }
         if(ast->token().token_ == Token_Id) {
-            ast->scope() = SearchName(*ast->token().str_);
+            ast->scope() = SearchName(ast->token().str_);
         }
     }
     
     void SemanticAnalysis::Visit(NamesAST* ast, void* data){
         for(std::vector<Token>::iterator iter = ast->names().begin();
             iter != ast->names().end(); ++iter) {
-            InsertName(*(*iter).str_);
+            InsertName((*iter).str_);
         }
     }
     
@@ -221,7 +202,7 @@ namespace lepus {
         if(ast->identifier().token_ != Token_Id) {
             //TODO exception
         }
-        InsertName(*(ast->identifier().str_));
+        InsertName(ast->identifier().str_);
     }
     
     void SemanticAnalysis::Visit(VariableListAST* ast, void* data){
@@ -232,7 +213,7 @@ namespace lepus {
     }
     
     void SemanticAnalysis::Visit(FunctionStatementAST* ast, void* data){
-        InsertName(*(ast->function_name().str_));
+        InsertName(ast->function_name().str_);
         Guard<SemanticAnalysis> g(this, &SemanticAnalysis::EnterFunction, &SemanticAnalysis::LeaveFunction);
         {
             Guard<SemanticAnalysis> g(this, &SemanticAnalysis::EnterBlock, &SemanticAnalysis::LeaveBlock);
@@ -269,7 +250,7 @@ namespace lepus {
     
     void SemanticAnalysis::Visit(AssignStatement* ast, void* data){
         ExprData expr_data;
-        ast->variable()->Accept(this, nullptr);
+        ast->variable()->Accept(this, &expr_data);
         ast->expression()->Accept(this, &expr_data);
     }
     

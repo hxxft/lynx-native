@@ -29,7 +29,8 @@ namespace lepus {
         TypeOp_Div,                     // ABC  A: dst register B: operand1 register C: operand2 register
         TypeOp_Pow,                     // ABC  A: dst register B: operand1 register C: operand2 register
         TypeOp_Mod,                     // ABC  A: dst register B: operand1 register C: operand2 register
-        TypeOp_Concat,                  // ABC  A: dst register B: operand1 register C: operand2 register
+        TypeOp_And,                     // ABC  A: dst register B: operand1 register C: operand2 register
+        TypeOp_Or,                     // ABC  A: dst register B: operand1 register C: operand2 register
         TypeOp_Less,                    // ABC  A: dst register B: operand1 register C: operand2 register
         TypeOp_Greater,                 // ABC  A: dst register B: operand1 register C: operand2 register
         TypeOp_Equal,                   // ABC  A: dst register B: operand1 register C: operand2 register
@@ -64,6 +65,56 @@ namespace lepus {
         
         void RefillsBx(short b) {
             op_code_ = (op_code_ & 0xFFFF0000) | (static_cast<int>(b) & 0xFFFF);
+        }
+        
+        static Instruction ABCCode(TypeOpCode op, int a, int b, int c)
+        {
+            return Instruction(op, a, b, c);
+        }
+        
+        static Instruction ABCode(TypeOpCode op, int a, int b)
+        {
+            return Instruction(op, a, b, 0);
+        }
+        
+        static Instruction ACode(TypeOpCode op, int a)
+        {
+            return Instruction(op, a, 0, 0);
+        }
+        
+        static Instruction ABxCode(TypeOpCode op, int a, int b)
+        {
+            return Instruction(op, a, static_cast<unsigned short>(b));
+        }
+        
+        static int GetOpCode(Instruction i)
+        {
+            return (i.op_code_ >> 24) & 0xFF;
+        }
+        
+        static int GetParamA(Instruction i)
+        {
+            return (i.op_code_ >> 16) & 0xFF;
+        }
+        
+        static int GetParamB(Instruction i)
+        {
+            return (i.op_code_ >> 8) & 0xFF;
+        }
+        
+        static int GetParamC(Instruction i)
+        {
+            return i.op_code_ & 0xFF;
+        }
+        
+        static int GetParamsBx(Instruction i)
+        {
+            return static_cast<short>(i.op_code_ & 0xFFFF);
+        }
+        
+        static int GetParamBx(Instruction i)
+        {
+            return static_cast<unsigned short>(i.op_code_ & 0xFFFF);
         }
         
     };

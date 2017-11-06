@@ -2,13 +2,12 @@
 #include "lepus/table.h"
 
 namespace lepus {
-    void Dictonary::SetValue(const std::string& key, const Value& value) {
-        //hash_map_.insert(std::make_pair(key, value));
-        hash_map_[key] = value;
+    void Dictonary::SetValue(const String* key, const Value& value) {
+        hash_map_[const_cast<String*>(key)] = value;
     }
     
-    Value Dictonary::GetValue(const std::string& key) {
-        HashMap::iterator iter = hash_map_.find(key);
+    Value Dictonary::GetValue(const String* key) {
+        HashMap::iterator iter = hash_map_.find(const_cast<String*>(key));
         if(iter != hash_map_.end())
             return iter->second;
         return Value();

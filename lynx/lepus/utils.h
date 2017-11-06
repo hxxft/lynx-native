@@ -32,8 +32,7 @@ namespace lepus {
     }
     
     static inline bool IsOtherToken(int c) {
-        return c == '+'|| c == '-' || c == '*' || c == '%'
-        || c == '^' || c == '#' || c == '(' || c == ')'
+        return c == '#' || c == '(' || c == ')'
         || c == '{' || c == '}' || c == ']' || c == ']'
         || c == ';' || c == ':' || c == ',' || c == '.';
     }
@@ -68,7 +67,6 @@ namespace lepus {
         token == Token_True ||
         token == Token_Number ||
         token == Token_String ||
-        token == Token_VarArg ||
         token == Token_Function ||
         token == Token_Id ||
         token == '(' ||

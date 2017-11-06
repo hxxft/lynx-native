@@ -82,8 +82,6 @@ namespace lepus {
                 case '+':
                 case '-':
                     return 70;
-                case Token_Concat:
-                    return 60;
                 case '>':
                 case '<':
                 case Token_GreaterEqual:

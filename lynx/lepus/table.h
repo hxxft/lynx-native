@@ -3,14 +3,15 @@
 
 #include <unordered_map>
 #include "lepus/value.h"
+#include "lepus/string.h"
 #include "base/scoped_ptr.h"
 namespace lepus {
     class Dictonary {
     public:
-        void SetValue(const std::string& key, const Value& value);
-        Value GetValue(const std::string& key);
+        void SetValue(const String* key, const Value& value);
+        Value GetValue(const String* key);
     private:
-        typedef std::unordered_map<std::string, Value> HashMap;
+        typedef std::unordered_map<String*, Value> HashMap;
         HashMap hash_map_;
     };
 }
