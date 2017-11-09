@@ -13,6 +13,7 @@ namespace lepus{
     }
     
     String::~String(){
+        delete[] str_;
         string_pool_->Earse(this);
     }
     
@@ -27,30 +28,20 @@ namespace lepus{
     
     
     String* StringPool::NewString(const char* str) {
-        String* string = new String(str, strlen(str), this);
-        NewString(string);
-        return string;
+        return NewString(std::string(str));
     }
     
     String* StringPool::NewString(const std::string& str) {
-        String* string = new String(str.c_str(), str.size(), this);
-        NewString(string);
-        return string;
-    }
-    
-    String* StringPool::NewString(String*& string) {
-        auto iter = string_set_.find(string);
-        if(iter != string_set_.end()) {
-            string->Release();
-            string = *iter;
-        }else{
-            string_set_.insert(string);
+        auto iter = string_map_.find(str);
+        if(iter != string_map_.end()) {
+            return iter->second;
         }
-        string->AddRef();
+        String* string = new String(str.c_str(), str.size(), this);
+        string_map_.insert(std::make_pair(str, string));
         return string;
     }
     
     void StringPool::Earse(String* string) {
-        string_set_.erase(string);
+        string_map_.erase(string->c_str());
     }
 }

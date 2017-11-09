@@ -4,6 +4,7 @@
 
 #include "base/ref_counted_ptr.h"
 #include <unordered_set>
+#include <unordered_map>
 
 namespace lepus {
     class StringPool;
@@ -41,7 +42,6 @@ namespace lepus {
         }
         String* NewString(const char* str);
         String* NewString(const std::string& str);
-        String* NewString(String*& str);
     protected:
         friend class String;
         void Earse(String* string);
@@ -58,6 +58,7 @@ namespace lepus {
             }
         };
         std::unordered_set<String*, Hash, Equal> string_set_;
+        std::unordered_map<std::string, String*> string_map_;
     };
 }
 

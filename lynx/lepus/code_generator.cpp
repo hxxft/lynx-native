@@ -159,7 +159,9 @@ namespace lepus {
                     function->AddInstruction(instruction);
                 }else if(ast->scope() == LexicalScoping_Global) {
                     int gloabl_index = SearchGlobal(ast->token().str_);
-                    auto instruction = Instruction::ABCode(TypeOp_GetGlobal, register_id, gloabl_index);
+                    printf("%d\n", gloabl_index);
+                    auto instruction = Instruction::ABxCode(TypeOp_GetGlobal, register_id, gloabl_index);
+                    printf("%d\n", Instruction::GetParamBx(instruction));
                     function->AddInstruction(instruction);
                 }else if(ast->scope() == LexicalScoping_Upvalue) {
                     int index = ManageUpvalues(ast->token().str_);
