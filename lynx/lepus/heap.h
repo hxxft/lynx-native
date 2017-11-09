@@ -11,8 +11,11 @@ namespace lepus {
             top_ = &heap_[0];
         }
         Value* top_;
+        Value* base() {
+            return &heap_[0];
+        }
     private:
-        static const int kBaseHeapSize = 10000;
+        static const int kBaseHeapSize = 30;
         std::vector<Value> heap_;
         
     };
@@ -22,11 +25,11 @@ namespace lepus {
         
         Value* function_;
         
-        const Instruction* instuction_;
+        const Instruction* instruction_;
         
         const Instruction* end_;
         
-        Frame() : register_(nullptr), function_(nullptr), instuction_(nullptr){}
+        Frame() : register_(nullptr), function_(nullptr), instruction_(nullptr){}
     };
 }
 

@@ -46,8 +46,10 @@ namespace lepus {
     class CodeGenerator : public Visitor{
     public:
         CodeGenerator(VMContext* context)
-        : context_(context),
+        :context_(context),
+        top_level_variables_(nullptr),
           register_id_(0),
+        current_function_name_(nullptr),
         current_function_(){
         }
         
@@ -78,7 +80,9 @@ namespace lepus {
         
         void InsertVariable(String* name, int register_id);
         int SearchVariable(String* name);
+        int SearchVariable(String* name, FunctionGenerate* current);
         int SearchGlobal(String* name);
+        int ManageUpvalues(String* name);
         
         int GenerateRegisiterId() {
             int register_id = current_function_->register_id_++;
@@ -90,7 +94,9 @@ namespace lepus {
         }
         
         VMContext* context_;
+        void* top_level_variables_;
         int register_id_;
+        String* current_function_name_;
         base::ScopedPtr<FunctionGenerate> current_function_;
     };
 }

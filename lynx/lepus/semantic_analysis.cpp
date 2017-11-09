@@ -18,7 +18,12 @@ namespace lepus {
     
     struct ExprData {
         ExprType expr_type_;
-        ExprData():expr_type_(ExprType_Unknown){}
+        LexicalOp lex_po_;
+        ExprData()
+            :expr_type_(ExprType_Unknown),
+            lex_po_(LexicalOp_None){
+                
+            }
     };
     
     void SemanticAnalysis::EnterFunction() {
@@ -110,6 +115,7 @@ namespace lepus {
         if(ast->token().token_ == Token_Id) {
             ast->scope() = SearchName(ast->token().str_);
         }
+        ast->lex_op() = expr_data->lex_po_;
     }
     
     void SemanticAnalysis::Visit(NamesAST* ast, void* data){
@@ -121,6 +127,8 @@ namespace lepus {
     
     void SemanticAnalysis::Visit(BinaryExprAST* ast, void* data){
         ExprData l_expr_data, r_expr_data;
+        l_expr_data.lex_po_ = LexicalOp_Read;
+        r_expr_data.lex_po_ = LexicalOp_Read;
         ast->left()->Accept(this, &l_expr_data);
         ast->right()->Accept(this, &r_expr_data);
         
@@ -167,6 +175,7 @@ namespace lepus {
     
     void SemanticAnalysis::Visit(UnaryExpression* ast, void* data){
         ExprData unary_expr_data;
+        unary_expr_data.lex_po_ = LexicalOp_Read;
         ast->expression()->Accept(this, &unary_expr_data);
         if(unary_expr_data.expr_type_ != ExprType_Unknown) {
             switch (ast->op_token().token_) {
@@ -192,12 +201,14 @@ namespace lepus {
         for(base::ScopedVector<ASTree>::iterator iter = ast->expressions().begin();
             iter != ast->expressions().end(); ++iter) {
             ExprData expr_data;
+            expr_data.lex_po_ = LexicalOp_Read;
             (*iter)->Accept(this, &expr_data);
         }
     }
     
     void SemanticAnalysis::Visit(VariableAST* ast, void* data){
         ExprData expr_data;
+        expr_data.lex_po_ = LexicalOp_Read;
         ast->expression()->Accept(this, &expr_data);
         if(ast->identifier().token_ != Token_Id) {
             //TODO exception
@@ -232,6 +243,7 @@ namespace lepus {
     
     void SemanticAnalysis::Visit(IfStatementAST* ast, void* data){
         ExprData expr_data;
+        expr_data.lex_po_ = LexicalOp_Read;
         ast->condition()->Accept(this, &expr_data);
         {
             Guard<SemanticAnalysis> g(this, &SemanticAnalysis::EnterBlock, &SemanticAnalysis::LeaveBlock);
@@ -250,7 +262,9 @@ namespace lepus {
     
     void SemanticAnalysis::Visit(AssignStatement* ast, void* data){
         ExprData expr_data;
+        expr_data.lex_po_ = LexicalOp_Write;
         ast->variable()->Accept(this, &expr_data);
+        expr_data.lex_po_ = LexicalOp_Read;
         ast->expression()->Accept(this, &expr_data);
     }
     
@@ -260,6 +274,7 @@ namespace lepus {
     
     void SemanticAnalysis::Visit(FunctionCallAST* ast, void* data) {
         ExprData expr_data;
+        expr_data.lex_po_ = LexicalOp_Read;
         ast->caller()->Accept(this, &expr_data);
         ast->args()->Accept(this, nullptr);
     }

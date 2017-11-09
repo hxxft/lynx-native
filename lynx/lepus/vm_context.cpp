@@ -22,7 +22,8 @@ namespace lepus {
 #define GET_REGISTER_C(i)  \
         (frame->register_ + Instruction::GetParamC(i))
 #define GET_REAL_VALUE(a) \
-        (a->type_ == ValueT_Upvalue ? nullptr : a)
+        (a)
+#define GET_UPVALUE_B(i)  (closure->GetUpvalue(Instruction::GetParamB(i)))
     
 #define GET_REGISTER_ABC(i)                                 \
     a = GET_REGISTER_A(i);                                  \
@@ -46,7 +47,7 @@ typedef void (*CFunction)(Context *);
         try {
             root = parser.Parse();
             root->Accept(&semantic_analysis, nullptr);
-            root->Accept(&code_generator, nullptr);
+            root->Accept(&code_generator, &top_level_variables_);
         }catch(const lepus::Exception& exception) {
             std::cout<<exception.message()<<std::endl;
         }
@@ -55,7 +56,17 @@ typedef void (*CFunction)(Context *);
     }
     
     Value VMContext::Call(const std::string& name, const std::vector<Value>& args) {
-        
+        auto reg_info = top_level_variables_.find(string_pool().NewString(name));
+        if(reg_info == top_level_variables_.end())
+            return Value();
+        int reg = reg_info->second;
+        Value* function = heap_.top_;
+        *(heap_.top_++) = *(heap_.base() + reg + 1);
+        for(int i = 0; i < args.size(); ++i) {
+            *(heap_.top_++) = args[i];
+        }
+        CallFunction(function, args.size(), 0);
+        Run();
     }
     
     
@@ -69,16 +80,18 @@ typedef void (*CFunction)(Context *);
     
     
     
-    void VMContext::CallFunction(Value* function, int argc, int result_count) {
-        heap_.top_ = function + 1 + argc;
+    bool VMContext::CallFunction(Value* function, int argc, int result_count) {
         if(function->type_ == ValueT_Closure) {
+            heap_.top_ = function + 1;
             Frame frame;
             frame.function_ = function;
-            frame.instuction_ = static_cast<Function*>(function->closure_)->GetOpCodes();
-            frame.end_ = frame.instuction_ + static_cast<Function*>(function->closure_)->OpCodeSize();
+            frame.instruction_ = static_cast<Function*>(function->closure_->function())->GetOpCodes();
+            frame.end_ = frame.instruction_ + static_cast<Function*>(function->closure_->function())->OpCodeSize();
             frame.register_ = heap_.top_;
             frames_.push_back(frame);
+            return true;
         }else if(function->type_ == ValueT_CFunction) {
+            heap_.top_ = function + argc + 1;
             Frame frame;
             frame.function_ = function;
             frame.register_ = function + 1;
@@ -86,6 +99,7 @@ typedef void (*CFunction)(Context *);
             void* cfunction = function->native_function_;
             reinterpret_cast<CFunction>(cfunction)(this);
             frames_.pop_back();
+            return false;
         }
     }
     
@@ -93,16 +107,18 @@ typedef void (*CFunction)(Context *);
         while(!frames_.empty()) {
             RunFrame();
         }
+        heap_.top_ = heap_.base() + top_level_variables_.size() + 1;
     }
     
     void VMContext::RunFrame() {
         Frame *frame = &frames_.back();
-        Function *function = static_cast<Function*>(frame->function_->closure_);
+        Closure* closure = frame->function_->closure_;
+        Function *function = closure->function();
         Value *a = nullptr;
         Value *b = nullptr;
         Value *c = nullptr;
-        while(frame->instuction_ < frame->end_) {
-            Instruction i = *frame->instuction_++;
+        while(frame->instruction_ < frame->end_) {
+            Instruction i = *frame->instruction_++;
             switch (Instruction::GetOpCode(i)) {
                 case TypeOp_LoadNil:
                     break;
@@ -123,8 +139,14 @@ typedef void (*CFunction)(Context *);
                     *GET_REAL_VALUE(a) = *GET_REAL_VALUE(b);
                     break;
                 case TypeOp_GetUpvalue:
+                    a = GET_REGISTER_A(i);
+                    b = GET_UPVALUE_B(i);
+                    *GET_REAL_VALUE(a) = *b;
                     break;
                 case TypeOp_SetUpvalue:
+                    a = GET_REGISTER_A(i);
+                    b = GET_UPVALUE_B(i);
+                    *b = *a;
                     break;
                 case TypeOp_GetGlobal:
                     a = GET_REGISTER_A(i);
@@ -134,14 +156,20 @@ typedef void (*CFunction)(Context *);
                 case TypeOp_SetGlobal:
                     break;
                 case TypeOp_Closure:
-                    
+                {
+                    a = GET_REGISTER_A(i);
+                    int index = Instruction::GetParamBx(i);
+                    GenerateClosure(a, index);
+                }
                     break;
                 case TypeOp_Call:
                 {
                     a = GET_REGISTER_A(i);
                     int argc = Instruction::GetParamB(i);
                     int resultc = Instruction::GetParamC(i);
-                    CallFunction(a, argc, resultc);
+                    heap_.top_ = a;
+                    if(CallFunction(a, argc, resultc))
+                        return;
                 }
                     break;
                 case TypeOp_VarArg:
@@ -149,6 +177,9 @@ typedef void (*CFunction)(Context *);
                 case TypeOp_Ret:
                     break;
                 case TypeOp_JmpFalse:
+                    a = GET_REGISTER_A(i);
+                    if (GET_REAL_VALUE(a)->IsFalse())
+                        frame->instruction_ += -1 + Instruction::GetParamsBx(i);
                     break;
                 case TypeOp_JmpTrue:
                     break;
@@ -194,8 +225,16 @@ typedef void (*CFunction)(Context *);
                 case TypeOp_Or:
                     break;
                 case TypeOp_Less:
+                    GET_REGISTER_ABC(i);
+                    if (b->type_ == Value_Number)
+                        a->boolean_ = (b->number_ < c->number_);
+                    a->type_ = Value_Boolean;
                     break;
                 case TypeOp_Greater:
+                    GET_REGISTER_ABC(i);
+                    if (b->type_ == Value_Number)
+                        a->boolean_ = (b->number_ > c->number_);
+                    a->type_ = Value_Boolean;
                     break;
                 case TypeOp_Equal:
                     break;
@@ -220,6 +259,29 @@ typedef void (*CFunction)(Context *);
             }
         }
         frames_.pop_back();
+    }
+    
+    void VMContext::GenerateClosure(Value* value, int index) {
+        Frame* frame = &frames_.back();
+        Closure* current_closure = frame->function_->closure_;
+        Function *function = current_closure->function()->GetChildFunction(index);
+        
+        Closure* closure = new Closure(function);
+        closure->AddRef();
+        
+        int upvalues_count = function->UpvaluesSize();
+        for(int i = 0; i < upvalues_count; ++i) {
+            UpvalueInfo* info = function->GetUpvalue(i);
+            if(info->in_parent_vars_) {
+                Value* v = frame->register_ + info->register_;
+                closure->AddUpvalue(v);
+            }else{
+                closure->AddUpvalue(current_closure->GetUpvalue(info->register_));
+            }
+        }
+        
+        value->type_ = ValueT_Closure;
+        value->closure_ = closure;
     }
 
 }

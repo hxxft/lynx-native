@@ -13,7 +13,7 @@ namespace lepus {
                 (ptr_->*enter_)();
         }
         
-        Guard() {
+        ~Guard() {
             if(ptr_ && enter_)
                 (ptr_->*leave_)();
         }

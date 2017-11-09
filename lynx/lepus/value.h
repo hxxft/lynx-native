@@ -3,6 +3,7 @@
 
 #include <string>
 
+
 namespace lepus {
     enum ValueType {
         Value_Nil,
@@ -10,12 +11,13 @@ namespace lepus {
         Value_Boolean,
         Value_String,
         Value_Table,
-        ValueT_Upvalue,
         ValueT_Closure,
         ValueT_CFunction,
     };
     
     class Closure;
+    class Function;
+    class Upvalue;
     
     class Value {
     public:
@@ -23,7 +25,7 @@ namespace lepus {
             double number_;
             bool boolean_;
             char* str_;
-            void* closure_;
+            Closure* closure_;
             void* native_function_;
             void* table_;
         };
@@ -31,6 +33,10 @@ namespace lepus {
         
         Value():number_(0), type_(Value_Nil){}
         Value(double number):number_(number), type_(Value_Number){}
+        
+        bool IsFalse() const
+        { return type_ == Value_Nil || (type_ == Value_Boolean && !boolean_); }
+
     
         friend bool operator == (const Value& left, const Value& right) {
             if(left.type_ != right.type_) return false;

@@ -25,7 +25,17 @@ int main(int argc, const char * argv[]) {
     lepus::VMContext ctx;
     ctx.Initialize();
     vm.Execute(&ctx, str);
-    //vm.Call(&ctx, "onDispatchScrollEvent", std::vector<lepus::Value>());
+    std::vector<lepus::Value> args;
+    lepus::Value v1;
+    v1.number_ = 3;
+    v1.type_ = lepus::Value_Number;
+    args.push_back(v1);
+    lepus::Value v2;
+    v2.number_ = 3;
+    v2.type_ = lepus::Value_Number;
+    args.push_back(v2);
+    vm.Call(&ctx, "onScrollEvent1", args);
+    vm.Call(&ctx, "onScrollEvent1", args);
     //vm.Call(&ctx, "onScrollEvent1", std::vector<lepus::Value>());
     std::cout<<"hello lepus"<<std::endl;
     return 0;

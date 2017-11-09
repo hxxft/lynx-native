@@ -37,6 +37,7 @@ add_library(lepus
     ${CMAKE_SOURCE_DIR}/../lynx/lepus/interpreter_context.h
     ${CMAKE_SOURCE_DIR}/../lynx/lepus/vm_context.h
     ${CMAKE_SOURCE_DIR}/../lynx/lepus/lepus_vm.h
+    ${CMAKE_SOURCE_DIR}/../lynx/lepus/upvalue.h
     ${SOURCE_FILES}
     )
 

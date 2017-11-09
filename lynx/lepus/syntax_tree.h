@@ -277,7 +277,7 @@ virtual void Accept(Visitor* visitor, void* data);
             
         }
         
-        const base::ScopedPtr<ASTree> block() {
+        const base::ScopedPtr<ASTree>& block() {
             return block_;
         }
         

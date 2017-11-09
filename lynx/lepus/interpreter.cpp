@@ -110,7 +110,7 @@ namespace lepus {
     void Interpreter::Call(const String* name, const std::vector<Value>& args) {
         std::unordered_map<String*, Value>::iterator iter = variables_map_.find(const_cast<String*>(name));
         if(iter != variables_map_.end()) {
-            static_cast<Closure*>(iter->second.closure_)->Run(this, args);
+            iter->second.closure_->Run(this, args);
         }
     }
     
@@ -218,9 +218,11 @@ namespace lepus {
             case Token_NotEqual:
                 value->boolean_ = l_value.value_ != r_value.value_;
                 value->type_ = Value_Boolean;
+                break;
             case Token_Equal:
                 value->boolean_ = l_value.value_ == r_value.value_;
                 value->type_ = Value_Boolean;
+                break;
             case Token_And:
                 if(l_value.value_.type_ == Value_Number && r_value.value_.type_ == Value_Number) {
                     value->boolean_ = l_value.value_.number_ && r_value.value_.number_;
@@ -294,7 +296,7 @@ namespace lepus {
         Value value;
         value.closure_ = new Closure;
         value.type_ = ValueT_Closure;
-        static_cast<Closure*>(value.closure_)->SetFunction(ast);
+        value.closure_->SetFunction(ast);
         variables_map_.insert(std::make_pair(ast->function_name().str_, value));
     }
     
@@ -359,7 +361,7 @@ namespace lepus {
         std::vector<Value> args;
         ast->args()->Accept(this, &args);
         if(value_data.value_.type_ == ValueT_Closure) {
-            static_cast<Closure*>(value_data.value_.closure_)->Run(this, args);
+            value_data.value_.closure_->Run(this, args);
         }else if(value_data.value_.type_ == ValueT_CFunction){
             reinterpret_cast<NativeFunction>(value_data.value_.native_function_)(args);
         }else {

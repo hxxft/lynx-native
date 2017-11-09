@@ -2,6 +2,9 @@
 #ifndef LYNX_LEPUS_VM_CONTEXT_H_
 #define LYNX_LEPUS_VM_CONTEXT_H_
 
+#include <list>
+#include <unordered_map>
+
 #include "lepus/context.h"
 #include "lepus/value.h"
 #include "lepus/string.h"
@@ -24,9 +27,11 @@ namespace lepus {
     private:
         void Run();
         void RunFrame();
-        void CallFunction(Value* function, int argc, int result_count);
+        bool CallFunction(Value* function, int argc, int result_count);
+        void GenerateClosure(Value* value, int index);
         Heap heap_;
-        std::vector<Frame> frames_;
+        std::list<Frame> frames_;
+        std::unordered_map<String*, int> top_level_variables_;
     };
 }
 
