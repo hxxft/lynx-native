@@ -200,6 +200,8 @@ namespace lepus {
     void SemanticAnalysis::Visit(ExpressionListAST* ast, void* data){
         for(base::ScopedVector<ASTree>::iterator iter = ast->expressions().begin();
             iter != ast->expressions().end(); ++iter) {
+            if(*iter == NULL)
+                continue;
             ExprData expr_data;
             expr_data.lex_po_ = LexicalOp_Read;
             (*iter)->Accept(this, &expr_data);

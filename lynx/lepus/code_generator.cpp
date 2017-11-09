@@ -12,6 +12,11 @@ namespace lepus {
         function->parent_ = current_function_;
         current_function_.Reset(function);
         function->function_ = new Function;
+         FunctionGenerate* parent = function->parent_.Get();
+        if(parent) {
+            function->function_->set_index(parent->function_->AddChildFunction(function->function_));
+            
+        }
     }
     
     void CodeGenerator::LeaveFunction() {
@@ -19,10 +24,7 @@ namespace lepus {
         FunctionGenerate* parent = function_generate->parent_.Get();
         Function* function = function_generate->function_;
         current_function_ = function_generate->parent_;
-        if(parent) {
-            function->set_index(parent->function_->AddChildFunction(function));
-            
-        }
+        
         current_function_name_ = nullptr;
     }
     
@@ -208,7 +210,22 @@ namespace lepus {
     }
     
     void CodeGenerator::Visit(UnaryExpression* ast, void* data){
-        
+        int register_id = *static_cast<int*>(data);
+        Function* function = current_function_->function_;
+        ast->expression()->Accept(this, data);
+        TypeOpCode op_code;
+        switch (ast->op_token().token_) {
+            case '-':
+                op_code = TypeOp_Neg;
+                break;
+            case '!':
+                op_code = TypeOp_Not;
+                break;
+            default:
+                break;
+        }
+        Instruction instruction = Instruction::ACode(op_code, register_id);
+        function->AddInstruction(instruction);
     }
     
     void CodeGenerator::Visit(ExpressionListAST* ast, void* data){
@@ -256,7 +273,7 @@ namespace lepus {
                 ast->body()->Accept(this, nullptr);
             }
         }
-        ResetRegisiterId(register_id);
+        ResetRegisiterId(register_id + 1);
         
         InsertVariable(ast->function_name().str_, register_id);
         Instruction i = Instruction::ABxCode(TypeOp_Closure,
@@ -280,11 +297,17 @@ namespace lepus {
         Guard<CodeGenerator> g(this, &CodeGenerator::EnterBlock, &CodeGenerator::LeaveBlock);
         int jmp_index = current_function_->function_->AddInstruction(instruction);
         ast->true_branch()->Accept(this, nullptr);
+        
+        instruction = Instruction::ABxCode(TypeOp_Jmp, 0, 0);
+        int true_jmp_index = current_function_->function_->AddInstruction(instruction);
+        
         int index = current_function_->function_->OpCodeSize();
         current_function_->function_->GetInstruction(jmp_index)->RefillsBx(index - jmp_index);
         if(ast->false_branch().Get()) {
             ast->false_branch()->Accept(this, nullptr);
         }
+        int end_index = current_function_->function_->OpCodeSize();
+        current_function_->function_->GetInstruction(true_jmp_index)->RefillsBx(end_index - true_jmp_index);
         ResetRegisiterId(register_id);
     }
     

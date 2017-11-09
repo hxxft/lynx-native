@@ -186,10 +186,15 @@ typedef void (*CFunction)(Context *);
                 case TypeOp_JmpNil:
                     break;
                 case TypeOp_Jmp:
+                    frame->instruction_ += -1 + Instruction::GetParamsBx(i);
                     break;
                 case TypeOp_Neg:
+                    a = GET_REGISTER_A(i);
+                    a->number_ = -a->number_;
                     break;
                 case TypeOp_Not:
+                    a = GET_REGISTER_A(i);
+                    a->boolean_ = !a->boolean_;
                     break;
                 case TypeOp_Len:
                     break;
