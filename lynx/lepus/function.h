@@ -7,6 +7,7 @@
 #include "lepus/value.h"
 #include "lepus/syntax_tree.h"
 #include "lepus/upvalue.h"
+#include "lepus/switch.h"
 
 #include "base/ref_counted_ptr.h"
 
@@ -16,6 +17,7 @@ namespace lepus {
         Function() :op_codes_(),
                      const_values_(),
                      upvalues_(),
+                     switches_(),
                      child_functions_(),
                      index_(0){
                          
@@ -88,6 +90,15 @@ namespace lepus {
             return &upvalues_[index];
         }
         
+        int AddSwitch(SwitchInfo* info) {
+            switches_.push_back(info);
+            return switches_.size() - 1;
+        }
+        
+        SwitchInfo* GetSwitch(int index) {
+            return switches_[index];
+        }
+        
         int UpvaluesSize() {
             return upvalues_.size();
         }
@@ -105,6 +116,8 @@ namespace lepus {
         std::vector<Value> const_values_;
         
         std::vector<UpvalueInfo> upvalues_;
+        
+        std::vector<SwitchInfo*> switches_;
         
         std::vector<Function*> child_functions_;
         

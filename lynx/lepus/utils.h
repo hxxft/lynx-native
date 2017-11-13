@@ -49,7 +49,10 @@ namespace lepus {
         {"for", Token_For},
         {"var", Token_Var},
         {"null", Token_Nil},
-        {"while", Token_While}
+        {"while", Token_While},
+        {"switch", Token_Switch},
+        {"case", Token_Case},
+        {"return", Token_Return}
     };
     static inline bool IsKeyWord(const std::string& word, int& token) {
         auto iter = kKeyWords.find(word);

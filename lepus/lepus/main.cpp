@@ -34,8 +34,8 @@ int main(int argc, const char * argv[]) {
     v2.number_ = 3;
     v2.type_ = lepus::Value_Number;
     args.push_back(v2);
-    vm.Call(&ctx, "onScrollEvent1", args);
-    vm.Call(&ctx, "onScrollEvent1", args);
+//    vm.Call(&ctx, "onScrollEvent1", args);
+//    vm.Call(&ctx, "onScrollEvent1", args);
     //vm.Call(&ctx, "onScrollEvent1", std::vector<lepus::Value>());
     std::cout<<"hello lepus"<<std::endl;
     return 0;

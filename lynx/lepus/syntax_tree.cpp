@@ -48,6 +48,14 @@ namespace lepus {
         visitor->Visit(this, data);
     }
     
+    void DoWhileStatementAST::Accept(Visitor *visitor, void* data) {
+        visitor->Visit(this, data);
+    }
+    
+    void ForStatementAST::Accept(Visitor *visitor, void* data) {
+        visitor->Visit(this, data);
+    }
+    
     void BreakStatementAST::Accept(Visitor *visitor, void* data) {
         visitor->Visit(this, data);
     }
@@ -61,6 +69,14 @@ namespace lepus {
     }
     
     void ElseStatementAST::Accept(Visitor *visitor, void* data) {
+        visitor->Visit(this, data);
+    }
+    
+    void SwitchStatementAST::Accept(Visitor *visitor, void* data) {
+        visitor->Visit(this, data);
+    }
+    
+    void CaseStatementAST::Accept(Visitor *visitor, void* data) {
         visitor->Visit(this, data);
     }
     

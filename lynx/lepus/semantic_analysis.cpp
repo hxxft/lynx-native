@@ -87,7 +87,9 @@ namespace lepus {
     }
     
     void SemanticAnalysis::Visit(ReturnStatementAST* ast, void* data){
-        
+        ExprData expr_data;
+        expr_data.lex_po_ = LexicalOp_Read;
+        ast->expression()->Accept(this, &expr_data);
     }
     
     void SemanticAnalysis::Visit(LiteralAST* ast, void* data){
@@ -235,12 +237,42 @@ namespace lepus {
         }
     }
     
+    void SemanticAnalysis::Visit(ForStatementAST* ast, void* data) {
+        Guard<SemanticAnalysis> g(this, &SemanticAnalysis::EnterBlock, &SemanticAnalysis::LeaveBlock);
+        ast->statement1()->Accept(this, nullptr);
+        ExprData expr_data;
+        expr_data.lex_po_ = LexicalOp_Read;
+        ast->statement2()->Accept(this, &expr_data);
+        for(base::ScopedVector<ASTree>::iterator iter = ast->statement3().begin();
+            iter != ast->statement3().end(); ++iter) {
+            //TODO check statements
+            (*iter)->Accept(this, nullptr);
+        }
+        ast->block()->Accept(this, nullptr);
+    }
+    
+    void SemanticAnalysis::Visit(DoWhileStatementAST* ast, void* data){
+        ExprData expr_data;
+        expr_data.lex_po_ = LexicalOp_Read;
+        ast->condition()->Accept(this, &expr_data);
+        {
+            Guard<SemanticAnalysis> g(this, &SemanticAnalysis::EnterBlock, &SemanticAnalysis::LeaveBlock);
+            ast->block()->Accept(this, nullptr);
+        }
+    }
+    
     void SemanticAnalysis::Visit(BreakStatementAST* ast, void* data){
         
     }
     
     void SemanticAnalysis::Visit(WhileStatementAST* ast, void* data){
-        
+        ExprData expr_data;
+        expr_data.lex_po_ = LexicalOp_Read;
+        ast->condition()->Accept(this, &expr_data);
+        {
+            Guard<SemanticAnalysis> g(this, &SemanticAnalysis::EnterBlock, &SemanticAnalysis::LeaveBlock);
+            ast->block()->Accept(this, nullptr);
+        }
     }
     
     void SemanticAnalysis::Visit(IfStatementAST* ast, void* data){
@@ -259,6 +291,26 @@ namespace lepus {
     
     void SemanticAnalysis::Visit(ElseStatementAST* ast, void* data){
         Guard<SemanticAnalysis> g(this, &SemanticAnalysis::EnterBlock, &SemanticAnalysis::LeaveBlock);
+        ast->block()->Accept(this, nullptr);
+    }
+    
+    void SemanticAnalysis::Visit(SwitchStatementAST* ast, void* data) {
+        ExprData expr_data;
+        expr_data.lex_po_ = LexicalOp_Read;
+        ast->expression()->Accept(this, &expr_data);
+        int last_token = -1;
+        for(base::ScopedVector<ASTree>::iterator iter = ast->cases().begin();
+            iter != ast->cases().end(); ++iter) {
+            Guard<SemanticAnalysis> g(this, &SemanticAnalysis::EnterBlock, &SemanticAnalysis::LeaveBlock);
+            int token = static_cast<CaseStatementAST*>(*iter)->key().token_;
+            if(last_token != -1 && last_token != token) {
+                throw SemantException("case type error ", static_cast<CaseStatementAST*>(*iter)->key());
+            }
+            (*iter)->Accept(this, nullptr);
+        }
+    }
+    
+    void SemanticAnalysis::Visit(CaseStatementAST* ast, void* data) {
         ast->block()->Accept(this, nullptr);
     }
     

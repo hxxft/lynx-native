@@ -29,33 +29,34 @@ namespace lepus {
         Token_Nil       = 268,
         Token_Not       = 269,
         Token_Or        = 270,
-        Token_Repeat    = 271,
-        Token_Return    = 272,
-        Token_Then      = 273,
-        Token_True      = 274,
-        Token_Until     = 275,
-        Token_While     = 276,
-        Token_Id        = 277,
-        Token_String    = 278,
-        Token_Number    = 279,
-        Token_Equal     = 280,
-        Token_NotEqual  = 281,
-        Token_LessEqual = 282,
-        Token_GreaterEqual = 283,
-        Token_INC       = 284,  // ++
-        Token_DEC       = 285,  // --
-        Token_ASSIGN_BIT_OR = 286, // |=
-        Token_ASSIGN_BIT_XOR = 287, // ^=
-        Token_ASSIGN_BIT_AND = 288, // &=
-        Token_ASSIGN_SHL = 289,      // <<=
-        Token_ASSIGN_SAR = 290,      // >>>=
-        Token_ASSIGN_SHR = 291,      // >>>=
-        Token_ASSIGN_ADD = 292,      // +=
-        Token_ASSIGN_SUB = 293,      // -=
-        Token_ASSIGN_MUL = 294,      // *=
-        Token_ASSIGN_DIV = 295,      // /=
-        Token_ASSIGN_MOD = 296,      // %=
-        Token_EOF          = 297,
+        Token_Return    = 271,
+        Token_Switch    = 272,
+        Token_Case      = 273,
+        Token_Defalut      = 274,
+        Token_True      = 275,
+        Token_Until     = 276,
+        Token_While     = 277,
+        Token_Id        = 278,
+        Token_String    = 279,
+        Token_Number    = 280,
+        Token_Equal     = 281,
+        Token_NotEqual  = 282,
+        Token_LessEqual = 283,
+        Token_GreaterEqual = 284,
+        Token_INC       = 285,  // ++
+        Token_DEC       = 286,  // --
+        Token_ASSIGN_BIT_OR = 287, // |=
+        Token_ASSIGN_BIT_XOR = 288, // ^=
+        Token_ASSIGN_BIT_AND = 289, // &=
+        Token_ASSIGN_SHL = 290,      // <<=
+        Token_ASSIGN_SAR = 291,      // >>>=
+        Token_ASSIGN_SHR = 292,      // >>>=
+        Token_ASSIGN_ADD = 293,      // +=
+        Token_ASSIGN_SUB = 294,      // -=
+        Token_ASSIGN_MUL = 295,      // *=
+        Token_ASSIGN_DIV = 296,      // /=
+        Token_ASSIGN_MOD = 297,      // %=
+        Token_EOF          = 298,
     };
     
     struct Token {

@@ -19,10 +19,14 @@ namespace lepus {
         virtual void Visit(VariableAST* ast, void* data) = 0;
         virtual void Visit(VariableListAST* ast, void* data) = 0;
         virtual void Visit(FunctionStatementAST* ast, void* data) = 0;
+        virtual void Visit(ForStatementAST* ast, void* data) = 0;
+        virtual void Visit(DoWhileStatementAST* ast, void* data) = 0;
         virtual void Visit(BreakStatementAST* ast, void* data) = 0;
         virtual void Visit(WhileStatementAST* ast, void* data) = 0;
         virtual void Visit(IfStatementAST* ast, void* data) = 0;
         virtual void Visit(ElseStatementAST* ast, void* data) = 0;
+        virtual void Visit(SwitchStatementAST* ast, void* data) = 0;
+        virtual void Visit(CaseStatementAST* ast, void* data) = 0;
         virtual void Visit(AssignStatement* ast, void* data) = 0;
         virtual void Visit(MemberAccessorAST* ast, void* data) = 0;
         virtual void Visit(FunctionCallAST* ast, void* data) = 0;

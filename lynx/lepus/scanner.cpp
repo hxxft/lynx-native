@@ -50,7 +50,8 @@ namespace lepus {
                     current_character_ = next;
                 }
             }else if(IsNewLine(current_character_)) {
-                ParseNewLine();
+                ++line_;
+                column_ = 0;
             }else if(current_character_ == EOF) {
                 // TODO Error
             }

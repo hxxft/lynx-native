@@ -2,6 +2,7 @@
 #include "lepus/code_generator.h"
 #include "lepus/guard.h"
 #include "lepus/op_code.h"
+#include "lepus/switch.h"
 
 #include <stack>
 
@@ -39,6 +40,29 @@ namespace lepus {
         current_function_->current_block_ = block->parent_;
     }
     
+    void CodeGenerator::EnterLoop() {
+        LoopGenerate* loop = new LoopGenerate;
+        loop->loop_start_index_ = current_function_->function_->OpCodeSize();
+        loop->parent_ = current_function_->current_loop_;
+        current_function_->current_loop_.Reset(loop);
+    }
+    
+    void CodeGenerator::LeaveLoop() {
+        int end_loop_index = current_function_->function_->OpCodeSize();
+        LoopGenerate* current_loop = current_function_->current_loop_.Get();
+        for(size_t i = 0; i < current_loop->loop_infos_.size(); ++i) {
+            LoopInfo* info = &current_loop->loop_infos_[i];
+            int op_index = info->op_index_;
+            if(info->type_ == LoopJmp_Tail) {
+                current_function_->function_->GetInstruction(op_index)->RefillsBx(end_loop_index - op_index);
+            }else if(info->type_ == LoopJmp_Head) {
+                current_function_->function_->GetInstruction(op_index)->RefillsBx(current_loop->loop_start_index_ - op_index);
+            }
+        }
+            
+        current_function_->current_loop_ = current_loop->parent_;
+    }
+    
     void CodeGenerator::InsertVariable(String* name, int register_id) {
         current_function_->current_block_->variables_map_[name] = register_id;
         if(current_function_->parent_.Get() == nullptr) {
@@ -51,9 +75,13 @@ namespace lepus {
     }
     
     int CodeGenerator::SearchVariable(String* name, FunctionGenerate* current) {
-        auto iter = current->current_block_->variables_map_.find(name);
-        if(iter != current->current_block_->variables_map_.end()) {
-            return iter->second;
+        BlockGenerate* block = current->current_block_.Get();
+        while(block) {
+            auto iter = block->variables_map_.find(name);
+            if(iter != block->variables_map_.end()) {
+                return iter->second;
+            }
+            block = block->parent_.Get();
         }
         return -1;
     }
@@ -129,7 +157,11 @@ namespace lepus {
     }
     
     void CodeGenerator::Visit(ReturnStatementAST* ast, void* data){
-        
+        int register_id = GenerateRegisiterId();
+        ast->expression()->Accept(this, &register_id);
+        auto instruction = Instruction::ACode(TypeOp_Ret, register_id);
+        current_function_->function_->AddInstruction(instruction);
+        ResetRegisiterId(register_id);
     }
     
     void CodeGenerator::Visit(LiteralAST* ast, void* data){
@@ -159,9 +191,7 @@ namespace lepus {
                     function->AddInstruction(instruction);
                 }else if(ast->scope() == LexicalScoping_Global) {
                     int gloabl_index = SearchGlobal(ast->token().str_);
-                    printf("%d\n", gloabl_index);
                     auto instruction = Instruction::ABxCode(TypeOp_GetGlobal, register_id, gloabl_index);
-                    printf("%d\n", Instruction::GetParamBx(instruction));
                     function->AddInstruction(instruction);
                 }else if(ast->scope() == LexicalScoping_Upvalue) {
                     int index = ManageUpvalues(ast->token().str_);
@@ -205,9 +235,17 @@ namespace lepus {
             case Token_GreaterEqual: op_code = TypeOp_GreaterEqual; break;
             case Token_And: op_code = TypeOp_And; break;
             case Token_Or: op_code = TypeOp_Or; break;
-            default: break;
+            default:
+                op_code = TypeOp_Move;
+                break;
         }
-        Instruction instruction = Instruction::ABCCode(op_code, register_id, left_register_id, right_register_id);
+        Instruction instruction;
+        if(op_code != TypeOp_Move) {
+            instruction = Instruction::ABCCode(op_code, register_id, left_register_id, right_register_id);
+        }else{
+            instruction = Instruction::ABCode(op_code, register_id, right_register_id);
+        }
+        
         function->AddInstruction(instruction);
     }
     
@@ -284,20 +322,110 @@ namespace lepus {
         current_function_->function_->AddInstruction(i);
     }
     
-    void CodeGenerator::Visit(BreakStatementAST* ast, void* data){
+    void CodeGenerator::Visit(ForStatementAST* ast, void* data) {
+        Guard<CodeGenerator> g(this, &CodeGenerator::EnterBlock, &CodeGenerator::LeaveBlock);
+        int current_register = CurrentRegisiterId();
         
+        if(ast->statement1().Get()) {
+            ast->statement1()->Accept(this, nullptr);
+        }
+        
+        Guard<CodeGenerator> l(this, &CodeGenerator::EnterLoop, &CodeGenerator::LeaveLoop);
+        
+        int jmp_index = -1;
+        if(ast->statement2().Get()) {
+            int register_id = GenerateRegisiterId();
+            ast->statement2()->Accept(this, &register_id);
+            Instruction instruction = Instruction::ABxCode(TypeOp_JmpFalse, register_id, 0);
+            jmp_index = current_function_->function_->AddInstruction(instruction);
+        }
+        
+        ast->block()->Accept(this, nullptr);
+        
+        for(base::ScopedVector<ASTree>::iterator iter = ast->statement3().begin();
+            iter != ast->statement3().end(); ++iter) {
+            (*iter)->Accept(this, nullptr);
+        }
+        
+
+        Instruction instruction = Instruction::ABxCode(TypeOp_Jmp, 0, 0);
+        int loop_head_index = current_function_->function_->AddInstruction(instruction);
+        LoopGenerate* current_loop = current_function_->current_loop_.Get();
+        if(current_loop) {
+            current_loop->loop_infos_.push_back(LoopInfo(LoopJmp_Head, loop_head_index));
+        }
+        
+        int end_index = current_function_->function_->OpCodeSize();
+        if(jmp_index != -1) {
+            current_function_->function_->GetInstruction(jmp_index)->RefillsBx(end_index - jmp_index);
+        }
+        
+        ResetRegisiterId(current_register);
+    }
+    
+    void CodeGenerator::Visit(DoWhileStatementAST* ast, void* data){
+        Guard<CodeGenerator> g(this, &CodeGenerator::EnterLoop, &CodeGenerator::LeaveLoop);
+        int current_register = CurrentRegisiterId();
+        
+        {
+            Guard<CodeGenerator> g(this, &CodeGenerator::EnterBlock, &CodeGenerator::LeaveBlock);
+            ast->block()->Accept(this, nullptr);
+            
+            int register_id = GenerateRegisiterId();
+            ast->condition()->Accept(this, &register_id);
+            Instruction jmp_false_instruction = Instruction::ABxCode(TypeOp_JmpFalse, register_id, 2);
+            current_function_->function_->AddInstruction(jmp_false_instruction);
+            
+            Instruction instruction = Instruction::ABxCode(TypeOp_Jmp, 0, 0);
+            int loop_head_index = current_function_->function_->AddInstruction(instruction);
+            LoopGenerate* current_loop = current_function_->current_loop_.Get();
+            if(current_loop) {
+                current_loop->loop_infos_.push_back(LoopInfo(LoopJmp_Head, loop_head_index));
+            }
+        }
+        
+        ResetRegisiterId(current_register);
+    }
+    
+    void CodeGenerator::Visit(BreakStatementAST* ast, void* data){
+        Instruction instruction = Instruction::ABxCode(TypeOp_Jmp, 0, 0);
+        int break_index = current_function_->function_->AddInstruction(instruction);
+        LoopGenerate* current_loop = current_function_->current_loop_.Get();
+        if(current_loop) {
+            current_loop->loop_infos_.push_back(LoopInfo(LoopJmp_Tail, break_index));
+        }
     }
     
     void CodeGenerator::Visit(WhileStatementAST* ast, void* data){
-        
+        Guard<CodeGenerator> g(this, &CodeGenerator::EnterLoop, &CodeGenerator::LeaveLoop);
+        int register_id = GenerateRegisiterId();
+        ast->condition()->Accept(this, &register_id);
+        Instruction instruction = Instruction::ABxCode(TypeOp_JmpFalse, register_id, 0);
+        int jmp_index = current_function_->function_->AddInstruction(instruction);
+        {
+            Guard<CodeGenerator> g(this, &CodeGenerator::EnterBlock, &CodeGenerator::LeaveBlock);
+            ast->block()->Accept(this, nullptr);
+            
+            Instruction instruction = Instruction::ABxCode(TypeOp_Jmp, 0, 0);
+            int loop_head_index = current_function_->function_->AddInstruction(instruction);
+            LoopGenerate* current_loop = current_function_->current_loop_.Get();
+            if(current_loop) {
+                current_loop->loop_infos_.push_back(LoopInfo(LoopJmp_Head, loop_head_index));
+            }
+        }
+        int end_index = current_function_->function_->OpCodeSize();
+        current_function_->function_->GetInstruction(jmp_index)->RefillsBx(end_index - jmp_index);
+        ResetRegisiterId(register_id);
     }
     
     void CodeGenerator::Visit(IfStatementAST* ast, void* data){
         int register_id = GenerateRegisiterId();
         ast->condition()->Accept(this, &register_id);
         Instruction instruction = Instruction::ABxCode(TypeOp_JmpFalse, register_id, 0);
-        Guard<CodeGenerator> g(this, &CodeGenerator::EnterBlock, &CodeGenerator::LeaveBlock);
         int jmp_index = current_function_->function_->AddInstruction(instruction);
+        
+        Guard<CodeGenerator> g(this, &CodeGenerator::EnterBlock, &CodeGenerator::LeaveBlock);
+        
         ast->true_branch()->Accept(this, nullptr);
         
         instruction = Instruction::ABxCode(TypeOp_Jmp, 0, 0);
@@ -317,6 +445,30 @@ namespace lepus {
         ast->block()->Accept(this, nullptr);
     }
     
+    void CodeGenerator::Visit(SwitchStatementAST* ast, void* data) {
+        Guard<CodeGenerator> g(this, &CodeGenerator::EnterLoop, &CodeGenerator::LeaveLoop);
+        int register_id = GenerateRegisiterId();
+        ast->expression()->Accept(this, &register_id);
+        SwitchInfo* info = SwitchInfo::Create(ast->cases());
+        int index = current_function_->function_->AddSwitch(info);
+        
+        Instruction instruction = Instruction::ABxCode(TypeOp_Switch, register_id, index);
+        int jmp_index = current_function_->function_->AddInstruction(instruction);
+        
+        for(base::ScopedVector<ASTree>::iterator iter = ast->cases().begin();
+            iter != ast->cases().end(); ++iter) {
+            Guard<CodeGenerator> g(this, &CodeGenerator::EnterBlock, &CodeGenerator::LeaveBlock);
+            int case_jmp_index = current_function_->function_->OpCodeSize();
+            (*iter)->Accept(this, &case_jmp_index);
+            info->Modify(static_cast<CaseStatementAST*>(*iter)->key(), case_jmp_index-jmp_index);
+        }
+        ResetRegisiterId(register_id);
+    }
+    
+    void CodeGenerator::Visit(CaseStatementAST* ast, void* data) {
+        ast->block()->Accept(this, nullptr);
+    }
+    
     void CodeGenerator::Visit(AssignStatement* ast, void* data){
        int register_id = GenerateRegisiterId();
         //ast->assignment().token_
@@ -330,12 +482,14 @@ namespace lepus {
     }
     
     void CodeGenerator::Visit(FunctionCallAST* ast, void* data){
-        int register_id = GenerateRegisiterId();
-        ast->caller()->Accept(this, &register_id);
+        int current_register = CurrentRegisiterId();
+        int return_register_id = data == nullptr ? GenerateRegisiterId() : *static_cast<int*>(data);
+        int caller_register_id = GenerateRegisiterId();
+        ast->caller()->Accept(this, &caller_register_id);
         ast->args()->Accept(this, nullptr);
         int argc = ast->args().Get() != nullptr ? static_cast<ExpressionListAST*>(ast->args().Get())->expressions().size() : 0;
-        Instruction instruction = Instruction::ABCCode(TypeOp_Call, register_id, argc, 0);
+        Instruction instruction = Instruction::ABCCode(TypeOp_Call, caller_register_id, argc, return_register_id);
         current_function_->function_->AddInstruction(instruction);
-        ResetRegisiterId(register_id);
+        ResetRegisiterId(current_register);
     }
 }

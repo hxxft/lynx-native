@@ -68,12 +68,12 @@ virtual void Accept(Visitor* visitor, void* data);
     
     class ReturnStatementAST : public ASTree {
     public:
-        base::ScopedPtr<ASTree>& expressions() {
-            return expressions_;
+        base::ScopedPtr<ASTree>& expression() {
+            return expression_;
         }
         AST_ACCEPT_VISITOR
     private:
-        base::ScopedPtr<ASTree> expressions_;
+        base::ScopedPtr<ASTree> expression_;
     };
     
     class LiteralAST : public ASTree {
@@ -232,12 +232,67 @@ virtual void Accept(Visitor* visitor, void* data);
         Token break_;
     };
     
+    class ForStatementAST : public ASTree{
+    public:
+        base::ScopedPtr<ASTree>& statement1(){
+            return statement1_;
+        }
+        
+        base::ScopedPtr<ASTree>& statement2() {
+            return statement2_;
+        }
+        
+        base::ScopedVector<ASTree>& statement3() {
+            return statement3_;
+        }
+        
+        base::ScopedPtr<ASTree>& block() {
+            return block_;
+        }
+        AST_ACCEPT_VISITOR
+    private:
+        base::ScopedPtr<ASTree> statement1_;
+        base::ScopedPtr<ASTree> statement2_;
+        base::ScopedVector<ASTree> statement3_;
+        base::ScopedPtr<ASTree> block_;
+    };
+    
+    class DoWhileStatementAST : public ASTree {
+    public:
+        explicit DoWhileStatementAST(ASTree* condition, ASTree* block)
+        : condition_(condition),
+        block_(block) {
+        }
+        
+        const base::ScopedPtr<ASTree>& condition() {
+            return condition_;
+        }
+        
+        const base::ScopedPtr<ASTree>& block() {
+            return block_;
+        }
+        
+        AST_ACCEPT_VISITOR
+    private:
+        base::ScopedPtr<ASTree> condition_;
+        base::ScopedPtr<ASTree> block_;
+    };
+    
     class WhileStatementAST : public ASTree {
     public:
         explicit WhileStatementAST(ASTree* condition, ASTree* block)
         : condition_(condition),
             block_(block) {
         }
+        
+        const base::ScopedPtr<ASTree>& condition() {
+            return condition_;
+        }
+        
+        const base::ScopedPtr<ASTree>& block() {
+            return block_;
+        }
+        
         AST_ACCEPT_VISITOR
     private:
         base::ScopedPtr<ASTree> condition_;
@@ -283,6 +338,53 @@ virtual void Accept(Visitor* visitor, void* data);
         
         AST_ACCEPT_VISITOR
     private:
+        base::ScopedPtr<ASTree> block_;
+    };
+    
+    class SwitchStatementAST : public ASTree {
+    public:
+        explicit SwitchStatementAST(ASTree* expression)
+            : expression_(expression) {
+            
+        }
+        
+        const base::ScopedPtr<ASTree>& expression() {
+            return expression_;
+        }
+        
+        base::ScopedVector<ASTree>& cases() {
+            return cases_;
+        }
+        
+        AST_ACCEPT_VISITOR
+    private:
+        base::ScopedPtr<ASTree> expression_;
+        base::ScopedVector<ASTree> cases_;
+    };
+    
+    class CaseStatementAST : public ASTree {
+    public:
+        explicit CaseStatementAST(bool is_default, Token& key, ASTree* block)
+            : is_default_(is_default), key_(key), block_(block) {
+            
+        }
+        
+        bool is_default() {
+            return is_default_;
+        }
+        
+        Token& key() {
+            return key_;
+        }
+        
+        const base::ScopedPtr<ASTree>& block() {
+            return block_;
+        }
+        
+        AST_ACCEPT_VISITOR
+    private:
+        bool is_default_;
+        Token key_;
         base::ScopedPtr<ASTree> block_;
     };
     

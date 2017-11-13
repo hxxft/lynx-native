@@ -4,7 +4,7 @@
 #include "lepus/string.h"
 
 namespace lepus {
-    void Print(Context* context) {
+    Value Print(Context* context) {
         int params_count = context->GetParamsSize();
         for(int i = 0; i < params_count; i++) {
             Value* v = context->GetParam(i);
@@ -22,6 +22,7 @@ namespace lepus {
                     break;
             }
         }
+        return Value();
     }
     
     void RegisterCFunction(Context* context, const char* name, void* function) {

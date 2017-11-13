@@ -27,7 +27,7 @@ namespace lepus {
     private:
         void Run();
         void RunFrame();
-        bool CallFunction(Value* function, int argc, int result_count);
+        bool CallFunction(Value* function, int argc, Value* ret);
         void GenerateClosure(Value* value, int index);
         Heap heap_;
         std::list<Frame> frames_;

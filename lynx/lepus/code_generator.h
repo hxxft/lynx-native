@@ -22,23 +22,47 @@ namespace lepus {
         }
     };
     
+    enum LoopJmpType {
+        LoopJmp_Head,
+        LoopJmp_Tail,
+    };
+    
+    struct LoopInfo {
+        LoopJmpType type_;
+        int op_index_;
+        LoopInfo(LoopJmpType type, int index)
+            :type_(type), op_index_(index){}
+    };
+    
+    struct LoopGenerate {
+        Function* function_;
+        base::ScopedPtr<LoopGenerate> parent_;
+        std::vector<LoopInfo> loop_infos_; //jmp head or jmp tail, loop controller op index in function
+        int loop_start_index_;
+        LoopGenerate():function_(nullptr),parent_(),loop_infos_(), loop_start_index_(0){}
+    };
+    
     struct BlockGenerate {
         Function* function_;
         std::unordered_map<String*, int> variables_map_;
         base::ScopedPtr<BlockGenerate> parent_;
         int register_id_;
         BlockGenerate():function_(nullptr), variables_map_(),
-            parent_(),register_id_(0){}
+            parent_(), register_id_(0){}
     };
     
     struct FunctionGenerate {
         base::ScopedPtr<FunctionGenerate> parent_;
         base::ScopedPtr<BlockGenerate> current_block_;
+        base::ScopedPtr<LoopGenerate> current_loop_;
         Function* function_;
         int register_id_;
         
-        FunctionGenerate():parent_(), current_block_(),
-                    function_(nullptr),register_id_(0){}
+        FunctionGenerate():parent_(),
+                    current_block_(),
+                    current_loop_(),
+                    function_(nullptr),
+                    register_id_(0){}
     };
     
 
@@ -65,10 +89,14 @@ namespace lepus {
         virtual void Visit(VariableAST* ast, void* data);
         virtual void Visit(VariableListAST* ast, void* data);
         virtual void Visit(FunctionStatementAST* ast, void* data);
+        virtual void Visit(ForStatementAST* ast, void* data);
+        virtual void Visit(DoWhileStatementAST* ast, void* data);
         virtual void Visit(BreakStatementAST* ast, void* data);
         virtual void Visit(WhileStatementAST* ast, void* data);
         virtual void Visit(IfStatementAST* ast, void* data);
         virtual void Visit(ElseStatementAST* ast, void* data);
+        virtual void Visit(SwitchStatementAST* ast, void* data);
+        virtual void Visit(CaseStatementAST* ast, void* data);
         virtual void Visit(AssignStatement* ast, void* data);
         virtual void Visit(MemberAccessorAST* ast, void* data);
         virtual void Visit(FunctionCallAST* ast, void* data);
@@ -77,6 +105,8 @@ namespace lepus {
         void LeaveFunction();
         void EnterBlock();
         void LeaveBlock();
+        void EnterLoop();
+        void LeaveLoop();
         
         void InsertVariable(String* name, int register_id);
         int SearchVariable(String* name);
@@ -87,6 +117,10 @@ namespace lepus {
         int GenerateRegisiterId() {
             int register_id = current_function_->register_id_++;
             return register_id;
+        }
+        
+        int CurrentRegisiterId() {
+            return current_function_->register_id_;
         }
         
         int ResetRegisiterId(int register_id) {

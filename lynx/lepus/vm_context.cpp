@@ -30,7 +30,7 @@ namespace lepus {
     b = GET_REGISTER_B(i);                                  \
     c = GET_REGISTER_C(i);
     
-typedef void (*CFunction)(Context *);
+typedef Value (*CFunction)(Context *);
     
     void VMContext::Initialize() {
         RegisterBulitin(this);
@@ -51,22 +51,24 @@ typedef void (*CFunction)(Context *);
         }catch(const lepus::Exception& exception) {
             std::cout<<exception.message()<<std::endl;
         }
-        CallFunction(heap().top_ - 1, 0 , 0);
+        CallFunction(heap().top_ - 1, 0, nullptr);
         Run();
     }
     
     Value VMContext::Call(const std::string& name, const std::vector<Value>& args) {
+        Value ret;
         auto reg_info = top_level_variables_.find(string_pool().NewString(name));
         if(reg_info == top_level_variables_.end())
             return Value();
         int reg = reg_info->second;
         Value* function = heap_.top_;
         *(heap_.top_++) = *(heap_.base() + reg + 1);
-        for(int i = 0; i < args.size(); ++i) {
+        for(size_t i = 0; i < args.size(); ++i) {
             *(heap_.top_++) = args[i];
         }
-        CallFunction(function, args.size(), 0);
+        CallFunction(function, args.size(), &ret);
         Run();
+        return ret;
     }
     
     
@@ -78,12 +80,11 @@ typedef void (*CFunction)(Context *);
         return frames_.back().register_ + index;
     }
     
-    
-    
-    bool VMContext::CallFunction(Value* function, int argc, int result_count) {
+    bool VMContext::CallFunction(Value* function, int argc, Value* ret) {
         if(function->type_ == ValueT_Closure) {
             heap_.top_ = function + 1;
             Frame frame;
+            frame.return_ = ret;
             frame.function_ = function;
             frame.instruction_ = static_cast<Function*>(function->closure_->function())->GetOpCodes();
             frame.end_ = frame.instruction_ + static_cast<Function*>(function->closure_->function())->OpCodeSize();
@@ -93,14 +94,19 @@ typedef void (*CFunction)(Context *);
         }else if(function->type_ == ValueT_CFunction) {
             heap_.top_ = function + argc + 1;
             Frame frame;
+            frame.return_ = ret;
             frame.function_ = function;
             frame.register_ = function + 1;
             frames_.push_back(frame);
             void* cfunction = function->native_function_;
-            reinterpret_cast<CFunction>(cfunction)(this);
+            Value v = reinterpret_cast<CFunction>(cfunction)(this);
+            if(ret){
+                *ret = v;
+            }
             frames_.pop_back();
             return false;
         }
+        return false;
     }
     
     void VMContext::Run() {
@@ -166,15 +172,18 @@ typedef void (*CFunction)(Context *);
                 {
                     a = GET_REGISTER_A(i);
                     int argc = Instruction::GetParamB(i);
-                    int resultc = Instruction::GetParamC(i);
-                    heap_.top_ = a;
-                    if(CallFunction(a, argc, resultc))
+                    c = GET_REGISTER_C(i);
+                    if(CallFunction(a, argc, c))
                         return;
                 }
                     break;
                 case TypeOp_VarArg:
                     break;
                 case TypeOp_Ret:
+                    a = GET_REGISTER_A(i);
+                    if(frame->return_ != nullptr) {
+                        *frame->return_ = *a;
+                    }
                     break;
                 case TypeOp_JmpFalse:
                     a = GET_REGISTER_A(i);
@@ -226,8 +235,16 @@ typedef void (*CFunction)(Context *);
                     a->type_ = Value_Number;
                     break;
                 case TypeOp_And:
+                    GET_REGISTER_ABC(i);
+                    if (b->type_ == Value_Boolean)
+                        a->boolean_ = (b->boolean_ && c->boolean_);
+                    a->type_ = Value_Boolean;
                     break;
                 case TypeOp_Or:
+                    GET_REGISTER_ABC(i);
+                    if (b->type_ == Value_Boolean)
+                        a->boolean_ = (b->boolean_ || c->boolean_);
+                    a->type_ = Value_Boolean;
                     break;
                 case TypeOp_Less:
                     GET_REGISTER_ABC(i);
@@ -242,12 +259,26 @@ typedef void (*CFunction)(Context *);
                     a->type_ = Value_Boolean;
                     break;
                 case TypeOp_Equal:
+                    GET_REGISTER_ABC(i);
+                    a->boolean_ = (*b == *c);
+                    a->type_ = Value_Boolean;
                     break;
                 case TypeOp_UnEqual:
+                    GET_REGISTER_ABC(i);
+                    a->boolean_ = (*b != *c);
+                    a->type_ = Value_Boolean;
                     break;
                 case TypeOp_LessEqual:
+                    GET_REGISTER_ABC(i);
+                    if (b->type_ == Value_Number)
+                        a->boolean_ = (b->number_ <= c->number_);
+                    a->type_ = Value_Boolean;
                     break;
                 case TypeOp_GreaterEqual:
+                    GET_REGISTER_ABC(i);
+                    if (b->type_ == Value_Number)
+                        a->boolean_ = (b->number_ >= c->number_);
+                    a->type_ = Value_Boolean;
                     break;
                 case TypeOp_NewTable:
                     break;
@@ -258,6 +289,14 @@ typedef void (*CFunction)(Context *);
                 case TypeOp_ForInit:
                     break;
                 case TypeOp_ForStep:
+                    break;
+                case TypeOp_Switch:
+                {
+                    a = GET_REGISTER_A(i);
+                    int index = Instruction::GetParamBx(i);
+                    int jmp = function->GetSwitch(index)->Switch(a);
+                    frame->instruction_ += -1 + jmp;
+                }
                     break;
                 default:
                     break;

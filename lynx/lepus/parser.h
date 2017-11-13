@@ -30,12 +30,14 @@ namespace lepus {
         
         ASTree* ParseStatement();
         ASTree* ParseBreakStatement();
-        ASTree* ParseDoStatement();
+        ASTree* ParseForStatement();
+        ASTree* ParseDoWhileStatement();
         ASTree* ParseWhileStatement();
         ASTree* ParseIfStatement();
         ASTree* ParseElseStatement();
         ASTree* ParseElseIfStatement();
-        ASTree* ParseForStatement();
+        ASTree* ParseSwitchStatement();
+        ASTree* ParseCaseStatement();
         ASTree* ParseOtherStatement();
         
         ASTree* ParseFunctionStatement();
