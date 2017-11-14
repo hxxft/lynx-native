@@ -21,6 +21,17 @@ namespace lepus {
         LexicalOp_None,
         LexicalOp_Read,
         LexicalOp_Write,
+        LexicalOp_ASSIGN_BIT_OR, // |=
+        LexicalOp_ASSIGN_BIT_XOR, // ^=
+        LexicalOp_ASSIGN_BIT_AND, // &=
+        LexicalOp_ASSIGN_SHL,      // <<=
+        LexicalOp_ASSIGN_SAR,      // >>>=
+        LexicalOp_ASSIGN_SHR,      // >>>=
+        LexicalOp_ASSIGN_ADD,      // +=
+        LexicalOp_ASSIGN_SUB,      // -=
+        LexicalOp_ASSIGN_MUL,      // *=
+        LexicalOp_ASSIGN_DIV,      // /=
+        LexicalOp_ASSIGN_MOD,      // %
     };
     
     enum LexicalScoping {
@@ -30,12 +41,34 @@ namespace lepus {
         LexicalScoping_Local,
     };
     
+    enum ASTType {
+        ASTType_Unknow,
+        ASTType_Chunk,
+        ASTType_Block,
+        ASTType_Return,
+        ASTType_Literal,
+        ASTType_Names,
+        ASTType_BinaryExpr,
+        ASTType_UnaryExpr,
+        ASTType_ExpressionList,
+        ASTType_MemberAccessor,
+    };
+    
+    enum AutomaticType {
+        Automatic_None,
+        Automatic_Inc_Before,
+        Automatic_Inc_After,
+        Automatic_Dec_Before,
+        Automatic_Dec_After,
+    };
+    
 #define AST_ACCEPT_VISITOR \
 virtual void Accept(Visitor* visitor, void* data);
     
     class ASTree {
     public:
         virtual ~ASTree() {}
+        virtual ASTType type() {return ASTType_Unknow;}
         virtual void Accept(Visitor* visitor, void* data) {}
     };
     
@@ -81,7 +114,8 @@ virtual void Accept(Visitor* visitor, void* data);
         LiteralAST(const Token& token)
         :token_(token),
          scope_(LexicalScoping_Unknow),
-         lex_op_(LexicalOp_None){
+         lex_op_(LexicalOp_None),
+         auto_type_(Automatic_None){
             
         }
         
@@ -97,11 +131,18 @@ virtual void Accept(Visitor* visitor, void* data);
             return lex_op_;
         }
         
+        AutomaticType& auto_type() {
+            return auto_type_;
+        }
+        
+        virtual ASTType type() {return ASTType_Literal;}
+        
         AST_ACCEPT_VISITOR
     private:
         Token token_;
         LexicalScoping scope_;
         LexicalOp lex_op_;
+        AutomaticType auto_type_;
     };
     
     class NamesAST : public ASTree {
@@ -426,6 +467,10 @@ virtual void Accept(Visitor* visitor, void* data);
         
         Token& member() {
             return member_;
+        }
+        
+        virtual ASTType type() {
+            return ASTType_MemberAccessor;
         }
         
         AST_ACCEPT_VISITOR

@@ -114,6 +114,12 @@ namespace lepus {
         int SearchGlobal(String* name);
         int ManageUpvalues(String* name);
         
+        void WriteLocalValue(LexicalOp op, int dst, int src);
+        void WriteUpValue(LexicalOp op, int dst, int src);
+        
+        void AutomaticLocalValue(AutomaticType type, int dst, int src);
+        void AutomaticUpValue(AutomaticType type, int dst, int src);
+        
         int GenerateRegisiterId() {
             int register_id = current_function_->register_id_++;
             return register_id;

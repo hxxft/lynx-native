@@ -8,6 +8,14 @@
 
 namespace lepus {
     
+#define MOVE(dst, src) \
+            do { \
+                if(dst >= 0) \
+                    function->AddInstruction(Instruction::ABCode(TypeOp_Move, dst, src)); \
+            } \
+            while(0);
+    
+    
     void CodeGenerator::EnterFunction() {
         FunctionGenerate* function = new FunctionGenerate;
         function->parent_ = current_function_;
@@ -164,20 +172,146 @@ namespace lepus {
         ResetRegisiterId(register_id);
     }
     
-    void CodeGenerator::Visit(LiteralAST* ast, void* data){
-        int register_id = *static_cast<int*>(data);
+    void CodeGenerator::WriteLocalValue(LexicalOp op, int dst, int src) {
         Function* function = current_function_->function_;
-        if(ast->lex_op() == LexicalOp_Write) {
+        Instruction instruction;
+        switch (op) {
+            case LexicalOp_Write:
+                instruction = Instruction::ABCode(TypeOp_Move, dst, src);
+                break;
+            case LexicalOp_ASSIGN_ADD:
+                instruction = Instruction::ABCCode(TypeOp_Add, dst, dst, src);
+                break;
+            case LexicalOp_ASSIGN_SUB:
+                instruction = Instruction::ABCCode(TypeOp_Sub, dst, dst, src);
+                break;
+            case LexicalOp_ASSIGN_MUL:
+                instruction = Instruction::ABCCode(TypeOp_Mul, dst, dst, src);
+                break;
+            case LexicalOp_ASSIGN_DIV:
+                instruction = Instruction::ABCCode(TypeOp_Div, dst, dst, src);
+                break;
+            case LexicalOp_ASSIGN_MOD:
+                instruction = Instruction::ABCCode(TypeOp_Mod, dst, dst, src);
+                break;
+            default:
+                break;
+        }
+         function->AddInstruction(instruction);
+    }
+    
+    void CodeGenerator::WriteUpValue(LexicalOp op, int dst, int src) {
+        Function* function = current_function_->function_;
+        Instruction instruction;
+        int register_id = GenerateRegisiterId();
+        switch (op) {
+            case LexicalOp_ASSIGN_ADD:
+                function->AddInstruction(Instruction::ABCode(TypeOp_GetUpvalue, register_id, dst));
+                function->AddInstruction(Instruction::ABCCode(TypeOp_Add, src, register_id, src));
+                break;
+            case LexicalOp_ASSIGN_SUB:
+                function->AddInstruction(Instruction::ABCode(TypeOp_GetUpvalue, register_id, dst));
+                function->AddInstruction(Instruction::ABCCode(TypeOp_Sub, src, register_id, src));
+                break;
+            case LexicalOp_ASSIGN_MUL:
+                function->AddInstruction(Instruction::ABCode(TypeOp_GetUpvalue, register_id, dst));
+                function->AddInstruction(Instruction::ABCCode(TypeOp_Mul, src, register_id, src));
+                break;
+            case LexicalOp_ASSIGN_DIV:
+                function->AddInstruction(Instruction::ABCode(TypeOp_GetUpvalue, register_id, dst));
+                function->AddInstruction(Instruction::ABCCode(TypeOp_Div, src, register_id, src));
+                break;
+            case LexicalOp_ASSIGN_MOD:
+                function->AddInstruction(Instruction::ABCode(TypeOp_GetUpvalue, register_id, dst));
+                function->AddInstruction(Instruction::ABCCode(TypeOp_Mod, src, register_id, src));
+                break;
+            default:
+                break;
+        }
+        function->AddInstruction(Instruction::ABCode(TypeOp_SetUpvalue, src, dst));
+        ResetRegisiterId(register_id);
+    }
+    
+    void CodeGenerator::AutomaticLocalValue(AutomaticType type, int dst, int src) {
+        Function* function = current_function_->function_;
+        switch (type) {
+            case Automatic_None:
+                MOVE(dst, src);
+                break;
+            case Automatic_Inc_Before:
+                function->AddInstruction(Instruction::ACode(TypeOp_Inc, src));
+                MOVE(dst, src);
+                break;
+            case Automatic_Inc_After:
+                MOVE(dst, src);
+                function->AddInstruction(Instruction::ACode(TypeOp_Inc, src));
+                break;
+            case Automatic_Dec_Before:
+                MOVE(dst, src);
+                function->AddInstruction(Instruction::ABCode(TypeOp_Move, dst, src));
+                break;
+            case Automatic_Dec_After:
+                MOVE(dst, src);
+                function->AddInstruction(Instruction::ACode(TypeOp_Dec, src));
+                break;
+            default:
+                break;
+        }
+    }
+    
+    void CodeGenerator::AutomaticUpValue(AutomaticType type, int dst, int src) {
+        Function* function = current_function_->function_;
+        int register_id = GenerateRegisiterId();
+        switch (type) {
+            case Automatic_None:
+                function->AddInstruction(Instruction::ABCode(TypeOp_GetUpvalue, dst, src));
+                break;
+            case Automatic_Inc_Before:
+                function->AddInstruction(Instruction::ABCode(TypeOp_GetUpvalue, register_id, src));
+                function->AddInstruction(Instruction::ACode(TypeOp_Inc, register_id));
+                //function->AddInstruction(Instruction::ABCode(TypeOp_Move, dst, register_id));
+                MOVE(dst, register_id);
+                function->AddInstruction(Instruction::ABCode(TypeOp_SetUpvalue, register_id, src));
+                break;
+            case Automatic_Inc_After:
+                function->AddInstruction(Instruction::ABCode(TypeOp_GetUpvalue, register_id, src));
+                //function->AddInstruction(Instruction::ABCode(TypeOp_Move, dst, register_id));
+                 MOVE(dst, register_id);
+                function->AddInstruction(Instruction::ACode(TypeOp_Inc, register_id));
+                function->AddInstruction(Instruction::ABCode(TypeOp_SetUpvalue, register_id, src));
+                break;
+            case Automatic_Dec_Before:
+                function->AddInstruction(Instruction::ABCode(TypeOp_GetUpvalue, register_id, src));
+                function->AddInstruction(Instruction::ACode(TypeOp_Dec, register_id));
+                 MOVE(dst, register_id);
+                //function->AddInstruction(Instruction::ABCode(TypeOp_Move, dst, register_id));
+                function->AddInstruction(Instruction::ABCode(TypeOp_SetUpvalue, register_id, src));
+                break;
+            case Automatic_Dec_After:
+                function->AddInstruction(Instruction::ABCode(TypeOp_GetUpvalue, register_id, src));
+                 MOVE(dst, register_id);
+                //function->AddInstruction(Instruction::ABCode(TypeOp_Move, dst, register_id));
+                function->AddInstruction(Instruction::ACode(TypeOp_Dec, register_id));
+                function->AddInstruction(Instruction::ABCode(TypeOp_SetUpvalue, register_id, src));
+                break;
+            default:
+                break;
+        }
+        ResetRegisiterId(register_id);
+    }
+    
+    void CodeGenerator::Visit(LiteralAST* ast, void* data){
+        int register_id = data == nullptr ? -1 : *static_cast<int*>(data);
+        Function* function = current_function_->function_;
+        if(ast->lex_op() >= LexicalOp_Write) {
             if(ast->scope() == LexicalScoping_Local) {
                 int var_reg_id = SearchVariable(ast->token().str_);
-                auto instruction = Instruction::ABCode(TypeOp_Move, var_reg_id, register_id);
-                function->AddInstruction(instruction);
+                WriteLocalValue(ast->lex_op(), var_reg_id, register_id);
             }else if(ast->scope() == LexicalScoping_Global) {
                 
             }else if(ast->scope() == LexicalScoping_Upvalue) {
                 int index = ManageUpvalues(ast->token().str_);
-                Instruction instruction = Instruction::ABCode(TypeOp_SetUpvalue, register_id, index);
-                function->AddInstruction(instruction);
+                WriteUpValue(ast->lex_op(), index, register_id);
             }
         }else if(ast->lex_op() == LexicalOp_Read){
             if(ast->token().token_ == Token_Number) {
@@ -187,16 +321,19 @@ namespace lepus {
             }else if(ast->token().token_ == Token_Id) {
                 if(ast->scope() == LexicalScoping_Local) {
                     int var_reg_id = SearchVariable(ast->token().str_);
-                    auto instruction = Instruction::ABCode(TypeOp_Move, register_id, var_reg_id);
-                    function->AddInstruction(instruction);
+//                    auto instruction = Instruction::ABCode(TypeOp_Move, register_id, var_reg_id);
+//                    function->AddInstruction(instruction);
+                    AutomaticLocalValue(ast->auto_type(), register_id, var_reg_id);
                 }else if(ast->scope() == LexicalScoping_Global) {
                     int gloabl_index = SearchGlobal(ast->token().str_);
                     auto instruction = Instruction::ABxCode(TypeOp_GetGlobal, register_id, gloabl_index);
                     function->AddInstruction(instruction);
+                    
                 }else if(ast->scope() == LexicalScoping_Upvalue) {
                     int index = ManageUpvalues(ast->token().str_);
-                    Instruction instruction = Instruction::ABCode(TypeOp_GetUpvalue, register_id, index);
-                    function->AddInstruction(instruction);
+//                    Instruction instruction = Instruction::ABCode(TypeOp_GetUpvalue, register_id, index);
+//                    function->AddInstruction(instruction);
+                    AutomaticUpValue(ast->auto_type(), register_id, index);
                 }
             }
         }

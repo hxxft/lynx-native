@@ -72,6 +72,14 @@ namespace lepus {
             return next_token_;
         }
         
+        Token& LookAhead2() {
+            LookAhead();
+            if(next_next_token_.token_ == Token_EOF) {
+                scanner_->NextToken(next_next_token_);
+            }
+            return next_next_token_;
+        }
+        
         int Priority(int token) {
             switch (token)
             {

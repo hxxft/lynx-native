@@ -298,6 +298,16 @@ typedef Value (*CFunction)(Context *);
                     frame->instruction_ += -1 + jmp;
                 }
                     break;
+                case TypeOp_Inc:
+                    a = GET_REGISTER_A(i);
+                    if (a->type_ == Value_Number)
+                        a->number_ += 1;
+                    break;
+                case TypeOp_Dec:
+                    a = GET_REGISTER_A(i);
+                    if (a->type_ == Value_Number)
+                        a->number_ -= 1;
+                    break;
                 default:
                     break;
             }

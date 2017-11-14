@@ -43,6 +43,8 @@ namespace lepus {
         TypeOp_ForInit,                 // ABC  A: var register B: limit register    C: step register
         TypeOp_ForStep,                 // ABC  ABC same with TypeOp_ForInit, next instruction sBx: diff of instruction index
         TypeOp_Switch,
+        TypeOp_Inc,
+        TypeOp_Dec,
     };
     
     struct Instruction {

@@ -96,20 +96,25 @@ namespace lepus {
         ExprData* expr_data = static_cast<ExprData*>(data);
         switch (ast->token().token_) {
             case Token_Nil:
-                expr_data->expr_type_ = ExprType_Nil;
+                if(expr_data)
+                    expr_data->expr_type_ = ExprType_Nil;
                 break;
             case Token_Id:
-                expr_data->expr_type_ = ExprType_Unknown;
+                if(expr_data)
+                    expr_data->expr_type_ = ExprType_Unknown;
                 break;
             case Token_Number:
-                expr_data->expr_type_ = ExprType_Number;
+                if(expr_data)
+                    expr_data->expr_type_ = ExprType_Number;
                 break;
             case Token_String:
-                expr_data->expr_type_ = ExprType_String;
+                if(expr_data)
+                    expr_data->expr_type_ = ExprType_String;
                 break;
             case Token_False:
             case Token_True:
-                expr_data->expr_type_ = ExprType_Bool;
+                if(expr_data)
+                    expr_data->expr_type_ = ExprType_Bool;
                 break;
             default:
                 break;
@@ -117,7 +122,7 @@ namespace lepus {
         if(ast->token().token_ == Token_Id) {
             ast->scope() = SearchName(ast->token().str_);
         }
-        ast->lex_op() = expr_data->lex_po_;
+        ast->lex_op() = expr_data == nullptr ? LexicalOp_Read : expr_data->lex_po_;
     }
     
     void SemanticAnalysis::Visit(NamesAST* ast, void* data){
@@ -316,7 +321,28 @@ namespace lepus {
     
     void SemanticAnalysis::Visit(AssignStatement* ast, void* data){
         ExprData expr_data;
-        expr_data.lex_po_ = LexicalOp_Write;
+        switch (ast->assignment().token_) {
+            case '=':
+                expr_data.lex_po_ = LexicalOp_Write;
+                break;
+            case Token_ASSIGN_ADD:
+                expr_data.lex_po_ = LexicalOp_ASSIGN_ADD;
+                break;
+            case Token_ASSIGN_SUB:
+                expr_data.lex_po_ = LexicalOp_ASSIGN_SUB;
+                break;
+            case Token_ASSIGN_MUL:
+                expr_data.lex_po_ = LexicalOp_ASSIGN_MUL;
+                break;
+            case Token_ASSIGN_DIV:
+                expr_data.lex_po_ = LexicalOp_ASSIGN_DIV;
+                break;
+            case Token_ASSIGN_MOD:
+                expr_data.lex_po_ = LexicalOp_ASSIGN_MOD;
+                break;
+            default:
+                break;
+        }
         ast->variable()->Accept(this, &expr_data);
         expr_data.lex_po_ = LexicalOp_Read;
         ast->expression()->Accept(this, &expr_data);

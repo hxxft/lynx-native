@@ -323,6 +323,8 @@ namespace lepus {
                 Token assignment = NextToken();
                 ast = ParseExpression();
                 return new AssignStatement(assignment, expr, ast);
+            }else{
+                return expr;
             }
                 
         }else if(type == ExprType_FunctionCall) {
@@ -426,18 +428,36 @@ namespace lepus {
     
     ASTree* Parser::ParsePrefixExpr(ExprType* type){
         ASTree* expr = nullptr;
-        NextToken();
-        if(current_token_.token_ == '(') {
+        AutomaticType auto_type = Automatic_None;
+        if(LookAhead().token_ == '(') {
+            NextToken();
             expr = ParseExpression();
             if(type) *type = ExprType_Normal;
             if(LookAhead().token_ != ')')
                 throw ParseException("expect )", LookAhead());
             NextToken();
-        }else{
-            expr = new LiteralAST(current_token_);
+        }else if(LookAhead().token_ == Token_INC ||
+                 LookAhead().token_ == Token_DEC ){
+            auto_type = NextToken().token_ == Token_INC ?
+                        Automatic_Inc_Before : Automatic_Dec_Before;
+            expr = ParseExpression();
             if(type) *type = ExprType_Var;
+        } else {
+            expr = new LiteralAST(LookAhead());
+            if(type) *type = ExprType_Var;
+            NextToken();
         }
-        return ParsePrefixExprEnd(expr, type);
+        
+        expr = ParsePrefixExprEnd(expr, type);
+        
+        if(auto_type != Automatic_None) {
+            if(expr->type() == ASTType_Literal) {
+                static_cast<LiteralAST*>(expr)->auto_type() = auto_type;
+            }else if(expr->type() == ASTType_MemberAccessor){
+            }
+        }
+        
+        return expr;
     }
     
     ASTree* Parser::ParsePrefixExprEnd(ASTree* expr, ExprType* type){
@@ -450,7 +470,15 @@ namespace lepus {
             if(type) *type = ExprType_FunctionCall;
             expr = ParseFunctionCall(expr);
             return ParsePrefixExprEnd(expr, type);
-        }else {
+        }else if(LookAhead().token_ == Token_INC ||
+                 LookAhead().token_ == Token_DEC ){
+            if(expr->type() == ASTType_Literal) {
+                static_cast<LiteralAST*>(expr)->auto_type() =
+                    NextToken().token_ == Token_INC ? Automatic_Inc_After : Automatic_Dec_After;
+            }else if(expr->type() == ASTType_MemberAccessor){
+            }
+            return expr;
+        }else{
             return expr;
         }
     }

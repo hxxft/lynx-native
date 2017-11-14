@@ -18,6 +18,9 @@ namespace lepus {
                 case Value_Boolean:
                     printf("%s\n", v->boolean_ ? "true" : "false");
                     break;
+                case Value_String:
+                    printf("%s\n", v->str_);
+                    break;
                 default:
                     break;
             }
