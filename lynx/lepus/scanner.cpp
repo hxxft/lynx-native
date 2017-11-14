@@ -105,6 +105,19 @@ namespace lepus {
         }
     }
     
+    void Scanner::ParseString(Token& token) {
+        int quote = current_character_;
+        std::string buffer;
+        while((current_character_ = NextCharacter()) && (current_character_ != quote)) {
+            buffer.push_back(current_character_);
+        }
+        current_character_ = NextCharacter();
+        token.token_ = Token_String;
+        token.line_  = line_;
+        token.column_ = column_;
+        token.str_ = string_pool_->NewString(buffer);
+    }
+    
     void Scanner::ParseId(Token& token) {
         if(!isalpha(current_character_) &&
            current_character_ != '_') {
@@ -215,8 +228,8 @@ namespace lepus {
                 return ParseEqual(token, Token_GreaterEqual);
             }else if(current_character_ == '<') {
                 return ParseEqual(token, Token_LessEqual);
-            }else if(current_character_ == '"') {
-                
+            }else if(current_character_ == '"' || current_character_ == '\'') {
+                return ParseString(token);
             }else {
                 return ParseId(token);
             }

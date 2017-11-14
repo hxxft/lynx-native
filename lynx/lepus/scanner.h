@@ -26,6 +26,7 @@ namespace lepus {
         void ParseNumber(Token& token);
         void ParseEqual(Token& token, int equal);
         void ParseTokenCharacter(Token& token, int token_character);
+        void ParseString(Token& token);
         void ParseId(Token& token);
         
         int NextCharacter() {
