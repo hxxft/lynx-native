@@ -10,8 +10,29 @@ namespace lepus {
     
 #define MOVE(dst, src) \
             do { \
-                if(dst >= 0) \
+                if(src >= 0 && dst >= 0) \
                     function->AddInstruction(Instruction::ABCode(TypeOp_Move, dst, src)); \
+            } \
+            while(0);
+    
+#define Call(caller, argc, result) \
+            do { \
+                if(caller >= 0 && result >= 0 && argc >= 0) \
+                    function->AddInstruction(Instruction::ABCCode(TypeOp_Call, caller, argc, result)); \
+            } \
+            while(0);
+    
+#define BinaryOperator(type, dst, src1, src2) \
+            do { \
+                if(src1 >= 0 && src2 >= 0 && dst >= 0) \
+                    function->AddInstruction(Instruction::ABCCode(type, dst, src1, src2)); \
+            } \
+            while(0);
+    
+#define UpvalueOperator(type, reg, index) \
+            do { \
+                if(reg >= 0 && index >= 0) \
+                    function->AddInstruction(Instruction::ABCode(type, reg, index)); \
             } \
             while(0);
     
@@ -30,8 +51,6 @@ namespace lepus {
     
     void CodeGenerator::LeaveFunction() {
         base::ScopedPtr<FunctionGenerate> function_generate = current_function_;
-        FunctionGenerate* parent = function_generate->parent_.Get();
-        Function* function = function_generate->function_;
         current_function_ = function_generate->parent_;
         
         current_function_name_ = nullptr;
@@ -69,6 +88,16 @@ namespace lepus {
         }
             
         current_function_->current_loop_ = current_loop->parent_;
+    }
+    
+    void CodeGenerator::EnterRegister() {
+        register_id_ = CurrentRegisiterId();
+    }
+    
+    void CodeGenerator::LeaveRegister() {
+        if(register_id_ > 0)
+            ResetRegisiterId(register_id_);
+        register_id_ = -1;
     }
     
     void CodeGenerator::InsertVariable(String* name, int register_id) {
@@ -165,11 +194,11 @@ namespace lepus {
     }
     
     void CodeGenerator::Visit(ReturnStatementAST* ast, void* data){
+        Guard<CodeGenerator> g(this, &CodeGenerator::EnterRegister, &CodeGenerator::LeaveRegister);
         int register_id = GenerateRegisiterId();
         ast->expression()->Accept(this, &register_id);
         auto instruction = Instruction::ACode(TypeOp_Ret, register_id);
         current_function_->function_->AddInstruction(instruction);
-        ResetRegisiterId(register_id);
     }
     
     void CodeGenerator::WriteLocalValue(LexicalOp op, int dst, int src) {
@@ -177,59 +206,63 @@ namespace lepus {
         Instruction instruction;
         switch (op) {
             case LexicalOp_Write:
-                instruction = Instruction::ABCode(TypeOp_Move, dst, src);
+                MOVE(dst, src);
                 break;
             case LexicalOp_ASSIGN_ADD:
-                instruction = Instruction::ABCCode(TypeOp_Add, dst, dst, src);
+                BinaryOperator(TypeOp_Add, dst, dst, src);
+                //instruction = Instruction::ABCCode(TypeOp_Add, dst, dst, src);
                 break;
             case LexicalOp_ASSIGN_SUB:
-                instruction = Instruction::ABCCode(TypeOp_Sub, dst, dst, src);
+                BinaryOperator(TypeOp_Sub, dst, dst, src);
+                //instruction = Instruction::ABCCode(TypeOp_Sub, dst, dst, src);
                 break;
             case LexicalOp_ASSIGN_MUL:
-                instruction = Instruction::ABCCode(TypeOp_Mul, dst, dst, src);
+                BinaryOperator(TypeOp_Mul, dst, dst, src);
+                //instruction = Instruction::ABCCode(TypeOp_Mul, dst, dst, src);
                 break;
             case LexicalOp_ASSIGN_DIV:
-                instruction = Instruction::ABCCode(TypeOp_Div, dst, dst, src);
+                BinaryOperator(TypeOp_Div, dst, dst, src);
+                //instruction = Instruction::ABCCode(TypeOp_Div, dst, dst, src);
                 break;
             case LexicalOp_ASSIGN_MOD:
-                instruction = Instruction::ABCCode(TypeOp_Mod, dst, dst, src);
+                BinaryOperator(TypeOp_Mod, dst, dst, src);
+                //instruction = Instruction::ABCCode(TypeOp_Mod, dst, dst, src);
                 break;
             default:
                 break;
         }
-         function->AddInstruction(instruction);
     }
     
     void CodeGenerator::WriteUpValue(LexicalOp op, int dst, int src) {
+        Guard<CodeGenerator> g(this, &CodeGenerator::EnterRegister, &CodeGenerator::LeaveRegister);
         Function* function = current_function_->function_;
         Instruction instruction;
         int register_id = GenerateRegisiterId();
         switch (op) {
             case LexicalOp_ASSIGN_ADD:
-                function->AddInstruction(Instruction::ABCode(TypeOp_GetUpvalue, register_id, dst));
-                function->AddInstruction(Instruction::ABCCode(TypeOp_Add, src, register_id, src));
+                UpvalueOperator(TypeOp_GetUpvalue, register_id, dst);
+                BinaryOperator(TypeOp_Add, src, register_id, src);
                 break;
             case LexicalOp_ASSIGN_SUB:
-                function->AddInstruction(Instruction::ABCode(TypeOp_GetUpvalue, register_id, dst));
-                function->AddInstruction(Instruction::ABCCode(TypeOp_Sub, src, register_id, src));
+                UpvalueOperator(TypeOp_GetUpvalue, register_id, dst);
+                BinaryOperator(TypeOp_Sub, src, register_id, src);
                 break;
             case LexicalOp_ASSIGN_MUL:
-                function->AddInstruction(Instruction::ABCode(TypeOp_GetUpvalue, register_id, dst));
-                function->AddInstruction(Instruction::ABCCode(TypeOp_Mul, src, register_id, src));
+                UpvalueOperator(TypeOp_GetUpvalue, register_id, dst);
+                BinaryOperator(TypeOp_Mul, src, register_id, src);
                 break;
             case LexicalOp_ASSIGN_DIV:
-                function->AddInstruction(Instruction::ABCode(TypeOp_GetUpvalue, register_id, dst));
-                function->AddInstruction(Instruction::ABCCode(TypeOp_Div, src, register_id, src));
+                UpvalueOperator(TypeOp_GetUpvalue, register_id, dst);
+                BinaryOperator(TypeOp_Div, src, register_id, src);
                 break;
             case LexicalOp_ASSIGN_MOD:
-                function->AddInstruction(Instruction::ABCode(TypeOp_GetUpvalue, register_id, dst));
-                function->AddInstruction(Instruction::ABCCode(TypeOp_Mod, src, register_id, src));
+                UpvalueOperator(TypeOp_GetUpvalue, register_id, dst);
+                BinaryOperator(TypeOp_Mod, src, register_id, src);
                 break;
             default:
                 break;
         }
-        function->AddInstruction(Instruction::ABCode(TypeOp_SetUpvalue, src, dst));
-        ResetRegisiterId(register_id);
+        UpvalueOperator(TypeOp_SetUpvalue, src, dst);
     }
     
     void CodeGenerator::AutomaticLocalValue(AutomaticType type, int dst, int src) {
@@ -247,8 +280,8 @@ namespace lepus {
                 function->AddInstruction(Instruction::ACode(TypeOp_Inc, src));
                 break;
             case Automatic_Dec_Before:
+                function->AddInstruction(Instruction::ACode(TypeOp_Dec, src));
                 MOVE(dst, src);
-                function->AddInstruction(Instruction::ABCode(TypeOp_Move, dst, src));
                 break;
             case Automatic_Dec_After:
                 MOVE(dst, src);
@@ -260,44 +293,40 @@ namespace lepus {
     }
     
     void CodeGenerator::AutomaticUpValue(AutomaticType type, int dst, int src) {
+        Guard<CodeGenerator> g(this, &CodeGenerator::EnterRegister, &CodeGenerator::LeaveRegister);
         Function* function = current_function_->function_;
         int register_id = GenerateRegisiterId();
         switch (type) {
             case Automatic_None:
-                function->AddInstruction(Instruction::ABCode(TypeOp_GetUpvalue, dst, src));
+                UpvalueOperator(TypeOp_GetUpvalue, dst, src);
                 break;
             case Automatic_Inc_Before:
-                function->AddInstruction(Instruction::ABCode(TypeOp_GetUpvalue, register_id, src));
+                UpvalueOperator(TypeOp_GetUpvalue, register_id, src);
                 function->AddInstruction(Instruction::ACode(TypeOp_Inc, register_id));
-                //function->AddInstruction(Instruction::ABCode(TypeOp_Move, dst, register_id));
                 MOVE(dst, register_id);
-                function->AddInstruction(Instruction::ABCode(TypeOp_SetUpvalue, register_id, src));
+                UpvalueOperator(TypeOp_SetUpvalue, register_id, src);
                 break;
             case Automatic_Inc_After:
-                function->AddInstruction(Instruction::ABCode(TypeOp_GetUpvalue, register_id, src));
-                //function->AddInstruction(Instruction::ABCode(TypeOp_Move, dst, register_id));
-                 MOVE(dst, register_id);
+                UpvalueOperator(TypeOp_GetUpvalue, register_id, src);
+                MOVE(dst, register_id);
                 function->AddInstruction(Instruction::ACode(TypeOp_Inc, register_id));
-                function->AddInstruction(Instruction::ABCode(TypeOp_SetUpvalue, register_id, src));
+                UpvalueOperator(TypeOp_SetUpvalue, register_id, src);
                 break;
             case Automatic_Dec_Before:
-                function->AddInstruction(Instruction::ABCode(TypeOp_GetUpvalue, register_id, src));
+                UpvalueOperator(TypeOp_GetUpvalue, register_id, src);
                 function->AddInstruction(Instruction::ACode(TypeOp_Dec, register_id));
-                 MOVE(dst, register_id);
-                //function->AddInstruction(Instruction::ABCode(TypeOp_Move, dst, register_id));
-                function->AddInstruction(Instruction::ABCode(TypeOp_SetUpvalue, register_id, src));
+                MOVE(dst, register_id);
+                UpvalueOperator(TypeOp_SetUpvalue, register_id, src);
                 break;
             case Automatic_Dec_After:
-                function->AddInstruction(Instruction::ABCode(TypeOp_GetUpvalue, register_id, src));
-                 MOVE(dst, register_id);
-                //function->AddInstruction(Instruction::ABCode(TypeOp_Move, dst, register_id));
+                UpvalueOperator(TypeOp_GetUpvalue, register_id, src);
+                MOVE(dst, register_id);
                 function->AddInstruction(Instruction::ACode(TypeOp_Dec, register_id));
-                function->AddInstruction(Instruction::ABCode(TypeOp_SetUpvalue, register_id, src));
+                UpvalueOperator(TypeOp_SetUpvalue, register_id, src);
                 break;
             default:
                 break;
         }
-        ResetRegisiterId(register_id);
     }
     
     void CodeGenerator::Visit(LiteralAST* ast, void* data){
@@ -322,11 +351,14 @@ namespace lepus {
                 int index = function->AddConstString(ast->token().str_);
                 auto instruction = Instruction::ABxCode(TypeOp_LoadConst, register_id, index);
                 function->AddInstruction(instruction);
+            }else if(ast->token().token_ == Token_True ||
+                     ast->token().token_ == Token_False){
+                int index = function->AddConstBoolean(ast->token().token_ == Token_True ? true : false);
+                auto instruction = Instruction::ABxCode(TypeOp_LoadConst, register_id, index);
+                function->AddInstruction(instruction);
             }else if(ast->token().token_ == Token_Id) {
                 if(ast->scope() == LexicalScoping_Local) {
                     int var_reg_id = SearchVariable(ast->token().str_);
-//                    auto instruction = Instruction::ABCode(TypeOp_Move, register_id, var_reg_id);
-//                    function->AddInstruction(instruction);
                     AutomaticLocalValue(ast->auto_type(), register_id, var_reg_id);
                 }else if(ast->scope() == LexicalScoping_Global) {
                     int gloabl_index = SearchGlobal(ast->token().str_);
@@ -335,8 +367,6 @@ namespace lepus {
                     
                 }else if(ast->scope() == LexicalScoping_Upvalue) {
                     int index = ManageUpvalues(ast->token().str_);
-//                    Instruction instruction = Instruction::ABCode(TypeOp_GetUpvalue, register_id, index);
-//                    function->AddInstruction(instruction);
                     AutomaticUpValue(ast->auto_type(), register_id, index);
                 }
             }
@@ -360,34 +390,53 @@ namespace lepus {
         int right_register_id = GenerateRegisiterId();
         ast->right()->Accept(this, &right_register_id);
         ResetRegisiterId(right_register_id + 1);
-        TypeOpCode op_code;
         switch (ast->op_token().token_) {
-            case '+': op_code = TypeOp_Add; break;
-            case '-': op_code = TypeOp_Sub; break;
-            case '*': op_code = TypeOp_Mul; break;
-            case '/': op_code = TypeOp_Div; break;
-            case '^': op_code = TypeOp_Pow; break;
-            case '%': op_code = TypeOp_Mod; break;
-            case '<': op_code = TypeOp_Less; break;
-            case '>': op_code = TypeOp_Greater; break;
-            case Token_Equal: op_code = TypeOp_Equal; break;
-            case Token_NotEqual: op_code = TypeOp_UnEqual; break;
-            case Token_LessEqual: op_code = TypeOp_LessEqual; break;
-            case Token_GreaterEqual: op_code = TypeOp_GreaterEqual; break;
-            case Token_And: op_code = TypeOp_And; break;
-            case Token_Or: op_code = TypeOp_Or; break;
+            case '+':
+                BinaryOperator(TypeOp_Add, register_id, left_register_id, right_register_id);
+                break;
+            case '-':
+                BinaryOperator(TypeOp_Sub, register_id, left_register_id, right_register_id);
+                break;
+            case '*':
+                BinaryOperator(TypeOp_Mul, register_id, left_register_id, right_register_id);
+                break;
+            case '/':
+                BinaryOperator(TypeOp_Div, register_id, left_register_id, right_register_id);
+                break;
+            case '^':
+                BinaryOperator(TypeOp_Pow, register_id, left_register_id, right_register_id);
+                break;
+            case '%':
+                BinaryOperator(TypeOp_Mod, register_id, left_register_id, right_register_id);
+                break;
+            case '<':
+                BinaryOperator(TypeOp_Less, register_id, left_register_id, right_register_id);
+                break;
+            case '>':
+                BinaryOperator(TypeOp_Greater, register_id, left_register_id, right_register_id);
+                break;
+            case Token_Equal:
+                BinaryOperator(TypeOp_Equal, register_id, left_register_id, right_register_id);
+                break;
+            case Token_NotEqual:
+                BinaryOperator(TypeOp_UnEqual, register_id, left_register_id, right_register_id);
+                break;
+            case Token_LessEqual:
+                BinaryOperator(TypeOp_LessEqual, register_id, left_register_id, right_register_id);
+                break;
+            case Token_GreaterEqual:
+                BinaryOperator(TypeOp_GreaterEqual, register_id, left_register_id, right_register_id);
+                break;
+            case Token_And:
+                BinaryOperator(TypeOp_And, register_id, left_register_id, right_register_id);
+                break;
+            case Token_Or:
+                BinaryOperator(TypeOp_Or, register_id, left_register_id, right_register_id);
+                break;
             default:
-                op_code = TypeOp_Move;
+                MOVE(register_id, right_register_id);
                 break;
         }
-        Instruction instruction;
-        if(op_code != TypeOp_Move) {
-            instruction = Instruction::ABCCode(op_code, register_id, left_register_id, right_register_id);
-        }else{
-            instruction = Instruction::ABCode(op_code, register_id, right_register_id);
-        }
-        
-        function->AddInstruction(instruction);
     }
     
     void CodeGenerator::Visit(UnaryExpression* ast, void* data){
@@ -403,6 +452,7 @@ namespace lepus {
                 op_code = TypeOp_Not;
                 break;
             default:
+                op_code = TypeOp_Noop;
                 break;
         }
         Instruction instruction = Instruction::ACode(op_code, register_id);
@@ -464,8 +514,8 @@ namespace lepus {
     }
     
     void CodeGenerator::Visit(ForStatementAST* ast, void* data) {
+        Guard<CodeGenerator> r(this, &CodeGenerator::EnterRegister, &CodeGenerator::LeaveRegister);
         Guard<CodeGenerator> g(this, &CodeGenerator::EnterBlock, &CodeGenerator::LeaveBlock);
-        int current_register = CurrentRegisiterId();
         
         if(ast->statement1().Get()) {
             ast->statement1()->Accept(this, nullptr);
@@ -500,32 +550,29 @@ namespace lepus {
         if(jmp_index != -1) {
             current_function_->function_->GetInstruction(jmp_index)->RefillsBx(end_index - jmp_index);
         }
-        
-        ResetRegisiterId(current_register);
     }
     
     void CodeGenerator::Visit(DoWhileStatementAST* ast, void* data){
-        Guard<CodeGenerator> g(this, &CodeGenerator::EnterLoop, &CodeGenerator::LeaveLoop);
-        int current_register = CurrentRegisiterId();
-        
+        Guard<CodeGenerator> g(this, &CodeGenerator::EnterRegister, &CodeGenerator::LeaveRegister);
         {
-            Guard<CodeGenerator> g(this, &CodeGenerator::EnterBlock, &CodeGenerator::LeaveBlock);
-            ast->block()->Accept(this, nullptr);
-            
-            int register_id = GenerateRegisiterId();
-            ast->condition()->Accept(this, &register_id);
-            Instruction jmp_false_instruction = Instruction::ABxCode(TypeOp_JmpFalse, register_id, 2);
-            current_function_->function_->AddInstruction(jmp_false_instruction);
-            
-            Instruction instruction = Instruction::ABxCode(TypeOp_Jmp, 0, 0);
-            int loop_head_index = current_function_->function_->AddInstruction(instruction);
-            LoopGenerate* current_loop = current_function_->current_loop_.Get();
-            if(current_loop) {
-                current_loop->loop_infos_.push_back(LoopInfo(LoopJmp_Head, loop_head_index));
+            Guard<CodeGenerator> g(this, &CodeGenerator::EnterLoop, &CodeGenerator::LeaveLoop);
+            {
+                Guard<CodeGenerator> g(this, &CodeGenerator::EnterBlock, &CodeGenerator::LeaveBlock);
+                ast->block()->Accept(this, nullptr);
+                
+                int register_id = GenerateRegisiterId();
+                ast->condition()->Accept(this, &register_id);
+                Instruction jmp_false_instruction = Instruction::ABxCode(TypeOp_JmpFalse, register_id, 2);
+                current_function_->function_->AddInstruction(jmp_false_instruction);
+                
+                Instruction instruction = Instruction::ABxCode(TypeOp_Jmp, 0, 0);
+                int loop_head_index = current_function_->function_->AddInstruction(instruction);
+                LoopGenerate* current_loop = current_function_->current_loop_.Get();
+                if(current_loop) {
+                    current_loop->loop_infos_.push_back(LoopInfo(LoopJmp_Head, loop_head_index));
+                }
             }
         }
-        
-        ResetRegisiterId(current_register);
     }
     
     void CodeGenerator::Visit(BreakStatementAST* ast, void* data){
@@ -538,48 +585,52 @@ namespace lepus {
     }
     
     void CodeGenerator::Visit(WhileStatementAST* ast, void* data){
-        Guard<CodeGenerator> g(this, &CodeGenerator::EnterLoop, &CodeGenerator::LeaveLoop);
-        int register_id = GenerateRegisiterId();
-        ast->condition()->Accept(this, &register_id);
-        Instruction instruction = Instruction::ABxCode(TypeOp_JmpFalse, register_id, 0);
-        int jmp_index = current_function_->function_->AddInstruction(instruction);
+        Guard<CodeGenerator> g(this, &CodeGenerator::EnterRegister, &CodeGenerator::LeaveRegister);
         {
-            Guard<CodeGenerator> g(this, &CodeGenerator::EnterBlock, &CodeGenerator::LeaveBlock);
-            ast->block()->Accept(this, nullptr);
-            
-            Instruction instruction = Instruction::ABxCode(TypeOp_Jmp, 0, 0);
-            int loop_head_index = current_function_->function_->AddInstruction(instruction);
-            LoopGenerate* current_loop = current_function_->current_loop_.Get();
-            if(current_loop) {
-                current_loop->loop_infos_.push_back(LoopInfo(LoopJmp_Head, loop_head_index));
+            Guard<CodeGenerator> g(this, &CodeGenerator::EnterLoop, &CodeGenerator::LeaveLoop);
+            int register_id = GenerateRegisiterId();
+            ast->condition()->Accept(this, &register_id);
+            Instruction instruction = Instruction::ABxCode(TypeOp_JmpFalse, register_id, 0);
+            int jmp_index = current_function_->function_->AddInstruction(instruction);
+            {
+                Guard<CodeGenerator> g(this, &CodeGenerator::EnterBlock, &CodeGenerator::LeaveBlock);
+                ast->block()->Accept(this, nullptr);
+                
+                Instruction instruction = Instruction::ABxCode(TypeOp_Jmp, 0, 0);
+                int loop_head_index = current_function_->function_->AddInstruction(instruction);
+                LoopGenerate* current_loop = current_function_->current_loop_.Get();
+                if(current_loop) {
+                    current_loop->loop_infos_.push_back(LoopInfo(LoopJmp_Head, loop_head_index));
+                }
             }
+            int end_index = current_function_->function_->OpCodeSize();
+            current_function_->function_->GetInstruction(jmp_index)->RefillsBx(end_index - jmp_index);
         }
-        int end_index = current_function_->function_->OpCodeSize();
-        current_function_->function_->GetInstruction(jmp_index)->RefillsBx(end_index - jmp_index);
-        ResetRegisiterId(register_id);
     }
     
     void CodeGenerator::Visit(IfStatementAST* ast, void* data){
-        int register_id = GenerateRegisiterId();
-        ast->condition()->Accept(this, &register_id);
-        Instruction instruction = Instruction::ABxCode(TypeOp_JmpFalse, register_id, 0);
-        int jmp_index = current_function_->function_->AddInstruction(instruction);
-        
-        Guard<CodeGenerator> g(this, &CodeGenerator::EnterBlock, &CodeGenerator::LeaveBlock);
-        
-        ast->true_branch()->Accept(this, nullptr);
-        
-        instruction = Instruction::ABxCode(TypeOp_Jmp, 0, 0);
-        int true_jmp_index = current_function_->function_->AddInstruction(instruction);
-        
-        int index = current_function_->function_->OpCodeSize();
-        current_function_->function_->GetInstruction(jmp_index)->RefillsBx(index - jmp_index);
-        if(ast->false_branch().Get()) {
-            ast->false_branch()->Accept(this, nullptr);
+        Guard<CodeGenerator> g(this, &CodeGenerator::EnterRegister, &CodeGenerator::LeaveRegister);
+        {
+            int register_id = GenerateRegisiterId();
+            ast->condition()->Accept(this, &register_id);
+            Instruction instruction = Instruction::ABxCode(TypeOp_JmpFalse, register_id, 0);
+            int jmp_index = current_function_->function_->AddInstruction(instruction);
+            
+            Guard<CodeGenerator> g(this, &CodeGenerator::EnterBlock, &CodeGenerator::LeaveBlock);
+            
+            ast->true_branch()->Accept(this, nullptr);
+            
+            instruction = Instruction::ABxCode(TypeOp_Jmp, 0, 0);
+            int true_jmp_index = current_function_->function_->AddInstruction(instruction);
+            
+            int index = current_function_->function_->OpCodeSize();
+            current_function_->function_->GetInstruction(jmp_index)->RefillsBx(index - jmp_index);
+            if(ast->false_branch().Get()) {
+                ast->false_branch()->Accept(this, nullptr);
+            }
+            int end_index = current_function_->function_->OpCodeSize();
+            current_function_->function_->GetInstruction(true_jmp_index)->RefillsBx(end_index - true_jmp_index);
         }
-        int end_index = current_function_->function_->OpCodeSize();
-        current_function_->function_->GetInstruction(true_jmp_index)->RefillsBx(end_index - true_jmp_index);
-        ResetRegisiterId(register_id);
     }
     
     void CodeGenerator::Visit(ElseStatementAST* ast, void* data){
@@ -587,23 +638,25 @@ namespace lepus {
     }
     
     void CodeGenerator::Visit(SwitchStatementAST* ast, void* data) {
-        Guard<CodeGenerator> g(this, &CodeGenerator::EnterLoop, &CodeGenerator::LeaveLoop);
-        int register_id = GenerateRegisiterId();
-        ast->expression()->Accept(this, &register_id);
-        SwitchInfo* info = SwitchInfo::Create(ast->cases());
-        int index = current_function_->function_->AddSwitch(info);
-        
-        Instruction instruction = Instruction::ABxCode(TypeOp_Switch, register_id, index);
-        int jmp_index = current_function_->function_->AddInstruction(instruction);
-        
-        for(base::ScopedVector<ASTree>::iterator iter = ast->cases().begin();
-            iter != ast->cases().end(); ++iter) {
-            Guard<CodeGenerator> g(this, &CodeGenerator::EnterBlock, &CodeGenerator::LeaveBlock);
-            int case_jmp_index = current_function_->function_->OpCodeSize();
-            (*iter)->Accept(this, &case_jmp_index);
-            info->Modify(static_cast<CaseStatementAST*>(*iter)->key(), case_jmp_index-jmp_index);
+        Guard<CodeGenerator> g(this, &CodeGenerator::EnterRegister, &CodeGenerator::LeaveRegister);
+        {
+            Guard<CodeGenerator> g(this, &CodeGenerator::EnterLoop, &CodeGenerator::LeaveLoop);
+            int register_id = GenerateRegisiterId();
+            ast->expression()->Accept(this, &register_id);
+            SwitchInfo* info = SwitchInfo::Create(ast->cases());
+            int index = current_function_->function_->AddSwitch(info);
+            
+            Instruction instruction = Instruction::ABxCode(TypeOp_Switch, register_id, index);
+            int jmp_index = current_function_->function_->AddInstruction(instruction);
+            
+            for(base::ScopedVector<ASTree>::iterator iter = ast->cases().begin();
+                iter != ast->cases().end(); ++iter) {
+                Guard<CodeGenerator> g(this, &CodeGenerator::EnterBlock, &CodeGenerator::LeaveBlock);
+                int case_jmp_index = current_function_->function_->OpCodeSize();
+                (*iter)->Accept(this, &case_jmp_index);
+                info->Modify(static_cast<CaseStatementAST*>(*iter)->key(), case_jmp_index-jmp_index);
+            }
         }
-        ResetRegisiterId(register_id);
     }
     
     void CodeGenerator::Visit(CaseStatementAST* ast, void* data) {
@@ -611,11 +664,10 @@ namespace lepus {
     }
     
     void CodeGenerator::Visit(AssignStatement* ast, void* data){
-       int register_id = GenerateRegisiterId();
-        //ast->assignment().token_
+        Guard<CodeGenerator> g(this, &CodeGenerator::EnterRegister, &CodeGenerator::LeaveRegister);
+        int register_id = GenerateRegisiterId();
         ast->expression()->Accept(this, &register_id);
         ast->variable()->Accept(this, &register_id);
-        ResetRegisiterId(register_id);
     }
     
     void CodeGenerator::Visit(MemberAccessorAST* ast, void* data){
@@ -623,14 +675,13 @@ namespace lepus {
     }
     
     void CodeGenerator::Visit(FunctionCallAST* ast, void* data){
-        int current_register = CurrentRegisiterId();
+        Guard<CodeGenerator> g(this, &CodeGenerator::EnterRegister, &CodeGenerator::LeaveRegister);
+        Function* function = current_function_->function_;
         int return_register_id = data == nullptr ? GenerateRegisiterId() : *static_cast<int*>(data);
         int caller_register_id = GenerateRegisiterId();
         ast->caller()->Accept(this, &caller_register_id);
         ast->args()->Accept(this, nullptr);
         int argc = ast->args().Get() != nullptr ? static_cast<ExpressionListAST*>(ast->args().Get())->expressions().size() : 0;
-        Instruction instruction = Instruction::ABCCode(TypeOp_Call, caller_register_id, argc, return_register_id);
-        current_function_->function_->AddInstruction(instruction);
-        ResetRegisiterId(current_register);
+        Call(caller_register_id, argc, return_register_id);
     }
 }

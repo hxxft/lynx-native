@@ -4,7 +4,6 @@
 #include <vector>
 
 #include "lepus/op_code.h"
-#include "lepus/value.h"
 #include "lepus/syntax_tree.h"
 #include "lepus/upvalue.h"
 #include "lepus/switch.h"
@@ -12,6 +11,7 @@
 #include "base/ref_counted_ptr.h"
 
 namespace lepus {
+    class Value;
     class Function {
     public:
         Function() :op_codes_(),
@@ -41,20 +41,13 @@ namespace lepus {
             return &op_codes_[index];
         }
         
-        int AddConstNumber(double number) {
-            Value v;
-            v.number_ = number;
-            v.type_ = Value_Number;
-            return AddConstValue(v);
-        }
+        int AddConstNumber(double number);
         
-        int AddConstString(String* string) {
-            Value v;
-            v.str_ = string;
-            v.str_->AddRef();
-            v.type_ = Value_String;
-            return AddConstValue(v);
-        }
+        int AddConstString(String* string);
+        
+        int AddConstBoolean(bool boolean);
+        
+        int AddConstValue(const Value& v);
         
         int AddChildFunction(Function* function) {
             child_functions_.push_back(function);
@@ -65,15 +58,7 @@ namespace lepus {
             return child_functions_[index];
         }
         
-        int AddConstValue(const Value& v) {
-            for(size_t i = 0; i < const_values_.size(); i++) {
-                if(const_values_[i] == v) {
-                    return i;
-                }
-            }
-            const_values_.push_back(v);
-            return const_values_.size() - 1;
-        }
+        
         
         Value* GetConstValue(int index) {
             return index < const_values_.size() ?

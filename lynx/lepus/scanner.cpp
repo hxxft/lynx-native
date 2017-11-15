@@ -16,7 +16,7 @@ namespace lepus {
         : input_stream_(input),
         string_pool_(string_pool),
         current_character_(EOF),
-        line_(0),
+        line_(1),
         column_(0){
         
     }

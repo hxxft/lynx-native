@@ -15,7 +15,7 @@ namespace lepus {
             return &heap_[0];
         }
     private:
-        static const int kBaseHeapSize = 10;
+        static const int kBaseHeapSize = 100;
         std::vector<Value> heap_;
         
     };

@@ -2,7 +2,7 @@
 #define LYNX_LEPUS_VALUE_H_
 
 #include "lepus/string.h"
-
+#include "lepus/function.h"
 
 namespace lepus {
     enum ValueType {
@@ -14,10 +14,6 @@ namespace lepus {
         ValueT_Closure,
         ValueT_CFunction,
     };
-    
-    class Closure;
-    class Function;
-    class Upvalue;
     
     class Value {
     public:
@@ -33,17 +29,37 @@ namespace lepus {
         
         Value():number_(0), type_(Value_Nil){}
         Value(double number):number_(number), type_(Value_Number){}
+        Value(const Value& value) {
+            *this = value;
+        }
         ~Value(){
-            if(this->type_ == Value_String) {
+            if(this->type_ == Value_String ) {
                 str_->Release();
+            }else if(this->type_ == ValueT_Closure) {
+                closure_->Release();
             }
         }
         bool IsFalse() const
         { return type_ == Value_Nil || (type_ == Value_Boolean && !boolean_); }
 
-        Value operator= (const Value& value) {
+        void SetNil() {
+            if(this->type_ == Value_String ) {
+                str_->Release();
+            }else if(this->type_ == ValueT_Closure) {
+                closure_->Release();
+            }
+            number_ = 0;
+            type_ = Value_Nil;
+        }
+        
+        Value& operator= (const Value& value) {
+            if(*this == value) {
+                return *this;
+            }
             if(this->type_ == Value_String) {
                 str_->Release();
+            }else if(this->type_ == ValueT_Closure){
+                closure_->Release();
             }
             
             switch (value.type_) {
@@ -66,6 +82,7 @@ namespace lepus {
                     break;
                 case ValueT_Closure:
                     this->closure_ = value.closure_;
+                    this->closure_->AddRef();
                     this->type_ = ValueT_Closure;
                     break;
                 case ValueT_CFunction:
@@ -94,7 +111,7 @@ namespace lepus {
                     return left.closure_ == right.closure_;
                 case ValueT_CFunction:
                     return left.native_function_ == right.native_function_;
-                case default:
+                default:
                     break;
             }
             return false;

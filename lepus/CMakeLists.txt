@@ -26,7 +26,6 @@ add_library(lepus
     ${CMAKE_SOURCE_DIR}/../lynx/lepus/op_code.h
     ${CMAKE_SOURCE_DIR}/../lynx/lepus/function.h
     ${CMAKE_SOURCE_DIR}/../lynx/lepus/value.h
-    ${CMAKE_SOURCE_DIR}/../lynx/lepus/interpreter.h
     ${CMAKE_SOURCE_DIR}/../lynx/lepus/table.h
     ${CMAKE_SOURCE_DIR}/../lynx/lepus/string.h
     ${CMAKE_SOURCE_DIR}/../lynx/lepus/guard.h
@@ -34,9 +33,7 @@ add_library(lepus
     ${CMAKE_SOURCE_DIR}/../lynx/lepus/context.h
     ${CMAKE_SOURCE_DIR}/../lynx/lepus/heap.h
     ${CMAKE_SOURCE_DIR}/../lynx/lepus/builtin.h
-    ${CMAKE_SOURCE_DIR}/../lynx/lepus/interpreter_context.h
     ${CMAKE_SOURCE_DIR}/../lynx/lepus/vm_context.h
-    ${CMAKE_SOURCE_DIR}/../lynx/lepus/lepus_vm.h
     ${CMAKE_SOURCE_DIR}/../lynx/lepus/upvalue.h
     ${CMAKE_SOURCE_DIR}/../lynx/lepus/switch.h
     ${SOURCE_FILES}

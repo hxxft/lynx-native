@@ -1,4 +1,5 @@
 #include "lepus/switch.h"
+#include "lepus/value.h"
 
 namespace lepus {
     SwitchInfo* SwitchInfo::Create(base::ScopedVector<ASTree>& cases) {

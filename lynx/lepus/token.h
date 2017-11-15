@@ -65,7 +65,7 @@ namespace lepus {
             String* str_;
         };
         
-        char* module_;
+        String* module_;
         int line_;
         int column_;
         int token_; // id & some character
@@ -75,36 +75,46 @@ namespace lepus {
         }
         
         Token(Token& token) {
-            str_ = nullptr;
+            token_ = token.token_;
+            line_ = token.line_;
+            column_ = token.column_;
+            module_ = token.module_;
+            
+            if(module_) {
+                module_->AddRef();
+            }
             if(token.token_ == Token_Number){
                 number_ = token.number_;
             }else if(token.str_){
                 str_ = token.str_;
                 str_->AddRef();
             }
-            module_ = nullptr;
-            token_ = token.token_;
-            line_ = token.line_;
-            column_ = token.column_;
         }
         
         Token(const Token& token) {
-            str_ = nullptr;
+            token_ = token.token_;
+            line_ = token.line_;
+            column_ = token.column_;
+            module_ = token.module_;
+            
+            if(module_) {
+                module_->AddRef();
+            }
             if(token.token_ == Token_Number){
                 number_ = token.number_;
             }else if(token.str_){
                 str_ = token.str_;
                 str_->AddRef();
             }
-            module_ = nullptr;
-            token_ = token.token_;
-            line_ = token.line_;
-            column_ = token.column_;
         }
         
         ~Token() {
             if(token_ != Token_Number && token_ != Token_EOF && str_) {
                 str_->Release();
+            }
+            
+            if(module_) {
+                module_->Release();
             }
         }
         

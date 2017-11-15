@@ -21,8 +21,7 @@ namespace lepus {
         (frame->register_ + Instruction::GetParamB(i))
 #define GET_REGISTER_C(i)  \
         (frame->register_ + Instruction::GetParamC(i))
-#define GET_REAL_VALUE(a) \
-        (a)
+
 #define GET_UPVALUE_B(i)  (closure->GetUpvalue(Instruction::GetParamB(i)))
     
 #define GET_REGISTER_ABC(i)                                 \
@@ -127,27 +126,23 @@ typedef Value (*CFunction)(Context *);
             Instruction i = *frame->instruction_++;
             switch (Instruction::GetOpCode(i)) {
                 case TypeOp_LoadNil:
-                    break;
-                case TypeOp_FillNil:
-                    break;
-                case TypeOp_LoadBool:
-                    break;
-                case TypeOp_LoadInt:
+                    a = GET_REGISTER_A(i);
+                    a->SetNil();
                     break;
                 case TypeOp_LoadConst:
                     a = GET_REGISTER_A(i);
                     b = GET_CONST_VALUE(i);
-                    *GET_REAL_VALUE(a) = *b;
+                    *a = *b;
                     break;
                 case TypeOp_Move:
                     a = GET_REGISTER_A(i);
                     b = GET_REGISTER_B(i);
-                    *GET_REAL_VALUE(a) = *GET_REAL_VALUE(b);
+                    *a = *b;
                     break;
                 case TypeOp_GetUpvalue:
                     a = GET_REGISTER_A(i);
                     b = GET_UPVALUE_B(i);
-                    *GET_REAL_VALUE(a) = *b;
+                    *a = *b;
                     break;
                 case TypeOp_SetUpvalue:
                     a = GET_REGISTER_A(i);
@@ -157,7 +152,7 @@ typedef Value (*CFunction)(Context *);
                 case TypeOp_GetGlobal:
                     a = GET_REGISTER_A(i);
                     b = GET_Global_VALUE(i);
-                    *GET_REAL_VALUE(a) = *b;
+                    *a = *b;
                     break;
                 case TypeOp_SetGlobal:
                     break;
@@ -177,8 +172,6 @@ typedef Value (*CFunction)(Context *);
                         return;
                 }
                     break;
-                case TypeOp_VarArg:
-                    break;
                 case TypeOp_Ret:
                     a = GET_REGISTER_A(i);
                     if(frame->return_ != nullptr) {
@@ -187,12 +180,8 @@ typedef Value (*CFunction)(Context *);
                     break;
                 case TypeOp_JmpFalse:
                     a = GET_REGISTER_A(i);
-                    if (GET_REAL_VALUE(a)->IsFalse())
+                    if (a->IsFalse())
                         frame->instruction_ += -1 + Instruction::GetParamsBx(i);
-                    break;
-                case TypeOp_JmpTrue:
-                    break;
-                case TypeOp_JmpNil:
                     break;
                 case TypeOp_Jmp:
                     frame->instruction_ += -1 + Instruction::GetParamsBx(i);
@@ -286,10 +275,6 @@ typedef Value (*CFunction)(Context *);
                     break;
                 case TypeOp_GetTable:
                     break;
-                case TypeOp_ForInit:
-                    break;
-                case TypeOp_ForStep:
-                    break;
                 case TypeOp_Switch:
                 {
                     a = GET_REGISTER_A(i);
@@ -307,6 +292,8 @@ typedef Value (*CFunction)(Context *);
                     a = GET_REGISTER_A(i);
                     if (a->type_ == Value_Number)
                         a->number_ -= 1;
+                    break;
+                case TypeOp_Noop:
                     break;
                 default:
                     break;

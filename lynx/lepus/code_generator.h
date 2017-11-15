@@ -72,7 +72,7 @@ namespace lepus {
         CodeGenerator(VMContext* context)
         :context_(context),
         top_level_variables_(nullptr),
-          register_id_(0),
+          register_id_(-1),
         current_function_name_(nullptr),
         current_function_(){
         }
@@ -107,6 +107,8 @@ namespace lepus {
         void LeaveBlock();
         void EnterLoop();
         void LeaveLoop();
+        void EnterRegister();
+        void LeaveRegister();
         
         void InsertVariable(String* name, int register_id);
         int SearchVariable(String* name);
@@ -129,7 +131,7 @@ namespace lepus {
             return current_function_->register_id_;
         }
         
-        int ResetRegisiterId(int register_id) {
+        void ResetRegisiterId(int register_id) {
             current_function_->register_id_ = register_id;
         }
         

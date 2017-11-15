@@ -1,7 +1,7 @@
 #ifndef LYNX_LEPUS_UPVALUE_H_
 #define LYNX_LEPUS_UPVALUE_H_
 
-#include "lepus/value.h"
+
 #include "lepus/string.h"
 #include "base/ref_counted_ptr.h"
 

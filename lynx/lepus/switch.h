@@ -5,7 +5,6 @@
 #include <vector>
 #include "lepus/syntax_tree.h"
 #include "lepus/token.h"
-#include "lepus/value.h"
 
 namespace lepus {
     enum SwitchType {
@@ -13,6 +12,7 @@ namespace lepus {
         SwitchType_Lookup,
     };
     
+    class Value;
     class SwitchInfo {
     public:
         static SwitchInfo* Create(base::ScopedVector<ASTree>& cases);
