@@ -318,6 +318,10 @@ namespace lepus {
                 int index = function->AddConstNumber(ast->token().number_);
                 auto instruction = Instruction::ABxCode(TypeOp_LoadConst, register_id, index);
                 function->AddInstruction(instruction);
+            }else if(ast->token().token_ == Token_String){
+                int index = function->AddConstString(ast->token().str_);
+                auto instruction = Instruction::ABxCode(TypeOp_LoadConst, register_id, index);
+                function->AddInstruction(instruction);
             }else if(ast->token().token_ == Token_Id) {
                 if(ast->scope() == LexicalScoping_Local) {
                     int var_reg_id = SearchVariable(ast->token().str_);

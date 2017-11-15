@@ -1,7 +1,7 @@
 #ifndef LYNX_LEPUS_VALUE_H_
 #define LYNX_LEPUS_VALUE_H_
 
-#include <string>
+#include "lepus/string.h"
 
 
 namespace lepus {
@@ -24,7 +24,7 @@ namespace lepus {
         union {
             double number_;
             bool boolean_;
-            char* str_;
+            String* str_;
             Closure* closure_;
             void* native_function_;
             void* table_;
@@ -33,10 +33,51 @@ namespace lepus {
         
         Value():number_(0), type_(Value_Nil){}
         Value(double number):number_(number), type_(Value_Number){}
-        
+        ~Value(){
+            if(this->type_ == Value_String) {
+                str_->Release();
+            }
+        }
         bool IsFalse() const
         { return type_ == Value_Nil || (type_ == Value_Boolean && !boolean_); }
 
+        Value operator= (const Value& value) {
+            if(this->type_ == Value_String) {
+                str_->Release();
+            }
+            
+            switch (value.type_) {
+                case Value_Nil:
+                    this->str_ = nullptr;
+                    this->type_ = Value_Nil;
+                    break;
+                case Value_Number:
+                    this->number_ = value.number_;
+                    this->type_ = Value_Number;
+                    break;
+                case Value_Boolean:
+                    this->boolean_ = value.boolean_;
+                    this->type_ = Value_Boolean;
+                    break;
+                case Value_String:
+                    this->str_ = value.str_;
+                    this->str_->AddRef();
+                    this->type_ = Value_String;
+                    break;
+                case ValueT_Closure:
+                    this->closure_ = value.closure_;
+                    this->type_ = ValueT_Closure;
+                    break;
+                case ValueT_CFunction:
+                    this->native_function_ = value.native_function_;
+                    this->type_ = ValueT_CFunction;
+                    break;
+                default:
+                    break;
+            }
+            
+            return *this;
+        }
     
         friend bool operator == (const Value& left, const Value& right) {
             if(left.type_ != right.type_) return false;
@@ -48,11 +89,13 @@ namespace lepus {
                 case Value_Boolean:
                     return left.boolean_ == right.boolean_;
                 case Value_String:
-                    return strcmp(left.str_, right.str_);
+                    return left.str_ == right.str_;
                 case ValueT_Closure:
                     return left.closure_ == right.closure_;
                 case ValueT_CFunction:
                     return left.native_function_ == right.native_function_;
+                case default:
+                    break;
             }
             return false;
         }

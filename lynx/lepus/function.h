@@ -48,6 +48,14 @@ namespace lepus {
             return AddConstValue(v);
         }
         
+        int AddConstString(String* string) {
+            Value v;
+            v.str_ = string;
+            v.str_->AddRef();
+            v.type_ = Value_String;
+            return AddConstValue(v);
+        }
+        
         int AddChildFunction(Function* function) {
             child_functions_.push_back(function);
             return child_functions_.size() - 1;
