@@ -3,6 +3,7 @@
 #include "lepus/guard.h"
 #include "lepus/op_code.h"
 #include "lepus/switch.h"
+#include "lepus/exception.h"
 
 #include <stack>
 
@@ -362,6 +363,9 @@ namespace lepus {
                     AutomaticLocalValue(ast->auto_type(), register_id, var_reg_id);
                 }else if(ast->scope() == LexicalScoping_Global) {
                     int gloabl_index = SearchGlobal(ast->token().str_);
+                    if(gloabl_index < 0) {
+                        throw CompileException(ast->token().str_->c_str(), "%s is not defined", ast->token());
+                    }
                     auto instruction = Instruction::ABxCode(TypeOp_GetGlobal, register_id, gloabl_index);
                     function->AddInstruction(instruction);
                     

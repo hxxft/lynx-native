@@ -19,20 +19,16 @@ namespace lepus {
         std::ostringstream stream_;
     };
     
-    class ParseException : public Exception {
+    class CompileException : public Exception {
     public:
-        ParseException(const char* msg, const Token& token) {
-            stream()<<token.module_<<"(line:"<<token.line_
+        CompileException(const char* msg, const Token& token) {
+            stream()<<"(line:"<<token.line_
             <<", column:"<<token.column_<<"):"<<msg;
         }
         
-    };
-    
-    class SemantException : public Exception {
-    public:
-        SemantException(const char* msg, const Token& token) {
-            stream()<<token.module_<<"(line:"<<token.line_
-            <<", column:"<<token.column_<<"):"<<msg;
+        CompileException(const char* key, const char* msg, const Token& token) {
+            stream()<<"(line:"<<token.line_
+            <<", column:"<<token.column_<<"):"<<key<<msg;
         }
         
     };

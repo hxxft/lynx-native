@@ -74,48 +74,31 @@ namespace lepus {
             
         }
         
-        Token(Token& token) {
-            token_ = token.token_;
-            line_ = token.line_;
-            column_ = token.column_;
-            module_ = token.module_;
-            
-            if(module_) {
-                module_->AddRef();
-            }
-            if(token.token_ == Token_Number){
-                number_ = token.number_;
-            }else if(token.str_){
-                str_ = token.str_;
-                str_->AddRef();
-            }
-        }
-        
         Token(const Token& token) {
-            token_ = token.token_;
-            line_ = token.line_;
-            column_ = token.column_;
-            module_ = token.module_;
-            
-            if(module_) {
-                module_->AddRef();
+            if(IsString()) {
+                str_->Release();
             }
+            str_ = nullptr;
+            
             if(token.token_ == Token_Number){
                 number_ = token.number_;
-            }else if(token.str_){
+            }else if(token.IsString()){
                 str_ = token.str_;
                 str_->AddRef();
             }
+            token_ = token.token_;
+            line_ = token.line_;
+            column_ = token.column_;
         }
         
         ~Token() {
-            if(token_ != Token_Number && token_ != Token_EOF && str_) {
+            if(IsString()) {
                 str_->Release();
             }
-            
-            if(module_) {
-                module_->Release();
-            }
+        }
+        
+        bool inline IsString() const{
+            return (token_ == Token_String || token_ == Token_Id) && str_;
         }
         
         void Print(){

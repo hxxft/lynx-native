@@ -90,6 +90,8 @@ namespace lepus {
                     this->type_ = ValueT_CFunction;
                     break;
                 default:
+                    this->str_ = nullptr;
+                    this->type_ = Value_Nil;
                     break;
             }
             

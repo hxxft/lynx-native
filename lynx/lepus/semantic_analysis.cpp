@@ -150,12 +150,12 @@ namespace lepus {
             case '^':
                 if(!(l_expr_data.expr_type_ == ExprType_Number ||
                    l_expr_data.expr_type_ == ExprType_Unknown)) {
-                    throw SemantException("left expression is not number", ast->op_token());
+                    throw CompileException("left expression is not number", ast->op_token());
                 }
                 
                 if(!(r_expr_data.expr_type_ == ExprType_Number ||
                    r_expr_data.expr_type_ == ExprType_Unknown)) {
-                    throw SemantException("right expression is not number", ast->op_token());
+                    throw CompileException("right expression is not number", ast->op_token());
                 }
                 
                 expr_data->expr_type_ = ExprType_Number;
@@ -167,7 +167,7 @@ namespace lepus {
                 if(l_expr_data.expr_type_ != r_expr_data.expr_type_ &&
                    !(l_expr_data.expr_type_ == ExprType_Unknown ||
                    r_expr_data.expr_type_ == ExprType_Unknown)) {
-                    throw SemantException("compare different expression type", ast->op_token());
+                    throw CompileException("compare different expression type", ast->op_token());
                 }
                  expr_data->expr_type_ = ExprType_Bool;
                 break;
@@ -188,7 +188,7 @@ namespace lepus {
             switch (ast->op_token().token_) {
                 case '-':
                     if(unary_expr_data.expr_type_ != ExprType_Number) {
-                        throw SemantException("operand is not number", ast->op_token());
+                        throw CompileException("operand is not number", ast->op_token());
                     }
                     break;
                 default:
@@ -309,7 +309,7 @@ namespace lepus {
             Guard<SemanticAnalysis> g(this, &SemanticAnalysis::EnterBlock, &SemanticAnalysis::LeaveBlock);
             int token = static_cast<CaseStatementAST*>(*iter)->key().token_;
             if(last_token != -1 && last_token != token) {
-                throw SemantException("case type error ", static_cast<CaseStatementAST*>(*iter)->key());
+                throw CompileException("case type error ", static_cast<CaseStatementAST*>(*iter)->key());
             }
             (*iter)->Accept(this, nullptr);
         }

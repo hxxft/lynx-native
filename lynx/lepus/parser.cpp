@@ -21,7 +21,7 @@ namespace lepus {
     ASTree* Parser::ParseChunk() {
         ASTree* block = ParseBlock();
         if(NextToken().token_ != Token_EOF) {
-            throw ParseException("Expect <EOF>", current_token_);
+            throw CompileException("Expect <EOF>", current_token_);
         }
         return new ChunkAST(block);
     }
@@ -62,27 +62,27 @@ namespace lepus {
     ASTree* Parser::ParseForStatement() {
         NextToken(); //skip for
         if(LookAhead().token_ != '(') {
-            throw ParseException("expect '('", current_token_);
+            throw CompileException("expect '('", current_token_);
         }
         ForStatementAST* ast = new ForStatementAST;
         NextToken();
         ast->statement1().Reset(ParseStatement());
         if(ast->statement1().Get() != nullptr) {
             if(NextToken().token_ != ';') {
-                throw ParseException("expect ';'", current_token_);
+                throw CompileException("expect ';'", current_token_);
             }
         }
         ast->statement2().Reset(ParseExpression());
         if(ast->statement1().Get() != nullptr) {
             if(NextToken().token_ != ';') {
-                throw ParseException("expect ';'", current_token_);
+                throw CompileException("expect ';'", current_token_);
             }
         }
         do {
             ast->statement3().push_back(ParseStatement());
         }while(NextToken().token_ == ',');
         if(current_token_.token_ != ')') {
-            throw ParseException("expect ')'", current_token_);
+            throw CompileException("expect ')'", current_token_);
         }
         if(NextToken().token_ != '{') {
             ast->block().Reset(ParseBlockSingleLine());
@@ -92,7 +92,7 @@ namespace lepus {
         ast->block().Reset(ParseBlock());
         
         if(NextToken().token_ != '}') {
-            throw ParseException("expect '}'", current_token_);
+            throw CompileException("expect '}'", current_token_);
         }
         return ast;
     }
@@ -108,18 +108,18 @@ namespace lepus {
             block = ParseBlock();
             
             if(NextToken().token_ != '}') {
-                throw ParseException("expect '}'", current_token_);
+                throw CompileException("expect '}'", current_token_);
             }
         }
         
         if(NextToken().token_ != Token_While) {
-            throw ParseException("expect 'while'", current_token_);
+            throw CompileException("expect 'while'", current_token_);
         }
         
         ASTree* condition = ParseExpression();
         
         if(NextToken().token_ != ';') {
-            throw ParseException("expect ';'", current_token_);
+            throw CompileException("expect ';'", current_token_);
         }
         
         return new DoWhileStatementAST(condition, block);
@@ -137,7 +137,7 @@ namespace lepus {
         ASTree* block = ParseBlock();
         
         if(NextToken().token_ != '}') {
-            throw ParseException("expect '}'", current_token_);
+            throw CompileException("expect '}'", current_token_);
         }
             
         return new WhileStatementAST(condition, block);
@@ -153,7 +153,7 @@ namespace lepus {
             true_branch = ParseBlock();
             
             if(NextToken().token_ != '}') { //skip '}'
-                throw ParseException("expect '}'", current_token_);
+                throw CompileException("expect '}'", current_token_);
             }
         }else {
             true_branch = ParseBlockSingleLine();
@@ -179,7 +179,7 @@ namespace lepus {
             block = ParseBlock();
             
             if(NextToken().token_ != '}') { //skip '}'
-                throw ParseException("expect '}'", current_token_);
+                throw CompileException("expect '}'", current_token_);
             }
         }else {
             block = ParseBlockSingleLine();
@@ -197,7 +197,7 @@ namespace lepus {
             true_branch = ParseBlock();
             
             if(NextToken().token_ != '}') { //skip '}'
-                throw ParseException("expect '}'", current_token_);
+                throw CompileException("expect '}'", current_token_);
             }
         }else {
             true_branch = ParseBlockSingleLine();
@@ -216,12 +216,12 @@ namespace lepus {
     ASTree* Parser::ParseFunctionStatement() {
         NextToken();
         if(LookAhead().token_ != Token_Id) {
-            throw ParseException("expect function name", LookAhead());
+            throw CompileException("expect function name", LookAhead());
         }
         
         NextToken();
         if(LookAhead().token_ != '(') {
-            throw ParseException("expect '(' ", LookAhead());
+            throw CompileException("expect '(' ", LookAhead());
         }
         
         FunctionStatementAST* function = new FunctionStatementAST(current_token_);
@@ -236,13 +236,13 @@ namespace lepus {
         
         
         if(LookAhead().token_  != '{') {
-            throw ParseException("expect '{' ", current_token_);
+            throw CompileException("expect '{' ", current_token_);
         }
         NextToken();
         function->body().Reset(ParseBlock());
         
         if(LookAhead().token_ != '}') {
-            throw ParseException("expect '}' ", current_token_);
+            throw CompileException("expect '}' ", current_token_);
         }
         NextToken();
         return function;
@@ -253,7 +253,7 @@ namespace lepus {
         ASTree* expression = ParseExpression();
         SwitchStatementAST* switch_statement = new SwitchStatementAST(expression);
         if(LookAhead().token_  != '{') {
-            throw ParseException("expect '{' ", current_token_);
+            throw CompileException("expect '{' ", current_token_);
         }
         NextToken();
         CaseStatementAST* case_statement = nullptr;
@@ -264,7 +264,7 @@ namespace lepus {
             }
         }while(LookAhead().token_ == Token_Case || LookAhead().token_ == Token_Defalut);
         if(LookAhead().token_  != '}') {
-            throw ParseException("expect '}' ", current_token_);
+            throw CompileException("expect '}' ", current_token_);
         }
         NextToken();
         return switch_statement;
@@ -274,12 +274,12 @@ namespace lepus {
         NextToken();
         if(current_token_.token_ != Token_Case &&
            current_token_.token_ != Token_Defalut) {
-            throw ParseException("expect case/default ", current_token_);
+            throw CompileException("expect case/default ", current_token_);
         }
         bool is_default = current_token_.token_ == Token_Defalut ? true : false;
         Token key = NextToken();
         if(LookAhead().token_  != ':') {
-            throw ParseException("expect ':' ", current_token_);
+            throw CompileException("expect ':' ", current_token_);
         }
         NextToken();
         
@@ -330,7 +330,7 @@ namespace lepus {
         }else if(type == ExprType_FunctionCall) {
             return expr;
         }else{
-            throw ParseException("error statement", current_token_);
+            throw CompileException("error statement", current_token_);
         }
         return nullptr;
     }
@@ -434,7 +434,7 @@ namespace lepus {
             expr = ParseExpression();
             if(type) *type = ExprType_Normal;
             if(LookAhead().token_ != ')')
-                throw ParseException("expect )", LookAhead());
+                throw CompileException("expect )", LookAhead());
             NextToken();
         }else if(LookAhead().token_ == Token_INC ||
                  LookAhead().token_ == Token_DEC ){
@@ -487,7 +487,7 @@ namespace lepus {
         NextToken(); // skip '.'
         if(current_token_.token_ == '.'){
             if(NextToken().token_ != Token_Id)
-                throw ParseException("expect <id>", LookAhead());
+                throw CompileException("expect <id>", LookAhead());
             return new MemberAccessorAST(table, current_token_);
         }
         return nullptr;

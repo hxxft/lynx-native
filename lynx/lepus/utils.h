@@ -52,6 +52,7 @@ namespace lepus {
         {"while", Token_While},
         {"switch", Token_Switch},
         {"case", Token_Case},
+        {"default", Token_Defalut},
         {"return", Token_Return}
     };
     static inline bool IsKeyWord(const std::string& word, int& token) {
