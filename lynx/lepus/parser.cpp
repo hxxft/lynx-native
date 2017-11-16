@@ -32,6 +32,7 @@ namespace lepus {
               LookAhead().token_ != Token_Else &&
               LookAhead().token_ != Token_Elseif &&
               LookAhead().token_ != Token_Case &&
+              LookAhead().token_ != Token_Defalut &&
               LookAhead().token_ != '}') {
             ASTree* statement = ParseStatement();
             if(statement)
@@ -277,7 +278,7 @@ namespace lepus {
             throw CompileException("expect case/default ", current_token_);
         }
         bool is_default = current_token_.token_ == Token_Defalut ? true : false;
-        Token key = NextToken();
+        Token key = is_default ? current_token_ : NextToken();
         if(LookAhead().token_  != ':') {
             throw CompileException("expect ':' ", current_token_);
         }

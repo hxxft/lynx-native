@@ -10,6 +10,6 @@ namespace lepus {
     }
     
     Value VM::Call(Context* context, const std::string& name, const std::vector<Value>& args) {
-        context->Call(name, args);
+        return context->Call(name, args);
     }
 }

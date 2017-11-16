@@ -58,7 +58,7 @@ namespace lepus {
         void EnterBlock();
         void LeaveBlock();
         
-        void InsertName(const String* name);
+        bool InsertName(const String* name);
         LexicalScoping SearchName(const String* name);
         
         base::ScopedPtr<LexicalFunction> current_function_;

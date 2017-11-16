@@ -17,9 +17,23 @@ namespace lepus {
     public:
         static SwitchInfo* Create(base::ScopedVector<ASTree>& cases);
         
+        SwitchInfo()
+            :key_type_(0),
+             min_(INT_MAX),
+             max_(0),
+             default_offset_(-1),
+             switch_table_(){}
+        
         void Modify(Token& key, int offset);
         void Adjust();
         int Switch(Value* value);
+        int default_offset() {
+            return default_offset_;
+        }
+        
+        void set_default_offset(int offset) {
+            default_offset_ = offset;
+        }
     private:
         SwitchType type_;
         int key_type_;

@@ -1,6 +1,6 @@
 
 #include "lepus/string.h"
-
+#include <iostream>
 namespace lepus{
     
     String::String(const char* str, std::size_t len, StringPool* string_pool) {
@@ -13,8 +13,8 @@ namespace lepus{
     }
     
     String::~String(){
-        delete[] str_;
         string_pool_->Earse(this);
+        delete[] str_;
     }
     
     void String::Hash(const char *s)

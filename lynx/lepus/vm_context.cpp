@@ -14,7 +14,7 @@ namespace lepus {
 #define GET_CONST_VALUE(i) \
         (function->GetConstValue(Instruction::GetParamBx(i)))
 #define GET_Global_VALUE(i) \
-        (global().Get(Instruction::GetParamBx(i)))
+        (global()->Get(Instruction::GetParamBx(i)))
 #define GET_REGISTER_A(i)  \
         (frame->register_ + Instruction::GetParamA(i))
 #define GET_REGISTER_B(i)  \
@@ -36,15 +36,15 @@ typedef Value (*CFunction)(Context *);
     }
     
     void VMContext::Execute(const std::string& source) {
-        parser::InputStream input;
-        input.Write(source);
-        Scanner scanner(&input, &string_pool_);
-        Parser parser(&scanner);
-        SemanticAnalysis semantic_analysis;
-        CodeGenerator code_generator(this);
-        ASTree* root = nullptr;
         try {
-            root = parser.Parse();
+            parser::InputStream input;
+            input.Write(source);
+            Scanner scanner(&input, &string_pool_);
+            Parser parser(&scanner);
+            SemanticAnalysis semantic_analysis;
+            CodeGenerator code_generator(this);
+            base::ScopedPtr<ASTree> root;
+            root.Reset(parser.Parse());
             root->Accept(&semantic_analysis, nullptr);
             root->Accept(&code_generator, &top_level_variables_);
         }catch(const lepus::Exception& exception) {
@@ -56,13 +56,13 @@ typedef Value (*CFunction)(Context *);
     
     Value VMContext::Call(const std::string& name, const std::vector<Value>& args) {
         Value ret;
-        auto reg_info = top_level_variables_.find(string_pool().NewString(name));
+        auto reg_info = top_level_variables_.find(string_pool()->NewString(name));
         if(reg_info == top_level_variables_.end())
             return Value();
         int reg = reg_info->second;
         Value* function = heap_.top_;
         *(heap_.top_++) = *(heap_.base() + reg + 1);
-        for(size_t i = 0; i < args.size(); ++i) {
+        for(std::size_t i = 0; i < args.size(); ++i) {
             *(heap_.top_++) = args[i];
         }
         CallFunction(function, args.size(), &ret);
@@ -177,7 +177,8 @@ typedef Value (*CFunction)(Context *);
                     if(frame->return_ != nullptr) {
                         *frame->return_ = *a;
                     }
-                    break;
+                    frames_.pop_back();
+                    return;
                 case TypeOp_JmpFalse:
                     a = GET_REGISTER_A(i);
                     if (a->IsFalse())
@@ -308,10 +309,9 @@ typedef Value (*CFunction)(Context *);
         Function *function = current_closure->function()->GetChildFunction(index);
         
         Closure* closure = new Closure(function);
-        closure->AddRef();
         
-        int upvalues_count = function->UpvaluesSize();
-        for(int i = 0; i < upvalues_count; ++i) {
+        std::size_t upvalues_count = function->UpvaluesSize();
+        for(std::size_t i = 0; i < upvalues_count; ++i) {
             UpvalueInfo* info = function->GetUpvalue(i);
             if(info->in_parent_vars_) {
                 Value* v = frame->register_ + info->register_;

@@ -2,14 +2,14 @@
 #include "lepus/value.h"
 
 namespace lepus {
-    int Function::AddConstNumber(double number) {
+    std::size_t Function::AddConstNumber(double number) {
         Value v;
         v.number_ = number;
         v.type_ = Value_Number;
         return AddConstValue(v);
     }
     
-    int Function::AddConstString(String* string) {
+    std::size_t Function::AddConstString(String* string) {
         Value v;
         v.str_ = string;
         v.str_->AddRef();
@@ -17,14 +17,14 @@ namespace lepus {
         return AddConstValue(v);
     }
     
-    int Function::AddConstBoolean(bool boolean) {
+    std::size_t Function::AddConstBoolean(bool boolean) {
         Value v;
         v.boolean_ = boolean;
         v.type_ = Value_Boolean;
         return AddConstValue(v);
     }
     
-    int Function::AddConstValue(const Value& v) {
+    std::size_t Function::AddConstValue(const Value& v) {
         for(size_t i = 0; i < const_values_.size(); i++) {
             if(const_values_[i] == v) {
                 return i;

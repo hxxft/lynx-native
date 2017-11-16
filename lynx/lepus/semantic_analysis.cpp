@@ -48,8 +48,13 @@ namespace lepus {
         current_function_->current_block_ = block->parent_;
     }
     
-    void SemanticAnalysis::InsertName(const String* name) {
-        current_function_->current_block_->names_.insert(const_cast<String*>(name));
+    bool SemanticAnalysis::InsertName(const String* name) {
+        LexicalBlock* block = current_function_->current_block_.Get();
+        if(block->names_.find(const_cast<String*>(name)) != block->names_.end()) {
+            return false;
+        }
+        block->names_.insert(const_cast<String*>(name));
+        return true;
     }
     
     LexicalScoping SemanticAnalysis::SearchName(const String* name) {
@@ -89,7 +94,8 @@ namespace lepus {
     void SemanticAnalysis::Visit(ReturnStatementAST* ast, void* data){
         ExprData expr_data;
         expr_data.lex_po_ = LexicalOp_Read;
-        ast->expression()->Accept(this, &expr_data);
+        if(ast->expression().Get())
+            ast->expression()->Accept(this, &expr_data);
     }
     
     void SemanticAnalysis::Visit(LiteralAST* ast, void* data){
@@ -128,7 +134,9 @@ namespace lepus {
     void SemanticAnalysis::Visit(NamesAST* ast, void* data){
         for(std::vector<Token>::iterator iter = ast->names().begin();
             iter != ast->names().end(); ++iter) {
-            InsertName((*iter).str_);
+            if(!InsertName((*iter).str_)) {
+                throw CompileException((*iter).str_->c_str(), " is already existed", (*iter));
+            }
         }
     }
     
@@ -222,7 +230,9 @@ namespace lepus {
         if(ast->identifier().token_ != Token_Id) {
             //TODO exception
         }
-        InsertName(ast->identifier().str_);
+        if(!InsertName(ast->identifier().str_)) {
+            throw CompileException(ast->identifier().str_->c_str(), " is already existed", ast->identifier());
+        }
     }
     
     void SemanticAnalysis::Visit(VariableListAST* ast, void* data){
@@ -233,7 +243,9 @@ namespace lepus {
     }
     
     void SemanticAnalysis::Visit(FunctionStatementAST* ast, void* data){
-        InsertName(ast->function_name().str_);
+        if(!InsertName(ast->function_name().str_)) {
+            throw CompileException(ast->function_name().str_->c_str(), " is already existed", ast->function_name());
+        }
         Guard<SemanticAnalysis> g(this, &SemanticAnalysis::EnterFunction, &SemanticAnalysis::LeaveFunction);
         {
             Guard<SemanticAnalysis> g(this, &SemanticAnalysis::EnterBlock, &SemanticAnalysis::LeaveBlock);

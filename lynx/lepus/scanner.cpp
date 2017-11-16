@@ -69,38 +69,26 @@ namespace lepus {
                 break;
             }
         }
-       
-        token.token_ = Token_Number;
-        token.column_ = column_;
-        token.line_ = line_;
-        token.number_ = strtod(buffer.c_str(), nullptr);
+        token = Token(line_, column_, Token_Number, strtod(buffer.c_str(), nullptr));
     }
     
     void Scanner::ParseEqual(Token& token, int equal) {
         int next = NextCharacter();
         if(next != '=') {
-            token.line_ = line_;
-            token.column_ = column_;
-            token.token_ = current_character_;
+            token = Token(line_, column_, current_character_);
             current_character_ = next;
         }else{
-            token.line_ = line_;
-            token.column_ = column_;
-            token.token_ = equal;
+            token = Token(line_, column_, equal);
             current_character_ = NextCharacter();
         }
     }
     
     void Scanner::ParseTokenCharacter(Token& token, int token_character) {
         if(token_character < Token_And) {
-            token.line_ = line_;
-            token.column_ = column_;
-            token.token_ = current_character_;
+            token = Token(line_, column_, current_character_);
             current_character_ = token_character;
         }else{
-            token.line_ = line_;
-            token.column_ = column_;
-            token.token_ = token_character;
+            token = Token(line_, column_, token_character);
             current_character_ = NextCharacter();
         }
     }
@@ -112,10 +100,7 @@ namespace lepus {
             buffer.push_back(current_character_);
         }
         current_character_ = NextCharacter();
-        token.token_ = Token_String;
-        token.line_  = line_;
-        token.column_ = column_;
-        token.str_ = string_pool_->NewString(buffer);
+        token = Token(line_, column_, Token_String, string_pool_->NewString(buffer));
     }
     
     void Scanner::ParseId(Token& token) {
@@ -129,12 +114,12 @@ namespace lepus {
             buffer.push_back(current_character_);
         }
         
-        if(!IsKeyWord(buffer, token.token_)) {
-            token.token_ = Token_Id;
+        int token_type = Token_EOF;
+        if(!IsKeyWord(buffer, token_type)) {
+            token = Token(line_, column_, Token_Id, string_pool_->NewString(buffer));
+            return;
         }
-        token.line_  = line_;
-        token.column_ = column_;
-        token.str_ = string_pool_->NewString(buffer);
+        token = Token(line_, column_, token_type);
     }
     
     void Scanner::NextToken(Token& token) {
@@ -234,7 +219,7 @@ namespace lepus {
                 return ParseId(token);
             }
         }
-        token.token_ = Token_EOF;
+        token = Token(line_, column_, Token_EOF);
     }
     
 }

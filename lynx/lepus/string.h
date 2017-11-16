@@ -36,7 +36,7 @@ namespace lepus {
     
     class StringPool {
     public:
-        StringPool() : string_set_(){}
+        StringPool() : string_set_(), string_map_(){}
         ~StringPool() {
             
         }

@@ -30,15 +30,13 @@ namespace lepus {
         Value():number_(0), type_(Value_Nil){}
         Value(double number):number_(number), type_(Value_Number){}
         Value(const Value& value) {
-            *this = value;
+            Copy(value);
         }
+        
         ~Value(){
-            if(this->type_ == Value_String ) {
-                str_->Release();
-            }else if(this->type_ == ValueT_Closure) {
-                closure_->Release();
-            }
+            SetNil();
         }
+        
         bool IsFalse() const
         { return type_ == Value_Nil || (type_ == Value_Boolean && !boolean_); }
 
@@ -62,38 +60,7 @@ namespace lepus {
                 closure_->Release();
             }
             
-            switch (value.type_) {
-                case Value_Nil:
-                    this->str_ = nullptr;
-                    this->type_ = Value_Nil;
-                    break;
-                case Value_Number:
-                    this->number_ = value.number_;
-                    this->type_ = Value_Number;
-                    break;
-                case Value_Boolean:
-                    this->boolean_ = value.boolean_;
-                    this->type_ = Value_Boolean;
-                    break;
-                case Value_String:
-                    this->str_ = value.str_;
-                    this->str_->AddRef();
-                    this->type_ = Value_String;
-                    break;
-                case ValueT_Closure:
-                    this->closure_ = value.closure_;
-                    this->closure_->AddRef();
-                    this->type_ = ValueT_Closure;
-                    break;
-                case ValueT_CFunction:
-                    this->native_function_ = value.native_function_;
-                    this->type_ = ValueT_CFunction;
-                    break;
-                default:
-                    this->str_ = nullptr;
-                    this->type_ = Value_Nil;
-                    break;
-            }
+            Copy(value);
             
             return *this;
         }
@@ -201,6 +168,42 @@ namespace lepus {
                 number_ = ((int)number_) % ((int)value.number_);
             }
             return *this;
+        }
+        
+    private:
+        inline void Copy(const Value& value) {
+            switch (value.type_) {
+                case Value_Nil:
+                    this->str_ = nullptr;
+                    this->type_ = Value_Nil;
+                    break;
+                case Value_Number:
+                    this->number_ = value.number_;
+                    this->type_ = Value_Number;
+                    break;
+                case Value_Boolean:
+                    this->boolean_ = value.boolean_;
+                    this->type_ = Value_Boolean;
+                    break;
+                case Value_String:
+                    this->str_ = value.str_;
+                    this->str_->AddRef();
+                    this->type_ = Value_String;
+                    break;
+                case ValueT_Closure:
+                    this->closure_ = value.closure_;
+                    this->closure_->AddRef();
+                    this->type_ = ValueT_Closure;
+                    break;
+                case ValueT_CFunction:
+                    this->native_function_ = value.native_function_;
+                    this->type_ = ValueT_CFunction;
+                    break;
+                default:
+                    this->str_ = nullptr;
+                    this->type_ = Value_Nil;
+                    break;
+            }
         }
     };
 }

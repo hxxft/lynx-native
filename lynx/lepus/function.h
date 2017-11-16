@@ -22,6 +22,8 @@ namespace lepus {
                      index_(0){
                          
                      }
+        ~Function(){
+        }
         
         std::size_t OpCodeSize() {
             return op_codes_.size();
@@ -41,15 +43,15 @@ namespace lepus {
             return &op_codes_[index];
         }
         
-        int AddConstNumber(double number);
+        std::size_t AddConstNumber(double number);
         
-        int AddConstString(String* string);
+        std::size_t AddConstString(String* string);
         
-        int AddConstBoolean(bool boolean);
+        std::size_t AddConstBoolean(bool boolean);
         
-        int AddConstValue(const Value& v);
+        std::size_t AddConstValue(const Value& v);
         
-        int AddChildFunction(Function* function) {
+        std::size_t AddChildFunction(Function* function) {
             child_functions_.push_back(function);
             return child_functions_.size() - 1;
         }
@@ -60,13 +62,13 @@ namespace lepus {
         
         
         
-        Value* GetConstValue(int index) {
+        Value* GetConstValue(std::size_t index) {
             return index < const_values_.size() ?
                 &const_values_[index] : nullptr;
         }
         
         int SearchUpvalue(String* name) {
-            for(int i = 0; i < upvalues_.size(); ++i) {
+            for(std::size_t i = 0; i < upvalues_.size(); ++i) {
                 if(upvalues_[i].name_ == name) {
                     return i;
                 }
@@ -74,7 +76,7 @@ namespace lepus {
             return -1;
         }
         
-        int AddUpvalue(String* name, int register_index, bool in_parent_vars) {
+        std::size_t AddUpvalue(String* name, int register_index, bool in_parent_vars) {
             upvalues_.push_back(UpvalueInfo(name, register_index, in_parent_vars));
             return upvalues_.size() - 1;
         }
@@ -83,7 +85,7 @@ namespace lepus {
             return &upvalues_[index];
         }
         
-        int AddSwitch(SwitchInfo* info) {
+        std::size_t AddSwitch(SwitchInfo* info) {
             switches_.push_back(info);
             return switches_.size() - 1;
         }
@@ -92,15 +94,15 @@ namespace lepus {
             return switches_[index];
         }
         
-        int UpvaluesSize() {
+        std::size_t UpvaluesSize() {
             return upvalues_.size();
         }
         
-        void set_index(int index) {
+        void set_index(size_t index) {
             index_ = index;
         }
         
-        int index() {
+        std::size_t index() {
             return index_;
         }
     private:
@@ -114,7 +116,7 @@ namespace lepus {
         
         std::vector<Function*> child_functions_;
         
-        int index_;
+        std::size_t index_;
         
     };
     
@@ -122,7 +124,7 @@ namespace lepus {
     public:
         Closure(Function* function)
         :function_(function){
-            
+            AddRef();
         }
         
         void set_function(Function* function) {

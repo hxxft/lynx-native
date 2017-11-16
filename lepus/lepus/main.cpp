@@ -11,7 +11,6 @@
 #include <cassert>
 #include <string>
 
-#include "lepus/interpreter_context.h"
 #include "lepus/vm_context.h"
 #include "lepus/vm.h"
 #include "lepus/value.h"

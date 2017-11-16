@@ -42,14 +42,21 @@ namespace lepus {
     
     void SwitchInfo::Modify(Token& key, int offset) {
         if(type_ == SwitchType_Table) {
+            if(key.token_ == Token_Defalut) {
+                default_offset_ = offset;
+                return;
+            }
             if(key.token_ != Token_Number || min_ > max_) {
                 return ;
             }
+            
             int k = (int)key.number_;
-            int index = k - min_;
             if(k < min_ || k > max_) {
                 default_offset_ = offset;
+                return;
             }
+            int index = k - min_;
+            
             switch_table_[index].second = offset;
             return;
         }else {
@@ -77,5 +84,6 @@ namespace lepus {
         }else {
             
         }
+        return -1;
     }
 }

@@ -75,6 +75,7 @@ virtual void Accept(Visitor* visitor, void* data);
     class ChunkAST : public ASTree {
     public:
         ChunkAST(ASTree* block) : block_(block) {}
+        
         base::ScopedPtr<ASTree>& block(){
             return block_;
         }

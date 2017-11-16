@@ -74,10 +74,43 @@ namespace lepus {
             
         }
         
+        Token(int line, int column, int token) : line_(line), column_(column), token_(token) {
+            
+        }
+        
+        Token(int line, int column, int token, double number)
+            :number_(number),  line_(line), column_(column), token_(token) {
+            
+        }
+        
+        Token(int line, int column, int token, String* str)
+            :str_(str), line_(line), column_(column), token_(token) {
+                str->AddRef();
+        }
+        
         Token(const Token& token) {
+            Copy(token);
+        }
+        
+        ~Token() {
             if(IsString()) {
                 str_->Release();
             }
+        }
+        
+        Token& operator=(const Token& token) {
+            if(IsString()) {
+                str_->Release();
+            }
+            Copy(token);
+            return *this;
+        }
+        
+        bool inline IsString() const{
+            return (token_ == Token_String || token_ == Token_Id) && str_;
+        }
+    private:
+        void Copy(const Token& token) {
             str_ = nullptr;
             
             if(token.token_ == Token_Number){
@@ -89,27 +122,6 @@ namespace lepus {
             token_ = token.token_;
             line_ = token.line_;
             column_ = token.column_;
-        }
-        
-        ~Token() {
-            if(IsString()) {
-                str_->Release();
-            }
-        }
-        
-        bool inline IsString() const{
-            return (token_ == Token_String || token_ == Token_Id) && str_;
-        }
-        
-        void Print(){
-            if(token_ < Token_And) {
-                printf("%c", (char)token_);
-            }
-            else if(token_ == Token_Number) {
-                printf("%lf", number_);
-            }else if(token_ != Token_EOF){
-                printf("%s", str_->c_str());
-            }
         }
     };
 }

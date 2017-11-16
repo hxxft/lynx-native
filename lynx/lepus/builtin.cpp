@@ -32,7 +32,7 @@ namespace lepus {
         Value value;
         value.native_function_ = function;
         value.type_ = ValueT_CFunction;
-        context->SetGlobalData(context->string_pool().NewString(name), value);
+        context->SetGlobalData(context->string_pool()->NewString(name), value);
     }
     
     void RegisterBulitin(Context* ctx) {
