@@ -8,6 +8,7 @@
 #include "base/android/params_transform.h"
 #include "runtime/android/jni_runtime_bridge.h"
 #include "runtime/base/lynx_function_object_android.h"
+#include "render/android/jni_coordinator_bridge.h"
 
 
 JNIEXPORT jint JNICALL JNI_OnLoad(JavaVM *vm, void *reserved)
@@ -25,6 +26,7 @@ JNIEXPORT jint JNICALL JNI_OnLoad(JavaVM *vm, void *reserved)
     jscore::LynxFunctionObjectAndroid::RegisterJNIUtils(env);
     base::android::JType::Init(env, base::android::Type::LynxObject);
     base::android::JType::Init(env, base::android::Type::LynxArray);
+    lynx::JNICoordinatorBridge::RegisterJNIUtils(env);
     return JNI_VERSION_1_6;
 
 }

@@ -90,8 +90,11 @@ public class LynxFunctionObject {
         return null;
     }
 
-    public void onDestroy() {
-
+    @CalledByNative
+    private void destroy() {
+        onDestroy();
     }
+
+    public void onDestroy() {}
 
 }

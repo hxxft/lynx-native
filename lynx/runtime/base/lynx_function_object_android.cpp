@@ -22,7 +22,8 @@ namespace jscore {
     }
 
     LynxFunctionObjectAndroid::~LynxFunctionObjectAndroid() {
-
+        JNIEnv* env = base::android::AttachCurrentThread();
+        Java_LynxFunctionObject_destroy(env, java_object_.Get());
     }
 
     bool LynxFunctionObjectAndroid::RegisterJNIUtils(JNIEnv* env) {
