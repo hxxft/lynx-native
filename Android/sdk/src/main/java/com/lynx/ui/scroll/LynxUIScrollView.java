@@ -204,6 +204,7 @@ public class LynxUIScrollView extends LynxUIGroup<AndroidScrollView> {
         public void onScrollChanged(int l, int t, int oldl, int oldt) {
             LynxUIScrollView.this.updateData(RenderObjectAttr.SCROLL_LEFT, l);
             LynxUIScrollView.this.updateData(RenderObjectAttr.SCROLL_TOP, t);
+            LynxUIScrollView.this.dispatchCoordinatorScroll(t, l);
             if (!mScrollEnabled) return;
             mScrollEventToJs = new LynxEvent(EVENT_SCROLL);
             LynxUIScrollView.this.postEvent(EVENT_SCROLL, mScrollEventToJs);

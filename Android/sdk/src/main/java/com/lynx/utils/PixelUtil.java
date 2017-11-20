@@ -22,4 +22,12 @@ public class PixelUtil {
         // Origin: dp * (LYNX_DEFAULT_REFER_SCREEN_WIDTH / (screenWidth / density))
         return dpToPx(dp) * LYNX_DEFAULT_REFER_SCREEN_WIDTH / ScreenUtil.getScreenWidth();
     }
+
+    public static double lynxNumberToPx(double number) {
+        return number * ScreenUtil.getScreenWidth() / LYNX_DEFAULT_REFER_SCREEN_WIDTH;
+    }
+
+    public static double lynxNumberToDp(double number) {
+        return pxToDp(lynxNumberToPx(number));
+    }
 }

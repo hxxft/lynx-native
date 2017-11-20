@@ -6,7 +6,7 @@ import com.lynx.core.LynxRuntime;
 public class ModuleRegister {
 
     public ModuleRegister(LynxRuntime runtime) {
-        ModuleBundle bundle = new ModuleBundle(runtime.getContext());
+        ModuleBundle bundle = new ModuleBundle(runtime);
         for (LynxModule module : bundle.getModulePacket()) {
             runtime.registerModule(module, module.moduleName());
         }
