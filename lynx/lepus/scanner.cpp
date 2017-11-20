@@ -9,7 +9,7 @@
 #include "lepus/scanner.h"
 
 #include "lepus/utils.h"
-#include "lepus/string.h"
+#include "lepus/lepus_string.h"
 
 namespace lepus {
     Scanner::Scanner(parser::InputStream* input, StringPool* string_pool)
@@ -54,6 +54,7 @@ namespace lepus {
                 column_ = 0;
             }else if(current_character_ == EOF) {
                 // TODO Error
+                break;
             }
         }
     }

@@ -10,7 +10,7 @@
 #define LYNX_LEPUS_TOKEN_H_
 
 #include <iostream>
-#include "lepus/string.h"
+#include "lepus/lepus_string.h"
 
 namespace lepus {
     enum TokenType {
