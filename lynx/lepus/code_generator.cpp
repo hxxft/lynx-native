@@ -136,6 +136,7 @@ namespace lepus {
     void CodeGenerator::InsertVariable(String* name, int register_id) {
         current_function_->current_block_->variables_map_[name] = register_id;
         if(current_function_->parent_.Get() == nullptr) {
+            name->AddRef();
             reinterpret_cast<std::unordered_map<String*, int>*>(top_level_variables_)->insert(std::make_pair(name, register_id));
         }
     }

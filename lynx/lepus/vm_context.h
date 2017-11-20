@@ -7,7 +7,7 @@
 
 #include "lepus/context.h"
 #include "lepus/value.h"
-#include "lepus/string.h"
+#include "lepus/lepus_string.h"
 #include "lepus/heap.h"
 
 namespace lepus {
