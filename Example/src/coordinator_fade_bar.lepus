@@ -1,0 +1,55 @@
+var lastScrollTop = 0
+var lastScrollLeft = 0
+var max = 500
+var min = 120
+var minTitleScale = 0.75
+function onDispatchScrollEvent(tag, scrollTop, scrollLeft) {
+    lastScrollTop = scrollTop
+    lastScrollLeft = scrollLeft
+}
+
+function onScrollEvent(tag, scrollTop, scrollLeft){
+    if (scrollTop < max - min) {
+        var y = 0 - scrollTop
+        setTranslateY(y)
+        var alpha = y / (min - max)
+        setAlpha(alpha)
+    }
+    if (scrollTop > max - min) {
+        setTranslateY(min - max)
+        setAlpha(1)
+    }
+}
+function onScrollEventForImg(tag, scrollTop, scrollLeft){
+    if (scrollTop < max - min) {
+        var y = 0 - scrollTop
+        setTranslateY(y)
+    }
+    if (scrollTop > max - min) {
+        setTranslateY(min - max)
+    }
+}
+function onScrollEventForTitle(tag, scrollTop, scrollLeft){
+    setPivotX(0)
+    setPivotY(40)
+    if (scrollTop < max - min) {
+        var y = 0 - scrollTop
+        setTranslateY(y)
+        var scale = y / (min - max) / 4
+        setScaleY(1 - scale)
+        setScaleX(1 - scale)
+    }
+    if (scrollTop > max - min) {
+        setTranslateY(min - max)
+        setScaleY(minTitleScale)
+        setScaleX(minTitleScale)
+    }
+}
+function onScrollEventForShadowLine(tag, scrollTop, scrollLeft) {
+    if (scrollTop > max - min) {
+        setAlpha(1)
+    }
+    if (scrollTop < max - min) {
+        setAlpha(0)
+    }
+}
