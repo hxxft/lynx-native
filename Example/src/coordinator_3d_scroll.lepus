@@ -1,0 +1,188 @@
+var kMinScale = 0.8
+var kMaxScale = 1
+var kMarginLeft = 40
+var kImgWidth = 450
+var kTotalNum = 4
+var kScrollWrapTag = 100
+var kTouchSlop = 10
+var kDuration = 300
+// per second
+var kFlingVelocity = 1000
+var kMaxMoveX = (kImgWidth - kMarginLeft) * kTotalNum
+var kMinMoveX = (kImgWidth - kMarginLeft) * -1
+var kEventName = "onpagechanged"
+
+var preIndex = 0
+var curIndex = 0
+var startTouchX = 0
+var startTouchY = 0
+var curTouchX = 0
+var totalMoveX = 0
+var preTotalMoveX = 0
+var curTouchType = 0
+var ratioOfNextIndex = 0
+var toNextIndex = 0
+var touchDownTime = 0
+var isAllowScroll = false
+var curPage = 0
+
+function init(tag) {
+  if (tag != curIndex
+        && tag != kScrollWrapTag
+        && tag != 201
+        && tag != 202
+        && tag != 203) {
+      setScaleX(kMinScale)
+      setScaleY(kMinScale)
+  }
+  if (tag == 202 || tag == 203) {
+      setAlpha(0)
+  }
+}
+
+function onDispatchTouchEvent(tag, type, touchX, touchY, timeStamp) {
+    curTouchX = touchX
+    curTouchType = type
+    switch (type) {
+      case 0:
+          touchDownTime = timeStamp
+          startTouchX = touchX
+          setConsumed(true)
+          break
+      case 1:
+      case 3:
+          if (isAllowScroll) {
+              var offsetX = totalMoveX - (kImgWidth + kMarginLeft) * curIndex
+              // Caculate if fling
+              var initialVelocity = (touchX - startTouchX) / ((timeStamp - touchDownTime) / 1000)
+              var isFling = false
+              if (initialVelocity < 0) {
+                isFling = -initialVelocity / ((timeStamp - touchDownTime) / 1000) > kFlingVelocity
+              } else {
+                isFling = initialVelocity / ((timeStamp - touchDownTime) / 1000) > kFlingVelocity
+              }
+              if (isFling) {
+                  if (initialVelocity < 0)
+                    toNextIndex = curIndex + 1
+                  else
+                    toNextIndex = curIndex
+              } else if (offsetX > (kImgWidth + kMarginLeft) / 2) {
+                toNextIndex = curIndex + 1
+              } else {
+                toNextIndex = curIndex
+              }
+              if (toNextIndex < 0) toNextIndex = 0
+              if (toNextIndex > kTotalNum - 1) toNextIndex = kTotalNum - 1
+              totalMoveX = toNextIndex * (kImgWidth + kMarginLeft)
+              preTotalMoveX = totalMoveX
+              curIndex = toNextIndex
+          }
+          break
+      case 2:
+          if (curTouchX - startTouchX > kTouchSlop || startTouchX - curTouchX > kTouchSlop) {
+
+              totalMoveX = -(curTouchX - startTouchX) + preTotalMoveX
+              if (totalMoveX > kMaxMoveX) totalMoveX = kMaxMoveX
+              if (totalMoveX < kMinMoveX) totalMoveX = kMinMoveX
+              preIndex = curIndex
+              curIndex = totalMoveX / (kImgWidth + kMarginLeft)
+              curIndex = curIndex % 10
+              var offsetX = totalMoveX - (kImgWidth + kMarginLeft) * curIndex
+              ratioOfNextIndex = offsetX / (kImgWidth + kMarginLeft)
+              isAllowScroll = true
+          } else {
+              isAllowScroll = false
+          }
+          setConsumed(isAllowScroll)
+          break
+      default:
+          break
+    }
+}
+
+function onTouchEventForWrap(tag, touchX, touchY) {
+    if (isAllowScroll) {
+        if (curTouchType == 1 || curTouchType == 3) {
+            setDuration(kDuration)
+            dispatchEvent(kEventName, toNextIndex)
+        } else if (curTouchType == 2) {
+            var nextPage = curPage
+            if (totalMoveX )
+            if (nextPage != curPage) {
+                curPage = nextPage
+                dispatchEvent(kEventName, curPage)
+            }
+        }
+    }
+}
+
+function onTouchEventForImg(tag, touchX, touchY) {
+    if (isAllowScroll) {
+        if (curTouchType == 2) {
+          setTranslateX(-totalMoveX)
+          if (curIndex + 1 == tag) {
+            var scale = ratioOfNextIndex * (kMaxScale - kMinScale) + kMinScale
+            setScaleX(scale)
+            setScaleY(scale)
+          } else if (curIndex == tag) {
+            var scale = (1 - ratioOfNextIndex) * (kMaxScale - kMinScale) + kMinScale
+            setScaleX(scale)
+            setScaleY(scale)
+          } else {
+            setScaleX(kMinScale)
+            setScaleY(kMinScale)
+          }
+        } else if (curTouchType == 1) {
+            setDuration(kDuration)
+            setInterpolatorType("EASE_OUT")
+            setTranslateX(-totalMoveX)
+            if (toNextIndex == tag) {
+              setScaleX(kMaxScale)
+              setScaleY(kMaxScale)
+            } else {
+              setScaleX(kMinScale)
+              setScaleY(kMinScale)
+            }
+        }
+    }
+}
+
+function onTouchEventForBg(tag, touchX, touchY) {
+    if (isAllowScroll) {
+        var alpha = 1
+        if (curTouchType == 2 && curIndex >= 0 && curIndex < kTotalNum - 1) {
+            var curShowBgIndex = curIndex % 3
+            if (curShowBgIndex == 0) { // FirstBgImg show
+                if (tag == 201) alpha = (1 - ratioOfNextIndex)
+                if (tag == 202) alpha = ratioOfNextIndex
+                if (tag == 203) alpha = 0
+            } else if (curShowBgIndex == 1) { // SecondBgImg show
+                if (tag == 201) alpha = 0
+                if (tag == 202) alpha = (1 - ratioOfNextIndex)
+                if (tag == 203) alpha = ratioOfNextIndex
+            } else if (curShowBgIndex == 2) { // ThirdBgImg show
+                if (tag == 201) alpha = ratioOfNextIndex
+                if (tag == 202) alpha = 0
+                if (tag == 203) alpha = (1 - ratioOfNextIndex)
+            }
+            setAlpha(alpha)
+        } else if (curTouchType == 1 && curIndex >= 0 && curIndex <= kTotalNum - 1) {
+            var curShowBgIndex = toNextIndex % 3
+            if (curShowBgIndex == 0) { // FirstBgImg show
+                if (tag == 201) alpha = 1
+                if (tag == 202) alpha = 0
+                if (tag == 203) alpha = 0
+            } else if (curShowBgIndex == 1) { // SecondBgImg show
+                if (tag == 201) alpha = 0
+                if (tag == 202) alpha = 1
+                if (tag == 203) alpha = 0
+            } else if (curShowBgIndex == 2) { // ThirdBgImg show
+                if (tag == 201) alpha = 0
+                if (tag == 202) alpha = 0
+                if (tag == 203) alpha = 1
+            }
+            setDuration(kDuration)
+            setAlpha(alpha)
+        }
+    }
+}
