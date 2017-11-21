@@ -1,0 +1,9 @@
+bin/
+lib/
+CMakeFiles/
+CMakeCache.txt
+CMakeScripts/
+cmake_install.cmake
+lepus.build/
+lepus.xcodeproj/
+

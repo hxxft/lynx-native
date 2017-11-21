@@ -25,7 +25,7 @@ class ScopedVector {
     iterator begin() {return vector_.begin();}
     iterator end() {return vector_.end();}
 
-    int size() { return vector_.size(); }
+    size_t size() { return vector_.size(); }
 
     bool empty() { return vector_.empty(); }
 
@@ -54,7 +54,7 @@ class ScopedVector {
 
     void clear() {
         iterator iter = vector_.begin();
-        for (iter; iter != vector_.end(); ++iter) {
+        for (; iter != vector_.end(); ++iter) {
             lynx_delete(*iter);
         }
         vector_.clear();
