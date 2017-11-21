@@ -4,7 +4,7 @@
 
 #include "lepus/syntax_tree.h"
 #include "lepus/visitor.h"
-#include "lepus/string.h"
+#include "lepus/lepus_string.h"
 
 #include <unordered_set>
 #include <string>

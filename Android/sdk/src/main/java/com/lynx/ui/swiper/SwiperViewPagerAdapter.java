@@ -12,18 +12,18 @@ import com.lynx.ui.LynxUI;
 import java.util.HashMap;
 import java.util.Map;
 
-public class SliderViewPagerAdapter extends PagerAdapter {
+public class SwiperViewPagerAdapter extends PagerAdapter {
 
     protected BaseChildrenManager mChildrenManager;
     protected boolean mLooper = false;
     protected UIUsage mUIUsage;
 
-    public SliderViewPagerAdapter(Context context) {
+    public SwiperViewPagerAdapter(Context context) {
         mChildrenManager = new ChildrenManager(context);
         mUIUsage = new UIUsage();
     }
 
-    public SliderViewPagerAdapter(BaseChildrenManager factory) {
+    public SwiperViewPagerAdapter(BaseChildrenManager factory) {
         mChildrenManager = factory;
         mUIUsage = new UIUsage();
     }

@@ -1,7 +1,7 @@
 #ifndef LYNX_LEPUS_VALUE_H_
 #define LYNX_LEPUS_VALUE_H_
 
-#include "lepus/string.h"
+#include "lepus/lepus_string.h"
 #include "lepus/function.h"
 
 namespace lepus {

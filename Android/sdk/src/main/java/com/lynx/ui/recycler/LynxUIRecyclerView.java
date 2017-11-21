@@ -324,6 +324,8 @@ public class LynxUIRecyclerView
             proxy.syncScrollPosition(scrollTop, scrollLeft);
             mRecycler.onScrollItemChange(mLinearLayoutManager.findFirstVisibleItemPosition(),
                     mLinearLayoutManager.findLastVisibleItemPosition());
+
+            mRenderObjectImpl.getUI().dispatchCoordinatorScroll(scrollTop, scrollLeft);
         }
 
     }

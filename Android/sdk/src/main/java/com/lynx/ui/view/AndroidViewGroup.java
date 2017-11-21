@@ -3,6 +3,7 @@ package com.lynx.ui.view;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.view.MotionEvent;
 import android.view.ViewGroup;
 
 import com.lynx.ui.LynxUIGroup;
@@ -55,4 +56,14 @@ public class AndroidViewGroup extends ViewGroup {
         }
     }
 
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        if (mUIGroup.dispatchCoordinatorTouch(event)) {
+            if (getParent() != null && event.getAction() == MotionEvent.ACTION_MOVE) {
+                getParent().requestDisallowInterceptTouchEvent(true);
+            }
+            return true;
+        }
+        return super.onTouchEvent(event);
+    }
 }

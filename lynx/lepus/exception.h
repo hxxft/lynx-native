@@ -8,15 +8,15 @@ namespace lepus {
     class Exception {
     public:
         const std::string message() const {
-            return stream_.str();
+            return stream_->str();
         }
         
     protected:
         std::ostringstream& stream() {
-            return stream_;
+            return *stream_;
         }
     private:
-        std::ostringstream stream_;
+        std::ostringstream* stream_;
     };
     
     class CompileException : public Exception {

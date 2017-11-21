@@ -25,7 +25,11 @@ include_directories(${CMAKE_SOURCE_DIR}/../../lynx
                     ${CMAKE_SOURCE_DIR}/../../lynx/third_party/jsoncpp/src/lib_json
                     ${CMAKE_SOURCE_DIR}/../../lynx/third_party/jsoncpp/include
                     ${CMAKE_SOURCE_DIR}/../../lynx/third_party/JavaScriptCore
+                    ${CMAKE_SOURCE_DIR}/../../lynx/lepus
                    )
+
+aux_source_directory(${CMAKE_SOURCE_DIR}/../../lynx/lepus
+                     LEPUS_SOURCE_FILES)
 
 add_library(lynx SHARED
                 ${CMAKE_SOURCE_DIR}/../../lynx/base/android/java_type.cpp
@@ -128,7 +132,14 @@ add_library(lynx SHARED
 
             	${CMAKE_SOURCE_DIR}/../../lynx/third_party/jsoncpp/src/lib_json/json_reader.cpp
             	${CMAKE_SOURCE_DIR}/../../lynx/third_party/jsoncpp/src/lib_json/json_value.cpp
-            	${CMAKE_SOURCE_DIR}/../../lynx/third_party/jsoncpp/src/lib_json/json_writer.cpp)
+            	${CMAKE_SOURCE_DIR}/../../lynx/third_party/jsoncpp/src/lib_json/json_writer.cpp
+
+            	${CMAKE_SOURCE_DIR}/../../lynx/render/android/jni_coordinator_bridge.cpp
+            	${CMAKE_SOURCE_DIR}/../../lynx/render/coordinator/coordinator_action.cpp
+            	${CMAKE_SOURCE_DIR}/../../lynx/render/coordinator/coordinator_executor.cpp
+
+            	${LEPUS_SOURCE_FILES}
+            	)
 
 
 

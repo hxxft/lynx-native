@@ -9,7 +9,7 @@ public abstract class SwiperView extends ViewPager {
 
     protected static final int NOT_SET = -1;
 
-    protected SliderViewPagerAdapter mAdapter;
+    protected SwiperViewPagerAdapter mAdapter;
     protected LooperController mLooperController;
 
     protected boolean mIsAutoPlay = false;
@@ -28,7 +28,7 @@ public abstract class SwiperView extends ViewPager {
         addOnPageChangeListener(new PositionController());
     }
 
-    public abstract SliderViewPagerAdapter createSliderViewPagerAdapter(Context context);
+    public abstract SwiperViewPagerAdapter createSliderViewPagerAdapter(Context context);
 
     public abstract LooperController createLooperController();
 
@@ -197,7 +197,7 @@ public abstract class SwiperView extends ViewPager {
     }
 
     @Override
-    public SliderViewPagerAdapter getAdapter() {
+    public SwiperViewPagerAdapter getAdapter() {
         return mAdapter;
     }
 

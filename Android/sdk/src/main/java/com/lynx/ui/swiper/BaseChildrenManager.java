@@ -29,7 +29,7 @@ public abstract class BaseChildrenManager {
     }
 
     /**
-     * 与{@link SliderViewPagerAdapter#instantiateItem(ViewGroup, int)} 同步使用
+     * 与{@link SwiperViewPagerAdapter#instantiateItem(ViewGroup, int)} 同步使用
      * @param position
      * @return
      */
@@ -45,7 +45,7 @@ public abstract class BaseChildrenManager {
     public abstract LynxUI makeUI(int position);
 
     /**
-     * 与{@link SliderViewPagerAdapter#destroyItem(ViewGroup, int, Object)} 同步使用
+     * 与{@link SwiperViewPagerAdapter#destroyItem(ViewGroup, int, Object)} 同步使用
      * @param ui
      * @return
      */

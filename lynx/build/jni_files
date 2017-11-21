@@ -6,3 +6,4 @@ com/lynx/base/URLRequest.java
 com/lynx/core/impl/RenderObjectImpl.java
 com/lynx/core/base/ParamsTransform.java
 com/lynx/core/tree/LynxRenderTreeHostImpl.java
+com/lynx/ui/coordinator/CommandExecutor.java

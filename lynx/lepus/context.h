@@ -7,7 +7,7 @@
 #include <unordered_map>
 
 #include "lepus/value.h"
-#include "lepus/string.h"
+#include "lepus/lepus_string.h"
 
 namespace lepus {
     class Global {

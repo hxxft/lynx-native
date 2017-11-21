@@ -41,6 +41,8 @@ public class LynxRuntime {
 
     private Context mContext;
 
+    private LynxRenderTreeHostImpl mHost;
+
     public LynxRuntime() {
         mNativeRuntime = nativeCreateNativeJSRuntime();
     }
@@ -66,10 +68,10 @@ public class LynxRuntime {
                                          int height,
                                          double density) {
         mContext = view.getContext();
-        ModuleRegister register = new ModuleRegister(this);
-        Object host = nativeActiveRuntime(mNativeRuntime, width, height, density);
+        mHost = (LynxRenderTreeHostImpl) nativeActiveRuntime(mNativeRuntime, width, height, density);
         Style.sDensity = density;
-        return (LynxRenderTreeHostImpl) host;
+        ModuleRegister register = new ModuleRegister(this);
+        return mHost;
     }
 
     public void registerModule(LynxFunctionObject object, String name) {
@@ -101,6 +103,10 @@ public class LynxRuntime {
 
     public Context getContext() {
         return mContext;
+    }
+
+    public LynxRenderTreeHostImpl getHost() {
+        return mHost;
     }
 
     void checkMemoryLeak() {

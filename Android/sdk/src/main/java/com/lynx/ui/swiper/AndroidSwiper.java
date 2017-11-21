@@ -15,8 +15,8 @@ public class AndroidSwiper extends SwiperView {
     }
 
     @Override
-    public SliderViewPagerAdapter createSliderViewPagerAdapter(Context context) {
-        return new SliderViewPagerAdapter(context);
+    public SwiperViewPagerAdapter createSliderViewPagerAdapter(Context context) {
+        return new SwiperViewPagerAdapter(context);
     }
 
     @Override
