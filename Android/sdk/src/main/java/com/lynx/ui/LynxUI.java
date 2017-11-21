@@ -45,6 +45,7 @@ public abstract class LynxUI<T extends View>
     public final static String ATTR_STOP_PROPAGATION = "stop-propagation";
     public final static String ATTR_CAPTURE = "capture";
     public final static String ATTR_PREVENT_DEFAULT = "prevent-default";
+    public final static String ATTR_PREVENT_ENABLED = "enabled";
 
     public final static String ATTR_COORDINATOR_TAG = "coordinator-tag";
     public final static String ATTR_COORDINATOR_AFFINITY = "coordinator-affinity";
@@ -129,6 +130,9 @@ public abstract class LynxUI<T extends View>
             case ATTR_PREVENT_DEFAULT:
                 mPreventDefaultEnable = Boolean.valueOf(value);
                 break;
+            case ATTR_PREVENT_ENABLED:
+                setEnabled(Boolean.valueOf(value));
+                break;
             case ATTR_STOP_PROPAGATION:
                 mStopPropagationEnable = Boolean.valueOf(value);
                 break;
@@ -195,6 +199,10 @@ public abstract class LynxUI<T extends View>
         }
     }
 
+    protected void setEnabled(boolean enable) {
+        mView.setEnabled(enable);
+    }
+
     protected void setAlpha(float alpha) {
         if (alpha != mView.getAlpha()) {
             mView.setAlpha(alpha);
@@ -241,16 +249,32 @@ public abstract class LynxUI<T extends View>
         mOffsetTop = offsetTop;
     }
 
+    public int getOffsetTop() {
+        return mOffsetTop;
+    }
+
     public void setOffsetBottom(int offsetBottom) {
         mOffsetBottom = offsetBottom;
+    }
+
+    public int getOffsetBottom() {
+        return mOffsetBottom;
     }
 
     public void setOffsetRight(int offsetRight) {
         mOffsetRight = offsetRight;
     }
 
+    public int getOffsetRight() {
+        return mOffsetRight;
+    }
+
     public void setOffsetLeft(int offsetLeft) {
         mOffsetLeft = offsetLeft;
+    }
+
+    public int getOffsetLeft() {
+        return mOffsetLeft;
     }
 
     public void updateFrame() {

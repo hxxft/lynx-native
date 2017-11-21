@@ -19,6 +19,7 @@ namespace lynx {
     double CoordinatorAction::offset_right_ = 0;
     bool CoordinatorAction::consumed_ = false;
     double CoordinatorAction::duration_ = 0;
+    double CoordinatorAction::interpolator_type_ = 0;
     std::string CoordinatorAction::event_ = "";
     lepus::Value CoordinatorAction::params_for_event_ = NULL;
 
@@ -40,6 +41,7 @@ namespace lynx {
         duration_ = kNotSet;
         event_ = "";
         params_for_event_ = NULL;
+        interpolator_type_ = kNotSet;
     }
 
 }

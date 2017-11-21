@@ -20,6 +20,7 @@ import com.lynx.utils.PixelUtil;
     private float mOffsetRight = 0;
     private boolean mIsConsumed = false;
     private long mDuration = 0;
+    private int mInterpolatorType = 0;
     private String mEvent;
     private Object mParamsForEvent = 0;
 
@@ -42,6 +43,7 @@ import com.lynx.utils.PixelUtil;
         mOffsetRight = convertToPx(dResult[i++]);
         mIsConsumed = dResult[i++] != 0;
         mDuration = (long) dResult[i++];
+        mInterpolatorType = (int) dResult[i++];
 
         // parse event
         Object[] eResult = (Object[]) result[1];
@@ -125,6 +127,10 @@ import com.lynx.utils.PixelUtil;
     // Note: now only basic data types and String
     public Object getParamsForEvent() {
         return mParamsForEvent;
+    }
+
+    public int getInterpolatorType() {
+        return mInterpolatorType;
     }
 
 }

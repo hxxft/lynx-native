@@ -8,7 +8,7 @@
 #include "render/coordinator/coordinator_executor.h"
 
 jdoubleArray GenerateAction(JNIEnv *env, lynx::CoordinatorAction action) {
-    int length = 15;
+    int length = 16;
     jdoubleArray result = env->NewDoubleArray(length);
     double temp[length];
     temp[0] = action.translate_x_;
@@ -26,6 +26,7 @@ jdoubleArray GenerateAction(JNIEnv *env, lynx::CoordinatorAction action) {
     temp[12] = action.offset_right_;
     temp[13] = action.consumed_;
     temp[14] = action.duration_;
+    temp[15] = action.interpolator_type_;
     env->SetDoubleArrayRegion(result, 0, length, temp);
     return result;
 }
@@ -37,28 +38,26 @@ jobject GenerateEvent(JNIEnv *env, lynx::CoordinatorAction action) {
     auto result = base::android::JType::NewObjectArray(env, length);
     auto event_name = base::android::JNIHelper::ConvertToJNIString(env, action.event_);
     env->SetObjectArrayElement(result.Get(), 0, event_name.Get());
-    if (action.params_for_event_ != NULL) {
-        switch (action.params_for_event_.type_) {
-            case lepus::ValueType::Value_String: {
-                const char* temp = action.params_for_event_.str_->c_str();
-                auto params = base::android::JNIHelper::ConvertToJNIString(env, (char *) temp);
-                env->SetObjectArrayElement(result.Get(), 1, params.Get());
-            }
-                break;
-            case lepus::ValueType::Value_Number:{
-                double temp = action.params_for_event_.number_;
-                auto params = base::android::JType::NewDouble(env, temp);
-                env->SetObjectArrayElement(result.Get(), 1, params.Get());
-            }
-                break;
-            case lepus::ValueType::Value_Boolean:{
-                bool temp = action.params_for_event_.boolean_;
-                auto params = base::android::JType::NewBoolean(env, temp);
-                env->SetObjectArrayElement(result.Get(), 1, params.Get());
-            }
-                break;
-            default: break;
+    switch (action.params_for_event_.type_) {
+        case lepus::ValueType::Value_String: {
+            const char* temp = action.params_for_event_.str_->c_str();
+            auto params = base::android::JNIHelper::ConvertToJNIString(env, (char *) temp);
+            env->SetObjectArrayElement(result.Get(), 1, params.Get());
         }
+            break;
+        case lepus::ValueType::Value_Number:{
+            double temp = action.params_for_event_.number_;
+            auto params = base::android::JType::NewDouble(env, temp);
+            env->SetObjectArrayElement(result.Get(), 1, params.Get());
+        }
+            break;
+        case lepus::ValueType::Value_Boolean:{
+            bool temp = action.params_for_event_.boolean_;
+            auto params = base::android::JType::NewBoolean(env, temp);
+            env->SetObjectArrayElement(result.Get(), 1, params.Get());
+        }
+            break;
+        default: break;
     }
     return result.Release();
 }

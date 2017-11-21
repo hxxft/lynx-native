@@ -31,6 +31,7 @@ namespace lynx {
         lepus::RegisterCFunction(ctx, "setConsumed", (void *) action_.SetConsumed);
         lepus::RegisterCFunction(ctx, "setDuration", (void *) action_.SetDuration);
         lepus::RegisterCFunction(ctx, "dispatchEvent", (void *) action_.DispatchEvent);
+        lepus::RegisterCFunction(ctx, "setInterpolatorType", (void *) action_.SetInterpolatorType);
 
         vm_->Execute(ctx, executable);
         ctx_ = ctx;

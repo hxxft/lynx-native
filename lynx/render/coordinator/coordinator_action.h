@@ -69,6 +69,23 @@ namespace lynx {
             return lepus::Value();
         }
 
+        static lepus::Value SetInterpolatorType(lepus::Context* context) {
+            int params_count = context->GetParamsSize();
+            std::string type = context->GetParam(0)->str_->c_str();
+            if (type.compare("LINEAR")) {
+                interpolator_type_ = 0;
+            } else if (type.compare("EASE")) {
+                interpolator_type_ = 1;
+            } else if (type.compare("EASE_OUT")) {
+                interpolator_type_ = 2;
+            } else if (type.compare("EASE_IN")) {
+                interpolator_type_ = 3;
+            } else if (type.compare("EASE_IN_OUT")) {
+                interpolator_type_ = 4;
+            }
+            return lepus::Value();
+        }
+
         static void Reset();
 
         static double translate_x_;
@@ -86,6 +103,7 @@ namespace lynx {
         static double offset_right_;
         static bool consumed_;
         static double duration_;
+        static double interpolator_type_;
 
         static std::string event_;
         static lepus::Value params_for_event_;

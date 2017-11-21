@@ -1,11 +1,16 @@
 // Copyright 2017 The Lynx Authors. All rights reserved.
 package com.lynx.ui.coordinator;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.animation.AccelerateDecelerateInterpolator;
+import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.Interpolator;
+import android.view.animation.LinearInterpolator;
 
 import com.lynx.core.base.LynxEvent;
 import com.lynx.ui.LynxUI;
@@ -29,24 +34,25 @@ public class CoordinatorExecutor {
         }
     }
 
-    public void executeAnim(CoordinatorResult result) {
+    public void executeAnim(final CoordinatorResult result) {
         View view = mUI.getView();
         long duration = result.getDuration();
-        // 创建速度控制器
-        Interpolator interpolator = new DecelerateInterpolator();
-//            Interpolator interpolator = null;
-//            switch (AnimTimingFunction.is(properties.type)) {
-//                case LINEAR:
-//                    interpolator = new LinearInterpolator(); break;
-//                case EASE_IN:
-//                    interpolator = new AccelerateInterpolator(); break;
-//                case EASE_OUT:
-//                    interpolator = new DecelerateInterpolator(); break;
-//                case EASE:
-//                case EASE_IN_OUT:
-//                    interpolator = new AccelerateDecelerateInterpolator(); break;
-//                default: break;
-//            }
+
+        Interpolator interpolator = null;
+        if (result.getInterpolatorType() != CoordinatorResult.NOT_SET) {
+            switch (result.getInterpolatorType()) {
+                case 0://LINEAR
+                    interpolator = new LinearInterpolator(); break;
+                case 1://EASE_IN
+                    interpolator = new AccelerateInterpolator(); break;
+                case 2://EASE_OUT
+                    interpolator = new DecelerateInterpolator(); break;
+                case 3://EASE
+                case 4://EASE_IN_OUT
+                    interpolator = new AccelerateDecelerateInterpolator(); break;
+                default: break;
+            }
+        }
 
         List<PropertyAnimHolder> holders = new ArrayList<>();
 
@@ -82,6 +88,38 @@ public class CoordinatorExecutor {
                 }
             });
         }
+        if (result.getOffsetTop() != CoordinatorResult.NOT_SET) {
+            holders.add(new PropertyAnimHolder(view, mUI.getOffsetTop(), result.getOffsetTop()) {
+                @Override
+                void updateValue(View view, float value) {
+                    mUI.setOffsetTop((int) value);
+                }
+            });
+        }
+        if (result.getOffsetBottom() != CoordinatorResult.NOT_SET) {
+            holders.add(new PropertyAnimHolder(view, mUI.getOffsetBottom(), result.getOffsetBottom()) {
+                @Override
+                void updateValue(View view, float value) {
+                    mUI.setOffsetBottom((int) value);
+                }
+            });
+        }
+        if (result.getOffsetLeft() != CoordinatorResult.NOT_SET) {
+            holders.add(new PropertyAnimHolder(view, mUI.getOffsetLeft(), result.getOffsetLeft()) {
+                @Override
+                void updateValue(View view, float value) {
+                    mUI.setOffsetLeft((int) value);
+                }
+            });
+        }
+        if (result.getOffsetRight() != CoordinatorResult.NOT_SET) {
+            holders.add(new PropertyAnimHolder(view, mUI.getOffsetRight(), result.getOffsetRight()) {
+                @Override
+                void updateValue(View view, float value) {
+                    mUI.setOffsetRight((int) value);
+                }
+            });
+        }
         if (result.getAlpha() != CoordinatorResult.NOT_SET) {
             holders.add(new PropertyAnimHolder(view, view.getAlpha(), result.getAlpha()) {
                 @Override
@@ -91,11 +129,24 @@ public class CoordinatorExecutor {
             });
         }
 
-        if (!holders.isEmpty()) {
+        if (!holders.isEmpty() || result.getEvent() != null) {
             ValueAnimator animator = ValueAnimator.ofFloat(0, 1);
             animator.setDuration(duration);
             animator.setInterpolator(interpolator);
             animator.addUpdateListener(new PropertyAnimListener(holders));
+            animator.addListener(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    dispatchEvent(result);
+
+                    if (result.getOffsetTop() != CoordinatorResult.NOT_SET ||
+                        result.getOffsetBottom() != CoordinatorResult.NOT_SET ||
+                        result.getOffsetRight() != CoordinatorResult.NOT_SET ||
+                        result.getOffsetLeft() != CoordinatorResult.NOT_SET) {
+                        mUI.updateFrame();
+                    }
+                }
+            });
             animator.start();
         }
     }

@@ -25,7 +25,7 @@ import java.util.Set;
 
 public class LynxUIBody extends LynxUIView implements TransferStation {
 
-    private Map<String, List<CoordinatorResponder>> mCoordinatorResponders;
+    private Map<String, Set<CoordinatorResponder>> mCoordinatorResponders;
     private Map<String, CommandExecutor> mExecutorPool;
     private Map<String, Set<String>> mAffinityRelationShip;
     private PreTreatment mPreTreatment;
@@ -95,9 +95,9 @@ public class LynxUIBody extends LynxUIView implements TransferStation {
         }
         // Init
         if (mCoordinatorResponders != null) {
-            List<CoordinatorResponder> list = mCoordinatorResponders.get(responderAffinity);
-            if (list != null) {
-                for (CoordinatorResponder responder : list) {
+            Set<CoordinatorResponder> set = mCoordinatorResponders.get(responderAffinity);
+            if (set != null) {
+                for (CoordinatorResponder responder : set) {
                     responder.coordinatorTreatment().init(executor,
                             responder.coordinatorTag() == null ? 0 : Integer.valueOf(responder.coordinatorTag()));
                 }
@@ -129,12 +129,12 @@ public class LynxUIBody extends LynxUIView implements TransferStation {
         if (mCoordinatorResponders == null) {
             mCoordinatorResponders = new HashMap<>();
         }
-        List<CoordinatorResponder> list = mCoordinatorResponders.get(responder.coordinatorAffinity());
-        if (list == null) {
-            list = new LinkedList<>();
-            mCoordinatorResponders.put(responder.coordinatorAffinity(), list);
+        Set<CoordinatorResponder> set = mCoordinatorResponders.get(responder.coordinatorAffinity());
+        if (set == null) {
+            set = new HashSet<>();
+            mCoordinatorResponders.put(responder.coordinatorAffinity(), set);
         }
-        list.add(responder);
+        set.add(responder);
         // Init
         if (mExecutorPool != null) {
             CommandExecutor executor = mExecutorPool.get(responder.coordinatorAffinity());
@@ -148,9 +148,9 @@ public class LynxUIBody extends LynxUIView implements TransferStation {
     @Override
     public void removeCoordinatorResponder(CoordinatorResponder responder) {
         if (mCoordinatorResponders != null && responder != null) {
-            List<CoordinatorResponder> list = mCoordinatorResponders.get(responder.coordinatorAffinity());
-            if (list != null) {
-                list.remove(responder);
+            Set<CoordinatorResponder> set = mCoordinatorResponders.get(responder.coordinatorAffinity());
+            if (set != null) {
+                set.remove(responder);
             }
         }
     }
@@ -166,13 +166,12 @@ public class LynxUIBody extends LynxUIView implements TransferStation {
             if (responderAffinityList == null) return consumed;
             for (String responderAffinity : responderAffinityList) {
                 CommandExecutor executor = mExecutorPool.get(responderAffinity);
-                List<CoordinatorResponder> list
-                        = mCoordinatorResponders.get(responderAffinity);
-                if (executor == null || list == null) continue;
+                Set<CoordinatorResponder> set = mCoordinatorResponders.get(responderAffinity);
+                if (executor == null || set == null) continue;
                 // TODO: 17/11/7 tag should be replace to string
                 consumed = mPreTreatment.dispatchAction(type, executor,
                         sponsor.coordinatorTag(), params);
-                for (CoordinatorResponder responder : list) {
+                for (CoordinatorResponder responder : set) {
                     responder.coordinatorTreatment().onNestedAction(type, executor, params);
                 }
             }
