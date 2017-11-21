@@ -29,6 +29,7 @@ void ListView::Layout(int left, int top, int right, int bottom) {
     RenderObject::Layout(left, top, right, bottom);
 
     RenderObject* child = static_cast<RenderObject*>(LastChild());
+    if(child == NULL) return;
     if (style_.flex_direction_ == CSSStyleType::CSSFLEX_DIRECTION_COLUMN) {
         set_scroll_height(child->measured_position_.bottom_);
         set_scroll_width(offset_width());

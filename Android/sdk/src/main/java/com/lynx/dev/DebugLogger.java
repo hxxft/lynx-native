@@ -82,7 +82,7 @@ public class DebugLogger extends Thread{
                 BufferedReader reader = new BufferedReader(new InputStreamReader(mLogcatProc.getInputStream()));
                 String line;
                 while (mIsAlive && (line = reader.readLine()) != null) {
-                    int i = line.indexOf("lynx-js-console");
+                    int i = line.indexOf("lynx-js-log");
                     if (i != -1) {
                         final String finalLine = line.substring(i, line.length());
                         String content = "log=" + URLEncoder.encode(finalLine, "UTF8");

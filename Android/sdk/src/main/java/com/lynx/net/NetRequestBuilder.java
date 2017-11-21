@@ -1,7 +1,7 @@
 // Copyright 2017 The Lynx Authors. All rights reserved.
 package com.lynx.net;
 
-import android.content.Context;
+import com.lynx.resources.ResourceManager;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -25,7 +25,7 @@ public class NetRequestBuilder {
     private Object mExternalData;
 
     public NetRequestBuilder url(String url) {
-        this.url = url;
+        this.url = ResourceManager.toRealURL(url);
         return this;
     }
 

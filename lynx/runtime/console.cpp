@@ -21,7 +21,13 @@ namespace jscore {
     base::ScopedPtr<LynxValue>
     Console::LogCallback(LynxObjectTemplate* object, base::ScopedPtr<LynxArray> array) {
         if (array.Get() != NULL && array->Size() > 0) {
-            LOGD("lynx-js-console", "%s", JSCHelper::ConvertToString(array.Get()).c_str());
+            if(array->Size() == 1) {
+                LOGD("lynx-js-log", "%s", JSCHelper::ConvertToString(array->Get(0)).c_str());
+            }
+            else{
+                LOGD("lynx-js-log", "%s", JSCHelper::ConvertToString(array.Get()).c_str());
+            }
+
         }
         return base::ScopedPtr<LynxValue>(NULL);
     }

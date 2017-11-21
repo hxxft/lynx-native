@@ -6,8 +6,8 @@ import android.text.TextUtils;
 import com.lynx.resources.ResourceManager;
 
 public class Page {
-    String name;
-    String screenOrientation;
+    private String name;
+    private String screenOrientation;
 
     // Example: App.vue
     public String getName() {
@@ -29,21 +29,21 @@ public class Page {
 
     public static final String INDEX_HTML = "/index.html";
 
-    private String mSimpleName;
-    private String mHtmlPath;
+    private String mPageName;
 
     // Example: app
-    public String getSimpleName() {
-        if (TextUtils.isEmpty(mSimpleName) && !TextUtils.isEmpty(name)) {
-            mSimpleName = name.substring(0, name.length() - 4).toLowerCase();
+    public String getPageName() {
+        if (TextUtils.isEmpty(mPageName) && !TextUtils.isEmpty(name)) {
+            mPageName = name.substring(0, name.length() - 4).toLowerCase();
         }
-        return mSimpleName;
+        return mPageName;
     }
 
-    public String getHtmlUri() {
-        if (mHtmlPath == null) {
-            mHtmlPath = ResourceManager.PROTOCOL_ASSETS + getSimpleName() + INDEX_HTML;
-        }
-        return mHtmlPath;
+    public String getLayoutResourceURL() {
+        return ResourceManager.ASSET_PROTOCOL + getPageName() + INDEX_HTML;
+    }
+
+    public String getResourceURL() {
+        return ResourceManager.ASSET_PROTOCOL + getPageName() + "/";
     }
 }

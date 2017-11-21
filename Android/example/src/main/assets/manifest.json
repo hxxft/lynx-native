@@ -5,7 +5,7 @@
         "name": "Air Q",
         "versionCode": "",
         "versionName": "",
-        "mainPage": "Launch.vue",
+        "mainPage": "Home.vue",
         "pages": [
             {
                 "name": "Launch.vue",
@@ -13,6 +13,22 @@
             },
             {
                 "name": "App.vue",
+                "screenOrientation": ""
+            },
+            {
+                "name": "Gallery.vue",
+                "screenOrientation": ""
+            },
+            {
+                "name": "Swiper.vue",
+                "screenOrientation": ""
+            },
+            {
+                "name": "Coordinator.vue",
+                "screenOrientation": ""
+            },
+            {
+                "name": "Home.vue",
                 "screenOrientation": ""
             }
         ]

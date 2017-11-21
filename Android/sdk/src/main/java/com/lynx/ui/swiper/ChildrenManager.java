@@ -7,6 +7,8 @@ import android.view.ViewGroup;
 import com.lynx.core.impl.RenderObjectImpl;
 import com.lynx.ui.LynxUI;
 import com.lynx.ui.LynxUIFactory;
+import com.lynx.ui.LynxUIGroup;
+import com.lynx.ui.recycler.ILynxUIRecycler;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,12 +60,12 @@ public class ChildrenManager extends BaseChildrenManager {
 
         RenderObjectImpl impl = mRenderObjectImplList.get(position);
 
-        buildChildrenUI(null, impl);
+        buildChildrenUI(impl);
 
         return impl.getUI();
     }
 
-    private void buildChildrenUI(RenderObjectImpl parent, RenderObjectImpl impl) {
+    private void buildChildrenUI(RenderObjectImpl impl) {
 
         if (impl.getUI() != null) {
             return;
@@ -79,12 +81,16 @@ public class ChildrenManager extends BaseChildrenManager {
             ui = LynxUIFactory.create(mContext, impl);
         }
 
-        for (int i = 0; i < impl.getChildCount(); i++) {
-            buildChildrenUI(impl, impl.getChildAt(i));
+        if (ui instanceof ILynxUIRecycler) {
+            for (int i = 0; i < impl.getChildCount(); i++) {
+                ui.insertChild(impl.getChildAt(i), i);
+            }
+        } else {
+            for (int i = 0; i < impl.getChildCount(); i++) {
+                buildChildrenUI(impl.getChildAt(i));
+                ui.insertChild(impl.getChildAt(i), i);
+            }
         }
 
-        if (parent != null && parent.getUI() != null) {
-            ((ViewGroup)parent.getUI().getView()).addView(ui.getView());
-        }
     }
 }

@@ -13,6 +13,7 @@ import com.lynx.dev.DebugDevHost;
 import com.lynx.dev.DevSupportManager;
 import com.lynx.resources.ResourceManager;
 import com.lynx.ui.LynxView;
+import com.lynx.utils.ScreenUtil;
 
 public class LynxActivityDelegate implements DebugDevHost{
     private Activity mActivity;
@@ -20,6 +21,7 @@ public class LynxActivityDelegate implements DebugDevHost{
 
     public LynxActivityDelegate(Activity activity) {
         mActivity = activity;
+        ScreenUtil.init(mActivity);
     }
 
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -43,8 +45,10 @@ public class LynxActivityDelegate implements DebugDevHost{
 
         Page currentPage = app.getPage(pageName);
 
-        mLynxView.loadHTMLData(currentPage.getHtmlUri(),
-                ResourceManager.instance().getString(currentPage.getHtmlUri()));
+        mLynxView.loadHTMLData(currentPage.getResourceURL(),
+                ResourceManager.instance().reader().readResourceAsString(
+                        ResourceManager.toRealURL(currentPage.getLayoutResourceURL())));
+
         mLynxView.setBackgroundColor(Color.WHITE);
         mActivity.setContentView(mLynxView);
     }

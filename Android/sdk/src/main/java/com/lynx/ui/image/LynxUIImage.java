@@ -32,7 +32,7 @@ public class LynxUIImage
     private boolean mIsAttachedToWindow = false;
     // Helping make sure is a image has been set.
     private boolean mHasImageSet = true;
-    private boolean mHasBindData = false;
+    private boolean mHasBindData;
     private LoadedInfo mLoadedInfo;
     private PlaceHolderLoadedListener mPlaceHolderLoadedListener;
     // For detecting whether the same url should be set more than once.

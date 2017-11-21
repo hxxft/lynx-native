@@ -9,7 +9,6 @@
 #include "render/render_tree_host.h"
 #include "render/impl/render_object_impl.h"
 #include "render/impl/render_command.h"
-#include "render/touch/touch_event.h"
 
 namespace lynx {
 
@@ -74,12 +73,12 @@ void RenderObject::GetVisibleChildren(
     }
 }
 
-int RenderObject::GetVisibleChildrenLength(RenderObject* child) {
+int RenderObject::GetVisibleChildrenLength(RenderObject* renderer) {
     int length = 0;
-    if (!child->IsInvisible()) {
+    if (!renderer->IsInvisible()) {
         length++;
     } else {
-        RenderObject* child = static_cast<RenderObject*>(child->FirstChild());
+        RenderObject* child = static_cast<RenderObject*>(renderer->FirstChild());
         while (child) {
             length += GetVisibleChildrenLength(child);
             child = static_cast<RenderObject*>(child->Next());
@@ -241,9 +240,8 @@ void RenderObject::SetAttribute(const std::string &key,
     if (!IsInvisible()) {
         RenderCommand* cmd = lynx_new RendererAttrUpdateCommand(impl(), key, value, RenderCommand::CMD_SET_ATTR);
         render_tree_host_->UpdateRenderObject(cmd);
-
-        attributes_[key] = value;
     }
+    attributes_[key] = value;
 }
 
 bool RenderObject::HasAttribute(const std::string &key) {
@@ -410,37 +408,6 @@ void RenderObject::RemoveFixedChild(RenderObject* fixed_child) {
                                                               RenderCommand::CMD_ADD_VIEW);
         render_tree_host_->UpdateRenderObject(cmd_move_to_parent);
     }
-}
-
-void RenderObject::PerformTouch(TouchEvent* event) {
-    auto it = event_listener_map_.find(event->touch_event_type());
-    if (it != event_listener_map_.end()) {
-        jscore::LynxArray* array = lynx_new jscore::LynxArray();
-        jscore::LynxValue *value = jscore::LynxValue::MakeObjectTemplate(event);
-        array->Push(value);
-        DispatchEvent(event->touch_event_type(), jscore::LynxValue::MakeArrayScoped(array));
-    }
-}
-
-void RenderObject::PerformMotion(TouchEvent* event) {
-    auto it = event_listener_map_.find(event->motion_event_type());
-    if (it != event_listener_map_.end()) {
-        jscore::LynxArray* array = lynx_new jscore::LynxArray();
-        jscore::LynxValue* value = jscore::LynxValue::MakeObjectTemplate(event);
-        array->Push(value);
-        DispatchEvent(event->motion_event_type(), jscore::LynxValue::MakeArrayScoped(array));
-    }
-}
-
-void RenderObject::OnCapturingTouchEvent(TouchEvent* event) {
-}
-
-bool RenderObject::IsEventListenerEmpty() {
-    return event_listener_map_.empty();
-}
-
-const std::vector<RenderObject*> RenderObject::GetFixedNodes() {
-    return fixed_children_;
 }
 
 }  // namespace lynx

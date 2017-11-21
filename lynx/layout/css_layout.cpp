@@ -1030,7 +1030,7 @@ namespace lynx {
         }
 
         if (!CSS_IS_UNDEFINED(style->top_) && !CSS_IS_UNDEFINED(style->bottom_)) {
-            if (CSS_IS_UNDEFINED(style->width_)) {
+            if (CSS_IS_UNDEFINED(style->height_)) {
                 t = style->top_ + style->margin_top_ + parentStyle->border_width_;
                 b = height - style->bottom_ - style->margin_bottom_ + parentStyle->border_width_;
                 if (t > b) {

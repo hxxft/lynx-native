@@ -6,6 +6,8 @@
 #include "net/url_parser.h"
 
 namespace loader {
+    
+    const static std::string ASSETS_PROTOCOL = "Assets:";
 
     static std::string ToCompleteUrl(const std::string& url, const std::string& ref_url) {
         if (ref_url.empty()) {
@@ -14,21 +16,23 @@ namespace loader {
 
         net::URLParser parser(ref_url);
         std::string converted_url = parser.URLWithoutParams();
-
-        if (strncmp(url.c_str(), "http", 4) == 0) {
-            converted_url = url;
-        } else if (strncmp(url.c_str(), "./", 2) == 0) {
-            converted_url = url.substr(1, url.size());
-            converted_url = parser.BaseUrl() + converted_url;
-        } else if (strncmp(url.c_str(), "/", 1) == 0) {
-            converted_url = parser.BaseUrl() + url;
+        
+        if(parser.URLProtocol() == ASSETS_PROTOCOL) {
+            converted_url = converted_url.substr(0, converted_url.find_last_of('/')) + url;
         } else {
-            converted_url = parser.URLWithoutParams() + "/" + url;
+            if (strncmp(url.c_str(), "http", 4) == 0) {
+                converted_url = url;
+            } else if (strncmp(url.c_str(), "./", 2) == 0) {
+                converted_url = url.substr(1, url.size());
+                converted_url = parser.BaseUrl() + converted_url;
+            } else if (strncmp(url.c_str(), "/", 1) == 0) {
+                converted_url = parser.BaseUrl() + url;
+            } else {
+                converted_url = parser.URLWithoutParams() + "/" + url;
+            }
         }
-
         return converted_url;
     }
-
 }
 
 #endif // LYNX_LOADER_UTILS_H_

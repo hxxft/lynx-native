@@ -3,6 +3,7 @@
 #import "LynxView.h"
 #import "LynxUIBody.h"
 #import "LynxRenderObjectImpl.h"
+#import "LynxFilePathUtility.h"
 
 #include "runtime/jsc/jsc_runtime.h"
 #include "layout/css_style.h"
@@ -64,10 +65,12 @@ using namespace lynx;
     }
 }
 
--(void) loadHTMLFile:(NSString*)htmlFile
+-(void) loadPage:(NSString*)pagePath
 {
-    if (nil != htmlFile) {
-        NSString* file = [[NSBundle mainBundle] pathForResource:htmlFile ofType:@"html"];
+    if (nil != pagePath) {
+        NSString* pageLayoutPath = [pagePath stringByAppendingString:@"index.html"];
+
+        NSString* file = [LynxFilePathUtility toFilePath:pageLayoutPath];
         NSData* fileData = [NSData dataWithContentsOfFile:file];
         if (nil != fileData && fileData.length > 0)
         {
@@ -75,7 +78,7 @@ using namespace lynx;
                                                            encoding:NSUTF8StringEncoding];
             if (nil != htmlString && htmlString.length > 0)
             {
-                [self loadHTMLData:htmlString];
+                [_runtime loadHtml:pagePath withSource:htmlString];
             }
         }
     }

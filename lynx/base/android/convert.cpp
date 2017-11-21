@@ -107,6 +107,7 @@ android::ScopedLocalJavaRef<jobject>  Convert::PositionConvert(
 #define PADDING_TOP_FIELD "mPaddingTop", "I"
 #define PADDING_BOTTOM_FIELD "mPaddingBottom", "I"
 #define POSITION_TYPE_FIELD "mPositionType", "I"
+#define OBJECT_FIT_TYPE_FIELD "mObjectFit", "I"
 
 jclass Convert::style_class_ = nullptr;
 jmethodID Convert::style_constructor_ = 0;
@@ -133,6 +134,7 @@ jfieldID Convert::padding_left_field_ = 0;
 jfieldID Convert::padding_top_field_ = 0;
 jfieldID Convert::padding_bottom_field_ = 0;
 jfieldID Convert::position_type_field_ = 0;
+jfieldID Convert::object_fit_field_ = 0;
 
 android::ScopedLocalJavaRef<jobject>  Convert::StyleConvert(
     const lynx::CSSStyle& style) {
@@ -168,6 +170,7 @@ android::ScopedLocalJavaRef<jobject>  Convert::StyleConvert(
     env->SetIntField(style_obj, padding_top_field_, style.padding_top_);
     env->SetIntField(style_obj, padding_bottom_field_, style.padding_bottom_);
     env->SetIntField(style_obj, position_type_field_, style.css_position_type_);
+    env->SetIntField(style_obj, object_fit_field_, style.css_object_fit_);
     base::android::CheckException(env);
 
     return android::ScopedLocalJavaRef<jobject>(env, style_obj);
@@ -216,6 +219,7 @@ void Convert::BindingJavaClass(JNIEnv* env) {
         padding_top_field_ = env->GetFieldID(style_class_, PADDING_TOP_FIELD);
         padding_bottom_field_ = env->GetFieldID(style_class_, PADDING_BOTTOM_FIELD);
         position_type_field_ = env->GetFieldID(style_class_, POSITION_TYPE_FIELD);
+        object_fit_field_ = env->GetFieldID(style_class_, OBJECT_FIT_TYPE_FIELD);
     }
     base::android::CheckException(env);
 }

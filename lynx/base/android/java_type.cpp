@@ -157,6 +157,11 @@ void JType::SetLynxObjectProperties(JNIEnv *env, jobject jjsobj, jobject array) 
     env->CallVoidMethod(jjsobj, lynx_object_set_properties_method, array);
 }
 
+void JType::SetLynxObjectProperty(JNIEnv *env, jobject jjsobj, jobject key, jobject value) {
+    EnsureInstance(env, Type::LynxObject);
+    env->CallVoidMethod(jjsobj, lynx_object_set_property_method, key, value);
+}
+
 ScopedLocalJavaRef<jobject> JType::GetLynxObjectProperties(JNIEnv *env, jobject jjsobj) {
     EnsureInstance(env, Type::LynxObject);
     jobject result = env->CallObjectMethod(jjsobj, lynx_object_get_properties_method);
@@ -335,6 +340,10 @@ void JType::Init(JNIEnv* env, Type type) {
                 lynx_object_clazz, "setProperties",
                 "(Lcom/lynx/core/base/LynxArray;)V");
 
+            lynx_object_set_property_method = env->GetMethodID(
+                lynx_object_clazz, "setProperty",
+                "(Ljava/lang/Object;Ljava/lang/Object;)V");
+
             lynx_object_get_properties_method = env->GetMethodID(
                 lynx_object_clazz, "getProperties",
                 "()Lcom/lynx/core/base/LynxArray;");
@@ -390,6 +399,7 @@ jmethodID JType::lynx_array_length_method;
 jclass JType::lynx_object_clazz;
 jmethodID JType::lynx_object_ctor;
 jmethodID JType::lynx_object_set_properties_method;
+jmethodID JType::lynx_object_set_property_method;
 jmethodID JType::lynx_object_get_properties_method;
 
 }  // namespace android

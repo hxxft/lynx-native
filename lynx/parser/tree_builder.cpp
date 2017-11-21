@@ -36,7 +36,7 @@ namespace parser {
             RenderToken::Attribute* attr = token.attributes()[i];
             if(attr->name_ == tag_attr && attr->value_ != body_tag) {
                 *renderer = lynx::RenderFactory::CreateRenderObject(
-                        thread_manager_, attr->value_, tree_host_);
+                        runtime_->thread_manager(), attr->value_, tree_host_);
             }else if(attr->name_ == style_attr) {
                 styles.push_back(&attr->value_);
             }else if(attr->name_ == id_attr) {
@@ -61,7 +61,7 @@ namespace parser {
 
         if(token.tag_name() == body_tag) {
             renderer = lynx::RenderFactory::CreateRenderObject(
-                    thread_manager_, token.tag_name(), tree_host_);
+                    runtime_->thread_manager(), token.tag_name(), tree_host_);
 
             lynx::RenderObject* body = tree_host_->render_root();
             ProcessStartToken(token, &body);
@@ -92,7 +92,7 @@ namespace parser {
                 RenderToken::Attribute* attr = token.attributes()[i];
                 if(attr->name_ == src_attr) {
                     std::string url = attr->value_;
-                    tree_host_->context()->runtime()->LoadScript(url,loader::LynxLoader::SCRIPT_FILE);
+                    runtime_->LoadScript(url,loader::LynxLoader::SCRIPT_FILE);
                 }
             }
             return;
@@ -112,7 +112,7 @@ namespace parser {
         if(renderer_stack_.empty()) return;
         lynx::RenderObject* renderer = renderer_stack_.top();
         lynx::RenderObject* text_node = lynx::RenderFactory::CreateRenderObject(
-                thread_manager_, "text", tree_host_);
+                runtime_->thread_manager(), "text", tree_host_);
         if(renderer &&  text_node
            && renderer->render_object_type()
               == lynx::RenderObjectType::LYNX_LABEL) {

@@ -14,9 +14,9 @@ namespace parser {
     class TreeBuilder {
     public:
         TreeBuilder(lynx::RenderTreeHost* tree_host,
-                    jscore::ThreadManager* thread_manager) :
+                    jscore::Runtime* runtime) :
                 tree_host_(tree_host),
-                thread_manager_(thread_manager){
+                runtime_(runtime){
             
         }
         
@@ -39,7 +39,7 @@ namespace parser {
         
         
         lynx::RenderTreeHost* tree_host_;
-        jscore::ThreadManager* thread_manager_;
+        jscore::Runtime* runtime_;
         std::stack<lynx::RenderObject*> renderer_stack_;
         StyleParser style_parser_;
         

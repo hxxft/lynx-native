@@ -41,13 +41,16 @@ namespace jscore {
     }
 
     void Runtime::LoadUrl(const std::string& url, int type) {
+        if(type == loader::LynxLoader::MAIN_FILE) {
+            render_tree_host_->set_page_location(url);
+        }
         loader_->Load(url, type);
         thread_manager_->RunOnJSThread(
                 base::Bind(&Runtime::LoadUrlOnJSThread, weak_ptr_, url));
     }
 
     void Runtime::LoadScript(const std::string& url, int type) {
-        std::string transformed_url = loader::ToCompleteUrl(url, context_->GetPageUrl());
+        std::string transformed_url = render_tree_host_->page_location() + url;
         loader_->Load(transformed_url, type);
     }
 
@@ -63,12 +66,12 @@ namespace jscore {
 
 
     void Runtime::LoadHTML(const std::string& url, const std::string& html) {
-        context_->LoadUrl(url);
+        render_tree_host_->set_page_location(url);
         LoadHTML(html);
     }
 
     void Runtime::LoadHTML(const std::string& html) {
-        parser::RenderParser parser(render_tree_host(), thread_manager());
+        parser::RenderParser parser(render_tree_host(), this);
         parser.Insert(html);
         render_tree_host()->ForceFlushCommands();
         render_tree_host()->host_impl()->SetParseFinished();
@@ -130,6 +133,7 @@ namespace jscore {
     }
 
     std::string Runtime::GetPageUrl() {
-        return context_->GetPageUrl();
+        return render_tree_host()->page_location();
+//        return context_->GetPageUrl();
     }
 }  // namespace jscore

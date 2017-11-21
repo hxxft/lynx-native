@@ -1,6 +1,9 @@
 // Copyright 2017 The Lynx Authors. All rights reserved.
 
 #import "AppDelegate.h"
+#import "LynxResourceManager.h"
+#import "LynxApplicationInfo.h"
+#import "LynxViewController.h"
 
 @interface AppDelegate ()
 
@@ -15,10 +18,19 @@
     self.window.backgroundColor = [UIColor whiteColor];
     [[UINavigationBar appearance]setBarTintColor:[UIColor whiteColor]];
     [[UINavigationBar appearance]setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor blackColor]}];
-    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Demo" bundle:nil];
-    UINavigationController *navController = [[UINavigationController alloc]initWithRootViewController:storyboard.instantiateInitialViewController];
+//    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Demo" bundle:nil];
+//    UINavigationController *navController = [[UINavigationController alloc]initWithRootViewController:storyboard.instantiateInitialViewController];
+    
+    NSURL* url = [[LynxResourceManager instance] toResourceURL:@"Asset://manifest.json"];
+    NSDictionary* dict = [[LynxResourceManager instance].reader readResourceAsJSON:url];
+    LynxApplicationInfo* appInfo = [[LynxApplicationInfo alloc]initWithManifest:dict];
+    
+    UINavigationController *navController = [[UINavigationController alloc]initWithRootViewController:[[LynxViewController alloc] initWithName:appInfo.mainPage]];
     self.window.rootViewController = navController;
     [self.window makeKeyAndVisible];
+    
+    
+    
     return YES;
 }
 

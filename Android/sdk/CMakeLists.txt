@@ -12,7 +12,7 @@ add_definitions(-DDEBUG_MEMORY=0)
 #set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall")
 
 # strip lib
-set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -s")
+#set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -s")
 
 
 include_directories(${CMAKE_SOURCE_DIR}/../../lynx
@@ -25,7 +25,11 @@ include_directories(${CMAKE_SOURCE_DIR}/../../lynx
                     ${CMAKE_SOURCE_DIR}/../../lynx/third_party/jsoncpp/src/lib_json
                     ${CMAKE_SOURCE_DIR}/../../lynx/third_party/jsoncpp/include
                     ${CMAKE_SOURCE_DIR}/../../lynx/third_party/JavaScriptCore
+                    ${CMAKE_SOURCE_DIR}/../../lynx/lepus
                    )
+
+aux_source_directory(${CMAKE_SOURCE_DIR}/../../lynx/lepus
+                     LEPUS_SOURCE_FILES)
 
 add_library(lynx SHARED
                 ${CMAKE_SOURCE_DIR}/../../lynx/base/android/java_type.cpp
@@ -36,6 +40,7 @@ add_library(lynx SHARED
                 ${CMAKE_SOURCE_DIR}/../../lynx/base/android/scoped_java_ref.cpp
                 ${CMAKE_SOURCE_DIR}/../../lynx/base/debug/memory_debug.cpp
                 ${CMAKE_SOURCE_DIR}/../../lynx/base/debug/memory_tracker.cpp
+                ${CMAKE_SOURCE_DIR}/../../lynx/base/debug/timing_tracker.cpp
                 ${CMAKE_SOURCE_DIR}/../../lynx/base/observer/observer_list.cpp
             	${CMAKE_SOURCE_DIR}/../../lynx/base/threading/thread.cpp
             	${CMAKE_SOURCE_DIR}/../../lynx/base/threading/message_loop.cpp
@@ -71,8 +76,6 @@ add_library(lynx SHARED
             	${CMAKE_SOURCE_DIR}/../../lynx/render/impl/render_object_impl.cpp
             	${CMAKE_SOURCE_DIR}/../../lynx/render/impl/render_command.cpp
             	${CMAKE_SOURCE_DIR}/../../lynx/render/impl/command_collector.cpp
-            	${CMAKE_SOURCE_DIR}/../../lynx/render/touch/touch_dispatcher.cpp
-            	${CMAKE_SOURCE_DIR}/../../lynx/render/touch/touch_event.cpp
             	${CMAKE_SOURCE_DIR}/../../lynx/layout/css_color.cpp
             	${CMAKE_SOURCE_DIR}/../../lynx/layout/css_style.cpp
             	${CMAKE_SOURCE_DIR}/../../lynx/layout/css_layout.cpp
@@ -129,7 +132,14 @@ add_library(lynx SHARED
 
             	${CMAKE_SOURCE_DIR}/../../lynx/third_party/jsoncpp/src/lib_json/json_reader.cpp
             	${CMAKE_SOURCE_DIR}/../../lynx/third_party/jsoncpp/src/lib_json/json_value.cpp
-            	${CMAKE_SOURCE_DIR}/../../lynx/third_party/jsoncpp/src/lib_json/json_writer.cpp)
+            	${CMAKE_SOURCE_DIR}/../../lynx/third_party/jsoncpp/src/lib_json/json_writer.cpp
+
+            	${CMAKE_SOURCE_DIR}/../../lynx/render/android/jni_coordinator_bridge.cpp
+            	${CMAKE_SOURCE_DIR}/../../lynx/render/coordinator/coordinator_action.cpp
+            	${CMAKE_SOURCE_DIR}/../../lynx/render/coordinator/coordinator_executor.cpp
+
+            	${LEPUS_SOURCE_FILES}
+            	)
 
 
 

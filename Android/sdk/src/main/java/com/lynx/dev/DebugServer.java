@@ -18,7 +18,7 @@ public class DebugServer {
     private final static int DEVDEBUG_COMMAND_RELOAD = 1;
 
     private static int PORT = 8000;
-    private static String DebugURL = "http://127.0.0.1:3000";
+    private static String DebugURL = "Debug://";
 
     private ServerSocket mServerSocket;
     private DebugDevHost mHost;

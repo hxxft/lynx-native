@@ -30,9 +30,10 @@ class RenderFactory {
         RenderTreeHost* host) {
         static uint64_t id = 10;
         if (tag.compare("body") == 0) {
-            RenderObject*renderer = lynx_new ListView("listview", ++id, host);
-            host->render_root()->AppendChild(renderer);
-            return renderer;
+//            RenderObject*renderer = lynx_new ListView("listview", ++id, host);
+//            host->render_root()->AppendChild(renderer);
+//            return renderer;
+            return host->render_root();
         } else if (tag.compare("view") == 0) {
             return lynx_new View("view", ++id, NULL, host);
         } else if (tag.compare("label") == 0) {
@@ -44,7 +45,7 @@ class RenderFactory {
         } else if (tag.compare("listview-shadow") == 0) {
             return lynx_new ListShadow("listview-shadow", ++id, host);
         } else if (tag.compare("viewstub") == 0) {
-            return lynx_new ViewStub(manager, "layoutview", ++id, host);
+            return lynx_new ViewStub(manager, "viewstub", ++id, host);
         } else if (tag.compare("img") == 0) {
             return lynx_new ImageView("img", ++id, host);
         } else if (tag.compare("scrollview") == 0) {

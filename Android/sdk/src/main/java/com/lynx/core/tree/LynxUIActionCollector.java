@@ -1,43 +1,29 @@
 // Copyright 2017 The Lynx Authors. All rights reserved.
 package com.lynx.core.tree;
 
-import android.util.SparseArray;
-
 import com.lynx.core.impl.RenderObjectImpl;
 
 import java.util.HashMap;
-import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.Map;
 
-public class LynxUIActionCollector {
+/* package */  class LynxUIActionCollector {
 
-    private Map<RenderObjectImpl, Map<String, LynxUIAction>> mEventActions;
-    private Map<RenderObjectImpl, SparseArray<LynxUIAction>> mUpdateDataActions;
+    private Map<RenderObjectImpl, Map<String, LynxUIAction.UnorderedAction>> mActionsMap;
+    private LinkedList<LynxUIAction.OrderedAction> mActionsList;
 
-    public LynxUIActionCollector() {
-        mEventActions = new LinkedHashMap<>();
-        mUpdateDataActions = new LinkedHashMap<>();
+    /* package */  LynxUIActionCollector() {
+        mActionsMap = new HashMap<>();
+        mActionsList = new LinkedList<>();
     }
 
     public void collect(LynxUIAction action) {
         switch (action.type()) {
-            case DO_EVENT_ACTION: {
-                Map<String, LynxUIAction> actions = mEventActions.get(action.target());
-                if (actions == null) {
-                    actions = new HashMap<>();
-                    mEventActions.put(action.target(), actions);
-                }
-                actions.put(((LynxUIEventAction) action).event(), action);
-            }
+            case DO_ORDERED_ACTION:
+                collectOrderedAction((LynxUIAction.OrderedAction) action);
                 break;
-            case DO_UPDATE_DATA_ACTION: {
-                SparseArray<LynxUIAction> actions = mUpdateDataActions.get(action.target());
-                if (actions == null) {
-                    actions = new SparseArray<>();
-                    mUpdateDataActions.put(action.target(), actions);
-                }
-                actions.put(((LynxUIUpdateDataAction) action).key().value(), action);
-            }
+            case DO_UNORDERED_ACTION:
+                collectUnorderedAction((LynxUIAction.UnorderedAction) action);
                 break;
             case DO_EVENT_NONE:
             default:
@@ -45,30 +31,50 @@ public class LynxUIActionCollector {
         }
     }
 
-    public boolean needDoActions() {
-        return !(mEventActions.isEmpty() && mUpdateDataActions.isEmpty());
+    private void collectOrderedAction(LynxUIAction.OrderedAction action) {
+        if (!action.canCoalesce()) {
+            mActionsList.add(action);
+            return;
+        }
+        LynxUIAction.OrderedAction last = mActionsList.getLast();
+        if ( action.target() == last.target()
+                && last.getCoalescingKey() == action.getCoalescingKey()) {
+            mActionsList.removeLast();
+            mActionsList.add(action);
+        }
     }
 
-    public void doActions() {
-        for (Map.Entry<RenderObjectImpl, SparseArray<LynxUIAction>> entry
-                : mUpdateDataActions.entrySet()) {
-
-            SparseArray<LynxUIAction> actions = entry.getValue();
-            for (int i = 0; i < actions.size(); ++i) {
-                LynxUIAction action = actions.valueAt(i);
-                action.doAction();
-            }
+    private void collectUnorderedAction(LynxUIAction.UnorderedAction action) {
+        Map<String, LynxUIAction.UnorderedAction> actions = mActionsMap.get(action.target());
+        if (actions == null) {
+            actions = new HashMap<>();
+            mActionsMap.put(action.target(), actions);
         }
-        for (Map.Entry<RenderObjectImpl, Map<String, LynxUIAction>> entry1
-                : mEventActions.entrySet()) {
+        actions.put(action.key(), action);
+    }
 
-            Map<String, LynxUIAction> actions = entry1.getValue();
+    /* package */ boolean needDoActions() {
+        return !(mActionsList.isEmpty() && mActionsMap.isEmpty());
+    }
 
-            for (Map.Entry<String, LynxUIAction> entry2 : actions.entrySet()) {
+    /* package */  void doActions() {
+        for (Map.Entry<RenderObjectImpl,  Map<String, LynxUIAction.UnorderedAction>> entry
+                : mActionsMap.entrySet()) {
+
+            Map<String, LynxUIAction.UnorderedAction> actions = entry.getValue();
+            for (Map.Entry<String, LynxUIAction.UnorderedAction> entry2 : actions.entrySet()) {
                 LynxUIAction action = entry2.getValue();
                 action.doAction();
             }
         }
+
+        for (int i = 0; i < mActionsList.size(); ++i) {
+            LynxUIAction action = mActionsList.get(i);
+            action.doAction();
+        }
+
+        mActionsMap.clear();
+        mActionsList.clear();
     }
 
 }

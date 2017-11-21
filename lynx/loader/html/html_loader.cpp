@@ -30,8 +30,8 @@ namespace loader {
                 }
                 break;
             case SCRIPT_FILE:
-                std::string url = ToCompleteUrl(data, html_url_);
-                script_loader_->Load(url, type);
+//                std::string url = ToCompleteUrl(data, html_url_);
+                script_loader_->Load(data, type);
                 break;
         }
     }

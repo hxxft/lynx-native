@@ -55,7 +55,7 @@ class RenderObject : public LayoutObject, public EventTarget {
 
     virtual void InsertBefore(RenderObject* child, RenderObject* reference);
 
-    void SetAttribute(const std::string& key, const std::string& value);
+    virtual void SetAttribute(const std::string& key, const std::string& value);
     bool HasAttribute(const std::string& key);
     void RemoveAttribute(const std::string& key);
 
@@ -141,27 +141,21 @@ class RenderObject : public LayoutObject, public EventTarget {
         return GetTarget();
     }
 
-    void PerformTouch(TouchEvent* event);
-    void PerformMotion(TouchEvent* event);
-    void OnCapturingTouchEvent(TouchEvent* event);
-    bool IsEventListenerEmpty();
-    const std::vector<RenderObject*> GetFixedNodes();
-
     uint64_t id() {
         return id_;
     }
-
 
     enum RENDER_OBJECT_ATTRS {
         SCROLL_TOP,
         SCROLL_LEFT,
         GET_TEXT,
         TEXT_LAYOUT,
+        ANIMATE_PROPS,
     };
 protected:
     void GetVisibleChildren(RenderObject *renderer,
                             std::vector<RenderObject *> &visible_chidren);
-    int GetVisibleChildrenLength(RenderObject* child);
+    int GetVisibleChildrenLength(RenderObject* renderer);
     void RecalculateLayoutPosition(base::Position &position);
     void HandleFixedStyle();
     void AddFixedChildIfHave(RenderObject* child);

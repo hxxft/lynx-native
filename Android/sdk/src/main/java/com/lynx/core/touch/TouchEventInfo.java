@@ -1,48 +1,103 @@
 // Copyright 2017 The Lynx Authors. All rights reserved.
-
 package com.lynx.core.touch;
 
-import com.lynx.core.base.LynxArray;
+import android.view.MotionEvent;
 
-public class TouchEventInfo extends LynxArray {
+public class TouchEventInfo {
 
-    private long mTimeStamp;
-    private TouchAxis mTouchAxis;
-    private TouchEventType mTouchEventType;
-    private MotionEventType mMotionType;
+    public final static String START = "touchstart";
+    public final static String MOVE = "touchmove";
+    public final static String END = "touchend";
+    public final static String CANCEL = "touchcancel";
+    public final static String NOTHING = "nothing";
 
-    public TouchEventInfo(float x, float y, long timeStamp,
-                          TouchEventType touchEventType, MotionEventType motionType) {
-        this.mTouchAxis = new TouchAxis();
-        this.mTouchAxis.x = x;
-        this.mTouchAxis.y = y;
-        this.mTimeStamp = timeStamp;
-        this.mTouchEventType = touchEventType;
-        this.mMotionType = motionType;
+    private TouchAxis[] mTouchAxisList;
+    private String mTouchType;
+    private int mActionIndex;
+    // Only for distinguishing pointer for START and END
+    private int mPointerID;
+    private int mPointerCount;
 
-        add(mTouchAxis.x);
-        add(mTouchAxis.y);
-        add(mTimeStamp);
-        add(mTouchEventType.getEventName());
-        add(mMotionType.getEventName());
-    }
+    private MotionEvent mAndroidEvent;
 
-    public long getTimeStamp() {
-        return mTimeStamp;
+    public TouchEventInfo(MotionEvent event) {
+
+        mAndroidEvent = event;
+
+        String touchEventType = TouchEventInfo.NOTHING;
+        int action = (event.getAction() & MotionEvent.ACTION_MASK);
+        switch (action) {
+            case MotionEvent.ACTION_DOWN:
+            case MotionEvent.ACTION_POINTER_DOWN:
+                touchEventType = TouchEventInfo.START;
+                break;
+            case MotionEvent.ACTION_UP:
+            case MotionEvent.ACTION_POINTER_UP:
+                touchEventType = TouchEventInfo.END;
+                break;
+            case MotionEvent.ACTION_MOVE:
+                touchEventType = TouchEventInfo.MOVE;
+                break;
+            case MotionEvent.ACTION_CANCEL:
+                touchEventType = TouchEventInfo.CANCEL;
+                break;
+            default:
+                break;
+        }
+
+        mActionIndex = event.getActionIndex();
+        mPointerID = event.getPointerId(event.getActionIndex());
+        mPointerCount = event.getPointerCount();
+        mTouchAxisList = new TouchAxis[event.getPointerCount()];
+        for (int i = 0; i < event.getPointerCount(); i++) {
+            mTouchAxisList[i] = new TouchAxis();
+            mTouchAxisList[i].x = event.getX(i);
+            mTouchAxisList[i].y = event.getY(i);
+        }
+        mTouchType = touchEventType;
     }
 
     public float getX() {
-        return mTouchAxis.x;
+        return mTouchAxisList[mActionIndex].x;
     }
+
     public float getY() {
-        return mTouchAxis.y;
+        return mTouchAxisList[mActionIndex].y;
     }
 
-    public String getTouchEventType() {
-        return mTouchEventType.getEventName();
+    public float getX(int index) {
+        return mTouchAxisList[index].x;
     }
 
-    public String getMotionType() {
-        return mMotionType.getEventName();
+    public float getY(int index) {
+        return mTouchAxisList[index].y;
+    }
+
+    public TouchAxis getAxis(int index) {
+        return mTouchAxisList[index];
+    }
+
+    public TouchAxis getAxis() {
+        return mTouchAxisList[mActionIndex];
+    }
+
+    public String getType() {
+        return mTouchType;
+    }
+
+    public int getActionIndex() {
+        return mActionIndex;
+    }
+
+    public int getPointerID() {
+        return mPointerID;
+    }
+
+    public int getPointerCount() {
+        return mPointerCount;
+    }
+
+    public MotionEvent getAndroidEvent() {
+        return mAndroidEvent;
     }
 }

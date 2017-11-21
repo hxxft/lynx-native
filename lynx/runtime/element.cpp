@@ -4,8 +4,11 @@
 
 #include "runtime/base/lynx_value.h"
 #include "runtime/element.h"
+#include "runtime/jsc/jsc_helper.h"
 #include "runtime/base/lynx_array.h"
 #include "runtime/jsc/objects/object_template.h"
+
+#include "render/event_target.h"
 
 namespace jscore {
 
@@ -282,8 +285,8 @@ namespace jscore {
         Element *element = static_cast<Element *>(object);
         if(array.Get() != NULL && array->Size() == 2) {
             lynx::RenderObject* render_object = element->render_object();
-            render_object->SetStyle(array->Get(0)->data_.str,
-                                        array->Get(1)->data_.str);
+            render_object->SetStyle(JSCHelper::ConvertToString(array->Get(0)),
+                                    JSCHelper::ConvertToString(array->Get(1)));
         }
         return base::ScopedPtr<LynxValue>(NULL);
     }
@@ -327,6 +330,18 @@ namespace jscore {
     base::ScopedPtr<LynxValue>
     Element::StartAnimateWithCallbackCallback(LynxObjectTemplate* object,
                                               base::ScopedPtr<LynxArray> array) {
+        Element *element = static_cast<Element *>(object);
+        lynx::RenderObject* render_object = element->render_object();
+        if (array.Get() != NULL && array->Size() > 1) {
+            LynxFunction* js_function = array->Get(1)->data_.lynx_function;
+            std::string event = lynx::kAnimateEvent + js_function->GetKey();
+            //render_object->AddEventListener(event, js_function, false);
+
+            LynxObject* properties = array->Get(0)->data_.lynx_object;
+            properties->Set("name", LynxValue::MakeString(event.c_str()));
+            render_object->SetData(lynx::RenderObject::ANIMATE_PROPS, base::ScopedPtr<LynxValue>(properties));
+            array->Release();
+        }
 
         return base::ScopedPtr<LynxValue>(NULL);
     }
@@ -343,24 +358,12 @@ namespace jscore {
         return base::ScopedPtr<LynxValue>(NULL);
     }
 
-    base::ScopedPtr<LynxValue> Element::HasChildNodesCallback(LynxObjectTemplate* object, base::ScopedPtr<LynxArray> array) {
+    base::ScopedPtr<LynxValue>
+    Element::HasChildNodesCallback(LynxObjectTemplate* object, base::ScopedPtr<LynxArray> array) {
         Element* element = static_cast<Element*>(object);
         lynx::RenderObject* render_object = element->render_object();
-        lynx::RenderObject* render_child = static_cast<lynx::RenderObject*>(render_object->FirstChild());
 
-        if(render_object->GetChildCount() == 0) {
-            return base::ScopedPtr<LynxValue>(LynxValue::MakeBool(false));
-        }
-
-        while (render_child) {
-            Element* child_element = NULL;
-
-            if (!render_child->IsPrivate()) {
-                return base::ScopedPtr<LynxValue>(LynxValue::MakeBool(true));
-            }
-            render_child = static_cast<lynx::RenderObject*>(render_child->Next());
-        }
-        return base::ScopedPtr<LynxValue>(LynxValue::MakeBool(false));
+        return base::ScopedPtr<LynxValue>(LynxValue::MakeBool(render_object->GetChildCount() != 0));
     }
 
     base::ScopedPtr<LynxValue> Element::GetTagNameCallback(LynxObjectTemplate* object) {
@@ -529,7 +532,7 @@ namespace jscore {
     void Element::ProtectChild(JSContext* context, Element* child) {
         if (child->object_wrap() == NULL) {
             // Create JSObject immediately
-            jscore::JSCHelper::ConvertToJSObject(static_cast<JSCContext*>(context)->GetContext(),
+            JSCHelper::ConvertToJSObject(static_cast<JSCContext*>(context)->GetContext(),
                                                  child);
         }
         child->object_wrap()->Protect();
@@ -538,7 +541,7 @@ namespace jscore {
     void Element::UnprotectChild(JSContext* context, Element* child) {
         if (child->object_wrap() == NULL) {
             // Create JSObject immediately
-            jscore::JSCHelper::ConvertToJSObject(static_cast<JSCContext*>(context)->GetContext(),
+            JSCHelper::ConvertToJSObject(static_cast<JSCContext*>(context)->GetContext(),
                                                  child);
         }
         child->object_wrap()->Unprotect();

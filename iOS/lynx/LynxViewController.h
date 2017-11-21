@@ -2,8 +2,11 @@
 
 #import <UIKit/UIKit.h>
 
-@interface LynxViewController : UIViewController
+@interface LynxViewController : UIViewController 
 
+@property(copy) NSString* page_name_;
+
+- (id) initWithName:(NSString*) name;
 
 @end
 
