@@ -44,7 +44,7 @@ public class URLRequest {
             @Override
             public void onFailure(String error) {
                 // Called on UI thread
-                if (mDelegate != 0 && !error.isEmpty()) {
+                if (mDelegate != 0 && error != null && !error.isEmpty()) {
                     nativeOnFailed(mDelegate, url, error);
                 }
             }

@@ -58,7 +58,7 @@ public class Style {
     public int mTextDecoration;
     public int mLineHeight;
 
-    //for iamge
+    //for image
     public int mObjectFit;
 
     public int mPaddingLeft;

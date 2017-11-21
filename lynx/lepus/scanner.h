@@ -12,7 +12,7 @@
 #include "base/scoped_ptr.h"
 #include "lepus/token.h"
 #include "parser/input_stream.h"
-#include "lepus/string.h"
+#include "lepus/lepus_string.h"
 
 namespace lepus {
     class Scanner {

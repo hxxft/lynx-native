@@ -76,6 +76,7 @@ void CSSStyle::Initialize(CSSStyleConfig* config) {
     (*func_map)["text-decoration"] = &CSSStyle::SetTextDecoration;
     (*func_map)["display"] = &CSSStyle::SetDisplayType;
     (*func_map)["objectFit"] = &CSSStyle::SetObjectFit;
+    (*func_map)["object-fit"] = &CSSStyle::SetObjectFit;
     (*func_map)["zIndex"] = &CSSStyle::SetZIndex;
     (*func_map)["z-index"] = &CSSStyle::SetZIndex;
     (*func_map)["line-height"] = &CSSStyle::SetLineHeight;

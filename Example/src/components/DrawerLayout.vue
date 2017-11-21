@@ -6,15 +6,17 @@
       :style="{marginLeft: changedMarginLeft}"
       @touchstart="onTouchStart"
       @touchend="onTouchEnd"
+      @touchcancel="onTouchEnd"
       @touchmove="onTouchMove">
       <slot></slot>
     </view>
     <view
       class="gray"
-      :style="{opacity: changedOpacity}"
+      :style="{opacity: changedOpacity, width: grayMaskWidth}"
       @click="onOutSideClick"
       @touchstart="onTouchStart"
       @touchend="onTouchEnd"
+      @touchcancel="onTouchEnd"
       @touchmove="onTouchMove">
     </view>
   </view>
@@ -55,7 +57,11 @@ export default {
       startX: 0,
       changedOpacity: this.defaultCloseStateOpacity,
       state: this.closeState,
-      dragEnable: false
+      dragEnable: false,
+      maskEnabled: false,
+      grayMaskMinWidth: '1',
+      grayMaskMaxWidth: '750',
+      grayMaskWidth: '1'
     }
   },
   methods: {
@@ -63,11 +69,14 @@ export default {
       this.state = this.openState
       this.changedMarginLeft = this.defaultOpenStateMarginLeft
       this.changedOpacity = this.defaultOpenStateOpacity
+      this.maskEnabled = true
     },
     closeDrawer() {
       this.state = this.closeState
       this.changedMarginLeft = this.defaultCloseStateMarginLeft
       this.changedOpacity = this.defaultCloseStateOpacity
+      this.maskEnabled = false
+      this.grayMaskWidth = this.grayMaskMinWidth
     },
     onTouchStart(e) {
       this.startX = e.touches[0].clientX
@@ -76,6 +85,7 @@ export default {
         this.dragEnable = false
       } else {
         this.dragEnable = true
+        this.grayMaskWidth = this.grayMaskMaxWidth
       }
     },
     onTouchEnd(e) {

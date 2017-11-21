@@ -1,5 +1,5 @@
 
-#include "lepus/string.h"
+#include "lepus/lepus_string.h"
 #include <iostream>
 namespace lepus{
     
