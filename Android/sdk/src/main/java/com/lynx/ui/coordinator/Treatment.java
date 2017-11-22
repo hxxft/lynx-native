@@ -28,7 +28,7 @@ public class Treatment {
         mCommand = new CoordinatorCommands(content);
     }
 
-    public void init(CommandExecutor executor, int tag) {
+    public void init(CommandExecutor executor, String tag) {
         if (!mInit) {
             mInit = true;
             CoordinatorResult result = executor.executeCommand(COMMAND_INIT, tag);
@@ -54,7 +54,7 @@ public class Treatment {
         String command = mCommand.getCommand(CoordinatorTypes.SCROLL);
         if (command == null) return;
         CoordinatorResult result = executor.executeCommand(command,
-                tag != null ? Integer.valueOf(tag) : 0,
+                tag,
                 PixelUtil.pxToLynxNumber(scrollTop),
                 PixelUtil.pxToLynxNumber(scrollLeft));
         mCResultExecutor.execute(result);
@@ -67,7 +67,7 @@ public class Treatment {
         String command = mCommand.getCommand(CoordinatorTypes.TOUCH);
         if (command == null) return;
         CoordinatorResult result = executor.executeCommand(command,
-                tag != null ? Integer.valueOf(tag) : 0,
+                tag,
                 PixelUtil.pxToLynxNumber(touchX),
                 PixelUtil.pxToLynxNumber(touchY));
         mCResultExecutor.execute(result);

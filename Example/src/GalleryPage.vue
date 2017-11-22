@@ -9,22 +9,22 @@
           <img
             class="img-show"
             :src="firstBgImg"
-            coordinator-affinity="touch"
-            coordinator-tag="201"
+            coordinator-affinity="responderAffinity"
+            coordinator-tag="firstBgImg"
             coordinator-command="touch:onTouchEventForBg"
             ></img>
           <img
             class="img-show"
             :src="secondBgImg"
-            coordinator-affinity="touch"
-            coordinator-tag="202"
+            coordinator-affinity="responderAffinity"
+            coordinator-tag="secondBgImg"
             coordinator-command="touch:onTouchEventForBg"
             ></img>
           <img
             class="img-show"
             :src="thirdBgImg"
-            coordinator-affinity="touch"
-            coordinator-tag="203"
+            coordinator-affinity="responderAffinity"
+            coordinator-tag="thirdBgImg"
             coordinator-command="touch:onTouchEventForBg"
             ></img>
           <img
@@ -33,16 +33,16 @@
         </view>
         <view
           class="scroll-wrap"
-          coordinator-affinity="touch"
-          coordinator-tag="100"
+          coordinator-affinity="sponsorAffinity"
+          coordinator-tag="scrollWrap"
           coordinator-type="touch"
           @onpagechanged="onPageChanged"
           coordinator-command="touch:onTouchEventForWrap">
           <img
             v-for="(image, index) in images"
             class="scroll-item-image"
-            coordinator-affinity="touch"
-            :coordinator-tag="index"
+            coordinator-affinity="responderAffinity"
+            :coordinator-tag="'item' + index"
             coordinator-command="touch:onTouchEventForImg"
             :src="image"></img>
         </view>
@@ -105,7 +105,7 @@ export default {
     }
   },
   mounted() {
-    LynxCoordinatorRegister.registeAction("touch", "touch", animationAction)
+    LynxCoordinatorRegister.registeAction("sponsorAffinity", "responderAffinity", animationAction)
   },
   methods: {
     onPageChanged(e) {

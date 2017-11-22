@@ -98,8 +98,7 @@ public class LynxUIBody extends LynxUIView implements TransferStation {
             Set<CoordinatorResponder> set = mCoordinatorResponders.get(responderAffinity);
             if (set != null) {
                 for (CoordinatorResponder responder : set) {
-                    responder.coordinatorTreatment().init(executor,
-                            responder.coordinatorTag() == null ? 0 : Integer.valueOf(responder.coordinatorTag()));
+                    responder.coordinatorTreatment().init(executor, responder.coordinatorTag());
                 }
             }
         }
@@ -139,8 +138,7 @@ public class LynxUIBody extends LynxUIView implements TransferStation {
         if (mExecutorPool != null) {
             CommandExecutor executor = mExecutorPool.get(responder.coordinatorAffinity());
             if (executor != null) {
-                responder.coordinatorTreatment().init(executor,
-                        responder.coordinatorTag() == null ? 0 : Integer.valueOf(responder.coordinatorTag()));
+                responder.coordinatorTreatment().init(executor, responder.coordinatorTag());
             }
         }
     }

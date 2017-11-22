@@ -25,7 +25,7 @@ public class CommandExecutor {
         }
     }
 
-    public CoordinatorResult executeCommand(String method, int tag, double... args) {
+    public CoordinatorResult executeCommand(String method, String tag, double... args) {
         if (TextUtils.isEmpty(method) || mNativePtr == 0) {
             return null;
         }
@@ -40,6 +40,6 @@ public class CommandExecutor {
 
     private static native long nativePrepare(String executable);
     private static native void nativeDestroy(long ptr);
-    private static native Object[] nativeExecute(long ptr, String method, int tag, double[] args);
+    private static native Object[] nativeExecute(long ptr, String method, String tag, double[] args);
 
 }

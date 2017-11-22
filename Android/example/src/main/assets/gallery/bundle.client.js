@@ -63,18 +63,92 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 3);
+/******/ 	return __webpack_require__(__webpack_require__.s = 9);
 /******/ })
 /************************************************************************/
 /******/ ([
 /* 0 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// Thank's IE8 for his funny defineProperty
+module.exports = !__webpack_require__(3)(function () {
+  return Object.defineProperty({}, 'a', { get: function () { return 7; } }).a != 7;
+});
+
+
+/***/ }),
+/* 1 */
+/***/ (function(module, exports) {
+
+module.exports = function (it) {
+  return typeof it === 'object' ? it !== null : typeof it === 'function';
+};
+
+
+/***/ }),
+/* 2 */
+/***/ (function(module, exports) {
+
+var core = module.exports = { version: '2.5.1' };
+if (typeof __e == 'number') __e = core; // eslint-disable-line no-undef
+
+
+/***/ }),
+/* 3 */
+/***/ (function(module, exports) {
+
+module.exports = function (exec) {
+  try {
+    return !!exec();
+  } catch (e) {
+    return true;
+  }
+};
+
+
+/***/ }),
+/* 4 */
+/***/ (function(module, exports) {
+
+// https://github.com/zloirock/core-js/issues/86#issuecomment-115759028
+var global = module.exports = typeof window != 'undefined' && window.Math == Math
+  ? window : typeof self != 'undefined' && self.Math == Math ? self
+  // eslint-disable-next-line no-new-func
+  : Function('return this')();
+if (typeof __g == 'number') __g = global; // eslint-disable-line no-undef
+
+
+/***/ }),
+/* 5 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var anObject = __webpack_require__(14);
+var IE8_DOM_DEFINE = __webpack_require__(19);
+var toPrimitive = __webpack_require__(21);
+var dP = Object.defineProperty;
+
+exports.f = __webpack_require__(0) ? Object.defineProperty : function defineProperty(O, P, Attributes) {
+  anObject(O);
+  P = toPrimitive(P, true);
+  anObject(Attributes);
+  if (IE8_DOM_DEFINE) try {
+    return dP(O, P, Attributes);
+  } catch (e) { /* empty */ }
+  if ('get' in Attributes || 'set' in Attributes) throw TypeError('Accessors not supported!');
+  if ('value' in Attributes) O[P] = Attributes.value;
+  return O;
+};
+
+
+/***/ }),
+/* 6 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (immutable) */ __webpack_exports__["a"] = createApp;
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(7);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__src_app_vue__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__src_app_vue__ = __webpack_require__(23);
 
 
 function createApp() {
@@ -87,7 +161,7 @@ function createApp() {
 }
 
 /***/ }),
-/* 1 */
+/* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7632,15 +7706,18 @@ setTimeout(function () {
 
 module.exports = Vue$3;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8), __webpack_require__(9)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(27), __webpack_require__(28)))
 
 /***/ }),
-/* 2 */
+/* 8 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__coordinator_3d_scroll_lepus__ = __webpack_require__(7);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__coordinator_3d_scroll_lepus___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__coordinator_3d_scroll_lepus__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_defineProperty__ = __webpack_require__(11);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_defineProperty___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_defineProperty__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__coordinator_3d_scroll_lepus__ = __webpack_require__(26);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__coordinator_3d_scroll_lepus___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__coordinator_3d_scroll_lepus__);
+
 //
 //
 //
@@ -7706,34 +7783,28 @@ module.exports = Vue$3;
 /* harmony default export */ __webpack_exports__["a"] = ({
   components: {},
   data: function data() {
-    return { style: { "container": { "flexDirection": "row" }, "scrollview": { "flexDirection": "column", "width": "750" }, "placeholder": { "height": "900", "width": "750" }, "img-wrap": { "position": "absolute", "width": "750", "height": "750" }, "img-show": { "position": "absolute", "width": "750", "height": "750" }, "scroll-wrap": { "position": "absolute", "flexDirection": "row", "top": "200", "width": "750", "height": "700" }, "scroll-item-image": { "borderRadius": "20", "width": "450", "height": "700", "marginLeft": "40" }, "intro-wrap": { "marginTop": "50", "marginBottom": "50", "width": "600", "alignSelf": "center", "flexDirection": "column" }, "intro-name": { "fontSize": "70", "fontWeight": "bold", "width": "200" }, "intro-content": { "marginTop": "40", "fontSize": "40", "width": "600" }, "intro-img": { "marginTop": "40", "width": "600", "height": "300" } },
-      firstBgImg: 'pic_lynx_vertical.png',
-      secondBgImg: 'pic_cat_vertical.png',
-      thirdBgImg: 'pic_tiger_vertical.png',
-      curPage: 0,
-      images: ['pic_lynx_vertical.png', 'pic_cat_vertical.png', 'pic_tiger_vertical.png', 'pic_lion_vertical.png'],
-      bgImages: ['pic_lynx_vertical.png', 'pic_cat_vertical.png', 'pic_tiger_vertical.png'],
-      animals: [{
-        name: 'Lynx',
-        intro: 'Lynx have a short tail, characteristic tufts of black hair on the tips of their ears, large, padded paws for walking on snow and long whiskers on the face. Under their neck, they have a ruff which has black bars resembling a bow tie although this is often not visible.',
-        pic: 'pic_lynx.png'
-      }, {
-        name: 'Cat',
-        intro: 'The domestic cat (Felis silvestris catus or Felis catus) is a small, typically furry, carnivorous mammal. They are often called house cats when kept as indoor pets or simply cats when there is no need to distinguish them from other felids and felines. Cats are often valued by humans for companionship and for their ability to hunt vermin. There are more than 70 cat breeds, though different associations proclaim different numbers according to their standards.',
-        pic: 'pic_cat.png'
-      }, {
-        name: 'Tiger',
-        intro: 'The tiger (Panthera tigris) is the largest cat species, most recognizable for their pattern of dark vertical stripes on reddish-orange fur with a lighter underside. The species is classified in the genus Panthera with the lion, leopard, jaguar, and snow leopard. Tigers are apex predators, primarily preying on ungulates such as deer and bovids. They are territorial and generally solitary but social animals, often requiring large contiguous areas of habitat that support their prey requirements. This, coupled with the fact that they are indigenous to some of the more densely populated places on Earth, has caused significant conflicts with humans.',
-        pic: 'pic_tiger.png'
-      }, {
-        name: 'Lion',
-        intro: 'The lion (Panthera leo) is one of the big cats in the Felidae family and a member of genus Panthera. It has been listed as Vulnerable on the IUCN Red List since 1996, as populations in African range countries declined by about 43% since the early 1990s. Lion populations are untenable outside designated protected areas. Although the cause of the decline is not fully understood, habitat loss and conflicts with humans are the greatest causes of concern. The West African lion population is listed as Critically Endangered since 2016. The only lion population in Asia survives in and around Indias Gir Forest National Park and is listed as Endangered since 1986.',
-        pic: 'pic_lion.png'
-      }]
-    };
+    var _ref;
+
+    return _ref = { style: { "container": { "flexDirection": "row" }, "scrollview": { "flexDirection": "column", "width": "750" }, "placeholder": { "height": "900", "width": "750" }, "img-wrap": { "position": "absolute", "width": "750", "height": "750" }, "img-show": { "position": "absolute", "width": "750", "height": "750" }, "scroll-wrap": { "position": "absolute", "flexDirection": "row", "top": "200", "width": "750", "height": "700" }, "scroll-item-image": { "borderRadius": "20", "width": "450", "height": "700", "marginLeft": "40" }, "intro-wrap": { "marginTop": "50", "marginBottom": "50", "width": "600", "alignSelf": "center", "flexDirection": "column" }, "intro-name": { "fontSize": "70", "fontWeight": "bold", "width": "200" }, "intro-content": { "marginTop": "40", "fontSize": "40", "width": "600" }, "intro-img": { "marginTop": "40", "width": "600", "height": "300" } } }, __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_defineProperty___default()(_ref, "style", { "container": { "flexDirection": "row" }, "scrollview": { "flexDirection": "column", "width": "750" }, "placeholder": { "height": "900", "width": "750" }, "img-wrap": { "position": "absolute", "width": "750", "height": "750" }, "img-show": { "position": "absolute", "width": "750", "height": "750" }, "scroll-wrap": { "position": "absolute", "flexDirection": "row", "top": "200", "width": "750", "height": "700" }, "scroll-item-image": { "borderRadius": "20", "width": "450", "height": "700", "marginLeft": "40" }, "intro-wrap": { "marginTop": "50", "marginBottom": "50", "width": "600", "alignSelf": "center", "flexDirection": "column" }, "intro-name": { "fontSize": "70", "fontWeight": "bold", "width": "200" }, "intro-content": { "marginTop": "40", "fontSize": "40", "width": "600" }, "intro-img": { "marginTop": "40", "width": "600", "height": "300" } }), __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_defineProperty___default()(_ref, "style", { "container": { "flexDirection": "row" }, "scrollview": { "flexDirection": "column", "width": "750" }, "placeholder": { "height": "900", "width": "750" }, "img-wrap": { "position": "absolute", "width": "750", "height": "750" }, "img-show": { "position": "absolute", "width": "750", "height": "750" }, "scroll-wrap": { "position": "absolute", "flexDirection": "row", "top": "200", "width": "750", "height": "700" }, "scroll-item-image": { "borderRadius": "20", "width": "450", "height": "700", "marginLeft": "40" }, "intro-wrap": { "marginTop": "50", "marginBottom": "50", "width": "600", "alignSelf": "center", "flexDirection": "column" }, "intro-name": { "fontSize": "70", "fontWeight": "bold", "width": "200" }, "intro-content": { "marginTop": "40", "fontSize": "40", "width": "600" }, "intro-img": { "marginTop": "40", "width": "600", "height": "300" } }), __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_defineProperty___default()(_ref, "firstBgImg", 'pic_lynx_vertical.png'), __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_defineProperty___default()(_ref, "secondBgImg", 'pic_cat_vertical.png'), __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_defineProperty___default()(_ref, "thirdBgImg", 'pic_tiger_vertical.png'), __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_defineProperty___default()(_ref, "curPage", 0), __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_defineProperty___default()(_ref, "images", ['pic_lynx_vertical.png', 'pic_cat_vertical.png', 'pic_tiger_vertical.png', 'pic_lion_vertical.png']), __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_defineProperty___default()(_ref, "bgImages", ['pic_lynx_vertical.png', 'pic_cat_vertical.png', 'pic_tiger_vertical.png']), __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_defineProperty___default()(_ref, "animals", [{
+      name: 'Lynx',
+      intro: 'Lynx have a short tail, characteristic tufts of black hair on the tips of their ears, large, padded paws for walking on snow and long whiskers on the face. Under their neck, they have a ruff which has black bars resembling a bow tie although this is often not visible.',
+      pic: 'pic_lynx.png'
+    }, {
+      name: 'Cat',
+      intro: 'The domestic cat (Felis silvestris catus or Felis catus) is a small, typically furry, carnivorous mammal. They are often called house cats when kept as indoor pets or simply cats when there is no need to distinguish them from other felids and felines. Cats are often valued by humans for companionship and for their ability to hunt vermin. There are more than 70 cat breeds, though different associations proclaim different numbers according to their standards.',
+      pic: 'pic_cat.png'
+    }, {
+      name: 'Tiger',
+      intro: 'The tiger (Panthera tigris) is the largest cat species, most recognizable for their pattern of dark vertical stripes on reddish-orange fur with a lighter underside. The species is classified in the genus Panthera with the lion, leopard, jaguar, and snow leopard. Tigers are apex predators, primarily preying on ungulates such as deer and bovids. They are territorial and generally solitary but social animals, often requiring large contiguous areas of habitat that support their prey requirements. This, coupled with the fact that they are indigenous to some of the more densely populated places on Earth, has caused significant conflicts with humans.',
+      pic: 'pic_tiger.png'
+    }, {
+      name: 'Lion',
+      intro: 'The lion (Panthera leo) is one of the big cats in the Felidae family and a member of genus Panthera. It has been listed as Vulnerable on the IUCN Red List since 1996, as populations in African range countries declined by about 43% since the early 1990s. Lion populations are untenable outside designated protected areas. Although the cause of the decline is not fully understood, habitat loss and conflicts with humans are the greatest causes of concern. The West African lion population is listed as Critically Endangered since 2016. The only lion population in Asia survives in and around Indias Gir Forest National Park and is listed as Endangered since 1986.',
+      pic: 'pic_lion.png'
+    }]), _ref;
   },
   mounted: function mounted() {
-    LynxCoordinatorRegister.registeAction("touch", "touch", __WEBPACK_IMPORTED_MODULE_0__coordinator_3d_scroll_lepus___default.a);
+    LynxCoordinatorRegister.registeAction("sponsorAffinity", "responderAffinity", __WEBPACK_IMPORTED_MODULE_1__coordinator_3d_scroll_lepus___default.a);
   },
 
   methods: {
@@ -7770,12 +7841,12 @@ module.exports = Vue$3;
 });
 
 /***/ }),
-/* 3 */
+/* 9 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__app_js__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__app_js__ = __webpack_require__(6);
 // client-entry
 
 
@@ -7785,14 +7856,252 @@ var _createApp = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__app_js__["a"
 app.$mount('#app');
 
 /***/ }),
-/* 4 */
+/* 10 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = { "default": __webpack_require__(12), __esModule: true };
+
+/***/ }),
+/* 11 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+exports.__esModule = true;
+
+var _defineProperty = __webpack_require__(10);
+
+var _defineProperty2 = _interopRequireDefault(_defineProperty);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = function (obj, key, value) {
+  if (key in obj) {
+    (0, _defineProperty2.default)(obj, key, {
+      value: value,
+      enumerable: true,
+      configurable: true,
+      writable: true
+    });
+  } else {
+    obj[key] = value;
+  }
+
+  return obj;
+};
+
+/***/ }),
+/* 12 */
+/***/ (function(module, exports, __webpack_require__) {
+
+__webpack_require__(22);
+var $Object = __webpack_require__(2).Object;
+module.exports = function defineProperty(it, key, desc) {
+  return $Object.defineProperty(it, key, desc);
+};
+
+
+/***/ }),
+/* 13 */
+/***/ (function(module, exports) {
+
+module.exports = function (it) {
+  if (typeof it != 'function') throw TypeError(it + ' is not a function!');
+  return it;
+};
+
+
+/***/ }),
+/* 14 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var isObject = __webpack_require__(1);
+module.exports = function (it) {
+  if (!isObject(it)) throw TypeError(it + ' is not an object!');
+  return it;
+};
+
+
+/***/ }),
+/* 15 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// optional / simple context binding
+var aFunction = __webpack_require__(13);
+module.exports = function (fn, that, length) {
+  aFunction(fn);
+  if (that === undefined) return fn;
+  switch (length) {
+    case 1: return function (a) {
+      return fn.call(that, a);
+    };
+    case 2: return function (a, b) {
+      return fn.call(that, a, b);
+    };
+    case 3: return function (a, b, c) {
+      return fn.call(that, a, b, c);
+    };
+  }
+  return function (/* ...args */) {
+    return fn.apply(that, arguments);
+  };
+};
+
+
+/***/ }),
+/* 16 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var isObject = __webpack_require__(1);
+var document = __webpack_require__(4).document;
+// typeof document.createElement is 'object' in old IE
+var is = isObject(document) && isObject(document.createElement);
+module.exports = function (it) {
+  return is ? document.createElement(it) : {};
+};
+
+
+/***/ }),
+/* 17 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var global = __webpack_require__(4);
+var core = __webpack_require__(2);
+var ctx = __webpack_require__(15);
+var hide = __webpack_require__(18);
+var PROTOTYPE = 'prototype';
+
+var $export = function (type, name, source) {
+  var IS_FORCED = type & $export.F;
+  var IS_GLOBAL = type & $export.G;
+  var IS_STATIC = type & $export.S;
+  var IS_PROTO = type & $export.P;
+  var IS_BIND = type & $export.B;
+  var IS_WRAP = type & $export.W;
+  var exports = IS_GLOBAL ? core : core[name] || (core[name] = {});
+  var expProto = exports[PROTOTYPE];
+  var target = IS_GLOBAL ? global : IS_STATIC ? global[name] : (global[name] || {})[PROTOTYPE];
+  var key, own, out;
+  if (IS_GLOBAL) source = name;
+  for (key in source) {
+    // contains in native
+    own = !IS_FORCED && target && target[key] !== undefined;
+    if (own && key in exports) continue;
+    // export native or passed
+    out = own ? target[key] : source[key];
+    // prevent global pollution for namespaces
+    exports[key] = IS_GLOBAL && typeof target[key] != 'function' ? source[key]
+    // bind timers to global for call from export context
+    : IS_BIND && own ? ctx(out, global)
+    // wrap global constructors for prevent change them in library
+    : IS_WRAP && target[key] == out ? (function (C) {
+      var F = function (a, b, c) {
+        if (this instanceof C) {
+          switch (arguments.length) {
+            case 0: return new C();
+            case 1: return new C(a);
+            case 2: return new C(a, b);
+          } return new C(a, b, c);
+        } return C.apply(this, arguments);
+      };
+      F[PROTOTYPE] = C[PROTOTYPE];
+      return F;
+    // make static versions for prototype methods
+    })(out) : IS_PROTO && typeof out == 'function' ? ctx(Function.call, out) : out;
+    // export proto methods to core.%CONSTRUCTOR%.methods.%NAME%
+    if (IS_PROTO) {
+      (exports.virtual || (exports.virtual = {}))[key] = out;
+      // export proto methods to core.%CONSTRUCTOR%.prototype.%NAME%
+      if (type & $export.R && expProto && !expProto[key]) hide(expProto, key, out);
+    }
+  }
+};
+// type bitmap
+$export.F = 1;   // forced
+$export.G = 2;   // global
+$export.S = 4;   // static
+$export.P = 8;   // proto
+$export.B = 16;  // bind
+$export.W = 32;  // wrap
+$export.U = 64;  // safe
+$export.R = 128; // real proto method for `library`
+module.exports = $export;
+
+
+/***/ }),
+/* 18 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var dP = __webpack_require__(5);
+var createDesc = __webpack_require__(20);
+module.exports = __webpack_require__(0) ? function (object, key, value) {
+  return dP.f(object, key, createDesc(1, value));
+} : function (object, key, value) {
+  object[key] = value;
+  return object;
+};
+
+
+/***/ }),
+/* 19 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = !__webpack_require__(0) && !__webpack_require__(3)(function () {
+  return Object.defineProperty(__webpack_require__(16)('div'), 'a', { get: function () { return 7; } }).a != 7;
+});
+
+
+/***/ }),
+/* 20 */
+/***/ (function(module, exports) {
+
+module.exports = function (bitmap, value) {
+  return {
+    enumerable: !(bitmap & 1),
+    configurable: !(bitmap & 2),
+    writable: !(bitmap & 4),
+    value: value
+  };
+};
+
+
+/***/ }),
+/* 21 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// 7.1.1 ToPrimitive(input [, PreferredType])
+var isObject = __webpack_require__(1);
+// instead of the ES6 spec version, we didn't implement @@toPrimitive case
+// and the second argument - flag - preferred type is a string
+module.exports = function (it, S) {
+  if (!isObject(it)) return it;
+  var fn, val;
+  if (S && typeof (fn = it.toString) == 'function' && !isObject(val = fn.call(it))) return val;
+  if (typeof (fn = it.valueOf) == 'function' && !isObject(val = fn.call(it))) return val;
+  if (!S && typeof (fn = it.toString) == 'function' && !isObject(val = fn.call(it))) return val;
+  throw TypeError("Can't convert object to primitive value");
+};
+
+
+/***/ }),
+/* 22 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var $export = __webpack_require__(17);
+// 19.1.2.4 / 15.2.3.6 Object.defineProperty(O, P, Attributes)
+$export($export.S + $export.F * !__webpack_require__(0), 'Object', { defineProperty: __webpack_require__(5).f });
+
+
+/***/ }),
+/* 23 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_lynx_vue_loader_lib_selector_type_script_index_0_app_vue__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_lynx_vue_loader_lib_template_compiler_index_id_data_v_0c040613_hasScoped_false_transformToRequire_video_src_source_src_img_src_image_xlink_href_preserveWhitespace_false_node_modules_lynx_vue_loader_lib_selector_type_template_index_0_app_vue__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_lynx_vue_loader_lib_selector_type_script_index_0_app_vue__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_lynx_vue_loader_lib_template_compiler_index_id_data_v_0c040613_hasScoped_false_transformToRequire_video_src_source_src_img_src_image_xlink_href_preserveWhitespace_false_node_modules_lynx_vue_loader_lib_selector_type_template_index_0_app_vue__ = __webpack_require__(25);
 var disposed = false
-var normalizeComponent = __webpack_require__(5)
+var normalizeComponent = __webpack_require__(24)
 /* script */
 
 /* template */
@@ -7828,7 +8137,7 @@ if (false) {(function () {
 
 
 /***/ }),
-/* 5 */
+/* 24 */
 /***/ (function(module, exports) {
 
 /* globals __VUE_SSR_CONTEXT__ */
@@ -7925,7 +8234,7 @@ module.exports = function normalizeComponent (
 
 
 /***/ }),
-/* 6 */
+/* 25 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -7945,24 +8254,24 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     staticClass: "img-show",
     attrs: {
       "src": _vm.firstBgImg,
-      "coordinator-affinity": "touch",
-      "coordinator-tag": "201",
+      "coordinator-affinity": "responderAffinity",
+      "coordinator-tag": "firstBgImg",
       "coordinator-command": "touch:onTouchEventForBg"
     }
   }), _c('img', {
     staticClass: "img-show",
     attrs: {
       "src": _vm.secondBgImg,
-      "coordinator-affinity": "touch",
-      "coordinator-tag": "202",
+      "coordinator-affinity": "responderAffinity",
+      "coordinator-tag": "secondBgImg",
       "coordinator-command": "touch:onTouchEventForBg"
     }
   }), _c('img', {
     staticClass: "img-show",
     attrs: {
       "src": _vm.thirdBgImg,
-      "coordinator-affinity": "touch",
-      "coordinator-tag": "203",
+      "coordinator-affinity": "responderAffinity",
+      "coordinator-tag": "thirdBgImg",
       "coordinator-command": "touch:onTouchEventForBg"
     }
   }), _c('img', {
@@ -7973,8 +8282,8 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
   })]), _c('view', {
     staticClass: "scroll-wrap",
     attrs: {
-      "coordinator-affinity": "touch",
-      "coordinator-tag": "100",
+      "coordinator-affinity": "sponsorAffinity",
+      "coordinator-tag": "scrollWrap",
       "coordinator-type": "touch",
       "coordinator-command": "touch:onTouchEventForWrap"
     },
@@ -7985,8 +8294,8 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     return _c('img', {
       staticClass: "scroll-item-image",
       attrs: {
-        "coordinator-affinity": "touch",
-        "coordinator-tag": index,
+        "coordinator-affinity": "responderAffinity",
+        "coordinator-tag": 'item' + index,
         "coordinator-command": "touch:onTouchEventForImg",
         "src": image
       }
@@ -8016,13 +8325,13 @@ if (false) {
 }
 
 /***/ }),
-/* 7 */
+/* 26 */
 /***/ (function(module, exports) {
 
-module.exports = "var kMinScale = 0.8\nvar kMaxScale = 1\nvar kMarginLeft = 40\nvar kImgWidth = 450\nvar kTotalNum = 4\nvar kScrollWrapTag = 100\nvar kTouchSlop = 10\nvar kDuration = 300\n// per second\nvar kFlingVelocity = 1000\nvar kMaxMoveX = (kImgWidth - kMarginLeft) * kTotalNum\nvar kMinMoveX = (kImgWidth - kMarginLeft) * -1\nvar kEventName = \"onpagechanged\"\n\nvar preIndex = 0\nvar curIndex = 0\nvar startTouchX = 0\nvar startTouchY = 0\nvar curTouchX = 0\nvar totalMoveX = 0\nvar preTotalMoveX = 0\nvar curTouchType = 0\nvar ratioOfNextIndex = 0\nvar toNextIndex = 0\nvar touchDownTime = 0\nvar isAllowScroll = false\nvar curPage = 0\n\nfunction init(tag) {\n  if (tag != curIndex\n        && tag != kScrollWrapTag\n        && tag != 201\n        && tag != 202\n        && tag != 203) {\n      setScaleX(kMinScale)\n      setScaleY(kMinScale)\n  }\n  if (tag == 202 || tag == 203) {\n      setAlpha(0)\n  }\n}\n\nfunction onDispatchTouchEvent(tag, type, touchX, touchY, timeStamp) {\n    curTouchX = touchX\n    curTouchType = type\n    switch (type) {\n      case 0:\n          touchDownTime = timeStamp\n          startTouchX = touchX\n          setConsumed(true)\n          break\n      case 1:\n      case 3:\n          if (isAllowScroll) {\n              var offsetX = totalMoveX - (kImgWidth + kMarginLeft) * curIndex\n              // Caculate if fling\n              var initialVelocity = (touchX - startTouchX) / ((timeStamp - touchDownTime) / 1000)\n              var isFling = false\n              if (initialVelocity < 0) {\n                isFling = -initialVelocity / ((timeStamp - touchDownTime) / 1000) > kFlingVelocity\n              } else {\n                isFling = initialVelocity / ((timeStamp - touchDownTime) / 1000) > kFlingVelocity\n              }\n              if (isFling) {\n                  if (initialVelocity < 0)\n                    toNextIndex = curIndex + 1\n                  else\n                    toNextIndex = curIndex\n              } else if (offsetX > (kImgWidth + kMarginLeft) / 2) {\n                toNextIndex = curIndex + 1\n              } else {\n                toNextIndex = curIndex\n              }\n              if (toNextIndex < 0) toNextIndex = 0\n              if (toNextIndex > kTotalNum - 1) toNextIndex = kTotalNum - 1\n              totalMoveX = toNextIndex * (kImgWidth + kMarginLeft)\n              preTotalMoveX = totalMoveX\n              curIndex = toNextIndex\n          }\n          break\n      case 2:\n          if (curTouchX - startTouchX > kTouchSlop || startTouchX - curTouchX > kTouchSlop) {\n\n              totalMoveX = -(curTouchX - startTouchX) + preTotalMoveX\n              if (totalMoveX > kMaxMoveX) totalMoveX = kMaxMoveX\n              if (totalMoveX < kMinMoveX) totalMoveX = kMinMoveX\n              preIndex = curIndex\n              curIndex = totalMoveX / (kImgWidth + kMarginLeft)\n              curIndex = curIndex % 10\n              var offsetX = totalMoveX - (kImgWidth + kMarginLeft) * curIndex\n              ratioOfNextIndex = offsetX / (kImgWidth + kMarginLeft)\n              isAllowScroll = true\n          } else {\n              isAllowScroll = false\n          }\n          setConsumed(isAllowScroll)\n          break\n      default:\n          break\n    }\n}\n\nfunction onTouchEventForWrap(tag, touchX, touchY) {\n    if (isAllowScroll) {\n        if (curTouchType == 1 || curTouchType == 3) {\n            setDuration(kDuration)\n            dispatchEvent(kEventName, toNextIndex)\n        } else if (curTouchType == 2) {\n            var nextPage = curPage\n            if (totalMoveX )\n            if (nextPage != curPage) {\n                curPage = nextPage\n                dispatchEvent(kEventName, curPage)\n            }\n        }\n    }\n}\n\nfunction onTouchEventForImg(tag, touchX, touchY) {\n    if (isAllowScroll) {\n        if (curTouchType == 2) {\n          setTranslateX(-totalMoveX)\n          if (curIndex + 1 == tag) {\n            var scale = ratioOfNextIndex * (kMaxScale - kMinScale) + kMinScale\n            setScaleX(scale)\n            setScaleY(scale)\n          } else if (curIndex == tag) {\n            var scale = (1 - ratioOfNextIndex) * (kMaxScale - kMinScale) + kMinScale\n            setScaleX(scale)\n            setScaleY(scale)\n          } else {\n            setScaleX(kMinScale)\n            setScaleY(kMinScale)\n          }\n        } else if (curTouchType == 1) {\n            setDuration(kDuration)\n            setInterpolatorType(\"EASE_OUT\")\n            setTranslateX(-totalMoveX)\n            if (toNextIndex == tag) {\n              setScaleX(kMaxScale)\n              setScaleY(kMaxScale)\n            } else {\n              setScaleX(kMinScale)\n              setScaleY(kMinScale)\n            }\n        }\n    }\n}\n\nfunction onTouchEventForBg(tag, touchX, touchY) {\n    if (isAllowScroll) {\n        var alpha = 1\n        if (curTouchType == 2 && curIndex >= 0 && curIndex < kTotalNum - 1) {\n            var curShowBgIndex = curIndex % 3\n            if (curShowBgIndex == 0) { // FirstBgImg show\n                if (tag == 201) alpha = (1 - ratioOfNextIndex)\n                if (tag == 202) alpha = ratioOfNextIndex\n                if (tag == 203) alpha = 0\n            } else if (curShowBgIndex == 1) { // SecondBgImg show\n                if (tag == 201) alpha = 0\n                if (tag == 202) alpha = (1 - ratioOfNextIndex)\n                if (tag == 203) alpha = ratioOfNextIndex\n            } else if (curShowBgIndex == 2) { // ThirdBgImg show\n                if (tag == 201) alpha = ratioOfNextIndex\n                if (tag == 202) alpha = 0\n                if (tag == 203) alpha = (1 - ratioOfNextIndex)\n            }\n            setAlpha(alpha)\n        } else if (curTouchType == 1 && curIndex >= 0 && curIndex <= kTotalNum - 1) {\n            var curShowBgIndex = toNextIndex % 3\n            if (curShowBgIndex == 0) { // FirstBgImg show\n                if (tag == 201) alpha = 1\n                if (tag == 202) alpha = 0\n                if (tag == 203) alpha = 0\n            } else if (curShowBgIndex == 1) { // SecondBgImg show\n                if (tag == 201) alpha = 0\n                if (tag == 202) alpha = 1\n                if (tag == 203) alpha = 0\n            } else if (curShowBgIndex == 2) { // ThirdBgImg show\n                if (tag == 201) alpha = 0\n                if (tag == 202) alpha = 0\n                if (tag == 203) alpha = 1\n            }\n            setDuration(kDuration)\n            setAlpha(alpha)\n        }\n    }\n}\n"
+module.exports = "var kMinScale = 0.8\nvar kMaxScale = 1\nvar kMarginLeft = 40\nvar kImgWidth = 450\nvar kTotalNum = 4\nvar kScrollWrapTag = 'scrollWrap'\nvar kFirstBgImgTag = 'firstBgImg'\nvar kSecondBgImgTag = 'secondBgImg'\nvar kThirdBgImgTag = 'thirdBgImg'\nvar kFirstItemTag = 'item0'\nvar kSecondItemTag = 'item1'\nvar kThirdItemTag = 'item2'\nvar kFourthItemTag = 'item3'\nvar kTouchSlop = 10\nvar kDuration = 300\n// per second\nvar kFlingVelocity = 1000\nvar kMaxMoveX = (kImgWidth - kMarginLeft) * kTotalNum\nvar kMinMoveX = (kImgWidth - kMarginLeft) * -1\nvar kEventName = \"onpagechanged\"\n\nvar preIndex = 0\nvar curIndex = 0\nvar startTouchX = 0\nvar startTouchY = 0\nvar curTouchX = 0\nvar totalMoveX = 0\nvar preTotalMoveX = 0\nvar curTouchType = 0\nvar ratioOfNextIndex = 0\nvar toNextIndex = 0\nvar touchDownTime = 0\nvar isAllowScroll = false\nvar curPage = 0\n\nfunction init(tag) {\n  if (tag != kFirstItemTag\n        && tag != kScrollWrapTag\n        && tag != kFirstBgImgTag\n        && tag != kSecondBgImgTag\n        && tag != kThirdBgImgTag) {\n      setScaleX(kMinScale)\n      setScaleY(kMinScale)\n  }\n  if (tag == kSecondBgImgTag || tag == kThirdBgImgTag) {\n      setAlpha(0)\n  }\n}\n\nfunction onDispatchTouchEvent(tag, type, touchX, touchY, timeStamp) {\n    curTouchX = touchX\n    curTouchType = type\n    switch (type) {\n      case 0:\n          touchDownTime = timeStamp\n          startTouchX = touchX\n          setConsumed(true)\n          break\n      case 1:\n      case 3:\n          if (isAllowScroll) {\n              var offsetX = totalMoveX - (kImgWidth + kMarginLeft) * curIndex\n              // Caculate if fling\n              var initialVelocity = (touchX - startTouchX) / ((timeStamp - touchDownTime) / 1000)\n              var isFling = false\n              if (initialVelocity < 0) {\n                isFling = -initialVelocity / ((timeStamp - touchDownTime) / 1000) > kFlingVelocity\n              } else {\n                isFling = initialVelocity / ((timeStamp - touchDownTime) / 1000) > kFlingVelocity\n              }\n              if (isFling) {\n                  if (initialVelocity < 0)\n                    toNextIndex = curIndex + 1\n                  else\n                    toNextIndex = curIndex\n              } else if (offsetX > (kImgWidth + kMarginLeft) / 2) {\n                toNextIndex = curIndex + 1\n              } else {\n                toNextIndex = curIndex\n              }\n              if (toNextIndex < 0) toNextIndex = 0\n              if (toNextIndex > kTotalNum - 1) toNextIndex = kTotalNum - 1\n              totalMoveX = toNextIndex * (kImgWidth + kMarginLeft)\n              preTotalMoveX = totalMoveX\n              curIndex = toNextIndex\n          }\n          break\n      case 2:\n          if (curTouchX - startTouchX > kTouchSlop || startTouchX - curTouchX > kTouchSlop) {\n\n              totalMoveX = -(curTouchX - startTouchX) + preTotalMoveX\n              if (totalMoveX > kMaxMoveX) totalMoveX = kMaxMoveX\n              if (totalMoveX < kMinMoveX) totalMoveX = kMinMoveX\n              preIndex = curIndex\n              curIndex = totalMoveX / (kImgWidth + kMarginLeft)\n              curIndex = curIndex % 10\n              var offsetX = totalMoveX - (kImgWidth + kMarginLeft) * curIndex\n              ratioOfNextIndex = offsetX / (kImgWidth + kMarginLeft)\n              isAllowScroll = true\n          } else {\n              isAllowScroll = false\n          }\n          setConsumed(isAllowScroll)\n          break\n      default:\n          break\n    }\n}\n\nfunction onTouchEventForWrap(tag, touchX, touchY) {\n    if (isAllowScroll) {\n        if (curTouchType == 1 || curTouchType == 3) {\n            setDuration(kDuration)\n            dispatchEvent(kEventName, toNextIndex)\n        } else if (curTouchType == 2) {\n            var nextPage = curPage\n            if (totalMoveX )\n            if (nextPage != curPage) {\n                curPage = nextPage\n                dispatchEvent(kEventName, curPage)\n            }\n        }\n    }\n}\n\nfunction onTouchEventForImg(tag, touchX, touchY) {\n    var itemIndex = 0\n    if (tag == kFirstItemTag) {\n        itemIndex = 0\n    } else if (tag == kSecondItemTag) {\n        itemIndex = 1\n    } else if (tag == kThirdItemTag) {\n        itemIndex = 2\n    } else if (tag == kFourthItemTag) {\n        itemIndex = 3\n    }\n    if (isAllowScroll) {\n        if (curTouchType == 2) {\n          setTranslateX(-totalMoveX)\n          if (curIndex + 1 == itemIndex) {\n            var scale = ratioOfNextIndex * (kMaxScale - kMinScale) + kMinScale\n            setScaleX(scale)\n            setScaleY(scale)\n          } else if (curIndex == itemIndex) {\n            var scale = (1 - ratioOfNextIndex) * (kMaxScale - kMinScale) + kMinScale\n            setScaleX(scale)\n            setScaleY(scale)\n          } else {\n            setScaleX(kMinScale)\n            setScaleY(kMinScale)\n          }\n        } else if (curTouchType == 1) {\n            setDuration(kDuration)\n            setInterpolatorType(\"EASE_OUT\")\n            setTranslateX(-totalMoveX)\n            if (toNextIndex == itemIndex) {\n              setScaleX(kMaxScale)\n              setScaleY(kMaxScale)\n            } else {\n              setScaleX(kMinScale)\n              setScaleY(kMinScale)\n            }\n        }\n    }\n}\n\nfunction onTouchEventForBg(tag, touchX, touchY) {\n    if (isAllowScroll) {\n        var alpha = 1\n        if (curTouchType == 2 && curIndex >= 0 && curIndex < kTotalNum - 1) {\n            var curShowBgIndex = curIndex % 3\n            if (curShowBgIndex == 0) { // FirstBgImg show\n                if (tag == kFirstBgImgTag) alpha = (1 - ratioOfNextIndex)\n                if (tag == kSecondBgImgTag) alpha = ratioOfNextIndex\n                if (tag == kThirdBgImgTag) alpha = 0\n            } else if (curShowBgIndex == 1) { // SecondBgImg show\n                if (tag == kFirstBgImgTag) alpha = 0\n                if (tag == kSecondBgImgTag) alpha = (1 - ratioOfNextIndex)\n                if (tag == kThirdBgImgTag) alpha = ratioOfNextIndex\n            } else if (curShowBgIndex == 2) { // ThirdBgImg show\n                if (tag == kFirstBgImgTag) alpha = ratioOfNextIndex\n                if (tag == kSecondBgImgTag) alpha = 0\n                if (tag == kThirdBgImgTag) alpha = (1 - ratioOfNextIndex)\n            }\n            setAlpha(alpha)\n        } else if (curTouchType == 1 && curIndex >= 0 && curIndex <= kTotalNum - 1) {\n            var curShowBgIndex = toNextIndex % 3\n            if (curShowBgIndex == 0) { // FirstBgImg show\n                if (tag == kFirstBgImgTag) alpha = 1\n                if (tag == kSecondBgImgTag) alpha = 0\n                if (tag == kThirdBgImgTag) alpha = 0\n            } else if (curShowBgIndex == 1) { // SecondBgImg show\n                if (tag == kFirstBgImgTag) alpha = 0\n                if (tag == kSecondBgImgTag) alpha = 1\n                if (tag == kThirdBgImgTag) alpha = 0\n            } else if (curShowBgIndex == 2) { // ThirdBgImg show\n                if (tag == kFirstBgImgTag) alpha = 0\n                if (tag == kSecondBgImgTag) alpha = 0\n                if (tag == kThirdBgImgTag) alpha = 1\n            }\n            setDuration(kDuration)\n            setAlpha(alpha)\n        }\n    }\n}\n"
 
 /***/ }),
-/* 8 */
+/* 27 */
 /***/ (function(module, exports) {
 
 // shim for using process in browser
@@ -8212,7 +8521,7 @@ process.umask = function() { return 0; };
 
 
 /***/ }),
-/* 9 */
+/* 28 */
 /***/ (function(module, exports) {
 
 var g;

@@ -15,6 +15,9 @@ namespace lynx {
 
         CoordinatorAction Execute(const std::string& method, const std::vector<lepus::Value>& args);
 
+        lepus::Context *context() {
+            return ctx_;
+        }
     private:
         lepus::Context *ctx_;
         lepus::VM *vm_;

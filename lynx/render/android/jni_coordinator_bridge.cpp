@@ -72,11 +72,28 @@ jobjectArray ConvertCoordinatorActionForAndroid(JNIEnv *env, lynx::CoordinatorAc
     return result;
 }
 
-const std::vector<lepus::Value> ConstructCoordinatorArgs(JNIEnv *env, jint tag, jdoubleArray args) {
+const std::vector<lepus::Value> ConstructCoordinatorArgs(JNIEnv *env,
+                                                         lynx::CoordinatorExecutor* executor,
+                                                         jstring tag,
+                                                         jdoubleArray args) {
     int length = env->GetArrayLength(args);
     double *c_args = env->GetDoubleArrayElements(args, JNI_FALSE);
     std::vector<lepus::Value> lepus_args;
-    lepus_args.push_back(tag);
+
+    lepus::Value lepus_tag;
+    lepus_tag.type_ = lepus::Value_String;
+    if (tag != NULL) {
+        lepus_tag.str_ = executor->context()
+                ->string_pool()
+                ->NewString(base::android::JNIHelper::ConvertToString(env, tag).c_str());
+    } else {
+        lepus_tag.str_ = lepus_tag.str_ = executor->context()
+                ->string_pool()
+                ->NewString("");
+    }
+    lepus_tag.str_->AddRef();
+
+    lepus_args.push_back(lepus_tag);
     for (int i = 0; i < length; ++i) {
         lepus_args.push_back(c_args[i]);
     }
@@ -84,11 +101,14 @@ const std::vector<lepus::Value> ConstructCoordinatorArgs(JNIEnv *env, jint tag, 
 }
 
 jobjectArray Execute(JNIEnv* env, jclass jcaller, jlong ptr,
-                          jstring method, jint tag, jdoubleArray args) {
+                          jstring method, jstring tag, jdoubleArray args) {
     lynx::CoordinatorExecutor* executor = reinterpret_cast<lynx::CoordinatorExecutor *>(ptr);
     std::string method_str = base::android::JNIHelper::ConvertToString(env, method);
     lynx::CoordinatorAction action = executor->Execute(method_str,
-                                                        ConstructCoordinatorArgs(env, tag, args));
+                                                        ConstructCoordinatorArgs(env,
+                                                                                 executor,
+                                                                                 tag,
+                                                                                 args));
     return ConvertCoordinatorActionForAndroid(env, action);
 }
 

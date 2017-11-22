@@ -6,15 +6,15 @@
     <scrollview
       ref="vScrollView"
       class="vertical-scrollview"
-      coordinator-tag="0"
+      coordinator-tag="vScrollView"
       coordinator-type="scroll"
-      coordinator-affinity="scroll">
+      coordinator-affinity="sponsorAffinity">
       <scrollview
         class="scrollview"
         page-enable="true"
-        coordinator-tag="1"
+        coordinator-tag="hScrollView"
         coordinator-type="scroll"
-        coordinator-affinity="scroll">
+        coordinator-affinity="sponsorAffinity">
         <view
           v-for="item in contentList"
           class="scrollview-item">
@@ -46,14 +46,14 @@
           :style="{
             marginTop: index * 310 + ''
           }"
-          coordinator-affinity="scroll"
-          :coordinator-tag="index"
+          coordinator-affinity="responderAffinity"
+          :coordinator-tag="'card' + index"
           coordinator-command="scroll:onScrollEventForCard">
           <img
             class="anim-card-img"
             :src="anim.imgUrl"
-            coordinator-affinity="scroll"
-            :coordinator-tag="index"
+            coordinator-affinity="responderAffinity"
+            :coordinator-tag="'img' + index"
             coordinator-command="scroll:onScrollEventForImg"></img>
         </view>
         <label
@@ -61,16 +61,16 @@
           :style="{
             marginTop: index * 310 + ''
           }"
-          coordinator-affinity="scroll"
-          :coordinator-tag="index"
+          coordinator-affinity="responderAffinity"
+          :coordinator-tag="'label' + index"
           coordinator-command="scroll:onScrollEventForLabel">{{anim.title}}</label>
         <view
           class="anim-line"
           :style="{
             marginTop: index * 310 + ''
           }"
-          coordinator-affinity="scroll"
-          :coordinator-tag="index"
+          coordinator-affinity="responderAffinity"
+          :coordinator-tag="'line' + index"
           coordinator-command="scroll:onScrollEventForLine"></view>
       </template>
     </view>
@@ -137,7 +137,7 @@ export default {
     }
   },
   mounted() {
-    LynxCoordinatorRegister.registeAction("scroll", "scroll", animationCommand)
+    LynxCoordinatorRegister.registeAction("sponsorAffinity", "responderAffinity", animationCommand)
   },
   methods: {
     onClick(index) {
@@ -186,6 +186,7 @@ export default {
   color: black;
   font-size: 50;
   font-weight: bold;
+  width: 200;
 }
 .item-img {
   width: 700;
