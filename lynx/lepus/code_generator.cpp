@@ -137,7 +137,7 @@ namespace lepus {
         current_function_->current_block_->variables_map_[name] = register_id;
         if(current_function_->parent_.Get() == nullptr) {
             name->AddRef();
-            reinterpret_cast<std::unordered_map<String*, int>*>(top_level_variables_)->insert(std::make_pair(name, register_id));
+            context_->top_level_variables_.insert(std::make_pair(name, register_id));
         }
     }
     
@@ -206,7 +206,6 @@ namespace lepus {
     }
     
     void CodeGenerator::Visit(ChunkAST* ast, void* data) {
-        top_level_variables_ = data;
         Guard<CodeGenerator> g(this, &CodeGenerator::EnterFunction, &CodeGenerator::LeaveFunction);
         {
             Guard<CodeGenerator> g(this, &CodeGenerator::EnterBlock, &CodeGenerator::LeaveBlock);
@@ -215,6 +214,7 @@ namespace lepus {
             top->closure_ = new Closure(static_cast<Function*>(current_function_->function_));
             top->type_ = ValueT_Closure;
         }
+        context_->root_function_.Reset(static_cast<Function*>(current_function_->function_));
     }
     
     void CodeGenerator::Visit(BlockAST* ast, void* data) {

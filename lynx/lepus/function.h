@@ -112,9 +112,9 @@ namespace lepus {
         
         std::vector<UpvalueInfo> upvalues_;
         
-        std::vector<SwitchInfo*> switches_;
+        base::ScopedVector<SwitchInfo> switches_;
         
-        std::vector<Function*> child_functions_;
+        base::ScopedVector<Function> child_functions_;
         
         std::size_t index_;
         

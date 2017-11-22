@@ -31,7 +31,10 @@ namespace lepus {
         void GenerateClosure(Value* value, int index);
         Heap heap_;
         std::list<Frame> frames_;
+    protected:
+        friend class CodeGenerator;
         std::unordered_map<String*, int> top_level_variables_;
+        base::ScopedPtr<Function> root_function_;
     };
 }
 
