@@ -27,7 +27,7 @@ add_library(lepus
     ${CMAKE_SOURCE_DIR}/../lynx/lepus/function.h
     ${CMAKE_SOURCE_DIR}/../lynx/lepus/value.h
     ${CMAKE_SOURCE_DIR}/../lynx/lepus/table.h
-    ${CMAKE_SOURCE_DIR}/../lynx/lepus/string.h
+    ${CMAKE_SOURCE_DIR}/../lynx/lepus/lepus_string.h
     ${CMAKE_SOURCE_DIR}/../lynx/lepus/guard.h
     ${CMAKE_SOURCE_DIR}/../lynx/lepus/vm.h
     ${CMAKE_SOURCE_DIR}/../lynx/lepus/context.h
