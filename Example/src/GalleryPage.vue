@@ -9,21 +9,21 @@
           <img
             class="img-show"
             :src="firstBgImg"
-            coordinator-affinity="responderAffinity"
+            coordinator-affinity="affinity"
             coordinator-tag="firstBgImg"
             coordinator-command="touch:onTouchEventForBg"
             ></img>
           <img
             class="img-show"
             :src="secondBgImg"
-            coordinator-affinity="responderAffinity"
+            coordinator-affinity="affinity"
             coordinator-tag="secondBgImg"
             coordinator-command="touch:onTouchEventForBg"
             ></img>
           <img
             class="img-show"
             :src="thirdBgImg"
-            coordinator-affinity="responderAffinity"
+            coordinator-affinity="affinity"
             coordinator-tag="thirdBgImg"
             coordinator-command="touch:onTouchEventForBg"
             ></img>
@@ -33,7 +33,7 @@
         </view>
         <view
           class="scroll-wrap"
-          coordinator-affinity="sponsorAffinity"
+          coordinator-affinity="parentAffinity"
           coordinator-tag="scrollWrap"
           coordinator-type="touch"
           @onpagechanged="onPageChanged"
@@ -41,7 +41,8 @@
           <img
             v-for="(image, index) in images"
             class="scroll-item-image"
-            coordinator-affinity="responderAffinity"
+            @click="onClick(index)"
+            coordinator-affinity="affinity"
             :coordinator-tag="'item' + index"
             coordinator-command="touch:onTouchEventForImg"
             :src="image"></img>
@@ -60,6 +61,7 @@
 
 <script>
 import animationAction from './coordinator_3d_scroll.lepus'
+import CoordinatorContext from './coordinator'
 export default {
   components: {
   },
@@ -69,6 +71,7 @@ export default {
       secondBgImg: 'pic_cat_vertical.png',
       thirdBgImg: 'pic_tiger_vertical.png',
       curPage: 0,
+      cdrContext: null,
       images: [
         'pic_lynx_vertical.png',
         'pic_cat_vertical.png',
@@ -105,7 +108,7 @@ export default {
     }
   },
   mounted() {
-    LynxCoordinatorRegister.registeAction("sponsorAffinity", "responderAffinity", animationAction)
+    this.cdrContext = new CoordinatorContext("parentAffinity", "affinity", animationAction)
   },
   methods: {
     onPageChanged(e) {
@@ -133,6 +136,9 @@ export default {
           this.firstBgImg = this.images[curIndex + 1]
         }
       }
+    },
+    onClick(index) {
+      this.cdrContext.updateProperties({'toNextPageIndex': index}, true)
     }
   }
 }

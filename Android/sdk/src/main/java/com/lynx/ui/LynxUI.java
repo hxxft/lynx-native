@@ -33,6 +33,7 @@ import com.lynx.ui.event.TGEventEmitter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import static android.view.View.LAYER_TYPE_HARDWARE;
 import static android.view.View.LAYER_TYPE_NONE;
@@ -140,7 +141,7 @@ public abstract class LynxUI<T extends View>
                 setCoordinatorAffinity(value);
                 break;
             case ATTR_COORDINATOR_TYPE:
-                mCoordinatorTypes = new CoordinatorTypes(value);
+                setCoordinatorType(value);
                 break;
             case Treatment.ATTR_COORDINATOR_COMMAND:
                 mTreatment.addCoordinatorCommand(value);
@@ -529,13 +530,32 @@ public abstract class LynxUI<T extends View>
     }
 
     protected void setCoordinatorAffinity(String affinity) {
+        if (mCoordinatorAffinity != null && !mCoordinatorAffinity.equals(affinity)) {
+            getRootUI().removeCoordinatorResponder(this);
+            if (mCoordinatorTypes != null) {
+                getRootUI().removeCoordinatorSponsor(this);
+            }
+        }
         mCoordinatorAffinity = affinity;
-        // TODO: 17/11/8 find better way to create executor
-        // notify body to update sponsor
         if (!TextUtils.isEmpty(affinity)) {
             getRootUI().addCoordinatorResponder(this);
+            if (mCoordinatorTypes != null) {
+                getRootUI().addCoordinatorSponsor(this);
+            }
+        }
+    }
+
+    protected void setCoordinatorType(String type) {
+        if (!TextUtils.isEmpty(type)) {
+            mCoordinatorTypes = new CoordinatorTypes(type);
         } else {
-            getRootUI().removeCoordinatorResponder(this);
+            mCoordinatorTypes = null;
+        }
+        if (TextUtils.isEmpty(mCoordinatorAffinity)) return;
+        if (mCoordinatorTypes != null) {
+            getRootUI().addCoordinatorSponsor(this);
+        } else {
+            getRootUI().removeCoordinatorSponsor(this);
         }
     }
 

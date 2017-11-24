@@ -20,7 +20,7 @@
 
     <listview
       class="listview"
-      coordinator-affinity="scroll"
+      coordinator-affinity="sponsorAffinity"
       coordinator-type="scroll">
       <view class="placeholder"></view>
       <template v-for="content in contentList">
@@ -38,15 +38,15 @@
     <img
       class="background-image"
       src="pic_lynx.png"
-      coordinator-affinity="scroll"
+      coordinator-affinity="responderAffinity"
       coordinator-command="scroll:onScrollEventForImg"></img>
     <view
       class="blue-mask"
-      coordinator-affinity="scroll"
+      coordinator-affinity="responderAffinity"
       coordinator-command="scroll:onScrollEvent"></view>
     <label
       class="title"
-      coordinator-affinity="scroll"
+      coordinator-affinity="responderAffinity"
       coordinator-command="scroll:onScrollEventForTitle">Lynx</label>
     <img
       class="menu-btn"
@@ -55,7 +55,7 @@
     <img
       class="shadow"
       src="shadow_piece.png"
-      coordinator-affinity="scroll"
+      coordinator-affinity="responderAffinity"
       coordinator-command="scroll:onScrollEventForShadowLine"></img>
   </view>
 </template>
@@ -136,7 +136,7 @@ export default {
     }
   },
   mounted() {
-    LynxCoordinatorRegister.registeAction("scroll", "scroll", animationCommand)
+    LynxCoordinatorRegister.registeAction("sponsorAffinity", "responderAffinity", animationCommand)
   },
   methods: {
     onMenuClick(e) {

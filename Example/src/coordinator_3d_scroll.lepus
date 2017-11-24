@@ -33,6 +33,8 @@ var touchDownTime = 0
 var isAllowScroll = false
 var curPage = 0
 
+var toNextPageIndex = 0
+
 function init(tag) {
   if (tag != kFirstItemTag
         && tag != kScrollWrapTag
@@ -202,4 +204,25 @@ function onTouchEventForBg(tag, touchX, touchY) {
             setAlpha(alpha)
         }
     }
+}
+
+function onPropertiesUpdated(tag) {
+    curIndex = toNextPageIndex
+    // Caculate next page index
+    toNextIndex = toNextPageIndex
+    if (toNextIndex < 0) toNextIndex = 0
+    if (toNextIndex > kTotalNum - 1) toNextIndex = kTotalNum - 1
+    totalMoveX = toNextIndex * (kImgWidth + kMarginLeft)
+    preTotalMoveX = totalMoveX
+    // mock touch end
+    curTouchType = 1
+    isAllowScroll = true
+    if (String.indexOf(tag, 'item') == 0) {
+        onTouchEventForImg(tag, 0, 0)
+    } else if (String.indexOf(tag, 'BgImg') >= 0) {
+        onTouchEventForBg(tag, 0, 0)
+    } else if (tag == 'scrollWrap') {
+        onTouchEventForWrap(tag, 0, 0)
+    }
+    isAllowScroll = false
 }

@@ -38,8 +38,22 @@ public class CommandExecutor {
         mExecutable = "";
     }
 
+    public boolean updateProperty(String property, String value) {
+        return nativeUpdateProperty(mNativePtr, property, 0, value, 0, false);
+    }
+
+    public boolean updateProperty(String property, double value) {
+        return nativeUpdateProperty(mNativePtr, property, 1, null, value, false);
+    }
+
+    public boolean updateProperty(String property, boolean value) {
+        return nativeUpdateProperty(mNativePtr, property, 2, null, 0, value);
+    }
+
+
     private static native long nativePrepare(String executable);
     private static native void nativeDestroy(long ptr);
     private static native Object[] nativeExecute(long ptr, String method, String tag, double[] args);
+    private static native boolean nativeUpdateProperty(long ptr, String property, int type, String value1, double value2, boolean value3);
 
 }

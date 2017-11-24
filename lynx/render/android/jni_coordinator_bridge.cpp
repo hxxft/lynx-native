@@ -121,6 +121,48 @@ jlong Prepare(JNIEnv *env, jclass jcaller, jstring executable) {
 void Destroy(JNIEnv *env, jclass jcaller, jlong ptr) {
 }
 
+jboolean UpdateProperty(JNIEnv *env,
+                    jclass jcaller,
+                    jlong ptr,
+                    jstring property,
+                    jint type,
+                    jstring value1,
+                    jdouble value2,
+                    jboolean value3) {
+    if (property == NULL)
+        return JNI_FALSE;
+
+    lynx::CoordinatorExecutor *executor = reinterpret_cast<lynx::CoordinatorExecutor *>(ptr);
+    std::string name = base::android::JNIHelper::ConvertToString(env, property);
+    lepus::Value lepus_value;
+    // Add string
+    if (type == 0) {
+        lepus_value.type_ = lepus::Value_String;
+        if (value1 != NULL) {
+            lepus_value.str_ = executor->context()->string_pool()
+                    ->NewString(base::android::JNIHelper::ConvertToString(env, value1).c_str());
+        } else {
+            lepus_value.str_ = lepus_value.str_ = executor->context()->string_pool()->NewString("");
+        }
+        lepus_value.str_->AddRef();
+    }
+    // Add double
+    else if (type == 1) {
+        lepus_value = value2;
+    }
+    // Add boolean
+    else if (type == 2) {
+        lepus_value.type_ = lepus::Value_Boolean;
+        lepus_value.boolean_ = value3;
+    }
+    if (executor->context()->UpdateTopLevelVariable(name, lepus_value)) {
+        return JNI_TRUE;
+    }
+
+    return JNI_FALSE;
+
+}
+
 namespace lynx {
 
     bool JNICoordinatorBridge::RegisterJNIUtils(JNIEnv* env) {
