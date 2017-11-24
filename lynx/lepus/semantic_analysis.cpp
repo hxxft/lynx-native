@@ -361,7 +361,7 @@ namespace lepus {
     }
     
     void SemanticAnalysis::Visit(MemberAccessorAST* ast, void* data){
-        
+        ast->table()->Accept(this, data);
     }
     
     void SemanticAnalysis::Visit(FunctionCallAST* ast, void* data) {

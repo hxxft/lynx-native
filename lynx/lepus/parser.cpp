@@ -470,6 +470,7 @@ namespace lepus {
         }else if(LookAhead().token_ == '(') {
             if(type) *type = ExprType_FunctionCall;
             expr = ParseFunctionCall(expr);
+            NextToken();
             return ParsePrefixExprEnd(expr, type);
         }else if(LookAhead().token_ == Token_INC ||
                  LookAhead().token_ == Token_DEC ){

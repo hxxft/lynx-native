@@ -8,8 +8,10 @@
 
 #include "lepus/value.h"
 #include "lepus/lepus_string.h"
+#include "lepus/table.h"
 
 namespace lepus {
+    
     class Global {
     public:
         Global() : global_(), global_content_(){
@@ -19,6 +21,9 @@ namespace lepus {
             std::unordered_map<String*, int>::iterator iter = global_.begin();
             for(;iter != global_.end(); ++iter) {
                 iter->first->Release();
+                if(global_content_[iter->second].type_ == Value_Table){
+                    delete static_cast<Dictonary*>(global_content_[iter->second].table_);
+                }
             }
         }
         
@@ -74,6 +79,8 @@ namespace lepus {
         StringPool string_pool_;
         Global global_;
     };
+    
+    typedef Value (*CFunction)(Context *);
 }
 
 #endif

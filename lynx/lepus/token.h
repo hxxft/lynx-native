@@ -65,12 +65,12 @@ namespace lepus {
             String* str_;
         };
         
-        String* module_;
+//        String* module_;
         int line_;
         int column_;
         int token_; // id & some character
         
-        Token() :str_(nullptr), module_(nullptr), line_(0), column_(0), token_(Token_EOF) {
+        Token() :str_(nullptr), line_(0), column_(0), token_(Token_EOF) {
             
         }
         

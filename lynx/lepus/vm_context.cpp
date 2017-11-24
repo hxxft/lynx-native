@@ -8,6 +8,7 @@
 #include "lepus/code_generator.h"
 #include "lepus/value.h"
 #include "lepus/builtin.h"
+#include "lepus/table.h"
 
 namespace lepus {
 
@@ -29,7 +30,6 @@ namespace lepus {
     b = GET_REGISTER_B(i);                                  \
     c = GET_REGISTER_C(i);
     
-typedef Value (*CFunction)(Context *);
     
     void VMContext::Initialize() {
         RegisterBulitin(this);
@@ -80,7 +80,7 @@ typedef Value (*CFunction)(Context *);
     }
     
     bool VMContext::CallFunction(Value* function, int argc, Value* ret) {
-        if(function->type_ == ValueT_Closure) {
+        if(function->type_ == Value_Closure) {
             heap_.top_ = function + 1;
             Frame frame;
             frame.return_ = ret;
@@ -90,7 +90,7 @@ typedef Value (*CFunction)(Context *);
             frame.register_ = heap_.top_;
             frames_.push_back(frame);
             return true;
-        }else if(function->type_ == ValueT_CFunction) {
+        }else if(function->type_ == Value_CFunction) {
             heap_.top_ = function + argc + 1;
             Frame frame;
             frame.return_ = ret;
@@ -275,6 +275,11 @@ typedef Value (*CFunction)(Context *);
                 case TypeOp_SetTable:
                     break;
                 case TypeOp_GetTable:
+                    GET_REGISTER_ABC(i);
+                    if(b->type_ == Value_Table && c->type_ == Value_String) {
+                        *a = static_cast<Dictonary*>(b->table_)->GetValue(c->str_);
+                    }
+                    
                     break;
                 case TypeOp_Switch:
                 {
@@ -321,7 +326,7 @@ typedef Value (*CFunction)(Context *);
             }
         }
         
-        value->type_ = ValueT_Closure;
+        value->type_ = Value_Closure;
         value->closure_ = closure;
     }
 

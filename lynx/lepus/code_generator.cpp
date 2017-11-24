@@ -212,7 +212,7 @@ namespace lepus {
             ast->block()->Accept(this, nullptr);
             Value* top = context_->heap().top_++;
             top->closure_ = new Closure(static_cast<Function*>(current_function_->function_));
-            top->type_ = ValueT_Closure;
+            top->type_ = Value_Closure;
         }
         context_->root_function_.Reset(static_cast<Function*>(current_function_->function_));
     }
@@ -715,7 +715,18 @@ namespace lepus {
     }
     
     void CodeGenerator::Visit(MemberAccessorAST* ast, void* data){
+        Guard<CodeGenerator> g(this, &CodeGenerator::EnterRegister, &CodeGenerator::LeaveRegister);
+        Function* function = current_function_->function_;
         
+        int reg = GenerateRegisiterId();
+        ast->table()->Accept(this, &reg);
+        
+        int member_reg_id = GenerateRegisiterId();
+        int index = function->AddConstString(ast->member().str_);
+
+        function->AddInstruction(Instruction::ABxCode(TypeOp_LoadConst, member_reg_id, index));
+        
+        function->AddInstruction(Instruction::ABCCode(TypeOp_GetTable, *static_cast<int*>(data), reg, member_reg_id));
     }
     
     void CodeGenerator::Visit(FunctionCallAST* ast, void* data){

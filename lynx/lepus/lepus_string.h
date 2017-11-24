@@ -21,6 +21,13 @@ namespace lepus {
             return str_;
         }
         
+        int find(const String& other, int index) {
+            char *str = strstr(str_+index, other.str_);
+            if(str == nullptr)
+                return -1;
+            return str - str_;
+        }
+        
         friend bool operator == (const String& left, const String& right) {
             return memcmp(left.str_, right.str_, left.length_) == 0;
         }

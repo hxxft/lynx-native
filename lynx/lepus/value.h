@@ -11,8 +11,8 @@ namespace lepus {
         Value_Boolean,
         Value_String,
         Value_Table,
-        ValueT_Closure,
-        ValueT_CFunction,
+        Value_Closure,
+        Value_CFunction,
     };
     
     class Value {
@@ -43,7 +43,7 @@ namespace lepus {
         void SetNil() {
             if(this->type_ == Value_String ) {
                 str_->Release();
-            }else if(this->type_ == ValueT_Closure) {
+            }else if(this->type_ == Value_Closure) {
                 closure_->Release();
             }
             number_ = 0;
@@ -56,7 +56,7 @@ namespace lepus {
             }
             if(this->type_ == Value_String) {
                 str_->Release();
-            }else if(this->type_ == ValueT_Closure){
+            }else if(this->type_ == Value_Closure){
                 closure_->Release();
             }
             
@@ -76,9 +76,9 @@ namespace lepus {
                     return left.boolean_ == right.boolean_;
                 case Value_String:
                     return left.str_ == right.str_;
-                case ValueT_Closure:
+                case Value_Closure:
                     return left.closure_ == right.closure_;
-                case ValueT_CFunction:
+                case Value_CFunction:
                     return left.native_function_ == right.native_function_;
                 default:
                     break;
@@ -190,14 +190,18 @@ namespace lepus {
                     this->str_->AddRef();
                     this->type_ = Value_String;
                     break;
-                case ValueT_Closure:
+                case Value_Closure:
                     this->closure_ = value.closure_;
                     this->closure_->AddRef();
-                    this->type_ = ValueT_Closure;
+                    this->type_ = Value_Closure;
                     break;
-                case ValueT_CFunction:
+                case Value_CFunction:
                     this->native_function_ = value.native_function_;
-                    this->type_ = ValueT_CFunction;
+                    this->type_ = Value_CFunction;
+                    break;
+                case Value_Table:
+                    this->table_ = value.table_;
+                    this->type_ = Value_Table;
                     break;
                 default:
                     this->str_ = nullptr;

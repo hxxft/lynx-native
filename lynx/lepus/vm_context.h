@@ -11,6 +11,7 @@
 #include "lepus/heap.h"
 
 namespace lepus {
+    
     class VMContext : public Context {
     public:
         virtual ~VMContext(){}
