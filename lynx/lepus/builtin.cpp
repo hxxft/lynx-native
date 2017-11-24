@@ -27,7 +27,7 @@ namespace lepus {
         table->SetValue(context->string_pool()->NewString(name), value);
     }
     
-    void RegisterBulitin(Context* ctx) {
+    void RegisterBuiltin(Context* ctx) {
         RegisterBaseAPI(ctx);
         RegisterStringAPI(ctx);
         RegisterMathAPI(ctx);

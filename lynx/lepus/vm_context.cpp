@@ -32,7 +32,7 @@ namespace lepus {
     
     
     void VMContext::Initialize() {
-        RegisterBulitin(this);
+        RegisterBuiltin(this);
     }
     
     void VMContext::Execute(const std::string& source) {
@@ -278,6 +278,9 @@ namespace lepus {
                     GET_REGISTER_ABC(i);
                     if(b->type_ == Value_Table && c->type_ == Value_String) {
                         *a = static_cast<Dictonary*>(b->table_)->GetValue(c->str_);
+                    }else if(b->type_ == Value_String && c->type_ == Value_String){
+                        Value* v = global()->Find(string_pool()->NewString("String"));
+                        *a = static_cast<Dictonary*>(v->table_)->GetValue(c->str_);
                     }
                     
                     break;

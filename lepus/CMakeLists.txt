@@ -4,7 +4,7 @@ cmake_minimum_required(VERSION 2.6)
 project(lepus)
 
 set(CMAKE_CXX_FLAGS
-    "-std=c++11 -O2 -Wall -Wextra -Wno-unused-parameter"
+    "-std=c++11 -Wall -Wextra -Wno-unused-parameter"
 )
 
 set(EXECUTABLE_OUTPUT_PATH "${PROJECT_BINARY_DIR}/bin")
@@ -36,6 +36,9 @@ add_library(lepus
     ${CMAKE_SOURCE_DIR}/../lynx/lepus/vm_context.h
     ${CMAKE_SOURCE_DIR}/../lynx/lepus/upvalue.h
     ${CMAKE_SOURCE_DIR}/../lynx/lepus/switch.h
+    ${CMAKE_SOURCE_DIR}/../lynx/lepus/string_api.h
+    ${CMAKE_SOURCE_DIR}/../lynx/lepus/base_api.h
+    ${CMAKE_SOURCE_DIR}/../lynx/lepus/math_api.h
     ${SOURCE_FILES}
     )
 

@@ -31,7 +31,9 @@ namespace lepus {
     }
     
     void RegisterBaseAPI(Context* ctx) {
-        RegisterCFunction(ctx, "print", &Print);
+        Dictonary* table = new Dictonary;
+        RegisterTableFunction(ctx, table, "log", &Print);
+        RegisterFunctionTable(ctx, "console", table);
     }
 }
 

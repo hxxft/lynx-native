@@ -735,8 +735,17 @@ namespace lepus {
         int return_register_id = data == nullptr ? GenerateRegisiterId() : *static_cast<int*>(data);
         int caller_register_id = GenerateRegisiterId();
         ast->caller()->Accept(this, &caller_register_id);
-        ast->args()->Accept(this, nullptr);
+        
         int argc = ast->args().Get() != nullptr ? static_cast<ExpressionListAST*>(ast->args().Get())->expressions().size() : 0;
+        
+        if(ast->caller()->type() == ASTType_MemberAccessor) {
+            int this_reg_id = GenerateRegisiterId();
+            static_cast<MemberAccessorAST*>(ast->caller().Get())->table()->Accept(this, &this_reg_id);
+            ++argc;
+        }
+        
+        ast->args()->Accept(this, nullptr);
+        
         Call(caller_register_id, argc, return_register_id);
     }
 }

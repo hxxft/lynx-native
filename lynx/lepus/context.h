@@ -42,6 +42,14 @@ namespace lepus {
             return -1;
         }
         
+        Value* Find(String* name) {
+            std::unordered_map<String*, int>::iterator iter = global_.find(name);
+            if(iter !=  global_.end()) {
+                return &global_content_[iter->second];
+            }
+            return nullptr;
+        }
+        
         std::size_t Add(String* name, Value value) {
             std::unordered_map<String*, int>::iterator iter = global_.find(name);
             if(iter !=  global_.end()) {
