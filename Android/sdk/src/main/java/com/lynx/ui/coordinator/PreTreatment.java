@@ -32,7 +32,7 @@ public class PreTreatment {
     private boolean dispatchScroll(CommandExecutor executor, String tag,
                                   int scrollTop, int scrollLeft) {
         CoordinatorResult result = executor.executeCommand(DISPATCH_SCROLL_COMMAND,
-                tag == null ? 0 : Integer.valueOf(tag),
+                tag,
                 PixelUtil.pxToLynxNumber(scrollTop),
                 PixelUtil.pxToLynxNumber(scrollLeft));
         return result != null && result.isConsumed();
@@ -47,7 +47,7 @@ public class PreTreatment {
         float axisX = event.getX();
         float axisY = event.getY();
         CoordinatorResult result = executor.executeCommand(DISPATCH_TOUCH_COMMAND,
-                tag == null ? 0 : Integer.valueOf(tag),
+                tag,
                 type,
                 PixelUtil.pxToLynxNumber(axisX),
                 PixelUtil.pxToLynxNumber(axisY),

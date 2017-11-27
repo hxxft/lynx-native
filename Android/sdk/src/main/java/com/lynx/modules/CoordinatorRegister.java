@@ -39,8 +39,16 @@ public class CoordinatorRegister extends LynxModule {
     }
 
     @LynxMethod
-    public void update(final String sponsorAffinity, final String responderAffinity,
-                       LynxObject object) {
+    public void updateProperties(final String sponsorAffinity, final String responderAffinity,
+                                 final LynxObject object, final boolean notify) {
+        final LynxUI ui = mRuntime.getHost().mRootRender.getUI();
+        ui.getView().post(new Runnable() {
+            @Override
+            public void run() {
+                ((TransferStation) ui).updatePropertiesInAction(sponsorAffinity, responderAffinity,
+                        object, notify);
+            }
+        });
     }
 
     @Override

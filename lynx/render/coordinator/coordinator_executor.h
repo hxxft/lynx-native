@@ -4,6 +4,7 @@
 #define LYNX_RENDER_COORDINATOR_EXECUTOR_H_
 
 #include <string>
+#include "lepus/vm_context.h"
 #include "lepus/vm.h"
 #include "render/coordinator/coordinator_action.h"
 
@@ -15,8 +16,11 @@ namespace lynx {
 
         CoordinatorAction Execute(const std::string& method, const std::vector<lepus::Value>& args);
 
+        lepus::VMContext *context() {
+            return ctx_;
+        }
     private:
-        lepus::Context *ctx_;
+        lepus::VMContext *ctx_;
         lepus::VM *vm_;
 
         CoordinatorAction action_;

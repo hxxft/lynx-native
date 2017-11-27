@@ -12,6 +12,7 @@ import com.lynx.utils.PixelUtil;
 public class Treatment {
 
     public final static String COMMAND_INIT = "init";
+    public final static String COMMAND_UPDATE_PROPERTIES = "onPropertiesUpdated";
     public final static String ATTR_COORDINATOR_COMMAND = "coordinator-command";
 
     private CoordinatorCommands mCommand;
@@ -28,12 +29,18 @@ public class Treatment {
         mCommand = new CoordinatorCommands(content);
     }
 
-    public void init(CommandExecutor executor, int tag) {
+    public void init(CommandExecutor executor) {
         if (!mInit) {
             mInit = true;
-            CoordinatorResult result = executor.executeCommand(COMMAND_INIT, tag);
+            CoordinatorResult result = executor.executeCommand(COMMAND_INIT, mUI.coordinatorTag());
             mCResultExecutor.execute(result);
         }
+    }
+
+    public void onPropertiesUpdated(CommandExecutor executor) {
+        CoordinatorResult result = executor.executeCommand(COMMAND_UPDATE_PROPERTIES,
+                mUI.coordinatorTag());
+        mCResultExecutor.execute(result);
     }
 
     public void onNestedAction(String type, CommandExecutor executor, Object... params) {
@@ -54,7 +61,7 @@ public class Treatment {
         String command = mCommand.getCommand(CoordinatorTypes.SCROLL);
         if (command == null) return;
         CoordinatorResult result = executor.executeCommand(command,
-                tag != null ? Integer.valueOf(tag) : 0,
+                tag,
                 PixelUtil.pxToLynxNumber(scrollTop),
                 PixelUtil.pxToLynxNumber(scrollLeft));
         mCResultExecutor.execute(result);
@@ -67,7 +74,7 @@ public class Treatment {
         String command = mCommand.getCommand(CoordinatorTypes.TOUCH);
         if (command == null) return;
         CoordinatorResult result = executor.executeCommand(command,
-                tag != null ? Integer.valueOf(tag) : 0,
+                tag,
                 PixelUtil.pxToLynxNumber(touchX),
                 PixelUtil.pxToLynxNumber(touchY));
         mCResultExecutor.execute(result);

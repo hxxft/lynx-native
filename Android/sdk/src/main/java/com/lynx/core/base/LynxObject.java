@@ -5,6 +5,7 @@ import android.support.annotation.Keep;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 public class LynxObject {
     // jni use
@@ -29,6 +30,10 @@ public class LynxObject {
     @Keep
     private LynxArray getProperties() {
         return mProperties;
+    }
+
+    public Set<Object> getPropertyNames() {
+        return mPropertiesMap.keySet();
     }
 
     public Object getProperty(Object key) {
