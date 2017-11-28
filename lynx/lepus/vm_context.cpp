@@ -78,6 +78,15 @@ namespace lepus {
     Value* VMContext::GetParam(int index) {
         return frames_.back().register_ + index;
     }
+
+    bool VMContext::UpdateTopLevelVariable(const std::string &name, Value value) {
+        auto reg_info = top_level_variables_.find(string_pool()->NewString(name));
+        if(reg_info == top_level_variables_.end())
+            return false;
+        int reg = reg_info->second;
+        *(heap_.base() + reg + 1) = value;
+        return true;
+    }
     
     bool VMContext::CallFunction(Value* function, int argc, Value* ret) {
         if(function->type_ == Value_Closure) {

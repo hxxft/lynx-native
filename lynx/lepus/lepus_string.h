@@ -20,6 +20,10 @@ namespace lepus {
         const char* c_str() {
             return str_;
         }
+
+        std::size_t length() const{
+            return length_;
+        }
         
         int find(const String& other, int index) {
             char *str = strstr(str_+index, other.str_);

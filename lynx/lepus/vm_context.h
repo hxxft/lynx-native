@@ -20,6 +20,7 @@ namespace lepus {
         virtual Value Call(const std::string& name, const std::vector<Value>& args);
         virtual int GetParamsSize();
         virtual Value* GetParam(int index);
+        virtual bool UpdateTopLevelVariable(const std::string &name, Value value);
     protected:
         friend class CodeGenerator;
         Heap& heap() {
