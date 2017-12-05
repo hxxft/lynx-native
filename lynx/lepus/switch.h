@@ -25,6 +25,8 @@ namespace lepus {
              switch_table_(){}
         
         void Modify(Token& key, int offset);
+        int BinarySearchTable(int key);
+        static bool SortTable(const std::pair<int, int> &v1, const std::pair<int, int> &v2 );
         void Adjust();
         int Switch(Value* value);
         int default_offset() {
