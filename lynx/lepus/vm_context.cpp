@@ -221,7 +221,8 @@ namespace lepus {
                     break;
                 case TypeOp_Mod:
                     GET_REGISTER_ABC(i);
-                    a->number_ = int(b->number_) % int(c->number_);
+                    a->number_ = int(b->number_/c->number_);
+                    a->number_ = b->number_ - a->number_ * c->number_;
                     a->type_ = Value_Number;
                     break;
                 case TypeOp_And:
