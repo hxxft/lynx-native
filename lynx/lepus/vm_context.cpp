@@ -309,6 +309,9 @@ namespace lepus {
                     break;
             }
         }
+        if(frame->return_ != nullptr) {
+            frame->return_->SetNil();
+        }
         frames_.pop_back();
     }
     
