@@ -80,10 +80,13 @@ namespace lepus {
             token = Token(line_, column_, current_character_);
             current_character_ = next;
         }else{
-            int next_next = NextCharacter();
-            if(next_next != '='){
-                throw CompileException("only support === and !==", Token(line_, column_, equal));
+            if(equal == Token_NotEqual || equal == Token_Equal){
+                int next_next = NextCharacter();
+                if(next_next != '='){
+                    throw CompileException("only support === and !==", Token(line_, column_, equal));
+                }
             }
+            
             token = Token(line_, column_, equal);
             current_character_ = NextCharacter();
         }
@@ -112,7 +115,7 @@ namespace lepus {
     void Scanner::ParseId(Token& token) {
         if(!isalpha(current_character_) &&
            current_character_ != '_') {
-            // TODO
+            throw CompileException("invalid name", Token(line_, column_, Token_Id));
         }
         std::string buffer;
         buffer.push_back(current_character_);

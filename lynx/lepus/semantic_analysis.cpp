@@ -159,11 +159,11 @@ namespace lepus {
             case '+':
                 // 这里有可能有数字与文字的相加，所以只要是Number和String就可以
                 if(!(l_expr_data.expr_type_ == ExprType_Number ||
-                     l_expr_data.expr_type_ == ExprType_String)) {
+                     l_expr_data.expr_type_ == ExprType_String)&&l_expr_data.expr_type_ != ExprType_Unknown) {
                     throw CompileException("left expression is not number or string", ast->op_token());
                 }
                 if(!(r_expr_data.expr_type_ == ExprType_Number ||
-                     r_expr_data.expr_type_ == ExprType_String)) {
+                     r_expr_data.expr_type_ == ExprType_String)&&r_expr_data.expr_type_ != ExprType_Unknown) {
                     throw CompileException("right expression is not number or string", ast->op_token());
                 }
                 if(r_expr_data.expr_type_ == ExprType_String || l_expr_data.expr_type_ == ExprType_String){
@@ -249,7 +249,7 @@ namespace lepus {
         expr_data.lex_po_ = LexicalOp_Read;
         ast->expression()->Accept(this, &expr_data);
         if(ast->identifier().token_ != Token_Id) {
-            //TODO exception
+            throw CompileException(ast->identifier().str_->c_str(), "is invalid", ast->identifier());
         }
         if(!InsertName(ast->identifier().str_)) {
             throw CompileException(ast->identifier().str_->c_str(), " is already existed", ast->identifier());

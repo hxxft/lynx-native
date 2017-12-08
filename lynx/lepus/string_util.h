@@ -15,6 +15,12 @@ namespace lepus {
             str = str.substr(0, pos + 1);
         }
     }
+    template < typename T > std::string to_string( const T& n )
+    {
+        std::ostringstream stm ;
+        stm << n ;
+        return stm.str() ;
+    }
 }
 
 #endif  // LYNX_LEPUS_STRING_API_H_

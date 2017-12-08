@@ -292,7 +292,7 @@ namespace lepus {
         do {
             NextToken();
             if(LookAhead().token_ != Token_Id) {
-                //TODO ERROR
+                throw CompileException("invalid assign", LookAhead());
             }
             VariableAST* var = new VariableAST;
             NextToken();
@@ -386,7 +386,8 @@ namespace lepus {
         }else if(IsPrimaryExpr(LookAhead().token_)){
             expression = ParsePrimaryExpr();
         }else{
-            //TODO ERROR
+            throw CompileException("error expression", token);
+            
         }
         while (true) {
             int right_priority = Priority(LookAhead().token_);
@@ -497,14 +498,14 @@ namespace lepus {
     
     ASTree* Parser::ParseNames() {
         if(NextToken().token_ != Token_Id) {
-            //TODO ERROR
+            throw CompileException("error name", current_token_);
         }
         NamesAST* names = new NamesAST;
         names->names().push_back(current_token_);
         while(LookAhead().token_ == ',') {
             NextToken();
             if(NextToken().token_ != Token_Id) {
-                //TODO ERROR
+                throw CompileException("error name", current_token_);
             }
             names->names().push_back(current_token_);
         }
