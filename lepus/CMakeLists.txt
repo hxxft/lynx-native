@@ -39,6 +39,7 @@ add_library(lepus
     ${CMAKE_SOURCE_DIR}/../lynx/lepus/string_api.h
     ${CMAKE_SOURCE_DIR}/../lynx/lepus/base_api.h
     ${CMAKE_SOURCE_DIR}/../lynx/lepus/math_api.h
+    ${CMAKE_SOURCE_DIR}/../lynx/lepus/string_util.h
     ${SOURCE_FILES}
     )
 

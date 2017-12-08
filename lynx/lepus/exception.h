@@ -31,6 +31,7 @@ namespace lepus {
             <<", column:"<<token.column_<<"):"<<key<<msg;
         }
         
+        
     };
 }
 
