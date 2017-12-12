@@ -84,10 +84,10 @@ function onDispatchScrollEvent(tag, scrollTop, scrollLeft) {
 
 function onScrollEventForBg(tag, scrollTop, scrollLeft) {
     if (curScrollTop < (animHeight - defaultBarHeight)) {
-        var y = 0-curScrollTop
+        var y = -curScrollTop
         setOffsetBottom(y)
     } else {
-        setOffsetBottom(0-animHeight + defaultBarHeight)
+        setOffsetBottom(-animHeight + defaultBarHeight)
     }
 }
 

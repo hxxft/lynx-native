@@ -37,7 +37,7 @@
 
     <view
       class="anim-bg"
-      coordinator-affinity="scroll"
+      coordinator-affinity="responderAffinity"
       coordinator-command="scroll:onScrollEventForBg">
       <template v-for="(anim, index) in animList">
         <view
@@ -83,12 +83,15 @@
 </template>
 
 <script>
+import CoordinatorContext from './coordinator'
 import animationCommand from './coordinator_anim_bar.lepus'
 export default {
+  
   components: {
   },
   data() {
     return {
+      cdrContext: null,
       contentList: [
         {
           title: "Lynx",
@@ -137,11 +140,10 @@ export default {
     }
   },
   mounted() {
-    LynxCoordinatorRegister.registeAction("sponsorAffinity", "responderAffinity", animationCommand)
+    this.cdrContext = new CoordinatorContext("sponsorAffinity", "responderAffinity", animationCommand)
   },
   methods: {
     onClick(index) {
-      console.log("click")
       this.$refs.vScrollView.scrollTop = 1240 - 120
     }
   }
