@@ -4,7 +4,7 @@ package com.lynx.core.base;
 import com.lynx.core.LynxField;
 
 /**
- * 对的Java field的包装，方便进行field的set和get方法，以及注册的field的唯一识别
+ * An identifiable wrapper for Java field
  */
 
 /* package */ class JavaField {

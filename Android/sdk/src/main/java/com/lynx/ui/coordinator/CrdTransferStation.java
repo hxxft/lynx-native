@@ -117,7 +117,7 @@ public class CrdTransferStation implements TransferStation {
         if (responderAffinityList == null) {
             return;
         }
-        mAffinityRelationShip.remove(responderAffinityList);
+        responderAffinityList.remove(responderAffinity);
         mExecutorPool.remove(responderAffinity);
     }
 
