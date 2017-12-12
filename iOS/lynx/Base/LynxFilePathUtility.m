@@ -1,10 +1,4 @@
-//
-//  LynxFilePathUtility.m
-//  lynx
-//
-//  Created by dli on 2017/9/25.
-//  Copyright © 2017年 lynx. All rights reserved.
-//
+// Copyright 2017 The Lynx Authors. All rights reserved.
 
 #import "LynxFilePathUtility.h"
 

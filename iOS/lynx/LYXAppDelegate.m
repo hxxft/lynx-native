@@ -1,15 +1,15 @@
 // Copyright 2017 The Lynx Authors. All rights reserved.
 
-#import "AppDelegate.h"
+#import "LYXAppDelegate.h"
 #import "LynxResourceManager.h"
 #import "LynxApplicationInfo.h"
 #import "LynxViewController.h"
 
-@interface AppDelegate ()
+@interface LYXAppDelegate ()
 
 @end
 
-@implementation AppDelegate
+@implementation LYXAppDelegate
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
@@ -28,7 +28,6 @@
     UINavigationController *navController = [[UINavigationController alloc]initWithRootViewController:[[LynxViewController alloc] initWithName:appInfo.mainPage]];
     self.window.rootViewController = navController;
     [self.window makeKeyAndVisible];
-    
     
     
     return YES;
