@@ -14,11 +14,14 @@ namespace base {
     namespace ios {
         class OCHelper {
         public:
+            static NSString* ConvertToOCString(const std::string& str);
+            static NSString* ConvertToOCString(jscore::LynxValue* value);
             static id ConvertToOCValue(jscore::LynxValue* value);
-            static NSMutableArray* ConvertToOCArray(jscore::LynxArray* array);
+            static NSArray* ConvertToOCArray(jscore::LynxArray* array);
+            static NSDictionary* ConvertToOCObject(jscore::LynxObject* object);
             
-            static jscore::LynxArray* ConvertToLynxArray(NSMutableArray *array);
-            static jscore::LynxObject* ConvertToLynxObject(NSMutableDictionary *dic);
+            static jscore::LynxArray* ConvertToLynxArray(NSArray *array);
+            static jscore::LynxObject* ConvertToLynxObject(NSDictionary *dic);
             static jscore::LynxValue* ConvertToLynxValue(id value);
         };
     }

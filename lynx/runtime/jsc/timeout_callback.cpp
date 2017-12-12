@@ -15,7 +15,7 @@ namespace jscore {
                 && JSObjectIsFunction(ctx, (JSObjectRef) argv[0])) {
             JSCContext* js_context = static_cast<JSCContext*>(JSObjectGetPrivate(thiz));
             base::ScopedPtr<TimedTaskInvoker> invoker(lynx_new TimedTaskInvoker());
-            JSCFunction* jsc_function = lynx_new JSCFunction(js_context, JSContextGetGlobalObject(ctx), (JSObjectRef) argv[0]);
+            JSCFunction* jsc_function = lynx_new JSCFunction(js_context, (JSObjectRef) argv[0]);
             invoker->SetTimeout(js_context, jsc_function, (int) JSValueToNumber(ctx, argv[1], NULL));
         }
         return JSValueMakeUndefined(ctx);
@@ -28,7 +28,7 @@ namespace jscore {
             && JSObjectIsFunction(ctx, (JSObjectRef) argv[0])) {
             JSCContext* js_context = static_cast<JSCContext*>(JSObjectGetPrivate(thiz));
             base::ScopedPtr<TimedTaskInvoker> invoker(lynx_new TimedTaskInvoker());
-            JSCFunction* jsc_function = lynx_new JSCFunction(js_context, JSContextGetGlobalObject(ctx), (JSObjectRef) argv[0]);
+            JSCFunction* jsc_function = lynx_new JSCFunction(js_context, (JSObjectRef) argv[0]);
             invoker->SetInterval(js_context, jsc_function, (int) JSValueToNumber(ctx, argv[1], NULL));
         }
         return JSValueMakeUndefined(ctx);

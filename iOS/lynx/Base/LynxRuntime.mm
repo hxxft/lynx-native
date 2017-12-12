@@ -1,11 +1,13 @@
 // Copyright 2017 The Lynx Authors. All rights reserved.
 
 #import "LynxRuntime.h"
+#import "LYXModuleRegister.h"
 
 #include "config/global_config_data.h"
 #include "parser/render_parser.h"
 #include "render/render_tree_host.h"
 #include "render/ios/render_tree_host_impl_ios.h"
+#include "runtime/base/lynx_function_object_ios.h"
 
 @implementation LynxRuntime
 
@@ -23,7 +25,9 @@
     config::GlobalConfigData::GetInstance()->SetScreenConfig(size.width, size.height, density);
     // Create RenderTreeHost
     lynx::RenderTreeHost* render_tree_host = runtime_->SetupRenderHost();
-    return reinterpret_cast<lynx::RenderTreeHostImplIOS*>(render_tree_host->host_impl())->ios();
+    LYXModuleRegister *moduleRegister = [[LYXModuleRegister alloc] initWithRuntime:self];
+    _host = reinterpret_cast<lynx::RenderTreeHostImplIOS*>(render_tree_host->host_impl())->ios();
+    return _host;
 }
 
 - (void)loadUrl:(NSString *)url {
@@ -45,6 +49,11 @@
     base::PlatformString scoped_source(script);
     runtime_->RunScript(scoped_source);
     return @"";
+}
+
+- (void) addJavaScriptInterface:(LYXFunctionObject *) object
+                       withName:(NSString *) name {
+    runtime_->AddJavaScriptInterface([name UTF8String], new jscore::LynxFunctionObjectIOS(object));
 }
 
 - (void)destroy {
