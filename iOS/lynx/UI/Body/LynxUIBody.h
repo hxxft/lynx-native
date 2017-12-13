@@ -3,8 +3,9 @@
 #import "LynxUIView.h"
 #import "IOSView.h"
 #import "LynxUIAction.h"
+#import "LYXTransferStation.h"
 
-@interface LynxUIBody : LynxUIView
+@interface LynxUIBody : LynxUIView<LYXTransferStation>
 
 - (void) resetView:(IOSView*)view;
 - (void) collectAction:(LynxUIAction *)action;

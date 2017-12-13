@@ -4,17 +4,35 @@
 #import "LynxUIBody.h"
 #import "LynxUIEventAction.h"
 #import "LynxUIUpdateDataAction.h"
+#import "LYXTreatment.h"
+#import "LYXDefines.h"
+#import "LYXCoordinatorActionExecutor.h"
+#import "LYXCoordinatorTypes.h"
 
 #include "base/ios/common.h"
 #include "render/render_object_type.h"
 #include "render/ios/render_object_impl_ios.h"
 
+static NSString * const kAttrCoordinatorAffinity = @"coordinator-affinity";
+static NSString * const kAttrCoordinatorTag = @"coordinator-tag";
+static NSString * const kAttrCoordinatorType = @"coordinator-type";
+
+
+@interface LynxUI()
+@property(nonatomic) LYXCoordinatorTypes *coordinatorTypes;
+@end
+
 @implementation LynxUI
+
+#pragma mark - LynxUI
+
+LYX_NOT_IMPLEMENTED(- (instancetype)init)
 
 - (id)initWithRenderObjectImpl:(LynxRenderObjectImpl *) impl {
     self = [super init];
     if (self) {
         _view = [self createView:impl];
+        _coordinatorTreatment = [[LYXTreatment alloc] initWithUI:self];
         [self bindRenderObjectImpl:impl];
     }
     return self;
@@ -56,11 +74,27 @@
 
 - (void) setPosition:(const base::Position&) position {
     _renderObjectImpl->position_ = position;
+    [self updateFrame];
+}
+
+- (void) updateFrame {
     if(_renderObjectImpl->position_.IsEmpty() || !_view) return;
-    _view.frame = CGRectMake(_renderObjectImpl->position_.left_,
-                                      _renderObjectImpl->position_.top_,
-                                      _renderObjectImpl->position_.GetWidth(),
-                                      _renderObjectImpl->position_.GetHeight());
+    CGFloat x = _renderObjectImpl->position_.left_;
+    CGFloat y = _renderObjectImpl->position_.top_;
+    CGFloat width = _renderObjectImpl->position_.right_ + _offsetRight;
+    CGFloat height = _renderObjectImpl->position_.bottom_ + _offsetBottom;
+    _view.frame = CGRectMake(x, y, width, height);
+    [self updateBounds];
+}
+
+- (void) updateBounds {
+    if(_renderObjectImpl->position_.IsEmpty() || !_view) return;
+    CGFloat x = _renderObjectImpl->position_.left_ + _offsetLeft;
+    CGFloat y = _renderObjectImpl->position_.top_ + _offsetTop;
+    CGFloat width = (_renderObjectImpl->position_.right_ + _offsetRight) - x;
+    CGFloat height = (_renderObjectImpl->position_.bottom_ + _offsetBottom) - y;
+    _view.center = CGPointMake(x + width / 2, y + height / 2);
+    _view.bounds = CGRectMake(0, 0, width, height);
 }
 
 - (void) setSize:(const base::Size &) size {
@@ -80,7 +114,15 @@
 }
 
 - (void) setAttribute:(NSString *) value forKey:(NSString *) key {
-    
+    if ([kAttrCoordinatorTag isEqualToString:key]) {
+        [self setCoordinatorTag:value];
+    } else if ([kAttrCoordinatorAffinity isEqualToString:key]) {
+        [self setCoodinatorAffinity:value];
+    } else if ([kAttrCoodinatorCommand isEqualToString:key]) {
+        [_coordinatorTreatment addCoordinatorCommand:value];
+    } else if ([kAttrCoordinatorType isEqualToString:key]) {
+        [self setCoodinatorTypes:value];
+    }
 }
 
 - (void) requestLayout {
@@ -92,7 +134,20 @@
 }
 
 - (void) addEventListener:(NSString *) event {
-    
+    if ([event isEqualToString:@"click"]) {
+        _view.userInteractionEnabled = YES;
+        UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc]
+                      initWithTarget:self action:@selector(handleSingleTap:)];
+        [_view addGestureRecognizer:singleTap];
+    }
+}
+
+-(void) handleSingleTap:(id)sender {
+    NSMutableArray *array = [[NSMutableArray alloc] init];
+    NSMutableDictionary *event = [[NSMutableDictionary alloc] init];
+    [event setValue:@"click" forKey:@"type"];
+    array[0] = event;
+    [self postEvent:@"click" withValue:array];
 }
 
 - (void) removeEventListener:(NSString *) event {
@@ -136,7 +191,7 @@
     return nil;
 }
 
-- (void) postEvent:(NSString *)event withValue:(NSMutableArray *)array {
+- (void) postEvent:(NSString *)event withValue:(NSArray *)array {
     LynxUIBody *body = [self getRootUI];
     if (body) {
         [body collectAction:[[LynxUIEventAction alloc] initWithTarget:_renderObjectImpl andEvent:event andValue:array]];
@@ -149,5 +204,71 @@
         [body collectAction:[[LynxUIUpdateDataAction alloc] initWithTarget:_renderObjectImpl andKey:key andData:data]];
     }
 }
+
+#pragma mark - LYXCoordinatorObject
+
+@synthesize coordinatorTag = _coordinatorTag;
+@synthesize coordinatorAffinity = _coordinatorAffinity;
+
+- (void) setCoordinatorTag:(NSString *) tag {
+    _coordinatorTag = tag;
+}
+
+- (void) setCoodinatorAffinity:(NSString *) affinity {
+    if (_coordinatorAffinity && ![_coordinatorAffinity isEqualToString:affinity]) {
+        [[self getRootUI] removeCoordinatorResponder:self];
+        if (_coordinatorTypes) {
+            [[self getRootUI] removeCoordinatorSponsor:self];
+        }
+    }
+    _coordinatorAffinity = affinity;
+    if (affinity && affinity.length != 0) {
+        [[self getRootUI] addCoordinatorResponder:self];
+        if (_coordinatorTypes) {
+            [[self getRootUI] addCoordinatorSponsor:self];
+        }
+    }
+}
+
+#pragma mark - LYXCoordinatorSponsor
+
+@synthesize coordinatorTypes = _coordinatorTypes;
+
+- (BOOL)dispatchCoordinatorScrollTop:(NSInteger)scrollTop
+                             andLeft:(NSInteger)scrollLeft {
+    if (_coordinatorTypes && [_coordinatorTypes hasType:kCoordinatorType_Scroll]) {
+        return [[self getRootUI] dispatchNestedActionType:kCoordinatorType_Scroll
+                                                  sponsor:self
+                                                   params: [NSArray arrayWithObjects: [NSNumber numberWithInteger:scrollTop], [NSNumber numberWithInteger:scrollLeft], nil]];
+    }
+    return NO;
+}
+
+- (BOOL)dispatchCoordinatorTouchEvent:(UIEvent *)event type:(NSString *)type {
+    if (_coordinatorTypes && [_coordinatorTypes hasType:kCoordinatorType_Touch]) {
+        return [[self getRootUI] dispatchNestedActionType:kCoordinatorType_Touch
+                                                  sponsor:self
+                                                   params: [NSArray arrayWithObjects: event, type, nil]];
+    }
+    return NO;
+}
+
+- (void) setCoodinatorTypes:(NSString *) type {
+    if (type && type.length != 0) {
+        _coordinatorTypes = [[LYXCoordinatorTypes alloc] initWithContent:type];
+    } else {
+        _coordinatorTypes = nil;
+    }
+    if (!_coordinatorAffinity) return;
+    if (_coordinatorTypes) {
+        [[self getRootUI] addCoordinatorSponsor:self];
+    } else {
+        [[self getRootUI] removeCoordinatorSponsor:self];
+    }
+}
+
+#pragma mark - LYXCoordinatorResponder
+@synthesize coordinatorTreatment = _coordinatorTreatment;
+
 
 @end

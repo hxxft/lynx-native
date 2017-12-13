@@ -6,7 +6,7 @@
 @interface LynxUIEventAction : LynxUIAction
 
 @property(nonatomic, readwrite) NSString *event;
-@property(nonatomic, readwrite) NSMutableArray *array;
+@property(nonatomic, readwrite) NSArray *array;
 
-- (id) initWithTarget:(LynxRenderObjectImpl *)target andEvent:(NSString *)event andValue:(NSMutableArray *)array;
+- (id) initWithTarget:(LynxRenderObjectImpl *)target andEvent:(NSString *)event andValue:(NSArray *)array;
 @end

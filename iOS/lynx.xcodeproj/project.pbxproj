@@ -27,10 +27,13 @@
 		4273D2321F04B84700321655 /* window_object.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4273D2301F04B84700321655 /* window_object.cpp */; };
 		42B4F2001F7E420B001519E1 /* LynxViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 42B4F1FF1F7E420B001519E1 /* LynxViewController.m */; };
 		42B4F2021F7E42CC001519E1 /* assets.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 42B4F2011F7E42CB001519E1 /* assets.bundle */; };
-		42B4F2051F7E4710001519E1 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 42B4F2041F7E470F001519E1 /* AppDelegate.m */; };
+		42B4F2051F7E4710001519E1 /* LYXAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 42B4F2041F7E470F001519E1 /* LYXAppDelegate.m */; };
 		42D7BD6D1DCB7E99000BE5A5 /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 42D7BD6C1DCB7E99000BE5A5 /* JavaScriptCore.framework */; };
 		42D7BD751DCB8C27000BE5A5 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 42D7BD741DCB8C27000BE5A5 /* UIKit.framework */; };
 		5C7CD5C8675C8191C96DB698 /* libPods-lynx.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BE0761E22DF76E8A9BE04005 /* libPods-lynx.a */; };
+		BC1B52591FCFE5A100B506AC /* LYXCrdTransferStation.m in Sources */ = {isa = PBXBuildFile; fileRef = BC1B52581FCFE5A100B506AC /* LYXCrdTransferStation.m */; };
+		BC1B525C1FCFE7A400B506AC /* LYXCoordinatorTypes.m in Sources */ = {isa = PBXBuildFile; fileRef = BC1B525B1FCFE7A400B506AC /* LYXCoordinatorTypes.m */; };
+		BC1B526F1FD0F67000B506AC /* LYXCoordinatorCommands.m in Sources */ = {isa = PBXBuildFile; fileRef = BC1B526E1FD0F67000B506AC /* LYXCoordinatorCommands.m */; };
 		BC2ED21E1F0CBF00001B2E50 /* loader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC2ED21D1F0CBF00001B2E50 /* loader.cpp */; };
 		BC31B0071F611A3900C0234C /* LynxUIActionCollector.mm in Sources */ = {isa = PBXBuildFile; fileRef = BC31B0061F611A3900C0234C /* LynxUIActionCollector.mm */; };
 		BC31B00A1F611D5200C0234C /* LynxUIAction.m in Sources */ = {isa = PBXBuildFile; fileRef = BC31B0091F611D5200C0234C /* LynxUIAction.m */; };
@@ -109,6 +112,39 @@
 		BC6D1D3C1F55C3E0007DD652 /* memory_debug.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC6D1D381F55C3E0007DD652 /* memory_debug.cpp */; };
 		BC6D1D3D1F55C3E0007DD652 /* memory_tracker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC6D1D3A1F55C3E0007DD652 /* memory_tracker.cpp */; };
 		BC6D1D411F55C414007DD652 /* url_request_ghost_delegate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC6D1D3F1F55C414007DD652 /* url_request_ghost_delegate.cpp */; };
+		BC8040951FCA5C620041CF01 /* LYXModule.m in Sources */ = {isa = PBXBuildFile; fileRef = BC8040941FCA5C620041CF01 /* LYXModule.m */; };
+		BC8040981FCB07750041CF01 /* LYXOcCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = BC8040971FCB07750041CF01 /* LYXOcCenter.m */; };
+		BC80409B1FCB07950041CF01 /* LYXOcMethod.m in Sources */ = {isa = PBXBuildFile; fileRef = BC80409A1FCB07950041CF01 /* LYXOcMethod.m */; };
+		BC80409E1FCB08EC0041CF01 /* LYXOcField.m in Sources */ = {isa = PBXBuildFile; fileRef = BC80409D1FCB08EC0041CF01 /* LYXOcField.m */; };
+		BC8040A11FCBB8D40041CF01 /* LYXOcProperty.m in Sources */ = {isa = PBXBuildFile; fileRef = BC8040A01FCBB8D40041CF01 /* LYXOcProperty.m */; };
+		BC8040A41FCBCB800041CF01 /* LYXModuleRegister.m in Sources */ = {isa = PBXBuildFile; fileRef = BC8040A31FCBCB800041CF01 /* LYXModuleRegister.m */; };
+		BC8040A71FCBCB930041CF01 /* LYXModuleBundle.m in Sources */ = {isa = PBXBuildFile; fileRef = BC8040A61FCBCB930041CF01 /* LYXModuleBundle.m */; };
+		BC8040AB1FCE8FB10041CF01 /* LYXOcPropertyTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = BC8040AA1FCE8FB00041CF01 /* LYXOcPropertyTransformer.m */; };
+		BC87985C1FC7B22800F76993 /* switch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC8798591FC7B22800F76993 /* switch.cpp */; };
+		BC87985F1FC7B30900F76993 /* LYXPageNavigator.m in Sources */ = {isa = PBXBuildFile; fileRef = BC87985E1FC7B30900F76993 /* LYXPageNavigator.m */; };
+		BC8798721FC7C22300F76993 /* LYXFunctionObject.m in Sources */ = {isa = PBXBuildFile; fileRef = BC8798711FC7C22300F76993 /* LYXFunctionObject.m */; };
+		BC8798751FC7C28C00F76993 /* lynx_function_object_ios.mm in Sources */ = {isa = PBXBuildFile; fileRef = BC8798741FC7C28C00F76993 /* lynx_function_object_ios.mm */; };
+		BC8798781FC7C61200F76993 /* LYXCrdRegister.m in Sources */ = {isa = PBXBuildFile; fileRef = BC8798771FC7C61200F76993 /* LYXCrdRegister.m */; };
+		BC8A0CDE1FB0C0F3002B0370 /* LYXCoordinatorSponsor.h in Sources */ = {isa = PBXBuildFile; fileRef = BC8A0CDD1FB0C0F3002B0370 /* LYXCoordinatorSponsor.h */; };
+		BC8A0CE41FB2B5E6002B0370 /* LYXCommandExecutor.m in Sources */ = {isa = PBXBuildFile; fileRef = BC8A0CE31FB2B5E6002B0370 /* LYXCommandExecutor.m */; };
+		BC8A0CEA1FB2BA91002B0370 /* LYXPreTreatment.m in Sources */ = {isa = PBXBuildFile; fileRef = BC8A0CE91FB2BA91002B0370 /* LYXPreTreatment.m */; };
+		BC8A0CED1FB2BA9E002B0370 /* LYXTreatment.m in Sources */ = {isa = PBXBuildFile; fileRef = BC8A0CEC1FB2BA9E002B0370 /* LYXTreatment.m */; };
+		BC8A0D171FB2E477002B0370 /* builtin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC8A0CF21FB2E477002B0370 /* builtin.cpp */; };
+		BC8A0D181FB2E477002B0370 /* code_generator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC8A0CF41FB2E477002B0370 /* code_generator.cpp */; };
+		BC8A0D191FB2E477002B0370 /* function.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC8A0CF81FB2E477002B0370 /* function.cpp */; };
+		BC8A0D1C1FB2E477002B0370 /* lepus_string.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC8A0D001FB2E477002B0370 /* lepus_string.cpp */; };
+		BC8A0D1E1FB2E477002B0370 /* parser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC8A0D051FB2E477002B0370 /* parser.cpp */; };
+		BC8A0D1F1FB2E477002B0370 /* scanner.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC8A0D071FB2E477002B0370 /* scanner.cpp */; };
+		BC8A0D201FB2E477002B0370 /* semantic_analysis.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC8A0D091FB2E477002B0370 /* semantic_analysis.cpp */; };
+		BC8A0D211FB2E477002B0370 /* syntax_tree.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC8A0D0B1FB2E477002B0370 /* syntax_tree.cpp */; };
+		BC8A0D221FB2E477002B0370 /* table.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC8A0D0D1FB2E477002B0370 /* table.cpp */; };
+		BC8A0D231FB2E477002B0370 /* vm.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC8A0D131FB2E477002B0370 /* vm.cpp */; };
+		BC8A0D241FB2E477002B0370 /* vm_context.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC8A0D151FB2E477002B0370 /* vm_context.cpp */; };
+		BC8A0D2A1FB2E487002B0370 /* coordinator_action.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC8A0D261FB2E487002B0370 /* coordinator_action.cpp */; };
+		BC8A0D2B1FB2E487002B0370 /* coordinator_executor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC8A0D281FB2E487002B0370 /* coordinator_executor.cpp */; };
+		BC8A0D2E1FB2FEA9002B0370 /* LYXCoordinatorActionExecutor.m in Sources */ = {isa = PBXBuildFile; fileRef = BC8A0D2D1FB2FEA9002B0370 /* LYXCoordinatorActionExecutor.m */; };
+		BC8A0D351FB3EFE7002B0370 /* LYXPixelUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = BC8A0D341FB3EFE7002B0370 /* LYXPixelUtil.m */; };
+		BC8A0D381FB3F041002B0370 /* LYXScreenUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = BC8A0D371FB3F041002B0370 /* LYXScreenUtil.m */; };
 		BC8A6C6C1F288FF00035AE84 /* js_event.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC8A6C631F288FF00035AE84 /* js_event.cpp */; };
 		BC9D343A1E1DEC92009BD30A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BC9D342D1E1DEC92009BD30A /* Assets.xcassets */; };
 		BC9D343E1E1DEC92009BD30A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = BC9D34341E1DEC92009BD30A /* main.m */; };
@@ -213,8 +249,8 @@
 		42B4F1FE1F7E420B001519E1 /* LynxViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LynxViewController.h; sourceTree = "<group>"; };
 		42B4F1FF1F7E420B001519E1 /* LynxViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LynxViewController.m; sourceTree = "<group>"; };
 		42B4F2011F7E42CB001519E1 /* assets.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = assets.bundle; sourceTree = "<group>"; };
-		42B4F2031F7E470F001519E1 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
-		42B4F2041F7E470F001519E1 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		42B4F2031F7E470F001519E1 /* LYXAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LYXAppDelegate.h; sourceTree = "<group>"; };
+		42B4F2041F7E470F001519E1 /* LYXAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LYXAppDelegate.m; sourceTree = "<group>"; };
 		42CA2DB81E60269900E1200E /* platform_string.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = platform_string.h; sourceTree = "<group>"; };
 		42D7BCD61DCB440C000BE5A5 /* lynx.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = lynx.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		42D7BCEF1DCB440C000BE5A5 /* lynx.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = lynx.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -222,6 +258,12 @@
 		42D7BD6C1DCB7E99000BE5A5 /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		42D7BD741DCB8C27000BE5A5 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		B4D94627078F1EE06B8F031F /* Pods-lynx.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-lynx.debug.xcconfig"; path = "Pods/Target Support Files/Pods-lynx/Pods-lynx.debug.xcconfig"; sourceTree = "<group>"; };
+		BC1B52571FCFE5A100B506AC /* LYXCrdTransferStation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LYXCrdTransferStation.h; sourceTree = "<group>"; };
+		BC1B52581FCFE5A100B506AC /* LYXCrdTransferStation.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LYXCrdTransferStation.m; sourceTree = "<group>"; };
+		BC1B525A1FCFE7A400B506AC /* LYXCoordinatorTypes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LYXCoordinatorTypes.h; sourceTree = "<group>"; };
+		BC1B525B1FCFE7A400B506AC /* LYXCoordinatorTypes.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LYXCoordinatorTypes.m; sourceTree = "<group>"; };
+		BC1B526D1FD0F67000B506AC /* LYXCoordinatorCommands.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LYXCoordinatorCommands.h; sourceTree = "<group>"; };
+		BC1B526E1FD0F67000B506AC /* LYXCoordinatorCommands.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LYXCoordinatorCommands.m; sourceTree = "<group>"; };
 		BC2ED21C1F0CBEF2001B2E50 /* loader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = loader.h; sourceTree = "<group>"; };
 		BC2ED21D1F0CBF00001B2E50 /* loader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = loader.cpp; sourceTree = "<group>"; };
 		BC31B0051F611A3900C0234C /* LynxUIActionCollector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LynxUIActionCollector.h; sourceTree = "<group>"; };
@@ -389,6 +431,85 @@
 		BC6D1D3E1F55C414007DD652 /* url_parser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = url_parser.h; sourceTree = "<group>"; };
 		BC6D1D3F1F55C414007DD652 /* url_request_ghost_delegate.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = url_request_ghost_delegate.cpp; sourceTree = "<group>"; };
 		BC6D1D401F55C414007DD652 /* url_request_ghost_delegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = url_request_ghost_delegate.h; sourceTree = "<group>"; };
+		BC8040941FCA5C620041CF01 /* LYXModule.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LYXModule.m; sourceTree = "<group>"; };
+		BC8040961FCB07750041CF01 /* LYXOcCenter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = LYXOcCenter.h; path = lynx/Base/LYXOcCenter.h; sourceTree = SOURCE_ROOT; };
+		BC8040971FCB07750041CF01 /* LYXOcCenter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = LYXOcCenter.m; path = lynx/Base/LYXOcCenter.m; sourceTree = SOURCE_ROOT; };
+		BC8040991FCB07950041CF01 /* LYXOcMethod.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LYXOcMethod.h; sourceTree = "<group>"; };
+		BC80409A1FCB07950041CF01 /* LYXOcMethod.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LYXOcMethod.m; sourceTree = "<group>"; };
+		BC80409C1FCB08EC0041CF01 /* LYXOcField.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LYXOcField.h; sourceTree = "<group>"; };
+		BC80409D1FCB08EC0041CF01 /* LYXOcField.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LYXOcField.m; sourceTree = "<group>"; };
+		BC80409F1FCBB8D40041CF01 /* LYXOcProperty.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LYXOcProperty.h; sourceTree = "<group>"; };
+		BC8040A01FCBB8D40041CF01 /* LYXOcProperty.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LYXOcProperty.m; sourceTree = "<group>"; };
+		BC8040A21FCBCB800041CF01 /* LYXModuleRegister.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LYXModuleRegister.h; sourceTree = "<group>"; };
+		BC8040A31FCBCB800041CF01 /* LYXModuleRegister.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LYXModuleRegister.m; sourceTree = "<group>"; };
+		BC8040A51FCBCB930041CF01 /* LYXModuleBundle.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LYXModuleBundle.h; sourceTree = "<group>"; };
+		BC8040A61FCBCB930041CF01 /* LYXModuleBundle.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LYXModuleBundle.m; sourceTree = "<group>"; };
+		BC8040A81FCBEC7F0041CF01 /* LYXDefines.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = LYXDefines.h; path = lynx/Base/LYXDefines.h; sourceTree = SOURCE_ROOT; };
+		BC8040A91FCE8FB00041CF01 /* LYXOcPropertyTransformer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LYXOcPropertyTransformer.h; sourceTree = "<group>"; };
+		BC8040AA1FCE8FB00041CF01 /* LYXOcPropertyTransformer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LYXOcPropertyTransformer.m; sourceTree = "<group>"; };
+		BC8798561FC7217100F76993 /* LYXModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LYXModule.h; sourceTree = "<group>"; };
+		BC8798591FC7B22800F76993 /* switch.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = switch.cpp; sourceTree = "<group>"; };
+		BC87985A1FC7B22800F76993 /* switch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = switch.h; sourceTree = "<group>"; };
+		BC87985B1FC7B22800F76993 /* upvalue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = upvalue.h; sourceTree = "<group>"; };
+		BC87985D1FC7B30900F76993 /* LYXPageNavigator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LYXPageNavigator.h; sourceTree = "<group>"; };
+		BC87985E1FC7B30900F76993 /* LYXPageNavigator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LYXPageNavigator.m; sourceTree = "<group>"; };
+		BC8798701FC7C22300F76993 /* LYXFunctionObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LYXFunctionObject.h; path = lynx/Base/LYXFunctionObject.h; sourceTree = SOURCE_ROOT; };
+		BC8798711FC7C22300F76993 /* LYXFunctionObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LYXFunctionObject.m; path = lynx/Base/LYXFunctionObject.m; sourceTree = SOURCE_ROOT; };
+		BC8798731FC7C28C00F76993 /* lynx_function_object_ios.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lynx_function_object_ios.h; sourceTree = "<group>"; };
+		BC8798741FC7C28C00F76993 /* lynx_function_object_ios.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = lynx_function_object_ios.mm; sourceTree = "<group>"; };
+		BC8798761FC7C61200F76993 /* LYXCrdRegister.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LYXCrdRegister.h; sourceTree = "<group>"; };
+		BC8798771FC7C61200F76993 /* LYXCrdRegister.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LYXCrdRegister.m; sourceTree = "<group>"; };
+		BC8A0CDC1FB0C0F3002B0370 /* LYXCoordinatorResponder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LYXCoordinatorResponder.h; sourceTree = "<group>"; };
+		BC8A0CDD1FB0C0F3002B0370 /* LYXCoordinatorSponsor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LYXCoordinatorSponsor.h; sourceTree = "<group>"; };
+		BC8A0CDF1FB2B21A002B0370 /* LYXCoordinatorObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LYXCoordinatorObject.h; sourceTree = "<group>"; };
+		BC8A0CE21FB2B5E6002B0370 /* LYXCommandExecutor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LYXCommandExecutor.h; sourceTree = "<group>"; };
+		BC8A0CE31FB2B5E6002B0370 /* LYXCommandExecutor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LYXCommandExecutor.m; sourceTree = "<group>"; };
+		BC8A0CE51FB2B99B002B0370 /* LYXTransferStation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LYXTransferStation.h; sourceTree = "<group>"; };
+		BC8A0CE81FB2BA91002B0370 /* LYXPreTreatment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LYXPreTreatment.h; sourceTree = "<group>"; };
+		BC8A0CE91FB2BA91002B0370 /* LYXPreTreatment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LYXPreTreatment.m; sourceTree = "<group>"; };
+		BC8A0CEB1FB2BA9E002B0370 /* LYXTreatment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LYXTreatment.h; sourceTree = "<group>"; };
+		BC8A0CEC1FB2BA9E002B0370 /* LYXTreatment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LYXTreatment.m; sourceTree = "<group>"; };
+		BC8A0CF21FB2E477002B0370 /* builtin.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = builtin.cpp; sourceTree = "<group>"; };
+		BC8A0CF31FB2E477002B0370 /* builtin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = builtin.h; sourceTree = "<group>"; };
+		BC8A0CF41FB2E477002B0370 /* code_generator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = code_generator.cpp; sourceTree = "<group>"; };
+		BC8A0CF51FB2E477002B0370 /* code_generator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = code_generator.h; sourceTree = "<group>"; };
+		BC8A0CF61FB2E477002B0370 /* context.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = context.h; sourceTree = "<group>"; };
+		BC8A0CF71FB2E477002B0370 /* exception.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = exception.h; sourceTree = "<group>"; };
+		BC8A0CF81FB2E477002B0370 /* function.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = function.cpp; sourceTree = "<group>"; };
+		BC8A0CF91FB2E477002B0370 /* function.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = function.h; sourceTree = "<group>"; };
+		BC8A0CFA1FB2E477002B0370 /* guard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = guard.h; sourceTree = "<group>"; };
+		BC8A0CFB1FB2E477002B0370 /* heap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = heap.h; sourceTree = "<group>"; };
+		BC8A0D001FB2E477002B0370 /* lepus_string.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = lepus_string.cpp; sourceTree = "<group>"; };
+		BC8A0D011FB2E477002B0370 /* lepus_string.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lepus_string.h; sourceTree = "<group>"; };
+		BC8A0D041FB2E477002B0370 /* op_code.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = op_code.h; sourceTree = "<group>"; };
+		BC8A0D051FB2E477002B0370 /* parser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = parser.cpp; sourceTree = "<group>"; };
+		BC8A0D061FB2E477002B0370 /* parser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = parser.h; sourceTree = "<group>"; };
+		BC8A0D071FB2E477002B0370 /* scanner.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = scanner.cpp; sourceTree = "<group>"; };
+		BC8A0D081FB2E477002B0370 /* scanner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = scanner.h; sourceTree = "<group>"; };
+		BC8A0D091FB2E477002B0370 /* semantic_analysis.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = semantic_analysis.cpp; sourceTree = "<group>"; };
+		BC8A0D0A1FB2E477002B0370 /* semantic_analysis.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = semantic_analysis.h; sourceTree = "<group>"; };
+		BC8A0D0B1FB2E477002B0370 /* syntax_tree.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = syntax_tree.cpp; sourceTree = "<group>"; };
+		BC8A0D0C1FB2E477002B0370 /* syntax_tree.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = syntax_tree.h; sourceTree = "<group>"; };
+		BC8A0D0D1FB2E477002B0370 /* table.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = table.cpp; sourceTree = "<group>"; };
+		BC8A0D0E1FB2E477002B0370 /* table.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = table.h; sourceTree = "<group>"; };
+		BC8A0D0F1FB2E477002B0370 /* token.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = token.h; sourceTree = "<group>"; };
+		BC8A0D101FB2E477002B0370 /* utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = utils.h; sourceTree = "<group>"; };
+		BC8A0D111FB2E477002B0370 /* value.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = value.h; sourceTree = "<group>"; };
+		BC8A0D121FB2E477002B0370 /* visitor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = visitor.h; sourceTree = "<group>"; };
+		BC8A0D131FB2E477002B0370 /* vm.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = vm.cpp; sourceTree = "<group>"; };
+		BC8A0D141FB2E477002B0370 /* vm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = vm.h; sourceTree = "<group>"; };
+		BC8A0D151FB2E477002B0370 /* vm_context.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = vm_context.cpp; sourceTree = "<group>"; };
+		BC8A0D161FB2E477002B0370 /* vm_context.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = vm_context.h; sourceTree = "<group>"; };
+		BC8A0D261FB2E487002B0370 /* coordinator_action.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = coordinator_action.cpp; sourceTree = "<group>"; };
+		BC8A0D271FB2E487002B0370 /* coordinator_action.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = coordinator_action.h; sourceTree = "<group>"; };
+		BC8A0D281FB2E487002B0370 /* coordinator_executor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = coordinator_executor.cpp; sourceTree = "<group>"; };
+		BC8A0D291FB2E487002B0370 /* coordinator_executor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = coordinator_executor.h; sourceTree = "<group>"; };
+		BC8A0D2C1FB2FEA9002B0370 /* LYXCoordinatorActionExecutor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LYXCoordinatorActionExecutor.h; sourceTree = "<group>"; };
+		BC8A0D2D1FB2FEA9002B0370 /* LYXCoordinatorActionExecutor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LYXCoordinatorActionExecutor.m; sourceTree = "<group>"; };
+		BC8A0D331FB3EFE7002B0370 /* LYXPixelUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LYXPixelUtil.h; sourceTree = "<group>"; };
+		BC8A0D341FB3EFE7002B0370 /* LYXPixelUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LYXPixelUtil.m; sourceTree = "<group>"; };
+		BC8A0D361FB3F041002B0370 /* LYXScreenUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LYXScreenUtil.h; sourceTree = "<group>"; };
+		BC8A0D371FB3F041002B0370 /* LYXScreenUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LYXScreenUtil.m; sourceTree = "<group>"; };
 		BC8A6C631F288FF00035AE84 /* js_event.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = js_event.cpp; sourceTree = "<group>"; };
 		BC8A6C641F288FF00035AE84 /* js_event.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = js_event.h; sourceTree = "<group>"; };
 		BC9D342D1E1DEC92009BD30A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = lynx/Assets.xcassets; sourceTree = SOURCE_ROOT; };
@@ -653,8 +774,10 @@
 		42D7BCD81DCB440C000BE5A5 /* Lynx */ = {
 			isa = PBXGroup;
 			children = (
-				42B4F2031F7E470F001519E1 /* AppDelegate.h */,
-				42B4F2041F7E470F001519E1 /* AppDelegate.m */,
+				BC8798551FC7215200F76993 /* Modules */,
+				BC8A0D321FB3EFC1002B0370 /* Utils */,
+				42B4F2031F7E470F001519E1 /* LYXAppDelegate.h */,
+				42B4F2041F7E470F001519E1 /* LYXAppDelegate.m */,
 				42B4F1FE1F7E420B001519E1 /* LynxViewController.h */,
 				42B4F1FF1F7E420B001519E1 /* LynxViewController.m */,
 				4239BA261F7C983C00AC9DC5 /* App */,
@@ -786,6 +909,7 @@
 		BC5DBD791F5E7874005A47E3 /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				BC8A0CDB1FB0C0C2002B0370 /* Coordinator */,
 				BC6748E31F6585B400D50971 /* Swiper */,
 				BC31B0211F627DE700C0234C /* LynxUI.h */,
 				BC31B0221F627DE700C0234C /* LynxUI.mm */,
@@ -826,6 +950,19 @@
 				BC31B0281F6284D200C0234C /* LynxRenderTreeHostImpl.mm */,
 				423986491F793E5B008775F6 /* LynxFilePathUtility.h */,
 				4239864A1F793F42008775F6 /* LynxFilePathUtility.m */,
+				BC8798701FC7C22300F76993 /* LYXFunctionObject.h */,
+				BC8798711FC7C22300F76993 /* LYXFunctionObject.m */,
+				BC8040961FCB07750041CF01 /* LYXOcCenter.h */,
+				BC8040971FCB07750041CF01 /* LYXOcCenter.m */,
+				BC8040991FCB07950041CF01 /* LYXOcMethod.h */,
+				BC80409A1FCB07950041CF01 /* LYXOcMethod.m */,
+				BC80409C1FCB08EC0041CF01 /* LYXOcField.h */,
+				BC80409D1FCB08EC0041CF01 /* LYXOcField.m */,
+				BC80409F1FCBB8D40041CF01 /* LYXOcProperty.h */,
+				BC8040A01FCBB8D40041CF01 /* LYXOcProperty.m */,
+				BC8040A81FCBEC7F0041CF01 /* LYXDefines.h */,
+				BC8040A91FCE8FB00041CF01 /* LYXOcPropertyTransformer.h */,
+				BC8040AA1FCE8FB00041CF01 /* LYXOcPropertyTransformer.m */,
 			);
 			name = Base;
 			path = Lynx/Base;
@@ -911,6 +1048,8 @@
 				BC6D1CDB1F558C38007DD652 /* lynx_object_template.h */,
 				BC6D1CDC1F558C38007DD652 /* lynx_value.cpp */,
 				BC6D1CDD1F558C38007DD652 /* lynx_value.h */,
+				BC8798731FC7C28C00F76993 /* lynx_function_object_ios.h */,
+				BC8798741FC7C28C00F76993 /* lynx_function_object_ios.mm */,
 			);
 			path = base;
 			sourceTree = "<group>";
@@ -984,9 +1123,117 @@
 			path = debug;
 			sourceTree = "<group>";
 		};
+		BC8798551FC7215200F76993 /* Modules */ = {
+			isa = PBXGroup;
+			children = (
+				BC8798561FC7217100F76993 /* LYXModule.h */,
+				BC87985D1FC7B30900F76993 /* LYXPageNavigator.h */,
+				BC87985E1FC7B30900F76993 /* LYXPageNavigator.m */,
+				BC8798761FC7C61200F76993 /* LYXCrdRegister.h */,
+				BC8798771FC7C61200F76993 /* LYXCrdRegister.m */,
+				BC8040941FCA5C620041CF01 /* LYXModule.m */,
+				BC8040A21FCBCB800041CF01 /* LYXModuleRegister.h */,
+				BC8040A31FCBCB800041CF01 /* LYXModuleRegister.m */,
+				BC8040A51FCBCB930041CF01 /* LYXModuleBundle.h */,
+				BC8040A61FCBCB930041CF01 /* LYXModuleBundle.m */,
+			);
+			path = Modules;
+			sourceTree = "<group>";
+		};
+		BC8A0CDB1FB0C0C2002B0370 /* Coordinator */ = {
+			isa = PBXGroup;
+			children = (
+				BC8A0CDC1FB0C0F3002B0370 /* LYXCoordinatorResponder.h */,
+				BC8A0CDD1FB0C0F3002B0370 /* LYXCoordinatorSponsor.h */,
+				BC8A0CDF1FB2B21A002B0370 /* LYXCoordinatorObject.h */,
+				BC8A0CE21FB2B5E6002B0370 /* LYXCommandExecutor.h */,
+				BC8A0CE31FB2B5E6002B0370 /* LYXCommandExecutor.m */,
+				BC8A0CE51FB2B99B002B0370 /* LYXTransferStation.h */,
+				BC8A0CE81FB2BA91002B0370 /* LYXPreTreatment.h */,
+				BC8A0CE91FB2BA91002B0370 /* LYXPreTreatment.m */,
+				BC8A0CEB1FB2BA9E002B0370 /* LYXTreatment.h */,
+				BC8A0CEC1FB2BA9E002B0370 /* LYXTreatment.m */,
+				BC8A0D2C1FB2FEA9002B0370 /* LYXCoordinatorActionExecutor.h */,
+				BC8A0D2D1FB2FEA9002B0370 /* LYXCoordinatorActionExecutor.m */,
+				BC1B52571FCFE5A100B506AC /* LYXCrdTransferStation.h */,
+				BC1B52581FCFE5A100B506AC /* LYXCrdTransferStation.m */,
+				BC1B525A1FCFE7A400B506AC /* LYXCoordinatorTypes.h */,
+				BC1B525B1FCFE7A400B506AC /* LYXCoordinatorTypes.m */,
+				BC1B526D1FD0F67000B506AC /* LYXCoordinatorCommands.h */,
+				BC1B526E1FD0F67000B506AC /* LYXCoordinatorCommands.m */,
+			);
+			name = Coordinator;
+			path = lynx/UI/Coordinator;
+			sourceTree = SOURCE_ROOT;
+		};
+		BC8A0CF11FB2E477002B0370 /* lepus */ = {
+			isa = PBXGroup;
+			children = (
+				BC8798591FC7B22800F76993 /* switch.cpp */,
+				BC87985A1FC7B22800F76993 /* switch.h */,
+				BC87985B1FC7B22800F76993 /* upvalue.h */,
+				BC8A0CF21FB2E477002B0370 /* builtin.cpp */,
+				BC8A0CF31FB2E477002B0370 /* builtin.h */,
+				BC8A0CF41FB2E477002B0370 /* code_generator.cpp */,
+				BC8A0CF51FB2E477002B0370 /* code_generator.h */,
+				BC8A0CF61FB2E477002B0370 /* context.h */,
+				BC8A0CF71FB2E477002B0370 /* exception.h */,
+				BC8A0CF81FB2E477002B0370 /* function.cpp */,
+				BC8A0CF91FB2E477002B0370 /* function.h */,
+				BC8A0CFA1FB2E477002B0370 /* guard.h */,
+				BC8A0CFB1FB2E477002B0370 /* heap.h */,
+				BC8A0D001FB2E477002B0370 /* lepus_string.cpp */,
+				BC8A0D011FB2E477002B0370 /* lepus_string.h */,
+				BC8A0D041FB2E477002B0370 /* op_code.h */,
+				BC8A0D051FB2E477002B0370 /* parser.cpp */,
+				BC8A0D061FB2E477002B0370 /* parser.h */,
+				BC8A0D071FB2E477002B0370 /* scanner.cpp */,
+				BC8A0D081FB2E477002B0370 /* scanner.h */,
+				BC8A0D091FB2E477002B0370 /* semantic_analysis.cpp */,
+				BC8A0D0A1FB2E477002B0370 /* semantic_analysis.h */,
+				BC8A0D0B1FB2E477002B0370 /* syntax_tree.cpp */,
+				BC8A0D0C1FB2E477002B0370 /* syntax_tree.h */,
+				BC8A0D0D1FB2E477002B0370 /* table.cpp */,
+				BC8A0D0E1FB2E477002B0370 /* table.h */,
+				BC8A0D0F1FB2E477002B0370 /* token.h */,
+				BC8A0D101FB2E477002B0370 /* utils.h */,
+				BC8A0D111FB2E477002B0370 /* value.h */,
+				BC8A0D121FB2E477002B0370 /* visitor.h */,
+				BC8A0D131FB2E477002B0370 /* vm.cpp */,
+				BC8A0D141FB2E477002B0370 /* vm.h */,
+				BC8A0D151FB2E477002B0370 /* vm_context.cpp */,
+				BC8A0D161FB2E477002B0370 /* vm_context.h */,
+			);
+			name = lepus;
+			path = ../lynx/lepus;
+			sourceTree = "<group>";
+		};
+		BC8A0D251FB2E487002B0370 /* coordinator */ = {
+			isa = PBXGroup;
+			children = (
+				BC8A0D261FB2E487002B0370 /* coordinator_action.cpp */,
+				BC8A0D271FB2E487002B0370 /* coordinator_action.h */,
+				BC8A0D281FB2E487002B0370 /* coordinator_executor.cpp */,
+				BC8A0D291FB2E487002B0370 /* coordinator_executor.h */,
+			);
+			path = coordinator;
+			sourceTree = "<group>";
+		};
+		BC8A0D321FB3EFC1002B0370 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				BC8A0D331FB3EFE7002B0370 /* LYXPixelUtil.h */,
+				BC8A0D341FB3EFE7002B0370 /* LYXPixelUtil.m */,
+				BC8A0D361FB3F041002B0370 /* LYXScreenUtil.h */,
+				BC8A0D371FB3F041002B0370 /* LYXScreenUtil.m */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
 		BC9D34941E1E015D009BD30A /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				BC8A0CF11FB2E477002B0370 /* lepus */,
 				BC6D1D001F55C327007DD652 /* parser */,
 				BC41C10E1F04EC2000EB4BA3 /* third_party */,
 				BC41C10A1F04EC1300EB4BA3 /* config */,
@@ -1003,6 +1250,7 @@
 		BCD0501C1EA0A87A00359EC1 /* render */ = {
 			isa = PBXGroup;
 			children = (
+				BC8A0D251FB2E487002B0370 /* coordinator */,
 				426776651F73FB39009012DC /* view_stub.cpp */,
 				426776661F73FB3A009012DC /* view_stub.h */,
 				BCDC312C1F7361EF009A6ECC /* extended_view.cpp */,
@@ -1300,7 +1548,7 @@
 				TargetAttributes = {
 					42D7BCD51DCB440C000BE5A5 = {
 						CreatedOnToolsVersion = 7.2;
-						DevelopmentTeam = PM93V4ARD4;
+						DevelopmentTeam = 7FDMDZ5N9L;
 					};
 					42D7BCEE1DCB440C000BE5A5 = {
 						CreatedOnToolsVersion = 7.2;
@@ -1385,7 +1633,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 		1D31E6C9190FEA83EBF1C633 /* [CP] Copy Pods Resources */ = {
@@ -1427,15 +1675,22 @@
 			files = (
 				BCF6EBE21E49FF2D00FCD189 /* message_pump_posix.cpp in Sources */,
 				BC41C2431F04EC2000EB4BA3 /* json_writer.cpp in Sources */,
+				BC1B525C1FCFE7A400B506AC /* LYXCoordinatorTypes.m in Sources */,
+				BC8A0D171FB2E477002B0370 /* builtin.cpp in Sources */,
 				BC5DBDB41F5EC7BE005A47E3 /* IOSView.mm in Sources */,
+				BC8A0D211FB2E477002B0370 /* syntax_tree.cpp in Sources */,
 				BC6D1D311F55C3A1007DD652 /* script_request_delegate.cpp in Sources */,
 				BCF6EC021E49FF2D00FCD189 /* css_color.cpp in Sources */,
 				BC6D1D161F55C327007DD652 /* render_style.cpp in Sources */,
 				BCF00A7B1F0E7BC400D56168 /* timed_task.cpp in Sources */,
+				BC87985C1FC7B22800F76993 /* switch.cpp in Sources */,
+				BC8A0CED1FB2BA9E002B0370 /* LYXTreatment.m in Sources */,
 				BC31B01D1F6271BE00C0234C /* LynxUIEventAction.m in Sources */,
 				4273CC3C1F00032E00321655 /* layout_object.cpp in Sources */,
 				BCD050881EA0A87A00359EC1 /* render_tree_host_impl.cpp in Sources */,
+				BC8A0D231FB2E477002B0370 /* vm.cpp in Sources */,
 				BC5DBD831F5E7A05005A47E3 /* LynxFrameRateController.mm in Sources */,
+				BC8A0D1F1FB2E477002B0370 /* scanner.cpp in Sources */,
 				BC6D1CE31F558C38007DD652 /* lynx_value.cpp in Sources */,
 				BC6D1CE91F558C7D007DD652 /* object_template.cpp in Sources */,
 				BC31B0201F6273A500C0234C /* LynxUIUpdateDataAction.m in Sources */,
@@ -1443,7 +1698,9 @@
 				BC6D1D3D1F55C3E0007DD652 /* memory_tracker.cpp in Sources */,
 				BC9D343E1E1DEC92009BD30A /* main.m in Sources */,
 				BC41C2411F04EC2000EB4BA3 /* json_value.cpp in Sources */,
+				BC1B526F1FD0F67000B506AC /* LYXCoordinatorCommands.m in Sources */,
 				BC6D1CE21F558C38007DD652 /* lynx_object_template.cpp in Sources */,
+				BC8040A71FCBCB930041CF01 /* LYXModuleBundle.m in Sources */,
 				4273CE6D1F02917200321655 /* jsc_helper.cpp in Sources */,
 				BC6D1D2F1F55C3A1007DD652 /* html_request_delegate.cpp in Sources */,
 				BC6D1CEC1F558CC5007DD652 /* location_object.cpp in Sources */,
@@ -1451,6 +1708,7 @@
 				BCD0506E1EA0A87A00359EC1 /* body.cpp in Sources */,
 				BC6D1D181F55C327007DD652 /* render_tokenizer.cpp in Sources */,
 				BC5DBDB01F5E9D87005A47E3 /* LynxUIScrollView.mm in Sources */,
+				BC8798781FC7C61200F76993 /* LYXCrdRegister.m in Sources */,
 				BC31B0261F6282AB00C0234C /* LynxRuntime.mm in Sources */,
 				BCF6EC111E49FF2D00FCD189 /* runtime.cpp in Sources */,
 				BC5DBD9A1F5E7E26005A47E3 /* render_tree_host_impl_ios.mm in Sources */,
@@ -1463,6 +1721,7 @@
 				BC2ED21E1F0CBF00001B2E50 /* loader.cpp in Sources */,
 				BC5DBD961F5E7D96005A47E3 /* LynxImageDownloader.mm in Sources */,
 				BC5DBDA01F5E7E5D005A47E3 /* LynxListViewController.mm in Sources */,
+				BC8A0D2B1FB2E487002B0370 /* coordinator_executor.cpp in Sources */,
 				BCD050711EA0A87A00359EC1 /* image_view.cpp in Sources */,
 				BC6D1CE11F558C38007DD652 /* lynx_object.cpp in Sources */,
 				BCF6EBE11E49FF2D00FCD189 /* message_pump_ios.mm in Sources */,
@@ -1473,9 +1732,13 @@
 				BC41C2EB1F04FD0E00EB4BA3 /* history.cpp in Sources */,
 				4273CC441F00036800321655 /* command_collector.cpp in Sources */,
 				BCF6EC031E49FF2D00FCD189 /* css_layout.cpp in Sources */,
+				BC1B52591FCFE5A100B506AC /* LYXCrdTransferStation.m in Sources */,
 				4273CC451F00036800321655 /* render_command.cpp in Sources */,
+				BC8A0D201FB2E477002B0370 /* semantic_analysis.cpp in Sources */,
+				BC8040A41FCBCB800041CF01 /* LYXModuleRegister.m in Sources */,
 				BCD050871EA0A87A00359EC1 /* render_tree_host.cpp in Sources */,
 				BC6748F21F667FE300D50971 /* swiper_view.cpp in Sources */,
+				BC8A0CDE1FB0C0F3002B0370 /* LYXCoordinatorSponsor.h in Sources */,
 				BC31B0291F6284D200C0234C /* LynxRenderTreeHostImpl.mm in Sources */,
 				BC41C2401F04EC2000EB4BA3 /* json_reader.cpp in Sources */,
 				BC5DBDB11F5E9D87005A47E3 /* LynxUIView.mm in Sources */,
@@ -1493,12 +1756,18 @@
 				BC6D1D411F55C414007DD652 /* url_request_ghost_delegate.cpp in Sources */,
 				420B8AD01F7E2D3A005717FB /* LynxPageInfo.m in Sources */,
 				BCF6EBE31E49FF2D00FCD189 /* thread.cpp in Sources */,
+				BC8A0D1E1FB2E477002B0370 /* parser.cpp in Sources */,
 				BC6D1D1A1F55C327007DD652 /* tree_builder.cpp in Sources */,
+				BC87985F1FC7B30900F76993 /* LYXPageNavigator.m in Sources */,
 				BC6D1CFE1F558DF8007DD652 /* screen.cpp in Sources */,
+				BC80409B1FCB07950041CF01 /* LYXOcMethod.m in Sources */,
 				BCF6EBE51E49FF2D00FCD189 /* timer.cpp in Sources */,
 				BC5DBDA71F5E7E79005A47E3 /* LynxUILabel.mm in Sources */,
 				BC41C2FD1F065AEE00EB4BA3 /* jsc_function.cpp in Sources */,
+				BC8040A11FCBB8D40041CF01 /* LYXOcProperty.m in Sources */,
+				BC8A0D1C1FB2E477002B0370 /* lepus_string.cpp in Sources */,
 				BCD050821EA0A87A00359EC1 /* list_view.cpp in Sources */,
+				BC8040951FCA5C620041CF01 /* LYXModule.m in Sources */,
 				BCD050731EA0A87A00359EC1 /* render_object_impl_ios.mm in Sources */,
 				BC6D1CE81F558C7D007DD652 /* function_object.cpp in Sources */,
 				4273CC3B1F00032E00321655 /* css_type.cpp in Sources */,
@@ -1509,19 +1778,24 @@
 				BCD050811EA0A87A00359EC1 /* list_shadow.cpp in Sources */,
 				BC31B0161F624F6D00C0234C /* LynxUIBody.mm in Sources */,
 				BCD050891EA0A87A00359EC1 /* scroll_view.cpp in Sources */,
+				BC8A0D2A1FB2E487002B0370 /* coordinator_action.cpp in Sources */,
 				BCDC312B1F7361E1009A6ECC /* text_area.cpp in Sources */,
 				BCF6EC051E49FF2D00FCD189 /* url_request_ios.mm in Sources */,
 				BC6D1D341F55C3B7007DD652 /* cell_container.cpp in Sources */,
 				4273D2321F04B84700321655 /* window_object.cpp in Sources */,
 				BC5DBD801F5E79D8005A47E3 /* LynxStyleConvector.mm in Sources */,
+				BC8A0CEA1FB2BA91002B0370 /* LYXPreTreatment.m in Sources */,
 				BCF00A781F0E7AE200D56168 /* js_vm.cpp in Sources */,
+				BC8040981FCB07750041CF01 /* LYXOcCenter.m in Sources */,
 				BC6D1CF51F558DCD007DD652 /* body.cpp in Sources */,
 				BC41C10D1F04EC1300EB4BA3 /* global_config_data.cpp in Sources */,
 				426776671F73FB3A009012DC /* view_stub.cpp in Sources */,
 				BC31B0171F624F6D00C0234C /* LynxView.mm in Sources */,
 				BCD050721EA0A87A00359EC1 /* input.cpp in Sources */,
+				BC8A0D351FB3EFE7002B0370 /* LYXPixelUtil.m in Sources */,
 				BC6D1D2C1F55C3A1007DD652 /* source_cache.cpp in Sources */,
 				BC5DBDA11F5E7E5D005A47E3 /* LynxUIListView.mm in Sources */,
+				BC8A0D181FB2E477002B0370 /* code_generator.cpp in Sources */,
 				4248745C1F7CED1500CDF17E /* LynxResourceManager.m in Sources */,
 				BC5DBD721F5C60A5005A47E3 /* DemoViewController.m in Sources */,
 				BC6D1CF71F558DCD007DD652 /* document.cpp in Sources */,
@@ -1533,21 +1807,31 @@
 				BCF6EBE61E49FF2D00FCD189 /* timer_heap.cpp in Sources */,
 				4248745F1F7CF73500CDF17E /* LynxResourceReader.m in Sources */,
 				BCD050861EA0A87A00359EC1 /* render_object.cpp in Sources */,
+				BC8798751FC7C28C00F76993 /* lynx_function_object_ios.mm in Sources */,
+				BC8A0D221FB2E477002B0370 /* table.cpp in Sources */,
+				BC8A0D241FB2E477002B0370 /* vm_context.cpp in Sources */,
 				BC31B0071F611A3900C0234C /* LynxUIActionCollector.mm in Sources */,
 				BC31B0231F627DE700C0234C /* LynxUI.mm in Sources */,
+				BC8A0CE41FB2B5E6002B0370 /* LYXCommandExecutor.m in Sources */,
+				BC8A0D2E1FB2FEA9002B0370 /* LYXCoordinatorActionExecutor.m in Sources */,
+				BC8A0D381FB3F041002B0370 /* LYXScreenUtil.m in Sources */,
 				BCD050801EA0A87A00359EC1 /* label.cpp in Sources */,
 				BCD0506F1EA0A87A00359EC1 /* cell_view.cpp in Sources */,
+				BC8A0D191FB2E477002B0370 /* function.cpp in Sources */,
 				BC5DBDA91F5E7EAA005A47E3 /* label_measurer_ios.mm in Sources */,
 				BCD0508C1EA0A87A00359EC1 /* view.cpp in Sources */,
 				BCF6EC041E49FF2D00FCD189 /* css_style.cpp in Sources */,
 				BCF00A761F0E7AA700D56168 /* timeout_callback.cpp in Sources */,
+				BC8798721FC7C22300F76993 /* LYXFunctionObject.m in Sources */,
 				42B4F2001F7E420B001519E1 /* LynxViewController.m in Sources */,
 				BCD0ECDF1F3C409000DFB990 /* url_request_context.cpp in Sources */,
+				BC80409E1FCB08EC0041CF01 /* LYXOcField.m in Sources */,
 				BC6D1D191F55C327007DD652 /* style_parser.cpp in Sources */,
 				4273CC461F00036800321655 /* render_object_impl.cpp in Sources */,
+				BC8040AB1FCE8FB10041CF01 /* LYXOcPropertyTransformer.m in Sources */,
 				BC6748E91F6585D400D50971 /* IOSSwiperView.m in Sources */,
 				BCF6EBDF1E49FF2D00FCD189 /* message_loop.cpp in Sources */,
-				42B4F2051F7E4710001519E1 /* AppDelegate.m in Sources */,
+				42B4F2051F7E4710001519E1 /* LYXAppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1672,6 +1956,8 @@
 			baseConfigurationReference = B4D94627078F1EE06B8F031F /* Pods-lynx.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
@@ -1701,8 +1987,10 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/../Android/app/src/main/cpp/lynx/runtime/v8/libs",
 				);
+				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = lynx;
 				PRODUCT_NAME = lynx;
+				PROVISIONING_PROFILE = "";
 			};
 			name = Debug;
 		};
@@ -1711,6 +1999,8 @@
 			baseConfigurationReference = FE174672A07344534D30365A /* Pods-lynx.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
@@ -1736,6 +2026,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = lynx;
 				PRODUCT_NAME = lynx;
+				PROVISIONING_PROFILE = "";
 			};
 			name = Release;
 		};

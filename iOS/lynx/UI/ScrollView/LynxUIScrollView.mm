@@ -8,8 +8,17 @@
 
 @implementation LynxUIScrollView
 
+static NSString * const kAttrPageEnable = @"page-enable";
+
 - (UIView *)createView:(LynxRenderObjectImpl *) impl {
     return [[IOSScrollView alloc] initWithUI:self];
+}
+
+- (void)setAttribute:(NSString *)value forKey:(NSString *)key {
+    [super setAttribute:value forKey:key];
+    if ([key isEqualToString:kAttrPageEnable]) {
+        ((IOSScrollView *)self.view).pagingEnabled = [value boolValue];
+    }
 }
 
 - (void) setSize:(const base::Size &)size {

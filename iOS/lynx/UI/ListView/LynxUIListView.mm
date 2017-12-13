@@ -1,9 +1,9 @@
 // Copyright 2017 The Lynx Authors. All rights reserved.
 
-#include "LynxUIListView.h"
+#import "LynxUIListView.h"
 #include "base/ios/common.h"
 
-@implementation LynxUIListView
+@implementation LynxUIListView 
 
 - (UIView *)createView:(LynxRenderObjectImpl *)impl {
     UITableView *view = [[UITableView alloc] init];
@@ -11,6 +11,7 @@
     view.dataSource = _controller;
     view.delegate = _controller;
     view.separatorStyle = UITableViewCellSeparatorStyleNone;
+    view.showsVerticalScrollIndicator = NO;
     return view;
 }
 
@@ -51,4 +52,5 @@
         self.controller.scrollEventEnable = false;
     }
 }
+
 @end

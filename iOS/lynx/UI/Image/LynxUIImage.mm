@@ -13,6 +13,7 @@
 }
 
 - (void) setAttribute:(NSString *)value forKey:(NSString *)key {
+    [super setAttribute:value forKey:key];
     if (key.length == 0) return;
     if([key isEqualToString:@"src"]) {
         [self setImageUrl:value];

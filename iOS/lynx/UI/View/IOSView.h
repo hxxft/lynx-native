@@ -7,7 +7,7 @@
 @interface IOSView : UIView
 
 @property(nonatomic, readwrite) LynxUI *ui;
-@property UITapGestureRecognizer* singleTap;
+@property(nonatomic) UITapGestureRecognizer* singleTap;
 
 - (void)layoutSubviews;
 
@@ -16,5 +16,13 @@
 - (void)addEvent:(NSString *)event;
 
 - (void)removeEvent:(NSString *)event;
+
+@end
+
+@interface GestureHandler : UIGestureRecognizer
+
+@property(nonatomic, readwrite) LynxUI *ui;
+
+- (id)initWithUI:(LynxUI *)ui;
 
 @end
