@@ -4,7 +4,7 @@
 #define LYNX_RUNTIME_RUNTIME_H_
 
 #include <string>
-#include <loader/html/html_loader.h>
+#include "loader/html/html_loader.h"
 
 #include "loader/loader.h"
 #include "base/scoped_ptr.h"

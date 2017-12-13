@@ -110,7 +110,7 @@ CSSStyle::CSSStyle() {
     min_height_ = 0;
 
     visible_ = CSS_VISIBLE;
-    background_color_ = {1, 1, 1, 0};  // Color.parse("#00000000");
+    background_color_ = {0, 0, 0, 0};  // Color.parse("#00000000");
     font_color_ = {0, 0, 0, 1.0f};  // Color.parse("#FF000000");
     border_width_ = 0;
     border_color_ = {0, 0, 0, 1.0f};  // Color.parse("#FF000000");

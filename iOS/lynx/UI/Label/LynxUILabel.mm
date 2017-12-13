@@ -26,7 +26,7 @@
     label.textColor = COLOR_CONVERT(style.font_color_);
     label.textAlignment = [CSSStyleConvector ConvectToTextAlignment:style.text_align_];
     if (style.font_weight_ == lynx::CSSTEXT_FONT_WEIGHT_BOLD) {
-        label.font = [UIFont fontWithName:@ "Arial Rounded MT Bold"  size:(style.font_size_)];
+        label.font = [UIFont boldSystemFontOfSize:(style.font_size_)];
     } else {
         label.font = [UIFont systemFontOfSize:style.font_size_];
     }

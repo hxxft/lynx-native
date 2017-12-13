@@ -108,7 +108,6 @@ LYX_NOT_IMPLEMENTED(- (instancetype) init)
                          }
 
                          if (isLayoutOffsetChanged) {
-//                             [_ui updateFrame];
                              [_ui updateBounds];
                          }
                          if (isTransformChanged) {
