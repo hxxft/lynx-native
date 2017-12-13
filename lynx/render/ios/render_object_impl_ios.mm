@@ -72,7 +72,7 @@ namespace lynx {
         [ios_ setData:data withKey:key];
     }
     
-    void RenderObjectImplIOS::DispatchEvent(const std::string& event, NSMutableArray *array) {
+    void RenderObjectImplIOS::DispatchEvent(const std::string& event, NSArray *array) {
         if (!array) {
             @throw [[NSException alloc]
                     initWithName:@"抛出错误" reason:@"array should not be null !" userInfo:nil];

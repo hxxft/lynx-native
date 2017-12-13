@@ -24,7 +24,7 @@ var CoordinatorContext = function (sponsorAffinity, responderAffinity, action) {
   this.action = action;
 
   // Native method
-  LynxCoordinatorRegister.registeAction(sponsorAffinity,
+  LynxCoordinatorRegister.registerAction(sponsorAffinity,
      responderAffinity, action);
 
 };

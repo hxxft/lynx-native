@@ -61,7 +61,7 @@ namespace lynx {
 - (void) updateData:(id)data withKey:(LynxRenderObjectAttr)key;
 
 // Should be called on JSThread
-- (void) dispatchEvent:(NSString *)event withParam:(NSMutableArray *)array;
+- (void) dispatchEvent:(NSString *)event withParam:(NSArray *)array;
 
 - (LynxUI *) createLynxUI;
 @end

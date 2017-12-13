@@ -5,7 +5,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 /**
- * 对于java的method进行的包装，方便进行方法的调用，方法唯一的识别
+ * An identifiable wrapper for Java method
  */
 
 /* package */ class JavaMethod {

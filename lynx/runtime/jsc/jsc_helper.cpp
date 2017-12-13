@@ -13,6 +13,10 @@
 #include "runtime/jsc/jsc_function.h"
 #include "runtime/jsc/jsc_class_wrap_storage.h"
 
+#if OS_IOS
+#include "base/ios/common.h"
+#endif
+
 namespace jscore {
 
     JSValueRef JSCHelper::ConvertToJSString(JSContextRef ctx, const std::string &s) {
@@ -135,6 +139,22 @@ namespace jscore {
             double number = JSValueToNumber(ctx, value, NULL);
             js_value = (number - (int) number) == 0 ?
                        LynxValue::MakeInt(number) : LynxValue::MakeDouble(number);
+        } else if (JSValueIsString(ctx, value)) {
+            js_value = LynxValue::MakeString(ConvertToString(ctx, value));
+#if OS_IOS // Makes compatible with iOS 8.0
+        } else if (!iOS9Later) {
+            if (JSValueIsObject(ctx, value)) {
+                if (JSObjectIsFunction(ctx, (JSObjectRef) value)) {
+                    js_value = ConvertToLynxFunction(ctx, (JSObjectRef) value);
+                } else if (JSObjectGetPrivate((JSObjectRef) value) != NULL) {
+                    js_value = LynxValue::MakeObjectTemplate(ConvertToLynxObjectTemplate(ctx, (JSObjectRef) value));
+                } else if (!JSValueIsUndefined(ctx, GetProperty(ctx, (JSObjectRef) value, "length", 0))) {
+                    js_value = ConvertToLynxArray(ctx, (JSObjectRef) value);
+                } else {
+                    js_value = ConvertToLynxObject(ctx, (JSObjectRef) value);
+                }
+            }
+#endif
         } else if (JSValueIsArray(ctx, value)) {
             js_value = ConvertToLynxArray(ctx, (JSObjectRef) value);
         } else if (JSValueIsObject(ctx, value)) {
@@ -146,8 +166,6 @@ namespace jscore {
             } else {
                 js_value = ConvertToLynxObject(ctx, (JSObjectRef) value);
             }
-        } else if (JSValueIsString(ctx, value)) {
-            js_value = LynxValue::MakeString(ConvertToString(ctx, value));
         }
         return js_value;
     }
@@ -194,9 +212,7 @@ namespace jscore {
 
     LynxValue* JSCHelper::ConvertToLynxFunction(JSContextRef ctx, JSObjectRef value) {
         JSCContext* context = static_cast<JSCContext*>(JSObjectGetPrivate(JSContextGetGlobalObject(ctx)));
-        JSCFunction* function = lynx_new JSCFunction(context,
-                                              JSContextGetGlobalObject(ctx),
-                                              value);
+        JSCFunction* function = lynx_new JSCFunction(context, value);
         LynxValue *result = LynxValue::MakeLynxFunction(function);
         return result;
     }

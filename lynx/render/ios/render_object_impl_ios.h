@@ -18,7 +18,7 @@ namespace lynx {
         RenderObjectImplIOS(jscore::ThreadManager* manager, RenderObjectType type);
         virtual ~RenderObjectImplIOS();
         
-        void DispatchEvent(const std::string& event, NSMutableArray *array);
+        void DispatchEvent(const std::string& event, NSArray *array);
         void UpdateData(int attr, id value);
         
         LynxRenderObjectImpl* ios() {

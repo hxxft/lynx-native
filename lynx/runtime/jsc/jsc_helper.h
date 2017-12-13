@@ -46,7 +46,7 @@ namespace jscore {
 
         static void SetFunctionProperty(JSContextRef context,
                                         JSObjectRef object,
-                                        std::string propertyName,
+                                        const std::string& propertyName,
                                         JSObjectCallAsFunctionCallback callAsFunction,
                                         JSPropertyAttributes attributes,
                                         JSValueRef *exception) {
@@ -59,7 +59,7 @@ namespace jscore {
         
         static void SetValueProperty(JSContextRef context,
                                      JSObjectRef object,
-                                     std::string propertyName,
+                                     const std::string& propertyName,
                                      JSValueRef value,
                                      JSPropertyAttributes attributes,
                                      JSValueRef *exception) {
@@ -71,14 +71,22 @@ namespace jscore {
 
         static void DeleteProperty(JSContextRef context,
                                        JSObjectRef object,
-                                       std::string propertyName,
+                                       const std::string& propertyName,
                                        JSValueRef* exception) {
-
             JSStringRef name = JSStringCreateWithUTF8CString(propertyName.c_str());
             JSObjectDeleteProperty(context, object, name, exception);
             JSStringRelease(name);
         }
-
+        
+        static JSValueRef GetProperty(JSContextRef context,
+                                JSObjectRef object,
+                                const std::string& propertyName,
+                                JSValueRef* exception) {
+            JSStringRef name = JSStringCreateWithUTF8CString(propertyName.c_str());
+            JSValueRef result = JSObjectGetProperty(context, object, name, exception);
+            JSStringRelease(name);
+            return result;
+        }
 
         inline static JSValueRef ConvertToJSInt(JSContextRef ctx, LynxValue* value) {
             return JSValueMakeNumber(ctx, value->data_.i);

@@ -6,6 +6,17 @@
 namespace base {
     namespace ios {
         
+        NSString* OCHelper::ConvertToOCString(const std::string& str) {
+            return [NSString stringWithUTF8String:str.c_str()];
+        }
+        
+        NSString* OCHelper::ConvertToOCString(jscore::LynxValue* value) {
+            if (value->type_ == jscore::LynxValue::VALUE_STRING) {
+                return [NSString stringWithUTF8String:value->data_.str];
+            }
+            return nil;
+        }
+        
         id OCHelper::ConvertToOCValue(jscore::LynxValue* value) {
             id obj = nil;
             switch (value->type_) {
@@ -27,6 +38,9 @@ namespace base {
                 case jscore::LynxValue::VALUE_STRING:
                     obj = [NSString stringWithUTF8String:value->data_.str];
                     break;
+                case jscore::LynxValue::VALUE_LYNX_OBJECT:
+                    obj = ConvertToOCObject(value->data_.lynx_object);
+                    break;
                 case jscore::LynxValue::VALUE_LYNX_ARRAY:
                     obj = ConvertToOCArray(value->data_.lynx_array);
                     break;
@@ -36,7 +50,17 @@ namespace base {
             return obj;
         }
         
-        NSMutableArray* OCHelper::ConvertToOCArray(jscore::LynxArray* lynx_array) {
+        NSDictionary* OCHelper::ConvertToOCObject(jscore::LynxObject* lynx_object) {
+            NSMutableDictionary *object = [[NSMutableDictionary alloc] init];
+            for (int i = 0; i < lynx_object->Size(); ++i) {
+                std::string name = lynx_object->GetName(i);
+                [object setObject:ConvertToOCValue(lynx_object->GetProperty(name))
+                           forKey:ConvertToOCString(name)];
+            }
+            return object;
+        }
+        
+        NSArray* OCHelper::ConvertToOCArray(jscore::LynxArray* lynx_array) {
             NSMutableArray *array = [[NSMutableArray alloc] init];
             for (int i = 0; i < lynx_array->Size(); ++i) {
                 [array addObject:ConvertToOCValue(lynx_array->Get(i))];
@@ -65,16 +89,16 @@ namespace base {
                     default:
                         break;
                 }
-            } else if ([value isKindOfClass:[NSString class]]){
+            } else if ([value isKindOfClass:[NSString class]] || [value isKindOfClass:[NSMutableString class]]){
                 NSString *str = SAFE_CONVERT(value, NSString);
                 lynx_value = jscore::LynxValue::MakeString([str UTF8String]);
-            } else if ([value isKindOfClass:[NSMutableDictionary class]]) {
-                lynx_value = ConvertToLynxObject(SAFE_CONVERT(value, NSMutableDictionary));
+            } else if ([value isKindOfClass:[NSMutableDictionary class]] || [value isKindOfClass:[NSDictionary class]]) {
+                lynx_value = ConvertToLynxObject(SAFE_CONVERT(value, NSDictionary));
             }
             return lynx_value;
         }
         
-        jscore::LynxObject* OCHelper::ConvertToLynxObject(NSMutableDictionary *dic) {
+        jscore::LynxObject* OCHelper::ConvertToLynxObject(NSDictionary *dic) {
             if (!dic) return NULL;
             jscore::LynxObject* lynx_object = lynx_new jscore::LynxObject();
             NSArray *key_array = [dic allKeys];
@@ -86,7 +110,7 @@ namespace base {
             return lynx_object;
         }
         
-        jscore::LynxArray* OCHelper::ConvertToLynxArray(NSMutableArray *array) {
+        jscore::LynxArray* OCHelper::ConvertToLynxArray(NSArray *array) {
             if (!array) return NULL;
             NSUInteger length = array.count;
             jscore::LynxArray* lynx_array = lynx_new jscore::LynxArray();

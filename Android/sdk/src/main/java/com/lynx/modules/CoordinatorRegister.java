@@ -15,7 +15,7 @@ public class CoordinatorRegister extends LynxModule {
     }
 
     @LynxMethod
-    public void registeAction(final String sponsorAffinity, final String responderAffinity,
+    public void registerAction(final String sponsorAffinity, final String responderAffinity,
                               final String executable) {
         final LynxUI ui = mRuntime.getHost().mRootRender.getUI();
         ui.getView().post(new Runnable() {
