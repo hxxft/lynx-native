@@ -38,7 +38,10 @@ namespace lepus {
         }
         
         bool IsFalse() const
-        { return type_ == Value_Nil || (type_ == Value_Boolean && !boolean_); }
+        { return type_ == Value_Nil
+            || (type_ == Value_Boolean && !boolean_)
+            || (type_ == Value_Number && number_ == 0)
+            || (type_ == Value_String && strcmp(str_->c_str(),"") == 0); }
 
         void SetNil() {
             if(this->type_ == Value_String ) {

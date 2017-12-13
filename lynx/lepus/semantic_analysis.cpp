@@ -391,4 +391,11 @@ namespace lepus {
         ast->caller()->Accept(this, &expr_data);
         ast->args()->Accept(this, nullptr);
     }
+    void SemanticAnalysis::Visit(TernaryStatementAST *ast, void *data){
+        ExprData expr_data;
+        expr_data.lex_po_ = LexicalOp_Read;
+        ast->condition()->Accept(this, &expr_data);
+        ast->true_branch()->Accept(this, &expr_data);
+        ast->false_branch()->Accept(this, &expr_data);
+    }
 }

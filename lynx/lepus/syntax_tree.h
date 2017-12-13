@@ -368,6 +368,33 @@ virtual void Accept(Visitor* visitor, void* data);
         base::ScopedPtr<ASTree> false_branch_;
     };
     
+    class TernaryStatementAST : public ASTree{
+    public:
+        explicit TernaryStatementAST(ASTree* condition, ASTree* true_branch, ASTree* false_branch)
+        : condition_(condition),
+        true_branch_(true_branch),
+        false_branch_(false_branch){
+        }
+        
+        const base::ScopedPtr<ASTree>& condition() {
+            return condition_;
+        }
+        
+        const base::ScopedPtr<ASTree>& true_branch() {
+            return true_branch_;
+        }
+        
+        const base::ScopedPtr<ASTree>& false_branch() {
+            return false_branch_;
+        }
+        
+        AST_ACCEPT_VISITOR
+    private:
+        base::ScopedPtr<ASTree> condition_;
+        base::ScopedPtr<ASTree> true_branch_;
+        base::ScopedPtr<ASTree> false_branch_;
+    };
+    
     class ElseStatementAST : public ASTree {
     public:
         explicit ElseStatementAST(ASTree* block) : block_(block) {

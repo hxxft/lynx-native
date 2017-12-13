@@ -34,7 +34,7 @@ namespace lepus {
     static inline bool IsOtherToken(int c) {
         return c == '#' || c == '(' || c == ')'
         || c == '{' || c == '}' || c == ']' || c == ']'
-        || c == ';' || c == ':' || c == ',' || c == '.';
+        || c == ';' || c == ':' || c == ',' || c == '.'||c == '?';
     }
     
     const static std::map<std::string, int> kKeyWords = {

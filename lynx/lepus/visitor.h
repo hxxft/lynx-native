@@ -30,6 +30,7 @@ namespace lepus {
         virtual void Visit(AssignStatement* ast, void* data) = 0;
         virtual void Visit(MemberAccessorAST* ast, void* data) = 0;
         virtual void Visit(FunctionCallAST* ast, void* data) = 0;
+        virtual void Visit(TernaryStatementAST* ast, void* data) = 0;
     };
 }
 #endif

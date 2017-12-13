@@ -91,4 +91,7 @@ namespace lepus {
     void FunctionCallAST::Accept(Visitor *visitor, void* data) {
         visitor->Visit(this, data);
     }
+    void TernaryStatementAST::Accept(Visitor *visitor, void* data) {
+        visitor->Visit(this, data);
+    }
 }
