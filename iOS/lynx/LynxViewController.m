@@ -2,6 +2,7 @@
 
 #import "LynxViewController.h"
 #import "LynxView.h"
+#import "LYXScreenUtil.h"
 
 @interface LynxViewController ()
 @property LynxView *lynxView;
@@ -14,20 +15,22 @@
     
     self.navigationItem.title = @"Lynx";
     
-    CGRect screenRect = [UIScreen mainScreen].bounds;
     // status bar
     CGFloat statusHeight = [[UIApplication sharedApplication] statusBarFrame].size.height;
     // navigation bar
     CGFloat navBarHeight = self.navigationController.navigationBar.frame.size.height;
-    CGRect frame = CGRectMake(0, navBarHeight + statusHeight, screenRect.size.width, screenRect.size.height - navBarHeight - statusHeight);
+    CGRect frame = CGRectMake(0, navBarHeight + statusHeight, [[LYXScreenUtil shareInstance] getScreenWidth], [[LYXScreenUtil shareInstance] getScreenHeight] - navBarHeight - statusHeight);
     _lynxView = [[LynxView alloc] initWithFrame:frame];
     
     [self.view addSubview:_lynxView];
 
-    //[_lynxView loadScriptFile:@"test"];
-    [_lynxView loadPage:@"Assets://assets.bundle/App/"];
+//    [_lynxView loadScriptFile:@"test"];
+    [_lynxView loadPage:@"Assets://assets.bundle/Home/"];
 //    NSString *url = @"http://localhost:8080/";
 //    [_lynxView loadUrl:url];
+    
+    // fix UITableViewWrapperView and UITableView size differs with autolayout
+    self.automaticallyAdjustsScrollViewInsets = NO;
 }
 
 - (void)didReceiveMemoryWarning {

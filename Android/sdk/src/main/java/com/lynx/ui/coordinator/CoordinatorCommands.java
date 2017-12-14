@@ -22,7 +22,7 @@ public class CoordinatorCommands {
         mCommands = new HashMap<>();
         for (String command : commandGroup) {
             String[] details = command.split(COMMAND_DEFINITION_SYMBOL);
-            if (details.length != 2) break;
+            if (details.length != 2) continue;
             switch (details[0].trim()) {
                 case CoordinatorTypes.SCROLL:
                     mCommands.put(CoordinatorTypes.SCROLL, details[1].trim());

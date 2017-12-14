@@ -13,7 +13,7 @@ namespace jscore {
     
     class JSCFunction : public LynxFunction {
     public:
-        JSCFunction(JSCContext* context, JSObjectRef target, JSObjectRef function);
+        JSCFunction(JSCContext* context, JSObjectRef function);
         virtual ~JSCFunction();
         virtual void Run(void* target, LynxArray* args);
     private:

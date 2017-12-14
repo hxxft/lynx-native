@@ -88,7 +88,7 @@ namespace lepus {
         *(heap_.base() + reg + 1) = value;
         return true;
     }
-
+    
     bool VMContext::CallFunction(Value* function, int argc, Value* ret) {
         if(function->type_ == Value_Closure) {
             heap_.top_ = function + 1;

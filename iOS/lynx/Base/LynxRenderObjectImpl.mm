@@ -132,7 +132,7 @@
     }
 }
 
-- (void) dispatchEvent:(NSString *)event withParam:(NSMutableArray *)array {
+- (void) dispatchEvent:(NSString *)event withParam:(NSArray *)array {
     render_object_impl_->DispatchEvent([event UTF8String], array);
 }
 

@@ -57,6 +57,7 @@ function onDispatchTouchEvent(tag, type, touchX, touchY, timeStamp) {
           touchDownTime = timeStamp
           startTouchX = touchX
           setConsumed(true)
+          isAllowScroll = false
           break
       case 1:
       case 3:
@@ -85,6 +86,7 @@ function onDispatchTouchEvent(tag, type, touchX, touchY, timeStamp) {
               totalMoveX = toNextIndex * (kImgWidth + kMarginLeft)
               preTotalMoveX = totalMoveX
               curIndex = toNextIndex
+              console.log(toNextIndex)
           }
           break
       case 2:
@@ -217,9 +219,9 @@ function onPropertiesUpdated(tag) {
     // mock touch end
     curTouchType = 1
     isAllowScroll = true
-    if (String.indexOf(tag, 'item') == 0) {
+    if (tag.indexOf('item') == 0) {
         onTouchEventForImg(tag, 0, 0)
-    } else if (String.indexOf(tag, 'BgImg') >= 0) {
+    } else if (tag.indexOf('BgImg') >= 0) {
         onTouchEventForBg(tag, 0, 0)
     } else if (tag == 'scrollWrap') {
         onTouchEventForWrap(tag, 0, 0)

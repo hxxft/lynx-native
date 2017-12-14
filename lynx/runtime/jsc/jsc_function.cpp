@@ -8,13 +8,15 @@
 #include <sstream>
 
 namespace jscore {
-    JSCFunction::JSCFunction(JSCContext* context, JSObjectRef target, JSObjectRef function) : LynxFunction(context) {
+    JSCFunction::JSCFunction(JSCContext* context, JSObjectRef function) : LynxFunction(context) {
         JSContextRef ctx = static_cast<JSCContext*>(context_)->GetContext();
+        JSObjectRef target = JSContextGetGlobalObject(ctx);
         std::stringstream stream;
         stream << reinterpret_cast<intptr_t>(function);
         js_function_key_ = stream.str();
         // clear stream
         stream.str("");
+        stream << "func";
         stream << reinterpret_cast<intptr_t>(this);
         lynx_function_key_ = stream.str();
         JSCHelper::SetValueProperty(ctx,

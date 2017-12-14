@@ -20,7 +20,6 @@
         for(NSDictionary* page in pages) {
             [_pages addObject:[[LynxPageInfo alloc]initWithDict:page]];
         }
-        NSLog(@"aaaa");
     }
     return self;
 }
