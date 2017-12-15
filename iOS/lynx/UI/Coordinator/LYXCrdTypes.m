@@ -1,9 +1,9 @@
 // Copyright 2017 The Lynx Authors. All rights reserved.
 
-#import "LYXCoordinatorTypes.h"
+#import "LYXCrdTypes.h"
 #import "LYXDefines.h"
 
-@implementation LYXCoordinatorTypes {
+@implementation LYXCrdTypes {
     NSSet *_set;
 }
 NSString * const kCoordinatorType_Scroll = @"scroll";
@@ -14,6 +14,7 @@ LYX_NOT_IMPLEMENTED(- (instancetype) init)
 - (instancetype)initWithContent:(NSString *)content {
     self = [super init];
     if (self) {
+        _rawContent = content;
         NSMutableSet *set = [[NSMutableSet alloc] init];
         NSArray *types = [content componentsSeparatedByString:@"\\|"];
         for (NSString * type : types) {

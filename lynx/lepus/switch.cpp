@@ -1,3 +1,4 @@
+#include <algorithm>
 #include "lepus/switch.h"
 #include "lepus/value.h"
 

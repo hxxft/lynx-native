@@ -4,7 +4,7 @@
 
 #include "render/coordinator/coordinator_action.h"
 
-@interface LYXCommandExecutor : NSObject
+@interface LYXCrdCommandExecutor : NSObject
 
 @property(nonatomic, copy) NSString *executable;
 

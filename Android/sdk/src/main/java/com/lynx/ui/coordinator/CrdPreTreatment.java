@@ -6,22 +6,22 @@ import android.view.MotionEvent;
 import com.lynx.utils.PixelUtil;
 
 /**
- * For {@link CoordinatorSponsor} to do pre treatment
+ * For {@link CrdSponsor} to do pre treatment
  */
-public class PreTreatment {
+public class CrdPreTreatment {
     private final static String DISPATCH_SCROLL_COMMAND = "onDispatchScrollEvent";
     private final static String DISPATCH_TOUCH_COMMAND = "onDispatchTouchEvent";
 
-    public PreTreatment() {
+    public CrdPreTreatment() {
     }
 
-    public boolean dispatchAction(String type, CommandExecutor executor, String tag,
+    public boolean dispatchAction(String type, CrdCommandExecutor executor, String tag,
                                   Object... params) {
         switch (type) {
-            case CoordinatorTypes.SCROLL:
+            case CrdTypes.SCROLL:
                 return dispatchScroll(executor,  tag,
                         (int) params[0], (int) params[1]);
-            case CoordinatorTypes.TOUCH:
+            case CrdTypes.TOUCH:
                 return dispatchTouch(executor,  tag,
                         (MotionEvent) params[0]);
             default: break;
@@ -29,16 +29,16 @@ public class PreTreatment {
         return false;
     }
 
-    private boolean dispatchScroll(CommandExecutor executor, String tag,
-                                  int scrollTop, int scrollLeft) {
-        CoordinatorResult result = executor.executeCommand(DISPATCH_SCROLL_COMMAND,
+    private boolean dispatchScroll(CrdCommandExecutor executor, String tag,
+                                   int scrollTop, int scrollLeft) {
+        CrdResult result = executor.executeCommand(DISPATCH_SCROLL_COMMAND,
                 tag,
                 PixelUtil.pxToLynxNumber(scrollTop),
                 PixelUtil.pxToLynxNumber(scrollLeft));
         return result != null && result.isConsumed();
     }
 
-    private boolean dispatchTouch(CommandExecutor executor, String tag, MotionEvent event) {
+    private boolean dispatchTouch(CrdCommandExecutor executor, String tag, MotionEvent event) {
 //        ACTION_DOWN             = 0;
 //        ACTION_UP               = 1;
 //        ACTION_MOVE             = 2;
@@ -46,7 +46,7 @@ public class PreTreatment {
         int type = event.getAction();
         float axisX = event.getX();
         float axisY = event.getY();
-        CoordinatorResult result = executor.executeCommand(DISPATCH_TOUCH_COMMAND,
+        CrdResult result = executor.executeCommand(DISPATCH_TOUCH_COMMAND,
                 tag,
                 type,
                 PixelUtil.pxToLynxNumber(axisX),

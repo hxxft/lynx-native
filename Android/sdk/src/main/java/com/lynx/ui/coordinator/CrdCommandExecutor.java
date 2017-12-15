@@ -3,11 +3,11 @@ package com.lynx.ui.coordinator;
 
 import android.text.TextUtils;
 
-public class CommandExecutor {
+public class CrdCommandExecutor {
     private long mNativePtr;
     private String mExecutable;
 
-    public CommandExecutor(String executable) {
+    public CrdCommandExecutor(String executable) {
         if (!TextUtils.isEmpty(executable)) {
             mNativePtr = nativePrepare(executable);
             mExecutable = executable;
@@ -25,11 +25,11 @@ public class CommandExecutor {
         }
     }
 
-    public CoordinatorResult executeCommand(String method, String tag, double... args) {
+    public CrdResult executeCommand(String method, String tag, double... args) {
         if (TextUtils.isEmpty(method) || mNativePtr == 0) {
             return null;
         }
-        return new CoordinatorResult(nativeExecute(mNativePtr, method, tag, args));
+        return new CrdResult(nativeExecute(mNativePtr, method, tag, args));
     }
 
     public void stop() {

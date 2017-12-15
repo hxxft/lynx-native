@@ -1,10 +1,10 @@
 // Copyright 2017 The Lynx Authors. All rights reserved.
 
-#import "LYXCoordinatorCommands.h"
-#import "LYXCoordinatorTypes.h"
+#import "LYXCrdCommands.h"
+#import "LYXCrdTypes.h"
 #import "LYXDefines.h"
 
-@implementation LYXCoordinatorCommands {
+@implementation LYXCrdCommands {
     NSMutableDictionary *_commands;
 }
 

@@ -2,7 +2,7 @@
 
 #import <Foundation/Foundation.h>
 
-@protocol LYXCoordinatorObject <NSObject>
+@protocol LYXCrdObject <NSObject>
 @required
 @property(nonatomic, readonly, copy) NSString *coordinatorAffinity;
 @property(nonatomic, readonly, copy) NSString *coordinatorTag;

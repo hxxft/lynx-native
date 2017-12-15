@@ -1,17 +1,17 @@
 // Copyright 2017 The Lynx Authors. All rights reserved.
 
-#import "LYXCommandExecutor.h"
+#import "LYXCrdCommandExecutor.h"
 
 #include "render/coordinator/coordinator_executor.h"
 #include "base/debug/memory_debug.h"
 
-@interface LYXCommandExecutor() {
+@interface LYXCrdCommandExecutor() {
     lynx::CoordinatorExecutor *_cExecutor;
 }
 
 @end
 
-@implementation LYXCommandExecutor
+@implementation LYXCrdCommandExecutor
 
 - (id)initWithExecutableContent:(NSString *)content {
     self = [super init];

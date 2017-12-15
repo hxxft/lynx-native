@@ -1,8 +1,8 @@
 // Copyright 2017 The Lynx Authors. All rights reserved.
 
 #import <Foundation/Foundation.h>
-#import "LYXCoordinatorResponder.h"
-#import "LYXCoordinatorSponsor.h"
+#import "LYXCrdResponder.h"
+#import "LYXCrdSponsor.h"
 
 @protocol LYXTransferStation <NSObject>
 
@@ -20,16 +20,16 @@
                                  responderAffinity:(NSString *) responderAffinity;
 - (void) removeAllExecutableAction;
 
-- (void) addCoordinatorSponsor:(id<LYXCoordinatorSponsor>) sponsor;
+- (void) addCoordinatorSponsor:(id<LYXCrdSponsor>) sponsor;
 
-- (void) removeCoordinatorSponsor:(id<LYXCoordinatorSponsor>) sponsor;
+- (void) removeCoordinatorSponsor:(id<LYXCrdSponsor>) sponsor;
 
-- (void) addCoordinatorResponder:(id<LYXCoordinatorResponder>) responder;
+- (void) addCoordinatorResponder:(id<LYXCrdResponder>) responder;
 
-- (void) removeCoordinatorResponder:(id<LYXCoordinatorResponder>) responder;
+- (void) removeCoordinatorResponder:(id<LYXCrdResponder>) responder;
 
 - (BOOL) dispatchNestedActionType: (NSString *) type
-                          sponsor: (id<LYXCoordinatorSponsor>) sponsor
+                          sponsor: (id<LYXCrdSponsor>) sponsor
                            params: (NSArray *) params;
 
 @end

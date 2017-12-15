@@ -2,7 +2,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface LYXCoordinatorCommands : NSObject
+@interface LYXCrdCommands : NSObject
 
 - (instancetype)initWithContent:(NSString *) content NS_DESIGNATED_INITIALIZER;
 - (NSString *)getCommand:(NSString *) type;

@@ -5,7 +5,7 @@
 
 #include "render/coordinator/coordinator_action.h"
 
-@interface LYXCoordinatorActionExecutor : NSObject
+@interface LYXCrdActionExecutor : NSObject
 
 - (instancetype) initWithUI:(LynxUI *) ui;
 

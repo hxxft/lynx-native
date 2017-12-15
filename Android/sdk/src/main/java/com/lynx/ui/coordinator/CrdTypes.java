@@ -6,15 +6,17 @@ import android.text.TextUtils;
 import java.util.HashSet;
 import java.util.Set;
 
-public class CoordinatorTypes {
+public class CrdTypes {
     private final static String TYPE_DELIMITER = "\\|";
 
     public final static String SCROLL = "scroll";
     public final static String TOUCH = "touch";
 
     public Set<String> mTypes;
+    private String mRawContent;
 
-    public CoordinatorTypes(String content) {
+    public CrdTypes(String content) {
+        mRawContent = content;
         mTypes = new HashSet<>();
         if (!TextUtils.isEmpty(content)) {
             String[] types = content.split(TYPE_DELIMITER);
@@ -26,5 +28,9 @@ public class CoordinatorTypes {
 
     public boolean hasType(String type) {
         return mTypes.contains(type);
+    }
+
+    public String getRawContent() {
+        return mRawContent;
     }
 }

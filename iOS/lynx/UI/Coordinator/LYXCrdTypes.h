@@ -2,9 +2,11 @@
 
 #import <Foundation/Foundation.h>
 
-@interface LYXCoordinatorTypes : NSObject
+@interface LYXCrdTypes : NSObject
 extern NSString * const kCoordinatorType_Scroll;
 extern NSString * const kCoordinatorType_Touch;
+
+@property(nonatomic, readonly) NSString *rawContent;
 
 - (instancetype)initWithContent:(NSString *)content NS_DESIGNATED_INITIALIZER;
 

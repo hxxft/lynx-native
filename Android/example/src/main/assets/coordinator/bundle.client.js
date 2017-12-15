@@ -80,16 +80,6 @@ if (typeof __g == 'number') __g = global; // eslint-disable-line no-undef
 
 /***/ }),
 /* 1 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// Thank's IE8 for his funny defineProperty
-module.exports = !__webpack_require__(9)(function () {
-  return Object.defineProperty({}, 'a', { get: function () { return 7; } }).a != 7;
-});
-
-
-/***/ }),
-/* 2 */
 /***/ (function(module, exports) {
 
 var hasOwnProperty = {}.hasOwnProperty;
@@ -99,15 +89,39 @@ module.exports = function (it, key) {
 
 
 /***/ }),
+/* 2 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// Thank's IE8 for his funny defineProperty
+module.exports = !__webpack_require__(8)(function () {
+  return Object.defineProperty({}, 'a', { get: function () { return 7; } }).a != 7;
+});
+
+
+/***/ }),
 /* 3 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var dP = __webpack_require__(4);
+var createDesc = __webpack_require__(10);
+module.exports = __webpack_require__(2) ? function (object, key, value) {
+  return dP.f(object, key, createDesc(1, value));
+} : function (object, key, value) {
+  object[key] = value;
+  return object;
+};
+
+
+/***/ }),
+/* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var anObject = __webpack_require__(7);
 var IE8_DOM_DEFINE = __webpack_require__(29);
-var toPrimitive = __webpack_require__(24);
+var toPrimitive = __webpack_require__(23);
 var dP = Object.defineProperty;
 
-exports.f = __webpack_require__(1) ? Object.defineProperty : function defineProperty(O, P, Attributes) {
+exports.f = __webpack_require__(2) ? Object.defineProperty : function defineProperty(O, P, Attributes) {
   anObject(O);
   P = toPrimitive(P, true);
   anObject(Attributes);
@@ -121,25 +135,11 @@ exports.f = __webpack_require__(1) ? Object.defineProperty : function defineProp
 
 
 /***/ }),
-/* 4 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var dP = __webpack_require__(3);
-var createDesc = __webpack_require__(11);
-module.exports = __webpack_require__(1) ? function (object, key, value) {
-  return dP.f(object, key, createDesc(1, value));
-} : function (object, key, value) {
-  object[key] = value;
-  return object;
-};
-
-
-/***/ }),
 /* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // to indexed object, toObject with fallback for non-array-like ES3 strings
-var IObject = __webpack_require__(55);
+var IObject = __webpack_require__(52);
 var defined = __webpack_require__(13);
 module.exports = function (it) {
   return IObject(defined(it));
@@ -150,8 +150,8 @@ module.exports = function (it) {
 /* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var store = __webpack_require__(22)('wks');
-var uid = __webpack_require__(12);
+var store = __webpack_require__(21)('wks');
+var uid = __webpack_require__(11);
 var Symbol = __webpack_require__(0).Symbol;
 var USE_SYMBOL = typeof Symbol == 'function';
 
@@ -167,7 +167,7 @@ $exports.store = store;
 /* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var isObject = __webpack_require__(10);
+var isObject = __webpack_require__(9);
 module.exports = function (it) {
   if (!isObject(it)) throw TypeError(it + ' is not an object!');
   return it;
@@ -176,14 +176,6 @@ module.exports = function (it) {
 
 /***/ }),
 /* 8 */
-/***/ (function(module, exports) {
-
-var core = module.exports = { version: '2.5.1' };
-if (typeof __e == 'number') __e = core; // eslint-disable-line no-undef
-
-
-/***/ }),
-/* 9 */
 /***/ (function(module, exports) {
 
 module.exports = function (exec) {
@@ -196,7 +188,7 @@ module.exports = function (exec) {
 
 
 /***/ }),
-/* 10 */
+/* 9 */
 /***/ (function(module, exports) {
 
 module.exports = function (it) {
@@ -205,7 +197,7 @@ module.exports = function (it) {
 
 
 /***/ }),
-/* 11 */
+/* 10 */
 /***/ (function(module, exports) {
 
 module.exports = function (bitmap, value) {
@@ -219,7 +211,7 @@ module.exports = function (bitmap, value) {
 
 
 /***/ }),
-/* 12 */
+/* 11 */
 /***/ (function(module, exports) {
 
 var id = 0;
@@ -227,6 +219,14 @@ var px = Math.random();
 module.exports = function (key) {
   return 'Symbol('.concat(key === undefined ? '' : key, ')_', (++id + px).toString(36));
 };
+
+
+/***/ }),
+/* 12 */
+/***/ (function(module, exports) {
+
+var core = module.exports = { version: '2.5.1' };
+if (typeof __e == 'number') __e = core; // eslint-disable-line no-undef
 
 
 /***/ }),
@@ -252,12 +252,158 @@ module.exports = (
 
 /***/ }),
 /* 15 */
+/***/ (function(module, exports) {
+
+module.exports = {};
+
+
+/***/ }),
+/* 16 */
+/***/ (function(module, exports) {
+
+module.exports = true;
+
+
+/***/ }),
+/* 17 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// 19.1.2.14 / 15.2.3.14 Object.keys(O)
+var $keys = __webpack_require__(34);
+var enumBugKeys = __webpack_require__(14);
+
+module.exports = Object.keys || function keys(O) {
+  return $keys(O, enumBugKeys);
+};
+
+
+/***/ }),
+/* 18 */
+/***/ (function(module, exports) {
+
+exports.f = {}.propertyIsEnumerable;
+
+
+/***/ }),
+/* 19 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var def = __webpack_require__(4).f;
+var has = __webpack_require__(1);
+var TAG = __webpack_require__(6)('toStringTag');
+
+module.exports = function (it, tag, stat) {
+  if (it && !has(it = stat ? it : it.prototype, TAG)) def(it, TAG, { configurable: true, value: tag });
+};
+
+
+/***/ }),
+/* 20 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var shared = __webpack_require__(21)('keys');
+var uid = __webpack_require__(11);
+module.exports = function (key) {
+  return shared[key] || (shared[key] = uid(key));
+};
+
+
+/***/ }),
+/* 21 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var global = __webpack_require__(0);
-var core = __webpack_require__(8);
-var ctx = __webpack_require__(52);
-var hide = __webpack_require__(4);
+var SHARED = '__core-js_shared__';
+var store = global[SHARED] || (global[SHARED] = {});
+module.exports = function (key) {
+  return store[key] || (store[key] = {});
+};
+
+
+/***/ }),
+/* 22 */
+/***/ (function(module, exports) {
+
+// 7.1.4 ToInteger
+var ceil = Math.ceil;
+var floor = Math.floor;
+module.exports = function (it) {
+  return isNaN(it = +it) ? 0 : (it > 0 ? floor : ceil)(it);
+};
+
+
+/***/ }),
+/* 23 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// 7.1.1 ToPrimitive(input [, PreferredType])
+var isObject = __webpack_require__(9);
+// instead of the ES6 spec version, we didn't implement @@toPrimitive case
+// and the second argument - flag - preferred type is a string
+module.exports = function (it, S) {
+  if (!isObject(it)) return it;
+  var fn, val;
+  if (S && typeof (fn = it.toString) == 'function' && !isObject(val = fn.call(it))) return val;
+  if (typeof (fn = it.valueOf) == 'function' && !isObject(val = fn.call(it))) return val;
+  if (!S && typeof (fn = it.toString) == 'function' && !isObject(val = fn.call(it))) return val;
+  throw TypeError("Can't convert object to primitive value");
+};
+
+
+/***/ }),
+/* 24 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var global = __webpack_require__(0);
+var core = __webpack_require__(12);
+var LIBRARY = __webpack_require__(16);
+var wksExt = __webpack_require__(25);
+var defineProperty = __webpack_require__(4).f;
+module.exports = function (name) {
+  var $Symbol = core.Symbol || (core.Symbol = LIBRARY ? {} : global.Symbol || {});
+  if (name.charAt(0) != '_' && !(name in $Symbol)) defineProperty($Symbol, name, { value: wksExt.f(name) });
+};
+
+
+/***/ }),
+/* 25 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports.f = __webpack_require__(6);
+
+
+/***/ }),
+/* 26 */
+/***/ (function(module, exports) {
+
+var toString = {}.toString;
+
+module.exports = function (it) {
+  return toString.call(it).slice(8, -1);
+};
+
+
+/***/ }),
+/* 27 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var isObject = __webpack_require__(9);
+var document = __webpack_require__(0).document;
+// typeof document.createElement is 'object' in old IE
+var is = isObject(document) && isObject(document.createElement);
+module.exports = function (it) {
+  return is ? document.createElement(it) : {};
+};
+
+
+/***/ }),
+/* 28 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var global = __webpack_require__(0);
+var core = __webpack_require__(12);
+var ctx = __webpack_require__(49);
+var hide = __webpack_require__(3);
 var PROTOTYPE = 'prototype';
 
 var $export = function (type, name, source) {
@@ -318,157 +464,11 @@ module.exports = $export;
 
 
 /***/ }),
-/* 16 */
-/***/ (function(module, exports) {
-
-module.exports = {};
-
-
-/***/ }),
-/* 17 */
-/***/ (function(module, exports) {
-
-module.exports = true;
-
-
-/***/ }),
-/* 18 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// 19.1.2.14 / 15.2.3.14 Object.keys(O)
-var $keys = __webpack_require__(34);
-var enumBugKeys = __webpack_require__(14);
-
-module.exports = Object.keys || function keys(O) {
-  return $keys(O, enumBugKeys);
-};
-
-
-/***/ }),
-/* 19 */
-/***/ (function(module, exports) {
-
-exports.f = {}.propertyIsEnumerable;
-
-
-/***/ }),
-/* 20 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var def = __webpack_require__(3).f;
-var has = __webpack_require__(2);
-var TAG = __webpack_require__(6)('toStringTag');
-
-module.exports = function (it, tag, stat) {
-  if (it && !has(it = stat ? it : it.prototype, TAG)) def(it, TAG, { configurable: true, value: tag });
-};
-
-
-/***/ }),
-/* 21 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var shared = __webpack_require__(22)('keys');
-var uid = __webpack_require__(12);
-module.exports = function (key) {
-  return shared[key] || (shared[key] = uid(key));
-};
-
-
-/***/ }),
-/* 22 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var global = __webpack_require__(0);
-var SHARED = '__core-js_shared__';
-var store = global[SHARED] || (global[SHARED] = {});
-module.exports = function (key) {
-  return store[key] || (store[key] = {});
-};
-
-
-/***/ }),
-/* 23 */
-/***/ (function(module, exports) {
-
-// 7.1.4 ToInteger
-var ceil = Math.ceil;
-var floor = Math.floor;
-module.exports = function (it) {
-  return isNaN(it = +it) ? 0 : (it > 0 ? floor : ceil)(it);
-};
-
-
-/***/ }),
-/* 24 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// 7.1.1 ToPrimitive(input [, PreferredType])
-var isObject = __webpack_require__(10);
-// instead of the ES6 spec version, we didn't implement @@toPrimitive case
-// and the second argument - flag - preferred type is a string
-module.exports = function (it, S) {
-  if (!isObject(it)) return it;
-  var fn, val;
-  if (S && typeof (fn = it.toString) == 'function' && !isObject(val = fn.call(it))) return val;
-  if (typeof (fn = it.valueOf) == 'function' && !isObject(val = fn.call(it))) return val;
-  if (!S && typeof (fn = it.toString) == 'function' && !isObject(val = fn.call(it))) return val;
-  throw TypeError("Can't convert object to primitive value");
-};
-
-
-/***/ }),
-/* 25 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var global = __webpack_require__(0);
-var core = __webpack_require__(8);
-var LIBRARY = __webpack_require__(17);
-var wksExt = __webpack_require__(26);
-var defineProperty = __webpack_require__(3).f;
-module.exports = function (name) {
-  var $Symbol = core.Symbol || (core.Symbol = LIBRARY ? {} : global.Symbol || {});
-  if (name.charAt(0) != '_' && !(name in $Symbol)) defineProperty($Symbol, name, { value: wksExt.f(name) });
-};
-
-
-/***/ }),
-/* 26 */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports.f = __webpack_require__(6);
-
-
-/***/ }),
-/* 27 */
-/***/ (function(module, exports) {
-
-var toString = {}.toString;
-
-module.exports = function (it) {
-  return toString.call(it).slice(8, -1);
-};
-
-
-/***/ }),
-/* 28 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var isObject = __webpack_require__(10);
-var document = __webpack_require__(0).document;
-// typeof document.createElement is 'object' in old IE
-var is = isObject(document) && isObject(document.createElement);
-module.exports = function (it) {
-  return is ? document.createElement(it) : {};
-};
-
-
-/***/ }),
 /* 29 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = !__webpack_require__(1) && !__webpack_require__(9)(function () {
-  return Object.defineProperty(__webpack_require__(28)('div'), 'a', { get: function () { return 7; } }).a != 7;
+module.exports = !__webpack_require__(2) && !__webpack_require__(8)(function () {
+  return Object.defineProperty(__webpack_require__(27)('div'), 'a', { get: function () { return 7; } }).a != 7;
 });
 
 
@@ -478,15 +478,15 @@ module.exports = !__webpack_require__(1) && !__webpack_require__(9)(function () 
 
 "use strict";
 
-var LIBRARY = __webpack_require__(17);
-var $export = __webpack_require__(15);
+var LIBRARY = __webpack_require__(16);
+var $export = __webpack_require__(28);
 var redefine = __webpack_require__(35);
-var hide = __webpack_require__(4);
-var has = __webpack_require__(2);
-var Iterators = __webpack_require__(16);
-var $iterCreate = __webpack_require__(57);
-var setToStringTag = __webpack_require__(20);
-var getPrototypeOf = __webpack_require__(63);
+var hide = __webpack_require__(3);
+var has = __webpack_require__(1);
+var Iterators = __webpack_require__(15);
+var $iterCreate = __webpack_require__(54);
+var setToStringTag = __webpack_require__(19);
+var getPrototypeOf = __webpack_require__(60);
 var ITERATOR = __webpack_require__(6)('iterator');
 var BUGGY = !([].keys && 'next' in [].keys()); // Safari has buggy iterators w/o `next`
 var FF_ITERATOR = '@@iterator';
@@ -555,22 +555,22 @@ module.exports = function (Base, NAME, Constructor, next, DEFAULT, IS_SET, FORCE
 
 // 19.1.2.2 / 15.2.3.5 Object.create(O [, Properties])
 var anObject = __webpack_require__(7);
-var dPs = __webpack_require__(60);
+var dPs = __webpack_require__(57);
 var enumBugKeys = __webpack_require__(14);
-var IE_PROTO = __webpack_require__(21)('IE_PROTO');
+var IE_PROTO = __webpack_require__(20)('IE_PROTO');
 var Empty = function () { /* empty */ };
 var PROTOTYPE = 'prototype';
 
 // Create object with fake `null` prototype: use iframe Object with cleared prototype
 var createDict = function () {
   // Thrash, waste and sodomy: IE GC bug
-  var iframe = __webpack_require__(28)('iframe');
+  var iframe = __webpack_require__(27)('iframe');
   var i = enumBugKeys.length;
   var lt = '<';
   var gt = '>';
   var iframeDocument;
   iframe.style.display = 'none';
-  __webpack_require__(54).appendChild(iframe);
+  __webpack_require__(51).appendChild(iframe);
   iframe.src = 'javascript:'; // eslint-disable-line no-script-url
   // createDict = iframe.contentWindow.Object;
   // html.removeChild(iframe);
@@ -620,10 +620,10 @@ exports.f = Object.getOwnPropertySymbols;
 /* 34 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var has = __webpack_require__(2);
+var has = __webpack_require__(1);
 var toIObject = __webpack_require__(5);
-var arrayIndexOf = __webpack_require__(51)(false);
-var IE_PROTO = __webpack_require__(21)('IE_PROTO');
+var arrayIndexOf = __webpack_require__(48)(false);
+var IE_PROTO = __webpack_require__(20)('IE_PROTO');
 
 module.exports = function (object, names) {
   var O = toIObject(object);
@@ -643,7 +643,7 @@ module.exports = function (object, names) {
 /* 35 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(4);
+module.exports = __webpack_require__(3);
 
 
 /***/ }),
@@ -654,7 +654,7 @@ module.exports = __webpack_require__(4);
 /* harmony export (immutable) */ __webpack_exports__["a"] = createApp;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(37);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__src_app_vue__ = __webpack_require__(76);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__src_app_vue__ = __webpack_require__(72);
 
 
 function createApp() {
@@ -8212,19 +8212,16 @@ setTimeout(function () {
 
 module.exports = Vue$3;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(80), __webpack_require__(81)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(76), __webpack_require__(77)))
 
 /***/ }),
 /* 38 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_defineProperty__ = __webpack_require__(44);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_defineProperty___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_defineProperty__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__coordinator__ = __webpack_require__(40);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__coordinator_anim_bar_lepus__ = __webpack_require__(79);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__coordinator_anim_bar_lepus___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__coordinator_anim_bar_lepus__);
-
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__coordinator__ = __webpack_require__(40);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__coordinator_anim_bar_lepus__ = __webpack_require__(75);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__coordinator_anim_bar_lepus___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__coordinator_anim_bar_lepus__);
 //
 //
 //
@@ -8316,45 +8313,46 @@ module.exports = Vue$3;
 
   components: {},
   data: function data() {
-    var _ref;
-
-    return _ref = { style: { "container": { "flexDirection": "row" }, "vertical-scrollview": { "flexDirection": "column" }, "scrollview": { "paddingTop": "1240", "flexDirection": "row", "width": "750" }, "scrollview-item": { "flexDirection": "column", "width": "750" }, "shadow": { "position": "absolute", "left": "0", "top": "120", "width": "750", "height": "16", "objectFit": "fill", "opacity": "0" }, "item-wrap": { "flexDirection": "row", "paddingTop": "40", "paddingBottom": "40", "paddingLeft": "30", "paddingRight": "30", "alignItems": "center" }, "item-title": { "color": "black", "fontSize": "50", "fontWeight": "bold", "width": "200" }, "item-img": { "width": "700", "height": "380" }, "item-img-small": { "width": "50", "height": "50" }, "item-content": { "color": "black", "fontSize": "35", "marginLeft": "20" }, "line": { "height": "2", "alignSelf": "stretch", "backgroundColor": "#d0d0d0" }, "back-btn": { "position": "absolute", "height": "50", "width": "50", "top": "30", "left": "30", "objectFit": "fill" }, "anim-bg": { "position": "absolute", "width": "750", "height": "1240", "backgroundColor": "#66ccff" }, "anim-card": { "position": "absolute", "top": "0", "right": "0", "height": "300", "width": "500" }, "anim-card-img": { "height": "400", "width": "600", "marginTop": "-50", "marginLeft": "-50", "zIndex": "0" }, "anim-label": { "position": "absolute", "color": "white", "fontSize": "60", "lineHeight": "60", "left": "60", "top": "120", "fontWeight": "bold", "zIndex": "100" }, "anim-line": { "position": "absolute", "backgroundColor": "white", "borderRadius": "4", "height": "8", "width": "80", "right": "40", "top": "250", "zIndex": "100" } } }, __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_defineProperty___default()(_ref, 'style', { "container": { "flexDirection": "row" }, "vertical-scrollview": { "flexDirection": "column" }, "scrollview": { "paddingTop": "1240", "flexDirection": "row", "width": "750" }, "scrollview-item": { "flexDirection": "column", "width": "750" }, "shadow": { "position": "absolute", "left": "0", "top": "120", "width": "750", "height": "16", "objectFit": "fill", "opacity": "0" }, "item-wrap": { "flexDirection": "row", "paddingTop": "40", "paddingBottom": "40", "paddingLeft": "30", "paddingRight": "30", "alignItems": "center" }, "item-title": { "color": "black", "fontSize": "50", "fontWeight": "bold", "width": "200" }, "item-img": { "width": "700", "height": "380" }, "item-img-small": { "width": "50", "height": "50" }, "item-content": { "color": "black", "fontSize": "35", "marginLeft": "20" }, "line": { "height": "2", "alignSelf": "stretch", "backgroundColor": "#d0d0d0" }, "back-btn": { "position": "absolute", "height": "50", "width": "50", "top": "30", "left": "30", "objectFit": "fill" }, "anim-bg": { "position": "absolute", "width": "750", "height": "1240", "backgroundColor": "#66ccff" }, "anim-card": { "position": "absolute", "top": "0", "right": "0", "height": "300", "width": "500" }, "anim-card-img": { "height": "400", "width": "600", "marginTop": "-50", "marginLeft": "-50", "zIndex": "0" }, "anim-label": { "position": "absolute", "color": "white", "fontSize": "60", "lineHeight": "60", "left": "60", "top": "120", "fontWeight": "bold", "zIndex": "100" }, "anim-line": { "position": "absolute", "backgroundColor": "white", "borderRadius": "4", "height": "8", "width": "80", "right": "40", "top": "250", "zIndex": "100" } }), __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_defineProperty___default()(_ref, 'style', { "container": { "flexDirection": "row" }, "vertical-scrollview": { "flexDirection": "column" }, "scrollview": { "paddingTop": "1240", "flexDirection": "row", "width": "750" }, "scrollview-item": { "flexDirection": "column", "width": "750" }, "shadow": { "position": "absolute", "left": "0", "top": "120", "width": "750", "height": "16", "objectFit": "fill", "opacity": "0" }, "item-wrap": { "flexDirection": "row", "paddingTop": "40", "paddingBottom": "40", "paddingLeft": "30", "paddingRight": "30", "alignItems": "center" }, "item-title": { "color": "black", "fontSize": "50", "fontWeight": "bold", "width": "200" }, "item-img": { "width": "700", "height": "380" }, "item-img-small": { "width": "50", "height": "50" }, "item-content": { "color": "black", "fontSize": "35", "marginLeft": "20" }, "line": { "height": "2", "alignSelf": "stretch", "backgroundColor": "#d0d0d0" }, "back-btn": { "position": "absolute", "height": "50", "width": "50", "top": "30", "left": "30", "objectFit": "fill" }, "anim-bg": { "position": "absolute", "width": "750", "height": "1240", "backgroundColor": "#66ccff" }, "anim-card": { "position": "absolute", "top": "0", "right": "0", "height": "300", "width": "500" }, "anim-card-img": { "height": "400", "width": "600", "marginTop": "-50", "marginLeft": "-50", "zIndex": "0" }, "anim-label": { "position": "absolute", "color": "white", "fontSize": "60", "lineHeight": "60", "left": "60", "top": "120", "fontWeight": "bold", "zIndex": "100" }, "anim-line": { "position": "absolute", "backgroundColor": "white", "borderRadius": "4", "height": "8", "width": "80", "right": "40", "top": "250", "zIndex": "100" } }), __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_defineProperty___default()(_ref, 'cdrContext', null), __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_defineProperty___default()(_ref, 'contentList', [{
-      title: "Lynx",
-      imgUrl: "pic_lynx.png",
-      tinyImgUrl: "icon_lynx_sit.png",
-      content: "Interactive animation support in Lynx"
-    }, {
-      title: "Cat",
-      imgUrl: "pic_cat.png",
-      tinyImgUrl: "icon_cat.png",
-      content: "Interactive animation support in Lynx"
-    }, {
-      title: "Tiger",
-      imgUrl: "pic_tiger.png",
-      tinyImgUrl: "icon_tiger.png",
-      content: "Interactive animation support in Lynx"
-    }, {
-      title: "Lion",
-      imgUrl: "pic_lion.png",
-      tinyImgUrl: "icon_lion.png",
-      content: "Interactive animation support in Lynx"
-    }]), __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_defineProperty___default()(_ref, 'animList', [{
-      title: "Lynx",
-      imgUrl: "pic_lynx.png"
-    }, {
-      title: "Cat",
-      imgUrl: "pic_cat.png"
-    }, {
-      title: "Tiger",
-      imgUrl: "pic_tiger.png"
-    }, {
-      title: "Lion",
-      imgUrl: "pic_lion.png"
-    }]), _ref;
+    return { style: { "container": { "flexDirection": "row" }, "vertical-scrollview": { "flexDirection": "column" }, "scrollview": { "paddingTop": "1240", "flexDirection": "row", "width": "750" }, "scrollview-item": { "flexDirection": "column", "width": "750" }, "shadow": { "position": "absolute", "left": "0", "top": "120", "width": "750", "height": "16", "objectFit": "fill", "opacity": "0" }, "item-wrap": { "flexDirection": "row", "paddingTop": "40", "paddingBottom": "40", "paddingLeft": "30", "paddingRight": "30", "alignItems": "center" }, "item-title": { "color": "black", "fontSize": "50", "fontWeight": "bold", "width": "200" }, "item-img": { "width": "700", "height": "380" }, "item-img-small": { "width": "50", "height": "50" }, "item-content": { "color": "black", "fontSize": "35", "marginLeft": "20" }, "line": { "height": "2", "alignSelf": "stretch", "backgroundColor": "#d0d0d0" }, "back-btn": { "position": "absolute", "height": "50", "width": "50", "top": "30", "left": "30", "objectFit": "fill" }, "anim-bg": { "position": "absolute", "width": "750", "height": "1240", "backgroundColor": "#66ccff" }, "anim-card": { "position": "absolute", "top": "0", "right": "0", "height": "300", "width": "500" }, "anim-card-img": { "height": "400", "width": "600", "marginTop": "-50", "marginLeft": "-50", "zIndex": "0" }, "anim-label": { "position": "absolute", "color": "white", "fontSize": "60", "lineHeight": "60", "left": "60", "top": "120", "fontWeight": "bold", "zIndex": "100" }, "anim-line": { "position": "absolute", "backgroundColor": "white", "borderRadius": "4", "height": "8", "width": "80", "right": "40", "top": "250", "zIndex": "100" } },
+      cdrContext: null,
+      contentList: [{
+        title: "Lynx",
+        imgUrl: "pic_lynx.png",
+        tinyImgUrl: "icon_lynx_sit.png",
+        content: "Interactive animation support in Lynx"
+      }, {
+        title: "Cat",
+        imgUrl: "pic_cat.png",
+        tinyImgUrl: "icon_cat.png",
+        content: "Interactive animation support in Lynx"
+      }, {
+        title: "Tiger",
+        imgUrl: "pic_tiger.png",
+        tinyImgUrl: "icon_tiger.png",
+        content: "Interactive animation support in Lynx"
+      }, {
+        title: "Lion",
+        imgUrl: "pic_lion.png",
+        tinyImgUrl: "icon_lion.png",
+        content: "Interactive animation support in Lynx"
+      }],
+      animList: [{
+        title: "Lynx",
+        imgUrl: "pic_lynx.png"
+      }, {
+        title: "Cat",
+        imgUrl: "pic_cat.png"
+      }, {
+        title: "Tiger",
+        imgUrl: "pic_tiger.png"
+      }, {
+        title: "Lion",
+        imgUrl: "pic_lion.png"
+      }]
+    };
   },
   mounted: function mounted() {
-    this.cdrContext = new __WEBPACK_IMPORTED_MODULE_1__coordinator__["a" /* default */]("sponsorAffinity", "responderAffinity", __WEBPACK_IMPORTED_MODULE_2__coordinator_anim_bar_lepus___default.a);
-    // LynxCoordinatorRegister.registeAction("sponsorAffinity", "responderAffinity", animationCommand)
+    this.cdrContext = new __WEBPACK_IMPORTED_MODULE_0__coordinator__["a" /* default */]("sponsorAffinity", "responderAffinity", __WEBPACK_IMPORTED_MODULE_1__coordinator_anim_bar_lepus___default.a);
   },
 
   methods: {
@@ -8384,7 +8382,7 @@ app.$mount('#app');
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_typeof__ = __webpack_require__(45);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_typeof__ = __webpack_require__(43);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_typeof___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_typeof__);
 
 
@@ -8440,64 +8438,28 @@ CoordinatorContext.prototype.updateProperties = function (properties) {
 /* 41 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = { "default": __webpack_require__(46), __esModule: true };
+module.exports = { "default": __webpack_require__(44), __esModule: true };
 
 /***/ }),
 /* 42 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = { "default": __webpack_require__(47), __esModule: true };
+module.exports = { "default": __webpack_require__(45), __esModule: true };
 
 /***/ }),
 /* 43 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = { "default": __webpack_require__(48), __esModule: true };
-
-/***/ }),
-/* 44 */
-/***/ (function(module, exports, __webpack_require__) {
-
 "use strict";
 
 
 exports.__esModule = true;
 
-var _defineProperty = __webpack_require__(41);
-
-var _defineProperty2 = _interopRequireDefault(_defineProperty);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-exports.default = function (obj, key, value) {
-  if (key in obj) {
-    (0, _defineProperty2.default)(obj, key, {
-      value: value,
-      enumerable: true,
-      configurable: true,
-      writable: true
-    });
-  } else {
-    obj[key] = value;
-  }
-
-  return obj;
-};
-
-/***/ }),
-/* 45 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-exports.__esModule = true;
-
-var _iterator = __webpack_require__(43);
+var _iterator = __webpack_require__(42);
 
 var _iterator2 = _interopRequireDefault(_iterator);
 
-var _symbol = __webpack_require__(42);
+var _symbol = __webpack_require__(41);
 
 var _symbol2 = _interopRequireDefault(_symbol);
 
@@ -8512,38 +8474,27 @@ exports.default = typeof _symbol2.default === "function" && _typeof(_iterator2.d
 };
 
 /***/ }),
-/* 46 */
+/* 44 */
 /***/ (function(module, exports, __webpack_require__) {
 
+__webpack_require__(68);
+__webpack_require__(66);
 __webpack_require__(69);
-var $Object = __webpack_require__(8).Object;
-module.exports = function defineProperty(it, key, desc) {
-  return $Object.defineProperty(it, key, desc);
-};
-
-
-/***/ }),
-/* 47 */
-/***/ (function(module, exports, __webpack_require__) {
-
-__webpack_require__(72);
 __webpack_require__(70);
-__webpack_require__(73);
-__webpack_require__(74);
-module.exports = __webpack_require__(8).Symbol;
+module.exports = __webpack_require__(12).Symbol;
 
 
 /***/ }),
-/* 48 */
+/* 45 */
 /***/ (function(module, exports, __webpack_require__) {
 
+__webpack_require__(67);
 __webpack_require__(71);
-__webpack_require__(75);
-module.exports = __webpack_require__(26).f('iterator');
+module.exports = __webpack_require__(25).f('iterator');
 
 
 /***/ }),
-/* 49 */
+/* 46 */
 /***/ (function(module, exports) {
 
 module.exports = function (it) {
@@ -8553,21 +8504,21 @@ module.exports = function (it) {
 
 
 /***/ }),
-/* 50 */
+/* 47 */
 /***/ (function(module, exports) {
 
 module.exports = function () { /* empty */ };
 
 
 /***/ }),
-/* 51 */
+/* 48 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // false -> Array#indexOf
 // true  -> Array#includes
 var toIObject = __webpack_require__(5);
-var toLength = __webpack_require__(66);
-var toAbsoluteIndex = __webpack_require__(65);
+var toLength = __webpack_require__(63);
+var toAbsoluteIndex = __webpack_require__(62);
 module.exports = function (IS_INCLUDES) {
   return function ($this, el, fromIndex) {
     var O = toIObject($this);
@@ -8589,11 +8540,11 @@ module.exports = function (IS_INCLUDES) {
 
 
 /***/ }),
-/* 52 */
+/* 49 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // optional / simple context binding
-var aFunction = __webpack_require__(49);
+var aFunction = __webpack_require__(46);
 module.exports = function (fn, that, length) {
   aFunction(fn);
   if (that === undefined) return fn;
@@ -8615,13 +8566,13 @@ module.exports = function (fn, that, length) {
 
 
 /***/ }),
-/* 53 */
+/* 50 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // all enumerable object keys, includes symbols
-var getKeys = __webpack_require__(18);
+var getKeys = __webpack_require__(17);
 var gOPS = __webpack_require__(33);
-var pIE = __webpack_require__(19);
+var pIE = __webpack_require__(18);
 module.exports = function (it) {
   var result = getKeys(it);
   var getSymbols = gOPS.f;
@@ -8636,7 +8587,7 @@ module.exports = function (it) {
 
 
 /***/ }),
-/* 54 */
+/* 51 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var document = __webpack_require__(0).document;
@@ -8644,11 +8595,11 @@ module.exports = document && document.documentElement;
 
 
 /***/ }),
-/* 55 */
+/* 52 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // fallback for non-array-like ES3 and non-enumerable old V8 strings
-var cof = __webpack_require__(27);
+var cof = __webpack_require__(26);
 // eslint-disable-next-line no-prototype-builtins
 module.exports = Object('z').propertyIsEnumerable(0) ? Object : function (it) {
   return cof(it) == 'String' ? it.split('') : Object(it);
@@ -8656,29 +8607,29 @@ module.exports = Object('z').propertyIsEnumerable(0) ? Object : function (it) {
 
 
 /***/ }),
-/* 56 */
+/* 53 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 7.2.2 IsArray(argument)
-var cof = __webpack_require__(27);
+var cof = __webpack_require__(26);
 module.exports = Array.isArray || function isArray(arg) {
   return cof(arg) == 'Array';
 };
 
 
 /***/ }),
-/* 57 */
+/* 54 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 var create = __webpack_require__(31);
-var descriptor = __webpack_require__(11);
-var setToStringTag = __webpack_require__(20);
+var descriptor = __webpack_require__(10);
+var setToStringTag = __webpack_require__(19);
 var IteratorPrototype = {};
 
 // 25.1.2.1.1 %IteratorPrototype%[@@iterator]()
-__webpack_require__(4)(IteratorPrototype, __webpack_require__(6)('iterator'), function () { return this; });
+__webpack_require__(3)(IteratorPrototype, __webpack_require__(6)('iterator'), function () { return this; });
 
 module.exports = function (Constructor, NAME, next) {
   Constructor.prototype = create(IteratorPrototype, { next: descriptor(1, next) });
@@ -8687,7 +8638,7 @@ module.exports = function (Constructor, NAME, next) {
 
 
 /***/ }),
-/* 58 */
+/* 55 */
 /***/ (function(module, exports) {
 
 module.exports = function (done, value) {
@@ -8696,18 +8647,18 @@ module.exports = function (done, value) {
 
 
 /***/ }),
-/* 59 */
+/* 56 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var META = __webpack_require__(12)('meta');
-var isObject = __webpack_require__(10);
-var has = __webpack_require__(2);
-var setDesc = __webpack_require__(3).f;
+var META = __webpack_require__(11)('meta');
+var isObject = __webpack_require__(9);
+var has = __webpack_require__(1);
+var setDesc = __webpack_require__(4).f;
 var id = 0;
 var isExtensible = Object.isExtensible || function () {
   return true;
 };
-var FREEZE = !__webpack_require__(9)(function () {
+var FREEZE = !__webpack_require__(8)(function () {
   return isExtensible(Object.preventExtensions({}));
 });
 var setMeta = function (it) {
@@ -8755,14 +8706,14 @@ var meta = module.exports = {
 
 
 /***/ }),
-/* 60 */
+/* 57 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var dP = __webpack_require__(3);
+var dP = __webpack_require__(4);
 var anObject = __webpack_require__(7);
-var getKeys = __webpack_require__(18);
+var getKeys = __webpack_require__(17);
 
-module.exports = __webpack_require__(1) ? Object.defineProperties : function defineProperties(O, Properties) {
+module.exports = __webpack_require__(2) ? Object.defineProperties : function defineProperties(O, Properties) {
   anObject(O);
   var keys = getKeys(Properties);
   var length = keys.length;
@@ -8774,18 +8725,18 @@ module.exports = __webpack_require__(1) ? Object.defineProperties : function def
 
 
 /***/ }),
-/* 61 */
+/* 58 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var pIE = __webpack_require__(19);
-var createDesc = __webpack_require__(11);
+var pIE = __webpack_require__(18);
+var createDesc = __webpack_require__(10);
 var toIObject = __webpack_require__(5);
-var toPrimitive = __webpack_require__(24);
-var has = __webpack_require__(2);
+var toPrimitive = __webpack_require__(23);
+var has = __webpack_require__(1);
 var IE8_DOM_DEFINE = __webpack_require__(29);
 var gOPD = Object.getOwnPropertyDescriptor;
 
-exports.f = __webpack_require__(1) ? gOPD : function getOwnPropertyDescriptor(O, P) {
+exports.f = __webpack_require__(2) ? gOPD : function getOwnPropertyDescriptor(O, P) {
   O = toIObject(O);
   P = toPrimitive(P, true);
   if (IE8_DOM_DEFINE) try {
@@ -8796,7 +8747,7 @@ exports.f = __webpack_require__(1) ? gOPD : function getOwnPropertyDescriptor(O,
 
 
 /***/ }),
-/* 62 */
+/* 59 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // fallback for IE11 buggy Object.getOwnPropertyNames with iframe and window
@@ -8821,13 +8772,13 @@ module.exports.f = function getOwnPropertyNames(it) {
 
 
 /***/ }),
-/* 63 */
+/* 60 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 19.1.2.9 / 15.2.3.2 Object.getPrototypeOf(O)
-var has = __webpack_require__(2);
-var toObject = __webpack_require__(67);
-var IE_PROTO = __webpack_require__(21)('IE_PROTO');
+var has = __webpack_require__(1);
+var toObject = __webpack_require__(64);
+var IE_PROTO = __webpack_require__(20)('IE_PROTO');
 var ObjectProto = Object.prototype;
 
 module.exports = Object.getPrototypeOf || function (O) {
@@ -8840,10 +8791,10 @@ module.exports = Object.getPrototypeOf || function (O) {
 
 
 /***/ }),
-/* 64 */
+/* 61 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var toInteger = __webpack_require__(23);
+var toInteger = __webpack_require__(22);
 var defined = __webpack_require__(13);
 // true  -> String#at
 // false -> String#codePointAt
@@ -8863,10 +8814,10 @@ module.exports = function (TO_STRING) {
 
 
 /***/ }),
-/* 65 */
+/* 62 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var toInteger = __webpack_require__(23);
+var toInteger = __webpack_require__(22);
 var max = Math.max;
 var min = Math.min;
 module.exports = function (index, length) {
@@ -8876,11 +8827,11 @@ module.exports = function (index, length) {
 
 
 /***/ }),
-/* 66 */
+/* 63 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 7.1.15 ToLength
-var toInteger = __webpack_require__(23);
+var toInteger = __webpack_require__(22);
 var min = Math.min;
 module.exports = function (it) {
   return it > 0 ? min(toInteger(it), 0x1fffffffffffff) : 0; // pow(2, 53) - 1 == 9007199254740991
@@ -8888,7 +8839,7 @@ module.exports = function (it) {
 
 
 /***/ }),
-/* 67 */
+/* 64 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 7.1.13 ToObject(argument)
@@ -8899,14 +8850,14 @@ module.exports = function (it) {
 
 
 /***/ }),
-/* 68 */
+/* 65 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-var addToUnscopables = __webpack_require__(50);
-var step = __webpack_require__(58);
-var Iterators = __webpack_require__(16);
+var addToUnscopables = __webpack_require__(47);
+var step = __webpack_require__(55);
+var Iterators = __webpack_require__(15);
 var toIObject = __webpack_require__(5);
 
 // 22.1.3.4 Array.prototype.entries()
@@ -8940,27 +8891,18 @@ addToUnscopables('entries');
 
 
 /***/ }),
-/* 69 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var $export = __webpack_require__(15);
-// 19.1.2.4 / 15.2.3.6 Object.defineProperty(O, P, Attributes)
-$export($export.S + $export.F * !__webpack_require__(1), 'Object', { defineProperty: __webpack_require__(3).f });
-
-
-/***/ }),
-/* 70 */
+/* 66 */
 /***/ (function(module, exports) {
 
 
 
 /***/ }),
-/* 71 */
+/* 67 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-var $at = __webpack_require__(64)(true);
+var $at = __webpack_require__(61)(true);
 
 // 21.1.3.27 String.prototype[@@iterator]()
 __webpack_require__(30)(String, 'String', function (iterated) {
@@ -8979,36 +8921,36 @@ __webpack_require__(30)(String, 'String', function (iterated) {
 
 
 /***/ }),
-/* 72 */
+/* 68 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 // ECMAScript 6 symbols shim
 var global = __webpack_require__(0);
-var has = __webpack_require__(2);
-var DESCRIPTORS = __webpack_require__(1);
-var $export = __webpack_require__(15);
+var has = __webpack_require__(1);
+var DESCRIPTORS = __webpack_require__(2);
+var $export = __webpack_require__(28);
 var redefine = __webpack_require__(35);
-var META = __webpack_require__(59).KEY;
-var $fails = __webpack_require__(9);
-var shared = __webpack_require__(22);
-var setToStringTag = __webpack_require__(20);
-var uid = __webpack_require__(12);
+var META = __webpack_require__(56).KEY;
+var $fails = __webpack_require__(8);
+var shared = __webpack_require__(21);
+var setToStringTag = __webpack_require__(19);
+var uid = __webpack_require__(11);
 var wks = __webpack_require__(6);
-var wksExt = __webpack_require__(26);
-var wksDefine = __webpack_require__(25);
-var enumKeys = __webpack_require__(53);
-var isArray = __webpack_require__(56);
+var wksExt = __webpack_require__(25);
+var wksDefine = __webpack_require__(24);
+var enumKeys = __webpack_require__(50);
+var isArray = __webpack_require__(53);
 var anObject = __webpack_require__(7);
 var toIObject = __webpack_require__(5);
-var toPrimitive = __webpack_require__(24);
-var createDesc = __webpack_require__(11);
+var toPrimitive = __webpack_require__(23);
+var createDesc = __webpack_require__(10);
 var _create = __webpack_require__(31);
-var gOPNExt = __webpack_require__(62);
-var $GOPD = __webpack_require__(61);
-var $DP = __webpack_require__(3);
-var $keys = __webpack_require__(18);
+var gOPNExt = __webpack_require__(59);
+var $GOPD = __webpack_require__(58);
+var $DP = __webpack_require__(4);
+var $keys = __webpack_require__(17);
 var gOPD = $GOPD.f;
 var dP = $DP.f;
 var gOPN = gOPNExt.f;
@@ -9132,10 +9074,10 @@ if (!USE_NATIVE) {
   $GOPD.f = $getOwnPropertyDescriptor;
   $DP.f = $defineProperty;
   __webpack_require__(32).f = gOPNExt.f = $getOwnPropertyNames;
-  __webpack_require__(19).f = $propertyIsEnumerable;
+  __webpack_require__(18).f = $propertyIsEnumerable;
   __webpack_require__(33).f = $getOwnPropertySymbols;
 
-  if (DESCRIPTORS && !__webpack_require__(17)) {
+  if (DESCRIPTORS && !__webpack_require__(16)) {
     redefine(ObjectProto, 'propertyIsEnumerable', $propertyIsEnumerable, true);
   }
 
@@ -9210,7 +9152,7 @@ $JSON && $export($export.S + $export.F * (!USE_NATIVE || $fails(function () {
 });
 
 // 19.4.3.4 Symbol.prototype[@@toPrimitive](hint)
-$Symbol[PROTOTYPE][TO_PRIMITIVE] || __webpack_require__(4)($Symbol[PROTOTYPE], TO_PRIMITIVE, $Symbol[PROTOTYPE].valueOf);
+$Symbol[PROTOTYPE][TO_PRIMITIVE] || __webpack_require__(3)($Symbol[PROTOTYPE], TO_PRIMITIVE, $Symbol[PROTOTYPE].valueOf);
 // 19.4.3.5 Symbol.prototype[@@toStringTag]
 setToStringTag($Symbol, 'Symbol');
 // 20.2.1.9 Math[@@toStringTag]
@@ -9220,27 +9162,27 @@ setToStringTag(global.JSON, 'JSON', true);
 
 
 /***/ }),
-/* 73 */
+/* 69 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(25)('asyncIterator');
+__webpack_require__(24)('asyncIterator');
 
 
 /***/ }),
-/* 74 */
+/* 70 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(25)('observable');
+__webpack_require__(24)('observable');
 
 
 /***/ }),
-/* 75 */
+/* 71 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(68);
+__webpack_require__(65);
 var global = __webpack_require__(0);
-var hide = __webpack_require__(4);
-var Iterators = __webpack_require__(16);
+var hide = __webpack_require__(3);
+var Iterators = __webpack_require__(15);
 var TO_STRING_TAG = __webpack_require__(6)('toStringTag');
 
 var DOMIterables = ('CSSRuleList,CSSStyleDeclaration,CSSValueList,ClientRectList,DOMRectList,DOMStringList,' +
@@ -9259,14 +9201,14 @@ for (var i = 0; i < DOMIterables.length; i++) {
 
 
 /***/ }),
-/* 76 */
+/* 72 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_lynx_vue_loader_lib_selector_type_script_index_0_app_vue__ = __webpack_require__(38);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_lynx_vue_loader_lib_template_compiler_index_id_data_v_0c040613_hasScoped_false_transformToRequire_video_src_source_src_img_src_image_xlink_href_preserveWhitespace_false_node_modules_lynx_vue_loader_lib_selector_type_template_index_0_app_vue__ = __webpack_require__(78);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_lynx_vue_loader_lib_template_compiler_index_id_data_v_0c040613_hasScoped_false_transformToRequire_video_src_source_src_img_src_image_xlink_href_preserveWhitespace_false_node_modules_lynx_vue_loader_lib_selector_type_template_index_0_app_vue__ = __webpack_require__(74);
 var disposed = false
-var normalizeComponent = __webpack_require__(77)
+var normalizeComponent = __webpack_require__(73)
 /* script */
 
 /* template */
@@ -9302,7 +9244,7 @@ if (false) {(function () {
 
 
 /***/ }),
-/* 77 */
+/* 73 */
 /***/ (function(module, exports) {
 
 /* globals __VUE_SSR_CONTEXT__ */
@@ -9399,7 +9341,7 @@ module.exports = function normalizeComponent (
 
 
 /***/ }),
-/* 78 */
+/* 74 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -9523,13 +9465,13 @@ if (false) {
 }
 
 /***/ }),
-/* 79 */
+/* 75 */
 /***/ (function(module, exports) {
 
-module.exports = "var kVerticalScrollViewTag = 'vScrollView'\nvar kHorizontalScrollViewTag = 'hScrollView'\nvar animHeight = 1240\nvar screenWidth = 750\nvar totalPages = 4\nvar curPage = 0\nvar curScrollTop = 0\nvar curScrollLeft = 0\nvar min = 0\nvar maxCardWidth = 750\nvar minCardWidth = 500\nvar minCardHeight = 300\nvar maxCardHeight = 500\nvar marginBetweenCard = 10\n\nvar maxImgWidth = 750\nvar minImgWidth = 600\nvar maxImgHeight = 500\nvar minImgHeight = 400\nvar defaultImgMargin = 50\n\nvar lineWidth = 80\nvar lineMarginAtTop = 10\n\nvar startCardScalePosition = 0\nvar endCardScalePosition = defaultImgMargin * 2\n\nvar startScalePosition = endCardScalePosition\nvar endScalePosition = animHeight - 600\n\nvar startTranslateUpPosition = animHeight - 600 + 100\nvar defaultBarHeight = 120\nvar endTranslateUpPosition = animHeight - defaultBarHeight\nvar carMaxTranslateY = maxImgHeight / 3\n\nvar originLabelMarginLeft = 60\nvar originLabelMarginTop = 120\nvar maxLabelMarginTop = 200\nvar maxLabelMarginLeft = 330\nvar labelHeight = 60\nvar fromTranslateXForCenter = 0\nvar toTranslateXForCenter = maxLabelMarginLeft - originLabelMarginLeft\nvar fromTranslateYForCenter = 0\nvar toTranslateYForCenter = maxLabelMarginTop - originLabelMarginTop\nvar fromTranslateYForUp = toTranslateYForCenter\nvar toTranslateYForUp = 20 - originLabelMarginTop\n\nvar originLineMarginRight = 40\nvar originLineMarginTop = 250\nvar fromTranslateXForCenterForLine = 0\nvar toTranslateXForCenterForLine = 0 - 295\nvar fromTranslateYForCenterForLine = 0\nvar toTranslateYForCenterForLine = 25\nvar fromTranslateYForUpForLine = toTranslateYForCenterForLine\nvar toTranslateYForUpForLine = 90 - originLineMarginTop\n\n// All element move to top when scroll up\nvar startPositionForMoveForCard = 0\nvar endPositionForMoveForCard = startTranslateUpPosition\n\nvar startPositionForMoveTogetorForLine = endPositionForMoveForCard\nvar endPositionForMoveTogetorForLine = endTranslateUpPosition\n\n\n// When scrollLeft happens\nvar startScrollLeftPositionForScroll = 0\nvar endScrollLeftPositionForScroll = totalPages * screenWidth\nvar maxScrollTopPositionForScrollFullPage = endPositionForMoveForCard\n\nfunction onDispatchScrollEvent(tag, scrollTop, scrollLeft) {\n    if (tag == kVerticalScrollViewTag) {\n        curScrollTop = scrollTop\n        if (curScrollTop < 0) curScrollTop = 0\n    } else {\n        curScrollLeft = scrollLeft\n        if (curScrollLeft < 0) curScrollLeft = 0\n        curPage = curScrollLeft / screenWidth\n        if (curPage < 1) curPage = 0\n        else if (curPage < 2) curPage = 1\n        else if (curPage < 3) curPage = 2\n        else if (curPage < 4) curPage = 3\n    }\n}\n\nfunction onScrollEventForBg(tag, scrollTop, scrollLeft) {\n    if (curScrollTop < (animHeight - defaultBarHeight)) {\n        var y = -curScrollTop\n        setOffsetBottom(y)\n    } else {\n        setOffsetBottom(-animHeight + defaultBarHeight)\n    }\n}\n\nfunction onScrollEventForCard(tag, scrollTop, scrollLeft){\n    var cardIndex = 0\n    if (tag == 'card0') cardIndex = 0\n    else if (tag == 'card1') cardIndex = 1\n    else if (tag == 'card2') cardIndex = 2\n    else if (tag == 'card3') cardIndex = 3\n    var tempTranslateY = 0\n    var tempTranslateX = 0\n    if (curScrollTop < endCardScalePosition) {\n        var left = curScrollTop\n        var bottom = curScrollTop\n        setOffsetBottom(bottom)\n        setOffsetLeft(0-left)\n        tempTranslateY = 0\n    } else {\n        if (curScrollTop < endScalePosition) {\n            var rate = (curScrollTop - endCardScalePosition) / (endScalePosition - endCardScalePosition)\n            var left = rate * (maxCardWidth - minCardWidth - endCardScalePosition)\n            var bottom = rate * (maxCardHeight - minCardHeight - endCardScalePosition)\n            setOffsetBottom(bottom + endCardScalePosition)\n            setOffsetLeft(0 - left - endCardScalePosition)\n        } else {\n            setOffsetBottom(200)\n            setOffsetLeft(0 - 250)\n        }\n        if (curScrollTop > startTranslateUpPosition) {\n            if (curScrollTop < endTranslateUpPosition) {\n                var rate = (curScrollTop - startTranslateUpPosition) / (endTranslateUpPosition - startTranslateUpPosition)\n                var y = rate * carMaxTranslateY;\n                tempTranslateY = 0-y\n            } else {\n                tempTranslateY = 0-carMaxTranslateY\n            }\n        }\n    }\n    if (curScrollTop < endPositionForMoveForCard) {\n        var rate1 = curScrollTop/ endPositionForMoveForCard\n        tempTranslateY = tempTranslateY - rate1 * (minCardHeight + marginBetweenCard) * cardIndex\n        tempTranslateX = tempTranslateX + rate1 * maxCardWidth * cardIndex\n    } else {\n        tempTranslateY = tempTranslateY - (minCardHeight + marginBetweenCard) * cardIndex\n        tempTranslateX = maxCardWidth * cardIndex\n    }\n\n    // For scroll left\n    if (curScrollLeft < endScrollLeftPositionForScroll) {\n        var rateForX = curScrollLeft / endScrollLeftPositionForScroll\n        var rateForY = 1\n        if (curScrollTop < maxScrollTopPositionForScrollFullPage) {\n            rateForY = curScrollTop / maxScrollTopPositionForScrollFullPage\n        }\n        var curMaxScrollDistance = rateForY * endScrollLeftPositionForScroll\n        tempTranslateX = tempTranslateX - curMaxScrollDistance * rateForX\n    }\n\n    setTranslateY(tempTranslateY)\n    setTranslateX(tempTranslateX)\n}\n\nfunction onScrollEventForImg(tag, scrollTop, scrollLeft) {\n    if (curScrollTop < defaultImgMargin * 2) {\n        setOffsetTop(curScrollTop / 2)\n        setOffsetBottom(curScrollTop / 2)\n        setOffsetLeft(curScrollTop / 2)\n        setOffsetRight(curScrollTop / 2)\n    } else {\n        if (curScrollTop < endScalePosition) {\n            var rate = (curScrollTop - defaultImgMargin * 2) / (endScalePosition - defaultImgMargin * 2)\n            var left = rate * (maxImgWidth - minImgWidth)\n            var bottom = rate * (maxImgHeight - minImgHeight)\n            setOffsetTop(defaultImgMargin)\n            setOffsetRight(left + defaultImgMargin)\n            setOffsetBottom(bottom + defaultImgMargin)\n            setOffsetLeft(defaultImgMargin)\n        } else {\n            setOffsetTop(defaultImgMargin)\n            setOffsetRight(150 + defaultImgMargin)\n            setOffsetBottom(100 + defaultImgMargin)\n            setOffsetLeft(defaultImgMargin)\n        }\n    }\n}\n\nfunction onScrollEventForLabel(tag, scrollTop, scrollLeft) {\n    var labelIndex = 0\n    if (tag == 'label0') labelIndex = 0\n    else if (tag == 'label1') labelIndex = 1\n    else if (tag == 'label2') labelIndex = 2\n    else if (tag == 'label3') labelIndex = 3\n    var tempTranslateY = 0\n    var tempTranslateX = 0\n    if (curScrollTop < endScalePosition) {\n        var rate = curScrollTop / endScalePosition\n        tempTranslateY = rate * (toTranslateYForCenter - fromTranslateYForCenter)\n        tempTranslateX = rate * (toTranslateXForCenter - fromTranslateXForCenter)\n    } else {\n        tempTranslateY = toTranslateYForCenter\n        tempTranslateX = toTranslateXForCenter\n    }\n    if (curScrollTop > startTranslateUpPosition) {\n        if (curScrollTop < endTranslateUpPosition) {\n            var rate = (curScrollTop - startTranslateUpPosition) / (endTranslateUpPosition - startTranslateUpPosition)\n            tempTranslateY = fromTranslateYForUp - rate * (fromTranslateYForUp - toTranslateYForUp)\n        } else {\n            tempTranslateY = toTranslateYForUp\n        }\n    }\n\n    if (curScrollTop < endPositionForMoveForCard) {\n        var rate1 = curScrollTop/ endPositionForMoveForCard\n        tempTranslateY = tempTranslateY - rate1 * (minCardHeight + marginBetweenCard) * labelIndex\n        tempTranslateX = tempTranslateX + rate1 * maxCardWidth * labelIndex\n    } else {\n        tempTranslateY = tempTranslateY - (minCardHeight + marginBetweenCard) * labelIndex\n        tempTranslateX = tempTranslateX + maxCardWidth * labelIndex\n    }\n\n    // For scroll left\n    if (curScrollLeft < endScrollLeftPositionForScroll) {\n        var rateForX = curScrollLeft / endScrollLeftPositionForScroll\n        var rateForY = 1\n        if (curScrollTop < maxScrollTopPositionForScrollFullPage) {\n            rateForY = curScrollTop / maxScrollTopPositionForScrollFullPage\n        }\n        var curMaxScrollDistance = rateForY * endScrollLeftPositionForScroll\n        tempTranslateX = tempTranslateX - curMaxScrollDistance * rateForX\n    }\n\n    setTranslateX(tempTranslateX)\n    setTranslateY(tempTranslateY)\n}\n\nfunction onScrollEventForLine(tag, scrollTop, scrollLeft) {\n    var lineIndex = 0\n    if (tag == 'line0') lineIndex = 0\n    else if (tag == 'line1') lineIndex = 1\n    else if (tag == 'line2') lineIndex = 2\n    else if (tag == 'line3') lineIndex = 3\n    var tempTranslateY = 0\n    var tempTranslateX = 0\n    if (curScrollTop < endScalePosition) {\n        var rate = curScrollTop / endScalePosition\n        tempTranslateY = rate * toTranslateYForCenterForLine\n        tempTranslateX = rate * toTranslateXForCenterForLine\n    } else {\n        tempTranslateX = toTranslateXForCenterForLine\n        tempTranslateY = toTranslateYForCenterForLine\n    }\n    if (curScrollTop > startTranslateUpPosition) {\n        if (curScrollTop < endTranslateUpPosition) {\n            var rate = (curScrollTop - startTranslateUpPosition) / (endTranslateUpPosition - startTranslateUpPosition)\n            tempTranslateY = fromTranslateYForUpForLine - rate * (fromTranslateYForUpForLine - toTranslateYForUpForLine)\n        } else {\n            tempTranslateY = toTranslateYForUpForLine\n        }\n    }\n\n    if (curScrollTop < endPositionForMoveForCard) {\n        var rate1 = curScrollTop/ endPositionForMoveForCard\n        tempTranslateY = tempTranslateY - rate1 * (minCardHeight + marginBetweenCard) * lineIndex\n        tempTranslateX = tempTranslateX + rate1 * maxCardWidth * lineIndex\n    } else {\n        tempTranslateY = tempTranslateY - (minCardHeight + marginBetweenCard) * lineIndex\n        tempTranslateX = tempTranslateX + maxCardWidth * lineIndex\n    }\n\n    // For moving together\n    if (curScrollTop > startPositionForMoveTogetorForLine) {\n        // Support scroll left\n        var rateForX1 = 1\n        if (curScrollLeft < endScrollLeftPositionForScroll) {\n            rateForX1 = (curScrollLeft - curPage * screenWidth) / screenWidth\n        }\n        var toPage = curPage\n        if (rateForX1 > 0) toPage = curPage + 1\n        else if (rateForX1 < 0) toPage = curPage - 1\n\n        if (curScrollTop < endPositionForMoveTogetorForLine) {\n            // Calculate for scroll top\n            var rate2 = (curScrollTop - startPositionForMoveTogetorForLine)\n                      / (endPositionForMoveTogetorForLine - startPositionForMoveTogetorForLine)\n            tempTranslateX = tempTranslateX - rate2 * (maxCardWidth - lineWidth - lineMarginAtTop) * (lineIndex - curPage)\n\n            // Calculate for scroll left\n            var from = rate2 * (maxCardWidth - lineWidth - lineMarginAtTop) * (lineIndex - curPage)\n            var to = rate2 * (maxCardWidth - lineWidth - lineMarginAtTop) * (lineIndex - toPage)\n            tempTranslateX = tempTranslateX - rateForX1 * (to - from)\n\n        } else {\n            // Calculate for scroll top\n            tempTranslateX = tempTranslateX - (maxCardWidth - lineWidth - lineMarginAtTop) * (lineIndex - curPage)\n            // Calculate for scroll left\n            var from = (maxCardWidth - lineWidth - lineMarginAtTop) * (lineIndex - curPage)\n            var to = (maxCardWidth - lineWidth - lineMarginAtTop) * (lineIndex - toPage)\n            tempTranslateX = tempTranslateX - rateForX1 * (to - from)\n        }\n    }\n\n    // For scrolling left\n    if (curScrollLeft < endScrollLeftPositionForScroll) {\n        var rateForX = curScrollLeft / endScrollLeftPositionForScroll\n        var rateForY = 1\n        if (curScrollTop < maxScrollTopPositionForScrollFullPage) {\n            rateForY = curScrollTop / maxScrollTopPositionForScrollFullPage\n        }\n        var curMaxScrollDistance = rateForY * endScrollLeftPositionForScroll\n        tempTranslateX = tempTranslateX - curMaxScrollDistance * rateForX\n    }\n\n    setTranslateX(tempTranslateX)\n    setTranslateY(tempTranslateY)\n}\n"
+module.exports = "var kVerticalScrollViewTag = 'vScrollView'\nvar kHorizontalScrollViewTag = 'hScrollView'\nvar animHeight = 1240\nvar screenWidth = 750\nvar totalPages = 4\nvar curPage = 0\nvar curScrollTop = 0\nvar curScrollLeft = 0\nvar min = 0\nvar maxCardWidth = 750\nvar minCardWidth = 500\nvar minCardHeight = 300\nvar maxCardHeight = 500\nvar marginBetweenCard = 10\n\nvar maxImgWidth = 750\nvar minImgWidth = 600\nvar maxImgHeight = 500\nvar minImgHeight = 400\nvar defaultImgMargin = 50\n\nvar lineWidth = 80\nvar lineMarginAtTop = 10\n\nvar startCardScalePosition = 0\nvar endCardScalePosition = defaultImgMargin * 2\n\nvar startScalePosition = endCardScalePosition\nvar endScalePosition = animHeight - 600\n\nvar startTranslateUpPosition = animHeight - 600 + 100\nvar defaultBarHeight = 120\nvar endTranslateUpPosition = animHeight - defaultBarHeight\nvar carMaxTranslateY = maxImgHeight / 3\n\nvar originLabelMarginLeft = 60\nvar originLabelMarginTop = 120\nvar maxLabelMarginTop = 200\nvar maxLabelMarginLeft = 330\nvar labelHeight = 60\nvar fromTranslateXForCenter = 0\nvar toTranslateXForCenter = maxLabelMarginLeft - originLabelMarginLeft\nvar fromTranslateYForCenter = 0\nvar toTranslateYForCenter = maxLabelMarginTop - originLabelMarginTop\nvar fromTranslateYForUp = toTranslateYForCenter\nvar toTranslateYForUp = 20 - originLabelMarginTop\n\nvar originLineMarginRight = 40\nvar originLineMarginTop = 250\nvar fromTranslateXForCenterForLine = 0\nvar toTranslateXForCenterForLine = 0 - 295\nvar fromTranslateYForCenterForLine = 0\nvar toTranslateYForCenterForLine = 25\nvar fromTranslateYForUpForLine = toTranslateYForCenterForLine\nvar toTranslateYForUpForLine = 90 - originLineMarginTop\n\n// All element move to top when scroll up\nvar startPositionForMoveForCard = 0\nvar endPositionForMoveForCard = startTranslateUpPosition\n\nvar startPositionForMoveTogetorForLine = endPositionForMoveForCard\nvar endPositionForMoveTogetorForLine = endTranslateUpPosition\n\n\n// When scrollLeft happens\nvar startScrollLeftPositionForScroll = 0\nvar endScrollLeftPositionForScroll = totalPages * screenWidth\nvar maxScrollTopPositionForScrollFullPage = endPositionForMoveForCard\n\nfunction onDispatchScrollEvent(tag, scrollTop, scrollLeft) {\n    if (tag === kVerticalScrollViewTag) {\n        curScrollTop = scrollTop\n        if (curScrollTop < 0) curScrollTop = 0\n    } else {\n        curScrollLeft = scrollLeft\n        if (curScrollLeft < 0) curScrollLeft = 0\n        curPage = curScrollLeft / screenWidth\n        if (curPage < 1) curPage = 0\n        else if (curPage < 2) curPage = 1\n        else if (curPage < 3) curPage = 2\n        else if (curPage < 4) curPage = 3\n    }\n}\n\nfunction onScrollEventForBg(tag, scrollTop, scrollLeft) {\n    if (curScrollTop < (animHeight - defaultBarHeight)) {\n        var y = -curScrollTop\n        setOffsetBottom(y)\n    } else {\n        setOffsetBottom(-animHeight + defaultBarHeight)\n    }\n}\n\nfunction onScrollEventForCard(tag, scrollTop, scrollLeft){\n    var cardIndex = 0\n    if (tag === 'card0') cardIndex = 0\n    else if (tag === 'card1') cardIndex = 1\n    else if (tag === 'card2') cardIndex = 2\n    else if (tag === 'card3') cardIndex = 3\n    var tempTranslateY = 0\n    var tempTranslateX = 0\n    if (curScrollTop < endCardScalePosition) {\n        var left = curScrollTop\n        var bottom = curScrollTop\n        setOffsetBottom(bottom)\n        setOffsetLeft(0-left)\n        tempTranslateY = 0\n    } else {\n        if (curScrollTop < endScalePosition) {\n            var rate = (curScrollTop - endCardScalePosition) / (endScalePosition - endCardScalePosition)\n            var left = rate * (maxCardWidth - minCardWidth - endCardScalePosition)\n            var bottom = rate * (maxCardHeight - minCardHeight - endCardScalePosition)\n            setOffsetBottom(bottom + endCardScalePosition)\n            setOffsetLeft(0 - left - endCardScalePosition)\n        } else {\n            setOffsetBottom(200)\n            setOffsetLeft(0 - 250)\n        }\n        if (curScrollTop > startTranslateUpPosition) {\n            if (curScrollTop < endTranslateUpPosition) {\n                var rate = (curScrollTop - startTranslateUpPosition) / (endTranslateUpPosition - startTranslateUpPosition)\n                var y = rate * carMaxTranslateY;\n                tempTranslateY = 0-y\n            } else {\n                tempTranslateY = 0-carMaxTranslateY\n            }\n        }\n    }\n    if (curScrollTop < endPositionForMoveForCard) {\n        var rate1 = curScrollTop/ endPositionForMoveForCard\n        tempTranslateY = tempTranslateY - rate1 * (minCardHeight + marginBetweenCard) * cardIndex\n        tempTranslateX = tempTranslateX + rate1 * maxCardWidth * cardIndex\n    } else {\n        tempTranslateY = tempTranslateY - (minCardHeight + marginBetweenCard) * cardIndex\n        tempTranslateX = maxCardWidth * cardIndex\n    }\n\n    // For scroll left\n    if (curScrollLeft < endScrollLeftPositionForScroll) {\n        var rateForX = curScrollLeft / endScrollLeftPositionForScroll\n        var rateForY = 1\n        if (curScrollTop < maxScrollTopPositionForScrollFullPage) {\n            rateForY = curScrollTop / maxScrollTopPositionForScrollFullPage\n        }\n        var curMaxScrollDistance = rateForY * endScrollLeftPositionForScroll\n        tempTranslateX = tempTranslateX - curMaxScrollDistance * rateForX\n    }\n\n    setTranslateY(tempTranslateY)\n    setTranslateX(tempTranslateX)\n}\n\nfunction onScrollEventForImg(tag, scrollTop, scrollLeft) {\n    if (curScrollTop < defaultImgMargin * 2) {\n        setOffsetTop(curScrollTop / 2)\n        setOffsetBottom(curScrollTop / 2)\n        setOffsetLeft(curScrollTop / 2)\n        setOffsetRight(curScrollTop / 2)\n    } else {\n        if (curScrollTop < endScalePosition) {\n            var rate = (curScrollTop - defaultImgMargin * 2) / (endScalePosition - defaultImgMargin * 2)\n            var left = rate * (maxImgWidth - minImgWidth)\n            var bottom = rate * (maxImgHeight - minImgHeight)\n            setOffsetTop(defaultImgMargin)\n            setOffsetRight(left + defaultImgMargin)\n            setOffsetBottom(bottom + defaultImgMargin)\n            setOffsetLeft(defaultImgMargin)\n        } else {\n            setOffsetTop(defaultImgMargin)\n            setOffsetRight(150 + defaultImgMargin)\n            setOffsetBottom(100 + defaultImgMargin)\n            setOffsetLeft(defaultImgMargin)\n        }\n    }\n}\n\nfunction onScrollEventForLabel(tag, scrollTop, scrollLeft) {\n    var labelIndex = 0\n    if (tag === 'label0') labelIndex = 0\n    else if (tag === 'label1') labelIndex = 1\n    else if (tag === 'label2') labelIndex = 2\n    else if (tag === 'label3') labelIndex = 3\n    var tempTranslateY = 0\n    var tempTranslateX = 0\n    if (curScrollTop < endScalePosition) {\n        var rate = curScrollTop / endScalePosition\n        tempTranslateY = rate * (toTranslateYForCenter - fromTranslateYForCenter)\n        tempTranslateX = rate * (toTranslateXForCenter - fromTranslateXForCenter)\n    } else {\n        tempTranslateY = toTranslateYForCenter\n        tempTranslateX = toTranslateXForCenter\n    }\n    if (curScrollTop > startTranslateUpPosition) {\n        if (curScrollTop < endTranslateUpPosition) {\n            var rate = (curScrollTop - startTranslateUpPosition) / (endTranslateUpPosition - startTranslateUpPosition)\n            tempTranslateY = fromTranslateYForUp - rate * (fromTranslateYForUp - toTranslateYForUp)\n        } else {\n            tempTranslateY = toTranslateYForUp\n        }\n    }\n\n    if (curScrollTop < endPositionForMoveForCard) {\n        var rate1 = curScrollTop/ endPositionForMoveForCard\n        tempTranslateY = tempTranslateY - rate1 * (minCardHeight + marginBetweenCard) * labelIndex\n        tempTranslateX = tempTranslateX + rate1 * maxCardWidth * labelIndex\n    } else {\n        tempTranslateY = tempTranslateY - (minCardHeight + marginBetweenCard) * labelIndex\n        tempTranslateX = tempTranslateX + maxCardWidth * labelIndex\n    }\n\n    // For scroll left\n    if (curScrollLeft < endScrollLeftPositionForScroll) {\n        var rateForX = curScrollLeft / endScrollLeftPositionForScroll\n        var rateForY = 1\n        if (curScrollTop < maxScrollTopPositionForScrollFullPage) {\n            rateForY = curScrollTop / maxScrollTopPositionForScrollFullPage\n        }\n        var curMaxScrollDistance = rateForY * endScrollLeftPositionForScroll\n        tempTranslateX = tempTranslateX - curMaxScrollDistance * rateForX\n    }\n\n    setTranslateX(tempTranslateX)\n    setTranslateY(tempTranslateY)\n}\n\nfunction onScrollEventForLine(tag, scrollTop, scrollLeft) {\n    var lineIndex = 0\n    if (tag === 'line0') lineIndex = 0\n    else if (tag === 'line1') lineIndex = 1\n    else if (tag === 'line2') lineIndex = 2\n    else if (tag === 'line3') lineIndex = 3\n    var tempTranslateY = 0\n    var tempTranslateX = 0\n    if (curScrollTop < endScalePosition) {\n        var rate = curScrollTop / endScalePosition\n        tempTranslateY = rate * toTranslateYForCenterForLine\n        tempTranslateX = rate * toTranslateXForCenterForLine\n    } else {\n        tempTranslateX = toTranslateXForCenterForLine\n        tempTranslateY = toTranslateYForCenterForLine\n    }\n    if (curScrollTop > startTranslateUpPosition) {\n        if (curScrollTop < endTranslateUpPosition) {\n            var rate = (curScrollTop - startTranslateUpPosition) / (endTranslateUpPosition - startTranslateUpPosition)\n            tempTranslateY = fromTranslateYForUpForLine - rate * (fromTranslateYForUpForLine - toTranslateYForUpForLine)\n        } else {\n            tempTranslateY = toTranslateYForUpForLine\n        }\n    }\n\n    if (curScrollTop < endPositionForMoveForCard) {\n        var rate1 = curScrollTop/ endPositionForMoveForCard\n        tempTranslateY = tempTranslateY - rate1 * (minCardHeight + marginBetweenCard) * lineIndex\n        tempTranslateX = tempTranslateX + rate1 * maxCardWidth * lineIndex\n    } else {\n        tempTranslateY = tempTranslateY - (minCardHeight + marginBetweenCard) * lineIndex\n        tempTranslateX = tempTranslateX + maxCardWidth * lineIndex\n    }\n\n    // For moving together\n    if (curScrollTop > startPositionForMoveTogetorForLine) {\n        // Support scroll left\n        var rateForX1 = 1\n        if (curScrollLeft < endScrollLeftPositionForScroll) {\n            rateForX1 = (curScrollLeft - curPage * screenWidth) / screenWidth\n        }\n        var toPage = curPage\n        if (rateForX1 > 0) toPage = curPage + 1\n        else if (rateForX1 < 0) toPage = curPage - 1\n\n        if (curScrollTop < endPositionForMoveTogetorForLine) {\n            // Calculate for scroll top\n            var rate2 = (curScrollTop - startPositionForMoveTogetorForLine)\n                      / (endPositionForMoveTogetorForLine - startPositionForMoveTogetorForLine)\n            tempTranslateX = tempTranslateX - rate2 * (maxCardWidth - lineWidth - lineMarginAtTop) * (lineIndex - curPage)\n\n            // Calculate for scroll left\n            var from = rate2 * (maxCardWidth - lineWidth - lineMarginAtTop) * (lineIndex - curPage)\n            var to = rate2 * (maxCardWidth - lineWidth - lineMarginAtTop) * (lineIndex - toPage)\n            tempTranslateX = tempTranslateX - rateForX1 * (to - from)\n\n        } else {\n            // Calculate for scroll top\n            tempTranslateX = tempTranslateX - (maxCardWidth - lineWidth - lineMarginAtTop) * (lineIndex - curPage)\n            // Calculate for scroll left\n            var from = (maxCardWidth - lineWidth - lineMarginAtTop) * (lineIndex - curPage)\n            var to = (maxCardWidth - lineWidth - lineMarginAtTop) * (lineIndex - toPage)\n            tempTranslateX = tempTranslateX - rateForX1 * (to - from)\n        }\n    }\n\n    // For scrolling left\n    if (curScrollLeft < endScrollLeftPositionForScroll) {\n        var rateForX = curScrollLeft / endScrollLeftPositionForScroll\n        var rateForY = 1\n        if (curScrollTop < maxScrollTopPositionForScrollFullPage) {\n            rateForY = curScrollTop / maxScrollTopPositionForScrollFullPage\n        }\n        var curMaxScrollDistance = rateForY * endScrollLeftPositionForScroll\n        tempTranslateX = tempTranslateX - curMaxScrollDistance * rateForX\n    }\n\n    setTranslateX(tempTranslateX)\n    setTranslateY(tempTranslateY)\n}\n"
 
 /***/ }),
-/* 80 */
+/* 76 */
 /***/ (function(module, exports) {
 
 // shim for using process in browser
@@ -9719,7 +9661,7 @@ process.umask = function() { return 0; };
 
 
 /***/ }),
-/* 81 */
+/* 77 */
 /***/ (function(module, exports) {
 
 var g;

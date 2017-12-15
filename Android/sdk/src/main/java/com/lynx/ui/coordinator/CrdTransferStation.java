@@ -11,14 +11,14 @@ import java.util.Set;
 public class CrdTransferStation implements TransferStation {
     // TransferStation
     // affinity <-> responders
-    private Map<String, Set<CoordinatorResponder>> mCoordinatorResponders;
+    private Map<String, Set<CrdResponder>> mCoordinatorResponders;
     // affinity <-> sponsor
-    private Map<String, CoordinatorSponsor> mCoordinatorSponsors;
+    private Map<String, CrdSponsor> mCoordinatorSponsors;
     // affinity <-> executor
-    private Map<String, CommandExecutor> mExecutorPool;
+    private Map<String, CrdCommandExecutor> mExecutorPool;
     // sponsor affinity <-> responder affinity
     private Map<String, Set<String>> mAffinityRelationShip;
-    private PreTreatment mPreTreatment;
+    private CrdPreTreatment mPreTreatment;
 
     @Override
     public void updatePropertiesInAction(String sponsorAffinity, String responderAffinity,
@@ -29,8 +29,8 @@ public class CrdTransferStation implements TransferStation {
             Set<String> responderAffinityList =
                     mAffinityRelationShip.get(sponsorAffinity);
             if (responderAffinityList == null) return;
-            CommandExecutor executor = mExecutorPool.get(responderAffinity);
-            Set<CoordinatorResponder> set = mCoordinatorResponders.get(responderAffinity);
+            CrdCommandExecutor executor = mExecutorPool.get(responderAffinity);
+            Set<CrdResponder> set = mCoordinatorResponders.get(responderAffinity);
             if (executor == null || set == null) return;
             for (Object o : object.getPropertyNames()) {
                 String name = (String) o;
@@ -45,13 +45,13 @@ public class CrdTransferStation implements TransferStation {
             }
             if (notify) {
                 // Notify responder
-                for (CoordinatorResponder responder : set) {
+                for (CrdResponder responder : set) {
                     responder.coordinatorTreatment().onPropertiesUpdated(executor);
                 }
                 // Notify sponsor which is a responder
-                CoordinatorSponsor sponsor = mCoordinatorSponsors.get(sponsorAffinity);
-                if (sponsor != null && sponsor instanceof CoordinatorResponder) {
-                    Treatment sponsorTreatment = ((CoordinatorResponder) sponsor).coordinatorTreatment();
+                CrdSponsor sponsor = mCoordinatorSponsors.get(sponsorAffinity);
+                if (sponsor != null && sponsor instanceof CrdResponder) {
+                    CrdTreatment sponsorTreatment = ((CrdResponder) sponsor).coordinatorTreatment();
                     if (sponsorTreatment != null) {
                         sponsorTreatment.onPropertiesUpdated(executor);
                     }
@@ -75,31 +75,31 @@ public class CrdTransferStation implements TransferStation {
         }
         responderAffinityList.add(responderAffinity);
 
-        CommandExecutor executor = mExecutorPool.get(responderAffinity);
+        CrdCommandExecutor executor = mExecutorPool.get(responderAffinity);
         if (executor == null) {
-            executor = new CommandExecutor(executable);
+            executor = new CrdCommandExecutor(executable);
             mExecutorPool.put(responderAffinity, executor);
         } else {
             executor.update(executable);
         }
 
         if (mPreTreatment == null) {
-            mPreTreatment = new PreTreatment();
+            mPreTreatment = new CrdPreTreatment();
         }
         // Init responder
         if (mCoordinatorResponders != null) {
-            Set<CoordinatorResponder> set = mCoordinatorResponders.get(responderAffinity);
+            Set<CrdResponder> set = mCoordinatorResponders.get(responderAffinity);
             if (set != null) {
-                for (CoordinatorResponder responder : set) {
+                for (CrdResponder responder : set) {
                     responder.coordinatorTreatment().init(executor);
                 }
             }
         }
         // Init sponsor which is a responder
         if (mCoordinatorSponsors != null) {
-            CoordinatorSponsor sponsor = mCoordinatorSponsors.get(sponsorAffinity);
-            if (sponsor != null && sponsor instanceof CoordinatorResponder) {
-                Treatment sponsorTreatment = ((CoordinatorResponder) sponsor).coordinatorTreatment();
+            CrdSponsor sponsor = mCoordinatorSponsors.get(sponsorAffinity);
+            if (sponsor != null && sponsor instanceof CrdResponder) {
+                CrdTreatment sponsorTreatment = ((CrdResponder) sponsor).coordinatorTreatment();
                 if (sponsorTreatment != null) {
                     sponsorTreatment.init(executor);
                 }
@@ -128,11 +128,11 @@ public class CrdTransferStation implements TransferStation {
     }
 
     @Override
-    public void addCoordinatorResponder(CoordinatorResponder responder) {
+    public void addCoordinatorResponder(CrdResponder responder) {
         if (mCoordinatorResponders == null) {
             mCoordinatorResponders = new HashMap<>();
         }
-        Set<CoordinatorResponder> set = mCoordinatorResponders.get(responder.coordinatorAffinity());
+        Set<CrdResponder> set = mCoordinatorResponders.get(responder.coordinatorAffinity());
         if (set == null) {
             set = new HashSet<>();
             mCoordinatorResponders.put(responder.coordinatorAffinity(), set);
@@ -140,7 +140,7 @@ public class CrdTransferStation implements TransferStation {
         set.add(responder);
         // Init responder
         if (mExecutorPool != null) {
-            CommandExecutor executor = mExecutorPool.get(responder.coordinatorAffinity());
+            CrdCommandExecutor executor = mExecutorPool.get(responder.coordinatorAffinity());
             if (executor != null) {
                 responder.coordinatorTreatment().init(executor);
             }
@@ -148,9 +148,9 @@ public class CrdTransferStation implements TransferStation {
     }
 
     @Override
-    public void removeCoordinatorResponder(CoordinatorResponder responder) {
+    public void removeCoordinatorResponder(CrdResponder responder) {
         if (mCoordinatorResponders != null && responder != null) {
-            Set<CoordinatorResponder> set = mCoordinatorResponders.get(responder.coordinatorAffinity());
+            Set<CrdResponder> set = mCoordinatorResponders.get(responder.coordinatorAffinity());
             if (set != null) {
                 set.remove(responder);
             }
@@ -158,36 +158,37 @@ public class CrdTransferStation implements TransferStation {
     }
 
     @Override
-    public void addCoordinatorSponsor(CoordinatorSponsor sponsor) {
+    public void addCoordinatorSponsor(CrdSponsor sponsor) {
         if (mCoordinatorSponsors == null) {
             mCoordinatorSponsors = new HashMap<>();
         }
+        if (mCoordinatorSponsors.containsKey(sponsor.coordinatorAffinity())) return;
         mCoordinatorSponsors.put(sponsor.coordinatorAffinity(), sponsor);
 
         // Init sponsor which is a responder
         if (mAffinityRelationShip == null) return;
         Set<String> responderAffinityList =
                 mAffinityRelationShip.get(sponsor.coordinatorAffinity());
-        Treatment sponsorTreatment = null;
-        if (sponsor instanceof CoordinatorResponder) {
-            sponsorTreatment = ((CoordinatorResponder) sponsor).coordinatorTreatment();
+        CrdTreatment sponsorTreatment = null;
+        if (sponsor instanceof CrdResponder) {
+            sponsorTreatment = ((CrdResponder) sponsor).coordinatorTreatment();
         }
         if (responderAffinityList == null || sponsorTreatment == null) return;
         for (String responderAffinity : responderAffinityList) {
-            CommandExecutor executor = mExecutorPool.get(responderAffinity);
+            CrdCommandExecutor executor = mExecutorPool.get(responderAffinity);
             if (executor != null) sponsorTreatment.init(executor);
         }
     }
 
     @Override
-    public void removeCoordinatorSponsor(CoordinatorSponsor sponsor) {
+    public void removeCoordinatorSponsor(CrdSponsor sponsor) {
         if (mCoordinatorSponsors != null) {
             mCoordinatorSponsors.remove(sponsor.coordinatorAffinity());
         }
     }
 
     @Override
-    public boolean dispatchNestedAction(String type, CoordinatorSponsor sponsor, Object... params) {
+    public boolean dispatchNestedAction(String type, CrdSponsor sponsor, Object... params) {
         boolean consumed = false;
         if (mCoordinatorResponders != null
                 && mExecutorPool != null
@@ -196,14 +197,14 @@ public class CrdTransferStation implements TransferStation {
                     mAffinityRelationShip.get(sponsor.coordinatorAffinity());
             if (responderAffinityList == null) return consumed;
 
-            Treatment sponsorTreatment = null;
-            if (sponsor instanceof CoordinatorResponder) {
-                sponsorTreatment = ((CoordinatorResponder) sponsor).coordinatorTreatment();
+            CrdTreatment sponsorTreatment = null;
+            if (sponsor instanceof CrdResponder) {
+                sponsorTreatment = ((CrdResponder) sponsor).coordinatorTreatment();
             }
 
             for (String responderAffinity : responderAffinityList) {
-                CommandExecutor executor = mExecutorPool.get(responderAffinity);
-                Set<CoordinatorResponder> set = mCoordinatorResponders.get(responderAffinity);
+                CrdCommandExecutor executor = mExecutorPool.get(responderAffinity);
+                Set<CrdResponder> set = mCoordinatorResponders.get(responderAffinity);
                 if (executor == null || set == null) continue;
                 // First call onDispatch
                 consumed = mPreTreatment.dispatchAction(type, executor,
@@ -211,7 +212,7 @@ public class CrdTransferStation implements TransferStation {
                 if (sponsorTreatment != null) {
                     sponsorTreatment.onNestedAction(type, executor, params);
                 }
-                for (CoordinatorResponder responder : set) {
+                for (CrdResponder responder : set) {
                     responder.coordinatorTreatment().onNestedAction(type, executor, params);
                 }
             }

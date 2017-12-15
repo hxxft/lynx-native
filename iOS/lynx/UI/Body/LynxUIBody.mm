@@ -58,24 +58,24 @@
     [_tranferStationImpl removeAllExecutableAction];
 }
 
-- (void) addCoordinatorSponsor:(id<LYXCoordinatorSponsor>) sponsor {
+- (void) addCoordinatorSponsor:(id<LYXCrdSponsor>) sponsor {
     [_tranferStationImpl addCoordinatorSponsor:sponsor];
 }
 
-- (void) removeCoordinatorSponsor:(id<LYXCoordinatorSponsor>) sponsor {
+- (void) removeCoordinatorSponsor:(id<LYXCrdSponsor>) sponsor {
     [_tranferStationImpl removeCoordinatorSponsor:sponsor];
 }
 
-- (void) addCoordinatorResponder:(id<LYXCoordinatorResponder>) responder {
+- (void) addCoordinatorResponder:(id<LYXCrdResponder>) responder {
     [_tranferStationImpl addCoordinatorResponder:responder];
 }
 
-- (void) removeCoordinatorResponder:(id<LYXCoordinatorResponder>) responder {
+- (void) removeCoordinatorResponder:(id<LYXCrdResponder>) responder {
     [_tranferStationImpl removeCoordinatorResponder:responder];
 }
 
 - (BOOL) dispatchNestedActionType: (NSString *) type
-                          sponsor: (id<LYXCoordinatorSponsor>) child
+                          sponsor: (id<LYXCrdSponsor>) child
                            params: (NSArray *) params {
     return [_tranferStationImpl dispatchNestedActionType: type
                                                  sponsor: child

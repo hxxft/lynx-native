@@ -2,12 +2,12 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
-#import "LYXCoordinatorObject.h"
-#import "LYXCoordinatorTypes.h"
+#import "LYXCrdObject.h"
+#import "LYXCrdTypes.h"
 
-@protocol LYXCoordinatorSponsor <LYXCoordinatorObject>
+@protocol LYXCrdSponsor <LYXCrdObject>
 @required
-@property(nonatomic, readonly) LYXCoordinatorTypes *coordinatorTypes;
+@property(nonatomic, readonly) LYXCrdTypes *coordinatorTypes;
 
 - (BOOL) dispatchCoordinatorScrollTop:(NSInteger) scrollTop
                               andLeft:(NSInteger) scrollLeft;

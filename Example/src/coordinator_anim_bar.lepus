@@ -68,7 +68,7 @@ var endScrollLeftPositionForScroll = totalPages * screenWidth
 var maxScrollTopPositionForScrollFullPage = endPositionForMoveForCard
 
 function onDispatchScrollEvent(tag, scrollTop, scrollLeft) {
-    if (tag == kVerticalScrollViewTag) {
+    if (tag === kVerticalScrollViewTag) {
         curScrollTop = scrollTop
         if (curScrollTop < 0) curScrollTop = 0
     } else {
@@ -93,10 +93,10 @@ function onScrollEventForBg(tag, scrollTop, scrollLeft) {
 
 function onScrollEventForCard(tag, scrollTop, scrollLeft){
     var cardIndex = 0
-    if (tag == 'card0') cardIndex = 0
-    else if (tag == 'card1') cardIndex = 1
-    else if (tag == 'card2') cardIndex = 2
-    else if (tag == 'card3') cardIndex = 3
+    if (tag === 'card0') cardIndex = 0
+    else if (tag === 'card1') cardIndex = 1
+    else if (tag === 'card2') cardIndex = 2
+    else if (tag === 'card3') cardIndex = 3
     var tempTranslateY = 0
     var tempTranslateX = 0
     if (curScrollTop < endCardScalePosition) {
@@ -176,10 +176,10 @@ function onScrollEventForImg(tag, scrollTop, scrollLeft) {
 
 function onScrollEventForLabel(tag, scrollTop, scrollLeft) {
     var labelIndex = 0
-    if (tag == 'label0') labelIndex = 0
-    else if (tag == 'label1') labelIndex = 1
-    else if (tag == 'label2') labelIndex = 2
-    else if (tag == 'label3') labelIndex = 3
+    if (tag === 'label0') labelIndex = 0
+    else if (tag === 'label1') labelIndex = 1
+    else if (tag === 'label2') labelIndex = 2
+    else if (tag === 'label3') labelIndex = 3
     var tempTranslateY = 0
     var tempTranslateX = 0
     if (curScrollTop < endScalePosition) {
@@ -225,10 +225,10 @@ function onScrollEventForLabel(tag, scrollTop, scrollLeft) {
 
 function onScrollEventForLine(tag, scrollTop, scrollLeft) {
     var lineIndex = 0
-    if (tag == 'line0') lineIndex = 0
-    else if (tag == 'line1') lineIndex = 1
-    else if (tag == 'line2') lineIndex = 2
-    else if (tag == 'line3') lineIndex = 3
+    if (tag === 'line0') lineIndex = 0
+    else if (tag === 'line1') lineIndex = 1
+    else if (tag === 'line2') lineIndex = 2
+    else if (tag === 'line3') lineIndex = 3
     var tempTranslateY = 0
     var tempTranslateX = 0
     if (curScrollTop < endScalePosition) {

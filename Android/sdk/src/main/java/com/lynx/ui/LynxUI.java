@@ -3,7 +3,6 @@ package com.lynx.ui;
 
 import android.content.Context;
 import android.os.Build;
-import android.text.TextUtils;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,17 +22,18 @@ import com.lynx.core.tree.LynxUIAction;
 import com.lynx.ui.anim.AnimDriver;
 import com.lynx.ui.anim.AnimProperties;
 import com.lynx.ui.body.LynxUIBody;
-import com.lynx.ui.coordinator.CoordinatorSponsor;
-import com.lynx.ui.coordinator.CoordinatorResponder;
-import com.lynx.ui.coordinator.CoordinatorTypes;
-import com.lynx.ui.coordinator.Treatment;
+import com.lynx.ui.coordinator.CrdActionExecutor;
+import com.lynx.ui.coordinator.CrdSponsor;
+import com.lynx.ui.coordinator.CrdResponder;
+import com.lynx.ui.coordinator.CrdTypes;
+import com.lynx.ui.coordinator.CrdAttributeConvertor;
+import com.lynx.ui.coordinator.CrdTreatment;
 import com.lynx.ui.drawable.UIBackgroundDrawable;
 import com.lynx.ui.event.TGEventEmitter;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 import static android.view.View.LAYER_TYPE_HARDWARE;
 import static android.view.View.LAYER_TYPE_NONE;
@@ -41,16 +41,12 @@ import static com.lynx.core.impl.RenderObjectAttr.ANIMATE_PROPS;
 import static com.lynx.ui.LynxUIFactory.UI_TYPE_CELLVIEW;
 
 public abstract class LynxUI<T extends View>
-        implements RenderImplInterface, TouchTarget, CoordinatorResponder, CoordinatorSponsor {
+        implements RenderImplInterface, TouchTarget, CrdResponder, CrdSponsor {
 
     public final static String ATTR_STOP_PROPAGATION = "stop-propagation";
     public final static String ATTR_CAPTURE = "capture";
     public final static String ATTR_PREVENT_DEFAULT = "prevent-default";
     public final static String ATTR_PREVENT_ENABLED = "enabled";
-
-    public final static String ATTR_COORDINATOR_TAG = "coordinator-tag";
-    public final static String ATTR_COORDINATOR_AFFINITY = "coordinator-affinity";
-    public final static String ATTR_COORDINATOR_TYPE = "coordinator-type";
 
     protected T mView;
     protected RenderObjectImpl mRenderObjectImpl;
@@ -67,10 +63,8 @@ public abstract class LynxUI<T extends View>
     private boolean mCaptureEnable = false;
 
     // Coordinator & Animation
-    private String mCoordinatorAffinity;
-    private String mCoordinatorTag;
-    private Treatment mTreatment;
-    private CoordinatorTypes mCoordinatorTypes;
+    private CrdAttributeConvertor mCrdAttributeConvertor;
+    private CrdTreatment mTreatment;
     private int mOffsetTop = 0;
     private int mOffsetLeft = 0;
     private int mOffsetRight = 0;
@@ -81,7 +75,8 @@ public abstract class LynxUI<T extends View>
         mView = createView(context);
         mBgDrawable = new UIBackgroundDrawable();
         mTGEventEmitter = new TGEventEmitter(this);
-        mTreatment = new Treatment(this);
+        mTreatment = new CrdTreatment(this, new CrdActionExecutor(this));
+        mCrdAttributeConvertor = new CrdAttributeConvertor();
     }
 
     public void initialize() {
@@ -122,9 +117,6 @@ public abstract class LynxUI<T extends View>
     @Override
     public void setAttribute(String key, String value) {
         switch (key) {
-            case ATTR_COORDINATOR_TAG:
-                mCoordinatorTag = value;
-                break;
             case ATTR_CAPTURE:
                 mCaptureEnable = Boolean.valueOf(value);
                 break;
@@ -137,13 +129,16 @@ public abstract class LynxUI<T extends View>
             case ATTR_STOP_PROPAGATION:
                 mStopPropagationEnable = Boolean.valueOf(value);
                 break;
-            case ATTR_COORDINATOR_AFFINITY:
-                setCoordinatorAffinity(value);
+            case CrdAttributeConvertor.ATTR_COORDINATOR_TAG:
+                mCrdAttributeConvertor.setCoordinatorTag(getRootUI(), this, value);
                 break;
-            case ATTR_COORDINATOR_TYPE:
-                setCoordinatorType(value);
+            case CrdAttributeConvertor.ATTR_COORDINATOR_AFFINITY:
+                mCrdAttributeConvertor.setCoordinatorAffinity(getRootUI(), this, value);
                 break;
-            case Treatment.ATTR_COORDINATOR_COMMAND:
+            case CrdAttributeConvertor.ATTR_COORDINATOR_TYPE:
+                mCrdAttributeConvertor.setCoordinatorType(getRootUI(), this, value);
+                break;
+            case CrdTreatment.ATTR_COORDINATOR_COMMAND:
                 mTreatment.addCoordinatorCommand(value);
                 break;
             default:
@@ -529,55 +524,26 @@ public abstract class LynxUI<T extends View>
         return mCaptureEnable;
     }
 
-    protected void setCoordinatorAffinity(String affinity) {
-        if (mCoordinatorAffinity != null && !mCoordinatorAffinity.equals(affinity)) {
-            getRootUI().removeCoordinatorResponder(this);
-            if (mCoordinatorTypes != null) {
-                getRootUI().removeCoordinatorSponsor(this);
-            }
-        }
-        mCoordinatorAffinity = affinity;
-        if (!TextUtils.isEmpty(affinity)) {
-            getRootUI().addCoordinatorResponder(this);
-            if (mCoordinatorTypes != null) {
-                getRootUI().addCoordinatorSponsor(this);
-            }
-        }
-    }
-
-    protected void setCoordinatorType(String type) {
-        if (!TextUtils.isEmpty(type)) {
-            mCoordinatorTypes = new CoordinatorTypes(type);
-        } else {
-            mCoordinatorTypes = null;
-        }
-        if (TextUtils.isEmpty(mCoordinatorAffinity)) return;
-        if (mCoordinatorTypes != null) {
-            getRootUI().addCoordinatorSponsor(this);
-        } else {
-            getRootUI().removeCoordinatorSponsor(this);
-        }
-    }
-
     @Override
     public String coordinatorAffinity() {
-        return mCoordinatorAffinity;
+        return mCrdAttributeConvertor.getCoordinatorAffinity();
     }
 
     @Override
     public String coordinatorTag() {
-        return mCoordinatorTag;
+        return mCrdAttributeConvertor.getCoordinatorTag();
     }
 
     @Override
-    public Treatment coordinatorTreatment() {
+    public CrdTreatment coordinatorTreatment() {
         return mTreatment;
     }
 
     @Override
     public boolean dispatchCoordinatorScroll(int scrollTop, int scrollLeft) {
-        if (mCoordinatorTypes != null && mCoordinatorTypes.hasType(CoordinatorTypes.SCROLL)) {
-            return getRootUI().dispatchNestedAction(CoordinatorTypes.SCROLL,
+        if (mCrdAttributeConvertor.getCoordinatorTypes() != null
+                && mCrdAttributeConvertor.getCoordinatorTypes().hasType(CrdTypes.SCROLL)) {
+            return getRootUI().dispatchNestedAction(CrdTypes.SCROLL,
                     this, scrollTop, scrollLeft);
         }
         return false;
@@ -585,8 +551,9 @@ public abstract class LynxUI<T extends View>
 
     @Override
     public boolean dispatchCoordinatorTouch(MotionEvent event) {
-        if (mCoordinatorTypes != null && mCoordinatorTypes.hasType(CoordinatorTypes.TOUCH)) {
-            return getRootUI().dispatchNestedAction(CoordinatorTypes.TOUCH, this, event);
+        if (mCrdAttributeConvertor.getCoordinatorTypes() != null
+                && mCrdAttributeConvertor.getCoordinatorTypes().hasType(CrdTypes.TOUCH)) {
+            return getRootUI().dispatchNestedAction(CrdTypes.TOUCH, this, event);
         }
         return false;
     }

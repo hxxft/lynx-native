@@ -1,10 +1,9 @@
 // Copyright 2017 The Lynx Authors. All rights reserved.
 
 #include "render/android/jni_coordinator_bridge.h"
-#include "CommandExecutor_jni.h"
+#include "CrdCommandExecutor_jni.h"
 
 #include "base/android/jni_helper.h"
-#include "base/android/android_jni.h"
 #include "render/coordinator/coordinator_executor.h"
 
 jdoubleArray GenerateAction(JNIEnv *env, lynx::CoordinatorAction action) {

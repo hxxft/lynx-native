@@ -3,8 +3,8 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 #import "LynxRenderObjectAttr.h"
-#import "LYXCoordinatorSponsor.h"
-#import "LYXCoordinatorResponder.h"
+#import "LYXCrdSponsor.h"
+#import "LYXCrdResponder.h"
 
 #include "layout/css_style.h"
 #include "base/position.h"
@@ -13,7 +13,7 @@
 @class LynxRenderObjectImpl;
 @class LynxUIBody;
 
-@interface LynxUI : NSObject<LYXCoordinatorSponsor, LYXCoordinatorResponder>
+@interface LynxUI : NSObject<LYXCrdSponsor, LYXCrdResponder>
 
 @property(nonatomic, readwrite) LynxRenderObjectImpl *renderObjectImpl;
 @property(nonatomic, readwrite) UIView *view;

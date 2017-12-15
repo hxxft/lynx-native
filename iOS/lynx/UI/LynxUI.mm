@@ -4,10 +4,10 @@
 #import "LynxUIBody.h"
 #import "LynxUIEventAction.h"
 #import "LynxUIUpdateDataAction.h"
-#import "LYXTreatment.h"
+#import "LYXCrdTreatment.h"
 #import "LYXDefines.h"
-#import "LYXCoordinatorActionExecutor.h"
-#import "LYXCoordinatorTypes.h"
+#import "LYXCrdActionExecutor.h"
+#import "LYXCrdTypes.h"
 
 #include "base/ios/common.h"
 #include "render/render_object_type.h"
@@ -19,7 +19,7 @@ static NSString * const kAttrCoordinatorType = @"coordinator-type";
 
 
 @interface LynxUI()
-@property(nonatomic) LYXCoordinatorTypes *coordinatorTypes;
+@property(nonatomic) LYXCrdTypes *coordinatorTypes;
 @end
 
 @implementation LynxUI
@@ -32,7 +32,7 @@ LYX_NOT_IMPLEMENTED(- (instancetype)init)
     self = [super init];
     if (self) {
         _view = [self createView:impl];
-        _coordinatorTreatment = [[LYXTreatment alloc] initWithUI:self];
+        _coordinatorTreatment = [[LYXCrdTreatment alloc] initWithResponder:self actionExecutor:[[LYXCrdActionExecutor alloc] initWithUI:self]];
         [self bindRenderObjectImpl:impl];
     }
     return self;
@@ -119,9 +119,9 @@ LYX_NOT_IMPLEMENTED(- (instancetype)init)
     } else if ([kAttrCoordinatorAffinity isEqualToString:key]) {
         [self setCoodinatorAffinity:value];
     } else if ([kAttrCoodinatorCommand isEqualToString:key]) {
-        [_coordinatorTreatment addCoordinatorCommand:value];
+        [self setCoordinatorCommands:value];
     } else if ([kAttrCoordinatorType isEqualToString:key]) {
-        [self setCoodinatorTypes:value];
+        [self setCoordinatorType:value];
     }
 }
 
@@ -210,18 +210,24 @@ LYX_NOT_IMPLEMENTED(- (instancetype)init)
 @synthesize coordinatorTag = _coordinatorTag;
 @synthesize coordinatorAffinity = _coordinatorAffinity;
 
+// Reset tag will trigger responder to init
 - (void) setCoordinatorTag:(NSString *) tag {
+    if (_coordinatorTag && [_coordinatorTag isEqualToString:tag]) return;
     _coordinatorTag = tag;
+    [_coordinatorTreatment reset];
+    [[self getRootUI] addCoordinatorResponder:self];
 }
 
 - (void) setCoodinatorAffinity:(NSString *) affinity {
-    if (_coordinatorAffinity && ![_coordinatorAffinity isEqualToString:affinity]) {
-        [[self getRootUI] removeCoordinatorResponder:self];
-        if (_coordinatorTypes) {
-            [[self getRootUI] removeCoordinatorSponsor:self];
-        }
+    if (_coordinatorAffinity && [_coordinatorAffinity isEqualToString:affinity]) return;
+    // First remove coordinator in TransferStation
+    [[self getRootUI] removeCoordinatorResponder:self];
+    if (_coordinatorTypes) {
+        [[self getRootUI] removeCoordinatorSponsor:self];
     }
+    // Update affinity
     _coordinatorAffinity = affinity;
+    // Re-add into TransferStation
     if (affinity && affinity.length != 0) {
         [[self getRootUI] addCoordinatorResponder:self];
         if (_coordinatorTypes) {
@@ -253,9 +259,10 @@ LYX_NOT_IMPLEMENTED(- (instancetype)init)
     return NO;
 }
 
-- (void) setCoodinatorTypes:(NSString *) type {
+- (void) setCoordinatorType:(NSString *) type {
+    if (_coordinatorTypes && type && _coordinatorTypes.rawContent && [_coordinatorTypes.rawContent isEqualToString:type]) return;
     if (type && type.length != 0) {
-        _coordinatorTypes = [[LYXCoordinatorTypes alloc] initWithContent:type];
+        _coordinatorTypes = [[LYXCrdTypes alloc] initWithContent:type];
     } else {
         _coordinatorTypes = nil;
     }
@@ -267,8 +274,12 @@ LYX_NOT_IMPLEMENTED(- (instancetype)init)
     }
 }
 
-#pragma mark - LYXCoordinatorResponder
+#pragma mark - LYXCrdResponder
 @synthesize coordinatorTreatment = _coordinatorTreatment;
+
+- (void) setCoordinatorCommands:(NSString *) commands {
+    [_coordinatorTreatment addCoordinatorCommand:commands];
+}
 
 
 @end
