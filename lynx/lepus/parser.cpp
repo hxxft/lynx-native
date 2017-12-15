@@ -292,7 +292,7 @@ namespace lepus {
         do {
             NextToken();
             if(LookAhead().token_ != Token_Id) {
-                //TODO ERROR
+                throw CompileException("invalid assign", LookAhead());
             }
             VariableAST* var = new VariableAST;
             NextToken();
@@ -386,8 +386,10 @@ namespace lepus {
         }else if(IsPrimaryExpr(LookAhead().token_)){
             expression = ParsePrimaryExpr();
         }else{
-            //TODO ERROR
+            throw CompileException("error expression", token);
+            
         }
+        
         while (true) {
             int right_priority = Priority(LookAhead().token_);
             if(left_priority < right_priority) {
@@ -409,15 +411,15 @@ namespace lepus {
         ASTree* expr = nullptr;
         switch (LookAhead().token_) {
             case Token_Nil:
-            case Token_False:
-            case Token_True:
-            case Token_Number:
-            case Token_String:
                 expr = new LiteralAST(NextToken());
                 break;
             case Token_Function:
                 break;
             case Token_Id:
+            case Token_False:
+            case Token_True:
+            case Token_Number:
+            case Token_String:
             case '(':
                 expr = ParsePrefixExpr();
                 break;
@@ -448,7 +450,6 @@ namespace lepus {
             if(type) *type = ExprType_Var;
             NextToken();
         }
-        
         expr = ParsePrefixExprEnd(expr, type);
         
         if(auto_type != Automatic_None) {
@@ -480,9 +481,22 @@ namespace lepus {
             }else if(expr->type() == ASTType_MemberAccessor){
             }
             return expr;
+        }else if(LookAhead().token_ == '?'){
+            return ParseTernaryOperation(expr);
         }else{
             return expr;
         }
+    }
+    
+    ASTree* Parser::ParseTernaryOperation(ASTree* condition){
+        NextToken();
+        ASTree* exprTrue = ParseExpression();
+        if(LookAhead().token_ != ':'){
+            throw CompileException("except : ", LookAhead());
+        }
+        NextToken();
+        ASTree* exprFalse = ParseExpression();
+        return new TernaryStatementAST(condition, exprTrue, exprFalse);
     }
     
     ASTree* Parser::ParseVar(ASTree* table) {
@@ -497,14 +511,14 @@ namespace lepus {
     
     ASTree* Parser::ParseNames() {
         if(NextToken().token_ != Token_Id) {
-            //TODO ERROR
+            throw CompileException("error name", current_token_);
         }
         NamesAST* names = new NamesAST;
         names->names().push_back(current_token_);
         while(LookAhead().token_ == ',') {
             NextToken();
             if(NextToken().token_ != Token_Id) {
-                //TODO ERROR
+                throw CompileException("error name", current_token_);
             }
             names->names().push_back(current_token_);
         }

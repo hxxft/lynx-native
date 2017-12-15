@@ -50,6 +50,7 @@ namespace lepus {
         ASTree* ParseVar(ASTree* table);
         ASTree* ParseNames();
         ASTree* ParseFunctionCall(ASTree* caller);
+        ASTree* ParseTernaryOperation(ASTree* condition);
         
     private:
         Token& NextToken() {

@@ -35,7 +35,7 @@ namespace lepus {
         friend bool operator == (const String& left, const String& right) {
             return memcmp(left.str_, right.str_, left.length_) == 0;
         }
-        
+    
     private:
         void Hash(const char *s);
         

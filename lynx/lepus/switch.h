@@ -5,6 +5,7 @@
 #include <vector>
 #include "lepus/syntax_tree.h"
 #include "lepus/token.h"
+#include <algorithm>
 
 namespace lepus {
     enum SwitchType {

@@ -9,6 +9,7 @@
 #include "lepus/value.h"
 #include "lepus/builtin.h"
 #include "lepus/table.h"
+#include "lepus/string_util.h"
 
 namespace lepus {
 
@@ -208,8 +209,29 @@ namespace lepus {
                     break;
                 case TypeOp_Add:
                     GET_REGISTER_ABC(i);
-                    a->number_ = b->number_ + c->number_;
-                    a->type_ = Value_Number;
+                    // 判断是不是数字相加
+                    if( b->type_ == Value_String || c->type_ == Value_String){
+                        std::string b_string;
+                        std::string c_string;
+                        if(b->type_ == Value_Number){
+                            b_string = to_string(b->number_);
+                            DeleteZero(b_string);
+                        }else{
+                            b_string = b->str_->c_str();
+                        }
+                        if(c->type_ == Value_Number){
+                            c_string = to_string(c->number_);
+                            DeleteZero(c_string);
+                        }else{
+                            c_string = c->str_->c_str();
+                        }
+                        a->str_ = string_pool()->NewString(b_string + c_string);
+                        a->str_->AddRef();
+                        a->type_ = Value_String;
+                    }else{
+                        a->number_ = b->number_ + c->number_;
+                        a->type_ = Value_Number;
+                    }
                     break;
                 case TypeOp_Sub:
                     GET_REGISTER_ABC(i);
@@ -230,7 +252,8 @@ namespace lepus {
                     break;
                 case TypeOp_Mod:
                     GET_REGISTER_ABC(i);
-                    a->number_ = int(b->number_) % int(c->number_);
+                    a->number_ = int(b->number_/c->number_);
+                    a->number_ = b->number_ - a->number_ * c->number_;
                     a->type_ = Value_Number;
                     break;
                 case TypeOp_And:
@@ -316,6 +339,9 @@ namespace lepus {
                 default:
                     break;
             }
+        }
+        if(frame->return_ != nullptr) {
+            frame->return_->SetNil();
         }
         frames_.pop_back();
     }

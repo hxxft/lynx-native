@@ -144,13 +144,34 @@ namespace lepus {
         ExprData l_expr_data, r_expr_data;
         l_expr_data.lex_po_ = LexicalOp_Read;
         r_expr_data.lex_po_ = LexicalOp_Read;
+        if(ast->left().Get() == NULL) {
+            throw CompileException("something wrong with operator", ast->op_token());
+        }
         ast->left()->Accept(this, &l_expr_data);
+        if(ast->right().Get() == NULL) {
+            throw CompileException("something wrong with operator", ast->op_token());
+        }
         ast->right()->Accept(this, &r_expr_data);
         
         ExprData* expr_data = static_cast<ExprData*>(data);
         
         switch (ast->op_token().token_) {
             case '+':
+                // 这里有可能有数字与文字的相加，所以只要是Number和String就可以
+                if(!(l_expr_data.expr_type_ == ExprType_Number ||
+                     l_expr_data.expr_type_ == ExprType_String)&&l_expr_data.expr_type_ != ExprType_Unknown) {
+                    throw CompileException("left expression is not number or string", ast->op_token());
+                }
+                if(!(r_expr_data.expr_type_ == ExprType_Number ||
+                     r_expr_data.expr_type_ == ExprType_String)&&r_expr_data.expr_type_ != ExprType_Unknown) {
+                    throw CompileException("right expression is not number or string", ast->op_token());
+                }
+                if(r_expr_data.expr_type_ == ExprType_String || l_expr_data.expr_type_ == ExprType_String){
+                    expr_data->expr_type_ = ExprType_String;
+                }else{
+                    expr_data->expr_type_ = ExprType_Number;
+                }
+                break;
             case '-':
             case '*':
             case '/':
@@ -228,7 +249,7 @@ namespace lepus {
         expr_data.lex_po_ = LexicalOp_Read;
         ast->expression()->Accept(this, &expr_data);
         if(ast->identifier().token_ != Token_Id) {
-            //TODO exception
+            throw CompileException(ast->identifier().str_->c_str(), "is invalid", ast->identifier());
         }
         if(!InsertName(ast->identifier().str_)) {
             throw CompileException(ast->identifier().str_->c_str(), " is already existed", ast->identifier());
@@ -369,5 +390,12 @@ namespace lepus {
         expr_data.lex_po_ = LexicalOp_Read;
         ast->caller()->Accept(this, &expr_data);
         ast->args()->Accept(this, nullptr);
+    }
+    void SemanticAnalysis::Visit(TernaryStatementAST *ast, void *data){
+        ExprData expr_data;
+        expr_data.lex_po_ = LexicalOp_Read;
+        ast->condition()->Accept(this, &expr_data);
+        ast->true_branch()->Accept(this, &expr_data);
+        ast->false_branch()->Accept(this, &expr_data);
     }
 }

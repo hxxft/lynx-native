@@ -748,4 +748,24 @@ namespace lepus {
         
         Call(caller_register_id, argc, return_register_id);
     }
+    void CodeGenerator::Visit(TernaryStatementAST *ast, void *data){
+        int return_register_id = *static_cast<int*>(data);
+        Function* function = current_function_->function_;
+        int condition_register_id = GenerateRegisiterId();
+        ResetRegisiterId(condition_register_id + 1);
+        
+        ast->condition()->Accept(this, &condition_register_id);
+        Instruction instruction = Instruction::ABxCode(TypeOp_JmpFalse, condition_register_id, 0);
+        int jmp_index = function->AddInstruction(instruction);
+        
+        ast->true_branch()->Accept(this, &return_register_id);
+        instruction = Instruction::ABxCode(TypeOp_Jmp, return_register_id, 0);
+        int true_jmp_index = function->AddInstruction(instruction);
+        int index = function->OpCodeSize();
+        function->GetInstruction(jmp_index)->RefillsBx(index - jmp_index);
+        
+        ast->false_branch()->Accept(this, &return_register_id);
+        int end_index = function->OpCodeSize();
+        function->GetInstruction(true_jmp_index)->RefillsBx(end_index - true_jmp_index);
+    }
 }

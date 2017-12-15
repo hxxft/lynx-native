@@ -52,6 +52,8 @@ namespace lepus {
         virtual void Visit(AssignStatement* ast, void* data);
         virtual void Visit(MemberAccessorAST* ast, void* data);
         virtual void Visit(FunctionCallAST* ast, void* data);
+        virtual void Visit(TernaryStatementAST* ast, void* data);
+        
     private:
         void EnterFunction();
         void LeaveFunction();
