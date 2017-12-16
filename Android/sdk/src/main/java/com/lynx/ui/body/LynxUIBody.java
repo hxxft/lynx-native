@@ -7,20 +7,12 @@ import com.lynx.base.SupposeUIThread;
 import com.lynx.core.base.LynxObject;
 import com.lynx.core.tree.LynxUIAction;
 import com.lynx.ui.LynxView;
-import com.lynx.ui.coordinator.CommandExecutor;
-import com.lynx.ui.coordinator.CoordinatorResponder;
-import com.lynx.ui.coordinator.CoordinatorSponsor;
+import com.lynx.ui.coordinator.CrdResponder;
+import com.lynx.ui.coordinator.CrdSponsor;
 import com.lynx.ui.coordinator.CrdTransferStation;
-import com.lynx.ui.coordinator.PreTreatment;
 import com.lynx.ui.coordinator.TransferStation;
-import com.lynx.ui.coordinator.Treatment;
 import com.lynx.ui.view.AndroidViewGroup;
 import com.lynx.ui.view.LynxUIView;
-
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
 
 public class LynxUIBody extends LynxUIView implements TransferStation {
     private CrdTransferStation mCrdTransferStation;
@@ -86,27 +78,27 @@ public class LynxUIBody extends LynxUIView implements TransferStation {
     }
 
     @Override
-    public void addCoordinatorResponder(CoordinatorResponder responder) {
+    public void addCoordinatorResponder(CrdResponder responder) {
         mCrdTransferStation.addCoordinatorResponder(responder);
     }
 
     @Override
-    public void removeCoordinatorResponder(CoordinatorResponder responder) {
+    public void removeCoordinatorResponder(CrdResponder responder) {
         mCrdTransferStation.removeCoordinatorResponder(responder);
     }
 
     @Override
-    public void addCoordinatorSponsor(CoordinatorSponsor sponsor) {
+    public void addCoordinatorSponsor(CrdSponsor sponsor) {
         mCrdTransferStation.addCoordinatorSponsor(sponsor);
     }
 
     @Override
-    public void removeCoordinatorSponsor(CoordinatorSponsor sponsor) {
+    public void removeCoordinatorSponsor(CrdSponsor sponsor) {
         mCrdTransferStation.removeCoordinatorSponsor(sponsor);
     }
 
     @Override
-    public boolean dispatchNestedAction(String type, CoordinatorSponsor sponsor, Object... params) {
+    public boolean dispatchNestedAction(String type, CrdSponsor sponsor, Object... params) {
         return mCrdTransferStation.dispatchNestedAction(type, sponsor, params);
     }
 

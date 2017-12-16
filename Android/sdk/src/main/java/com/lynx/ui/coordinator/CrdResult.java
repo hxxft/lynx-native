@@ -3,7 +3,7 @@ package com.lynx.ui.coordinator;
 
 import com.lynx.utils.PixelUtil;
 
-/* package */ class CoordinatorResult {
+/* package */ class CrdResult {
     final static int NOT_SET = Integer.MAX_VALUE;
     private float mTranslateX = 0;
     private float mTranslateY = 0;
@@ -24,7 +24,7 @@ import com.lynx.utils.PixelUtil;
     private String mEvent;
     private Object mParamsForEvent = 0;
 
-    public CoordinatorResult(Object[] result) {
+    public CrdResult(Object[] result) {
         // parse action
         double[] dResult = (double[]) result[0];
         int i = 0;

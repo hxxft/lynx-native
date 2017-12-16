@@ -14,10 +14,22 @@ namespace lynx {
     base::Size LabelMeasurer::MeasureLabelSize(RenderObject* render_object,
                                                const base::Size& size,
                                                const std::string& text){
+        
+        int width = base::Size::Descriptor::GetSize(size.width_);
+        int height = base::Size::Descriptor::GetSize(size.height_);
+        int widthMode = base::Size::Descriptor::GetMode(size.width_);
+        int heightMode = base::Size::Descriptor::GetMode(size.height_);
+        
         CSSStyle style = render_object->style_;
         NSString* label_text = [[NSString alloc]initWithUTF8String:text.c_str()];
         
-        UIFont* ui_font = [UIFont systemFontOfSize:style.font_size_];
+        UIFont* ui_font;
+        if (style.font_weight_ == lynx::CSSTEXT_FONT_WEIGHT_BOLD) {
+            ui_font = [UIFont boldSystemFontOfSize:(style.font_size_)];
+        } else {
+            ui_font = [UIFont systemFontOfSize:style.font_size_];
+        }
+        
         NSMutableParagraphStyle* font_style = [[NSMutableParagraphStyle alloc] init];
         NSMutableDictionary* font_attribution = [[NSMutableDictionary alloc] init];
         
@@ -28,8 +40,8 @@ namespace lynx {
         font_attribution[NSParagraphStyleAttributeName] = font_style;
         
         CGSize label_size;
-        label_size.width = size.width_;
-        label_size.height = size.height_;
+        label_size.width = width;
+        label_size.height = height;
         CGSize calc_size_out = [label_text boundingRectWithSize:label_size
                                 options:options
                              attributes:font_attribution

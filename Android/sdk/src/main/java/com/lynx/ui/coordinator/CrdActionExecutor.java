@@ -18,14 +18,14 @@ import com.lynx.ui.LynxUI;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CoordinatorExecutor {
+public class CrdActionExecutor {
     private LynxUI mUI;
 
-    public CoordinatorExecutor(LynxUI ui) {
+    public CrdActionExecutor(LynxUI ui) {
         mUI = ui;
     }
 
-    private void dispatchEvent(CoordinatorResult result) {
+    private void dispatchEvent(CrdResult result) {
         if (!TextUtils.isEmpty(result.getEvent())) {
             String eventName = result.getEvent().toLowerCase();
             LynxEvent event = new LynxEvent(eventName);
@@ -34,12 +34,12 @@ public class CoordinatorExecutor {
         }
     }
 
-    public void executeAnim(final CoordinatorResult result) {
+    public void executeAnim(final CrdResult result) {
         View view = mUI.getView();
         long duration = result.getDuration();
 
         Interpolator interpolator = null;
-        if (result.getInterpolatorType() != CoordinatorResult.NOT_SET) {
+        if (result.getInterpolatorType() != CrdResult.NOT_SET) {
             switch (result.getInterpolatorType()) {
                 case 0://LINEAR
                     interpolator = new LinearInterpolator(); break;
@@ -56,7 +56,7 @@ public class CoordinatorExecutor {
 
         List<PropertyAnimHolder> holders = new ArrayList<>();
 
-        if (result.getScaleX() != CoordinatorResult.NOT_SET) {
+        if (result.getScaleX() != CrdResult.NOT_SET) {
             holders.add(new PropertyAnimHolder(view, view.getScaleX(), result.getScaleX()) {
                 @Override
                 void updateValue(View view, float value) {
@@ -64,7 +64,7 @@ public class CoordinatorExecutor {
                 }
             });
         }
-        if (result.getScaleY() != CoordinatorResult.NOT_SET) {
+        if (result.getScaleY() != CrdResult.NOT_SET) {
             holders.add(new PropertyAnimHolder(view, view.getScaleY(), result.getScaleY()) {
                 @Override
                 void updateValue(View view, float value) {
@@ -72,7 +72,7 @@ public class CoordinatorExecutor {
                 }
             });
         }
-        if (result.getTranslateX() != CoordinatorResult.NOT_SET) {
+        if (result.getTranslateX() != CrdResult.NOT_SET) {
             holders.add(new PropertyAnimHolder(view, view.getTranslationX(), result.getTranslateX()) {
                 @Override
                 void updateValue(View view, float value) {
@@ -80,7 +80,7 @@ public class CoordinatorExecutor {
                 }
             });
         }
-        if (result.getTranslateY() != CoordinatorResult.NOT_SET) {
+        if (result.getTranslateY() != CrdResult.NOT_SET) {
             holders.add(new PropertyAnimHolder(view, view.getTranslationY(), result.getTranslateY()) {
                 @Override
                 void updateValue(View view, float value) {
@@ -88,7 +88,7 @@ public class CoordinatorExecutor {
                 }
             });
         }
-        if (result.getOffsetTop() != CoordinatorResult.NOT_SET) {
+        if (result.getOffsetTop() != CrdResult.NOT_SET) {
             holders.add(new PropertyAnimHolder(view, mUI.getOffsetTop(), result.getOffsetTop()) {
                 @Override
                 void updateValue(View view, float value) {
@@ -96,7 +96,7 @@ public class CoordinatorExecutor {
                 }
             });
         }
-        if (result.getOffsetBottom() != CoordinatorResult.NOT_SET) {
+        if (result.getOffsetBottom() != CrdResult.NOT_SET) {
             holders.add(new PropertyAnimHolder(view, mUI.getOffsetBottom(), result.getOffsetBottom()) {
                 @Override
                 void updateValue(View view, float value) {
@@ -104,7 +104,7 @@ public class CoordinatorExecutor {
                 }
             });
         }
-        if (result.getOffsetLeft() != CoordinatorResult.NOT_SET) {
+        if (result.getOffsetLeft() != CrdResult.NOT_SET) {
             holders.add(new PropertyAnimHolder(view, mUI.getOffsetLeft(), result.getOffsetLeft()) {
                 @Override
                 void updateValue(View view, float value) {
@@ -112,7 +112,7 @@ public class CoordinatorExecutor {
                 }
             });
         }
-        if (result.getOffsetRight() != CoordinatorResult.NOT_SET) {
+        if (result.getOffsetRight() != CrdResult.NOT_SET) {
             holders.add(new PropertyAnimHolder(view, mUI.getOffsetRight(), result.getOffsetRight()) {
                 @Override
                 void updateValue(View view, float value) {
@@ -120,7 +120,7 @@ public class CoordinatorExecutor {
                 }
             });
         }
-        if (result.getAlpha() != CoordinatorResult.NOT_SET) {
+        if (result.getAlpha() != CrdResult.NOT_SET) {
             holders.add(new PropertyAnimHolder(view, view.getAlpha(), result.getAlpha()) {
                 @Override
                 void updateValue(View view, float value) {
@@ -139,10 +139,10 @@ public class CoordinatorExecutor {
                 public void onAnimationEnd(Animator animation) {
                     dispatchEvent(result);
 
-                    if (result.getOffsetTop() != CoordinatorResult.NOT_SET ||
-                        result.getOffsetBottom() != CoordinatorResult.NOT_SET ||
-                        result.getOffsetRight() != CoordinatorResult.NOT_SET ||
-                        result.getOffsetLeft() != CoordinatorResult.NOT_SET) {
+                    if (result.getOffsetTop() != CrdResult.NOT_SET ||
+                        result.getOffsetBottom() != CrdResult.NOT_SET ||
+                        result.getOffsetRight() != CrdResult.NOT_SET ||
+                        result.getOffsetLeft() != CrdResult.NOT_SET) {
                         mUI.updateFrame();
                     }
                 }
@@ -151,55 +151,55 @@ public class CoordinatorExecutor {
         }
     }
 
-    public void execute(CoordinatorResult result) {
+    public void execute(CrdResult result) {
         if (result == null) return;
         View view = mUI.getView();
         if (view == null) return;
-        if (result.getDuration() != CoordinatorResult.NOT_SET) {
+        if (result.getDuration() != CrdResult.NOT_SET) {
             executeAnim(result);
             return;
         }
-        if (result.getScaleX() != CoordinatorResult.NOT_SET) {
+        if (result.getScaleX() != CrdResult.NOT_SET) {
             view.setScaleX(result.getScaleX());
         }
-        if (result.getScaleY() != CoordinatorResult.NOT_SET) {
+        if (result.getScaleY() != CrdResult.NOT_SET) {
             view.setScaleY(result.getScaleY());
         }
-        if (result.getTranslateX() != CoordinatorResult.NOT_SET) {
+        if (result.getTranslateX() != CrdResult.NOT_SET) {
             view.setTranslationX(result.getTranslateX());
         }
-        if (result.getTranslateY() != CoordinatorResult.NOT_SET) {
+        if (result.getTranslateY() != CrdResult.NOT_SET) {
             view.setTranslationY(result.getTranslateY());
         }
-        if (result.getRotationX() != CoordinatorResult.NOT_SET) {
+        if (result.getRotationX() != CrdResult.NOT_SET) {
             view.setRotationX(result.getRotationX());
         }
-        if (result.getRotationY() != CoordinatorResult.NOT_SET) {
+        if (result.getRotationY() != CrdResult.NOT_SET) {
             view.setRotationY(result.getRotationY());
         }
-        if (result.getPivotX() != CoordinatorResult.NOT_SET) {
+        if (result.getPivotX() != CrdResult.NOT_SET) {
             view.setPivotX(result.getPivotX());
         }
-        if (result.getPivotY() != CoordinatorResult.NOT_SET) {
+        if (result.getPivotY() != CrdResult.NOT_SET) {
             view.setPivotY(result.getPivotY());
         }
-        if (result.getAlpha() != CoordinatorResult.NOT_SET) {
+        if (result.getAlpha() != CrdResult.NOT_SET) {
             view.setAlpha(result.getAlpha());
         }
         boolean isLayoutOffsetUpdated = false;
-        if (result.getOffsetTop() != CoordinatorResult.NOT_SET) {
+        if (result.getOffsetTop() != CrdResult.NOT_SET) {
             mUI.setOffsetTop((int) result.getOffsetTop());
             isLayoutOffsetUpdated = true;
         }
-        if (result.getOffsetBottom() != CoordinatorResult.NOT_SET) {
+        if (result.getOffsetBottom() != CrdResult.NOT_SET) {
             mUI.setOffsetBottom((int) result.getOffsetBottom());
             isLayoutOffsetUpdated = true;
         }
-        if (result.getOffsetRight() != CoordinatorResult.NOT_SET) {
+        if (result.getOffsetRight() != CrdResult.NOT_SET) {
             mUI.setOffsetRight((int) result.getOffsetRight());
             isLayoutOffsetUpdated = true;
         }
-        if (result.getOffsetLeft() != CoordinatorResult.NOT_SET) {
+        if (result.getOffsetLeft() != CrdResult.NOT_SET) {
             mUI.setOffsetLeft((int) result.getOffsetLeft());
             isLayoutOffsetUpdated = true;
         }

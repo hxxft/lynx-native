@@ -11,11 +11,11 @@ public interface TransferStation {
     void removeExecutableAction(String sponsorAffinity, String responderAffinity);
     void removeAllExecutableAction();
 
-    void addCoordinatorResponder(CoordinatorResponder responder);
-    void removeCoordinatorResponder(CoordinatorResponder responder);
+    void addCoordinatorResponder(CrdResponder responder);
+    void removeCoordinatorResponder(CrdResponder responder);
 
-    void addCoordinatorSponsor(CoordinatorSponsor sponsor);
-    void removeCoordinatorSponsor(CoordinatorSponsor sponsor);
+    void addCoordinatorSponsor(CrdSponsor sponsor);
+    void removeCoordinatorSponsor(CrdSponsor sponsor);
 
-    boolean dispatchNestedAction(String type, CoordinatorSponsor sponsor, Object... params);
+    boolean dispatchNestedAction(String type, CrdSponsor sponsor, Object... params);
 }

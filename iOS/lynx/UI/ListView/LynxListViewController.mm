@@ -82,6 +82,7 @@
         array[0] = event;
         [_ui postEvent:@"scroll" withValue:array];
     }
+    [_ui dispatchCoordinatorScrollTop:scrollView.contentOffset.y andLeft:0];
 }
 
 @end

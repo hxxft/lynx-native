@@ -39,7 +39,7 @@
 // scrollView 已经滑动
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
-    
+    [_ui dispatchCoordinatorScrollTop:scrollView.contentOffset.y andLeft:scrollView.contentOffset.x];
 }
 
 @end

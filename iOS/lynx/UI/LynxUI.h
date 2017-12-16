@@ -3,6 +3,8 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 #import "LynxRenderObjectAttr.h"
+#import "LYXCrdSponsor.h"
+#import "LYXCrdResponder.h"
 
 #include "layout/css_style.h"
 #include "base/position.h"
@@ -11,12 +13,17 @@
 @class LynxRenderObjectImpl;
 @class LynxUIBody;
 
-@interface LynxUI : NSObject
+@interface LynxUI : NSObject<LYXCrdSponsor, LYXCrdResponder>
 
 @property(nonatomic, readwrite) LynxRenderObjectImpl *renderObjectImpl;
 @property(nonatomic, readwrite) UIView *view;
 
-- (id) initWithRenderObjectImpl:(LynxRenderObjectImpl *) impl;
+@property(nonatomic, readwrite) CGFloat offsetTop;
+@property(nonatomic, readwrite) CGFloat offsetLeft;
+@property(nonatomic, readwrite) CGFloat offsetBottom;
+@property(nonatomic, readwrite) CGFloat offsetRight;
+
+- (id) initWithRenderObjectImpl:(LynxRenderObjectImpl *) impl NS_DESIGNATED_INITIALIZER;
 
 - (BOOL) isEmpty;
 
@@ -30,6 +37,10 @@
 
 - (void) setPosition:(const base::Position&) position;
 
+- (void) updateFrame;
+
+- (void) updateBounds;
+
 - (void) setSize:(const base::Size&) size;
 
 - (void) insertChild:(LynxRenderObjectImpl *) child atIndex:(int) index;
@@ -38,7 +49,7 @@
 
 - (void) setText:(NSString *) text;
 
-- (void) setAttribute:(NSString *) value forKey:(NSString *) key;
+- (void) setAttribute:(NSString *) value forKey:(NSString *) key NS_REQUIRES_SUPER;
 
 - (void) requestLayout;
 
@@ -56,7 +67,7 @@
 
 - (void) addEvents:(LynxRenderObjectImpl *) impl;
 
-- (void) postEvent:(NSString *)event withValue:(NSMutableArray *)array;
+- (void) postEvent:(NSString *)event withValue:(NSArray *)array;
 
 - (void) postData:(id)data withKey:(LynxRenderObjectAttr)key;
 
