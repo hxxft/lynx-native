@@ -18,6 +18,8 @@ class Thread {
     };
 
     explicit Thread(MessageLoop::MESSAGE_LOOP_TYPE type);
+    
+    explicit Thread(MessageLoop::MESSAGE_LOOP_TYPE type, const std::string& name);
 
     virtual ~Thread();
 
@@ -28,6 +30,14 @@ class Thread {
     void Run();
 
     void Join(const Thread& thread);
+    
+    pthread_t thread_handle() {
+        return thread_handle_;
+    }
+    
+    const std::string& thread_name() {
+        return thread_name_;
+    }
 
     MessageLoop* Looper() { return &message_loop_; }
 
@@ -38,6 +48,7 @@ class Thread {
     void ThreadMain();
     pthread_t thread_handle_;
     MessageLoop message_loop_;
+    std::string thread_name_;
 };
 
 }  // namespace base

@@ -9,8 +9,10 @@
 #include <tuple>
 #endif
 
+#include "base/scoped_ptr.h"
 #include "base/weak_ptr.h"
 #include "base/debug/memory_debug.h"
+
 
 namespace base {
 
@@ -185,6 +187,39 @@ Clouse* Bind(Functor f, Pointer p, Args&... args) {
     return lynx_new Callback<Functor, Pointer, Args...>(f, p , args...);
 }
 #endif
+    
+    class CompletionCallbackBase {
+    public:
+        virtual void Run(int arg) {}
+        virtual bool IsNull() {
+            return false;
+        }
+    };
+    
+    template<typename Type>
+        class CompletionCallback : public CompletionCallbackBase{
+    public:
+        typedef void (Type::*CallbackFunc)(int);
+        
+        CompletionCallback() : callback_func_(nullptr), ptr_(nullptr){}
+        CompletionCallback(CallbackFunc func, Type* ptr)  : callback_func_(func),  ptr_(ptr) {}
+
+        virtual void Run(int arg) {
+            
+            (ptr_->*callback_func_)(arg);
+        }
+        
+        virtual bool IsNull() {
+            return ptr_ != nullptr;
+        }
+        
+    private:
+        CallbackFunc callback_func_;
+        
+        Type* ptr_;
+            
+        base::ScopedPtr<Clouse> callback_;
+    };
 }  // namespace base
 
 #endif  //LYNX_BASE_TASK_CALLBACK_H_

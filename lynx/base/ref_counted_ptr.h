@@ -47,10 +47,16 @@ class ScopedRefPtr {
         ptr_ = NULL;
         *this = other.ptr_;
     }
+    
     ~ScopedRefPtr() {
         if (ptr_) {
             ptr_->Release();
         }
+    }
+    
+    ScopedRefPtr<type_name>& operator=(const
+                                       ScopedRefPtr<type_name>& other) {
+        return *this = other.ptr_;
     }
 
     ScopedRefPtr<type_name>& operator=(
@@ -85,8 +91,15 @@ class ScopedRefPtr {
 
         return *this;
     }
+    
+    void Swap(ScopedRefPtr<type_name>& other) {
+        type_name* ptr = ptr_;
+        ptr_ = other.ptr_;
+        other.ptr_ = ptr;
+    }
 
-    T* Get() { return ptr_; }
+
+    T* Get() const { return ptr_; }
 
     T& operator*() const {
         return *ptr_;

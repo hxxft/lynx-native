@@ -8,6 +8,7 @@
 #endif
 
 #include "base/threading/message_pump.h"
+#include "base/threading/message_pump_io_posix.h"
 
 #include "base/scoped_ptr.h"
 #include "base/task/task.h"
@@ -20,6 +21,7 @@ class MessageLoop : public MessagePump::Delegate {
     enum MESSAGE_LOOP_TYPE {
         MESSAGE_LOOP_UI,
         MESSAGE_LOOP_POSIX,
+        MESSAGE_LOOP_IO,
     };
     explicit MessageLoop(MESSAGE_LOOP_TYPE type = MESSAGE_LOOP_POSIX);
     void PostTask(Clouse* clouse);
@@ -30,6 +32,13 @@ class MessageLoop : public MessagePump::Delegate {
     void Run();
     void Quit(base::Clouse* closue);
     void Stop();
+    void BindToCurrentThread();
+    
+    MessagePump* pump(){
+        return pump_.Get();
+    }
+    
+    static MessageLoop* current();
  private:
     MessagePump* CreatePump(MESSAGE_LOOP_TYPE type);
     TaskQueue incoming_task_queue_;
@@ -42,6 +51,29 @@ class MessageLoop : public MessagePump::Delegate {
     ScopedPtr<MessagePump> pump_;
     WeakPtr<MessageLoop> weak_ptr_;
 };
+
+    class MessageLoopForIO : public MessageLoop {
+    public:
+        MessageLoopForIO() : MessageLoop(MESSAGE_LOOP_IO) {
+            
+        }
+        
+        static MessageLoopForIO* current() {
+            MessageLoop* loop = MessageLoop::current();
+            return static_cast<MessageLoopForIO*>(loop);
+        }
+        
+        void WatchFileDescriptor(FileDescriptor* descriptor) {
+            static_cast<MessagePumpIOPosix*>(pump())->poller()->WatchFileDescriptor(descriptor);
+        }
+        
+        void RemoveFileDescriptor(int fd) {
+            static_cast<MessagePumpIOPosix*>(pump())->poller()->RemoveFileDescriptor(fd);
+        }
+        
+    private:
+        MESSAGE_LOOP_TYPE type_;
+    };
 }  // namespace base
 
 #endif  // LYNX_BASE_THREADING_MESSAGE_LOOP_H_

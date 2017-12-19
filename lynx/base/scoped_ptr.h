@@ -47,6 +47,12 @@ class ScopedPtr {
         scoped_ptr.ptr_ = NULL;
         return *this;
     }
+    
+    void Swap(ScopedPtr& scoped_ptr) {
+        element_type* ptr = ptr_;
+        ptr_ = scoped_ptr.ptr_;
+        scoped_ptr.ptr_ = ptr;
+    }
 
     void Reset(element_type* p = nullptr) {
         if (ptr_) {
