@@ -24,6 +24,9 @@ class RenderObjectImpl;
 class RenderTreeHost;
 class RenderObject : public LayoutObject, public EventTarget {
  public:
+    typedef std::map<std::string, std::string> Attributes;
+    typedef std::map<std::string, std::string> Styles;
+    
     RenderObject(const char* tag_name, RenderObjectType type,
         uint64_t id, RenderObjectImpl* proxy, RenderTreeHost* host);
     virtual ~RenderObject();
@@ -58,6 +61,14 @@ class RenderObject : public LayoutObject, public EventTarget {
     virtual void SetAttribute(const std::string& key, const std::string& value);
     bool HasAttribute(const std::string& key);
     void RemoveAttribute(const std::string& key);
+    const Attributes& attributes() {
+        return attributes_;
+    }
+    
+    const Styles& styles() {
+        return styles_;
+    }
+    
 
     // Sync attributes from element proxy
     void UpdateData(int key, base::ScopedPtr<jscore::LynxValue> value);
@@ -179,7 +190,8 @@ protected:
 
     std::string text_;
 
-    std::map<std::string, std::string> attributes_;
+    Attributes attributes_;
+    Styles styles_;
 
     bool is_fixed_;
     std::vector<RenderObject*> fixed_children_;

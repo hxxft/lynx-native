@@ -20,7 +20,7 @@ namespace jscore {
               loader_(lynx_new loader::HTMLLoader(this)),
               context_(context),
               weak_ptr_(this) {
-                
+                  inspector_ = new debug::Inspector(thread_manager_->js_thread());
     }
     
     void Runtime::InitRuntime(const char* arg) {
@@ -97,6 +97,7 @@ namespace jscore {
     }
 
     void Runtime::Destroy() {
+        inspector_->Detach();
         url_request_context_->Stop();
         thread_manager_->DetachUIThread();
         thread_manager_->QuitJSThread(base::Bind(&Runtime::DestroyOnJSThread, weak_ptr_));
@@ -106,6 +107,7 @@ namespace jscore {
         vm_ = lynx_new JSVM();
         vm_->Initialize();
         context_->Initialize(vm_.Get(), this);
+        inspector_->Attach(this);
     }
 
     void Runtime::RunScriptOnJSThread(const base::PlatformString& source) {

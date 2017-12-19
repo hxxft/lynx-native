@@ -93,6 +93,10 @@ TextStyleType ToTextOverflowType(const std::string& value);
 TextStyleType ToTextWhiteSpaceType(const std::string& value);
 
 ImageStyleType ToObjectFitType(const std::string& value);
+    
+    std::string MapCSSType(CSSStyleType type);
+    std::string MapTextStyle(TextStyleType type);
+    std::string MapImageStyle(ImageStyleType type);
 
 }  // namespace lynx
 

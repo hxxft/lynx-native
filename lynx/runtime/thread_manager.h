@@ -11,9 +11,9 @@ namespace jscore {
 class ThreadManager {
  public:
     ThreadManager() :
-        js_thread_(lynx_new base::Thread(base::MessageLoop::MESSAGE_LOOP_POSIX)),
+        js_thread_(lynx_new base::Thread(base::MessageLoop::MESSAGE_LOOP_POSIX, "JSThread")),
         ui_thread_(lynx_new base::Thread(base::MessageLoop::MESSAGE_LOOP_UI)) {
-        js_thread_->Start();
+            js_thread_->Start();
     }
 
     void RunOnUIThread(base::Clouse* clouse) {
@@ -40,6 +40,13 @@ class ThreadManager {
         ui_thread_->Looper()->Stop();
     }
 
+    base::Thread* js_thread() {
+        return js_thread_.Get();
+    }
+    
+    base::Thread* ui_thread() {
+        return ui_thread_.Get();
+    }
  private:
     base::ScopedPtr<base::Thread> js_thread_;
     base::ScopedPtr<base::Thread> ui_thread_;

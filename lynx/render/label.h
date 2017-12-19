@@ -31,7 +31,9 @@ public:
     virtual void Layout(int left, int top, int right, int bottom);
     virtual void InsertChild(ContainerNode* child, int index);
     virtual void InsertBefore(RenderObject* child, RenderObject* reference);
-
+    TextNode* text_node() {
+        return text_node_;
+    };
 private:
     TextNode* text_node_;
 };

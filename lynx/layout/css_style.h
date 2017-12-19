@@ -96,6 +96,7 @@ class CSSStyle {
     static void Initialize(CSSStyleConfig* config);
 
     friend class CSSStaticLayout;
+    friend class InspectorCSSAgent;
     friend class base::Convert;
 
  private:

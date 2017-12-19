@@ -106,6 +106,7 @@ void RenderObject::SetStyle(const std::string& key,
     if (!key.empty()) {
         LayoutObject::SetStyle(key, value);
         HandleFixedStyle();
+        styles_[key] = value;
     } else {
         FlushStyle();
     }

@@ -16,6 +16,8 @@
 #include "runtime/js_vm.h"
 #include "render/render_tree_host.h"
 
+#include "inspector/inspector.h"
+
 namespace lynx {
     class RenderTreeHost;
 }
@@ -75,6 +77,8 @@ private:
     base::ScopedPtr<JSContext> context_;
     base::ScopedRefPtr<JSVM> vm_;
     base::WeakPtr<Runtime> weak_ptr_;
+    
+    base::ScopedRefPtr<debug::Inspector> inspector_;
 };
 
 }  // namespace jscore
