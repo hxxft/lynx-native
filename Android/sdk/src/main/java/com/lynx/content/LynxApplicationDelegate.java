@@ -3,7 +3,6 @@ package com.lynx.content;
 
 import android.app.Application;
 
-import com.lynx.BuildConfig;
 import com.lynx.content.info.App;
 import com.lynx.content.info.Manifest;
 import com.lynx.core.LynxRuntimeManager;
@@ -20,12 +19,13 @@ public class LynxApplicationDelegate {
     }
 
     public void onCreate() {
-       if(BuildConfig.DEBUG) {
-            DevSupportManager.getInstance().initialize();
-        }
+
         LynxRuntimeManager.prepare(mApplication);
         mManifest = ResourceManager.instance().reader().
                 readResourceAsJSON(ResourceManager.toRealURL(mManifestResourceURL), Manifest.class);
+        if(mManifest.isDebuggable()) {
+            DevSupportManager.getInstance().initialize();
+        }
     }
 
     public App getAppInfo() {

@@ -82,14 +82,19 @@ public class DebugServer {
     public void startService() throws Exception{
 
         if(mServerSocket == null) {
-            mServerSocket = new ServerSocket(PORT);
+            try{
+                mServerSocket = new ServerSocket(PORT);
 
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    service();
-                }
-            }).start();
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        service();
+                    }
+                }).start();
+            }catch (IOException e) {
+                e.printStackTrace();
+            }
+
         }
     }
 

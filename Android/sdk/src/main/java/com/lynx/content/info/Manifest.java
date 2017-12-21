@@ -5,11 +5,17 @@ public class Manifest {
 
     private App application;
 
+    private boolean debug = false;
+
     public App getApplication() {
         return application;
     }
 
     public void setApplication(App application) {
         this.application = application;
+    }
+
+    public boolean isDebuggable() {
+        return debug;
     }
 }
