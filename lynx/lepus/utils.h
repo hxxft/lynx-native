@@ -74,7 +74,9 @@ namespace lepus {
         token == Token_Function ||
         token == Token_Id ||
         token == '(' ||
-        token == '{';
+        token == '{'||
+        token == Token_DEC||
+        token == Token_INC;
     }
 }
 

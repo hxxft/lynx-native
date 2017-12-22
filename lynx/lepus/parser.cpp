@@ -386,7 +386,7 @@ namespace lepus {
         }else if(IsPrimaryExpr(LookAhead().token_)){
             expression = ParsePrimaryExpr();
         }else{
-            throw CompileException("error expression", token);
+            throw CompileException("error expression", LookAhead());
             
         }
         
@@ -421,6 +421,8 @@ namespace lepus {
             case Token_Number:
             case Token_String:
             case '(':
+            case Token_INC:
+            case Token_DEC:
                 expr = ParsePrefixExpr();
                 break;
             default:
