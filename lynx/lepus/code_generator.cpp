@@ -503,6 +503,7 @@ namespace lepus {
             if(*iter) {
                 int register_id = GenerateRegisiterId();
                 (*iter)->Accept(this, &register_id);
+                ResetRegisiterId(register_id + 1);
             }
         }
     }
