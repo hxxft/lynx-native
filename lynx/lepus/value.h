@@ -74,7 +74,7 @@ namespace lepus {
                 case Value_Nil:
                     return true;
                 case Value_Number:
-                    return left.number_ == right.number_;
+                    return fabs(left.number_ - right.number_) < 0.000001 ;
                 case Value_Boolean:
                     return left.boolean_ == right.boolean_;
                 case Value_String:

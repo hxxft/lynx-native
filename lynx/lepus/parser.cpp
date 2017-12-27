@@ -385,6 +385,8 @@ namespace lepus {
             static_cast<UnaryExpression*>(expression)->expression().Reset(ParseExpression(new ASTree, 90, Token()));
         }else if(IsPrimaryExpr(LookAhead().token_)){
             expression = ParsePrimaryExpr();
+        }else if(LookAhead().token_ == ')'){
+            return expression;
         }else{
             throw CompileException("error expression", LookAhead());
             
