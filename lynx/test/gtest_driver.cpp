@@ -14,14 +14,16 @@
 
 #include "gtest/gtest.h"
 
-void pumpStdoutToLog() {
-    using namespace std;
+#include "test/gtest_driver.h"
+#include "GTestDriver_jni.h"
+
+void PumpStdoutToLog() {
     __android_log_print(ANDROID_LOG_INFO, "GTEST_SETUP", "Setting up STDOUT pipe to adb log");
     int stdoutPipe[2];
     pipe(stdoutPipe);
     dup2(stdoutPipe[1], STDOUT_FILENO);
     FILE *exitEndFd = fdopen(stdoutPipe[0], "r");
-    stringstream outStm;
+    std::stringstream outStm;
     int c;
 
     // It is okay to keep it running like this.
@@ -40,23 +42,21 @@ void pumpStdoutToLog() {
     // TODO - close file handles (as the loop never exits, so the handles get release when the process exits)
 }
 
-volatile bool isGTestSetup = false;
-std::thread* stdoutPump = nullptr;
+volatile bool gIsGTestSetup = false;
+std::thread* gSTDOutPumpThread = nullptr;
 
-void gtestSetup() {
-    if (!isGTestSetup) {
-        isGTestSetup = true;
-        stdoutPump = new std::thread(pumpStdoutToLog);
+void GTestSetup() {
+    if (!gIsGTestSetup) {
+        gIsGTestSetup = true;
+        gSTDOutPumpThread = new std::thread(PumpStdoutToLog);
         usleep(400);
         fflush(stdout);
     }
 }
 
-extern "C"
-JNIEXPORT jint JNICALL
-Java_com_lynx_demo_gtest_GTestDriver_runGTestsNative(JNIEnv *env,
-                                                                 jobject instance,
-                                                                 jobjectArray gtestCmdLineArgs) {
+jint RunGTestsNative(JNIEnv* env,
+                    jclass jcaller,
+                    jobjectArray gtestCmdLineArgs) {
     // Extract the gtest run params and prepare argc/argv pair
     int argc = env->GetArrayLength(gtestCmdLineArgs);
     char **argv = new char *[argc + 1];
@@ -69,7 +69,7 @@ Java_com_lynx_demo_gtest_GTestDriver_runGTestsNative(JNIEnv *env,
     }
 
     // Ensure STDOUT -> PIPE -> Log channel is set up.
-    gtestSetup();
+    GTestSetup();
 
     // The last parameter is the runId, which is added by the gtest.py. It is used to
     // mark, start and end of the test runs logs in the adb logcat.
@@ -94,4 +94,12 @@ Java_com_lynx_demo_gtest_GTestDriver_runGTestsNative(JNIEnv *env,
     delete[] argv;
 
     return result;
+}
+
+namespace test {
+
+    bool GTestBridge::RegisterJNIUtils(JNIEnv* env) {
+        return RegisterNativesImpl(env);
+    }
+
 }

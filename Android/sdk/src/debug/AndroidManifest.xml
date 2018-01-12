@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.lynx" >
+
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <application>
+        <receiver
+            android:name="com.lynx.gtest.GTestDriverReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter android:priority="999">
+                <action android:name="com.lynx.UNITTEST"/>
+            </intent-filter>
+        </receiver>
+    </application>
+</manifest>

@@ -41,5 +41,6 @@ dependencies {
     compile 'com.android.support:appcompat-v7:23.2.0'
     testCompile 'junit:junit:4.12'
 
-    compile project(":sdk")
+    debugCompile project(path:":sdk",configuration:'debug')
+    releaseCompile project(path:":sdk",configuration:'release')
 }

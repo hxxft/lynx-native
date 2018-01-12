@@ -7,3 +7,4 @@ com/lynx/core/impl/RenderObjectImpl.java
 com/lynx/core/base/ParamsTransform.java
 com/lynx/core/tree/LynxRenderTreeHostImpl.java
 com/lynx/ui/coordinator/CrdCommandExecutor.java
+../../debug/java/com/lynx/gtest/GTestDriver.java

@@ -11,9 +11,26 @@ add_definitions(-DDEBUG_MEMORY=0)
 
 #set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall")
 
-# strip lib
-#set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -s")
+MESSAGE(${CMAKE_BUILD_TYPE})
 
+
+if (CMAKE_BUILD_TYPE MATCHES "Release")
+
+# strip lib
+set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -s")
+set(UNITTEST_SRC_LIST "")
+add_definitions(-DGTEST_ENABLE=0)
+
+else()
+add_definitions(-DGTEST_ENABLE=1)
+include_directories(${CMAKE_SOURCE_DIR}/../../lynx/third_party/googletest/include
+                    ${CMAKE_SOURCE_DIR}/../../lynx/third_party/googletest)
+
+set(UNITTEST_SRC_LIST
+        ${CMAKE_SOURCE_DIR}/../../lynx/third_party/googletest/src/gtest-all.cc
+        ${CMAKE_SOURCE_DIR}/../../lynx/test/gtest_driver.cpp)
+
+endif()
 
 include_directories(${CMAKE_SOURCE_DIR}/../../lynx
                     ${CMAKE_SOURCE_DIR}/../../lynx/gen
@@ -139,6 +156,7 @@ add_library(lynx SHARED
             	${CMAKE_SOURCE_DIR}/../../lynx/render/coordinator/coordinator_executor.cpp
 
             	${LEPUS_SOURCE_FILES}
+                ${UNITTEST_SRC_LIST}
             	)
 
 
