@@ -176,7 +176,7 @@ void RenderObject::Layout(int left, int top, int right, int bottom) {
     offset_height_ = bottom - top;
     offset_width_ = right - left;
 
-    if (measured_position_.Update(left, top, right, bottom) && !IsInvisible()) {
+    if (measured_position_.Reset(left, top, right, bottom) && !IsInvisible()) {
         base::Position position(measured_position_);
         RecalculateLayoutPosition(position);
         RenderCommand* cmd = lynx_new RendererPosUpdateCommand(impl(), position, RenderCommand::CMD_SET_POSITION);

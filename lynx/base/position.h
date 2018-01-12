@@ -19,7 +19,7 @@ class Position {
         bottom_(b) {
         }
 
-    Position(Position& pos):
+    Position(const Position& pos):
         left_(pos.left_),
         top_(pos.top_),
         right_(pos.right_),
@@ -39,7 +39,7 @@ class Position {
         return Vector2D(left_, top_);
     }
 
-    bool Update(Position& position) {
+    bool Reset(const Position& position) {
         if (left_ == position.left_ &&
                 top_ == position.top_ &&
                 right_ == position.right_ &&
@@ -54,7 +54,7 @@ class Position {
         return true;
     }
 
-    bool Update(int left, int top, int right, int bottom) {
+    bool Reset(int left, int top, int right, int bottom) {
         if (left_ == left &&
                 top_ == top &&
                 right_ == right &&
@@ -70,15 +70,18 @@ class Position {
     }
 
     inline int GetWidth() const {
-        return right_ - left_;
+        int width = right_ - left_;
+        return width > 0 ? width : 0;
     }
 
     inline int GetHeight() const {
-        return bottom_ - top_;
+        int height = bottom_ - top_;
+        return height > 0 ? height : 0;
     }
 
     inline bool IsEmpty() const {
-        return !(left_ || top_ || right_ || bottom_);
+        return !(left_ || top_ || right_ || bottom_) ||
+        GetWidth() == 0 || GetHeight() == 0;
     }
 
 
