@@ -30,7 +30,8 @@ set(UNITTEST_SRC_LIST
         ${CMAKE_SOURCE_DIR}/../../lynx/third_party/googletest/src/gtest-all.cc
         ${CMAKE_SOURCE_DIR}/../../lynx/test/gtest_driver.cpp
         ${CMAKE_SOURCE_DIR}/../../lynx/base/vector2d_unittest.cc
-        ${CMAKE_SOURCE_DIR}/../../lynx/base/position_unittest.cc)
+        ${CMAKE_SOURCE_DIR}/../../lynx/base/position_unittest.cc
+        ${CMAKE_SOURCE_DIR}/../../lynx/parser/render_tokenizer_unittest.cc)
 
 endif()
 

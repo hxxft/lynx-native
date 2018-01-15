@@ -24,6 +24,7 @@ namespace parser {
     }
     
     void InputStream::Back() {
-        --cursor_;
+        if(cursor_ > 0)
+            --cursor_;
     }
 }

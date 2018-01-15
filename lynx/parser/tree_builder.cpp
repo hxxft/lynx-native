@@ -34,12 +34,12 @@ namespace parser {
 
         for(int i = 0; i < token.attributes().size(); ++i) {
             RenderToken::Attribute* attr = token.attributes()[i];
-            if(attr->name_ == tag_attr && attr->value_ != body_tag) {
+            if(attr->name_ == kTagAttr && attr->value_ != kBodyTag) {
                 *renderer = lynx::RenderFactory::CreateRenderObject(
                         runtime_->thread_manager(), attr->value_, tree_host_);
-            }else if(attr->name_ == style_attr) {
+            }else if(attr->name_ == kStyleAttr) {
                 styles.push_back(&attr->value_);
-            }else if(attr->name_ == id_attr) {
+            }else if(attr->name_ == kIDAttr) {
                 id = attr->value_;
             }else {
                 attributes.push_back(attr);
@@ -55,56 +55,50 @@ namespace parser {
         return;
     }
     
-    void TreeBuilder::BuildWithStartTag(RenderToken& token) {
+     void TreeBuilder::BuildWithStartTag(RenderToken& token) {
 
-        lynx::RenderObject* renderer = NULL;
-
-        if(token.tag_name() == body_tag) {
-            renderer = lynx::RenderFactory::CreateRenderObject(
-                    runtime_->thread_manager(), token.tag_name(), tree_host_);
-
-            lynx::RenderObject* body = tree_host_->render_root();
-            ProcessStartToken(token, &body);
-
-            renderer_stack_.push(renderer);
-            return;
-        }
-
-        if(token.tag_name() == div_tag ||
-                token.tag_name() == img_tag){
-
-            ProcessStartToken(token, &renderer);
-
-            lynx::RenderObject* parent = renderer_stack_.empty() ? NULL : renderer_stack_.top();
-
-            if(!token.is_self_closing() && token.tag_name() != img_tag) {
-                renderer_stack_.push(renderer);
-            }
-
-            if(parent) {
-                parent->AppendChild(renderer);
-            }
-            return;
-        }
-
-        if(token.tag_name() == script_tag) {
+         if(token.tag_name() == kScriptTag) {
             for(int i = 0; i < token.attributes().size(); ++i) {
                 RenderToken::Attribute* attr = token.attributes()[i];
-                if(attr->name_ == src_attr) {
+                if(attr->name_ == kSrcAttr) {
                     std::string url = attr->value_;
                     runtime_->LoadScript(url,loader::LynxLoader::SCRIPT_FILE);
                 }
             }
             return;
         }
+
+        lynx::RenderObject* renderer = NULL;
+
+        if(token.tag_name() == kBodyTag) {
+            renderer = lynx::RenderFactory::CreateRenderObject(
+                    runtime_->thread_manager(), token.tag_name(), tree_host_);
+
+            lynx::RenderObject* body = tree_host_->render_root();
+        }
+ 
+
+        ProcessStartToken(token, &renderer);
+
+        lynx::RenderObject* parent = renderer_stack_.empty() ? NULL : renderer_stack_.top();
+
+        if(!token.is_self_closing()) {
+            renderer_stack_.push(renderer);
+        }
+
+        if(parent) {
+            parent->AppendChild(renderer);
+        }
     }
     
     void TreeBuilder::BuildWithEndTag(RenderToken& token) {
-        if(!renderer_stack_.empty() &&
-                (token.tag_name() == body_tag ||
-                token.tag_name() == img_tag ||
-                token.tag_name() == div_tag)){
-            renderer_stack_.pop();
+        if(!renderer_stack_.empty()){
+            if(renderer_stack_.top()->tag_name() != token.tag_name()) {
+                // log
+            }
+            if(!token.is_self_closing()) {
+                renderer_stack_.pop();
+            }
         }
     }
     

@@ -4,29 +4,27 @@
 #include "parser/utils.h"
 
 namespace parser {
-    
+
     RenderTokenizer::RenderTokenizer() : state_(DATA_STATE) {
-        
     }
-    
+
     RenderTokenizer::~RenderTokenizer() {
-        
     }
-    
+
     bool RenderTokenizer::NextToken(InputStream& stream, RenderToken& token) {
-        while(stream.HasNext()) {
+        while (stream.HasNext()) {
             char cc = stream.Next();
             switch (state_) {
                 case DATA_STATE:
-                    if(cc == '<') {
-                        if(token.type() == RenderToken::CHARACTER) {
+                    if (cc == '<') {
+                        if (token.type() == RenderToken::CHARACTER) {
                             stream.Back();
                             return true;
                         }
                         state_ = TAG_OPEN_STATE;
-                    } else if(cc == '&') {
-                        
-                    }else {
+                    } else if (cc == '&') {
+  
+                    } else {
                         token.type() = RenderToken::CHARACTER;
                         token.data().append(1, cc);
                     }
@@ -41,7 +39,7 @@ namespace parser {
                         state_ = TAG_NAME_STATE;
                     }else if(IsASCIIUpper(cc)) {
                         token.type() = RenderToken::START_TAG;
-                        token.tag_name().append(1, cc);
+                        token.tag_name().append(1, ToLowerCase(cc));
                         state_ = TAG_NAME_STATE;
                     }
                     break;
@@ -90,11 +88,13 @@ namespace parser {
                         return true;
                     }else if(IsASCIIUpper(cc)) {
                         token.NewAttribute();
-                        token.attribute()->name_.append(1, ToLowerCase(cc));
+                        if(token.attribute())
+                            token.attribute()->name_.append(1, ToLowerCase(cc));
                         state_ = ATTR_NAME_STATE;
                     }else {
                         token.NewAttribute();
-                        token.attribute()->name_.append(1, cc);
+                        if(token.attribute())
+                            token.attribute()->name_.append(1, cc);
                         state_ = ATTR_NAME_STATE;
                     }
                     break;
@@ -111,10 +111,12 @@ namespace parser {
                         state_ = DATA_STATE;
                         return true;
                     } else if (IsASCIIUpper(cc)) {
-                        token.attribute()->name_.append(1, ToLowerCase(cc));
+                        if(token.attribute())
+                            token.attribute()->name_.append(1, ToLowerCase(cc));
                         state_ = ATTR_NAME_STATE;
                     } else {
-                        token.attribute()->name_.append(1, cc);
+                        if(token.attribute())
+                            token.attribute()->name_.append(1, cc);
                         state_ = ATTR_NAME_STATE;
                     }
                     break;
@@ -146,7 +148,8 @@ namespace parser {
                     } else if (cc == '&') {
                         //Unknow
                     } else {
-                        token.attribute()->value_.append(1, cc);
+                        if(token.attribute())
+                            token.attribute()->value_.append(1, cc);
                         state_ = ATTR_VALUE_DOUBLE_QUOTED_STATE;
                     }
                     break;

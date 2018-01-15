@@ -9,6 +9,8 @@
 #include "base/scoped_ptr.h"
 #include "base/debug/memory_debug.h"
 
+#include "parser/lynx_names.h"
+
 namespace parser {
     class RenderToken {
     public:
@@ -73,6 +75,9 @@ namespace parser {
         void BeginStartTag(char ch);
         
         void NewAttribute() {
+            if(type() == END_TAG) {
+                return;
+            }
             current_attribute_ = lynx_new Attribute();
             attributes_.push_back(current_attribute_);
         }
@@ -90,7 +95,7 @@ namespace parser {
         }
         
         bool is_self_closing() {
-            return is_self_closing_;
+            return is_self_closing_ || kSelfClosingTags.find(tag_name()) != kSelfClosingTags.end();
         }
         
         void Clear() {
