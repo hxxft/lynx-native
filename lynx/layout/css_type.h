@@ -13,86 +13,86 @@ namespace lynx {
 #define CSS_IS_UNDEFINED(VAL) (VAL == INT_MAX)
 
 enum CSSStyleType {
-    CSS_DISPLAY_NONE = 0,
-    CSS_DISPLAY_FLEX = 1,
+  CSS_DISPLAY_NONE = 0,
+  CSS_DISPLAY_FLEX = 1,
 
-    CSSFLEX_ALIGN_AUTO = 2,
-    CSSFLEX_ALIGN_FLEX_START = 3,
-    CSSFLEX_ALIGN_CENTER = 4,
-    CSSFLEX_ALIGN_FLEX_END = 5,
-    CSSFLEX_ALIGN_STRETCH = 6,
+  CSSFLEX_ALIGN_AUTO = 2,
+  CSSFLEX_ALIGN_FLEX_START = 3,
+  CSSFLEX_ALIGN_CENTER = 4,
+  CSSFLEX_ALIGN_FLEX_END = 5,
+  CSSFLEX_ALIGN_STRETCH = 6,
 
-    CSSFLEX_DIRECTION_COLUMN = 7,
-    CSSFLEX_DIRECTION_COLUMN_REVERS = 8,
-    CSSFLEX_DIRECTION_ROW = 9,
-    CSSFLEX_DIRECTION_ROW_REVERSE = 10,
+  CSSFLEX_DIRECTION_COLUMN = 7,
+  CSSFLEX_DIRECTION_COLUMN_REVERS = 8,
+  CSSFLEX_DIRECTION_ROW = 9,
+  CSSFLEX_DIRECTION_ROW_REVERSE = 10,
 
-    CSSFLEX_JUSTIFY_FLEX_START = 11,
-    CSSFLEX_JUSTIFY_FLEX_CENTER = 12,
-    CSSFLEX_JUSTIFY_FLEX_END = 13,
-    CSSFLEX_JUSTIFY_SPACE_BETWEEN = 14,
-    CSSFLEX_JUSTIFY_SPACE_AROUND = 15,
+  CSSFLEX_JUSTIFY_FLEX_START = 11,
+  CSSFLEX_JUSTIFY_FLEX_CENTER = 12,
+  CSSFLEX_JUSTIFY_FLEX_END = 13,
+  CSSFLEX_JUSTIFY_SPACE_BETWEEN = 14,
+  CSSFLEX_JUSTIFY_SPACE_AROUND = 15,
 
-    CSSFLEX_WRAP = 16,
-    CSSFLEX_NOWRAP = 17,
+  CSSFLEX_WRAP = 16,
+  CSSFLEX_NOWRAP = 17,
 
-    CSS_POSITION_RELATIVE =18,
-    CSS_POSITION_ABSOLUTE = 19,
-    CSS_POSITION_FIXED = 20,
+  CSS_POSITION_RELATIVE = 18,
+  CSS_POSITION_ABSOLUTE = 19,
+  CSS_POSITION_FIXED = 20,
 
-    CSS_VISIBLE = 21,
-    CSS_HIDDEN = 22
+  CSS_VISIBLE = 21,
+  CSS_HIDDEN = 22
 };
 
 enum TextStyleType {
-    CSSTEXT_ALIGN_LEFT = 0,
-    CSSTEXT_ALIGN_RIGHT,
-    CSSTEXT_ALIGN_CENTER,
+  CSSTEXT_ALIGN_LEFT = 0,
+  CSSTEXT_ALIGN_RIGHT,
+  CSSTEXT_ALIGN_CENTER,
 
-    CSSTEXT_TEXTDECORATION_LINETHROUGH,
-    CSSTEXT_TEXTDECORATION_NONE,
+  CSSTEXT_TEXTDECORATION_LINETHROUGH,
+  CSSTEXT_TEXTDECORATION_NONE,
 
-    CSSTEXT_FONT_WEIGHT_NORMAL,
-    CSSTEXT_FONT_WEIGHT_BOLD,
+  CSSTEXT_FONT_WEIGHT_NORMAL,
+  CSSTEXT_FONT_WEIGHT_BOLD,
 
-    CSSTEXT_OVERFLOW_ELLIPSIS,
-    CSSTEXT_OVERFLOW_NONE,
+  CSSTEXT_OVERFLOW_ELLIPSIS,
+  CSSTEXT_OVERFLOW_NONE,
 
-    CSSTEXT_WHITESPACE_NOWRAP,
-    CSSTEXT_WHITESPACE_NORMAL
+  CSSTEXT_WHITESPACE_NOWRAP,
+  CSSTEXT_WHITESPACE_NORMAL
 };
 
 enum ImageStyleType {
-    CSSIMAGE_OBJECT_FIT_FILL,
-    CSSIMAGE_OBJECT_FIT_CONTAIN,
-    CSSIMAGE_OBJECT_FIT_COVER
+  CSSIMAGE_OBJECT_FIT_FILL = 0,
+  CSSIMAGE_OBJECT_FIT_CONTAIN,
+  CSSIMAGE_OBJECT_FIT_COVER
 };
 
-CSSStyleType ToVisibleType(const std::string& value);
+bool ToVisibleType(const std::string& value, CSSStyleType& type);
 
-CSSStyleType ToDisplayType(const std::string& value);
+bool ToDisplayType(const std::string& value, CSSStyleType& type);
 
-CSSStyleType ToFlexAlignType(const std::string& value);
+bool ToFlexAlignType(const std::string& value, CSSStyleType& type);
 
-CSSStyleType ToFlexDirectionType(const std::string& value);
+bool ToFlexDirectionType(const std::string& value, CSSStyleType& type);
 
-CSSStyleType ToFlexJustifyType(const std::string& value);
+bool ToFlexJustifyType(const std::string& value, CSSStyleType& type);
 
-CSSStyleType ToFlexWrapType(const std::string& value);
+bool ToFlexWrapType(const std::string& value, CSSStyleType& type);
 
-CSSStyleType ToPositionType(const std::string& value);
+bool ToPositionType(const std::string& value, CSSStyleType& type);
 
-TextStyleType ToTextAlignType(const std::string& value);
+bool ToTextAlignType(const std::string& value, TextStyleType& type);
 
-TextStyleType ToTextDecorationType(const std::string& value);
+bool ToTextDecorationType(const std::string& value, TextStyleType& type);
 
-TextStyleType ToTextFontWeightType(const std::string& value);
+bool ToTextFontWeightType(const std::string& value, TextStyleType& type);
 
-TextStyleType ToTextOverflowType(const std::string& value);
+bool ToTextOverflowType(const std::string& value, TextStyleType& type);
 
-TextStyleType ToTextWhiteSpaceType(const std::string& value);
+bool ToTextWhiteSpaceType(const std::string& value, TextStyleType& type);
 
-ImageStyleType ToObjectFitType(const std::string& value);
+bool ToObjectFitType(const std::string& value, ImageStyleType& type);
 
 }  // namespace lynx
 

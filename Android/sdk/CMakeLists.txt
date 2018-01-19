@@ -8,6 +8,7 @@ add_definitions(-DOS_ANDROID=1)
 add_definitions(-DGNU_SUPPORT=1)
 add_definitions(-DJSONCPP_NO_LOCALE_SUPPORT=1)
 add_definitions(-DDEBUG_MEMORY=0)
+add_definitions(-DCOMPILER_GCC=1)
 
 #set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall")
 
@@ -31,7 +32,11 @@ set(UNITTEST_SRC_LIST
         ${CMAKE_SOURCE_DIR}/../../lynx/test/gtest_driver.cpp
         ${CMAKE_SOURCE_DIR}/../../lynx/base/vector2d_unittest.cc
         ${CMAKE_SOURCE_DIR}/../../lynx/base/position_unittest.cc
-        ${CMAKE_SOURCE_DIR}/../../lynx/parser/render_tokenizer_unittest.cc)
+        ${CMAKE_SOURCE_DIR}/../../lynx/base/string/string_number_convert_unittest.cc
+        ${CMAKE_SOURCE_DIR}/../../lynx/parser/render_tokenizer_unittest.cc
+        ${CMAKE_SOURCE_DIR}/../../lynx/layout/css_type_unittest.cc
+        ${CMAKE_SOURCE_DIR}/../../lynx/layout/css_color_unittest.cc
+        ${CMAKE_SOURCE_DIR}/../../lynx/layout/css_style_unittest.cc)
 
 endif()
 
@@ -62,6 +67,7 @@ add_library(lynx SHARED
                 ${CMAKE_SOURCE_DIR}/../../lynx/base/debug/memory_tracker.cpp
                 ${CMAKE_SOURCE_DIR}/../../lynx/base/debug/timing_tracker.cpp
                 ${CMAKE_SOURCE_DIR}/../../lynx/base/observer/observer_list.cpp
+                ${CMAKE_SOURCE_DIR}/../../lynx/base/string/string_number_convert.cc
             	${CMAKE_SOURCE_DIR}/../../lynx/base/threading/thread.cpp
             	${CMAKE_SOURCE_DIR}/../../lynx/base/threading/message_loop.cpp
             	${CMAKE_SOURCE_DIR}/../../lynx/base/threading/message_pump_posix.cpp
