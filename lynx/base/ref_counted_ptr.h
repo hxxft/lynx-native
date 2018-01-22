@@ -5,99 +5,141 @@
 
 #include <stddef.h>
 
-#include "base/macros.h"
 #include "base/atomic_ref_count.h"
+#include "base/macros.h"
 
 #include "base/debug/memory_debug.h"
 
 namespace base {
-template<class T>
+template <class T>
 class RefCountPtr {
  public:
-    RefCountPtr() : ref_count_(0) {}
-    virtual ~RefCountPtr() {}
+  RefCountPtr() : ref_count_(0) {}
+  virtual ~RefCountPtr() {}
 
-    void AddRef() {
-        AtomicRefCountInc(&ref_count_);
-    }
+  void AddRef() { AtomicRefCountInc(&ref_count_); }
 
-    void Release() {
-        if (!AtomicRefCountDec(&ref_count_)) {
-            lynx_delete(static_cast<T*>(this));
-        }
+  void Release() {
+    if (!AtomicRefCountDec(&ref_count_)) {
+      lynx_delete(static_cast<T*>(this));
     }
+  }
 
  private:
-    mutable AtomicRefCount ref_count_;
-    DISALLOW_COPY_AND_ASSIGN(RefCountPtr);
+  mutable AtomicRefCount ref_count_;
+  DISALLOW_COPY_AND_ASSIGN(RefCountPtr);
 };
 
-template<class T>
+template <class T>
 class ScopedRefPtr {
  public:
-    using type_name = T;
+  using type_name = T;
 
-    ScopedRefPtr() : ptr_(NULL) {}
-    explicit ScopedRefPtr(type_name* ptr) : ptr_(ptr) {
-        if (ptr_) {
-            ptr_->AddRef();
-        }
+  ScopedRefPtr() : ptr_(NULL) {}
+  explicit ScopedRefPtr(T* ptr) : ptr_(ptr) {
+    if (ptr_) {
+      ptr_->AddRef();
     }
-    ScopedRefPtr(ScopedRefPtr<type_name>& other) {
-        ptr_ = NULL;
-        *this = other.ptr_;
+  }
+
+    // Copy constructor.
+  ScopedRefPtr(const ScopedRefPtr<T>& r) : ptr_(r.ptr_) {
+    if (ptr_)
+      ptr_->AddRef();
+  }
+
+  // Copy conversion constructor.
+  template <typename U>
+  ScopedRefPtr(const ScopedRefPtr<U>& r) : ptr_(r.Get()) {
+    if (ptr_)
+      ptr_->AddRef();
+  }
+
+  // Move constructor. This is required in addition to the conversion
+  // constructor below in order for clang to warn about pessimizing moves.
+  ScopedRefPtr(ScopedRefPtr&& r) : ptr_(r.Get()) { r.ptr_ = nullptr; }
+
+  // Move conversion constructor.
+  template <typename U>
+  ScopedRefPtr(ScopedRefPtr<U>&& r) : ptr_(r.Get()) {
+    r.ptr_ = nullptr;
+  }
+
+  ~ScopedRefPtr() {
+    if (ptr_) {
+      ptr_->Release();
     }
-    ~ScopedRefPtr() {
-        if (ptr_) {
-            ptr_->Release();
-        }
-    }
+  }
 
-    ScopedRefPtr<type_name>& operator=(
-                ScopedRefPtr<type_name>& other) {
-        if (other.ptr_) {
-            other.ptr_->AddRef();
-        }
-
-        type_name* old_ptr = ptr_;
-
-        ptr_ = other.ptr_;
-
-        if (old_ptr) {
-            old_ptr->Release();
-        }
-
-        return *this;
-    }
-
-    ScopedRefPtr<type_name>& operator=(type_name* ptr) {
-        if (ptr) {
-            ptr->AddRef();
-        }
-
-        type_name* old_ptr = ptr_;
-
-        ptr_ = ptr;
-
-        if (old_ptr) {
-            old_ptr->Release();
-        }
-
-        return *this;
+  ScopedRefPtr<T>& operator=(T* ptr) {
+    if (ptr) {
+      ptr->AddRef();
     }
 
-    T* Get() { return ptr_; }
+    T* old_ptr = ptr_;
 
-    T& operator*() const {
-        return *ptr_;
+    ptr_ = ptr;
+
+    if (old_ptr) {
+      old_ptr->Release();
     }
 
-    T* operator->() const {
-        return ptr_;
-    }
+    return *this;
+  }
+
+  ScopedRefPtr<T>& operator=(const ScopedRefPtr<T>& other) {
+    return *this = other.ptr_;
+  }
+
+   template <typename U>
+  ScopedRefPtr<T>& operator=(const ScopedRefPtr<U>& r) {
+    return *this = r.Get();
+  }
+
+  ScopedRefPtr<T>& operator=(ScopedRefPtr<T>&& r) {
+    ScopedRefPtr<T>(std::move(r)).Swap(*this);
+    return *this;
+  }
+
+  template <typename U>
+  ScopedRefPtr<T>& operator=(ScopedRefPtr<U>&& r) {
+    ScopedRefPtr<T>(std::move(r)).Swap(*this);
+    return *this;
+  }
+
+  void Swap(T** pp) {
+    T* p = ptr_;
+    ptr_ = *pp;
+    *pp = p;
+  }
+
+  void Swap(ScopedRefPtr<T>& r) {
+    Swap(&r.ptr_);
+  }
+
+  T* Get() const { return ptr_; }
+
+  T& operator*() const { return *ptr_; }
+
+  T* operator->() const { return ptr_; }
+
+  template <typename U>
+  bool operator==(const ScopedRefPtr<U>& rhs) const {
+    return ptr_ == rhs.Get();
+  }
+
+  template <typename U>
+  bool operator!=(const ScopedRefPtr<U>& rhs) const {
+    return !operator==(rhs);
+  }
+
+  template <typename U>
+  bool operator<(const ScopedRefPtr<U>& rhs) const {
+    return ptr_ < rhs.Get();
+  }
 
  private:
-    type_name* ptr_;
+  T* ptr_;
 };
 }  // namespace base
 
