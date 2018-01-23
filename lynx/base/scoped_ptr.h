@@ -41,6 +41,11 @@ class ScopedPtr {
         return *this;
     }
 
+    ScopedPtr& operator=(ScopedPtr& other) {
+      Reset(other.Release());
+      return *this;
+    }
+
     template <typename U>
     ScopedPtr& operator=(ScopedPtr<U>&& other) {
       Reset(other.Release());
@@ -53,17 +58,12 @@ class ScopedPtr {
       return *this;
     }
 
-    ScopedPtr& operator=(ScopedPtr& other) {
-        Reset(other.Release());
-        return *this;
-    }
-
     void Reset(element_type* p = nullptr) {
-        element_type* old_ptr = ptr_;
-        ptr_ = p;
-        if (old_ptr) {
-            lynx_delete(static_cast<element_type*>(old_ptr));
-        }
+      element_type* old_ptr = ptr_;
+      ptr_ = p;
+      if (old_ptr) {
+        lynx_delete(static_cast<element_type*>(old_ptr));
+      }
     }
 
     element_type* Release() {

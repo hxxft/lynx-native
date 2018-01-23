@@ -3,70 +3,106 @@
 #ifndef LYNX_BASE_WEAK_PTR_H_
 #define LYNX_BASE_WEAK_PTR_H_
 
-#include "base/ref_counted_ptr.h"
 #include "base/debug/memory_debug.h"
+#include "base/ref_counted_ptr.h"
 
 namespace base {
 
-template<class T>
-class WeakPtr {
+class WeakReference {
  public:
-    using type_name = T;
-    class Flag : public RefCountPtr<Flag> {
-     public:
-        Flag(): is_valid_(true) {
-        }
-        void Invalidate() { is_valid_ = false; }
-        bool IsValid() { return is_valid_; }
-     private:
-        bool is_valid_;
-    };
+  class Flag : public RefCountPtr<Flag> {
+   public:
+    Flag() : is_valid_(true) {}
+    void Invalidate() { is_valid_ = false; }
+    bool IsValid() { return is_valid_; }
 
-    WeakPtr() : ptr_(0), invalidate_flag_(0) {}
+   private:
+    bool is_valid_;
+  };
 
-    WeakPtr(type_name* ptr) :
-            ptr_(ptr),
-            invalidate_flag_(lynx_new Flag) {
-            }
+  WeakReference() {}
+  WeakReference(const WeakReference& other) : invalidate_flag_(other.invalidate_flag_) {}
+  explicit WeakReference(Flag* flag) : invalidate_flag_(flag) {}
+  ~WeakReference() {
+  }
 
-    WeakPtr(type_name* ptr, Flag* flag) :
-            ptr_(ptr),
-            invalidate_flag_(flag) {
-            }
+  void Invalidate() { invalidate_flag_->Invalidate(); }
 
-    WeakPtr(WeakPtr<type_name>& other) :
-            ptr_(other.ptr_),
-            invalidate_flag_(other.invalidate_flag_) {
-            }
+  bool IsValid() const {
+    return invalidate_flag_.Get() != NULL && invalidate_flag_.Get()->IsValid();
+  }
 
-    WeakPtr(const WeakPtr<type_name>& other) :
-            ptr_(other.ptr_),
-            invalidate_flag_(other.invalidate_flag_) {
-            }
+  WeakReference& operator=(const WeakReference& ref) {
+    invalidate_flag_ = ref.invalidate_flag_;
+  }
 
-    ~WeakPtr() {
-    }
-
-    type_name* Get() { return ptr_; }
-
-    void Invalidate() { invalidate_flag_->Invalidate(); }
-
-    bool IsValid() {
-        return invalidate_flag_.Get() != NULL
-                && invalidate_flag_.Get()->IsValid();
-    }
-
-    type_name* operator->() const { return ptr_; }
-
-    WeakPtr<type_name>& operator=(WeakPtr<type_name>& other) {
-        ptr_ = other.ptr_;
-        invalidate_flag_ = other.invalidate_flag_;
-        return *this;
-    }
+  WeakReference& operator=(WeakReference&& ref) {
+    invalidate_flag_ = ref.invalidate_flag_;
+  }
 
  private:
-    type_name* ptr_;
-    ScopedRefPtr<Flag> invalidate_flag_;
+  ScopedRefPtr<Flag> invalidate_flag_;
+};
+
+// It's not thread-safety.
+template <typename T>
+class WeakPtr {
+ public:
+  WeakPtr() : ptr_(0), ref_() {}
+
+  WeakPtr(T* ptr) : ptr_(ptr), ref_(lynx_new WeakReference::Flag) {}
+
+  WeakPtr(const WeakPtr& other)
+      : ptr_(other.ptr_), ref_(other.ref_) {}
+
+  template <typename U>
+  WeakPtr(WeakPtr<U>&& other) : ptr_(other.ptr_), ref_(other.ref_){
+  }
+
+  ~WeakPtr() {}
+
+  T* Get() const { return ref_.IsValid() ? ptr_ : NULL; }
+
+  void Invalidate() { ref_.Invalidate(); }
+
+  bool IsValid() {
+    return ref_.IsValid();
+  }
+
+  T* operator->() const { return Get(); }
+  T& operator*() const { return *Get(); }
+
+  WeakPtr& operator=(WeakPtr& other) {
+    ptr_ = other.ptr_;
+    ref_ = other.ref_;
+    return *this;
+  }
+
+  WeakPtr& operator=(WeakPtr&& other) {
+    ptr_ = other.ptr_;
+    ref_ = other.ref_;
+    return *this;
+  }
+
+  template <typename U>
+  WeakPtr& operator=(WeakPtr<U>& other) {
+    ptr_ = other.ptr_;
+    ref_ = other.ref_;
+    return *this;
+  }
+
+  template <typename U>
+  WeakPtr& operator=(WeakPtr<U>&& other) {
+    ptr_ = other.ptr_;
+    ref_ = other.ref_;
+    return *this;
+  }
+
+ private:
+  template <typename U>
+  friend class WeakPtr;
+  T* ptr_;
+  WeakReference ref_;
 };
 }  // namespace base
 

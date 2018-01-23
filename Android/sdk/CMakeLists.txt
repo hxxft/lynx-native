@@ -30,6 +30,9 @@ include_directories(${CMAKE_SOURCE_DIR}/../../lynx/third_party/googletest/includ
 set(UNITTEST_SRC_LIST
         ${CMAKE_SOURCE_DIR}/../../lynx/third_party/googletest/src/gtest-all.cc
         ${CMAKE_SOURCE_DIR}/../../lynx/test/gtest_driver.cpp
+        ${CMAKE_SOURCE_DIR}/../../lynx/base/scoped_ptr_unittest.cc
+        ${CMAKE_SOURCE_DIR}/../../lynx/base/ref_counted_ptr_unittest.cc
+        ${CMAKE_SOURCE_DIR}/../../lynx/base/weak_ptr_unittest.cc
         ${CMAKE_SOURCE_DIR}/../../lynx/base/vector2d_unittest.cc
         ${CMAKE_SOURCE_DIR}/../../lynx/base/position_unittest.cc
         ${CMAKE_SOURCE_DIR}/../../lynx/base/string/string_number_convert_unittest.cc
