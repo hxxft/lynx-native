@@ -5,7 +5,7 @@
 #import "LynxListViewController.h"
 #import "LynxUI.h"
 
-@interface LynxUIListView : LynxUI
+@interface LynxUIListView : LynxUI<UITableView *>
 
 @property(nonatomic, readonly) LynxListViewController *controller;
 

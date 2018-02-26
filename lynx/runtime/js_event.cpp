@@ -43,51 +43,46 @@ namespace jscore {
 
     base::ScopedPtr<LynxValue> JSEvent::GetTypeCallback(LynxObjectTemplate* object) {
         std::string type = static_cast<JSEvent*>(object)->type();
-        LynxValue* value = LynxValue::MakeString(type);
-        return LynxValue::MakeValueScoped(value);
+        return LynxValue::MakeString(type);
     }
 
     base::ScopedPtr<LynxValue> JSEvent::GetBubblesCallback(LynxObjectTemplate* object) {
-        LynxValue* value = LynxValue::MakeBool(static_cast<JSEvent*>(object)->bubbles());
-        return LynxValue::MakeValueScoped(value);
+        return LynxValue::MakeBool(static_cast<JSEvent*>(object)->bubbles());
     }
 
     base::ScopedPtr<LynxValue> JSEvent::GetCancelableCallback(LynxObjectTemplate* object) {
-        LynxValue* value = LynxValue::MakeBool(static_cast<JSEvent*>(object)->cancelable());
-        return LynxValue::MakeValueScoped(value);
+        return LynxValue::MakeBool(static_cast<JSEvent*>(object)->cancelable());
     }
 
     base::ScopedPtr<LynxValue> JSEvent::GetTargetCallback(LynxObjectTemplate* object) {
         JSEvent* js_event = static_cast<JSEvent*>(object);
-        LynxValue* value = LynxValue::MakeObjectTemplate(
+        return LynxValue::MakeObjectTemplate(
                 static_cast<Element*>(js_event->target()->GetJSRef()));
-        return LynxValue::MakeValueScoped(value);
     }
 
     base::ScopedPtr<LynxValue> JSEvent::GetCurrentTargetCallback(LynxObjectTemplate* object) {
         JSEvent* js_event = static_cast<JSEvent*>(object);
-        LynxValue* value = LynxValue::MakeObjectTemplate(
+        return LynxValue::MakeObjectTemplate(
                 static_cast<Element*>(js_event->current_target()->GetJSRef()));
-        return LynxValue::MakeValueScoped(value);
     }
 
     base::ScopedPtr<LynxValue>
     JSEvent::StopPropagationCallback(LynxObjectTemplate* object,
-                                     base::ScopedPtr<LynxArray> array) {
+                                     base::ScopedPtr<LynxArray>& array) {
         static_cast<JSEvent*>(object)->StopPropagation();
         return base::ScopedPtr<LynxValue>();
     }
 
     base::ScopedPtr<LynxValue>
     JSEvent::PreventDefaultCallback(LynxObjectTemplate* object,
-                                    base::ScopedPtr<LynxArray> array) {
+                                    base::ScopedPtr<LynxArray>& array) {
         static_cast<JSEvent*>(object)->PreventDefault();
         return base::ScopedPtr<LynxValue>();
     }
 
     base::ScopedPtr<LynxValue>
     JSEvent::InitEventCallback(LynxObjectTemplate* object,
-                               base::ScopedPtr<LynxArray> array) {
+                               base::ScopedPtr<LynxArray>& array) {
         static_cast<JSEvent*>(object)->InitEvent(array->Get(0)->data_.str,
                                                  array->Get(1)->data_.b,
                                                  array->Get(2)->data_.b);

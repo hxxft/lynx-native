@@ -4,6 +4,6 @@
 #import <UIKit/UIKit.h>
 #import "LynxUI.h"
 
-@interface LynxUIImage : LynxUI
+@interface LynxUIImage : LynxUI<UIImageView *>
 
 @end

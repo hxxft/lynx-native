@@ -44,7 +44,8 @@ Label::Label(jscore::ThreadManager* manager,
 }
 
 base::Size Label::Measure(int width, int height) {
-    if (!IsDirty()) return measured_size_;
+    if (!ShouldRemeasure(width, height) || !IsDirty())
+        return measured_size_;
     if(text_node_ == NULL) {
         return base::Size();
     }

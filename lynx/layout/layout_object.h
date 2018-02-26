@@ -44,7 +44,7 @@ class LayoutObject : public ContainerNode {
 
     bool IsDirty();
 
-
+    bool ShouldRemeasure(int width, int height);
 
     base::Size measured_size_;
     base::Position measured_position_;
@@ -52,6 +52,10 @@ class LayoutObject : public ContainerNode {
     LAYOUT_STATE layout_state_;
 
     CSSStyle style_;
+
+private:
+    int last_measured_width_from_parent_;
+    int last_measured_height_from_parent_;
 };
 }  // namespace lynx
 

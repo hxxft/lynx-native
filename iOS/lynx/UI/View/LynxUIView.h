@@ -3,7 +3,8 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 #import "LynxUI.h"
+#import "IOSView.h"
 
-@interface LynxUIView : LynxUI
+@interface LynxUIView : LynxUI<IOSView *>
 
 @end

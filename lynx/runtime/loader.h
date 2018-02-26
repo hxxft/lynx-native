@@ -49,10 +49,10 @@ namespace jscore {
     private:
 
         static base::ScopedPtr<LynxValue>
-        TraceCallback(LynxObjectTemplate* object, base::ScopedPtr<LynxArray> array);
+        TraceCallback(LynxObjectTemplate* object, base::ScopedPtr<LynxArray>& array);
 
         static base::ScopedPtr<LynxValue>
-        ScriptCallback(LynxObjectTemplate* object, base::ScopedPtr<LynxArray> array);
+        ScriptCallback(LynxObjectTemplate* object, base::ScopedPtr<LynxArray>& array);
 
         JSContext* context_;
     };

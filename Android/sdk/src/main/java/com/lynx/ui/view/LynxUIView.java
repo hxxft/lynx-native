@@ -58,6 +58,7 @@ public class LynxUIView extends LynxUIGroup<AndroidViewGroup> {
             }
         }
 
+        // Insert View
         if (nearestItem != null) {
             int index = mView.indexOfChild(nearestItem.getUI().getView());
             mView.addView(childView, index);

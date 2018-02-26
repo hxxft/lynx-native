@@ -18,31 +18,26 @@ namespace jscore {
     
     base::ScopedPtr<LynxValue> Navigator::GetUserAgentCallback(LynxObjectTemplate* object) {
         Navigator *navigator = static_cast<Navigator*>(object);
-        LynxValue *value = LynxValue::MakeString(navigator->user_agent());
-        return base::ScopedPtr<LynxValue>(value);
+        return LynxValue::MakeString(navigator->user_agent());
     }
 
     base::ScopedPtr<LynxValue> Navigator::GetAppCodeNameCallback(LynxObjectTemplate* object) {
         Navigator *navigator = static_cast<Navigator*>(object);
-        LynxValue *value = LynxValue::MakeString(navigator->app_code_name());
-        return base::ScopedPtr<LynxValue>(value);
+        return LynxValue::MakeString(navigator->app_code_name());
     }
 
     base::ScopedPtr<LynxValue> Navigator::GetAppNameCallback(LynxObjectTemplate* object) {
         Navigator *navigator = static_cast<Navigator*>(object);
-        LynxValue *value = LynxValue::MakeString(navigator->app_name());
-        return base::ScopedPtr<LynxValue>(value);
+        return LynxValue::MakeString(navigator->app_name());
     }
 
     base::ScopedPtr<LynxValue> Navigator::GetPlatformCallback(LynxObjectTemplate* object) {
         Navigator *navigator = static_cast<Navigator*>(object);
-        LynxValue *value = LynxValue::MakeString(navigator->platform());
-        return base::ScopedPtr<LynxValue>(value);
+        return LynxValue::MakeString(navigator->platform());
     }
 
     base::ScopedPtr<LynxValue> Navigator::GetAppVersionCallback(LynxObjectTemplate* object) {
         Navigator *navigator = static_cast<Navigator*>(object);
-        LynxValue *value = LynxValue::MakeString(navigator->app_version());
-        return base::ScopedPtr<LynxValue>(value);
+        return LynxValue::MakeString(navigator->app_version());
     }
 }

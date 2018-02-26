@@ -28,13 +28,13 @@ public:
     
 private:
     static base::ScopedPtr<LynxValue>
-    ForwardCallback(LynxObjectTemplate* object, base::ScopedPtr<LynxArray> array);
+    ForwardCallback(LynxObjectTemplate* object, base::ScopedPtr<LynxArray>& array);
 
     static base::ScopedPtr<LynxValue>
-    BackCallback(LynxObjectTemplate* object, base::ScopedPtr<LynxArray> array);
+    BackCallback(LynxObjectTemplate* object, base::ScopedPtr<LynxArray>& array);
 
     static base::ScopedPtr<LynxValue>
-    GoCallback(LynxObjectTemplate* object, base::ScopedPtr<LynxArray> array);
+    GoCallback(LynxObjectTemplate* object, base::ScopedPtr<LynxArray>& array);
 
     static base::ScopedPtr<LynxValue> GetLengthCallback(LynxObjectTemplate* object);
 

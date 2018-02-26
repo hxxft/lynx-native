@@ -107,8 +107,7 @@ void AddJavascriptInterface(JNIEnv* env,
     jscore::Runtime* runtime_ptr = reinterpret_cast<jscore::Runtime*>(runtime);
     if (runtime_ptr == NULL) return;
     runtime_ptr->AddJavaScriptInterface(base::android::JNIHelper::ConvertToString(env, name),
-                                        base::android::JNIHelper::ConvertToLynxFunctionObject(env,
-                                                                                              object));
+                    base::android::JNIHelper::ConvertToLynxFunctionObject(env, object).Release());
 }
 
 void CheckMemoryLeak(JNIEnv* env, jclass jcaller) {

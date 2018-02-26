@@ -8,7 +8,7 @@
 
 @implementation LynxUIImage
 
-- (UIView *)createView:(LynxRenderObjectImpl *)impl {
+- (id)createView:(LynxRenderObjectImpl *)impl {
     return [[UIImageView alloc] init];
 }
 
@@ -26,18 +26,17 @@
         return;
     }
     // scale type
-    UIImageView* imageView = SAFE_CONVERT(self.view, UIImageView);
-    imageView.clipsToBounds = YES;
-    imageView.contentMode = UIViewContentModeScaleAspectFill;
+    self.view.clipsToBounds = YES;
+    self.view.contentMode = UIViewContentModeScaleAspectFill;
     switch(style.css_object_fit_) {
         case lynx::CSSIMAGE_OBJECT_FIT_FILL:
-            imageView.contentMode = UIViewContentModeScaleToFill;
+            self.view.contentMode = UIViewContentModeScaleToFill;
             break;
         case lynx::CSSIMAGE_OBJECT_FIT_CONTAIN:
-            imageView.contentMode = UIViewContentModeScaleAspectFit;
+            self.view.contentMode = UIViewContentModeScaleAspectFit;
             break;
         case lynx::CSSIMAGE_OBJECT_FIT_COVER:
-            imageView.contentMode = UIViewContentModeScaleAspectFill;
+            self.view.contentMode = UIViewContentModeScaleAspectFill;
             break;
         default:
             break;

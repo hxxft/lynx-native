@@ -45,6 +45,11 @@ class CSSStaticLayout {
     static void layoutFixedOrAbsolute(LayoutObject* parent,
                                     LayoutObject* renderer,
                                     double width, double height);
+
+    static int CalculateOffsetWithFlexContainerStyle(LayoutObject *parent,
+                                                     LayoutObject *child,
+                                                     int width,
+                                                     int height);
 };
 }  // namespace lynx
 

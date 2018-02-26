@@ -109,13 +109,13 @@ namespace jscore {
 
 
         static base::ScopedPtr<LynxValue>
-        ReplaceCallback(LynxObjectTemplate* object, base::ScopedPtr<LynxArray> array);
+        ReplaceCallback(LynxObjectTemplate* object, base::ScopedPtr<LynxArray>& array);
 
         static base::ScopedPtr<LynxValue>
-        ReloadCallback(LynxObjectTemplate* object, base::ScopedPtr<LynxArray> array);
+        ReloadCallback(LynxObjectTemplate* object, base::ScopedPtr<LynxArray>& array);
 
         static base::ScopedPtr<LynxValue>
-        AssignCallback(LynxObjectTemplate *object, base::ScopedPtr<LynxArray> array);
+        AssignCallback(LynxObjectTemplate *object, base::ScopedPtr<LynxArray>& array);
 
         static base::ScopedPtr<LynxValue> GetHashCallback(LynxObjectTemplate* object);
         static base::ScopedPtr<LynxValue> GetHostCallback(LynxObjectTemplate* object);

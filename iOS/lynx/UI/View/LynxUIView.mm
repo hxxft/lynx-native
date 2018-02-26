@@ -1,13 +1,12 @@
 // Copyright 2017 The Lynx Authors. All rights reserved.
 
 #import <CoreGraphics/CGGeometry.h>
-#import "IOSView.h"
 #import "LynxUIView.h"
 #import "LynxRenderObjectImpl.h"
 
 @implementation LynxUIView
 
-- (UIView *) createView:(LynxRenderObjectImpl *) impl {
+- (id) createView:(LynxRenderObjectImpl *) impl {
     return [[IOSView alloc]initWithUI:self];;
 }
 
@@ -23,11 +22,11 @@
 }
 
 - (void) addEventListener:(NSString *)event {
-    [(IOSView*)self.view addEvent:event];
+    [self.view addEvent:event];
 }
 
 - (void) removeEventListener:(NSString *)event {
-    [(IOSView*)self.view removeEvent:event];
+    [self.view removeEvent:event];
 }
 
 @end
