@@ -119,10 +119,14 @@ namespace lepus {
     }
     
     void VMContext::Run() {
-        while(!frames_.empty()) {
-            RunFrame();
+        try {
+            while(!frames_.empty()) {
+                RunFrame();
+            }
+            heap_.top_ = heap_.base() + top_level_variables_.size() + 1;
+        } catch (const lepus::Exception& exception) {
+            std::cout<<exception.message()<<std::endl;
         }
-        heap_.top_ = heap_.base() + top_level_variables_.size() + 1;
     }
     
     void VMContext::RunFrame() {

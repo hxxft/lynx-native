@@ -4,6 +4,7 @@
 #include "lepus/builtin.h"
 #include "lepus/vm_context.h"
 #include "lepus/table.h"
+#include "lepus/exception.h"
 
 namespace lepus {
     Value Print(Context* context) {
@@ -29,10 +30,19 @@ namespace lepus {
         }
         return Value();
     }
+    Value Assert(Context* context) {
+        Value* condition = context->GetParam(1);
+        Value* msg = context->GetParam(2);
+        if(condition->IsFalse()){
+           throw RuntimeException("Assertion failed:", msg->str_->c_str());
+        }
+        return Value();
+    }
     
     void RegisterBaseAPI(Context* ctx) {
         Dictonary* table = new Dictonary;
         RegisterTableFunction(ctx, table, "log", &Print);
+        RegisterTableFunction(ctx, table, "assert", &Assert);
         RegisterFunctionTable(ctx, "console", table);
     }
 }

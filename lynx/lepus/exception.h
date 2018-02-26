@@ -30,8 +30,15 @@ namespace lepus {
             stream()<<"(line:"<<token.line_
             <<", column:"<<token.column_<<"):"<<key<<msg;
         }
-        
-        
+    };
+    class RuntimeException : public Exception {
+    public:
+        RuntimeException(const char* msg) {
+            stream()<<msg;
+        }
+        RuntimeException(const char* tag ,const char* msg) {
+            stream()<<tag<<msg;
+        }
     };
 }
 

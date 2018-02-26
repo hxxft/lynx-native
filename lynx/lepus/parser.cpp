@@ -385,8 +385,10 @@ namespace lepus {
             static_cast<UnaryExpression*>(expression)->expression().Reset(ParseExpression(new ASTree, 90, Token()));
         }else if(IsPrimaryExpr(LookAhead().token_)){
             expression = ParsePrimaryExpr();
+        }else if(LookAhead().token_ == ')'){
+            return expression;
         }else{
-            throw CompileException("error expression", token);
+            throw CompileException("error expression", LookAhead());
             
         }
         
@@ -421,6 +423,8 @@ namespace lepus {
             case Token_Number:
             case Token_String:
             case '(':
+            case Token_INC:
+            case Token_DEC:
                 expr = ParsePrefixExpr();
                 break;
             default:
