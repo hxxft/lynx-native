@@ -5,6 +5,7 @@
 #include "render/impl/render_command.h"
 #include "render/render_object_type.h"
 
+#include "base/trace_event/trace_event_common.h"
 namespace lynx {
 
 Body::Body(jscore::ThreadManager* manager, RenderTreeHost* host):
@@ -19,6 +20,7 @@ Body::Body(jscore::ThreadManager* manager, RenderTreeHost* host):
 
 void Body::Layout() {
     if (IsDirty()) {
+        //TRACE_EVENT0("Layout", "Body::Layout");
         View::Measure(body_size_.width_, body_size_.height_);
         View::Layout(0, 0, body_size_.width_, body_size_.height_);
     }
@@ -29,6 +31,7 @@ void Body::Layout(int left, int top, int right, int bottom) {
         Dirty();
     }
     if (IsDirty()) {
+        TRACE_EVENT0("Layout", "Body::Layout");
         int width = right - left;
         int height = bottom - top;
         View::Measure(width, height);

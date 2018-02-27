@@ -10,6 +10,7 @@
 #endif
 
 namespace base {
+uint64_t CurrentTimeMicroseconds();
 uint64_t CurrentTimeMillis();
 timespec ToTimeSpecFromNow(uint64_t interval_time);
 }  // namespace base

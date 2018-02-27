@@ -11,5 +11,6 @@
         "name": "App.vue"
       }
     ]
-  }
+  },
+  "debug": "true"
 }

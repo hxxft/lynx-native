@@ -5,9 +5,12 @@
 #include "runtime/base/lynx_array.h"
 #include "base/debug/memory_debug.h"
 
+#include "base/trace_event/trace_event_common.h"
+
 namespace lynx {
 
 void EventTarget::DispatchEvent(const std::string& event, base::ScopedPtr<jscore::LynxArray> args) {
+    TRACE_EVENT0("renderer", "EventTarget::DispatchEvent");
     EventListenerMap::iterator iter = event_listener_map_.find(event);
     if (iter == event_listener_map_.end()) return;
     for (int i = 0; i < iter->second->size(); i++) {

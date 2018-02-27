@@ -12,6 +12,8 @@
 #include "runtime/base/lynx_function_object.h"
 #include "loader/utils.h"
 
+#include "base/trace_event/trace_event_common.h"
+
 namespace jscore {
 
     Runtime::Runtime(JSContext* context)
@@ -20,7 +22,9 @@ namespace jscore {
               loader_(lynx_new loader::HTMLLoader(this)),
               context_(context),
               weak_ptr_(this) {
-                
+#if ENABLE_TRACING
+      base::TraceLogger::Instance()->Start();
+#endif
     }
     
     void Runtime::InitRuntime(const char* arg) {
@@ -50,6 +54,7 @@ namespace jscore {
     }
 
     void Runtime::LoadScript(const std::string& url, int type) {
+        TRACE_EVENT0("js", "Runtime::LoadScript");
         std::string transformed_url = render_tree_host_->page_location() + url;
         loader_->Load(transformed_url, type);
     }
@@ -60,6 +65,7 @@ namespace jscore {
     }
 
     void Runtime::RunScript(const base::PlatformString& source) {
+        TRACE_EVENT0("js", "Runtime::RunScript");
         thread_manager_->RunOnJSThread(
                 base::Bind(&Runtime::RunScriptOnJSThread, weak_ptr_, source));
     }
@@ -73,6 +79,8 @@ namespace jscore {
     void Runtime::LoadHTML(const std::string& html) {
         parser::RenderParser parser(render_tree_host(), this);
         parser.Insert(html);
+        thread_manager_->RunOnJSThread(
+            base::Bind(&lynx::RenderTreeHost::TreeSync, render_tree_host_)); 
         render_tree_host()->ForceFlushCommands();
         render_tree_host()->host_impl()->SetParseFinished();
     }
@@ -100,19 +108,25 @@ namespace jscore {
         url_request_context_->Stop();
         thread_manager_->DetachUIThread();
         thread_manager_->QuitJSThread(base::Bind(&Runtime::DestroyOnJSThread, weak_ptr_));
+#if ENABLE_TRACING
+        base::TraceLogger::Instance()->Stop();
+#endif
     }
 
     void Runtime::InitRuntimeOnJSThread(const char *arg) {
+        TRACE_EVENT0("js", "Runtime::InitRuntimeOnJSThread");
         vm_ = lynx_new JSVM();
         vm_->Initialize();
         context_->Initialize(vm_.Get(), this);
     }
 
     void Runtime::RunScriptOnJSThread(const base::PlatformString& source) {
+        TRACE_EVENT0("js", "Runtime::RunScriptOnJSThread");
         context_->RunScript(const_cast<base::PlatformString*>(&source)->GetUTFChars());
     }
 
     void Runtime::LoadScriptOnJSThread(const std::string& source) {
+        TRACE_EVENT0("js", "Runtime::LoadScriptOnJSThread");
         context_->RunScript(source.c_str());
     }
 

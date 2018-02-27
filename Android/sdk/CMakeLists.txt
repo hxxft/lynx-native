@@ -9,6 +9,7 @@ add_definitions(-DGNU_SUPPORT=1)
 add_definitions(-DJSONCPP_NO_LOCALE_SUPPORT=1)
 add_definitions(-DDEBUG_MEMORY=0)
 add_definitions(-DCOMPILER_GCC=1)
+add_definitions(-DENABLE_TRACING=0)
 
 #set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall")
 
@@ -75,6 +76,8 @@ add_library(lynx SHARED
             	${CMAKE_SOURCE_DIR}/../../lynx/base/threading/message_loop.cpp
             	${CMAKE_SOURCE_DIR}/../../lynx/base/threading/message_pump_posix.cpp
             	${CMAKE_SOURCE_DIR}/../../lynx/base/threading/message_pump_android.cpp
+            	${CMAKE_SOURCE_DIR}/../../lynx/base/trace_event/trace_logger.cc
+            	${CMAKE_SOURCE_DIR}/../../lynx/base/trace_event/trace_writer.cc
             	${CMAKE_SOURCE_DIR}/../../lynx/base/timer/timer.cpp
             	${CMAKE_SOURCE_DIR}/../../lynx/base/timer/timer_heap.cpp
             	${CMAKE_SOURCE_DIR}/../../lynx/base/timer/time_utils.cpp

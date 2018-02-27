@@ -8,11 +8,18 @@
 
 namespace base {
 
-    uint64_t CurrentTimeMillis() {
-    timeval time;
-    gettimeofday(&time, nullptr);
-        uint64_t time_millis =  (time.tv_sec * 1000) + (time.tv_usec / 1000);
-    return time_millis;
+uint64_t CurrentTimeMillis() {
+  timeval time;
+  gettimeofday(&time, nullptr);
+  uint64_t time_millis = (time.tv_sec * 1000) + (time.tv_usec / 1000);
+  return time_millis;
+}
+
+uint64_t CurrentTimeMicroseconds() {
+  timeval time;
+  gettimeofday(&time, nullptr);
+  uint64_t time_millis = (time.tv_sec * 1000 * 1000) + (time.tv_usec);
+  return time_millis;
 }
 
 timespec ToTimeSpecFromNow(uint64_t interval_time) {

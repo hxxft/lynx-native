@@ -1,4 +1,5 @@
 {
+    "debug": "true",
     "application": {
         "packageName": "com.AirQ",
         "icon": "air_cond_icon.png",

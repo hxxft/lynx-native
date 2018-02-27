@@ -31,9 +31,10 @@ class Thread {
 
     MessageLoop* Looper() { return &message_loop_; }
 
-    static Thread* current_thread() {
-        return NULL;
+    static long int CurrentId() {
+        return pthread_self();
     }
+
  private:
     void ThreadMain();
     pthread_t thread_handle_;

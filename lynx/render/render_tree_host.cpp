@@ -15,6 +15,8 @@
 #endif
 
 
+#include "base/trace_event/trace_event_common.h"
+
 namespace lynx {
 
 RenderTreeHost::RenderTreeHost(
@@ -48,10 +50,10 @@ RenderTreeHost::~RenderTreeHost() {
 
 void RenderTreeHost::UpdateRenderObject(RenderCommand* command) {
     // exec command immediately
-    thread_manager_->RunOnUIThread(command);
+    //thread_manager_->RunOnUIThread(command);
 
     // collect command and wait vsync signal to exec
-    //collector_.Collect(command);
+    collector_.Collect(command);
 }
 
 void RenderTreeHost::ForceLayout(int left, int top, int right, int bottom) {
@@ -71,6 +73,7 @@ void RenderTreeHost::PrepareCommit(const BeginFrameData& data) {
 }
 
 void RenderTreeHost::DoCommit() {
+    TRACE_EVENT0("renderer", "RenderTreeHost::DoCommit");
     RenderCommandCollector::RenderCommands *commands = collector_.Pop();
     if (commands == NULL)
         return;
@@ -83,13 +86,17 @@ void RenderTreeHost::DoCommit() {
 }
 
 void RenderTreeHost::ForceFlushCommands() {
+    TRACE_EVENT0("js", "RenderTreeHost::ForceFlushCommands");
     collector_.Push();
     DoCommit();
 }
 
 void RenderTreeHost::TreeSync() {
+  {
+    TRACE_EVENT0("js", "RenderTreeHost::TreeSync");
     RendererSync(render_root());
-    context_->runtime()->FlushScript();
+  }
+  context_->runtime()->FlushScript();
 }
 
 void RenderTreeHost::RendererSync(RenderObject* renderer) {
