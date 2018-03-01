@@ -38,7 +38,12 @@ void ImageView::Layout(int left, int top, int right, int bottom) {
 void ImageView::SetAttribute(const std::string &key, const std::string &value) {
 
     if(key.compare(kImageSrcAttribute) == 0) {
-        RenderObject::SetAttribute(key, render_tree_host_->page_location() + value);
+        if (value.find("http:") != std::string::npos
+            || value.find("https:") != std::string::npos) {
+            RenderObject::SetAttribute(key, value);
+        } else {
+            RenderObject::SetAttribute(key, render_tree_host_->page_location() + value);
+        }
     } else {
         RenderObject::SetAttribute(key, value);
     }

@@ -149,18 +149,13 @@ public class LynxUIImageTransformation implements ImageTransformation {
         }
         shader.setLocalMatrix(matrix);
         paint.setShader(shader);
+        paint.setFilterBitmap(true);
         canvas.drawRect(rectF, paint);
         // If radius > 0, processing corner
-        float radius = mBorderRadius;
-        if (radius > 0) {
-            paint.setShader(null);
-            RoundRectHelper.instance()
-                    .clipRoundRectWithXfermode(canvas,
-                            mWidth,
-                            mHeight,
-                            radius,
-                            radius,
-                            source.getConfig());
+        if (mBorderRadius > 0) {
+            canvas.drawRoundRect(rectF, mBorderRadius, mBorderRadius, paint);
+        } else {
+            canvas.drawRect(rectF, paint);
         }
         // Recycle origin bitmap
         source.recycle();
