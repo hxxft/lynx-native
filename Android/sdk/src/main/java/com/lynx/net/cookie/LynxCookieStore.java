@@ -28,7 +28,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class LynxCookieStore implements CookieStore {
 
 
-    private static final String COOKIE_PREFS = "CookiePrefsFile";//文件名称
+    private static final String COOKIE_PREFS = "Lynx_CookiePrefsFile";//文件名称
     private static final String COOKIE_NAME_STORE = "names";//cookie 名key
     private static final String COOKIE_NAME_PREFIX = "cookie_";//cookie 名前缀
 

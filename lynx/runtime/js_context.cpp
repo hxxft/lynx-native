@@ -7,10 +7,6 @@
 
 namespace jscore {
 
-    std::string JSContext::GetUserAgent() {
-        return navigator_->user_agent();
-    }
-
     std::string JSContext::GetPageUrl() {
         return location_->href();
     }

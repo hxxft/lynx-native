@@ -8,9 +8,9 @@ import com.lynx.base.FrameRateController;
 import com.lynx.base.Size;
 import com.lynx.core.LynxRuntime;
 import com.lynx.core.LynxRuntimeManager;
+import com.lynx.core.ResultCallback;
 import com.lynx.core.tree.LynxRenderTreeHostImpl;
 import com.lynx.ui.body.AndroidBody;
-import com.lynx.utils.ScreenUtil;
 import com.lynx.utils.StringUtil;
 
 import java.io.FileInputStream;
@@ -20,7 +20,7 @@ public class LynxView extends AndroidBody {
 
     private Size mMeasuredSize = new Size(0, 0);
 
-    private LynxRuntime mRuntime;
+    protected LynxRuntime mRuntime;
 
     private boolean mNeedStartCtrl = false;
 
@@ -32,10 +32,7 @@ public class LynxView extends AndroidBody {
         super(context);
 
         mRuntime = LynxRuntimeManager.getIdleRuntime();
-        mRenderTreeHostImpl = mRuntime.active(this,
-                ScreenUtil.getScreenWidth(),
-                ScreenUtil.getScreenHeight(),
-                ScreenUtil.getScreenDensity());
+        mRenderTreeHostImpl = mRuntime.active(this);
 
         mRenderTreeHostImpl.setRootUI(mUIGroup);
         mUIGroup.bindData(mRenderTreeHostImpl.mRootRender);
@@ -51,13 +48,29 @@ public class LynxView extends AndroidBody {
         mRuntime.runScript(data);
     }
 
+    public void loadScriptData(String data, ResultCallback callback) {
+        mRuntime.runScript(data, callback);
+    }
+
+    public void loadScriptDataWithBaseUrl(String data, String baseUrl) {
+        mRuntime.loadScriptDataWithBaseUrl(data, baseUrl);
+    }
+
     public void loadHTMLData(String url, String data) {
+        mRuntime.loadHTML(url, data);
+    }
+
+    public void loadHTMLDataWithBaseUrl(String url, String data) {
         mRuntime.loadHTML(url, data);
     }
 
     public void loadScriptFile(String file) throws FileNotFoundException {
         String content = StringUtil.convertToString(new FileInputStream(file));
         mRuntime.runScript(content);
+    }
+
+    public void addJavascriptInterface(Object object, String name) {
+        mRuntime.addJavascriptInterface(object, name);
     }
 
     @Override

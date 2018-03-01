@@ -270,23 +270,26 @@ namespace jscore {
 
     base::ScopedPtr<LynxValue>
     Element::SetStyleCallback(LynxObjectTemplate* object, base::ScopedPtr<LynxArray>& array) {
-        /*
+
+        if (array.Get() == NULL) return base::ScopedPtr<LynxValue>(NULL);
+
         Element *element = static_cast<Element *>(object);
         lynx::RenderObject* render_object = element->render_object();
-        LynxObject* lynx_object = array->Get(0)->data_.lynx_object;
-        for(int i = 0; i < lynx_object->Size(); ++i) {
-            std::string key = lynx_object->GetName(i);
-            LynxValue *value = lynx_object->GetProperty(key);
-            render_object->SetStyle(key, JSCHelper::ConvertToString(value));
-        }
-        render_object->SetStyle("", "");
-        return base::ScopedPtr<LynxValue>(NULL);
-         */
-        Element *element = static_cast<Element *>(object);
-        if(array.Get() != NULL && array->Size() == 2) {
-            lynx::RenderObject* render_object = element->render_object();
+
+        if(array->Size() == 2) {
+            // Key and value for style
             render_object->SetStyle(JSCHelper::ConvertToString(array->Get(0)),
                                     JSCHelper::ConvertToString(array->Get(1)));
+        } else if (array->Size() == 1
+                   && array->Get(0)->type_ == jscore::LynxValue::Type::VALUE_LYNX_OBJECT){
+            // Object contains pairs of key and value for style
+            LynxObject* lynx_object = array->Get(0)->data_.lynx_object;
+            for(int i = 0; i < lynx_object->Size(); ++i) {
+                std::string key = lynx_object->GetName(i);
+                LynxValue *value = lynx_object->GetProperty(key);
+                render_object->SetStyle(key, JSCHelper::ConvertToString(value));
+            }
+            render_object->SetStyle("", "");
         }
         return base::ScopedPtr<LynxValue>(NULL);
     }

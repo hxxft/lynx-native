@@ -393,6 +393,7 @@ class CSSStyle {
   CSSStyleConfig* config_;
   double density_;
   double screen_width_;
+  double zoom_reference_ = 750;
 };
 
 }  // namespace lynx

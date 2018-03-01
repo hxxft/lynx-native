@@ -6,6 +6,7 @@
 #include "base/observer/observer_list.h"
 #include "base/ref_counted_ptr.h"
 #include "runtime/js_vm.h"
+#include "user_agent.h"
 
 namespace jscore {
 class Runtime;
@@ -16,8 +17,9 @@ class LynxFunctionObject;
 class JSContext {
  public:
     JSContext()
-            :runtime_(NULL),
-             vm_(NULL) {
+            : runtime_(NULL),
+              vm_(NULL),
+              ua_() {
 
     }
 
@@ -58,7 +60,13 @@ class JSContext {
         observers_.ForEachObserver();
     }
 
-    std::string GetUserAgent();
+    void SetUserAgent(const std::string& ua) {
+        ua_.Set(ua);
+    }
+
+    const std::string GetUserAgent() {
+        return ua_.Get();
+    }
 
     std::string GetPageUrl();
 
@@ -66,9 +74,8 @@ class JSContext {
     Runtime* runtime_;
     JSVM* vm_;
     base::ObserverList observers_;
-    History* history_;
     Location* location_;
-    Navigator* navigator_;
+    UserAgent ua_;
 };
 }
 

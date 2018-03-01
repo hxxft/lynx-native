@@ -23,16 +23,14 @@
 #include "render/render_tree_host.h"
 namespace lynx {
 class RenderFactory {
- public:
+public:
+
     static RenderObject* CreateRenderObject(
         jscore::ThreadManager* manager,
         const std::string& tag,
         RenderTreeHost* host) {
         static uint64_t id = 10;
         if (tag.compare("body") == 0) {
-//            RenderObject*renderer = lynx_new ListView("listview", ++id, host);
-//            host->render_root()->AppendChild(renderer);
-//            return renderer;
             return host->render_root();
         } else if (tag.compare("view") == 0) {
             return lynx_new View("view", ++id, NULL, host);
@@ -78,6 +76,7 @@ class RenderFactory {
         return NULL;
     }
 };
+
 }  // namespace lynx
 
 

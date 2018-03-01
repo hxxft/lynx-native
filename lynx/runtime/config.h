@@ -12,6 +12,5 @@
 #elif OS_IOS
 #define PLATFORM "iOS"
 #endif
-#define USERAGENT ((((std::string(APP_NAME) + "/") + VERSION) + " ") + PLATFORM)
 
 #endif  // LYNX_RUNTIME_CONFIG_H_

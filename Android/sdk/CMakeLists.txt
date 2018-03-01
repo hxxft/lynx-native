@@ -115,6 +115,7 @@ add_library(lynx SHARED
             	${CMAKE_SOURCE_DIR}/../../lynx/layout/container_node.cpp
                 ${CMAKE_SOURCE_DIR}/../../lynx/layout/layout_object.cpp
                 ${CMAKE_SOURCE_DIR}/../../lynx/runtime/android/jni_runtime_bridge.cpp
+                ${CMAKE_SOURCE_DIR}/../../lynx/runtime/android/result_callback.cpp
                 ${CMAKE_SOURCE_DIR}/../../lynx/runtime/base/lynx_array.cpp
                 ${CMAKE_SOURCE_DIR}/../../lynx/runtime/base/lynx_object.cpp
                 ${CMAKE_SOURCE_DIR}/../../lynx/runtime/base/lynx_value.cpp

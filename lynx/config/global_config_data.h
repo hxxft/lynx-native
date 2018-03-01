@@ -12,14 +12,13 @@ class GlobalConfigData {
     static GlobalConfigData* GetInstance();
 
     GlobalConfigData()
-        : is_initialized_(false),
-          screen_density_(0),
-          screen_width_(0),
-          screen_height_(0),
-          style_config_(),
-          cache_manager_() {
-    }
+            : screen_density_(0),
+              screen_width_(0),
+              screen_height_(0),
+              style_config_(),
+              cache_manager_() {
 
+    }
 
     ~GlobalConfigData() {
     }
@@ -36,14 +35,15 @@ class GlobalConfigData {
         return screen_height_;
     }
 
-    void SetScreenConfig(int width, int height, double density) {
-        screen_width_ = width / density;
-        screen_height_ = height / density;
-        screen_density_ = density;
+    inline int zoom_reference() {
+        return zoom_reference_;
     }
 
-    bool is_initialized() {
-        return is_initialized_;
+    void SetScreenConfig(int width, int height, double density, int zoom_reference) {
+        screen_width_ = (int) (width / density);
+        screen_height_ = (int) (height / density);
+        screen_density_ = density;
+        zoom_reference_ = (int) (zoom_reference / density);
     }
 
     lynx::CSSStyleConfig* style_config() {
@@ -55,10 +55,10 @@ class GlobalConfigData {
     }
 
  private:
-    bool is_initialized_;
     double screen_density_;
     int screen_width_;
     int screen_height_;
+    int zoom_reference_;
 
     lynx::CSSStyleConfig style_config_;
 

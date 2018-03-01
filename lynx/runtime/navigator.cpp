@@ -3,7 +3,7 @@
 #include "runtime/navigator.h"
 
 namespace jscore {
-    Navigator::Navigator() {
+    Navigator::Navigator(JSContext* context) : context_(context) {
         set_class_name("Navigator");
         RegisterAccessorCallback("userAgent", &GetUserAgentCallback, 0);
         RegisterAccessorCallback("appCodeName", &GetAppCodeNameCallback, 0);
@@ -14,6 +14,10 @@ namespace jscore {
     
     Navigator::~Navigator() {
 
+    }
+
+    std::string Navigator::user_agent() {
+        return context_->GetUserAgent();
     }
     
     base::ScopedPtr<LynxValue> Navigator::GetUserAgentCallback(LynxObjectTemplate* object) {

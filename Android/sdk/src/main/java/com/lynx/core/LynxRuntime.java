@@ -4,34 +4,43 @@ package com.lynx.core;
 import android.content.Context;
 import android.view.View;
 
-import com.lynx.base.Style;
 import com.lynx.core.base.LynxFunctionObject;
 import com.lynx.core.tree.LynxRenderTreeHostImpl;
 import com.lynx.modules.ModuleRegister;
+import com.lynx.utils.ScreenUtil;
 
 public class LynxRuntime {
+
+    public final static int DEFAULT_ZOOM_REF = 750;
 
     private static native boolean nativeCheckMemoryEnabled();
 
     private static native void nativeCheckMemoryLeak();
 
+    private static native void nativeInitGlobalConfig(int screenWidth,
+                                                      int screenHeight,
+                                                      double density,
+                                                      int zoomReference);
+
     private native int nativeCreateNativeJSRuntime();
 
     private native void nativeDestroyNativeJSRuntime(long runtime);
 
-    private native void nativeRunScript(long runtime, String source);
+    private native void nativeRunScript(long runtime, String source, Object callback);
 
     private native void nativeLoadHTML(long runtime, String url, String source);
 
+    private native void nativeLoadScriptDataWithBaseUrl(long runtime, String source, String url);
+
     private native void nativeLoadUrl(long runtime, String url);
 
-    private native void nativeInitRuntime(long runtime);
-
-    private native Object nativeActiveRuntime(long runtime, int width, int height, double density);
+    private native Object nativeInitRuntime(long runtime);
 
     private native String nativeGetPageURL(long runtime);
 
     private native String nativeGetUserAgent(long runtime);
+
+    private native void nativeSetUserAgent(long runtime, String ua);
 
     private native void nativeAddJavascriptInterface(long runtime, LynxFunctionObject object, String name);
 
@@ -47,8 +56,24 @@ public class LynxRuntime {
         mNativeRuntime = nativeCreateNativeJSRuntime();
     }
 
+    public static void prepare(int zoomReference) {
+        checkMemoryEnabled();
+        nativeInitGlobalConfig(ScreenUtil.getScreenWidth(),
+                ScreenUtil.getScreenHeight(),
+                ScreenUtil.getScreenDensity(),
+                zoomReference);
+    }
+
     public void runScript(String source) {
-        nativeRunScript(mNativeRuntime, source);
+        nativeRunScript(mNativeRuntime, source, null);
+    }
+
+    public void runScript(String source, ResultCallback callback) {
+        nativeRunScript(mNativeRuntime, source, callback);
+    }
+
+    public void loadScriptDataWithBaseUrl(String data, String baseUrl) {
+        nativeLoadScriptDataWithBaseUrl(mNativeRuntime, data, baseUrl);
     }
 
     public void loadHTML(String url, String source) {
@@ -60,23 +85,21 @@ public class LynxRuntime {
     }
 
     public void initialize() {
-        nativeInitRuntime(mNativeRuntime);
+        mHost = (LynxRenderTreeHostImpl) nativeInitRuntime(mNativeRuntime);
     }
 
-    public LynxRenderTreeHostImpl active(View view,
-                                         int width,
-                                         int height,
-                                         double density) {
+    public LynxRenderTreeHostImpl active(View view) {
         mContext = view.getContext();
-        mHost = (LynxRenderTreeHostImpl) nativeActiveRuntime(mNativeRuntime, width, height, density);
-        Style.sDensity = density;
         ModuleRegister register = new ModuleRegister(this);
         return mHost;
     }
 
     public void registerModule(LynxFunctionObject object, String name) {
-        nativeAddJavascriptInterface(mNativeRuntime,
-                new LynxFunctionObject(object), name);
+        nativeAddJavascriptInterface(mNativeRuntime, object, name);
+    }
+
+    public void addJavascriptInterface(Object object, String name) {
+        nativeAddJavascriptInterface(mNativeRuntime, new LynxFunctionObject(object), name);
     }
 
     public void destroy() {
@@ -87,6 +110,10 @@ public class LynxRuntime {
         if(mEnableMemoryCheck) {
             checkMemoryLeak();
         }
+    }
+
+    public void setUserAgent(String userAgent) {
+        nativeSetUserAgent(mNativeRuntime, userAgent);
     }
 
     public String getUserAgent() {
@@ -130,4 +157,5 @@ public class LynxRuntime {
     static void checkMemoryEnabled() {
         mEnableMemoryCheck = nativeCheckMemoryEnabled();
     }
+
 }

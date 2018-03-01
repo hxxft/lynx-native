@@ -69,6 +69,9 @@ public class Style {
     //screen density
     static public double sDensity;
 
+    public static void init(double density) {
+        sDensity = density;
+    }
 
     public Style() {
         mWidth     = Constants.UNDEFINED;

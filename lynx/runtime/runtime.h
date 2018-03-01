@@ -21,14 +21,23 @@ namespace lynx {
 }
 
 namespace jscore {
+
 class JSContext;
+
+class ResultCallback {
+public:
+    virtual void OnReceiveResult(const std::string &result) const {}
+};
+
 class Runtime {
  public:
     Runtime(JSContext* context);
     ~Runtime() {}
     void InitRuntime(const char* arg);
-    void RunScript(const base::PlatformString& source);
+    void RunScript(const base::PlatformString& source,
+                   base::ScopedPtr<ResultCallback> callback = base::ScopedPtr<ResultCallback>());
     void LoadScript(const std::string& source);
+    void LoadScriptDataWithBaseUrl(const std::string& data, const std::string& url);
     void FlushScript();
     void LoadUrl(const std::string& url);
     void LoadUrl(const std::string& url, int type);
@@ -40,6 +49,7 @@ class Runtime {
     void AddJavaScriptInterface(const std::string& name,
                                 LynxFunctionObject* object);
 
+    void SetUserAgent(const std::string& ua);
     std::string GetUserAgent();
     std::string GetPageUrl();
 
@@ -59,7 +69,8 @@ class Runtime {
 
 private:
     void InitRuntimeOnJSThread(const char* arg);
-    void RunScriptOnJSThread(const base::PlatformString& source);
+    void RunScriptOnJSThread(const base::PlatformString& source,
+                             base::ScopedPtr<ResultCallback> callback);
     void LoadScriptOnJSThread(const std::string& source);
     void LoadUrlOnJSThread(const std::string& url);
     void ReloadOnJSThread(bool force);
