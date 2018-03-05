@@ -80,6 +80,22 @@ public class CrdActionExecutor {
                 }
             });
         }
+        if (result.getRotationX() != CrdResult.NOT_SET) {
+            holders.add(new PropertyAnimHolder(view, view.getRotationX(), result.getRotationX()) {
+                @Override
+                void updateValue(View view, float value) {
+                    view.setRotationX(value);
+                }
+            });
+        }
+        if (result.getRotationY() != CrdResult.NOT_SET) {
+            holders.add(new PropertyAnimHolder(view, view.getRotationY(), result.getRotationY()) {
+                @Override
+                void updateValue(View view, float value) {
+                    view.setRotationY(value);
+                }
+            });
+        }
         if (result.getTranslateY() != CrdResult.NOT_SET) {
             holders.add(new PropertyAnimHolder(view, view.getTranslationY(), result.getTranslateY()) {
                 @Override
