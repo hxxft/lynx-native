@@ -70,6 +70,8 @@ class JSContext {
 
     std::string GetPageUrl();
 
+    void OnExceptionOccured(std::string &error);
+
  protected:
     Runtime* runtime_;
     JSVM* vm_;

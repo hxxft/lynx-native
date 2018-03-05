@@ -7,6 +7,7 @@ import android.view.View;
 import com.lynx.core.base.LynxFunctionObject;
 import com.lynx.core.tree.LynxRenderTreeHostImpl;
 import com.lynx.modules.ModuleRegister;
+import com.lynx.utils.DeviceInfoUtil;
 import com.lynx.utils.ScreenUtil;
 
 public class LynxRuntime {
@@ -20,7 +21,8 @@ public class LynxRuntime {
     private static native void nativeInitGlobalConfig(int screenWidth,
                                                       int screenHeight,
                                                       double density,
-                                                      int zoomReference);
+                                                      int zoomReference,
+                                                      String deviceInfo);
 
     private native int nativeCreateNativeJSRuntime();
 
@@ -42,7 +44,10 @@ public class LynxRuntime {
 
     private native void nativeSetUserAgent(long runtime, String ua);
 
-    private native void nativeAddJavascriptInterface(long runtime, LynxFunctionObject object, String name);
+    private native void nativeAddJavascriptInterface(long runtime, LynxFunctionObject object,
+                                                     String name);
+
+    private native void nativeSetExceptionListner(long runtime, Object listener);
 
     private long mNativeRuntime;
 
@@ -61,7 +66,8 @@ public class LynxRuntime {
         nativeInitGlobalConfig(ScreenUtil.getScreenWidth(),
                 ScreenUtil.getScreenHeight(),
                 ScreenUtil.getScreenDensity(),
-                zoomReference);
+                zoomReference,
+                DeviceInfoUtil.getInfo());
     }
 
     public void runScript(String source) {
@@ -148,6 +154,15 @@ public class LynxRuntime {
                 nativeCheckMemoryLeak();
             }
         }).start();
+    }
+
+    public void setExceptionListener(final ExceptionListener listener) {
+        nativeSetExceptionListner(mNativeRuntime, new ResultCallback() {
+            @Override
+            public void onReceiveResult(Object result) {
+                listener.onException((String) result);
+            }
+        });
     }
 
     static boolean IsMemoryCheckEnabled() {

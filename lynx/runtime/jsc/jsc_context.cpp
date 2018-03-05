@@ -98,6 +98,7 @@ namespace jscore {
             
             std::string str = JSCHelper::ConvertToString(context_, exception);
             if (!str.empty()) {
+                OnExceptionOccured(str);
                 LOGE("lynx-error", "lynx-js-log: %s", str.c_str());
             }
         }

@@ -67,6 +67,14 @@ class Runtime {
         return url_request_context_.Get();
     }
 
+    inline void set_exception_handler(ResultCallback* handler) {
+        exception_handler_.Reset(handler);
+    }
+
+    inline ResultCallback* exception_handler() {
+        return exception_handler_.Get();
+    }
+
 private:
     void InitRuntimeOnJSThread(const char* arg);
     void RunScriptOnJSThread(const base::PlatformString& source,
@@ -86,6 +94,7 @@ private:
     base::ScopedPtr<JSContext> context_;
     base::ScopedRefPtr<JSVM> vm_;
     base::WeakPtr<Runtime> weak_ptr_;
+    base::ScopedPtr<ResultCallback> exception_handler_;
 };
 
 }  // namespace jscore

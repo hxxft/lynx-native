@@ -4,6 +4,7 @@
 #define XCORE_ANDROID_USER_AGENT_H
 
 #include "runtime/config.h"
+#include "config/global_config_data.h"
 #include <string>
 #include <base/threading/read_write_lock.h>
 
@@ -12,7 +13,9 @@
 namespace jscore {
     class UserAgent {
     public:
-        UserAgent() : user_agent_(DEFAULT_USER_AGENT) {
+        UserAgent() {
+            user_agent_ = DEFAULT_USER_AGENT + " ("
+                        + config::GlobalConfigData::GetInstance()->device_info() + ")";
         }
 
         void Set(const std::string& ua) {

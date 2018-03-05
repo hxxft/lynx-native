@@ -137,9 +137,18 @@ void InitGlobalConfig(JNIEnv* env, jclass jcaller,
                       jint screenWidth,
                       jint screenHeight,
                       jdouble density,
-                      jint zoomReference) {
+                      jint zoomReference,
+                      jstring deviceInfo) {
+    std::string device_info = base::android::JNIHelper::ConvertToString(env, deviceInfo);
     config::GlobalConfigData::GetInstance()->SetScreenConfig(
-            screenWidth, screenHeight, density, zoomReference);
+            screenWidth, screenHeight, density, zoomReference, device_info);
+}
+
+void SetExceptionListner(JNIEnv* env, jobject jcaller,
+                         jlong runtime,
+                         jobject listener) {
+    jscore::Runtime* runtime_ptr = reinterpret_cast<jscore::Runtime*>(runtime);
+    runtime_ptr->set_exception_handler(lynx_new jscore::ResultCallbackAndroid(env, listener));
 }
 
 namespace jscore {
