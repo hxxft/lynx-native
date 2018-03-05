@@ -30,6 +30,10 @@ class Condition {
         pthread_cond_signal(&condition_);
     }
 
+    void Broadcast() {
+        pthread_cond_broadcast(&condition_);
+    }
+
  private:
     Lock lock_;
     pthread_cond_t condition_;

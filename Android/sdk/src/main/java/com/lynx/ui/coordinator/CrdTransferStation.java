@@ -123,8 +123,12 @@ public class CrdTransferStation implements TransferStation {
 
     @Override
     public void removeAllExecutableAction() {
-        mAffinityRelationShip.clear();
-        mExecutorPool.clear();
+        if (mAffinityRelationShip != null) {
+            mAffinityRelationShip.clear();
+        }
+        if (mExecutorPool != null) {
+            mExecutorPool.clear();
+        }
     }
 
     @Override

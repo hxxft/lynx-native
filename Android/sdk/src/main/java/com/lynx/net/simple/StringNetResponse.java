@@ -4,10 +4,8 @@ package com.lynx.net.simple;
 import com.lynx.net.NetResponse;
 
 public abstract class StringNetResponse implements NetResponse<String> {
-    private String mUrl;
 
-    public StringNetResponse(String url) {
-        this.mUrl = url;
+    public StringNetResponse() {
     }
 
     @Override

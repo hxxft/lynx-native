@@ -46,15 +46,15 @@ namespace jscore {
         JSObjectRef global_object = JSContextGetGlobalObject(context_);
         JSObjectSetPrivate(global_object, this);
 
-//        location_ = lynx_new Location(this);
+        location_ = lynx_new Location(this);
 //        history_ = lynx_new History(this);
         JSObjectRef loader_object = JSCHelper::ConvertToJSObject(context_, lynx_new Loader(this));
         JSObjectRef console_object = JSCHelper::ConvertToJSObject(context_, lynx_new Console());
         JSObjectRef screen_object = JSCHelper::ConvertToJSObject(context_, lynx_new Screen());
-        JSObjectRef navigator_object = JSCHelper::ConvertToJSObject(context_, lynx_new Navigator());
+        JSObjectRef navigator_object = JSCHelper::ConvertToJSObject(context_, lynx_new Navigator(this));
         JSObjectRef document_object = JSCHelper::ConvertToJSObject(context_, lynx_new Document(this));
         JSObjectRef body_object = JSCHelper::ConvertToJSObject(context_, lynx_new Body(this));
-//        JSObjectRef location_object = JSCHelper::ConvertToJSObject(context_, location_);
+        JSObjectRef location_object = JSCHelper::ConvertToJSObject(context_, location_);
 //        JSObjectRef history_object = JSCHelper::ConvertToJSObject(context_, history_);
 
         JSCHelper::SetValueProperty(context_, global_object, "console", console_object,
@@ -73,8 +73,8 @@ namespace jscore {
                                     kJSPropertyAttributeNone, 0);
 //        JSCHelper::SetValueProperty(context_, global_object, "history", history_object,
 //                                    kJSPropertyAttributeNone, 0);
-//        JSCHelper::SetValueProperty(context_, global_object, "location", location_object,
-//                                    kJSPropertyAttributeNone, 0);
+        JSCHelper::SetValueProperty(context_, global_object, "location", location_object,
+                                    kJSPropertyAttributeNone, 0);
         JSCHelper::SetValueProperty(context_, global_object, "global", global_object,
                                     kJSPropertyAttributeNone, 0);
         JSCHelper::SetValueProperty(context_, global_object, "__global", global_object,
@@ -98,6 +98,7 @@ namespace jscore {
             
             std::string str = JSCHelper::ConvertToString(context_, exception);
             if (!str.empty()) {
+                OnExceptionOccured(str);
                 LOGE("lynx-error", "lynx-js-log: %s", str.c_str());
             }
         }

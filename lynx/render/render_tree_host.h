@@ -61,7 +61,7 @@ class RenderTreeHost : public base::RefCountPtr<RenderTreeHost> {
         return context_;
     }
 
-    std::string page_location() {
+    inline std::string page_location() {
         return page_location_;
     }
 

@@ -4,13 +4,11 @@
 
 #include "runtime/android/jni_runtime_bridge.h"
 
-#include "base/debug/memory_debug.h"
 #include "base/android/jni_helper.h"
 #include "config/global_config_data.h"
 #include "render/android/render_tree_host_impl_android.h"
 #include "render/android/render_object_impl_android.h"
-
-#include "base/print.h"
+#include "runtime/android/result_callback.h"
 
 #include "LynxRuntime_jni.h"
 
@@ -18,6 +16,7 @@
 #include "runtime/v8/v8_context.h"
 #else
 #include "runtime/jsc/jsc_context.h"
+
 #endif
 
 
@@ -39,11 +38,17 @@ void DestroyNativeJSRuntime(JNIEnv* env, jobject jcaller, jlong runtime) {
     runtime_ptr->Destroy();
 }
 
-void RunScript(JNIEnv *env, jobject jcaller, jlong runtime, jstring source) {
-    jscore::Runtime* runtime_ptr = reinterpret_cast<jscore::Runtime*>(runtime);
-    LOGD("lynx-debug", "RunScript %p", runtime_ptr);
+void RunScript(JNIEnv *env, jobject jcaller,
+               jlong runtime,
+               jstring source,
+               jobject callback) {
+    jscore::Runtime *runtime_ptr = reinterpret_cast<jscore::Runtime *>(runtime);
     base::PlatformString platform_string(env, source);
-    runtime_ptr->RunScript(platform_string);
+    base::ScopedPtr<jscore::ResultCallback> cb;
+    if (callback != NULL) {
+        cb.Reset(lynx_new jscore::ResultCallbackAndroid(env, callback));
+    }
+    runtime_ptr->RunScript(platform_string, cb);
 }
 
 void LoadHTML(JNIEnv *env, jobject jcaller, jlong runtime, jstring url, jstring source) {
@@ -54,33 +59,31 @@ void LoadHTML(JNIEnv *env, jobject jcaller, jlong runtime, jstring url, jstring 
     runtime_ptr->LoadHTML(platform_url.ToString(), platform_string.ToString());
 }
 
+static void LoadScriptDataWithBaseUrl(JNIEnv *env, jobject jcaller,
+                                      jlong runtime,
+                                      jstring source,
+                                      jstring url) {
+    jscore::Runtime* runtime_ptr = reinterpret_cast<jscore::Runtime*>(runtime);
+    base::PlatformString platform_url(env, url);
+    base::PlatformString platform_string(env, source);
+    runtime_ptr->LoadScriptDataWithBaseUrl(platform_string.ToString(), platform_url.ToString());
+}
+
 void LoadUrl(JNIEnv *env, jobject jcaller, jlong runtime, jstring url) {
     jscore::Runtime* runtime_ptr = reinterpret_cast<jscore::Runtime*>(runtime);
     runtime_ptr->LoadUrl(base::android::JNIHelper::ConvertToString(env, url));
 }
 
-void InitRuntime(JNIEnv *env, jobject caller, jlong runtime) {
+jobject InitRuntime(JNIEnv *env, jobject caller, jlong runtime) {
 
     jscore::Runtime* runtime_ptr = reinterpret_cast<jscore::Runtime*>(runtime);
     LOGD("lynx-debug", "InitRuntime %p", runtime_ptr);
-    if (runtime_ptr == NULL) return;
+    if (runtime_ptr == NULL) return NULL;
     runtime_ptr->SetupRenderHost();
     runtime_ptr->InitRuntime("");
-}
-
-jobject ActiveRuntime(JNIEnv *env, jobject caller, jlong runtime, jint width, jint height, jdouble density) {
-
-    jscore::Runtime* runtime_ptr = reinterpret_cast<jscore::Runtime*>(runtime);
-    LOGD("lynx-debug", "ActiveRuntime %p", runtime_ptr);
-    if (runtime_ptr == NULL) return 0;
-
-    if (!config::GlobalConfigData::GetInstance()->is_initialized()) {
-        config::GlobalConfigData::GetInstance()->SetScreenConfig(
-            width, height, density);
-    }
 
     return reinterpret_cast<lynx::RenderTreeHostImplAndroid*>(
-               runtime_ptr->render_tree_host()->host_impl())->GetJavaImpl();
+            runtime_ptr->render_tree_host()->host_impl())->GetJavaImpl();
 }
 
 jstring GetPageURL(JNIEnv* env, jobject jcaller, jlong runtime) {
@@ -94,9 +97,17 @@ jstring GetPageURL(JNIEnv* env, jobject jcaller, jlong runtime) {
 jstring GetUserAgent(JNIEnv* env, jobject jcaller, jlong runtime) {
     jscore::Runtime* runtime_ptr = reinterpret_cast<jscore::Runtime*>(runtime);
     if (runtime_ptr == NULL) return 0;
-    return (jstring) base::android::JNIHelper::ConvertToJNIString(env,
-                                                                  runtime_ptr->GetUserAgent())
-            .Get();
+    auto ref = base::android::JNIHelper::ConvertToJNIString(env,
+                                                            runtime_ptr->GetUserAgent());
+    return (jstring) ref.Release();
+}
+
+void SetUserAgent(JNIEnv *env, jobject jcaller,
+                     jlong runtime,
+                     jstring ua) {
+    jscore::Runtime* runtime_ptr = reinterpret_cast<jscore::Runtime*>(runtime);
+    auto str = base::android::JNIHelper::ConvertToString(env, ua);
+    runtime_ptr->SetUserAgent(str);
 }
 
 void AddJavascriptInterface(JNIEnv* env,
@@ -120,6 +131,24 @@ jboolean CheckMemoryEnabled(JNIEnv* env, jclass jcaller) {
 #else
     return false;
 #endif
+}
+
+void InitGlobalConfig(JNIEnv* env, jclass jcaller,
+                      jint screenWidth,
+                      jint screenHeight,
+                      jdouble density,
+                      jint zoomReference,
+                      jstring deviceInfo) {
+    std::string device_info = base::android::JNIHelper::ConvertToString(env, deviceInfo);
+    config::GlobalConfigData::GetInstance()->SetScreenConfig(
+            screenWidth, screenHeight, density, zoomReference, device_info);
+}
+
+void SetExceptionListner(JNIEnv* env, jobject jcaller,
+                         jlong runtime,
+                         jobject listener) {
+    jscore::Runtime* runtime_ptr = reinterpret_cast<jscore::Runtime*>(runtime);
+    runtime_ptr->set_exception_handler(lynx_new jscore::ResultCallbackAndroid(env, listener));
 }
 
 namespace jscore {

@@ -5,16 +5,15 @@
 
 #include "runtime/config.h"
 #include "runtime/base/lynx_object_template.h"
+#include "runtime/js_context.h"
 
 namespace jscore {
     class Navigator : public LynxObjectTemplate {
     public:
-        Navigator();
+        Navigator(JSContext* context);
         virtual ~Navigator();
 
-        inline std::string user_agent() {
-            return USERAGENT;
-        }
+        std::string user_agent();
         
         inline std::string app_code_name() {
             return APP_NAME;
@@ -39,6 +38,8 @@ namespace jscore {
         static base::ScopedPtr<LynxValue> GetAppNameCallback(LynxObjectTemplate* object);
         static base::ScopedPtr<LynxValue> GetPlatformCallback(LynxObjectTemplate* object);
         static base::ScopedPtr<LynxValue> GetAppVersionCallback(LynxObjectTemplate* object);
+
+        JSContext* context_;
     };
 }
 #endif // LYNX_RUNTIME_NAVIGATOR_H_

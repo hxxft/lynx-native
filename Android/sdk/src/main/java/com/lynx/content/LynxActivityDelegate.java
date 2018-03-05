@@ -21,7 +21,6 @@ public class LynxActivityDelegate implements DebugDevHost{
 
     public LynxActivityDelegate(Activity activity) {
         mActivity = activity;
-        ScreenUtil.init(mActivity);
     }
 
     public void onCreate(@Nullable Bundle savedInstanceState) {

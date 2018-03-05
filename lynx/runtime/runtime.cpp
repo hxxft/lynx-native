@@ -1,13 +1,8 @@
 // Copyright 2017 The Lynx Authors. All rights reserved.
 
-#include <base/print.h>
 #include "runtime/js_context.h"
 #include "runtime/runtime.h"
-#include "runtime/js_vm.h"
-
-#include "loader/html/html_loader.h"
 #include "parser/render_parser.h"
-#include "render/render_tree_host.h"
 #include "render/render_tree_host_impl.h"
 #include "runtime/base/lynx_function_object.h"
 #include "loader/utils.h"
@@ -64,12 +59,12 @@ namespace jscore {
                 base::Bind(&Runtime::ReloadOnJSThread, weak_ptr_, force));
     }
 
-    void Runtime::RunScript(const base::PlatformString& source) {
+    void Runtime::RunScript(const base::PlatformString& source,
+                            base::ScopedPtr<ResultCallback> callback) {
         TRACE_EVENT0("js", "Runtime::RunScript");
         thread_manager_->RunOnJSThread(
-                base::Bind(&Runtime::RunScriptOnJSThread, weak_ptr_, source));
+                base::Bind(&Runtime::RunScriptOnJSThread, weak_ptr_, source, callback));
     }
-
 
     void Runtime::LoadHTML(const std::string& url, const std::string& html) {
         render_tree_host_->set_page_location(url);
@@ -77,6 +72,8 @@ namespace jscore {
     }
 
     void Runtime::LoadHTML(const std::string& html) {
+        if (html.empty())
+            return;
         parser::RenderParser parser(render_tree_host(), this);
         parser.Insert(html);
         thread_manager_->RunOnJSThread(
@@ -86,7 +83,14 @@ namespace jscore {
     }
 
     void Runtime::LoadScript(const std::string& source) {
-        LoadScriptOnJSThread(source);
+        thread_manager_->RunOnJSThread(
+                base::Bind(&Runtime::LoadScriptOnJSThread, weak_ptr_, source));
+    }
+
+    void Runtime::LoadScriptDataWithBaseUrl(const std::string& data, const std::string& url) {
+        render_tree_host_->set_page_location(url);
+        thread_manager_->RunOnJSThread(
+                base::Bind(&Runtime::LoadScriptOnJSThread, weak_ptr_, data));
     }
 
     void Runtime::FlushScript() {
@@ -120,9 +124,14 @@ namespace jscore {
         context_->Initialize(vm_.Get(), this);
     }
 
-    void Runtime::RunScriptOnJSThread(const base::PlatformString& source) {
+    void Runtime::RunScriptOnJSThread(const base::PlatformString& source,
+                                      base::ScopedPtr<ResultCallback> callback) {
         TRACE_EVENT0("js", "Runtime::RunScriptOnJSThread");
-        context_->RunScript(const_cast<base::PlatformString*>(&source)->GetUTFChars());
+        std::string result =
+                context_->RunScript(const_cast<base::PlatformString*>(&source)->GetUTFChars());
+        if (callback.Get() != NULL) {
+            callback->OnReceiveResult(result);
+        }
     }
 
     void Runtime::LoadScriptOnJSThread(const std::string& source) {
@@ -140,6 +149,10 @@ namespace jscore {
 
     void Runtime::DestroyOnJSThread() {
         lynx_delete(this);
+    }
+
+    void Runtime::SetUserAgent(const std::string& ua) {
+        context_->SetUserAgent(ua);
     }
 
     std::string Runtime::GetUserAgent() {

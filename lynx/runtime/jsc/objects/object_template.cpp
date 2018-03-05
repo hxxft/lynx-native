@@ -27,20 +27,21 @@ namespace jscore {
                 class_wrap->SetJSStaticValue(it.first.c_str(),
                                              get,
                                              set,
-                                             NULL);
+                                             JSPropertyAttributes());
             }
 
             auto& method_map = object->methods();
             for (auto& it : method_map) {
                 class_wrap->SetJSStaticFunction(it.first.c_str(),
-                                                ObjectTemplate::MethodCallback, NULL);
+                                                ObjectTemplate::MethodCallback,
+                                                JSPropertyAttributes());
             }
 
             auto& raw_method_map
                     = object->raw_methods();
             for (auto& it : raw_method_map) {
                 class_wrap->SetJSStaticFunction(it.first.c_str(),
-                                                it.second, NULL);
+                                                it.second, JSPropertyAttributes());
             }
         }
     }

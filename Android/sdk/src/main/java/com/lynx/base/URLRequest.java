@@ -32,7 +32,7 @@ public class URLRequest {
     public void fetch() {
        final String url = mRequest.getNetRequestInfo().getUrl();
 
-        mRequest.fetch(new StringNetResponse(url) {
+        mRequest.fetch(new StringNetResponse() {
             @Override
             public void onResponse(String response) {
                 // Called on UI thread

@@ -1,7 +1,6 @@
 // Copyright 2017 The Lynx Authors. All rights reserved.
 package com.lynx.utils;
 
-import android.app.Activity;
 import android.content.Context;
 import android.util.DisplayMetrics;
 
@@ -12,8 +11,7 @@ public class ScreenUtil {
     private int mScreenWidth;
 
     private ScreenUtil(Context context) {
-        DisplayMetrics metric = new DisplayMetrics();
-        ((Activity)context).getWindowManager().getDefaultDisplay().getMetrics(metric);
+        DisplayMetrics metric = context.getResources().getDisplayMetrics();
         mDensity = metric.density;
         mScreenHeight = metric.heightPixels;
         mScreenWidth = metric.widthPixels;

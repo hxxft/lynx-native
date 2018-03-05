@@ -4,7 +4,7 @@
 #define LYNX_PARSER_RENDER_STYLE_H_
 
 #include <string>
-#include "base/scoped_vector.h"'
+#include "base/scoped_vector.h"
 #include "base/debug/memory_debug.h"
 
 namespace parser {

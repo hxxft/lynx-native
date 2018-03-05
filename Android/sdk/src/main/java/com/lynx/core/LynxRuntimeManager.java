@@ -3,6 +3,7 @@ package com.lynx.core;
 
 import android.content.Context;
 
+import com.lynx.base.Style;
 import com.lynx.net.NetRequestManager;
 import com.lynx.net.cookie.LynxCookieStore;
 import com.lynx.resources.ResourceManager;
@@ -15,14 +16,20 @@ public class LynxRuntimeManager {
     private static LynxRuntime mIdleRuntime = null;
 
     public static void prepare(Context context) {
+        prepare(context, LynxRuntime.DEFAULT_ZOOM_REF);
+    }
+
+    public static void prepare(Context context, int zoomReference) {
+        ScreenUtil.init(context);
+        Style.init(ScreenUtil.getScreenDensity());
         NetRequestManager.init(context);
         LynxCookieStore.initInstance(context);
         ResourceManager.init(context);
-        LynxRuntime.checkMemoryEnabled();
+        LynxRuntime.prepare(zoomReference);
         initialize();
     }
 
-    public static synchronized void initialize() {
+    private static synchronized void initialize() {
         if(LynxRuntime.IsMemoryCheckEnabled()) return;
         mIdleRuntime = new LynxRuntime();
         mIdleRuntime.initialize();

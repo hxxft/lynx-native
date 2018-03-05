@@ -21,14 +21,23 @@ namespace lynx {
 }
 
 namespace jscore {
+
 class JSContext;
+
+class ResultCallback {
+public:
+    virtual void OnReceiveResult(const std::string &result) const {}
+};
+
 class Runtime {
  public:
     Runtime(JSContext* context);
     ~Runtime() {}
     void InitRuntime(const char* arg);
-    void RunScript(const base::PlatformString& source);
+    void RunScript(const base::PlatformString& source,
+                   base::ScopedPtr<ResultCallback> callback = base::ScopedPtr<ResultCallback>());
     void LoadScript(const std::string& source);
+    void LoadScriptDataWithBaseUrl(const std::string& data, const std::string& url);
     void FlushScript();
     void LoadUrl(const std::string& url);
     void LoadUrl(const std::string& url, int type);
@@ -40,6 +49,7 @@ class Runtime {
     void AddJavaScriptInterface(const std::string& name,
                                 LynxFunctionObject* object);
 
+    void SetUserAgent(const std::string& ua);
     std::string GetUserAgent();
     std::string GetPageUrl();
 
@@ -57,9 +67,18 @@ class Runtime {
         return url_request_context_.Get();
     }
 
+    inline void set_exception_handler(ResultCallback* handler) {
+        exception_handler_.Reset(handler);
+    }
+
+    inline ResultCallback* exception_handler() {
+        return exception_handler_.Get();
+    }
+
 private:
     void InitRuntimeOnJSThread(const char* arg);
-    void RunScriptOnJSThread(const base::PlatformString& source);
+    void RunScriptOnJSThread(const base::PlatformString& source,
+                             base::ScopedPtr<ResultCallback> callback);
     void LoadScriptOnJSThread(const std::string& source);
     void LoadUrlOnJSThread(const std::string& url);
     void ReloadOnJSThread(bool force);
@@ -75,6 +94,7 @@ private:
     base::ScopedPtr<JSContext> context_;
     base::ScopedRefPtr<JSVM> vm_;
     base::WeakPtr<Runtime> weak_ptr_;
+    base::ScopedPtr<ResultCallback> exception_handler_;
 };
 
 }  // namespace jscore

@@ -60,6 +60,8 @@ class ScopedLocalJavaRef : public JavaRef {
 
     T Get() const { return (T) obj_;}
 
+    T Release() { return (T) JavaRef::Release();}
+
  private:
     JNIEnv* env_;
 };
