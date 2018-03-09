@@ -25,6 +25,7 @@ class Size {
         static const int MODE_SHIFT = 30;
         static const int MODE_MASK  = 0x3 << MODE_SHIFT;
      public:
+        static const int UNSPECIFIED = 0 << MODE_SHIFT;
         static const int EXACTLY     = 1 << MODE_SHIFT;
         static const int AT_MOST     = 2 << MODE_SHIFT;
     };

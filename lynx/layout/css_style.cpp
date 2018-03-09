@@ -88,6 +88,9 @@ CSSStyle::CSSStyle() {
   density_ = config::GlobalConfigData::GetInstance()->screen_density();
   screen_width_ = config::GlobalConfigData::GetInstance()->screen_width();
   zoom_reference_ = config::GlobalConfigData::GetInstance()->zoom_reference();
+  if (zoom_reference_ <= 0) {
+    zoom_reference_ = 750;
+  }
 
   Reset();
 }

@@ -24,19 +24,25 @@ void LayoutObject::RemoveChild(ContainerNode* child) {
     Dirty();
 }
 
-base::Size LayoutObject::Measure(int width, int height) {
-    if (ShouldRemeasure(width, height) || IsDirty()) {
-        measured_size_ = CSSStaticLayout::Measure(this, width, height);
-        return measured_size_;
+base::Size LayoutObject::Measure(int width_descriptor, int height_descriptor) {
+    if (ShouldRemeasure(width_descriptor, height_descriptor) || IsDirty()) {
+        measured_size_ = OnMeasure(width_descriptor, height_descriptor);
     }
     return measured_size_;
 }
 
+base::Size LayoutObject::OnMeasure(int width_descriptor, int height_descriptor) {
+    return base::Size(0, 0);
+}
+
 void LayoutObject::Layout(int left, int top, int right, int bottom) {
+    UpToDate();
     if (measured_position_.Reset(left, top, right, bottom) || IsDirty()) {
-        CSSStaticLayout::Layout(this, right - left, bottom - top);
-        layout_state_ = LAYOUT_STATE_UP_TO_DATE;
+        OnLayout(left, top, right, bottom);
     }
+}
+
+void LayoutObject::OnLayout(int left, int top, int right, int bottom) {
 }
 
 void LayoutObject::Dirty() {
@@ -56,13 +62,7 @@ bool LayoutObject::IsDirty() {
     return layout_state_ == LAYOUT_STATE_DIRTY;
 }
 
-bool LayoutObject::ShouldRemeasure(int width, int height) {
-    if (last_measured_height_from_parent_ != height
-            || last_measured_width_from_parent_ != width) {
-        last_measured_height_from_parent_ = height;
-        last_measured_width_from_parent_ = width;
-        return true;
-    }
-    return false;
+bool LayoutObject::ShouldRemeasure(int width_descriptor, int height_descriptor) {
+    return last_measured_size_from_parent_.Update(width_descriptor, height_descriptor);
 }
 }  // namespace lynx

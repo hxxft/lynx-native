@@ -20,7 +20,7 @@ class Input : public RenderObject {
           int default_line_count);
 
     virtual ~Input() {}
-    virtual base::Size Measure(int width, int height);
+    virtual base::Size OnMeasure(int width_descriptor, int height_descriptor);
 
 private:
     int default_line_count_;

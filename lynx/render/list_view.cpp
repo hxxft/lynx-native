@@ -21,12 +21,12 @@ ListView::~ListView() {
 
 }
 
-base::Size ListView::Measure(int width, int height) {
-    return RenderObject::Measure(width, height);
+base::Size ListView::OnMeasure(int width_descriptor, int height_descriptor) {
+    return CSSStaticLayout::Measure(this, width_descriptor, height_descriptor);
 }
 
-void ListView::Layout(int left, int top, int right, int bottom) {
-    RenderObject::Layout(left, top, right, bottom);
+void ListView::OnLayout(int left, int top, int right, int bottom) {
+    CSSStaticLayout::Layout(this, right - left, bottom - top);
 
     RenderObject* child = static_cast<RenderObject*>(LastChild());
     if(child == NULL) return;

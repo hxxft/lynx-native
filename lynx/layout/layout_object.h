@@ -19,8 +19,16 @@ class LayoutObject : public ContainerNode {
     virtual void InsertChild(ContainerNode* child, int index);
     virtual void RemoveChild(ContainerNode* child);
 
-    virtual base::Size Measure(int width, int height);
+    virtual base::Size Measure(int width_descriptor, int height_descriptor);
+
+    // Subclasses should override onMeasure(int, int) to provide
+    // a measurements of their content.
+    virtual base::Size OnMeasure(int width_descriptor, int height_descriptor);
+
     virtual void Layout(int left, int top, int right, int bottom);
+
+    // Called from layout when this node should assign a position to each of its children.
+    virtual void OnLayout(int left, int top, int right, int bottom);
 
     virtual void SetStyle(const std::string& key,
                         const std::string& value) {
@@ -54,8 +62,7 @@ class LayoutObject : public ContainerNode {
     CSSStyle style_;
 
 private:
-    int last_measured_width_from_parent_;
-    int last_measured_height_from_parent_;
+    base::Size last_measured_size_from_parent_;
 };
 }  // namespace lynx
 

@@ -17,30 +17,8 @@ namespace lynx {
 
     }
 
-    base::Size ExtendedView::Measure(int width, int height) {
-        int widthWanted = (int) style_.width_;
-        int heightWanted = (int) style_.height_;
-        int widthMode = base::Size::Descriptor::GetMode(width);
-        int heightMode = base::Size::Descriptor::GetMode(height);
-        width = base::Size::Descriptor::GetSize(width);
-        height = base::Size::Descriptor::GetSize(height);
-
-        width = CSS_IS_UNDEFINED(widthWanted)
-                && !CSS_IS_UNDEFINED(width)
-                && (widthMode == base::Size::Descriptor::EXACTLY
-                    || widthMode == base::Size::Descriptor::AT_MOST)?
-                (int) style_.ClampExactWidth(width) :
-                (int) style_.ClampWidth();
-        height = CSS_IS_UNDEFINED(heightWanted)
-                 && !CSS_IS_UNDEFINED(height)
-                 && (heightMode == base::Size::Descriptor::EXACTLY
-                     || heightMode == base::Size::Descriptor::AT_MOST)?
-                 (int) style_.ClampExactHeight(height) :
-                 (int) style_.ClampHeight();
-
-        measured_size_.width_ = width;
-        measured_size_.height_ = height;
-        return measured_size_;
+    base::Size ExtendedView::OnMeasure(int width_descriptor, int height_descriptor) {
+        return CSSStaticLayout::Measure(this, width_descriptor, height_descriptor);
     }
 
 }

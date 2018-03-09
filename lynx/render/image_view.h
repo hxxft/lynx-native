@@ -12,8 +12,7 @@ class ImageView : public RenderObject {
               uint64_t id,
               RenderTreeHost* host);
     virtual ~ImageView() {}
-    virtual base::Size Measure(int width, int height);
-    virtual void Layout(int left, int top, int right, int bottom);
+    virtual base::Size OnMeasure(int width_descriptor, int height_descriptor);
     virtual void SetAttribute(const std::string& key, const std::string& value);
 };
 }  // namespace lynx

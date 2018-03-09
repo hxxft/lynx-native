@@ -12,44 +12,43 @@ namespace lynx {
 class LayoutObject;
 class CSSStaticLayout {
  public:
-    static base::Size Measure(LayoutObject* renderer, int width, int height);
+    static base::Size Measure(LayoutObject* renderer, int width_descriptor, int height_descriptor);
     static void Layout(LayoutObject* renderer, int width, int height);
 
  private:
-    static base::Size measureInner(LayoutObject* renderer,
-                                    int width, int height);
-    static bool measureSpecially(LayoutObject* renderer, int width, int height);
-    static base::Size measureRowOneLine(LayoutObject* renderer, int width,
-                                        int height, int start, int end);
-    static base::Size measureRowWrap(LayoutObject* renderer,
-                                    int width, int height);
-    static base::Size measureRow(LayoutObject* renderer,
-                                int width, int height);
-    static base::Size measureColumnOneLine(LayoutObject* renderer,
-                        int width, int height, int start, int end);
-    static base::Size measureColumnWrap(LayoutObject* renderer,
-                                        int width, int height);
-    static base::Size measureColumn(LayoutObject* renderer,
-                                    int width, int height);
+    static base::Size MeasureInner(LayoutObject* renderer, int width, int width_mode,
+                                   int height, int height_mode);
+    static bool MeasureSpecially(LayoutObject* renderer, int width, int width_mode,
+                                 int height, int height_mode);
+    static base::Size MeasureRowOneLine(LayoutObject *renderer, int width, int width_mode,
+                                        int height, int height_mode, int start, int end);
+    static base::Size MeasureRowWrap(LayoutObject* renderer, int width, int width_mode,
+                                     int height, int height_mode);
+    static base::Size MeasureRow(LayoutObject* renderer, int width, int width_mode,
+                                 int height, int height_mode);
+    static base::Size MeasureColumnOneLine(LayoutObject* renderer, int width, int width_mode,
+                                           int height, int height_mode, int start, int end);
+    static base::Size MeasureColumnWrap(LayoutObject* renderer, int width, int width_mode,
+                                        int height, int height_mode);
+    static base::Size MeasureColumn(LayoutObject* renderer, int width, int width_mode,
+                                    int height, int height_mode);
+    static void MeasureAbsolute(LayoutObject* renderer, int width, int width_mode,
+                                int height, int height_mode);
+    static void MeasureFixed(LayoutObject* renderer);
 
+    static void LayoutWhenDisplayNone(LayoutObject* renderer);
+    static void LayoutRowWrap(LayoutObject* renderer, int width, int height);
+    static void LayoutRow(LayoutObject* renderer, int width, int height);
+    static void LayoutColumnWrap(LayoutObject* renderer, int width, int height);
+    static void LayoutColumn(LayoutObject* renderer, int width, int height);
+    static void LayoutAbsolute(LayoutObject* parentNode, LayoutObject* renderer,
+                               int width, int height);
+    static void LayoutFixed(LayoutObject* parentNode, LayoutObject* renderer);
+    static void LayoutFixedOrAbsolute(LayoutObject* parent, LayoutObject* child,
+                                      int width, int height);
 
-    static void layoutRowWrap(LayoutObject* renderer, int width, int height);
-    static void layoutRow(LayoutObject* renderer, int width, int height);
-    static void layoutColumnWrap(LayoutObject* renderer, int width, int height);
-    static void layoutColumn(LayoutObject* renderer, int width, int height);
-    static void measureAbsolute(LayoutObject* renderer, int width, int height);
-    static void measureFixed(LayoutObject* renderer);
-    static void layoutAbsolute(LayoutObject* parent,
-                            LayoutObject* renderer,  int width, int height);
-    static void layoutFixed(LayoutObject* parent, LayoutObject* renderer);
-    static void layoutFixedOrAbsolute(LayoutObject* parent,
-                                    LayoutObject* renderer,
-                                    double width, double height);
-
-    static int CalculateOffsetWithFlexContainerStyle(LayoutObject *parent,
-                                                     LayoutObject *child,
-                                                     int width,
-                                                     int height);
+    static int CalculateOffsetWithFlexContainerStyle(LayoutObject* parent, LayoutObject* child,
+                                                     int width, int height);
 };
 }  // namespace lynx
 

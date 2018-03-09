@@ -32,8 +32,14 @@ class RenderObject : public LayoutObject, public EventTarget {
   virtual ~RenderObject();
 
   // impl virtual method in LayoutObject
-  virtual base::Size Measure(int width, int height);
-  virtual void Layout(int left, int top, int right, int bottom);
+  base::Size Measure(int width_descriptor, int height_descriptor);
+  void Layout(int left, int top, int right, int bottom);
+  // Subclasses should override onMeasure(int, int) to provide
+  // a measurements of their content.
+  virtual base::Size OnMeasure(int width_descriptor, int height_descriptor);
+  // Called from layout when this node should assign a position to each of its children.
+  virtual void OnLayout(int left, int top, int right, int bottom);
+
   virtual void SetStyle(const std::string& key, const std::string& value);
 
   void FlushStyle();

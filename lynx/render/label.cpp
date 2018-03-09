@@ -43,41 +43,39 @@ Label::Label(jscore::ThreadManager* manager,
       text_node_(NULL){
 }
 
-base::Size Label::Measure(int width, int height) {
-    if (!ShouldRemeasure(width, height) || !IsDirty())
-        return measured_size_;
+base::Size Label::OnMeasure(int width_descriptor, int height_descriptor) {
     if(text_node_ == NULL) {
         return base::Size();
     }
-    int widthWanted = (int) style_.width_;
-    int heightWanted = (int) style_.height_;
-    int widthMode = base::Size::Descriptor::GetMode(width);
-    int heightMode = base::Size::Descriptor::GetMode(height);
-    width = base::Size::Descriptor::GetSize(width);
-    height = base::Size::Descriptor::GetSize(height);
+    int width_wanted = (int) style_.width_;
+    int height_wanted = (int) style_.height_;
+    int width_mode = base::Size::Descriptor::GetMode(width_descriptor);
+    int height_mode = base::Size::Descriptor::GetMode(height_descriptor);
+    width_descriptor = base::Size::Descriptor::GetSize(width_descriptor);
+    height_descriptor = base::Size::Descriptor::GetSize(height_descriptor);
 
-    width = CSS_IS_UNDEFINED(widthWanted)
-            && !CSS_IS_UNDEFINED(width)
-            && (widthMode == base::Size::Descriptor::EXACTLY
-                || widthMode == base::Size::Descriptor::AT_MOST)?
-            (int) style_.ClampExactWidth(width) :
+    width_descriptor = CSS_IS_UNDEFINED(width_wanted)
+            && !CSS_IS_UNDEFINED(width_descriptor)
+            && (width_mode == base::Size::Descriptor::EXACTLY
+                || width_mode == base::Size::Descriptor::AT_MOST)?
+            (int) style_.ClampExactWidth(width_descriptor) :
             (int) style_.ClampWidth();
-    height = CSS_IS_UNDEFINED(heightWanted)
-             && !CSS_IS_UNDEFINED(height)
-             && (heightMode == base::Size::Descriptor::EXACTLY
-                 || heightMode == base::Size::Descriptor::AT_MOST)?
-             (int) style_.ClampExactHeight(height) :
+    height_descriptor = CSS_IS_UNDEFINED(height_wanted)
+             && !CSS_IS_UNDEFINED(height_descriptor)
+             && (height_mode == base::Size::Descriptor::EXACTLY
+                 || height_mode == base::Size::Descriptor::AT_MOST)?
+             (int) style_.ClampExactHeight(height_descriptor) :
              (int) style_.ClampHeight();
 
-    width -= style_.padding_left_ + style_.padding_right_
+    width_descriptor -= style_.padding_left_ + style_.padding_right_
              + style_.border_width_ * 2;
-    height -= style_.padding_top_ + style_.padding_bottom_
+    height_descriptor -= style_.padding_top_ + style_.padding_bottom_
               + style_.border_width_ * 2;
 
     base::Size size =
             LabelMeasurer::MeasureLabelSizeAndSetTextLayout(
                     this,
-                    base::Size(width, height),
+                    base::Size(width_descriptor, height_descriptor),
                     text_node_ == NULL ? GetText() : text_node_->GetText());
 
 
@@ -90,21 +88,17 @@ base::Size Label::Measure(int width, int height) {
     size.height_ = (int) style_.ClampHeight(size.height_);
 
 
-    size.width_ = !CSS_IS_UNDEFINED(width)
-                          && widthMode == base::Size::Descriptor::EXACTLY ?
-                  (int) style_.ClampExactWidth(base::Size::Descriptor::GetSize(width)) :
+    size.width_ = !CSS_IS_UNDEFINED(width_descriptor)
+                          && width_mode == base::Size::Descriptor::EXACTLY ?
+                  (int) style_.ClampExactWidth(base::Size::Descriptor::GetSize(width_descriptor)) :
                   (int) style_.ClampWidth(size.width_);
-    size.height_ = !CSS_IS_UNDEFINED(height)
-                           && heightMode == base::Size::Descriptor::EXACTLY ?
-                   (int) style_.ClampExactHeight(base::Size::Descriptor::GetSize(height)) :
+    size.height_ = !CSS_IS_UNDEFINED(height_descriptor)
+                           && height_mode == base::Size::Descriptor::EXACTLY ?
+                   (int) style_.ClampExactHeight(base::Size::Descriptor::GetSize(height_descriptor)) :
                    (int) style_.ClampHeight(size.height_);
 
     measured_size_ = size;
     return size;
-}
-
-void Label::Layout(int left, int top, int right, int bottom) {
-    RenderObject::Layout(left, top, right, bottom);
 }
 
 void Label::InsertChild(ContainerNode* child, int index) {

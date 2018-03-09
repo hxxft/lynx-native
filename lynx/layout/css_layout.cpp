@@ -12,193 +12,246 @@ using namespace std;
 namespace lynx {
 
 
-    Size CSSStaticLayout::Measure(LayoutObject* renderer, int width, int height) {
+    Size CSSStaticLayout::Measure(LayoutObject* renderer, int width_descriptor, int height_descriptor) {
 
         CSSStyle* style = renderer->GetStyle();
 
-        Size size = measureInner(renderer, Size::Descriptor::GetSize(width), Size::Descriptor::GetSize(height));
+        int width_mode = Size::Descriptor::GetMode(width_descriptor);
+        int height_mode = Size::Descriptor::GetMode(height_descriptor);
 
-        int w = Size::Descriptor::GetMode(width) == Size::Descriptor::EXACTLY ? Size::Descriptor::GetSize(width) : style->ClampWidth(size.width_);
-        int h = Size::Descriptor::GetMode(height) == Size::Descriptor::EXACTLY ? Size::Descriptor::GetSize(height) : style->ClampHeight(size.height_);
+        int measured_width_mode = width_mode;
+        int measured_height_mode = height_mode;
+        if (!CSS_IS_UNDEFINED(style->width_)
+            || !CSS_IS_UNDEFINED(style->max_width_)) {
+            measured_width_mode = Size::Descriptor::EXACTLY;
+        }
+        if (!CSS_IS_UNDEFINED(style->height_)
+            || !CSS_IS_UNDEFINED(style->max_height_)) {
+            measured_height_mode = Size::Descriptor::EXACTLY;
+        }
+
+        int measured_width = Size::Descriptor::GetSize(width_descriptor);
+        int measured_height = Size::Descriptor::GetSize(height_descriptor);
+        if (measured_width_mode != Size::Descriptor::UNSPECIFIED) {
+            measured_width = style->ClampWidth(Size::Descriptor::GetSize(width_descriptor));
+        }
+        if (measured_height_mode != Size::Descriptor::UNSPECIFIED) {
+            measured_height = style->ClampHeight(Size::Descriptor::GetSize(height_descriptor));
+        }
+
+        Size size = MeasureInner(renderer, measured_width, measured_width_mode,
+                                 measured_height, measured_height_mode);
+
+        int w = !CSS_IS_UNDEFINED(width_descriptor)
+                && width_mode == Size::Descriptor::EXACTLY ?
+                style->ClampExactWidth(Size::Descriptor::GetSize(width_descriptor))
+                                                           : style->ClampWidth(size.width_);
+        int h = !CSS_IS_UNDEFINED(height_descriptor)
+                && height_mode == Size::Descriptor::EXACTLY ?
+                style->ClampExactHeight(Size::Descriptor::GetSize(height_descriptor))
+                                                            : style->ClampHeight(size.height_);
 
         size.Update(w, h);
         return size;
     }
 
-    Size CSSStaticLayout::measureInner(LayoutObject* renderer, int width, int height) {
 
-        Size measuredSize;
+
+    Size CSSStaticLayout::MeasureInner(LayoutObject* renderer, int width, int width_mode,
+                                     int height, int height_mode) {
+
+        Size measured_size;
         CSSStyle* style = renderer->GetStyle();
 
         int w = width;
         int h = height;
 
-        int availableWidth = w - style->padding_left_
-                - style->padding_right_ - style->border_width_ * 2;
-        int availableHeight = h - style->padding_top_
-                - style->padding_bottom_ - style->border_width_ * 2;
+        int available_width = w - style->padding_left_
+                             - style->padding_right_ - style->border_width_ * 2;
+        int available_height = h - style->padding_top_
+                              - style->padding_bottom_ - style->border_width_ * 2;
 
         if (style->flex_direction_ == CSSFLEX_DIRECTION_ROW) {
-            measuredSize = measureRow(renderer, availableWidth, availableHeight);
+            measured_size = MeasureRow(renderer, available_width, width_mode,
+                                      available_height, height_mode);
         } else {
             //measure
-            measuredSize = measureColumn(renderer, availableWidth, availableHeight);
+            measured_size = MeasureColumn(renderer, available_width, width_mode,
+                                         available_height, height_mode);
         }
 
-        w = measuredSize.width_ + style->padding_left_
-                + style->padding_right_ + style->border_width_ * 2;
-        h = measuredSize.height_ + style->padding_top_
-                + style->padding_bottom_ + style->border_width_ * 2;
+        w = measured_size.width_ + style->padding_left_
+            + style->padding_right_ + style->border_width_ * 2;
+        h = measured_size.height_ + style->padding_top_
+            + style->padding_bottom_ + style->border_width_ * 2;
 
 
-        measuredSize.Update(w, h);
-        return measuredSize;
+        measured_size.Update(w, h);
+        return measured_size;
     }
 
-    bool CSSStaticLayout::measureSpecially(LayoutObject* renderer, int width, int height) {
-        CSSStyle* style = renderer->GetStyle();
-        if(style->visible_ == CSS_HIDDEN
-                || style->css_display_type_ == CSS_DISPLAY_NONE) {
+    bool CSSStaticLayout::MeasureSpecially(LayoutObject* renderer, int width, int width_mode,
+                                           int height, int height_mode) {
+        CSSStyle* child_style = renderer->GetStyle();
+        if(child_style->css_display_type_ != CSS_DISPLAY_FLEX) {
+            renderer->Measure(0, 0);
             return true;
         }
-        if(style->css_position_type_ == CSS_POSITION_ABSOLUTE) {
-            measureAbsolute(renderer, width, height);
+        if(child_style->css_position_type_ == CSS_POSITION_ABSOLUTE) {
+            MeasureAbsolute(renderer, width, width_mode, height, height_mode);
             return true;
         }
-        if(style->css_position_type_ == CSS_POSITION_FIXED) {
-            measureFixed(renderer);
+        if(child_style->css_position_type_ == CSS_POSITION_FIXED) {
+            MeasureFixed(renderer);
             return true;
         }
         return false;
     }
 
-    Size CSSStaticLayout::measureRowOneLine(LayoutObject* renderer, int width, int height, int start, int end) {
-        Size measuredSize = Size(0 ,0);
-        int calcWidth = 0;
-        int calcHeight = 0;
+    Size CSSStaticLayout::MeasureRowOneLine(LayoutObject* renderer, int width, int width_mode,
+                                            int height, int height_mode, int start, int end) {
+        Size measured_size(0 , 0);
+        int calc_width = 0;
+        int calc_height = 0;
 
-        int totalFlex = 0;
+        int total_flex = 0;
         // 对于row排版，且是no_wrap的操作，孩子想要多宽就给多宽
-        int residualWidth = width;
+        int residual_width = width;
 
         //计算子view中无flex属性的view size，并且计算出剩下含有flex属性的子view可使用的宽度
         for (int i = start; i <= end; i++) {
 
-            int measureWidth;
+            int measure_width;
 
-            LayoutObject* child = (LayoutObject*)renderer->Find(i);
-            CSSStyle* style = child->GetStyle();
+            LayoutObject* child = (LayoutObject*) renderer->Find(i);
+            CSSStyle* child_style = child->GetStyle();
 
-            if(measureSpecially(child, width, height)) {
+            if(MeasureSpecially(child, width, width_mode, height, height_mode)) {
                 continue;
             }
 
-            if(style->flex_ > 0) {
-                totalFlex += style->flex_;
-                calcWidth += style->margin_left_ + style->margin_right_;
+            if(child_style->flex_ > 0) {
+                total_flex += child_style->flex_;
+                calc_width += child_style->margin_left_ + child_style->margin_right_;
                 continue;
             }
 
-            if(!CSS_IS_UNDEFINED(style->width_)){
-                measureWidth = Size::Descriptor::Make(style->ClampWidth(), Size::Descriptor::EXACTLY);
-            }else{
-                measureWidth = Size::Descriptor::Make(residualWidth - style->margin_left_ - style->margin_right_, Size::Descriptor::AT_MOST);
+            if(!CSS_IS_UNDEFINED(child_style->width_)){
+                measure_width = Size::Descriptor::Make(child_style->ClampWidth(), Size::Descriptor::AT_MOST);
+            } else {
+                measure_width = Size::Descriptor::Make(
+                        residual_width - child_style->margin_left_ - child_style->margin_right_,
+                        Size::Descriptor::UNSPECIFIED);
             }
 
-            Size childSize = child->Measure(measureWidth, Size::Descriptor::Make(height, Size::Descriptor::AT_MOST));
+            Size child_size = child->Measure(measure_width, Size::Descriptor::Make(height, Size::Descriptor::AT_MOST));
 
-            calcWidth += childSize.width_ + style->margin_left_ + style->margin_right_;
-            calcHeight = childSize.height_;
+            calc_width += child_size.width_ + child_style->margin_left_ + child_style->margin_right_;
+            calc_height = child_size.height_;
 
-            //residualWidth = width - calcWidth;
-
-
-            int childIteheight_ = calcHeight + style->margin_bottom_ + style->margin_top_;
-            measuredSize.height_ = measuredSize.height_ > childIteheight_ ? measuredSize.height_ : childIteheight_;
+            int child_item_height = calc_height + child_style->margin_bottom_ + child_style->margin_top_;
+            measured_size.height_ = measured_size.height_ > child_item_height ? measured_size.height_ : child_item_height;
         }
 
-        if(calcWidth == 0 && totalFlex > 0)
-            residualWidth = renderer->GetStyle()->ClampWidth(width) - calcWidth;
-        else
-            residualWidth = renderer->GetStyle()->ClampWidth(calcWidth) - calcWidth;
+        if ((calc_width == 0 && total_flex > 0)
+            ||
+            (CSS_IS_UNDEFINED(renderer->GetStyle()->width_)
+             && CSS_IS_UNDEFINED(renderer->GetStyle()->max_width_)
+             && renderer->GetStyle()->min_width_ == 0)) {
+            residual_width = renderer->GetStyle()->ClampWidth(width) - renderer->GetStyle()->padding_right_
+                            - renderer->GetStyle()->padding_left_ - 2 * renderer->GetStyle()->border_width_ - calc_width;
+        } else {
+            residual_width = renderer->GetStyle()->ClampWidth(calc_width) -renderer->GetStyle()->padding_right_
+                            - renderer->GetStyle()->padding_left_ - 2 * renderer->GetStyle()->border_width_ - calc_width;
+        }
+
+        if (residual_width < 0)
+            residual_width = 0;
 
         for(int i = start; i <= end; i++) {
 
             LayoutObject* child = (LayoutObject*)renderer->Find(i);
-            CSSStyle* style = child->GetStyle();
+            CSSStyle* child_style = child->GetStyle();
 
-            if(style->visible_ == CSS_HIDDEN
-                    || style->css_display_type_ == CSS_DISPLAY_NONE) {
+            if(child_style->css_display_type_ != CSS_DISPLAY_FLEX) {
                 continue;
             }
-            if(style->css_position_type_ == CSS_POSITION_ABSOLUTE
-                    || style->css_position_type_ == CSS_POSITION_FIXED) {
+            if(child_style->css_position_type_ == CSS_POSITION_ABSOLUTE
+               || child_style->css_position_type_ == CSS_POSITION_FIXED) {
                 continue;
             }
 
-            if(style->flex_ <= 0) continue;
+            if(child_style->flex_ <= 0) continue;
 
             //根据flex属性重新计算子view宽度
-            int recalcWidth = residualWidth * style->flex_/totalFlex;
+            int recalc_width = residual_width * child_style->flex_/total_flex;
 
-            int measureWidth = recalcWidth == 0 ? Size::Descriptor::Make(width, Size::Descriptor::AT_MOST) : Size::Descriptor::Make(recalcWidth, Size::Descriptor::EXACTLY);
+            int measure_width = recalc_width == 0 ?
+                               Size::Descriptor::Make(width, Size::Descriptor::AT_MOST)
+                                                :
+                               width_mode == Size::Descriptor::UNSPECIFIED ?
+                               Size::Descriptor::Make(recalc_width, Size::Descriptor::AT_MOST) :
+                               Size::Descriptor::Make(recalc_width, Size::Descriptor::EXACTLY);
+
             //测量子view的宽高/
-            Size childSize = child->Measure(measureWidth,
-                    Size::Descriptor::Make(height, Size::Descriptor::AT_MOST));
+            Size child_size = child->Measure(measure_width,
+                                           Size::Descriptor::Make(height, Size::Descriptor::AT_MOST));
 
 
-            calcWidth += childSize.width_;
-            calcHeight = childSize.height_;
+            calc_width += child_size.width_;
+            calc_height = child_size.height_;
 
 
-            int childIteheight_ = calcHeight + style->margin_bottom_ + style->margin_top_;
-            measuredSize.height_ = measuredSize.height_ > childIteheight_ ? measuredSize.height_ : childIteheight_;
+            int child_item_height = calc_height + child_style->margin_bottom_ + child_style->margin_top_;
+            measured_size.height_ = measured_size.height_ > child_item_height ? measured_size.height_ : child_item_height;
 
         }
-        measuredSize.width_ = calcWidth;
-        //measuredSize.height_ = calcHeight;
-        return measuredSize;
+        measured_size.width_ = calc_width;
+        //measured_size.height_ = calc_height;
+        return measured_size;
     }
 
-    Size CSSStaticLayout::measureRowWrap(LayoutObject* renderer, int width, int height) {
+    Size CSSStaticLayout::MeasureRowWrap(LayoutObject* renderer, int width, int width_mode,
+                                       int height, int height_mode) {
 
-        int currentCalcWidth = 0;
-        int calcWidth = 0;
-        int calcHeight = 0;
+        int current_calc_width = 0;
+        int calc_width = 0;
+        int calc_height = 0;
         int start = 0;
 
-        Size measuredSize = Size(renderer->GetStyle()->width_ ,renderer->GetStyle()->height_);
+        Size measured_size(renderer->GetStyle()->width_ ,renderer->GetStyle()->height_);
 
-        for(int index = 0, childViewCount = renderer->GetChildCount(); index < childViewCount;) {
+        for(int index = 0, child_view_count = renderer->GetChildCount(); index < child_view_count;) {
 
-            LayoutObject* child = (LayoutObject*)renderer->Find(index);
-            CSSStyle* style = child->GetStyle();
+            LayoutObject* child = (LayoutObject*) renderer->Find(index);
+            CSSStyle* child_style = child->GetStyle();
 
-            if(measureSpecially(child, width, height)) {
+            if(MeasureSpecially(child, width, width_mode, height, height_mode)) {
+                index++;
                 continue;
             }
 
-            int measureWidth = width - style->margin_left_ - style->margin_right_;
-            Size childSize = Size(0, 0);
+            int measure_width = width - child_style->margin_left_ - child_style->margin_right_;
+            Size child_size(0, 0);
 
-            if(style->flex_ == 0) {
+            if(child_style->flex_ == 0) {
 
-                childSize = child->Measure(Size::Descriptor::Make(measureWidth, Size::Descriptor::AT_MOST),
-                        Size::Descriptor::Make(height, Size::Descriptor::AT_MOST));
+                child_size = child->Measure(Size::Descriptor::Make(measure_width, Size::Descriptor::AT_MOST),
+                                          Size::Descriptor::Make(height, Size::Descriptor::AT_MOST));
             }
 
-            currentCalcWidth = currentCalcWidth + childSize.width_ + style->margin_left_ + style->margin_right_;
-            if(currentCalcWidth <= width) {
-                calcWidth = currentCalcWidth;
-                if(index == childViewCount - 1) {
-                    Size rowSize = measureRowOneLine(renderer, width, height, start, index);
-                    calcWidth = rowSize.width_ > calcWidth ? rowSize.width_ : calcWidth;
-                    calcHeight += rowSize.height_;
+            current_calc_width = current_calc_width + child_size.width_ + child_style->margin_left_ + child_style->margin_right_;
+            if(current_calc_width <= width) {
+                calc_width = current_calc_width;
+                if(index == child_view_count - 1) {
+                    Size row_size = MeasureRowOneLine(renderer, width, width_mode, height, height_mode, start, index);
+                    calc_width = row_size.width_ > calc_width ? row_size.width_ : calc_width;
+                    calc_height += row_size.height_;
                 }
                 index++;
             }
 
-            // 当前行宽度占满，准备往下排时，或者是已经排到了最后一行的最后一个元素
+                // 当前行宽度占满，准备往下排时，或者是已经排到了最后一行的最后一个元素
             else {
 
                 int end = index;
@@ -206,949 +259,992 @@ namespace lynx {
                     end -= 1;
                 }
 
-                Size rowSize = measureRowOneLine(renderer, width, height, start, end);
+                Size row_size = MeasureRowOneLine(renderer, width, width_mode, height, height_mode, start, end);
 
-                calcWidth = rowSize.width_ > calcWidth ? rowSize.width_ : calcWidth;
-                calcHeight += rowSize.height_;
+                calc_width = row_size.width_ > calc_width ? row_size.width_ : calc_width;
+                calc_height += row_size.height_;
                 if(start == index) {
                     index += 1;
                 }
                 start = index;
-                currentCalcWidth = 0;
+                current_calc_width = 0;
             }
         }
-        measuredSize.width_ = calcWidth;
-        measuredSize.height_ = calcHeight;
-        return measuredSize;
+        measured_size.width_ = calc_width;
+        measured_size.height_ = calc_height;
+        return measured_size;
     }
 
-    Size CSSStaticLayout::measureRow(LayoutObject* renderer, int width, int height) {
+    Size CSSStaticLayout::MeasureRow(LayoutObject* renderer, int width, int width_mode,
+                                   int height, int height_mode) {
 
-        CSSStyle* itemStyle = renderer->GetStyle();
-        if (itemStyle->flex_wrap_ == CSSFLEX_NOWRAP) {
-            return measureRowOneLine(renderer, width, height, 0, renderer->GetChildCount()-1);
+        CSSStyle* item_style = renderer->GetStyle();
+        if (item_style->flex_wrap_ != CSSFLEX_WRAP) {
+            return MeasureRowOneLine(renderer, width, width_mode, height, height_mode, 0, renderer->GetChildCount()-1);
         }else {
             //measure flex-wrap
-            return measureRowWrap(renderer, width, height);
+            return MeasureRowWrap(renderer, width, width_mode, height, height_mode);
         }
     }
 
-    Size CSSStaticLayout::measureColumnOneLine(LayoutObject* renderer, int width, int height, int start, int end) {
-        Size measuredSize = Size(0 ,0);
-        int calcWidth = 0;
-        int calcHeight = 0;
+    Size CSSStaticLayout::MeasureColumnOneLine(LayoutObject* renderer, int width, int width_mode,
+                                             int height, int height_mode, int start, int end) {
+        Size measured_size(0 , 0);
+        int calc_width = 0;
+        int calc_height = 0;
 
-        int totalFlex = 0;
+        int total_flex = 0;
         // 对于row排版，且是no_wrap的操作，孩子想要多宽就给多宽
-        int residualHeight = height;
+        int residual_height = height;
 
         //计算子view中无flex属性的view size，并且计算出剩下含有flex属性的子view可使用的宽度
         for (int i = start; i <= end; i++) {
 
-            int measureHeight;
+            int measure_height;
 
-            LayoutObject* child = (LayoutObject*)renderer->Find(i);
-            CSSStyle* style = child->GetStyle();
+            LayoutObject* child = (LayoutObject*) renderer->Find(i);
+            CSSStyle* child_style = child->GetStyle();
 
-            if(measureSpecially(child, width, height)) {
+            if(MeasureSpecially(child, width, width_mode, height, height_mode)) {
                 continue;
             }
 
-            if(style->flex_ > 0) {
-                totalFlex += style->flex_;
-                calcHeight += style->margin_top_ + style->margin_bottom_;
+            if(child_style->flex_ > 0) {
+                total_flex += child_style->flex_;
+                calc_height += child_style->margin_top_ + child_style->margin_bottom_;
                 continue;
             }
 
-            if(!CSS_IS_UNDEFINED(style->height_)){
-                measureHeight = Size::Descriptor::Make(style->ClampHeight(), Size::Descriptor::EXACTLY);
-            }else{
-                measureHeight = Size::Descriptor::Make(residualHeight - style->margin_top_ - style->margin_bottom_, Size::Descriptor::AT_MOST);
+            if (!CSS_IS_UNDEFINED(child_style->height_)){
+                measure_height = Size::Descriptor::Make(child_style->ClampHeight(), Size::Descriptor::AT_MOST);
+            } else {
+                measure_height = Size::Descriptor::Make(
+                        residual_height - calc_height - child_style->margin_top_ - child_style->margin_bottom_,
+                        Size::Descriptor::UNSPECIFIED);
             }
 
-            Size childSize = child->Measure(Size::Descriptor::Make(width, Size::Descriptor::AT_MOST), measureHeight);
+            Size child_size = child->Measure(Size::Descriptor::Make(width, Size::Descriptor::AT_MOST), measure_height);
 
-            calcWidth = childSize.width_;
-            calcHeight += childSize.height_ + style->margin_top_ + style->margin_bottom_;
+            calc_width = child_size.width_;
+            calc_height += child_size.height_ + child_style->margin_top_ + child_style->margin_bottom_;
 
-            int childItewidth_ = calcWidth + style->margin_left_ + style->margin_right_;
-            measuredSize.width_ = measuredSize.width_ > childItewidth_ ? measuredSize.width_ : childItewidth_;
+            int child_item_width = calc_width + child_style->margin_left_ + child_style->margin_right_;
+            measured_size.width_ = measured_size.width_ > child_item_width ? measured_size.width_ : child_item_width;
         }
 
-        if(calcHeight == 0 && totalFlex > 0)
-            residualHeight = renderer->GetStyle()->ClampHeight(height) - calcHeight;
-        else
-            residualHeight = renderer->GetStyle()->ClampHeight(calcHeight) - calcHeight;
+        if((calc_height == 0 && total_flex > 0)
+           ||
+           (CSS_IS_UNDEFINED(renderer->GetStyle()->height_)
+            && CSS_IS_UNDEFINED(renderer->GetStyle()->max_height_)
+            && renderer->GetStyle()->min_height_ == 0)) {
+            residual_height = renderer->GetStyle()->ClampHeight(height) - renderer->GetStyle()->padding_top_
+                             - renderer->GetStyle()->padding_bottom_ - 2 * renderer->GetStyle()->border_width_ - calc_height;
+        } else {
+            residual_height = renderer->GetStyle()->ClampHeight(calc_height) - renderer->GetStyle()->padding_top_
+                             - renderer->GetStyle()->padding_bottom_ - 2 * renderer->GetStyle()->border_width_ - calc_height;
+        }
+
+        if (residual_height < 0)
+            residual_height = 0;
 
         for(int i = start; i <= end; i++) {
 
-            LayoutObject* child = (LayoutObject*)renderer->Find(i);
-            CSSStyle* style = child->GetStyle();
+            LayoutObject* child = (LayoutObject*) renderer->Find(i);
+            CSSStyle* child_style = child->GetStyle();
 
-            if(style->visible_ == CSS_HIDDEN
-                    || style->css_display_type_ == CSS_DISPLAY_NONE) {
+            if(child_style->css_display_type_ != CSS_DISPLAY_FLEX) {
                 continue;
             }
-            if(style->css_position_type_ == CSS_POSITION_ABSOLUTE
-                    || style->css_position_type_ == CSS_POSITION_FIXED) {
+            if(child_style->css_position_type_ == CSS_POSITION_ABSOLUTE
+               || child_style->css_position_type_ == CSS_POSITION_FIXED) {
                 continue;
             }
 
-            if(style->flex_ <= 0) continue;
+            if(child_style->flex_ <= 0) continue;
 
             //根据flex属性重新计算子view宽度
-            int recalcHeight = residualHeight * style->flex_/totalFlex;
+            int recalc_height = residual_height * child_style->flex_/total_flex;
 
             //测量子view的宽高/
-            int measureHeight = recalcHeight == 0 ? Size::Descriptor::Make(height, Size::Descriptor::AT_MOST) : Size::Descriptor::Make(recalcHeight, Size::Descriptor::EXACTLY);
-            Size childSize = child->Measure(Size::Descriptor::Make(width, Size::Descriptor::AT_MOST),
-                    measureHeight);
+            int measure_height = recalc_height == 0 ?
+                                Size::Descriptor::Make(height, Size::Descriptor::AT_MOST)
+                                                  :
+                                height_mode == Size::Descriptor::UNSPECIFIED ?
+                                Size::Descriptor::Make(recalc_height, Size::Descriptor::AT_MOST) :
+                                Size::Descriptor::Make(recalc_height, Size::Descriptor::EXACTLY);
+
+            Size child_size = child->Measure(Size::Descriptor::Make(width, Size::Descriptor::AT_MOST),
+                                           measure_height);
 
 
-            calcWidth = childSize.width_;
-            calcHeight += childSize.height_;
+            calc_width = child_size.width_;
+            calc_height += child_size.height_;
 
 
-            int childItewidth_ = calcWidth + style->margin_left_ + style->margin_right_;
-            measuredSize.width_ = measuredSize.width_ > childItewidth_ ? measuredSize.width_ : childItewidth_;
+            int child_item_width = calc_width + child_style->margin_left_ + child_style->margin_right_;
+            measured_size.width_ = measured_size.width_ > child_item_width ? measured_size.width_ : child_item_width;
 
         }
-        measuredSize.height_ = calcHeight;
-        return measuredSize;
+        //measured_size.width_ = calc_width;
+        measured_size.height_ = calc_height;
+        return measured_size;
     }
 
-    Size CSSStaticLayout::measureColumnWrap(LayoutObject* renderer, int width, int height) {
+    Size CSSStaticLayout::MeasureColumnWrap(LayoutObject* renderer, int width, int width_mode,
+                                          int height, int height_mode) {
 
-        int currentCalcHeight = 0;
-        int calcWidth = 0;
-        int calcHeight = 0;
+        int current_calc_height = 0;
+        int calc_width = 0;
+        int calc_height = 0;
         int start = 0;
 
-        Size measuredSize = Size(renderer->GetStyle()->width_ ,renderer->GetStyle()->height_);
+        Size measured_size(renderer->GetStyle()->width_ ,renderer->GetStyle()->height_);
 
-        for(int index = 0, childViewCount = renderer->GetChildCount(); index < childViewCount;) {
+        for(int index = 0, child_view_count = renderer->GetChildCount(); index < child_view_count;) {
 
-            LayoutObject* child = (LayoutObject*)renderer->Find(index);
-            CSSStyle* style = child->GetStyle();
+            LayoutObject* child = (LayoutObject*) renderer->Find(index);
+            CSSStyle* child_style = child->GetStyle();
 
-            if(measureSpecially(child, width, height)) {
+            if(MeasureSpecially(child, width, width_mode, height, height_mode)) {
+                index++;
                 continue;
             }
 
-            int measureHeight = height - style->margin_top_ - style->margin_bottom_;
-            Size childSize = Size(0, 0);
+            int measure_height = height - child_style->margin_top_ - child_style->margin_bottom_;
+            Size child_size(0, 0);
 
-            if(style->flex_ == 0) {
+            if(child_style->flex_ == 0) {
 
-                childSize = child->Measure(Size::Descriptor::Make(width, Size::Descriptor::AT_MOST),
-                        Size::Descriptor::Make(measureHeight, Size::Descriptor::AT_MOST));
+                child_size = child->Measure(Size::Descriptor::Make(width, Size::Descriptor::AT_MOST),
+                                          Size::Descriptor::Make(measure_height, Size::Descriptor::AT_MOST));
             }
 
-            currentCalcHeight = currentCalcHeight + childSize.height_ + style->margin_top_ + style->margin_bottom_;
-            if(currentCalcHeight <= height) {
-                calcHeight = currentCalcHeight;
-                if(index == childViewCount - 1) {
-                    Size columnSize = measureColumnOneLine(renderer, width, height, start, index);
+            current_calc_height = current_calc_height + child_size.height_ + child_style->margin_top_ + child_style->margin_bottom_;
+            if(current_calc_height <= height) {
+                calc_height = current_calc_height;
+                if(index == child_view_count - 1) {
+                    Size column_size = MeasureColumnOneLine(renderer, width, width_mode, height, height_mode, start, index);
 
-                    calcWidth += columnSize.width_;
-                    calcHeight = columnSize.height_ > calcHeight ? columnSize.height_ : calcHeight;
+                    calc_width += column_size.width_;
+                    calc_height = column_size.height_ > calc_height ? column_size.height_ : calc_height;
                 }
                 index++;
             }
 
-            // 当前行宽度占满，准备往下排时，或者是已经排到了最后一行的最后一个元素
+                // 当前行宽度占满，准备往下排时，或者是已经排到了最后一行的最后一个元素
             else  {
 
                 int end = index;
-                //start != index 意味着当前宽/高超过可拍宽/高，因此一行测量需要减去最后一个元素
                 if(start != index) {
                     end -= 1;
                 }
 
-                Size columnSize = measureColumnOneLine(renderer, width, height, start, end);
+                Size column_size = MeasureColumnOneLine(renderer, width, width_mode,
+                                                       height, height_mode, start, end);
 
-                calcWidth += columnSize.width_;
-                calcHeight = columnSize.height_ > calcHeight ? columnSize.height_ : calcHeight;
+                calc_width += column_size.width_;
+                calc_height = column_size.height_ > calc_height ? column_size.height_ : calc_height;
 
-                //start == index 表示一行只有一个元素需要排版
                 if(start == index) {
                     index += 1;
                 }
                 start = index;
             }
         }
-        measuredSize.width_ = calcWidth;
-        measuredSize.height_ = calcHeight;
-        return measuredSize;
+        measured_size.width_ = calc_width;
+        measured_size.height_ = calc_height;
+        return measured_size;
     }
 
-    Size CSSStaticLayout::measureColumn(LayoutObject* renderer, int width, int height) {
+    Size CSSStaticLayout::MeasureColumn(LayoutObject* renderer, int width, int width_mode,
+                                      int height, int height_mode) {
 
-        CSSStyle* itemStyle = renderer->GetStyle();
-        if (itemStyle->flex_wrap_ == CSSFLEX_NOWRAP) {
-            return measureColumnOneLine(renderer, width, height, 0, renderer->GetChildCount()-1);
+        CSSStyle* item_style = renderer->GetStyle();
+        if (item_style->flex_wrap_ != CSSFLEX_WRAP) {
+            return MeasureColumnOneLine(renderer, width, width_mode, height, height_mode,
+                                        0, renderer->GetChildCount()-1);
         }else {
             //measure flex-wrap
-            return measureColumnWrap(renderer, width, height);
+            return MeasureColumnWrap(renderer, width, width_mode, height, height_mode);
         }
     }
+
+    static bool sDisplayNoneFlag = false;
 
     void CSSStaticLayout::Layout(LayoutObject* renderer, int width, int height) {
-        CSSStyle* itemStyle = renderer->GetStyle();
-        Size itemSize  = renderer->GetMeasuredSize();
+        CSSStyle* item_style = renderer->GetStyle();
         // 如果是隐藏的view，之后的view都不进行排版，需要重新measure
-        if (itemStyle->css_display_type_ == CSS_DISPLAY_NONE) {
-            return;
-        }
-
-        if(itemStyle->flex_direction_ == CSSFLEX_DIRECTION_ROW) {
-            layoutRow(renderer, width, height);
-        }else if(itemStyle->flex_direction_ == CSSFLEX_DIRECTION_COLUMN){
-            layoutColumn(renderer, width, height);
+        if (sDisplayNoneFlag) {
+            LayoutWhenDisplayNone(renderer);
+        } else if(item_style->css_display_type_ != CSS_DISPLAY_FLEX) {
+            sDisplayNoneFlag = true;
+            LayoutWhenDisplayNone(renderer);
+            sDisplayNoneFlag = false;
+        } else if(item_style->flex_direction_ == CSSFLEX_DIRECTION_ROW) {
+            LayoutRow(renderer, width, height);
+        }else if(item_style->flex_direction_ == CSSFLEX_DIRECTION_COLUMN){
+            LayoutColumn(renderer, width, height);
         }
     }
 
-    void CSSStaticLayout::layoutRowWrap(LayoutObject* renderer, int width, int height) {
-        CSSStyle* itemStyle = renderer->GetStyle();
-        Size itemSize = renderer->GetMeasuredSize();
+    void CSSStaticLayout::LayoutWhenDisplayNone(LayoutObject* renderer) {
+        for (int i = 0; i < renderer->GetChildCount(); i++) {
+            LayoutObject* child = (LayoutObject*) renderer->Find(i);
+            child->Layout(0, 0, 0, 0);
+        }
+    }
 
-        int availableWidth = width - itemStyle->padding_left_
-                             - itemStyle->padding_right_ - itemStyle->border_width_*2;
-        int availableHeight = height - itemStyle->padding_top_
-                              - itemStyle->padding_bottom_ - itemStyle->border_width_ * 2;
+    void CSSStaticLayout::LayoutRowWrap(LayoutObject* renderer, int width, int height) {
+        CSSStyle* item_style = renderer->GetStyle();
 
-        int currentRowWithoutAbsoluteCount = 0;
-        int totalUseWidthWithoutAbsolute = 0;
+        int available_width = width - item_style->padding_left_
+                             - item_style->padding_right_ - item_style->border_width_ * 2;
+        int available_height = height - item_style->padding_top_
+                              - item_style->padding_bottom_ - item_style->border_width_ * 2;
+
+        int current_row_without_absolute_count = 0;
+        int total_use_width_without_absolute = 0;
 
         int start = 0;
-        int totalUsedHeight = 0;
+        int total_used_height = 0;
 
-        int currentLineHeight = 0;
-        bool isLineFeed = false;
+        int current_line_height = 0;
+        bool is_line_feed = false;
 
-        for (int index = 0, childViewCount = renderer->GetChildCount(); index < childViewCount; index++) {
+        for (int index = 0, child_view_count = renderer->GetChildCount(); index < child_view_count; index++) {
 
-            LayoutObject* child = (LayoutObject*)renderer->Find(index);
-            CSSStyle* style = child->GetStyle();
+            LayoutObject* child = (LayoutObject*) renderer->Find(index);
+            CSSStyle* child_style = child->GetStyle();
 
-            bool shouldChildPass = false;
-            int oldTotalUseWidthWithoutAbsolute = totalUseWidthWithoutAbsolute;
-            if(style->visible_ == CSS_HIDDEN ||
-                    style->css_display_type_ == CSS_DISPLAY_NONE) {
+            bool should_child_pass = false;
+            int oldTotalUseWidthWithoutAbsolute = total_use_width_without_absolute;
+            if(child_style->css_display_type_ != CSS_DISPLAY_FLEX) {
                 child->Layout(0, 0, 0, 0);
-                shouldChildPass = true;
+                should_child_pass = true;
             }
-            if(style->css_position_type_ == CSS_POSITION_ABSOLUTE) {
-                layoutAbsolute(renderer, child, width, height);
-                shouldChildPass = true;
+            if(child_style->css_position_type_ == CSS_POSITION_ABSOLUTE) {
+                LayoutAbsolute(renderer, child, width, height);
+                should_child_pass = true;
             }
-            if(style->css_position_type_ == CSS_POSITION_FIXED) {
-                layoutFixed(renderer, child);
-                shouldChildPass = true;
-            }
-
-            if (!shouldChildPass) {
-
-                currentRowWithoutAbsoluteCount++;
-
-                totalUseWidthWithoutAbsolute += child->GetMeasuredSize().width_ + style->margin_left_ + style->margin_right_;
-
+            if(child_style->css_position_type_ == CSS_POSITION_FIXED) {
+                LayoutFixed(renderer, child);
+                should_child_pass = true;
             }
 
-            if(totalUseWidthWithoutAbsolute <= availableWidth) {
-                int childHeight = child->GetMeasuredSize().height_ + style->margin_top_ + style->margin_bottom_;
-                currentLineHeight = currentLineHeight > childHeight ? currentLineHeight : childHeight;
+            if (!should_child_pass) {
+
+                current_row_without_absolute_count++;
+
+                total_use_width_without_absolute += child->measured_size_.width_ + child_style->margin_left_ + child_style->margin_right_;
+
+            }
+
+            if(total_use_width_without_absolute <= available_width) {
+                int childHeight = child->measured_size_.height_ + child_style->margin_top_
+                                  + child_style->margin_bottom_;
+                current_line_height = current_line_height > childHeight ? current_line_height : childHeight;
             }
 
             // 遍历到最后一个孩子的时候，不可以跳过layout previous child的操作，否则之前的孩子不能排版
-            bool isLastView = (index == childViewCount - 1);
-            if (shouldChildPass && !isLastView) {
+            bool is_last_view = (index == child_view_count - 1);
+            if (should_child_pass && !is_last_view) {
                 continue;
             }
 
-            if(totalUseWidthWithoutAbsolute > availableWidth || isLastView) {
+            if(total_use_width_without_absolute > available_width || is_last_view) {
 
-                if(totalUseWidthWithoutAbsolute > availableWidth && currentRowWithoutAbsoluteCount > 1) {
-                    isLineFeed = true;
+                if(total_use_width_without_absolute > available_width
+                   && current_row_without_absolute_count > 1) {
+                    is_line_feed = true;
                     index--;
-                    currentRowWithoutAbsoluteCount--;
-                    totalUseWidthWithoutAbsolute = oldTotalUseWidthWithoutAbsolute;
-                }else if(isLastView && !isLineFeed) {
-                    currentLineHeight = availableHeight;
+                    current_row_without_absolute_count--;
+                    total_use_width_without_absolute = oldTotalUseWidthWithoutAbsolute;
+                }else if(is_last_view && !is_line_feed) {
+                    current_line_height = available_height;
                 }
 
-                int adjustWidthStart = 0;
-                int adjustWidthInterval = 0;
-                if(currentRowWithoutAbsoluteCount > 0) {
-                    if(itemStyle->flex_justify_content_ == CSSFLEX_JUSTIFY_FLEX_START) {
+                int adjust_width_start = 0;
+                int adjust_width_interval = 0;
+                if(current_row_without_absolute_count > 0) {
+                    if(item_style->flex_justify_content_ == CSSFLEX_JUSTIFY_FLEX_START) {
                         //no action
-                    }else if(itemStyle->flex_justify_content_ == CSSFLEX_JUSTIFY_FLEX_END) {
-                        adjustWidthStart = availableWidth - totalUseWidthWithoutAbsolute;
-                    }else if(itemStyle->flex_justify_content_ == CSSFLEX_JUSTIFY_FLEX_CENTER) {
-                        adjustWidthStart = (availableWidth - totalUseWidthWithoutAbsolute) / 2;
-                    }else if(totalUseWidthWithoutAbsolute <= availableWidth && itemStyle->flex_justify_content_ == CSSFLEX_JUSTIFY_SPACE_BETWEEN) {
-                        if(currentRowWithoutAbsoluteCount > 1) {
-                            adjustWidthInterval = round(((float)(availableWidth - totalUseWidthWithoutAbsolute)) /
-                                    (currentRowWithoutAbsoluteCount-1));
+                    }else if(item_style->flex_justify_content_ == CSSFLEX_JUSTIFY_FLEX_END) {
+                        adjust_width_start = available_width - total_use_width_without_absolute;
+                    }else if(item_style->flex_justify_content_ == CSSFLEX_JUSTIFY_FLEX_CENTER) {
+                        adjust_width_start = (available_width - total_use_width_without_absolute) / 2;
+                    }else if(total_use_width_without_absolute <= available_width
+                             && item_style->flex_justify_content_ == CSSFLEX_JUSTIFY_SPACE_BETWEEN) {
+                        if(current_row_without_absolute_count > 1) {
+                            adjust_width_interval = round(((float)(available_width - total_use_width_without_absolute)) /
+                                                             (current_row_without_absolute_count-1));
                         }
-                    }else if(totalUseWidthWithoutAbsolute <= availableWidth && itemStyle->flex_justify_content_ == CSSFLEX_JUSTIFY_SPACE_AROUND) {
-                        float interval = ((float)(availableWidth - totalUseWidthWithoutAbsolute)) /
-                                (currentRowWithoutAbsoluteCount*2);
-                        adjustWidthStart = round(interval);
-                        adjustWidthInterval = round(interval*2);
+                    }else if(total_use_width_without_absolute <= available_width
+                             && item_style->flex_justify_content_ == CSSFLEX_JUSTIFY_SPACE_AROUND) {
+                        float interval = ((float)(available_width - total_use_width_without_absolute)) /
+                                         (current_row_without_absolute_count*2);
+                        adjust_width_start = round(interval);
+                        adjust_width_interval = round(interval*2);
                     }
                 }
 
-                int maxHeight = 0;
-                int childOriginX = itemStyle->padding_left_ + itemStyle->border_width_ + adjustWidthStart;
-                int childOriginY = itemStyle->padding_top_ + itemStyle->border_width_  + totalUsedHeight;
+                int max_height = 0;
+                int child_origin_x = item_style->padding_left_ + item_style->border_width_ + adjust_width_start;
+                int child_origin_y = item_style->padding_top_ + item_style->border_width_  + total_used_height;
 
 
                 for (int i = start; i <= index; i++) {
 
-                    LayoutObject* recalcChild = (LayoutObject*)renderer->Find(i);
-                    CSSStyle* recalcstyle = recalcChild->GetStyle();
+                    LayoutObject* recalc_child = (LayoutObject*) renderer->Find(i);
+                    CSSStyle* recalc_child_style = recalc_child->GetStyle();
 
-                    CSSStyleType align = itemStyle->flex_align_items_;
+                    int align = item_style->flex_align_items_;
 
-                    if(recalcstyle->visible_ == CSS_HIDDEN ||
-                            recalcstyle->css_display_type_ == CSS_DISPLAY_NONE) {
-                        recalcChild->Layout(0,0,0,0);
+                    if(recalc_child_style->css_display_type_ != CSS_DISPLAY_FLEX) {
+                        recalc_child->Layout(0,0,0,0);
                         continue;
                     }
-                    if(recalcstyle->css_position_type_ == CSS_POSITION_ABSOLUTE ||
-                            recalcstyle->css_position_type_ == CSS_POSITION_FIXED) {
+                    if(recalc_child_style->css_position_type_ == CSS_POSITION_ABSOLUTE ||
+                       recalc_child_style->css_position_type_ == CSS_POSITION_FIXED) {
                         continue;
                     }
 
-                    if(recalcstyle->flex_align_self_ != CSSFLEX_ALIGN_AUTO) {
-                        align = recalcstyle->flex_align_self_;
+                    if(recalc_child_style->flex_align_self_ != CSSFLEX_ALIGN_AUTO) {
+                        align = recalc_child_style->flex_align_self_;
                     }
 
+                    int old_child_origin_y = child_origin_y;
 
-                    int oldChildOriginY = childOriginY;
-
-                    childOriginX += recalcstyle->margin_left_;
+                    child_origin_x += recalc_child_style->margin_left_;
+                    child_origin_y += recalc_child_style->margin_top_;
                     if(i > start)
-                        childOriginX += adjustWidthInterval;
-                    childOriginY += recalcstyle->margin_top_;
+                        child_origin_x += adjust_width_interval;
 
-                    int adjustY = 0;
-                    int adjustHeight = CSS_UNDEFINED;
-                    if(align == CSSFLEX_ALIGN_FLEX_START) {
+                    int adjust_y = 0;
+                    int adjust_height = CSS_UNDEFINED;
+                    if(align == CSSFLEX_ALIGN_FLEX_START || align == CSSFLEX_ALIGN_FLEX_START) {
                         //do nothing
-                    }else if(align == CSSFLEX_ALIGN_FLEX_END) {
-                        adjustY = currentLineHeight - recalcstyle->margin_bottom_ - recalcChild->GetMeasuredSize().height_;
-                    }else if(align == CSSFLEX_ALIGN_STRETCH) {
-                        adjustHeight = currentLineHeight - recalcstyle->margin_top_ - recalcstyle->margin_bottom_;
-                        adjustHeight = recalcChild->GetStyle()->ClampHeight(adjustHeight);
-                    }else if(align == CSSFLEX_ALIGN_CENTER) {
-                        adjustY = (currentLineHeight - recalcChild->GetMeasuredSize().height_)/2;
+                    }else if(align == CSSFLEX_ALIGN_FLEX_END || align == CSSFLEX_ALIGN_FLEX_END) {
+                        adjust_y = current_line_height - recalc_child_style->margin_bottom_ - recalc_child->measured_size_.height_;
+                    }else if(align == CSSFLEX_ALIGN_STRETCH || align == CSSFLEX_ALIGN_STRETCH) {
+                        adjust_height = current_line_height - recalc_child_style->margin_top_ - recalc_child_style->margin_bottom_;
+                        adjust_height = recalc_child->GetStyle()->ClampHeight(adjust_height);
+                    }else if(align == CSSFLEX_ALIGN_CENTER || align == CSSFLEX_ALIGN_CENTER) {
+                        adjust_y = (current_line_height - recalc_child->measured_size_.height_)/2;
                     }
 
-                    int l = childOriginX;
-                    int t = childOriginY + adjustY;
-                    int r = l + recalcChild->GetMeasuredSize().width_;
-                    int b = CSS_IS_UNDEFINED(adjustHeight) ?
-                            t + recalcChild->GetMeasuredSize().height_ : t + adjustHeight;
+                    int l = child_origin_x;
+                    int t = child_origin_y + adjust_y;
+                    int r = l + recalc_child->measured_size_.width_;
+                    int b = CSS_IS_UNDEFINED(adjust_height) ?
+                            t + recalc_child->measured_size_.height_ : t + adjust_height;
 
-                    recalcChild->Layout(l,t,r,b);
+                    recalc_child->Layout(l,t,r,b);
 
-                    childOriginX += recalcChild->GetMeasuredSize().width_ + recalcstyle->margin_right_;
-                    childOriginY = oldChildOriginY;
-                    int childIteheight_ = (b-t) + recalcstyle->margin_bottom_ + recalcstyle->margin_top_;
-                    maxHeight = maxHeight < childIteheight_ ? childIteheight_ : maxHeight;
+                    child_origin_x += recalc_child->measured_size_.width_ + recalc_child_style->margin_right_;
+                    child_origin_y = old_child_origin_y;
+                    int child_item_height = (b-t) + recalc_child_style->margin_bottom_ + recalc_child_style->margin_top_;
+                    max_height = max_height < child_item_height ? child_item_height : max_height;
                 }
                 start = index + 1;
-                totalUseWidthWithoutAbsolute = itemStyle->padding_left_ + itemStyle->padding_right_;
-                currentRowWithoutAbsoluteCount = 0;
-                totalUsedHeight += maxHeight;
-                currentLineHeight = 0;
+                total_use_width_without_absolute = item_style->padding_left_ + item_style->padding_right_;
+                current_row_without_absolute_count = 0;
+                total_used_height += max_height;
+                current_line_height = 0;
             }
         }
     }
 
-    void CSSStaticLayout::layoutRow(LayoutObject* renderer, int width, int height) {
-        CSSStyle* itemStyle = renderer->GetStyle();
+    void CSSStaticLayout::LayoutRow(LayoutObject* renderer, int width, int height) {
+        CSSStyle* item_style = renderer->GetStyle();
         // 可用宽高为去除padding和border之后的宽高
-        int availableWidth = width - itemStyle->padding_left_
-                             - itemStyle->padding_right_ - itemStyle->border_width_*2;
-        int availableHeight = height - itemStyle->padding_top_
-                              - itemStyle->padding_bottom_ - itemStyle->border_width_*2;
+        int available_width = width - item_style->padding_left_ - item_style->padding_right_ - item_style->border_width_*2;
+        int available_height = height - item_style->padding_top_ - item_style->padding_bottom_ - item_style->border_width_*2;
 
-        int currentRowWithoutAbsoluteCount = 0;
-        int totalUseWidthWithoutAbsolute = 0;
+        int current_row_without_absolute_count = 0;
+        int total_use_width_without_absolute = 0;
 
-        if(itemStyle->flex_wrap_ == CSSFLEX_NOWRAP) {
-            for (int index = 0, childViewCount = renderer->GetChildCount(); index < childViewCount; index++) {
+        if(item_style->flex_wrap_ != CSSFLEX_WRAP) {
+            for (int index = 0, child_view_count = renderer->GetChildCount(); index < child_view_count; index++) {
 
-                LayoutObject* child = (LayoutObject*)renderer->Find(index);
-                CSSStyle* style = child->GetStyle();
+                LayoutObject* child = (LayoutObject*) renderer->Find(index);
+                CSSStyle* child_style = child->GetStyle();
 
-                if(style->visible_ == CSS_HIDDEN ||
-                        style->css_display_type_ == CSS_DISPLAY_NONE) {
+                if(child_style->css_display_type_ != CSS_DISPLAY_FLEX) {
                     child->Layout(0,0,0,0);
                     continue;
                 }
-                if(style->css_position_type_ == CSS_POSITION_ABSOLUTE) {
-                    layoutAbsolute(renderer, child, width, height);
+                if(child_style->css_position_type_ == CSS_POSITION_ABSOLUTE) {
+                    LayoutAbsolute(renderer, child, width, height);
                     continue;
                 }
-                if(style->css_position_type_ == CSS_POSITION_FIXED) {
-                    layoutFixed(renderer, child);
+                if(child_style->css_position_type_ == CSS_POSITION_FIXED) {
+                    LayoutFixed(renderer, child);
                     continue;
                 }
-                currentRowWithoutAbsoluteCount++;
-                totalUseWidthWithoutAbsolute += child->GetMeasuredSize().width_
-                        + child->GetStyle()->margin_left_ + child->GetStyle()->margin_right_;
+                current_row_without_absolute_count++;
+                total_use_width_without_absolute += child->measured_size_.width_
+                                                + child->GetStyle()->margin_left_ + child->GetStyle()->margin_right_;
             }
 
-            int adjustWidthStart = 0;
-            int adjustWidthInterval = 0;
-            if(currentRowWithoutAbsoluteCount > 0) {
-                if(itemStyle->flex_justify_content_ == CSSFLEX_JUSTIFY_FLEX_START) {
+            int adjust_width_start = 0;
+            int adjust_width_interval = 0;
+            if(current_row_without_absolute_count > 0) {
+                if(item_style->flex_justify_content_ == CSSFLEX_JUSTIFY_FLEX_START) {
                     //no action
-                }else if(itemStyle->flex_justify_content_ == CSSFLEX_JUSTIFY_FLEX_END) {
-                    adjustWidthStart = availableWidth - totalUseWidthWithoutAbsolute;
-                }else if(itemStyle->flex_justify_content_ == CSSFLEX_JUSTIFY_FLEX_CENTER) {
-                    adjustWidthStart = (availableWidth - totalUseWidthWithoutAbsolute) / 2;
-                }else if(totalUseWidthWithoutAbsolute <= availableWidth && itemStyle->flex_justify_content_ == CSSFLEX_JUSTIFY_SPACE_BETWEEN) {
-                    if(currentRowWithoutAbsoluteCount > 1) {
-                        adjustWidthInterval = round(((float)(availableWidth - totalUseWidthWithoutAbsolute)) /
-                                (currentRowWithoutAbsoluteCount-1));
+                }else if(item_style->flex_justify_content_ == CSSFLEX_JUSTIFY_FLEX_END) {
+                    adjust_width_start = available_width - total_use_width_without_absolute;
+                }else if(item_style->flex_justify_content_ == CSSFLEX_JUSTIFY_FLEX_CENTER) {
+                    adjust_width_start = (available_width - total_use_width_without_absolute) / 2;
+                }else if(total_use_width_without_absolute <= available_width && item_style->flex_justify_content_ == CSSFLEX_JUSTIFY_SPACE_BETWEEN) {
+                    if(current_row_without_absolute_count > 1) {
+                        adjust_width_interval = round(((float)(available_width - total_use_width_without_absolute)) /
+                                                         (current_row_without_absolute_count-1));
                     }
-                }else if(totalUseWidthWithoutAbsolute <= availableWidth && itemStyle->flex_justify_content_ == CSSFLEX_JUSTIFY_SPACE_AROUND) {
-                    float interval = ((float)(availableWidth - totalUseWidthWithoutAbsolute)) /
-                            (currentRowWithoutAbsoluteCount*2);
-                    adjustWidthStart += round(interval);
-                    adjustWidthInterval = round(interval*2);
+                }else if(total_use_width_without_absolute <= available_width && item_style->flex_justify_content_ == CSSFLEX_JUSTIFY_SPACE_AROUND) {
+                    float interval = ((float)(available_width - total_use_width_without_absolute)) /
+                                     (current_row_without_absolute_count*2);
+                    adjust_width_start += round(interval);
+                    adjust_width_interval = round(interval*2);
                 }
             }
 
             // 防止有absolute的孩子导致第一个布局的孩子判断不准确
-            int firstShowIndex = 0;
-            int childOriginX = adjustWidthStart + itemStyle->padding_left_ + itemStyle->border_width_;
-            int childOriginY = itemStyle->padding_top_ + itemStyle->border_width_;
+            int first_show_index = 0;
+            int child_origin_x = adjust_width_start + item_style->padding_left_ + item_style->border_width_;
+            int child_origin_y = item_style->padding_top_ + item_style->border_width_;
             for (int i = 0, size = renderer->GetChildCount(); i < size; i++) {
-                LayoutObject* child = (LayoutObject*)renderer->Find(i);
-                CSSStyle* style = child->GetStyle();
+                LayoutObject* child = (LayoutObject*) renderer->Find(i);
+                CSSStyle* child_style = child->GetStyle();
 
-                CSSStyleType align = itemStyle->flex_align_items_;
+                int align = item_style->flex_align_items_;
 
-                if(style->visible_ == CSS_HIDDEN) {
-                    child->Layout(0,0,0,0);
-                    continue;
-                }
-                if(style->css_position_type_ == CSS_POSITION_ABSOLUTE ||
-                        style->css_position_type_ == CSS_POSITION_FIXED ||
-                        style->css_display_type_ == CSS_DISPLAY_NONE) {
-                    firstShowIndex++;
+                if(child_style->css_position_type_ == CSS_POSITION_ABSOLUTE ||
+                   child_style->css_position_type_ == CSS_POSITION_FIXED ||
+                   child_style->css_display_type_ != CSS_DISPLAY_FLEX) {
+                    first_show_index++;
                     continue;
                 }
 
-                if(style->flex_align_self_ != CSSFLEX_ALIGN_AUTO) {
-                    align = style->flex_align_self_;
+                if(child_style->flex_align_self_ != CSSFLEX_ALIGN_AUTO) {
+                    align = child_style->flex_align_self_;
                 }
 
-                int oldChildOriginY = childOriginY;
+                int old_child_origin_y = child_origin_y;
 
-                childOriginX += style->margin_left_;
-                if(i > firstShowIndex)
-                    childOriginX += adjustWidthInterval;
-                childOriginY += style->margin_top_;
+                child_origin_x += child_style->margin_left_;
+                if(i > first_show_index)
+                    child_origin_x += adjust_width_interval;
+                child_origin_y += child_style->margin_top_;
 
-                int adjustY = 0;
-                int adjustHeight = CSS_UNDEFINED;
-                if(align == CSSFLEX_ALIGN_FLEX_START) {
+                int adjust_y = 0;
+                int adjust_height = CSS_UNDEFINED;
+                if(align == CSSFLEX_ALIGN_FLEX_START || align == CSSFLEX_ALIGN_FLEX_START) {
                     //do nothing
-                }else if(align == CSSFLEX_ALIGN_FLEX_END) {
-                    adjustY = availableHeight - style->margin_bottom_ - child->GetMeasuredSize().height_;
-                }else if(align == CSSFLEX_ALIGN_STRETCH) {
-                    if (CSS_IS_UNDEFINED(style->height_)) {
-                        adjustHeight = availableHeight - style->margin_top_ - style->margin_bottom_;
-                        adjustHeight = child->GetStyle()->ClampHeight(adjustHeight);
+                }else if(align == CSSFLEX_ALIGN_FLEX_END || align == CSSFLEX_ALIGN_FLEX_END) {
+                    adjust_y = available_height - child_style->margin_bottom_ - child->measured_size_.height_;
+                }else if(align == CSSFLEX_ALIGN_STRETCH || align == CSSFLEX_ALIGN_STRETCH) {
+                    if (CSS_IS_UNDEFINED(child_style->height_)) {
+                        adjust_height = available_height - child_style->margin_top_ - child_style->margin_bottom_;
+                        adjust_height = child->GetStyle()->ClampHeight(adjust_height);
                     }
-                }else if(align == CSSFLEX_ALIGN_CENTER) {
-                    adjustY = (availableHeight - child->GetMeasuredSize().height_ )/2;
+                }else if(align == CSSFLEX_ALIGN_CENTER || align == CSSFLEX_ALIGN_CENTER) {
+                    adjust_y = (available_height - child->measured_size_.height_ )/2;
                 }
 
-                int l = childOriginX;
-                int t = adjustY + childOriginY;
-                int r = childOriginX + child->GetMeasuredSize().width_;
-                int b = CSS_IS_UNDEFINED(adjustHeight) ?
-                        childOriginY + child->GetMeasuredSize().height_ + adjustY
-                        : childOriginY + adjustHeight;
+                int l = child_origin_x;
+                int t = adjust_y + child_origin_y;
+                int r = child_origin_x + child->measured_size_.width_;
+                int b = CSS_IS_UNDEFINED(adjust_height) ?
+                        child_origin_y + child->measured_size_.height_ + adjust_y
+                                                                   : child_origin_y + adjust_height;
                 child->Layout(l,t,r,b);
 
-                childOriginX += child->GetMeasuredSize().width_ + style->margin_right_;
-                childOriginY = oldChildOriginY;
+                child_origin_x += child->measured_size_.width_ + child_style->margin_right_;
+                child_origin_y = old_child_origin_y;
             }
         }else {
-            layoutRowWrap(renderer, width, height);
+            LayoutRowWrap(renderer, width, height);
         }
     }
 
-    void CSSStaticLayout::layoutColumnWrap(LayoutObject* renderer, int width, int height) {
-        CSSStyle* itemStyle = renderer->GetStyle();
+    void CSSStaticLayout::LayoutColumnWrap(LayoutObject* renderer, int width, int height) {
+        CSSStyle* item_style = renderer->GetStyle();
 
-        int availableWidth = width - itemStyle->padding_left_
-                - itemStyle->padding_right_ - itemStyle->border_width_*2;
-        int availableHeight = height;
+        int available_width = width - item_style->padding_left_
+                             - item_style->padding_right_ - item_style->border_width_ * 2;
+        int available_height = height - item_style->padding_top_
+                              - item_style->padding_bottom_ - item_style->border_width_ * 2;
 
-        int currentColumnWithoutAbsoluteCount = 0;
-        int totalUseHeightWithoutAbsolute = itemStyle->padding_top_
-                + itemStyle->padding_bottom_;
+        int current_column_without_absolute_count = 0;
+        int total_use_height_without_absolute = 0;
 
 
         int start = 0;
         int size = renderer->GetChildCount();
-        int totalUsedWidth = 0;
+        int total_used_width = 0;
 
 
-        int currentLineWidth = 0;
-        bool isLineFeed = false;
+        int current_line_width = 0;
+        bool is_line_feed = false;
 
         for (int index = 0; index < size; index++) {
-            LayoutObject* child = (LayoutObject*)renderer->Find(index);
-            CSSStyle* style = child->GetStyle();
+            LayoutObject* child = (LayoutObject*) renderer->Find(index);
+            CSSStyle* child_style = child->GetStyle();
 
-            bool childShouldPass = false;
-            int oldTotalUseHeightWithoutAbsolute = totalUseHeightWithoutAbsolute;
-            if(style->visible_ == CSS_HIDDEN ||
-                    style->css_display_type_ == CSS_DISPLAY_NONE) {
+            bool child_should_pass = false;
+            int oldTotalUseHeightWithoutAbsolute = total_use_height_without_absolute;
+            if(child_style->css_display_type_ != CSS_DISPLAY_FLEX) {
                 child->Layout(0, 0, 0, 0);
-                childShouldPass = true;
+                child_should_pass = true;
             }
-            if(style->css_position_type_ == CSS_POSITION_ABSOLUTE) {
-                layoutAbsolute(renderer, child, width, height);
-                childShouldPass = true;
+            if(child_style->css_position_type_ == CSS_POSITION_ABSOLUTE) {
+                LayoutAbsolute(renderer, child, width, height);
+                child_should_pass = true;
             }
-            if(style->css_position_type_ == CSS_POSITION_FIXED) {
-                layoutFixed(renderer, child);
-                childShouldPass = true;
+            if(child_style->css_position_type_ == CSS_POSITION_FIXED) {
+                LayoutFixed(renderer, child);
+                child_should_pass = true;
             }
 
-            if (!childShouldPass) {
-                currentColumnWithoutAbsoluteCount++;
-                if(!CSS_IS_UNDEFINED(style->height_)) {
+            if (!child_should_pass) {
+                current_column_without_absolute_count++;
+                if(!CSS_IS_UNDEFINED(child_style->height_)) {
 
-                    totalUseHeightWithoutAbsolute += style->height_ + style->margin_top_ + style->margin_bottom_;
+                    total_use_height_without_absolute += child_style->height_ + child_style->margin_top_ + child_style->margin_bottom_;
 
                 }else{
 
-                    totalUseHeightWithoutAbsolute += child->GetMeasuredSize().height_ + style->margin_top_ + style->margin_bottom_;
+                    total_use_height_without_absolute += child->measured_size_.height_ + child_style->margin_top_ + child_style->margin_bottom_;
 
                 }
             }
 
-            if(totalUseHeightWithoutAbsolute <= availableHeight) {
-                int childWidth = child->GetMeasuredSize().width_ + style->margin_left_ + style->margin_right_;
-                currentLineWidth = currentLineWidth > childWidth ? currentLineWidth : childWidth;
+            if(total_use_height_without_absolute <= available_height) {
+                int childWidth = child->measured_size_.width_ + child_style->margin_left_ + child_style->margin_right_;
+                current_line_width = current_line_width > childWidth ? current_line_width : childWidth;
             }
 
             // 遍历到最后一个孩子的时候，不可以跳过layout previous child的操作，否则之前的孩子不能排版
-            bool isLastView = (index == size - 1);
-            if (childShouldPass && !isLastView) {
+            bool is_last_view = (index == size - 1);
+            if (child_should_pass && !is_last_view) {
                 continue;
             }
 
-            if(totalUseHeightWithoutAbsolute > availableHeight || isLastView) {
+            if(total_use_height_without_absolute > available_height || is_last_view) {
 
-                if(totalUseHeightWithoutAbsolute > availableHeight && currentColumnWithoutAbsoluteCount > 1) {
-                    isLineFeed = true;
+                if(total_use_height_without_absolute > available_height
+                   && current_column_without_absolute_count > 1) {
+                    is_line_feed = true;
                     index--;
-                    currentColumnWithoutAbsoluteCount--;
-                    totalUseHeightWithoutAbsolute = oldTotalUseHeightWithoutAbsolute;
-                }else if(isLastView && !isLineFeed) {
-                    currentLineWidth = availableWidth;
+                    current_column_without_absolute_count--;
+                    total_use_height_without_absolute = oldTotalUseHeightWithoutAbsolute;
+                }else if(is_last_view && !is_line_feed) {
+                    current_line_width = available_width;
                 }
 
-                int adjustHeightStart = 0;
-                int adjustHeightInterval = 0;
-                if(currentColumnWithoutAbsoluteCount > 0) {
-                    if(itemStyle->flex_justify_content_ == CSSFLEX_JUSTIFY_FLEX_START) {
+                int adjust_height_start = 0;
+                int adjust_height_interval = 0;
+                if(current_column_without_absolute_count > 0) {
+                    if(item_style->flex_justify_content_ == CSSFLEX_JUSTIFY_FLEX_START) {
                         //no action
-                    }else if(itemStyle->flex_justify_content_ == CSSFLEX_JUSTIFY_FLEX_END) {
-                        adjustHeightStart = availableHeight - totalUseHeightWithoutAbsolute;
-                    }else if(itemStyle->flex_justify_content_ == CSSFLEX_JUSTIFY_FLEX_CENTER) {
-                        adjustHeightStart = (availableHeight - totalUseHeightWithoutAbsolute) / 2;
-                    }else if(totalUseHeightWithoutAbsolute <= availableWidth && itemStyle->flex_justify_content_ == CSSFLEX_JUSTIFY_SPACE_BETWEEN) {
-                        if(currentColumnWithoutAbsoluteCount > 1) {
-                            adjustHeightInterval = round(((float)(availableHeight - totalUseHeightWithoutAbsolute)) /
-                                    (currentColumnWithoutAbsoluteCount-1));
+                    }else if(item_style->flex_justify_content_ == CSSFLEX_JUSTIFY_FLEX_END) {
+                        adjust_height_start = available_height - total_use_height_without_absolute;
+                    }else if(item_style->flex_justify_content_ == CSSFLEX_JUSTIFY_FLEX_CENTER) {
+                        adjust_height_start = (available_height - total_use_height_without_absolute) / 2;
+                    }else if(total_use_height_without_absolute <= available_height
+                             && item_style->flex_justify_content_ == CSSFLEX_JUSTIFY_SPACE_BETWEEN) {
+                        if(current_column_without_absolute_count > 1) {
+                            adjust_height_interval = round(((float)(available_height - total_use_height_without_absolute)) /
+                                                              (current_column_without_absolute_count-1));
                         }
-                    }else if(totalUseHeightWithoutAbsolute <= availableWidth && itemStyle->flex_justify_content_ == CSSFLEX_JUSTIFY_SPACE_AROUND) {
-                        float interval = ((float)(availableHeight - totalUseHeightWithoutAbsolute)) /
-                                (currentColumnWithoutAbsoluteCount*2);
-                        adjustHeightStart = round(interval);
-                        adjustHeightInterval = round(interval*2);
+                    }else if(total_use_height_without_absolute <= available_height
+                             && item_style->flex_justify_content_ == CSSFLEX_JUSTIFY_SPACE_AROUND) {
+                        float interval = ((float)(available_height - total_use_height_without_absolute)) /
+                                         (current_column_without_absolute_count * 2);
+                        adjust_height_start = round(interval);
+                        adjust_height_interval = round(interval * 2);
                     }
                 }
 
                 int maxWidth = 0;
-                int childOriginX = itemStyle->padding_left_ + itemStyle->border_width_ + totalUsedWidth;
-                int childOriginY = itemStyle->padding_top_  + itemStyle->border_width_  + adjustHeightStart;
+                int child_origin_x = item_style->padding_left_ + item_style->border_width_ + total_used_width;
+                int child_origin_y = item_style->padding_top_  + item_style->border_width_  + adjust_height_start;
                 for (int i = start; i <= index; i++) {
-                    LayoutObject* recalcChild = (LayoutObject*)renderer->Find(i);
-                    CSSStyle* recalcstyle = recalcChild->GetStyle();
+                    LayoutObject* recalc_child = (LayoutObject*) renderer->Find(i);
+                    CSSStyle* recalc_child_style = recalc_child->GetStyle();
 
-                    CSSStyleType align = itemStyle->flex_align_items_;
+                    int align = item_style->flex_align_items_;
 
-                    if(recalcstyle->visible_ == CSS_HIDDEN ||
-                            recalcstyle->css_display_type_ == CSS_DISPLAY_NONE) {
-                        recalcChild->Layout(0,0,0,0);
+                    if(recalc_child_style->css_display_type_ != CSS_DISPLAY_FLEX) {
+                        recalc_child->Layout(0,0,0,0);
                         continue;
                     }
-                    if(recalcstyle->css_position_type_ == CSS_POSITION_ABSOLUTE ||
-                            recalcstyle->css_position_type_ == CSS_POSITION_FIXED) {
+                    if(recalc_child_style->css_position_type_ == CSS_POSITION_ABSOLUTE ||
+                       recalc_child_style->css_position_type_ == CSS_POSITION_FIXED) {
                         continue;
                     }
 
-                    if(recalcstyle->flex_align_self_ != CSSFLEX_ALIGN_AUTO) {
-                        align = recalcstyle->flex_align_self_;
+                    if(recalc_child_style->flex_align_self_ != CSSFLEX_ALIGN_AUTO) {
+                        align = recalc_child_style->flex_align_self_;
                     }
 
-                    int oldChildOriginX = childOriginX;
+                    int old_child_origin_x = child_origin_x;
 
-                    childOriginX += recalcstyle->margin_left_;
-                    if(i >= start)
-                        childOriginY += recalcstyle->margin_top_ + adjustHeightInterval;
+                    child_origin_x += recalc_child_style->margin_left_;
+                    child_origin_y += recalc_child_style->margin_top_;
+                    if(i > start)
+                        child_origin_y += adjust_height_interval;
 
-                    int adjustX = 0;
-                    int adjustWidth = CSS_UNDEFINED;
-                    if(align == CSSFLEX_ALIGN_FLEX_START) {
+                    int adjust_x = 0;
+                    int adjust_width = CSS_UNDEFINED;
+                    if(align == CSSFLEX_ALIGN_FLEX_START||align == CSSFLEX_ALIGN_FLEX_START) {
                         //do nothing
-                    }else if(align == CSSFLEX_ALIGN_FLEX_END) {
-                        adjustX = currentLineWidth - recalcstyle->margin_right_ - recalcChild->GetMeasuredSize().width_;
-                    }else if(align == CSSFLEX_ALIGN_STRETCH) {
-                        adjustWidth = currentLineWidth - recalcstyle->margin_right_ - recalcstyle->margin_left_;
-                        adjustWidth = recalcChild->GetStyle()->ClampWidth(adjustWidth);
-                    }else if(align == CSSFLEX_ALIGN_CENTER) {
-                        adjustX = (currentLineWidth - recalcstyle->margin_right_ -
-                                recalcstyle->margin_left_ - recalcChild->GetMeasuredSize().width_)/2;
+                    }else if(align == CSSFLEX_ALIGN_FLEX_END||align == CSSFLEX_ALIGN_FLEX_END) {
+                        adjust_x = current_line_width - recalc_child_style->margin_right_
+                                   - recalc_child->measured_size_.width_;
+                    }else if(align == CSSFLEX_ALIGN_STRETCH||align == CSSFLEX_ALIGN_STRETCH) {
+                        adjust_width = current_line_width - recalc_child_style->margin_right_
+                                       - recalc_child_style->margin_left_;
+                        adjust_width = recalc_child->GetStyle()->ClampWidth(adjust_width);
+                    }else if(align == CSSFLEX_ALIGN_CENTER||align == CSSFLEX_ALIGN_CENTER) {
+                        adjust_x = (current_line_width - recalc_child_style->margin_right_ -
+                                   recalc_child_style->margin_left_
+                                    - recalc_child->measured_size_.width_)/2;
                     }
 
 
-                    int l = childOriginX + adjustX;
-                    int t = childOriginY;
-                    int r = CSS_IS_UNDEFINED(adjustWidth) ?
-                            l + recalcChild->GetMeasuredSize().width_ : l + adjustWidth;
-                    int b = t + recalcChild->GetMeasuredSize().height_;
+                    int l = child_origin_x + adjust_x;
+                    int t = child_origin_y;
+                    int r = CSS_IS_UNDEFINED(adjust_width) ?
+                            l + recalc_child->measured_size_.width_ : l + adjust_width;
+                    int b = t + recalc_child->measured_size_.height_;
 
-                    recalcChild->Layout(l, t, r, b);
+                    recalc_child->Layout(l, t, r, b);
 
-                    childOriginX = oldChildOriginX;
-                    childOriginY += recalcChild->GetMeasuredSize().height_ + recalcstyle->margin_bottom_;
-                    int childItewidth_ = (r-l) + recalcstyle->margin_left_ + recalcstyle->margin_right_;
-                    maxWidth = maxWidth < childItewidth_ ? childItewidth_ : maxWidth;
+                    child_origin_x = old_child_origin_x;
+                    child_origin_y += recalc_child->measured_size_.height_
+                                      + recalc_child_style->margin_bottom_;
+                    int child_item_width = (r-l) + recalc_child_style->margin_left_
+                                         + recalc_child_style->margin_right_;
+                    maxWidth = maxWidth < child_item_width ? child_item_width : maxWidth;
                 }
                 start = index + 1;
-                totalUseHeightWithoutAbsolute = itemStyle->padding_top_
-                        + itemStyle->padding_bottom_;
-                currentColumnWithoutAbsoluteCount = 0;
-                totalUsedWidth += maxWidth;
-                currentLineWidth = 0;
+                total_use_height_without_absolute = item_style->padding_top_
+                                                + item_style->padding_bottom_;
+                current_column_without_absolute_count = 0;
+                total_used_width += maxWidth;
+                current_line_width = 0;
             }
         }
     }
 
-    void CSSStaticLayout::layoutColumn(LayoutObject* renderer, int width, int height) {
-        CSSStyle* itemStyle = renderer->GetStyle();
+    void CSSStaticLayout::LayoutColumn(LayoutObject* renderer, int width, int height) {
+        CSSStyle* item_style = renderer->GetStyle();
 
-        int availableWidth = width - itemStyle->padding_left_
-                - itemStyle->padding_right_ - itemStyle->border_width_*2;
-        int availableHeight = height;
+        int available_width = width - item_style->padding_left_
+                             - item_style->padding_right_ - item_style->border_width_ * 2;
+        int available_height = height - item_style->padding_top_
+                              - item_style->padding_bottom_ - item_style->border_width_ * 2;
 
-        int currentColumnWithoutAbsoluteCount = 0;
-        int totalUseHeightWithoutAbsolute = itemStyle->padding_top_
-                + itemStyle->padding_bottom_;
+        int current_column_without_absolute_count = 0;
+        int total_use_height_without_absolute = 0;
 
-        if(itemStyle->flex_wrap_ == CSSFLEX_NOWRAP) {
+        if(item_style->flex_wrap_ != CSSFLEX_WRAP) {
             for (int i = 0, size = renderer->GetChildCount(); i < size; i++) {
-                LayoutObject* child = (LayoutObject*)renderer->Find(i);
-                CSSStyle* style = child->GetStyle();
-                if(style->visible_ == CSS_HIDDEN ||
-                        style->css_display_type_ == CSS_DISPLAY_NONE) {
+                LayoutObject* child = (LayoutObject*) renderer->Find(i);
+                CSSStyle* child_style = child->GetStyle();
+                if(child_style->css_display_type_ != CSS_DISPLAY_FLEX) {
                     child->Layout(0, 0, 0, 0);
                     continue;
                 }
-                if(style->css_position_type_ == CSS_POSITION_ABSOLUTE) {
-                    layoutAbsolute(renderer, child, width, height);
+                if(child_style->css_position_type_ == CSS_POSITION_ABSOLUTE) {
+                    LayoutAbsolute(renderer, child, width, height);
                     continue;
                 }
-                if(style->css_position_type_ == CSS_POSITION_FIXED) {
-                    layoutFixed(renderer, child);
+                if(child_style->css_position_type_ == CSS_POSITION_FIXED) {
+                    LayoutFixed(renderer, child);
                     continue;
                 }
-                currentColumnWithoutAbsoluteCount++;
-                totalUseHeightWithoutAbsolute += child->GetMeasuredSize().height_
-                        + child->GetStyle()->margin_top_ + child->GetStyle()->margin_bottom_;
+                current_column_without_absolute_count++;
+                total_use_height_without_absolute += child->measured_size_.height_
+                                                 + child->GetStyle()->margin_top_ + child->GetStyle()->margin_bottom_;
             }
 
-            int adjustHeightStart = 0;
-            int adjustHeightInterval = 0;
-            if(currentColumnWithoutAbsoluteCount > 0) {
-                if(itemStyle->flex_justify_content_ == CSSFLEX_JUSTIFY_FLEX_START) {
+            int adjust_height_start = 0;
+            int adjust_height_interval = 0;
+            if(current_column_without_absolute_count > 0) {
+                if(item_style->flex_justify_content_ == CSSFLEX_JUSTIFY_FLEX_START) {
                     //no action
-                }else if(itemStyle->flex_justify_content_ == CSSFLEX_JUSTIFY_FLEX_END) {
-                    adjustHeightStart = availableHeight - totalUseHeightWithoutAbsolute;
-                }else if(itemStyle->flex_justify_content_ == CSSFLEX_JUSTIFY_FLEX_CENTER) {
-                    adjustHeightStart = (availableHeight - totalUseHeightWithoutAbsolute) / 2;
-                }else if(totalUseHeightWithoutAbsolute <= availableWidth && itemStyle->flex_justify_content_ == CSSFLEX_JUSTIFY_SPACE_BETWEEN) {
-                    if(currentColumnWithoutAbsoluteCount > 1) {
-                        adjustHeightInterval = round(((float)(availableHeight - totalUseHeightWithoutAbsolute)) /
-                                (currentColumnWithoutAbsoluteCount-1));
+                }else if(item_style->flex_justify_content_ == CSSFLEX_JUSTIFY_FLEX_END) {
+                    adjust_height_start = available_height - total_use_height_without_absolute;
+                }else if(item_style->flex_justify_content_ == CSSFLEX_JUSTIFY_FLEX_CENTER) {
+                    adjust_height_start = (available_height - total_use_height_without_absolute) / 2;
+                }else if(total_use_height_without_absolute <= available_height && item_style->flex_justify_content_ == CSSFLEX_JUSTIFY_SPACE_BETWEEN) {
+                    if(current_column_without_absolute_count > 1) {
+                        adjust_height_interval = round(((float)(available_height - total_use_height_without_absolute)) /
+                                                          (current_column_without_absolute_count-1));
                     }
-                }else if(totalUseHeightWithoutAbsolute <= availableWidth && itemStyle->flex_justify_content_ == CSSFLEX_JUSTIFY_SPACE_AROUND) {
-                    float interval = ((float)(availableHeight - totalUseHeightWithoutAbsolute)) /
-                            (currentColumnWithoutAbsoluteCount*2);
-                    adjustHeightStart = round(interval);
-                    adjustHeightInterval = round(interval*2);
+                }else if(total_use_height_without_absolute <= available_height && item_style->flex_justify_content_ == CSSFLEX_JUSTIFY_SPACE_AROUND) {
+                    float interval = ((float)(available_height - total_use_height_without_absolute)) /
+                                     (current_column_without_absolute_count*2);
+                    adjust_height_start = round(interval);
+                    adjust_height_interval = round(interval*2);
                 }
             }
 
             // 防止有absolute的孩子导致第一个布局的孩子判断不准确
-            int firstShowIndex = 0;
-            int childOriginX = itemStyle->padding_left_ + itemStyle->border_width_;
-            int childOriginY = itemStyle->padding_top_  + itemStyle->border_width_ + adjustHeightStart;
+            int first_show_index = 0;
+            int child_origin_x = item_style->padding_left_ + item_style->border_width_;
+            int child_origin_y = item_style->padding_top_  + item_style->border_width_ + adjust_height_start;
             for (int i = 0, size = renderer->GetChildCount(); i < size; i++) {
-                LayoutObject* child = (LayoutObject*)renderer->Find(i);
-                CSSStyle* style = child->GetStyle();
+                LayoutObject* child = (LayoutObject*) renderer->Find(i);
+                CSSStyle* child_style = child->GetStyle();
 
-                CSSStyleType align = itemStyle->flex_align_items_;
+                int align = item_style->flex_align_items_;
 
-                if(style->visible_ == CSS_HIDDEN) {
-                    child->Layout(0,0,0,0);
-                    continue;
-                }
-                if(style->css_position_type_ == CSS_POSITION_ABSOLUTE ||
-                        style->css_position_type_ == CSS_POSITION_FIXED ||
-                        style->css_display_type_ == CSS_DISPLAY_NONE) {
-                    firstShowIndex++;
+                if(child_style->css_position_type_ == CSS_POSITION_ABSOLUTE ||
+                   child_style->css_position_type_ == CSS_POSITION_FIXED ||
+                   child_style->css_display_type_ != CSS_DISPLAY_FLEX) {
+                    first_show_index++;
                     continue;
                 }
 
-                if(style->flex_align_self_ != CSSFLEX_ALIGN_AUTO) {
-                    align = style->flex_align_self_;
+                if(child_style->flex_align_self_ != CSSFLEX_ALIGN_AUTO) {
+                    align = child_style->flex_align_self_;
                 }
-                int oldChildOriginX = childOriginX;
+                int old_child_origin_x = child_origin_x;
 
-                childOriginX += style->margin_left_;
-                childOriginY += style->margin_top_;
-                if(i > firstShowIndex)
-                    childOriginY += adjustHeightInterval;
+                child_origin_x += child_style->margin_left_;
+                child_origin_y += child_style->margin_top_;
+                if(i > first_show_index)
+                    child_origin_y += adjust_height_interval;
 
-                int adjustX = 0;
-                int adjustWidth = CSS_UNDEFINED;
+                int adjust_x = 0;
+                int adjust_width = CSS_UNDEFINED;
                 if(align == CSSFLEX_ALIGN_FLEX_START) {
                     //do nothing
                 }else if(align == CSSFLEX_ALIGN_FLEX_END) {
-                    adjustX = availableWidth - style->margin_right_
-                            - child->GetMeasuredSize().width_;
+                    adjust_x = available_width - child_style->margin_right_
+                              - child->measured_size_.width_;
                 }else if(align == CSSFLEX_ALIGN_STRETCH) {
-                    if (CSS_IS_UNDEFINED(style->width_)) {
-                        adjustWidth = availableWidth - style->margin_right_ - style->margin_left_;
-                        adjustWidth = child->GetStyle()->ClampWidth(adjustWidth);
+                    if (CSS_IS_UNDEFINED(child_style->width_)) {
+                        adjust_width = available_width - child_style->margin_right_ - child_style->margin_left_;
+                        adjust_width = child->GetStyle()->ClampWidth(adjust_width);
                     }
                 }else if(align == CSSFLEX_ALIGN_CENTER) {
-                    adjustX = (availableWidth  - style->margin_right_ - style->margin_left_
-                            - child->GetMeasuredSize().width_)/2;
+                    adjust_x = (available_width  - child_style->margin_right_ - child_style->margin_left_
+                               - child->measured_size_.width_)/2;
                 }
 
-                int l = adjustX + childOriginX;
-                int t = childOriginY;
-                int r = CSS_IS_UNDEFINED(adjustWidth) ?
-                        childOriginX + child->GetMeasuredSize().width_ + adjustX : adjustWidth+childOriginX;
-                int b = childOriginY + child->GetMeasuredSize().height_;
+                int l = adjust_x + child_origin_x;
+                int t = child_origin_y;
+                int r = CSS_IS_UNDEFINED(adjust_width) ?
+                        child_origin_x + child->measured_size_.width_ + adjust_x : adjust_width + child_origin_x;
+                int b = child_origin_y + child->measured_size_.height_;
 
                 child->Layout(l,t,r,b);
 
-                childOriginX = oldChildOriginX;
-                childOriginY += child->GetMeasuredSize().height_ + style->margin_bottom_;
+                child_origin_x = old_child_origin_x;
+                child_origin_y += child->measured_size_.height_ + child_style->margin_bottom_;
             }
         }else {
-            layoutColumnWrap(renderer, width, height);
+            LayoutColumnWrap(renderer, width, height);
         }
     }
 
-    void CSSStaticLayout::measureAbsolute(LayoutObject* renderer, int width, int height) {
-        int w = (int) (CSS_IS_UNDEFINED(renderer->GetStyle()->width_)
-                        ? width : renderer->GetStyle()->width_);
-        int h = (int) (CSS_IS_UNDEFINED(renderer->GetStyle()->height_)
-                        ? height : renderer->GetStyle()->height_);
-        renderer->Measure(w, h);
+    void CSSStaticLayout::MeasureAbsolute(LayoutObject* renderer, int width, int width_mode,
+                                        int height, int height_mode) {
+        int w = CSS_IS_UNDEFINED(renderer->GetStyle()->width_)
+                ? width : renderer->GetStyle()->width_;
+        int h = CSS_IS_UNDEFINED(renderer->GetStyle()->height_)
+                ? height : renderer->GetStyle()->height_;
+
+        w -= CSS_IS_UNDEFINED(renderer->GetStyle()->right_) ? 0 : renderer->GetStyle()->right_;
+        w -= CSS_IS_UNDEFINED(renderer->GetStyle()->left_) ? 0 : renderer->GetStyle()->left_;
+        h -= CSS_IS_UNDEFINED(renderer->GetStyle()->top_) ? 0 : renderer->GetStyle()->top_;
+        h -= CSS_IS_UNDEFINED(renderer->GetStyle()->bottom_) ? 0 : renderer->GetStyle()->bottom_;
+
+        w -= renderer->GetStyle()->margin_left_ + renderer->GetStyle()->margin_right_;
+        h -= renderer->GetStyle()->margin_top_ + renderer->GetStyle()->margin_bottom_;
+
+        Size size = renderer->Measure(Size::Descriptor::Make(w, Size::Descriptor::AT_MOST),
+                                 Size::Descriptor::Make(h, Size::Descriptor::AT_MOST));
     }
 
-    void CSSStaticLayout::measureFixed(LayoutObject* renderer) {
+    void CSSStaticLayout::MeasureFixed(LayoutObject* renderer) {
         int width = static_cast<RenderObject*>(renderer)->render_tree_host()->view_port().width_;
         int height = static_cast<RenderObject*>(renderer)->render_tree_host()->view_port().height_;
-        renderer->Measure(Size::Descriptor::Make(width, Size::Descriptor::AT_MOST),
-                          Size::Descriptor::Make(height, Size::Descriptor::AT_MOST));
+        CSSStyle* parent_style = static_cast<RenderObject*>(renderer)->render_tree_host()
+                ->render_root()->GetStyle();
+
+        int available_width = width - parent_style->border_width_ * 2 - parent_style->padding_right_
+                             - parent_style->padding_left_;
+        int available_height = height - parent_style->border_width_ * 2 - parent_style->padding_top_
+                              - parent_style->padding_bottom_;
+
+        // The same logic
+        MeasureAbsolute(renderer, available_width, 0, available_height, 0);
+
     }
 
-    void CSSStaticLayout::layoutAbsolute(LayoutObject* parent, LayoutObject* renderer,  int width, int height) {
-        layoutFixedOrAbsolute(parent, renderer, width, height);
+    void CSSStaticLayout::LayoutAbsolute(LayoutObject* parentNode, LayoutObject* renderer,
+                                       int width, int height) {
+        LayoutFixedOrAbsolute(parentNode, renderer, width, height);
     }
 
-    void CSSStaticLayout::layoutFixed(LayoutObject* parent, LayoutObject* renderer) {
+    void CSSStaticLayout::LayoutFixed(LayoutObject* parentNode, LayoutObject* renderer) {
         int width = static_cast<RenderObject*>(renderer)->render_tree_host()->view_port().width_;
         int height = static_cast<RenderObject*>(renderer)->render_tree_host()->view_port().height_;
-        layoutFixedOrAbsolute(parent, renderer, width, height);
+        LayoutFixedOrAbsolute(parentNode, renderer, width, height);
     }
 
-    void CSSStaticLayout::layoutFixedOrAbsolute(LayoutObject* parent, LayoutObject* renderer,
-                                              double width, double height) {
-        CSSStyle* parentStyle = parent->GetStyle();
-        CSSStyle* style = renderer->GetStyle();
+    void CSSStaticLayout::LayoutFixedOrAbsolute(LayoutObject* parent, LayoutObject* child,
+                                              int width, int height) {
+        CSSStyle* parent_style = parent->GetStyle();
+        CSSStyle* child_style = child->GetStyle();
 
-        double l = 0;
-        double r = 0;
-        double t = 0;
-        double b = 0;
+        int l = 0, r = 0, t = 0, b = 0;
 
-        int offsetLeft = (int) (style->margin_left_ + parentStyle->border_width_);
-        int offsetRight = (int) (style->margin_right_ + parentStyle->border_width_);
-        int offsetTop = (int) (style->margin_top_ + parentStyle->border_width_);
-        int offsetBottom = (int) (style->margin_bottom_ + parentStyle->border_width_);
+        int offset_left = child_style->margin_left_ + parent_style->border_width_;
+        int offset_right = child_style->margin_right_ + parent_style->border_width_;
+        int offset_top = child_style->margin_top_ + parent_style->border_width_;
+        int offset_bottom = child_style->margin_bottom_ + parent_style->border_width_;
 
-        if (CSS_IS_UNDEFINED(style->left_) && CSS_IS_UNDEFINED(style->right_)) {
+        if (CSS_IS_UNDEFINED(child_style->left_) && CSS_IS_UNDEFINED(child_style->right_)) {
 
             int adjust = CalculateOffsetWithFlexContainerStyle(parent,
-                                                               renderer,
+                                                               child,
                                                                width,
                                                                CSS_UNDEFINED);
 
-            l = adjust + offsetLeft + parentStyle->padding_left_;
-            r = l + renderer->measured_size_.width_;
+            l = adjust + offset_left + parent_style->padding_left_;
+            r = l + child->measured_size_.width_;
 
-        } else if (!CSS_IS_UNDEFINED(style->left_) && !CSS_IS_UNDEFINED(style->right_)) {
-            if (CSS_IS_UNDEFINED(style->width_)) {
-                l = style->left_ + offsetLeft;
-                r = width - style->right_ - offsetRight;
+        } else if (!CSS_IS_UNDEFINED(child_style->left_) && !CSS_IS_UNDEFINED(child_style->right_)) {
+            if (CSS_IS_UNDEFINED(child_style->width_)) {
+                l = child_style->left_ + offset_left;
+                r = width - child_style->right_ - offset_right;
                 if (l > r) {
                     r = l;
                 }
             } else {
-                l = style->left_ + offsetLeft;
-                r = l + renderer->measured_size_.width_;
+                l = child_style->left_ + offset_left;
+                r = l + child->measured_size_.width_;
             }
-        } else if(!CSS_IS_UNDEFINED(style->left_)) {
-            l = style->left_ + offsetLeft;
-            r = l + renderer->measured_size_.width_;
-        } else if(!CSS_IS_UNDEFINED(style->right_)) {
-            r = width - style->right_ - offsetRight;
-            l = r - renderer->measured_size_.width_;
+        } else if(!CSS_IS_UNDEFINED(child_style->left_)) {
+            l = child_style->left_ + offset_left;
+            r = l + child->measured_size_.width_;
+        } else if(!CSS_IS_UNDEFINED(child_style->right_)) {
+            r = width - child_style->right_ - offset_right;
+            l = r - child->measured_size_.width_;
         } else {
-            l = l + offsetLeft;
-            r = l + renderer->measured_size_.width_;
+            l = l + offset_left;
+            r = l + child->measured_size_.width_;
         }
 
-        if (CSS_IS_UNDEFINED(style->top_) && CSS_IS_UNDEFINED(style->bottom_)) {
+        if (CSS_IS_UNDEFINED(child_style->top_) && CSS_IS_UNDEFINED(child_style->bottom_)) {
 
             int adjust = CalculateOffsetWithFlexContainerStyle(parent,
-                                                               renderer,
+                                                               child,
                                                                CSS_UNDEFINED,
-                                                               (int) height);
+                                                               height);
 
-            t = adjust + offsetTop + parentStyle->padding_top_;
-            b = t + renderer->measured_size_.height_;
+            t = adjust + offset_top + parent_style->padding_top_;
+            b = t + child->measured_size_.height_;
 
-        } else if (!CSS_IS_UNDEFINED(style->top_) && !CSS_IS_UNDEFINED(style->bottom_)) {
-            if (CSS_IS_UNDEFINED(style->height_)) {
-                t = style->top_ + offsetTop;
-                b = height - style->bottom_ - offsetBottom;
+        } else if (!CSS_IS_UNDEFINED(child_style->top_) && !CSS_IS_UNDEFINED(child_style->bottom_)) {
+            if (CSS_IS_UNDEFINED(child_style->height_)) {
+                t = child_style->top_ + offset_top;
+                b = height - child_style->bottom_ - offset_bottom;
                 if (t > b) {
                     b = t;
                 }
             } else {
-                t = style->top_ + offsetTop;
-                b = t + renderer->measured_size_.height_;
+                t = child_style->top_ + offset_top;
+                b = t + child->measured_size_.height_;
             }
-        } else if(!CSS_IS_UNDEFINED(style->top_)) {
-            t = style->top_ + offsetTop;
-            b = t + renderer->measured_size_.height_;
-        } else if(!CSS_IS_UNDEFINED(style->bottom_)) {
-            b = height - style->bottom_ - offsetBottom;
-            t = b - renderer->measured_size_.height_;
+        } else if(!CSS_IS_UNDEFINED(child_style->top_)) {
+            t = child_style->top_ + offset_top;
+            b = t + child->measured_size_.height_;
+        } else if(!CSS_IS_UNDEFINED(child_style->bottom_)) {
+            b = height - child_style->bottom_ - offset_bottom;
+            t = b - child->measured_size_.height_;
         } else {
-            t = t + offsetTop;
-            b = t + renderer->measured_size_.height_;
+            t = t + offset_top;
+            b = t + child->measured_size_.height_;
         }
 
-        renderer->Layout((int) l, (int) t, (int) r, (int) b);
+        child->Layout(l, t, r, b);
     }
 
     int CSSStaticLayout::CalculateOffsetWithFlexContainerStyle(LayoutObject *parent,
                                                                LayoutObject *child,
                                                                int width,
                                                                int height) {
-
         int offset = 0;
-        bool isWidthAvailable = !CSS_IS_UNDEFINED(width);
+        bool is_width_available = !CSS_IS_UNDEFINED(width);
 
-        CSSStyle* parentStyle = parent->GetStyle();
-        CSSStyle* style = child->GetStyle();
+        CSSStyle *parent_style = parent->GetStyle();
+        CSSStyle *child_style = child->GetStyle();
 
-        int availableWidth = CSS_UNDEFINED;
-        int availableHeight = CSS_UNDEFINED;
+        int available_width = CSS_UNDEFINED;
+        int available_height = CSS_UNDEFINED;
 
-        if (isWidthAvailable) {
+        if (is_width_available) {
 
-            availableWidth = (int) (width - parentStyle->padding_left_
-                                    - parentStyle->padding_right_
-                                    - parentStyle->border_width_ * 2);
+            available_width = width - parent_style->padding_left_
+                              - parent_style->padding_right_ - parent_style->border_width_ * 2;
 
         } else {
-            availableHeight = (int) (height - parentStyle->padding_top_
-                                     - parentStyle->padding_bottom_
-                                     - parentStyle->border_width_ * 2);
+            available_height = height - parent_style->padding_top_
+                               - parent_style->padding_bottom_ - parent_style->border_width_ * 2;
         }
 
         bool isMainAxis =
-                (isWidthAvailable
-                 && parentStyle->flex_direction_ == CSSFLEX_DIRECTION_ROW)
+                (is_width_available
+                 && parent_style->flex_direction_ == CSSFLEX_DIRECTION_ROW)
                 ||
-                (!isWidthAvailable
-                 && parentStyle->flex_direction_ == CSSFLEX_DIRECTION_COLUMN);
+                (!is_width_available
+                 && parent_style->flex_direction_ == CSSFLEX_DIRECTION_COLUMN);
 
-        int availableTargetAxis, childSizeOnTargetAxis;
+        int available_target_axis, child_size_on_target_axis;
 
-        if (isWidthAvailable) {
-            availableTargetAxis = availableWidth;
-            childSizeOnTargetAxis = child->measured_size_.width_;
+        if (is_width_available) {
+            available_target_axis = available_width;
+            child_size_on_target_axis = child->measured_size_.width_;
         } else {
-            availableTargetAxis = availableHeight;
-            childSizeOnTargetAxis = child->measured_size_.height_;
+            available_target_axis = available_height;
+            child_size_on_target_axis = child->measured_size_.height_;
         }
 
         if (isMainAxis) {
             // Main axis
-            if (parentStyle->flex_justify_content_ == CSSFLEX_JUSTIFY_FLEX_START
-                || parentStyle->flex_justify_content_ == CSSFLEX_JUSTIFY_SPACE_BETWEEN) {
+            if (parent_style->flex_justify_content_ == CSSFLEX_JUSTIFY_FLEX_START
+                || parent_style->flex_justify_content_ == CSSFLEX_JUSTIFY_SPACE_BETWEEN) {
                 //no action
-            } else if (parentStyle->flex_justify_content_ == CSSFLEX_JUSTIFY_FLEX_END) {
-                offset = availableTargetAxis - childSizeOnTargetAxis;
-            } else if (parentStyle->flex_justify_content_ == CSSFLEX_JUSTIFY_FLEX_CENTER
-                       || parentStyle->flex_justify_content_ == CSSFLEX_JUSTIFY_SPACE_AROUND) {
-                offset = (availableTargetAxis - childSizeOnTargetAxis) / 2;
+            } else if (parent_style->flex_justify_content_ == CSSFLEX_JUSTIFY_FLEX_END) {
+                offset = available_target_axis - child_size_on_target_axis;
+            } else if (parent_style->flex_justify_content_ == CSSFLEX_JUSTIFY_FLEX_CENTER
+                       || parent_style->flex_justify_content_ == CSSFLEX_JUSTIFY_SPACE_AROUND) {
+                offset = (available_target_axis - child_size_on_target_axis) / 2;
             }
 
         } else {
             // Cross axis
-            CSSStyleType align = parentStyle->flex_align_items_;
+            int align = parent_style->flex_align_items_;
 
-            if (style->flex_align_self_ != CSSFLEX_ALIGN_AUTO) {
-                align = style->flex_align_self_;
+            if (child_style->flex_align_self_ != CSSFLEX_ALIGN_AUTO) {
+                align = child_style->flex_align_self_;
             }
 
-            if (parentStyle->flex_align_items_ == CSSFLEX_ALIGN_FLEX_START) {
+            if (parent_style->flex_align_items_ == CSSFLEX_ALIGN_FLEX_START) {
                 //do nothing
-            } else if (align == CSSFLEX_ALIGN_FLEX_END) {
-                offset = availableTargetAxis - childSizeOnTargetAxis;
-            } else if (align == CSSFLEX_ALIGN_STRETCH) {
+            } else if (align == CSSFLEX_ALIGN_FLEX_END || align == CSSFLEX_ALIGN_FLEX_END) {
+                offset = available_target_axis - child_size_on_target_axis;
+            } else if (align == CSSFLEX_ALIGN_STRETCH || align == CSSFLEX_ALIGN_STRETCH) {
                 // Nothing to do when position: absolute/fixed
-            } else if (align == CSSFLEX_ALIGN_CENTER) {
-                offset = (availableTargetAxis - childSizeOnTargetAxis) / 2;
+            } else if (align == CSSFLEX_ALIGN_CENTER || align == CSSFLEX_ALIGN_CENTER) {
+                offset = (available_target_axis - child_size_on_target_axis) / 2;
             }
         }
 

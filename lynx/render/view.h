@@ -23,8 +23,8 @@ class View : public RenderObject {
          RenderTreeHost* host);
 
     virtual ~View() {}
-    virtual base::Size Measure(int width, int height);
-    virtual void Layout(int left, int top, int right, int bottom);
+    virtual base::Size OnMeasure(int width_descriptor, int height_descriptor);
+    virtual void OnLayout(int left, int top, int right, int bottom);
 };
 
 }  // namespace lynx
