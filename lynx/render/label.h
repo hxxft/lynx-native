@@ -27,8 +27,7 @@ public:
         uint64_t id,
         RenderTreeHost* host);
     virtual ~Label() {}
-    virtual base::Size Measure(int width, int height);
-    virtual void Layout(int left, int top, int right, int bottom);
+    virtual base::Size OnMeasure(int width_descriptor, int height_descriptor);
     virtual void InsertChild(ContainerNode* child, int index);
     virtual void InsertBefore(RenderObject* child, RenderObject* reference);
 

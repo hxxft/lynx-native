@@ -13,7 +13,7 @@ namespace lynx {
                      uint64_t id,
                      RenderTreeHost *host);
         virtual ~ExtendedView() {}
-        virtual base::Size Measure(int width, int height);
+        virtual base::Size OnMeasure(int width_descriptor, int height_descriptor);
     };
 }
 

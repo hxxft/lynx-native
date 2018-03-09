@@ -34,11 +34,11 @@ View::View(const char *tag_name,
 
 }
 
-base::Size View::Measure(int width, int height) {
-    return RenderObject::Measure(width, height);
+base::Size View::OnMeasure(int width_descriptor, int height_descriptor) {
+    return CSSStaticLayout::Measure(this, width_descriptor, height_descriptor);
 }
 
-void View::Layout(int left, int top, int right, int bottom) {
-    RenderObject::Layout(left, top, right, bottom);
+void View::OnLayout(int left, int top, int right, int bottom) {
+    CSSStaticLayout::Layout(this, right - left, bottom - top);
 }
 }  // namespace lynx

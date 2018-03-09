@@ -14,8 +14,8 @@ class ListView : public RenderObject {
              uint64_t id,
              RenderTreeHost* host);
     virtual ~ListView();
-    virtual base::Size Measure(int width, int height);
-    virtual void Layout(int left, int top, int right, int bottom);
+    virtual base::Size OnMeasure(int width_descriptor, int height_descriptor);
+    virtual void OnLayout(int left, int top, int right, int bottom);
     virtual void InsertChild(ContainerNode* child, int index);
     virtual void InsertBefore(RenderObject* child, RenderObject* reference);
     virtual void RemoveChild(ContainerNode* child);

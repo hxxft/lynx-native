@@ -14,7 +14,6 @@ import android.text.style.AlignmentSpan;
 import android.text.style.LineHeightSpan;
 import android.text.style.StrikethroughSpan;
 import android.text.style.StyleSpan;
-import android.text.style.TextAppearanceSpan;
 
 import com.lynx.base.CalledByNative;
 import com.lynx.base.Constants;
@@ -43,10 +42,6 @@ public class LabelMeasurer {
         return textPaint;
     }
 
-    public static Typeface getTypeface() {
-        return getTextPaint().getTypeface();
-    }
-
     @CalledByNative
     public static StaticLayout getTextLayout() {
         return sLayout;
@@ -71,22 +66,19 @@ public class LabelMeasurer {
         // Set text size
         textPaint.setTextSize(style.mFontSize);
 
-        SpannableStringBuilder span = fromLabelNode(style, text);
-
-        int desiredWidth;
-        // If width is sure, give the one it wants
-        if (!Constants.isUndefined(widthWanted)) {
-            desiredWidth = widthWanted;
-        } else {
-            desiredWidth = (int) Math.ceil(Layout.getDesiredWidth(text, textPaint));
-        }
+        SpannableStringBuilder span = createSpan(style, text);
 
         // Determine if it should be a single line
         boolean shouldBeSingleLine = style.mWhiteSpace == Style.CSSTEXT_WHITESPACE_NOWRAP;
+
+        int desiredWidth = (int) Math.ceil(Layout.getDesiredWidth(span, textPaint));
+        // If width is sure in some situation, give the one it wants
+        if (!Constants.isUndefined(widthWanted)
+                && (!shouldBeSingleLine || desiredWidth < widthWanted)) {
+            desiredWidth = widthWanted;
+        }
         // If it should not be single line, use given width instead.
-        if (!shouldBeSingleLine &&
-                (widthMode == SizeDescriptor.EXACTLY ||
-                        (widthMode == SizeDescriptor.AT_MOST && desiredWidth > width))) {
+        else if (!shouldBeSingleLine && desiredWidth > width) {
             desiredWidth = width;
         }
 
@@ -127,18 +119,18 @@ public class LabelMeasurer {
         boolean doEllipsis =
                 style.mTextOverflow == Style.CSSTEXT_OVERFLOW_ELLIPSIS
 
-                        && (
+                && (
                         // Situation of single line.
                         (shouldBeSingleLine &&
                                 (sLayout.getLineCount() > 1 || sLayout.getWidth() > width))
 
-                                ||
-                                // Situation of final line not visible.
-                                (sLayout.getHeight() - height > sLayout.getHeight() / sLayout.getLineCount())
+                        ||
+                        // Situation of final line not visible.
+                        (sLayout.getHeight() - height > sLayout.getHeight() / sLayout.getLineCount())
 
-                                ||
-                                // Situation of concrete line height.
-                                (lineCountWanted != Constants.UNDEFINED && lineCountWanted < sLayout.getLineCount())
+                        ||
+                        // Situation of concrete line height.
+                        (lineCountWanted != Constants.UNDEFINED && lineCountWanted < sLayout.getLineCount())
                 );
 
 
@@ -154,10 +146,12 @@ public class LabelMeasurer {
                             (sLayout.getHeight() / sLayout.getLineCount())) - 1;
                 }
             }
+            // TODO targetLine 为0 有问题
             int surplus = sLayout.getWidth() - width;
             // Keep the target line and above, remove other lines below
             span.delete(sLayout.getLineEnd(targetLine), text.length());
 
+            // TODO 可能由于 wordbreak 问题，删除了可能已经够小了，无需往前删
             // Insert ellipsis
             span.insert(span.length(), ELLIPSIS);
             int ellipsisIndex = span.length() - 1;
@@ -204,13 +198,17 @@ public class LabelMeasurer {
         Size measuredSize = new Size();
 
         // Set measured size
-        measuredSize.mHeight = sLayout.getHeight();
+        if (shouldBeSingleLine) {
+            measuredSize.mHeight = sLayout.getHeight() / sLayout.getLineCount();
+        } else {
+            measuredSize.mHeight = sLayout.getHeight();
+        }
         measuredSize.mWidth = sLayout.getWidth();
 
         return measuredSize;
     }
 
-    private static SpannableStringBuilder fromLabelNode(Style style, String text) {
+    private static SpannableStringBuilder createSpan(Style style, String text) {
         SpannableStringBuilder sb = new SpannableStringBuilder();
         // TODO(5837930): Investigate whether it's worth optimizing this part and do it if so
 
@@ -218,7 +216,7 @@ public class LabelMeasurer {
         // up-to-bottom, otherwise all the spannables that are withing the region for which one may set
         // a new spannable will be wiped out
         List<SetSpanOperation> ops = new ArrayList<>();
-        buildSpannedFromTextCSSNode(style, text, sb, ops);
+        buildSpannedFromText(style, text, sb, ops);
 
         // While setting the Spans on the final text, we also check whether any of them are images
         for (int i = ops.size() - 1; i >= 0; i--) {
@@ -228,7 +226,7 @@ public class LabelMeasurer {
         return sb;
     }
 
-    private static void buildSpannedFromTextCSSNode(Style style, String text, SpannableStringBuilder sb, List<SetSpanOperation> ops) {
+    private static void buildSpannedFromText(Style style, String text, SpannableStringBuilder sb, List<SetSpanOperation> ops) {
         int start = sb.length();
         if (text != null) {
             sb.append(text);
