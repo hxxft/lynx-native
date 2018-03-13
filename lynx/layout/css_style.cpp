@@ -216,11 +216,13 @@ double CSSStyle::ClampHeightInner(double height) const {
 }
 
 double CSSStyle::ClampWidth() const {
+  if (CSS_IS_UNDEFINED(width_)) return width_;
   double width = width_;
   return ClampWidthInner(width);
 }
 
 double CSSStyle::ClampHeight() const {
+    if (CSS_IS_UNDEFINED(height_)) return height_;
   double height = height_;
   return ClampHeightInner(height);
 }
