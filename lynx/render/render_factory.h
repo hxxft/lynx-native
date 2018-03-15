@@ -18,6 +18,7 @@
 #include "render/input.h"
 #include "render/swiper_view.h"
 #include "render/extended_view.h"
+#include "render/canvas_view.h"
 #include "render/text_area.h"
 #include "runtime/thread_manager.h"
 #include "render/render_tree_host.h"
@@ -70,7 +71,10 @@ public:
                                  ++id,
                                  RenderObjectImpl::Create(manager, LYNX_RADIO_GROUP),
                                  host);
-        } else {
+        } else if (tag.compare("xcanvas") == 0){
+            return lynx_new CanvasView("xcanvas", LYNX_CANVAS, ++id, host);
+        }else{
+
             LOGE("[LYNX ERROR]", "Element Tag(%s) is Not Support", tag.c_str());
         }
         return NULL;

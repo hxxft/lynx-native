@@ -5,11 +5,13 @@
 
 #include <string>
 
+
 #include "base/task/callback.h"
 #include "base/position.h"
 #include "base/size.h"
 #include "base/weak_ptr.h"
 #include "runtime/base/lynx_value.h"
+#include "runtime/canvas_cmd.h"
 #include "layout/css_style.h"
 
 namespace lynx {
@@ -32,6 +34,8 @@ class RenderCommand : public base::Clouse {
         CMD_ADD_EVENT_LISTENER,
         CMD_REMOVE_EVENT_LISTENER,
         CMD_SET_DATA,
+        CMD_CANVAS_DRAW,
+        CMD_CANVAS_APPEND
     };
 
     virtual void Execute() = 0;
@@ -141,6 +145,7 @@ class RenderCommand : public base::Clouse {
         int key_;
         base::ScopedPtr<jscore::LynxValue> value_;
     };
+
 
 }  // namespace lynx
 

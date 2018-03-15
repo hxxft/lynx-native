@@ -3,8 +3,11 @@ package com.lynx.ui;
 
 import android.content.Context;
 
+import com.lynx.core.impl.RenderObjectImpl;
 import com.lynx.ui.button.LynxUIButton;
+import com.lynx.ui.canvas.LynxUICanvas;
 import com.lynx.ui.checkbox.LynxUICheckBox;
+import com.lynx.ui.image.LynxUIImage;
 import com.lynx.ui.input.LynxUIInput;
 import com.lynx.ui.label.LynxUILabel;
 import com.lynx.ui.radio.LynxUIRadio;
@@ -16,8 +19,6 @@ import com.lynx.ui.swiper.LynxUISwiper;
 import com.lynx.ui.textarea.LynxUITextArea;
 import com.lynx.ui.uiswitch.LynxUISwitch;
 import com.lynx.ui.view.LynxUIView;
-import com.lynx.core.impl.RenderObjectImpl;
-import com.lynx.ui.image.LynxUIImage;
 
 public class LynxUIFactory {
 
@@ -41,6 +42,7 @@ public class LynxUIFactory {
     public final static int UI_TYPE_RADIO = 16;
     public final static int UI_TYPE_RADIO_GROUP = 17;
     public final static int UI_TYPE_CHECKBOX = 18;
+    public final static int UI_TYPE_CANVAS = 19;
 
     public static LynxUI create(Context context, RenderObjectImpl impl) {
         LynxUI ui = null;
@@ -89,6 +91,9 @@ public class LynxUIFactory {
                 break;
             case UI_TYPE_CHECKBOX:
                 ui = new LynxUICheckBox(context, impl);
+                break;
+            case UI_TYPE_CANVAS:
+                ui = new LynxUICanvas(context, impl);
                 break;
             default:
                 break;

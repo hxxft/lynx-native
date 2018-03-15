@@ -85,10 +85,10 @@ void RenderTreeHostImpl::NotifyBeginFrameComplete() {
 
 void RenderTreeHostImpl::BeginFrameComplete() {
   // next action do commit
-  // render_state_ = RENDER_STATE_BEGIN_FRAME_COMPLETE;
+   render_state_ = RENDER_STATE_BEGIN_FRAME_COMPLETE;
 
   // next action do noting wait next frame
-  render_state_ = RENDER_STATE_COMPLETE;
+//  render_state_ = RENDER_STATE_COMPLETE;
   DoRenderAction();
 }
 

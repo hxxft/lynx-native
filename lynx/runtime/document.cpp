@@ -9,6 +9,7 @@
 #include "runtime/jsc/jsc_context.h"
 #include "runtime/runtime.h"
 #include "runtime/element.h"
+#include "runtime/canvas.h"
 
 namespace jscore {
     Document::Document(JSContext* context) : context_(context) {
@@ -37,12 +38,18 @@ namespace jscore {
     }
 
     Element* Document::CreateElement(std::string &tag_name) {
+        Element* element = NULL;
+        LOGD("lynx-js-console", "CreateElement: %s", tag_name.c_str());
         lynx::RenderObject* render_object
                 = lynx::RenderFactory::CreateRenderObject(context_->runtime()->thread_manager(),
                                                           tag_name,
                                                           context_->runtime()->render_tree_host());
-
-        return lynx_new Element(static_cast<JSCContext*>(context_), render_object);
+        if(tag_name.compare("xcanvas")) {
+            element = lynx_new Canvas(static_cast<JSCContext*>(context_), render_object);
+        }else{
+            element = lynx_new Element(static_cast<JSCContext*>(context_), render_object);
+        }
+        return element;
     }
 
     Element* Document::CreateTextNode(std::string &text) {

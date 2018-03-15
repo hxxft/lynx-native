@@ -38,4 +38,12 @@ public class LynxArray {
         return ParamsTransform.transform(mObjects.toArray());
     }
 
+    public void addAll(LynxArray newData){
+        mObjects.addAll(newData.getList());
+    }
+
+    private List<Object> getList(){
+        return mObjects;
+    }
+
 }

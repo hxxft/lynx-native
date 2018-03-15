@@ -5,6 +5,8 @@
 
 #include <string>
 
+#include "runtime/canvas_cmd.h"
+
 #include "base/position.h"
 #include "base/scoped_ptr.h"
 #include "base/scoped_ptr_map.h"
@@ -125,6 +127,9 @@ class RenderObject : public LayoutObject, public EventTarget {
   }
 
   const RenderObjectType render_object_type() { return render_object_type_; }
+  const bool IsCanvas() {
+    return render_object_type_ == LYNX_CANVAS;
+  }
 
   const bool IsInvisible() { return render_object_type_ == LYNX_LAYOUT_VIEW; }
 
@@ -140,12 +145,17 @@ class RenderObject : public LayoutObject, public EventTarget {
 
   uint64_t id() { return id_; }
 
+  void ReceiveCanvasRenderCmd(base::ScopedPtr<base::CanvasRenderCommand>& cmd);
+
   enum RENDER_OBJECT_ATTRS {
     SCROLL_TOP,
     SCROLL_LEFT,
     GET_TEXT,
     TEXT_LAYOUT,
     ANIMATE_PROPS,
+    CANVAS_DRAW,
+    CANVAS_APPEND,
+    CANVAS_IMAGE_DATA
   };
 
  protected:
@@ -178,6 +188,8 @@ class RenderObject : public LayoutObject, public EventTarget {
 
   bool is_fixed_;
   std::vector<RenderObject*> fixed_children_;
+
+  base::ScopedPtr<jscore::LynxArray> canvas_cmds_;
 
   RenderObjectType render_object_type_;
 
