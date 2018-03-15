@@ -12,7 +12,7 @@ import com.lynx.utils.ScreenUtil;
 
 public class LynxRuntime {
 
-    public final static int DEFAULT_ZOOM_REF = 750;
+    public final static int DEFAULT_ZOOM_REF = -1;
 
     private static native boolean nativeCheckMemoryEnabled();
 
@@ -61,12 +61,12 @@ public class LynxRuntime {
         mNativeRuntime = nativeCreateNativeJSRuntime();
     }
 
-    public static void prepare(int zoomReference) {
+    public static void prepare(int zoomReferencePx) {
         checkMemoryEnabled();
         nativeInitGlobalConfig(ScreenUtil.getScreenWidth(),
                 ScreenUtil.getScreenHeight(),
                 ScreenUtil.getScreenDensity(),
-                zoomReference,
+                zoomReferencePx,
                 DeviceInfoUtil.getInfo());
     }
 

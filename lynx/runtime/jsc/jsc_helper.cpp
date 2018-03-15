@@ -185,7 +185,8 @@ namespace jscore {
         return array;
     }
 
-    base::ScopedPtr<LynxArray> JSCHelper::ConvertToLynxArray(JSContextRef ctx, JSValueRef *value, int length) {
+    base::ScopedPtr<LynxArray> JSCHelper::ConvertToLynxArray(JSContextRef ctx, JSValueRef *value,
+                                                             int length) {
         base::ScopedPtr<LynxArray> array (lynx_new LynxArray());
         for (int i = 0; i < length; ++i) {
             array->Push(ConvertToLynxValue(ctx, value[i]).Release());
@@ -255,6 +256,9 @@ namespace jscore {
             case LynxValue::Type::VALUE_LYNX_OBJECT_TEMPLATE:
                 js_obj = ConvertToJSObject(ctx, value->data_.lynx_object_template);
                 break;
+            case LynxValue::Type::VALUE_LYNX_HOLDER:
+                js_obj = ConvertToJSValue(ctx, value->data_.lynx_holder->GetLynxValue().Get());
+                break;
             case LynxValue::Type::VALUE_NULL:
                 js_obj = JSValueMakeNull(ctx);
                 break;
@@ -320,5 +324,9 @@ namespace jscore {
 
     JSObjectRef JSCHelper::ConvertToObjectWrap(JSContextRef ctx, ObjectWrap* object) {
         return object->js_ref();
+    }
+
+    JSValueRef JSCHelper::ConvertToJSObject(JSContextRef ctx, jscore::LynxHolder* holder) {
+        return ConvertToJSValue(ctx, holder->GetLynxValue().Get());
     }
 }

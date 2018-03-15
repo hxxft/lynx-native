@@ -28,25 +28,29 @@ RenderTreeHost::RenderTreeHost(
       collector_(),
       context_(context),
       thread_manager_(thread_manager),
-      render_root_(root),
       did_first_layout_(false),
       page_location_("") {
-
-#if OS_ANDROID
-    render_tree_host_impl_ = lynx_new RenderTreeHostImplAndroid(
-        thread_manager,
-        this,
-        root->impl());
-#elif OS_IOS
-    render_tree_host_impl_ = lynx_new RenderTreeHostImplIOS(
-        thread_manager,
-        this,
-        render_root_->impl());
-#endif
+    SetRenderRoot(root);
 }
 
 RenderTreeHost::~RenderTreeHost() {
     weak_ptr_.Invalidate();
+}
+
+void RenderTreeHost::SetRenderRoot(RenderObject* root) {
+    render_root_ = root;
+    if (render_root_ == NULL) return;
+#if OS_ANDROID
+    render_tree_host_impl_ = lynx_new RenderTreeHostImplAndroid(
+            thread_manager_,
+            this,
+            root->impl());
+#elif OS_IOS
+    render_tree_host_impl_ = lynx_new RenderTreeHostImplIOS(
+        thread_manager_,
+        this,
+        render_root_->impl());
+#endif
 }
 
 void RenderTreeHost::UpdateRenderObject(RenderCommand* command) {

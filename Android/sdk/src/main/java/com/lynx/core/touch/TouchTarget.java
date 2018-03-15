@@ -6,4 +6,5 @@ import com.lynx.core.touch.gesture.GestureWatcher;
 public interface TouchTarget extends GestureWatcher {
     void performTouch(TouchEventInfo info);
     void onCapturingTouchEvent(TouchEventInfo info);
+    TouchTarget hitTest(TouchAxis axis);
 }

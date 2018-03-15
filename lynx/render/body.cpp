@@ -27,7 +27,7 @@ void Body::Layout() {
 }
 
 void Body::Layout(int left, int top, int right, int bottom) {
-    if (measured_position_.Reset(left, top, right, bottom)) {
+    if (measured_position_.NeedToReset(left, top, right, bottom)) {
         Dirty();
     }
     if (IsDirty()) {

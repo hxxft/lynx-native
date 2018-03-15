@@ -57,13 +57,13 @@ namespace jscore {
     base::ScopedPtr<LynxValue> JSEvent::GetTargetCallback(LynxObjectTemplate* object) {
         JSEvent* js_event = static_cast<JSEvent*>(object);
         return LynxValue::MakeObjectTemplate(
-                static_cast<Element*>(js_event->target()->GetJSRef()));
+                js_event->target()->GetJSRef());
     }
 
     base::ScopedPtr<LynxValue> JSEvent::GetCurrentTargetCallback(LynxObjectTemplate* object) {
         JSEvent* js_event = static_cast<JSEvent*>(object);
         return LynxValue::MakeObjectTemplate(
-                static_cast<Element*>(js_event->current_target()->GetJSRef()));
+                js_event->current_target()->GetJSRef());
     }
 
     base::ScopedPtr<LynxValue>

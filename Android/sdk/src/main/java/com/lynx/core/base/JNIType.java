@@ -19,4 +19,5 @@ public class JNIType {
     public static final String LYNX_ARRAY_TYPE = "b";
     public static final String LYNX_OBJECT_TYPE = "c";
     public static final String LYNX_FUNCTION_OBJECT_TYPE = "d";
+    public static final String LYNX_HOLDER = "e";
 }

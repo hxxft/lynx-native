@@ -277,6 +277,14 @@ public class AndroidScrollView extends ScrollView {
         mMeasureSize = size;
     }
 
+    public HorizontalScrollView getHScrollView() {
+        return mHorizontalScrollView;
+    }
+
+    public LinearLayout getLinearLayout() {
+        return mLinearLayout;
+    }
+
     public interface OnScrollListener {
         void onScrollStop();
 

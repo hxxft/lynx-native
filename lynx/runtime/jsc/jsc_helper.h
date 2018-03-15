@@ -9,6 +9,7 @@
 #include "runtime/base/lynx_value.h"
 #include "runtime/base/lynx_object.h"
 #include "runtime/base/lynx_object_template.h"
+#include "runtime/base/lynx_holder.h"
 #include "config/global_config_data.h"
 
 #define PixelToSP(value) (value / \
@@ -43,6 +44,7 @@ namespace jscore {
         static JSObjectRef ConvertToJSObject(JSContextRef ctx, jscore::LynxObjectTemplate *object);
         static JSObjectRef ConvertToJSFunctionObject(JSContextRef ctx, jscore::LynxFunctionObject* object);
         static JSObjectRef ConvertToObjectWrap(JSContextRef ctx, ObjectWrap* object);
+        static JSValueRef ConvertToJSObject(JSContextRef ctx, jscore::LynxHolder* holder);
 
         static void SetFunctionProperty(JSContextRef context,
                                         JSObjectRef object,

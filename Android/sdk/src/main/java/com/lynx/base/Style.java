@@ -31,6 +31,8 @@ public class Style {
     public final static int CSS_POSITION_FIXED = 20;
     public final static int CSS_VISIBLE = 21;
     public final static int CSS_HIDDEN = 22;
+    public final static int CSS_POINTER_EVENT_NONE = 23;
+    public final static int CSS_POINTER_EVENT_AUTO = 24;
 
 
     public int mBackgroundColor;
@@ -42,6 +44,7 @@ public class Style {
     public int mDisplayType;
     public int mVisible;
     public int mPositionType;
+    public int mPointerEvents;
 
     public int mWidth;
     public int mHeight;
@@ -89,7 +92,7 @@ public class Style {
         mBorderColor = 0xFF000000;  // Color.parse("#FF000000");
         mBorderRadius = 0;  // CSS_UNDEFINED;
         mOpacity = 255;
-
+        mPointerEvents = CSS_POINTER_EVENT_AUTO;
 
         mFlexDirection = CSSFLEX_DIRECTION_ROW;
 

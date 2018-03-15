@@ -12,6 +12,8 @@ import com.lynx.base.Style;
 import com.lynx.core.base.LynxEvent;
 import com.lynx.core.impl.RenderObjectAttr;
 import com.lynx.core.impl.RenderObjectImpl;
+import com.lynx.core.touch.TouchAxis;
+import com.lynx.core.touch.TouchTarget;
 import com.lynx.ui.LynxUI;
 import com.lynx.ui.LynxUIFactory;
 import com.lynx.ui.LynxUIGroup;
@@ -182,6 +184,28 @@ public class LynxUIScrollView extends LynxUIGroup<AndroidScrollView> {
             default:
                 break;
         }
+    }
+
+    @Override
+    public TouchTarget hitTest(TouchAxis axis) {
+        TouchTarget handled = null;
+
+        float offsetX = mView.getHScrollView().getX();
+        float offsetY = mView.getScrollY();
+        axis.offset(offsetX, offsetY);
+
+        if (checkIfHitInView(mView.getLinearLayout(), axis)) {
+            handled = super.hitTest(axis);
+        }
+
+        axis.offset(-offsetX, -offsetY);
+
+        return handled;
+    }
+
+    @Override
+    protected ViewGroup getHitTestView() {
+        return mView.getLinearLayout();
     }
 
     private class InnerOnScrollListener implements AndroidScrollView.OnScrollListener {

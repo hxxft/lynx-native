@@ -7,6 +7,7 @@
 #else
 #include "render/android/render_object_impl_android.h"
 #endif
+#include "render/render_object.h"
 
 namespace lynx {
 
@@ -29,4 +30,13 @@ RenderObjectImpl* RenderObjectImpl::Create(jscore::ThreadManager *proxy,
     return lynx_new RenderObjectImplAndroid(proxy, type);
 #endif
 }
+
+base::ScopedPtr<jscore::LynxValue> RenderObjectImpl::GetLynxValue() {
+    if (render_object_weak_ptr_.IsValid()) {
+        return jscore::LynxValue::MakeObjectTemplate(render_object_weak_ptr_->GetJSRef());
+    } else {
+        return jscore::LynxValue::MakeObjectTemplate(NULL);
+    }
+}
+
 }  // namespace lynx

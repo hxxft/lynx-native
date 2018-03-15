@@ -7,6 +7,7 @@ import com.lynx.base.Style;
 import com.lynx.net.NetRequestManager;
 import com.lynx.net.cookie.LynxCookieStore;
 import com.lynx.resources.ResourceManager;
+import com.lynx.utils.PixelUtil;
 import com.lynx.utils.ScreenUtil;
 
 public class LynxRuntimeManager {
@@ -19,13 +20,14 @@ public class LynxRuntimeManager {
         prepare(context, LynxRuntime.DEFAULT_ZOOM_REF);
     }
 
-    public static void prepare(Context context, int zoomReference) {
+    public static void prepare(Context context, int zoomReferencePx) {
         ScreenUtil.init(context);
+        PixelUtil.init(zoomReferencePx);
         Style.init(ScreenUtil.getScreenDensity());
         NetRequestManager.init(context);
         LynxCookieStore.initInstance(context);
         ResourceManager.init(context);
-        LynxRuntime.prepare(zoomReference);
+        LynxRuntime.prepare(zoomReferencePx);
         initialize();
     }
 

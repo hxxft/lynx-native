@@ -144,7 +144,9 @@ namespace lynx {
                         Size::Descriptor::UNSPECIFIED);
             }
 
-            Size child_size = child->Measure(measure_width, Size::Descriptor::Make(height, Size::Descriptor::AT_MOST));
+            Size child_size = child->Measure(measure_width,
+                                             Size::Descriptor::Make(height - child_style->margin_top_ - child_style->margin_bottom_,
+                                                                    Size::Descriptor::AT_MOST));
 
             calc_width += child_size.width_ + child_style->margin_left_ + child_style->margin_right_;
             calc_height = child_size.height_;
@@ -158,8 +160,13 @@ namespace lynx {
             (CSS_IS_UNDEFINED(renderer->GetStyle()->width_)
              && CSS_IS_UNDEFINED(renderer->GetStyle()->max_width_)
              && renderer->GetStyle()->min_width_ == 0)) {
-            residual_width = renderer->GetStyle()->ClampWidth(width) - renderer->GetStyle()->padding_right_
-                            - renderer->GetStyle()->padding_left_ - 2 * renderer->GetStyle()->border_width_ - calc_width;
+            residual_width = renderer->GetStyle()->ClampWidth(width);
+            if (residual_width != width) {
+                residual_width = residual_width -renderer->GetStyle()->padding_right_
+                                 - renderer->GetStyle()->padding_left_
+                                 - 2 * renderer->GetStyle()->border_width_;
+            }
+            residual_width -= calc_width;
         } else {
             residual_width = renderer->GetStyle()->ClampWidth(calc_width) -renderer->GetStyle()->padding_right_
                             - renderer->GetStyle()->padding_left_ - 2 * renderer->GetStyle()->border_width_ - calc_width;
@@ -323,7 +330,9 @@ namespace lynx {
                         Size::Descriptor::UNSPECIFIED);
             }
 
-            Size child_size = child->Measure(Size::Descriptor::Make(width, Size::Descriptor::AT_MOST), measure_height);
+            Size child_size = child->Measure(Size::Descriptor::Make(width - child_style->margin_right_ - child_style->margin_left_,
+                                                                    Size::Descriptor::AT_MOST),
+                                             measure_height);
 
             calc_width = child_size.width_;
             calc_height += child_size.height_ + child_style->margin_top_ + child_style->margin_bottom_;
@@ -337,8 +346,13 @@ namespace lynx {
            (CSS_IS_UNDEFINED(renderer->GetStyle()->height_)
             && CSS_IS_UNDEFINED(renderer->GetStyle()->max_height_)
             && renderer->GetStyle()->min_height_ == 0)) {
-            residual_height = renderer->GetStyle()->ClampHeight(height) - renderer->GetStyle()->padding_top_
-                             - renderer->GetStyle()->padding_bottom_ - 2 * renderer->GetStyle()->border_width_ - calc_height;
+            residual_height = renderer->GetStyle()->ClampHeight(height);
+            if (residual_height != height) {
+                residual_height = residual_height - renderer->GetStyle()->padding_top_
+                                  - renderer->GetStyle()->padding_bottom_
+                                  - 2 * renderer->GetStyle()->border_width_;
+            }
+            residual_height -= calc_height;
         } else {
             residual_height = renderer->GetStyle()->ClampHeight(calc_height) - renderer->GetStyle()->padding_top_
                              - renderer->GetStyle()->padding_bottom_ - 2 * renderer->GetStyle()->border_width_ - calc_height;

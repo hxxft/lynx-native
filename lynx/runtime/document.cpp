@@ -73,7 +73,7 @@ namespace jscore {
     Element* Document::GetElementById(std::string &id) {
         lynx::RenderObject* render_object
                 = context_->runtime()->render_tree_host()->GetElementById(id);
-        return static_cast<jscore::Element*>(render_object->GetJSRef());
+        return render_object->GetJSRef();
     }
 
     Element* Document::QuerySelector(std::string &element) {
@@ -82,7 +82,7 @@ namespace jscore {
             render_object
                     = context_->runtime()->render_tree_host()->GetElementById(element.substr(1));
         }
-        return render_object ? static_cast<jscore::Element*>(render_object->GetJSRef()) : NULL;
+        return render_object ? render_object->GetJSRef() : NULL;
     }
 
     base::ScopedPtr<LynxValue>

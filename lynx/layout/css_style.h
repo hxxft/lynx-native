@@ -330,6 +330,11 @@ class CSSStyle {
     }
   }
 
+  void SetPointerEvents(const std::string& value) {
+    if (UNLIKELY(!ToPointerEventsType(value, pointer_events_))) {
+    }
+  }
+
  public:
   // base css style
   double width_;
@@ -387,6 +392,8 @@ class CSSStyle {
 
   // image object fit
   ImageStyleType css_object_fit_;
+
+  CSSStyleType pointer_events_;
 
   int zindex_;
 

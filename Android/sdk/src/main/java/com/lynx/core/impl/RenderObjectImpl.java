@@ -6,8 +6,7 @@ import com.lynx.base.Position;
 import com.lynx.base.Size;
 import com.lynx.base.Style;
 import com.lynx.base.SupposeJSThread;
-import com.lynx.core.base.LynxArray;
-import com.lynx.core.base.LynxObject;
+import com.lynx.core.base.LynxHolder;
 import com.lynx.ui.LynxUI;
 import com.lynx.ui.LynxUIFactory;
 import com.lynx.ui.recycler.ILynxUIRecycler;
@@ -16,8 +15,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
-public class RenderObjectImpl  {
+public class RenderObjectImpl extends LynxHolder {
 
     private native void nativeDispatchEvent(long nativePtr, String event, Object[] params);
 
@@ -51,16 +51,17 @@ public class RenderObjectImpl  {
 
     private Map<Integer, Object> mExternalData;
 
-    private List<String> mEvents;
+    private EventManager mEventManager;
 
     private RenderObjectImpl(int type, long ptr) {
+        super(ptr);
         this.mRenderObjectType = type;
         this.mNativePtr = ptr;
         this.mAttributes = new HashMap<>();
         this.mPosition = new Position();
         this.mSize = new Size();
-        this.mEvents = new ArrayList<>();
         this.mStyle = new Style();
+        this.mEventManager = new EventManager();
         if (type == LynxUIFactory.UI_TYPE_BODY) {
             mRoot = this;
         }
@@ -223,17 +224,17 @@ public class RenderObjectImpl  {
 
     @CalledByNative
     public void addEventListener(String event) {
-        mEvents.add(event);
+        EventModifier modifier = mEventManager.addEvent(event);
         if(hasUI()) {
-            getUI().addEventListener(event);
+            getUI().addEventListener(modifier.getName());
         }
     }
 
     @CalledByNative
     public void removeEventListener(String event) {
-        mEvents.add(event);
+        EventModifier modifier = mEventManager.removeEvent(event);
         if(hasUI()) {
-            getUI().removeEventListener(event);
+            getUI().removeEventListener(modifier.getName());
         }
     }
 
@@ -260,8 +261,12 @@ public class RenderObjectImpl  {
         }
     }
 
-    public List<String> getEvents() {
-        return mEvents;
+    public Set<String> getEvents() {
+        return mEventManager.getEventNameSet();
+    }
+
+    public EventManager getEventManager() {
+        return mEventManager;
     }
 
     public String getAttribute(String key) {

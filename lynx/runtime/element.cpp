@@ -9,6 +9,7 @@
 #include "runtime/jsc/objects/object_template.h"
 
 #include "render/event_target.h"
+#include "render/render_object.h"
 
 namespace jscore {
 
@@ -131,7 +132,7 @@ namespace jscore {
             int index = array->Get(0)->data_.i;
             lynx::RenderObject* render_child = const_cast<lynx::RenderObject*>(
                     render_parent->Get(index));
-            Element* child_element = static_cast<Element*>(render_child->GetJSRef());
+            Element* child_element = render_child->GetJSRef();
             // Unprotects child
             Element::UnprotectChild(element->context(), child_element);
             render_parent->RemoveChild(render_child);
@@ -183,7 +184,7 @@ namespace jscore {
             int index = array->Get(0)->data_.i;
             lynx::RenderObject* child = const_cast<lynx::RenderObject*>(render_object->Get(index));
             if(child) {
-                Element* child_element = static_cast<Element*>(child->GetJSRef());
+                Element* child_element = child->GetJSRef();
                 return base::ScopedPtr<LynxValue>(LynxValue::MakeObjectTemplate(child_element));
             }
         }
@@ -384,7 +385,7 @@ namespace jscore {
         lynx::RenderObject* render_object = element->render_object();
         lynx::RenderObject* parent = const_cast<lynx::RenderObject*>(render_object->Parent());
         if (parent) {
-            Element* parent_element = static_cast<Element*>(parent->GetJSRef());
+            Element* parent_element = parent->GetJSRef();
             return LynxValue::MakeObjectTemplate(parent_element);
         }
         return LynxValue::MakeValueScoped(NULL);
@@ -447,7 +448,7 @@ namespace jscore {
         lynx::RenderObject* render_object = element->render_object();
         lynx::RenderObject* next = render_object->NextSibling();
         if(next) {
-            Element* next_element = static_cast<Element*>(next->GetJSRef());
+            Element* next_element = next->GetJSRef();
             return LynxValue::MakeObjectTemplate(next_element);
         }
         return base::ScopedPtr<LynxValue>(NULL);
@@ -461,7 +462,7 @@ namespace jscore {
             render_child = render_child->IsPrivate() ?
                            static_cast<lynx::RenderObject*>(render_child->FirstChild())
                             : render_child;
-            Element* next_element = static_cast<Element*>(render_child->GetJSRef());
+            Element* next_element = render_child->GetJSRef();
             return LynxValue::MakeObjectTemplate(next_element);
         }
         return base::ScopedPtr<LynxValue>(NULL);
@@ -483,9 +484,9 @@ namespace jscore {
             if (render_child->IsPrivate()) {
                 lynx::RenderObject* render_temp =
                         static_cast<lynx::RenderObject*>(render_child->FirstChild());
-                child_element = static_cast<Element*>(render_temp->GetJSRef());
+                child_element = render_temp->GetJSRef();
             } else {
-                child_element = static_cast<Element*>(render_child->GetJSRef());
+                child_element = render_child->GetJSRef();
             }
 
             array->Push(LynxValue::MakeObjectTemplate(child_element).Release());
@@ -538,7 +539,7 @@ namespace jscore {
         lynx::RenderObject* renderer = child->render_object();
         lynx::RenderObject* render_child = static_cast<lynx::RenderObject*>(renderer->FirstChild());
         while(render_child) {
-            UnprotectChild(context, static_cast<Element*>(render_child->GetJSRef()));
+            UnprotectChild(context, render_child->GetJSRef());
             render_child = static_cast<lynx::RenderObject*>(renderer->Next());
         }
     }

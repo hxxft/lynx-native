@@ -13,7 +13,7 @@
 
 
 namespace jscore {
-    class ObjectWrap : base::Observer{
+    class ObjectWrap : base::Observer {
     public:
         
         ObjectWrap(JSContext* context) : js_ref_(NULL), context_(context){
