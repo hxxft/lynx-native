@@ -192,7 +192,9 @@ void RenderObject::Layout(int left, int top, int right, int bottom) {
 
     if (dirty) {
         OnLayout(left, top, right, bottom);
+        UpToDate();
     }
+
 }
 
 base::Size RenderObject::OnMeasure(int width_descriptor, int height_descriptor) {

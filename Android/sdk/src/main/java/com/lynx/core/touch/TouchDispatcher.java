@@ -2,170 +2,116 @@
 package com.lynx.core.touch;
 
 import android.content.Context;
-import android.graphics.Matrix;
-import android.util.SparseArray;
+import android.support.annotation.NonNull;
 import android.view.MotionEvent;
-import android.view.View;
-import android.view.ViewGroup;
 
-import com.lynx.core.touch.gesture.GestureHandler;
-import com.lynx.ui.LynxUI;
-import com.lynx.ui.LynxUIGroup;
+import com.lynx.core.touch.gesture.GestureDispatcher;
 
+import java.util.List;
 import java.util.Stack;
 
 public class TouchDispatcher {
-    private GestureHandler mGestureHandler;
-    private SparseArray<Stack<TouchTarget>> mTargetStackList;
-    private Stack<TouchTarget> mCurTargetStack;
-    private LynxUI mRootLynxUI;
-    private float[] mMatrixTransformPTS = new float[2];
-    private Matrix mInverseMatrix = new Matrix();
 
-    public TouchDispatcher(Context context, LynxUI root) {
-        mRootLynxUI = root;
-        mTargetStackList = new SparseArray<>();
-        mGestureHandler = new GestureHandler(context);
+    private Delegate mDelegate;
+    private TouchTarget mRootTarget;
+    private TouchHandler mTouchHandler;
+    private Stack<TouchTarget> mTargetStack;
+    private GestureDispatcher mGestureDispatcher;
+
+    public TouchDispatcher(Context context, TouchTarget root) {
+        mRootTarget = root;
+        mTargetStack = new Stack<>();
+        mTouchHandler = new TouchHandler();
+        mDelegate = new TouchDispatcherDelegate();
+        mGestureDispatcher = new GestureDispatcher(context);
     }
 
-    public void dispatchMotionEvent(MotionEvent event) {
-        mGestureHandler.handle(event);
-        dispatchTouchEvent(new TouchEventInfo(event));
-    }
+    public boolean dispatchEvent(MotionEvent event) {
 
-    private void dispatchTouchEvent(TouchEventInfo info) {
-        // First assign stack
-        assignStack(info);
+        TouchEventInfo touchEventInfo = mTouchHandler.handleMotionEvent(event);
 
-        // Second capture only once when the touch starts
-        if (info.getType().equals(TouchEventInfo.START)) {
-            captureEvent(new TouchAxis(info.getAxis()), info);
+        if (event.getAction() == MotionEvent.ACTION_DOWN && mTargetStack.size() == 0) {
+            hitTest(new TouchAxis(touchEventInfo.getTouchAxis()));
         }
 
-        // Third bubble every time
-        bubbleEvent(info);
+        if (!mTargetStack.empty()) {
+            touchEventInfo.setTarget(mTargetStack.lastElement());
+        }
 
-        // Last reset stack
-        if (info.getType().equals(TouchEventInfo.END) ||
-                info.getType().equals(TouchEventInfo.CANCEL)) {
+        // Capture
+        captureEvent(touchEventInfo);
+
+        if (!touchEventInfo.getCancelBubble()) {
+            // Bubble
+            bubbleEvent(touchEventInfo);
+        }
+
+        // Handle gesture event after finish handling touch event
+        mGestureDispatcher.handle(touchEventInfo);
+
+        if (event.getAction() == MotionEvent.ACTION_UP ||
+                event.getAction() == MotionEvent.ACTION_CANCEL) {
             reset();
         }
+
+        return touchEventInfo.getPreventDefault();
     }
 
-    private void assignStack(TouchEventInfo info) {
-
-        Stack<TouchTarget> targetStack = mTargetStackList.get(info.getPointerID());
-
-        if (targetStack == null) {
-            targetStack = new Stack<>();
-            mTargetStackList.put(info.getPointerID(), targetStack);
-        }
-
-        mCurTargetStack = targetStack;
-    }
-
-    private void captureEvent(TouchAxis axis, TouchEventInfo info) {
-        LynxUI target = mRootLynxUI;
-        View responder = target.getView();
-
-        while (responder != null && target != null) {
-
-            if (mCurTargetStack.size() == 0 || target != mCurTargetStack.get(0)) {
-                mCurTargetStack.push(target);
-                mGestureHandler.addGestureWatcher(target);
-
-                // Throw capturing event, maybe some event listener want to response.
-                target.onCapturingTouchEvent(info);
+    private void hitTest(TouchAxis touchAxis) {
+        TouchTarget finalTarget = mRootTarget.hitTest(touchAxis);
+        if (finalTarget != null) {
+            List<TouchTarget> list = mDelegate.findPathByTarget(finalTarget);
+            for (TouchTarget target : list) {
+                mTargetStack.push(target);
+                mGestureDispatcher.addWatcher(target);
             }
-
-            responder = responder instanceof ViewGroup ?
-                    findNextResponder((ViewGroup) responder, axis) : null;
-
-            if (responder != null) {
-                target = findNextTarget((LynxUIGroup) target, responder);
-            }
-
         }
     }
 
-    // This method find next target in touch area without considering fixed or z-index
-    private View findNextResponder(ViewGroup responder, TouchAxis touchAxis) {
-        View nextResponder = null;
-        // If node has children, dispatch touch event.
-        for (int i = responder.getChildCount() - 1; i >= 0; --i) {
-            View childResponder = responder.getChildAt(i);
+    private void captureEvent(TouchEventInfo touchEvent) {
 
-            // Only solve active view
-            if (childResponder.getVisibility() != View.VISIBLE
-                    || !responder.isEnabled()) {
-                continue;
-            }
+        for (int i = 0; i < mTargetStack.size(); i++) {
+            TouchTarget touchTarget = mTargetStack.get(i);
 
-            // Check if touch in the region of the node.
-            if (checkIfTouchInside(responder, childResponder, touchAxis)) {
-                nextResponder = childResponder;
+            touchEvent.setCurTarget(touchTarget);
+            touchTarget.onCapturingTouchEvent(touchEvent);
+
+            if (touchEvent.getCancelBubble()) {
                 break;
             }
         }
 
-        return nextResponder;
     }
 
-    private boolean checkIfTouchInside(View responder, View childResponder, TouchAxis touchAxis) {
-
-        float curX = touchAxis.x + responder.getScrollX() - childResponder.getLeft();
-        float curY = touchAxis.y + responder.getScrollY() - childResponder.getTop();
-
-        Matrix matrix = childResponder.getMatrix();
-        if (!matrix.isIdentity()) {
-            mMatrixTransformPTS[0] = curX;
-            mMatrixTransformPTS[1] = curY;
-            matrix.invert(mInverseMatrix);
-            mInverseMatrix.mapPoints(mMatrixTransformPTS);
-            curX = mMatrixTransformPTS[0];
-            curY = mMatrixTransformPTS[1];
-        }
-
-        if ((curX >= 0 && curX < (childResponder.getRight() - childResponder.getLeft()))
-                && (curY >= 0 && curY < (childResponder.getBottom() - childResponder.getTop()))) {
-            touchAxis.setXY(curX, curY);
-            return true;
-        }
-
-        return false;
-    }
-
-    private LynxUI findNextTarget(LynxUIGroup target, View nextResponder) {
-        for (int i = 0; i < target.getRenderObjectImpl().getChildCount(); ++i) {
-            LynxUI childUI = target.getRenderObjectImpl().getChildAt(i).getUI();
-            if (childUI != null && childUI.getView() == nextResponder) {
-                return childUI;
-            }
-        }
-        return target;
-    }
-
-    private void bubbleEvent(TouchEventInfo info) {
+    private void bubbleEvent(TouchEventInfo touchEvent) {
+        if (mTargetStack.empty()) return;
+        touchEvent.setTarget(mTargetStack.lastElement());
         TouchTarget currentTarget;
-        for (int i = mCurTargetStack.size() - 1; i >= 0; --i) {
-            currentTarget = mCurTargetStack.get(i);
+        for (int i = mTargetStack.size() - 1; i >= 0; --i) {
+            currentTarget = mTargetStack.get(i);
 
             // Handle self touch event
-            handleTouch(currentTarget, info);
+            handleTouch(currentTarget, touchEvent);
 
-            // If target need to stop propagation, then prevent bubbling.
-            if (currentTarget.isStopPropagation()) {
+            // If bubble is false, cancel bubble
+            if (touchEvent.getCancelBubble()) {
                 break;
             }
         }
     }
 
-    private void handleTouch(TouchTarget target, TouchEventInfo info) {
-        target.performTouch(info);
+    private void handleTouch(TouchTarget target, TouchEventInfo touchEvent) {
+        touchEvent.setCurTarget(target);
+        target.performTouch(touchEvent);
     }
 
     private void reset() {
-        mCurTargetStack.clear();
-        mGestureHandler.reset();
+        mTargetStack.clear();
+        mTouchHandler.reset();
+        mGestureDispatcher.reset();
+    }
+
+    interface Delegate {
+        List<TouchTarget> findPathByTarget(@NonNull TouchTarget finalTarget);
     }
 }

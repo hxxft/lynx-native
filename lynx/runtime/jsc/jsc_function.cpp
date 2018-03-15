@@ -56,17 +56,6 @@ namespace jscore {
             argc = args->Size();
         }
 
-        for (int i = 0; i < argc; i++) {
-            // register target
-            if (JSValueIsObject(ctx, array[i])) {
-                JSCHelper::SetValueProperty(ctx,
-                                            (JSObjectRef) array[i],
-                                            "target",
-                                            target_object,
-                                            kJSPropertyAttributeReadOnly, NULL);
-            }
-        }
-
         JSValueRef exception = nullptr;
 
         JSStringRef function_key = JSStringCreateWithUTF8CString(lynx_function_key_.c_str());

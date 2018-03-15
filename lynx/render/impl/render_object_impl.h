@@ -12,10 +12,11 @@
 #include "layout/css_style.h"
 #include "runtime/thread_manager.h"
 #include "runtime/base/lynx_object.h"
+#include "runtime/base/lynx_holder.h"
 
 namespace lynx {
 class RenderObject;
-class RenderObjectImpl : public base::RefCountPtr<RenderObjectImpl> {
+class RenderObjectImpl : public base::RefCountPtr<RenderObjectImpl>, public jscore::LynxHolder {
  public:
     RenderObjectImpl(jscore::ThreadManager* manager, RenderObjectType type);
 
@@ -33,6 +34,8 @@ class RenderObjectImpl : public base::RefCountPtr<RenderObjectImpl> {
         base::WeakPtr<RenderObject>& weak_ptr) {
         render_object_weak_ptr_ = weak_ptr;
     }
+
+    base::ScopedPtr<jscore::LynxValue> GetLynxValue();
 
     static RenderObjectImpl* Create(
         jscore::ThreadManager* manager,

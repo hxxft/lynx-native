@@ -57,6 +57,8 @@ public class ParamsTransform {
             return JNIType.LYNX_OBJECT_TYPE;
         } else if (clazz == LynxFunctionObject.class) {
             return JNIType.LYNX_FUNCTION_OBJECT_TYPE;
+        } else if (LynxHolder.class.isAssignableFrom(clazz)) {
+            return JNIType.LYNX_HOLDER;
         }
         throw new RuntimeException(clazz.getCanonicalName() + " is not defined as a property to lynx jni !");
     }

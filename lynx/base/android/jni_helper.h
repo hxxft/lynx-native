@@ -4,13 +4,14 @@
 
 #include <string>
 #include <jni.h>
-#include <runtime/base/lynx_object.h>
-#include "base/scoped_ptr.h"
 
+#include "base/scoped_ptr.h"
 #include "base/android/scoped_java_ref.h"
 #include "base/android/java_type.h"
 #include "runtime/base/lynx_value.h"
 #include "runtime/base/lynx_array.h"
+#include "runtime/base/lynx_object.h"
+#include "runtime/base/lynx_holder.h"
 
 namespace base {
     namespace android {
@@ -67,6 +68,9 @@ namespace base {
             static base::ScopedPtr<jscore::LynxObject> ConvertToLynxObject(JNIEnv *env,
                                                            jobject value);
             static base::ScopedPtr<jscore::LynxFunctionObject> ConvertToLynxFunctionObject(
+                    JNIEnv *env,
+                    jobject value);
+            static base::ScopedPtr<jscore::LynxValue> ConvertToLynxHolder(
                     JNIEnv *env,
                     jobject value);
             static base::ScopedPtr<jscore::LynxArray> ConvertToLynxArray(JNIEnv *env,

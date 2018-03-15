@@ -15,6 +15,7 @@ import com.lynx.core.base.LynxObject;
 import com.lynx.core.impl.RenderImplInterface;
 import com.lynx.core.impl.RenderObjectAttr;
 import com.lynx.core.impl.RenderObjectImpl;
+import com.lynx.core.touch.TouchAxis;
 import com.lynx.core.touch.TouchEventInfo;
 import com.lynx.core.touch.TouchTarget;
 import com.lynx.core.touch.gesture.GestureEventInfo;
@@ -23,17 +24,18 @@ import com.lynx.ui.anim.AnimDriver;
 import com.lynx.ui.anim.AnimProperties;
 import com.lynx.ui.body.LynxUIBody;
 import com.lynx.ui.coordinator.CrdActionExecutor;
-import com.lynx.ui.coordinator.CrdSponsor;
-import com.lynx.ui.coordinator.CrdResponder;
-import com.lynx.ui.coordinator.CrdTypes;
 import com.lynx.ui.coordinator.CrdAttributeConvertor;
+import com.lynx.ui.coordinator.CrdResponder;
+import com.lynx.ui.coordinator.CrdSponsor;
 import com.lynx.ui.coordinator.CrdTreatment;
+import com.lynx.ui.coordinator.CrdTypes;
 import com.lynx.ui.drawable.UIBackgroundDrawable;
-import com.lynx.ui.event.TGEventEmitter;
+import com.lynx.ui.event.TGFlowHandler;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import static android.view.View.LAYER_TYPE_HARDWARE;
 import static android.view.View.LAYER_TYPE_NONE;
@@ -43,9 +45,6 @@ import static com.lynx.ui.LynxUIFactory.UI_TYPE_CELLVIEW;
 public abstract class LynxUI<T extends View>
         implements RenderImplInterface, TouchTarget, CrdResponder, CrdSponsor {
 
-    public final static String ATTR_STOP_PROPAGATION = "stop-propagation";
-    public final static String ATTR_CAPTURE = "capture";
-    public final static String ATTR_PREVENT_DEFAULT = "prevent-default";
     public final static String ATTR_PREVENT_ENABLED = "enabled";
 
     protected T mView;
@@ -56,11 +55,8 @@ public abstract class LynxUI<T extends View>
     private AnimProperties mOldAnimProperties;
     private UIBackgroundDrawable mBgDrawable;
 
-    // Touch
-    private TGEventEmitter mTGEventEmitter;
-    private boolean mStopPropagationEnable = false;
-    private boolean mPreventDefaultEnable = false;
-    private boolean mCaptureEnable = false;
+    // Touch & Gesture
+    private TGFlowHandler mTGFlowHandler;
 
     // Coordinator & Animation
     private CrdAttributeConvertor mCrdAttributeConvertor;
@@ -74,7 +70,7 @@ public abstract class LynxUI<T extends View>
         initialize();
         mView = createView(context);
         mBgDrawable = new UIBackgroundDrawable();
-        mTGEventEmitter = new TGEventEmitter(this);
+        mTGFlowHandler = new TGFlowHandler(this);
         mTreatment = new CrdTreatment(this, new CrdActionExecutor(this));
         mCrdAttributeConvertor = new CrdAttributeConvertor();
     }
@@ -105,7 +101,6 @@ public abstract class LynxUI<T extends View>
 
     @Override
     public void setPosition(Position position) {
-        mBgDrawable.updateBounds(position);
         if (mView.getLayoutParams() != null) {
             mView.getLayoutParams().width = position.getWidth();
             mView.getLayoutParams().height = position.getHeight();
@@ -117,17 +112,8 @@ public abstract class LynxUI<T extends View>
     @Override
     public void setAttribute(String key, String value) {
         switch (key) {
-            case ATTR_CAPTURE:
-                mCaptureEnable = Boolean.valueOf(value);
-                break;
-            case ATTR_PREVENT_DEFAULT:
-                mPreventDefaultEnable = Boolean.valueOf(value);
-                break;
             case ATTR_PREVENT_ENABLED:
                 setEnabled(Boolean.valueOf(value));
-                break;
-            case ATTR_STOP_PROPAGATION:
-                mStopPropagationEnable = Boolean.valueOf(value);
                 break;
             case CrdAttributeConvertor.ATTR_COORDINATOR_TAG:
                 mCrdAttributeConvertor.setCoordinatorTag(getRootUI(), this, value);
@@ -168,12 +154,10 @@ public abstract class LynxUI<T extends View>
 
     @Override
     public void addEventListener(String event) {
-        mTGEventEmitter.setEnable(event, true);
     }
 
     @Override
     public void removeEventListener(String event) {
-        mTGEventEmitter.setEnable(event, false);
     }
 
     @Override
@@ -390,7 +374,7 @@ public abstract class LynxUI<T extends View>
         }
     }
 
-    protected void addEvents(List events) {
+    protected void addEvents(Set events) {
         if (events.isEmpty())
             return;
         for (Object event : events) {
@@ -398,7 +382,7 @@ public abstract class LynxUI<T extends View>
         }
     }
 
-    protected void resetEvent(List events) {
+    protected void resetEvent(Set events) {
         if (events.isEmpty())
             return;
         for (Object event : events) {
@@ -442,15 +426,10 @@ public abstract class LynxUI<T extends View>
 
     public void postEvent(final String eventName, final LynxEvent event) {
         if (mRenderObjectImpl != null && getRootUI() != null) {
-            getRootUI().collect(new LynxUIAction.UnorderedAction(mRenderObjectImpl) {
+            getRootUI().collect(new LynxUIAction.OrderedAction(mRenderObjectImpl, event) {
                 @Override
                 public void doAction() {
                     mTarget.dispatchEvent(eventName, new Object[]{event});
-                }
-
-                @Override
-                public String key() {
-                    return eventName;
                 }
             });
         }
@@ -492,38 +471,35 @@ public abstract class LynxUI<T extends View>
     // TouchTarget & Gesture Target Implement
     @Override
     public void performTouch(TouchEventInfo info) {
-        if (!isCaptureEnable()) {
-            mTGEventEmitter.emitTouchEvent(info);
-        }
+        mTGFlowHandler.handlePerformFlow(info);
     }
 
     @Override
     public void performGesture(GestureEventInfo info) {
-        mTGEventEmitter.emitGestureEvent(info);
+        mTGFlowHandler.handlePerformFlow(info);
     }
 
     @Override
     public void onCapturingTouchEvent(TouchEventInfo info) {
-        if (isCaptureEnable()) {
-            mTGEventEmitter.emitTouchEvent(info);
+        mTGFlowHandler.handleCaptureFlow(info);
+    }
+
+    @Override
+    public void onCaptureGestureEvent(GestureEventInfo info) {
+        mTGFlowHandler.handleCaptureFlow(info);
+    }
+
+    @Override
+    public TouchTarget hitTest(TouchAxis axis) {
+        if (getView().getVisibility() == View.VISIBLE
+                && getView().isEnabled()
+                && getRenderObjectImpl().getStyle().mPointerEvents == Style.CSS_POINTER_EVENT_AUTO) {
+            return this;
         }
+        return null;
     }
 
-    @Override
-    public boolean isPreventDefault() {
-        return mPreventDefaultEnable;
-    }
-
-    @Override
-    public boolean isStopPropagation() {
-        return mStopPropagationEnable;
-    }
-
-    @Override
-    public boolean isCaptureEnable() {
-        return mCaptureEnable;
-    }
-
+    // Coordinator Implement
     @Override
     public String coordinatorAffinity() {
         return mCrdAttributeConvertor.getCoordinatorAffinity();

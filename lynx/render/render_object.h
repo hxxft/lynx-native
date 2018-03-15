@@ -135,13 +135,11 @@ class RenderObject : public LayoutObject, public EventTarget {
 
   const bool IsPrivate() { return render_object_type_ == LYNX_CELLVIEW; }
 
-  void SetHost(RenderTreeHost* host) { render_tree_host_ = host; }
-
   RenderTreeHost* render_tree_host() { return render_tree_host_; }
 
-  void SetJSRef(void* js_ref) { SetTarget(js_ref); }
+  void SetJSRef(jscore::Element* js_ref) { SetTarget(js_ref); }
 
-  void* GetJSRef() { return GetTarget(); }
+  jscore::Element* GetJSRef() { return GetTarget(); }
 
   uint64_t id() { return id_; }
 

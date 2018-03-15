@@ -33,8 +33,9 @@ public class AndroidBody extends AndroidViewGroup {
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
-        mTouchDispatcher.dispatchMotionEvent(ev);
-        super.dispatchTouchEvent(ev);
+        if (!mTouchDispatcher.dispatchEvent(ev)) {
+            super.dispatchTouchEvent(ev);
+        }
         // Always return true so that receiving touch event successively
         return true;
     }

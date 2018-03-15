@@ -26,6 +26,7 @@ const static char kStringType = 's';
 const static char kLynxArrayType = 'b';
 const static char kLynxObjectType = 'c';
 const static char kLynxFunctionObjectType = 'd';
+const static char kLynxHolderType = 'e';
 
 
 enum class Type : int {
@@ -40,6 +41,7 @@ enum class Type : int {
     String,
     LynxArray,
     LynxObject,
+    LynxHolder,
     Object,
     Null
 };
@@ -95,6 +97,9 @@ class JType {
                                         jobject key,
                                         jobject value);
     static ScopedLocalJavaRef<jobject> GetLynxObjectProperties(JNIEnv *env, jobject jjsobj);
+
+    // LynxObject
+    static long GetNativeLynxHolder(JNIEnv* env, jobject holder);
 
     static void Init(JNIEnv* env, Type type);
 
@@ -153,6 +158,10 @@ class JType {
     static jmethodID lynx_object_set_properties_method;
     static jmethodID lynx_object_set_property_method;
     static jmethodID lynx_object_get_properties_method;
+
+    // LynxHolder
+    static jclass lynx_holder_clazz;
+    static jmethodID lynx_holder_get_native_holder_method;
 };
 
 }  // namespace android

@@ -1,14 +1,13 @@
 // Copyright 2017 The Lynx Authors. All rights reserved.
-#include <runtime/base/lynx_value.h>
-#include "runtime/base/lynx_value.h"
-#include "runtime/base/lynx_function_object_android.h"
 #include "base/android/jni_helper.h"
-
 #include "base/debug/memory_debug.h"
 #include "base/android/params_transform.h"
 #include "runtime/base/lynx_array.h"
 #include "runtime/base/lynx_object.h"
 #include "runtime/base/lynx_object_template.h"
+#include "runtime/base/lynx_value.h"
+#include "runtime/base/lynx_function_object_android.h"
+#include "runtime/base/lynx_holder.h"
 #include "runtime/platform_value.h"
 
 namespace base {
@@ -123,6 +122,14 @@ namespace base {
                     lynx_new jscore::LynxFunctionObjectAndroid(env, value));
         }
 
+
+        base::ScopedPtr<jscore::LynxValue> JNIHelper::ConvertToLynxHolder(JNIEnv *env,
+                                                                           jobject value) {
+            long ptr = JType::GetNativeLynxHolder(env, value);
+            jscore::LynxHolder *holder = reinterpret_cast<jscore::LynxHolder*>(ptr);
+            return jscore::LynxValue::MakeLynxHolder(holder);
+        }
+
         base::ScopedPtr<jscore::LynxArray> JNIHelper::ConvertToLynxArray(JNIEnv *env,
                                                                          jobject java_array) {
             int length = (int) base::android::JType::GetLynxArrayLength(env, java_array);
@@ -212,6 +219,9 @@ namespace base {
                 case base::android::kLynxFunctionObjectType: // LynxFunctionObject
                     value = jscore::LynxValue::MakeFunctionObject(
                             ConvertToLynxFunctionObject(env, java_obj).Release());
+                    break;
+                case base::android::kLynxHolderType:
+                    value = ConvertToLynxHolder(env, java_obj);
                     break;
                 case base::android::kArrayFlag:
                     value = base::ScopedPtr<jscore::LynxValue>(

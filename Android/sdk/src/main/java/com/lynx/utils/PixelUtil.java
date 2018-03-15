@@ -3,7 +3,15 @@ package com.lynx.utils;
 
 public class PixelUtil {
 
-    private final static int LYNX_DEFAULT_REFER_SCREEN_WIDTH = 750;
+    private static float sZoomReferenceDp = 750;
+
+    public static void init(int zoomReferencePx) {
+        if (zoomReferencePx < 0) {
+            sZoomReferenceDp = 750;
+        } else {
+            sZoomReferenceDp = zoomReferencePx / ScreenUtil.getScreenDensity();
+        }
+    }
 
     public static double pxToDp(double px) {
         return px / ScreenUtil.getScreenDensity();
@@ -14,17 +22,17 @@ public class PixelUtil {
     }
 
     public static double pxToLynxNumber(double px) {
-        // Origin: px / density * (LYNX_DEFAULT_REFER_SCREEN_WIDTH / (screenWidth / density))
-        return px * LYNX_DEFAULT_REFER_SCREEN_WIDTH / ScreenUtil.getScreenWidth();
+        // Origin: px / density * (zoomReference / (screenWidth / density))
+        return px * sZoomReferenceDp / ScreenUtil.getScreenWidth();
     }
 
     public static double dpToLynxNumber(double dp) {
-        // Origin: dp * (LYNX_DEFAULT_REFER_SCREEN_WIDTH / (screenWidth / density))
-        return dpToPx(dp) * LYNX_DEFAULT_REFER_SCREEN_WIDTH / ScreenUtil.getScreenWidth();
+        // Origin: dp * (zoomReference / (screenWidth / density))
+        return dpToPx(dp) * sZoomReferenceDp / ScreenUtil.getScreenWidth();
     }
 
     public static double lynxNumberToPx(double number) {
-        return number * ScreenUtil.getScreenWidth() / LYNX_DEFAULT_REFER_SCREEN_WIDTH;
+        return number * ScreenUtil.getScreenWidth() / sZoomReferenceDp;
     }
 
     public static double lynxNumberToDp(double number) {

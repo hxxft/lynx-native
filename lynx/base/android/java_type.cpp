@@ -168,6 +168,11 @@ ScopedLocalJavaRef<jobject> JType::GetLynxObjectProperties(JNIEnv *env, jobject 
     return ScopedLocalJavaRef<jobject>(env, result);
 }
 
+long JType::GetNativeLynxHolder(JNIEnv* env, jobject holder) {
+    EnsureInstance(env, Type::LynxHolder);
+    return (long) env->CallLongMethod(holder, lynx_holder_get_native_holder_method);
+}
+
 void JType::EnsureInstance(JNIEnv* env, Type type) {
     Init(env, type);
 }
@@ -349,6 +354,15 @@ void JType::Init(JNIEnv* env, Type type) {
                 "()Lcom/lynx/core/base/LynxArray;");
         }
         break;
+    case Type::LynxHolder:
+        if (lynx_holder_clazz == nullptr) {
+            lynx_holder_clazz = (jclass)env->NewGlobalRef(
+                env->FindClass("com/lynx/core/base/LynxHolder"));
+
+            lynx_holder_get_native_holder_method = env->GetMethodID(
+                    lynx_holder_clazz, "getNativeHolder", "()J");
+        }
+        break;
     }
 }
 
@@ -401,6 +415,10 @@ jmethodID JType::lynx_object_ctor;
 jmethodID JType::lynx_object_set_properties_method;
 jmethodID JType::lynx_object_set_property_method;
 jmethodID JType::lynx_object_get_properties_method;
+
+// LynxObject
+jclass JType::lynx_holder_clazz;
+jmethodID JType::lynx_holder_get_native_holder_method;
 
 }  // namespace android
 }  // namespace base

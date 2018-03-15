@@ -91,6 +91,15 @@ bool ToPositionType(const std::string& value, CSSStyleType& type) {
   FALSE_RETURN(CSS_POSITION_RELATIVE);
 }
 
+bool ToPointerEventsType(const std::string& value, CSSStyleType & type) {
+  if (value.compare("none") == 0) {
+    TRUE_RETURN(CSS_POINTER_EVENTS_NONE);
+  } else if (value.compare("auto") == 0) {
+    TRUE_RETURN(CSS_POINTER_EVENTS_AUTO);
+  }
+  FALSE_RETURN(CSS_POINTER_EVENTS_AUTO);
+}
+
 bool ToTextAlignType(const std::string& value, TextStyleType& type) {
   if (value.compare("left") == 0) {
     TRUE_RETURN(CSSTEXT_ALIGN_LEFT);

@@ -1,10 +1,13 @@
 // Copyright 2017 The Lynx Authors. All rights reserved.
 package com.lynx.core.touch.gesture;
 
+import com.lynx.core.touch.EventInfo;
+import com.lynx.core.touch.TouchEventInfo;
+
 import java.util.HashMap;
 import java.util.Map;
 
-public class GestureEventInfo {
+public class GestureEventInfo extends EventInfo<GestureWatcher> {
 
     public static final String CLICK = "click";
     public static final String FLING = "fling";
@@ -12,19 +15,10 @@ public class GestureEventInfo {
     public static final String LONG_PRESS = "longpress";
     public static final String NOTHING = "nothing";
 
-    private String mType;
     private Map<String, Object> mDetail;
 
-    public GestureEventInfo() {
-        mType = NOTHING;
-    }
-
-    public String getType() {
-        return mType;
-    }
-
-    public void setType(String type) {
-        mType = type;
+    public GestureEventInfo(TouchEventInfo info) {
+        super(info.getAndroidEvent(), info.getType());
     }
 
     public void addDetail(String key, Object value) {
@@ -39,9 +33,11 @@ public class GestureEventInfo {
     }
 
     public void reset() {
+        super.reset();
         if (mDetail != null) {
             mDetail.clear();
         }
-        mType = NOTHING;
+        setType(NOTHING);
     }
+
 }

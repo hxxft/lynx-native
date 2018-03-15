@@ -41,7 +41,10 @@ enum CSSStyleType {
   CSS_POSITION_FIXED = 20,
 
   CSS_VISIBLE = 21,
-  CSS_HIDDEN = 22
+  CSS_HIDDEN = 22,
+
+  CSS_POINTER_EVENTS_NONE = 23,
+  CSS_POINTER_EVENTS_AUTO = 24
 };
 
 enum TextStyleType {
@@ -81,6 +84,8 @@ bool ToFlexJustifyType(const std::string& value, CSSStyleType& type);
 bool ToFlexWrapType(const std::string& value, CSSStyleType& type);
 
 bool ToPositionType(const std::string& value, CSSStyleType& type);
+
+bool ToPointerEventsType(const std::string& value, CSSStyleType & type);
 
 bool ToTextAlignType(const std::string& value, TextStyleType& type);
 

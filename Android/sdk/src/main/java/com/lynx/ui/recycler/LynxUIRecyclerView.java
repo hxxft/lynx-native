@@ -13,6 +13,7 @@ import com.lynx.base.Style;
 import com.lynx.core.base.LynxEvent;
 import com.lynx.core.impl.RenderObjectAttr;
 import com.lynx.core.impl.RenderObjectImpl;
+import com.lynx.core.touch.TouchTarget;
 import com.lynx.ui.LynxUIFactory;
 import com.lynx.ui.LynxUIGroup;
 
@@ -305,6 +306,19 @@ public class LynxUIRecyclerView
 
     private int getScrollLeft() {
         return mScrollLeft;
+    }
+
+    @Override
+    protected TouchTarget getMatchTouchTarget(View view) {
+        int firstVisibleItem = mLinearLayoutManager.findFirstVisibleItemPosition();
+        int lastVisibleItem = mLinearLayoutManager.findLastVisibleItemPosition();
+        for (int i = firstVisibleItem; i <= lastVisibleItem && i < mItemHelper.getItemCount(); i++) {
+            RenderObjectImpl childImpl = mItemHelper.getNode(i);
+            if (childImpl.getUI() != null && childImpl.getUI().getView() == view) {
+                return childImpl.getUI();
+            }
+        }
+        return null;
     }
 
     public class RecyclerViewOnScrollListener extends RecyclerView.OnScrollListener {

@@ -6,13 +6,12 @@ import android.graphics.Matrix;
 import android.view.animation.Animation;
 import android.view.animation.Transformation;
 
-
-
 public class Matrix3dAnimation extends Animation {
 
     private static final double DEGREE_TO_ROD = Math.PI / 180;
 
     private Camera mCamera;
+    private Matrix mCurMatrix;
     private AnimInformation mInfo;
     private float mPivotX;
     private float mPivotY;
@@ -50,6 +49,8 @@ public class Matrix3dAnimation extends Animation {
         matrix.postTranslate(mPivotX, mPivotY);
 
         applyOpacityTransformation(t, interpolatedTime);
+
+        mCurMatrix = matrix;
     }
 
     private void applyTranslateTransformationIfEnable(Camera camera, float interpolatedTime) {
@@ -118,4 +119,7 @@ public class Matrix3dAnimation extends Animation {
         }
     }
 
+    public Matrix getMatrix() {
+        return mCurMatrix;
+    }
 }

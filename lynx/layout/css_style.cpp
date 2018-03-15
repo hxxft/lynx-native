@@ -81,6 +81,8 @@ void CSSStyle::Initialize(CSSStyleConfig* config) {
   (*func_map)["z-index"] = &CSSStyle::SetZIndex;
   (*func_map)["line-height"] = &CSSStyle::SetLineHeight;
   (*func_map)["lineHeight"] = &CSSStyle::SetLineHeight;
+  (*func_map)["pointer-events"] = &CSSStyle::SetPointerEvents;
+  (*func_map)["pointerEvents"] = &CSSStyle::SetPointerEvents;
 }
 
 CSSStyle::CSSStyle() {
@@ -156,6 +158,7 @@ void CSSStyle::Reset() {
   line_height_ = CSS_UNDEFINED;
 
   css_object_fit_ = CSSIMAGE_OBJECT_FIT_COVER;
+  pointer_events_ = CSS_POINTER_EVENTS_AUTO;
   zindex_ = 0;
 }
 

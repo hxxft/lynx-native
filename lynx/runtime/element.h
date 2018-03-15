@@ -4,7 +4,9 @@
 #define LYNX_RUNTIME_ELEMENT_H_
 
 #include "runtime/base/lynx_object_template.h"
-#include "render/render_object.h"
+namespace lynx {
+    class RenderObject;
+}
 
 namespace jscore {
     class JSContext;

@@ -1,103 +1,84 @@
 // Copyright 2017 The Lynx Authors. All rights reserved.
 package com.lynx.core.touch;
 
+import android.util.SparseArray;
 import android.view.MotionEvent;
 
-public class TouchEventInfo {
+public class TouchEventInfo extends EventInfo<TouchTarget> {
 
     public final static String START = "touchstart";
     public final static String MOVE = "touchmove";
     public final static String END = "touchend";
     public final static String CANCEL = "touchcancel";
-    public final static String NOTHING = "nothing";
 
-    private TouchAxis[] mTouchAxisList;
-    private String mTouchType;
-    private int mActionIndex;
-    // Only for distinguishing pointer for START and END
-    private int mPointerID;
-    private int mPointerCount;
+    private TouchTarget mCurTarget;
 
-    private MotionEvent mAndroidEvent;
+    private long mTimeStamp;
+    private TouchAxis mTouchAxis;
+    private TouchAxis mRawTouchAxis;
+    private TouchHandler mTouchHandler;
 
-    public TouchEventInfo(MotionEvent event) {
+    /* package */ TouchEventInfo(TouchHandler handler, MotionEvent ev,
+                                 float x, float y, float rawX, float rawY,
+                                 long timeStamp, String type) {
+        super(ev, type);
+        this.mTouchHandler = handler;
+        this.mTouchAxis = new TouchAxis(x, y);
+        this.mRawTouchAxis = new TouchAxis(rawX, rawY);
+        this.mTimeStamp = timeStamp;
+    }
 
-        mAndroidEvent = event;
-
-        String touchEventType = TouchEventInfo.NOTHING;
-        int action = (event.getAction() & MotionEvent.ACTION_MASK);
-        switch (action) {
-            case MotionEvent.ACTION_DOWN:
-            case MotionEvent.ACTION_POINTER_DOWN:
-                touchEventType = TouchEventInfo.START;
-                break;
-            case MotionEvent.ACTION_UP:
-            case MotionEvent.ACTION_POINTER_UP:
-                touchEventType = TouchEventInfo.END;
-                break;
-            case MotionEvent.ACTION_MOVE:
-                touchEventType = TouchEventInfo.MOVE;
-                break;
-            case MotionEvent.ACTION_CANCEL:
-                touchEventType = TouchEventInfo.CANCEL;
-                break;
-            default:
-                break;
-        }
-
-        mActionIndex = event.getActionIndex();
-        mPointerID = event.getPointerId(event.getActionIndex());
-        mPointerCount = event.getPointerCount();
-        mTouchAxisList = new TouchAxis[event.getPointerCount()];
-        for (int i = 0; i < event.getPointerCount(); i++) {
-            mTouchAxisList[i] = new TouchAxis();
-            mTouchAxisList[i].x = event.getX(i);
-            mTouchAxisList[i].y = event.getY(i);
-        }
-        mTouchType = touchEventType;
+    /* package */ boolean updateInfo(float x, float y, float rawX, float rawY,
+                                     long timeStamp, String type) {
+        mTimeStamp = timeStamp;
+        setType(type);
+        if (x == mTouchAxis.x && y == mTouchAxis.y
+                && rawX == mRawTouchAxis.x && rawY == mRawTouchAxis.y) return false;
+        mTouchAxis.x = x;
+        mTouchAxis.y = y;
+        mRawTouchAxis.x = rawX;
+        mRawTouchAxis.y = rawY;
+        return true;
     }
 
     public float getX() {
-        return mTouchAxisList[mActionIndex].x;
+        return mTouchAxis.x;
     }
 
     public float getY() {
-        return mTouchAxisList[mActionIndex].y;
+        return mTouchAxis.y;
     }
 
-    public float getX(int index) {
-        return mTouchAxisList[index].x;
+    public float getRawX() {
+        return mRawTouchAxis.x;
     }
 
-    public float getY(int index) {
-        return mTouchAxisList[index].y;
+    public float getRawY() {
+        return mRawTouchAxis.y;
     }
 
-    public TouchAxis getAxis(int index) {
-        return mTouchAxisList[index];
+    public TouchAxis getTouchAxis() {
+        return mTouchAxis;
     }
 
-    public TouchAxis getAxis() {
-        return mTouchAxisList[mActionIndex];
+    public long getTimeStamp() {
+        return mTimeStamp;
     }
 
-    public String getType() {
-        return mTouchType;
+    public void setCurTarget(TouchTarget curTarget) {
+        mCurTarget = curTarget;
     }
 
-    public int getActionIndex() {
-        return mActionIndex;
+    public TouchTarget getCurTarget() {
+        return mCurTarget;
     }
 
-    public int getPointerID() {
-        return mPointerID;
+    public SparseArray<TouchEventInfo> getInfoListOnScreen() {
+        return mTouchHandler.infoOnScreen;
     }
 
-    public int getPointerCount() {
-        return mPointerCount;
+    public SparseArray<TouchEventInfo> getChangedInfoList() {
+        return mTouchHandler.changedInfoList;
     }
 
-    public MotionEvent getAndroidEvent() {
-        return mAndroidEvent;
-    }
 }

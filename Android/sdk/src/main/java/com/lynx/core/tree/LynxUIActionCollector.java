@@ -32,12 +32,12 @@ import java.util.Map;
     }
 
     private void collectOrderedAction(LynxUIAction.OrderedAction action) {
-        if (!action.canCoalesce()) {
+        if (!action.canCoalesce() || mActionsList.isEmpty()) {
             mActionsList.add(action);
             return;
         }
         LynxUIAction.OrderedAction last = mActionsList.getLast();
-        if ( action.target() == last.target()
+        if (action.target() == last.target()
                 && last.getCoalescingKey() == action.getCoalescingKey()) {
             mActionsList.removeLast();
             mActionsList.add(action);

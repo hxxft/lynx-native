@@ -5,9 +5,10 @@
 
 #include <string>
 
-#include "base/scoped_ptr_map.h"
-#include "base/scoped_vector.h"
+#include "runtime/element.h"
 #include "base/scoped_ptr.h"
+#include "base/scoped_vector.h"
+#include "base/scoped_ptr_map.h"
 #include "runtime/base/lynx_function.h"
 
 namespace lynx {
@@ -38,11 +39,11 @@ class EventTarget {
 
     virtual void RemoveEventListener(const std::string& event, jscore::LynxFunction* listener);
 
-    void* GetTarget() {
+    jscore::Element* GetTarget() {
         return target_data_;
     }
 
-    void SetTarget(void* target) {
+    void SetTarget(jscore::Element* target) {
         target_data_ = target;
     }
 
@@ -59,7 +60,7 @@ class EventTarget {
 protected:
     typedef base::ScopedPtrMap<std::string, base::ScopedVector<EventListener>> EventListenerMap;
 
-    void* target_data_;
+    jscore::Element* target_data_;
 
     EventListenerMap event_listener_map_;
 };

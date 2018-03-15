@@ -15,6 +15,7 @@ namespace jscore {
     class PlatformValue;
     class LynxFunctionObject;
     class LynxFunction;
+    class LynxHolder;
 
     class LynxValue {
     public:
@@ -30,6 +31,7 @@ namespace jscore {
             VALUE_LYNX_FUNCTION_OBJECT,
             VALUE_LYNX_OBJECT_TEMPLATE,
             VALUE_LYNX_FUNCTION,
+            VALUE_LYNX_HOLDER,
             VALUE_PLATFORM,
             VALUE_NULL,
         };
@@ -48,6 +50,7 @@ namespace jscore {
             LynxObjectTemplate* lynx_object_template;
             LynxFunction* lynx_function;
             PlatformValue* platform_value;
+            LynxHolder* lynx_holder;
         } data_;
 
         inline static base::ScopedPtr<LynxValue> MakeBool(bool value) {
@@ -134,6 +137,13 @@ namespace jscore {
             base::ScopedPtr<LynxValue> lynx_object(
                     lynx_new LynxValue(LynxValue::Type::VALUE_PLATFORM));
             lynx_object->data_.platform_value = platform_value;
+            return lynx_object;
+        }
+
+        inline static base::ScopedPtr<LynxValue> MakeLynxHolder(LynxHolder* lynx_holder) {
+            base::ScopedPtr<LynxValue> lynx_object(
+                    lynx_new LynxValue(LynxValue::Type::VALUE_LYNX_HOLDER));
+            lynx_object->data_.lynx_holder = lynx_holder;
             return lynx_object;
         }
 

@@ -28,10 +28,10 @@ namespace jscore {
     }
 
     lynx::RenderTreeHost* Runtime::SetupRenderHost() {
-        lynx::Body* root = lynx_new lynx::Body(thread_manager(), render_tree_host());
         render_tree_host_ = lynx_new lynx::RenderTreeHost(context_.Get(),
-                                                     thread_manager_.Get(), root);
-        root->SetHost(render_tree_host_.Get());
+                                                     thread_manager_.Get(), NULL);
+        lynx::Body* root = lynx_new lynx::Body(thread_manager(), render_tree_host());
+        render_tree_host_->SetRenderRoot(root);
         return render_tree_host_.Get();
     }
 

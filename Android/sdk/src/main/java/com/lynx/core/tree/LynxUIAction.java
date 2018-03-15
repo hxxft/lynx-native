@@ -25,18 +25,27 @@ public abstract class LynxUIAction {
     public abstract void doAction();
 
     public static abstract class OrderedAction extends LynxUIAction implements Coalescence {
+        private Coalescence mDelegate;
 
         public OrderedAction(RenderObjectImpl target) {
             super(LynxUIActionType.DO_ORDERED_ACTION, target);
         }
 
+        public OrderedAction(RenderObjectImpl target, Coalescence delegate) {
+            super(LynxUIActionType.DO_ORDERED_ACTION, target);
+            mDelegate = delegate;
+        }
+
         @Override
         public boolean canCoalesce() {
-            return false;
+            return mDelegate != null && mDelegate.canCoalesce();
         }
 
         @Override
         public int getCoalescingKey() {
+            if (mDelegate != null) {
+                return mDelegate.getCoalescingKey();
+            }
             return 0;
         }
     }

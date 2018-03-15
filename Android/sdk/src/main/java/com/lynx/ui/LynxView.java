@@ -74,13 +74,13 @@ public class LynxView extends AndroidBody {
     }
 
     @Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        int width = View.MeasureSpec.getSize(widthMeasureSpec);
-        int height = View.MeasureSpec.getSize(heightMeasureSpec);
+    protected void onLayout(boolean changed, int l, int t, int r, int b) {
+        int width = r - l;
+        int height = b - t;
         if(mMeasuredSize.update(width, height) && mRuntime != null) {
             mRenderTreeHostImpl.updateViewport(width, height);
         }
+        super.onLayout(changed, l, t, r, b);
     }
 
     @Override
@@ -105,7 +105,7 @@ public class LynxView extends AndroidBody {
     @Override
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
-        mRuntime.destroy();
+        destroy();
     }
 
     public void destroy() {

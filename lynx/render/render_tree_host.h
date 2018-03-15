@@ -49,6 +49,8 @@ class RenderTreeHost : public base::RefCountPtr<RenderTreeHost> {
         return render_tree_host_impl_.Get();
     }
 
+    void SetRenderRoot(RenderObject* root);
+
     RenderObject* render_root() { return  render_root_; }
 
     jscore::ThreadManager* thread_manager() { return thread_manager_; }

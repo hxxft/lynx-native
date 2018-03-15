@@ -34,20 +34,12 @@ public class LynxUIBody extends LynxUIView implements TransferStation {
 
     @Override
     public void measure() {
-        for (int i = 0; i < mRenderObjectImpl.getChildCount(); ++i) {
-            if (mRenderObjectImpl.getChildAt(i).hasUI()) {
-                mRenderObjectImpl.getChildAt(i).getUI().measure();
-            }
-        }
+        measureChildren();
     }
 
     @Override
     public void layout() {
-        for (int i = 0; i < mRenderObjectImpl.getChildCount(); ++i) {
-            if (mRenderObjectImpl.getChildAt(i).hasUI()) {
-                mRenderObjectImpl.getChildAt(i).getUI().layout();
-            }
-        }
+        layoutChildren();
     }
 
     @SupposeUIThread
