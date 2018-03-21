@@ -1,5 +1,6 @@
 // Copyright 2017 The Lynx Authors. All rights reserved.
 
+#include "runtime/base/lynx_value.h"
 #include "runtime/jsc/jsc_context.h"
 #include "runtime/jsc/objects/window_object.h"
 #include "runtime/jsc/jsc_class_wrap_storage.h"
@@ -11,7 +12,6 @@
 #include "runtime/screen.h"
 #include "runtime/document.h"
 #include "runtime/console.h"
-#include "runtime/body.h"
 
 #include "runtime/jsc/timeout_callback.h"
 #include "runtime/jsc/jsc_helper.h"
@@ -53,7 +53,8 @@ namespace jscore {
         JSObjectRef screen_object = JSCHelper::ConvertToJSObject(context_, lynx_new Screen());
         JSObjectRef navigator_object = JSCHelper::ConvertToJSObject(context_, lynx_new Navigator(this));
         JSObjectRef document_object = JSCHelper::ConvertToJSObject(context_, lynx_new Document(this));
-        JSObjectRef body_object = JSCHelper::ConvertToJSObject(context_, lynx_new Body(this));
+        Element* body_element = lynx_new Element(this, runtime_->render_tree_host()->render_root());
+        JSObjectRef body_object = JSCHelper::ConvertToJSObject(context_, body_element);
         JSObjectRef location_object = JSCHelper::ConvertToJSObject(context_, location_);
 //        JSObjectRef history_object = JSCHelper::ConvertToJSObject(context_, history_);
 
@@ -95,11 +96,17 @@ namespace jscore {
         
         if (exception) {
             int type = JSValueGetType(context_, exception);
-            
+
+            base::ScopedPtr<LynxObject> detail =
+                    jscore::JSCHelper::ConvertToLynxObject(context_, (JSObjectRef) exception);
+            int line = detail->GetProperty("line")->data_.i;
+            int column = detail->GetProperty("column")->data_.i;
+
             std::string str = JSCHelper::ConvertToString(context_, exception);
             if (!str.empty()) {
                 OnExceptionOccured(str);
-                LOGE("lynx-error", "lynx-js-log: %s", str.c_str());
+                LOGE("lynx-error", "lynx-js-log: %s , line: %d, column: %d", str.c_str(),
+                     line, column);
             }
         }
 

@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import com.lynx.core.impl.RenderObjectImpl;
 import com.lynx.core.touch.TouchAxis;
 import com.lynx.core.touch.TouchTarget;
-import com.lynx.ui.anim.matrix.Matrix3dAnimation;
+import com.lynx.ui.anim.matrix.MatrixAnimation;
 
 public abstract class LynxUIGroup<T extends ViewGroup>
         extends LynxUI<T> {
@@ -121,8 +121,8 @@ public abstract class LynxUIGroup<T extends ViewGroup>
 
         Matrix matrix = null;
         if (child.getAnimation() != null
-                && child.getAnimation() instanceof Matrix3dAnimation) {
-            matrix = ((Matrix3dAnimation) child.getAnimation()).getMatrix();
+                && child.getAnimation() instanceof MatrixAnimation) {
+            matrix = ((MatrixAnimation) child.getAnimation()).getMatrix();
         }
 
         if (matrix == null) {

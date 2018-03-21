@@ -102,6 +102,7 @@ add_library(lynx SHARED
             	${CMAKE_SOURCE_DIR}/../../lynx/render/text_area.cpp
             	${CMAKE_SOURCE_DIR}/../../lynx/render/scroll_view.cpp
             	${CMAKE_SOURCE_DIR}/../../lynx/render/list_shadow.cpp
+            	${CMAKE_SOURCE_DIR}/../../lynx/render/animation.cpp
             	${CMAKE_SOURCE_DIR}/../../lynx/render/android/render_object_impl_android.cpp
             	${CMAKE_SOURCE_DIR}/../../lynx/render/android/label_measurer_android.cpp
             	${CMAKE_SOURCE_DIR}/../../lynx/render/android/render_tree_host_impl_android.cpp
@@ -135,7 +136,6 @@ add_library(lynx SHARED
             	${CMAKE_SOURCE_DIR}/../../lynx/runtime/document.cpp
             	${CMAKE_SOURCE_DIR}/../../lynx/runtime/canvas.cpp
             	${CMAKE_SOURCE_DIR}/../../lynx/runtime/canvas_2d_context.cpp
-            	${CMAKE_SOURCE_DIR}/../../lynx/runtime/body.cpp
             	${CMAKE_SOURCE_DIR}/../../lynx/runtime/element.cpp
             	${CMAKE_SOURCE_DIR}/../../lynx/runtime/timed_task.cpp
             	${CMAKE_SOURCE_DIR}/../../lynx/runtime/js_event.cpp

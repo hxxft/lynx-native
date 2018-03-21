@@ -6,21 +6,25 @@ import android.graphics.Matrix;
 import android.view.animation.Animation;
 import android.view.animation.Transformation;
 
-public class Matrix3dAnimation extends Animation {
-
+public class MatrixAnimation extends Animation {
     private static final double DEGREE_TO_ROD = Math.PI / 180;
 
     private Camera mCamera;
-    private Matrix mCurMatrix;
-    private AnimInformation mInfo;
-    private float mPivotX;
-    private float mPivotY;
+    private MatrixTweenInfo mInfo;
 
-    public Matrix3dAnimation(AnimInformation info, float originX, float originY) {
-        mInfo = info;
-        mPivotX = originX;
-        mPivotY = originY;
+    private Matrix mCurMatrix;
+
+    public MatrixAnimation() {
         mCamera = new Camera();
+    }
+
+    public MatrixAnimation(MatrixTweenInfo info) {
+        this();
+        mInfo = info;
+    }
+
+    public void setInfo(MatrixTweenInfo info) {
+        mInfo = info;
     }
 
     @Override
@@ -33,7 +37,11 @@ public class Matrix3dAnimation extends Animation {
         final Matrix matrix = t.getMatrix();
 
         camera.save();
-        camera.setLocation(0, 0, mInfo.perspective);
+        float perspective = mInfo.basePerspective + interpolatedTime * mInfo.offsetPerspective;
+        // As the unit of setLocation() is inch and the value for conversion is 72
+        // pixel written by hardcode in skia, makes a conversion in params.
+        // Meanwhile it's not allowed to use 0 on the z axis, uses -8 as default instead.
+        camera.setLocation(0, 0, perspective == 0? -8 : perspective / 72);
 
         applyTranslateTransformationIfEnable(camera, interpolatedTime);
         applyRotateTransformationIfEnable(camera, interpolatedTime);
@@ -44,9 +52,11 @@ public class Matrix3dAnimation extends Animation {
         applyScaleTransformationIfEnable(matrix, interpolatedTime);
         applySkewTransformationIfEnable(matrix, interpolatedTime);
 
+        float pivotX = mInfo.basePivotX + mInfo.offsetPivotX * interpolatedTime;
+        float pivotY = mInfo.basePivotY + mInfo.offsetPivotY * interpolatedTime;
+        matrix.preTranslate(-pivotX, -pivotY);
         // Translate to the target origin point
-        matrix.preTranslate(-mPivotX, -mPivotY);
-        matrix.postTranslate(mPivotX, mPivotY);
+        matrix.postTranslate(pivotX, pivotY);
 
         applyOpacityTransformation(t, interpolatedTime);
 
@@ -61,9 +71,9 @@ public class Matrix3dAnimation extends Animation {
         z = mInfo.baseTranslateZ;
 
         if (mInfo.translateEnable) {
-            x += interpolatedTime * mInfo.translateX;
-            y += interpolatedTime * mInfo.translateY;
-            z += interpolatedTime * mInfo.translateZ;
+            x += interpolatedTime * mInfo.offsetTranslateX;
+            y += interpolatedTime * mInfo.offsetTranslateY;
+            z += interpolatedTime * mInfo.offsetTranslateZ;
         }
         camera.translate(x, -y, z);
 
@@ -78,12 +88,12 @@ public class Matrix3dAnimation extends Animation {
         z = mInfo.baseRotateZ;
 
         if (mInfo.rotateEnable) {
-            x += interpolatedTime * mInfo.rotateX;
-            y += interpolatedTime * mInfo.rotateY;
-            z += interpolatedTime * mInfo.rotateZ;
+            x += interpolatedTime * mInfo.offsetRotateX;
+            y += interpolatedTime * mInfo.offsetRotateY;
+            z += interpolatedTime * mInfo.offsetRotateZ;
         }
-        // For keeping the same rotate direction between web and android, z and y is negative
-        camera.rotate(x, -y, -z);
+        // For keeping the same rotate direction between web and android, x and z and y is negative
+        camera.rotate(-x, -y, -z);
     }
 
     private void applyScaleTransformationIfEnable(Matrix matrix, float interpolatedTime) {
@@ -94,8 +104,8 @@ public class Matrix3dAnimation extends Animation {
         y = mInfo.baseScaleY;
 
         if (mInfo.scaleEnable) {
-            x += interpolatedTime * mInfo.scaleX;
-            y += interpolatedTime * mInfo.scaleY;
+            x += interpolatedTime * mInfo.offsetScaleX;
+            y += interpolatedTime * mInfo.offsetScaleY;
         }
         matrix.preScale(x, y);
     }
@@ -107,16 +117,18 @@ public class Matrix3dAnimation extends Animation {
         y = mInfo.baseSkewY;
 
         if (mInfo.skewEnable) {
-            x += interpolatedTime * mInfo.skewX;
-            y += interpolatedTime * mInfo.skewY;
+            x += interpolatedTime * mInfo.offsetSkewX;
+            y += interpolatedTime * mInfo.offsetSkewY;
         }
         matrix.preSkew((float) Math.tan(x * DEGREE_TO_ROD), (float) Math.tan(y * DEGREE_TO_ROD));
     }
 
     private void applyOpacityTransformation(Transformation t, float interpolatedTime) {
+        float alpha = mInfo.baseOpacity;
         if (mInfo.opacityEnable) {
-            t.setAlpha(mInfo.baseOpacity + interpolatedTime * mInfo.opacity);
+            alpha = mInfo.baseOpacity + interpolatedTime * mInfo.offsetOpacity;
         }
+        t.setAlpha(alpha);
     }
 
     public Matrix getMatrix() {

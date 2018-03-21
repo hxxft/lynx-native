@@ -50,7 +50,7 @@ namespace jscore {
                                        ClassWrap* class_wrap,
                                        LynxObjectTemplate* obj) {
         ObjectTemplate* object = lynx_new ObjectTemplate(context, obj);
-        JSObjectRef js_object = class_wrap->MakeObject(context->GetContext());
+        JSObjectRef js_object = class_wrap->MakeObject(context->GetContext(), true);
         ObjectWrap::Wrap(object, js_object);
         return js_object;
     }

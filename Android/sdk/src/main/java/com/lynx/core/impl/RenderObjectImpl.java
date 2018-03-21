@@ -6,9 +6,12 @@ import com.lynx.base.Position;
 import com.lynx.base.Size;
 import com.lynx.base.Style;
 import com.lynx.base.SupposeJSThread;
+import com.lynx.core.base.LynxArray;
 import com.lynx.core.base.LynxHolder;
+import com.lynx.core.base.LynxObject;
 import com.lynx.ui.LynxUI;
 import com.lynx.ui.LynxUIFactory;
+import com.lynx.ui.anim.AnimInfoParser;
 import com.lynx.ui.recycler.ILynxUIRecycler;
 
 import java.util.ArrayList;
@@ -258,6 +261,21 @@ public class RenderObjectImpl extends LynxHolder {
         mExternalData.put(key, data);
         if (hasUI()) {
             getUI().setData(key, data);
+        }
+    }
+
+    @CalledByNative
+    public void animate(LynxArray keyframes, LynxObject options) {
+        if (mLynxUI != null) {
+            mLynxUI.animate(AnimInfoParser.parseKeyFrames(keyframes),
+                    AnimInfoParser.parseOption(options));
+        }
+    }
+
+    @CalledByNative
+    public void cancelAnimation() {
+        if (mLynxUI != null) {
+            mLynxUI.cancelAnimation();
         }
     }
 

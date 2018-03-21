@@ -53,6 +53,9 @@ class RenderObjectImpl : public base::RefCountPtr<RenderObjectImpl>, public jsco
     virtual void AddEventListener(const std::string& event) = 0;
     virtual void RemoveEventListener(const std::string& event) = 0;
     virtual void SetData(int key, base::ScopedPtr<jscore::LynxValue> value) = 0;
+    virtual void Animate(base::ScopedPtr<jscore::LynxArray> &keyframes,
+                         base::ScopedPtr<jscore::LynxObject> &options) = 0;
+    virtual void CancelAnimation(const std::string &id) = 0;
     virtual base::ScopedPtr<jscore::LynxObject> GetImagePixel(int x, int y, int w,int h) = 0;
 
  protected:

@@ -208,6 +208,32 @@ void RenderObjectImplAndroid::SetData(int key, base::ScopedPtr<jscore::LynxValue
     }
 }
 
+void RenderObjectImplAndroid::Animate(base::ScopedPtr<jscore::LynxArray> &keyframes,
+                                      base::ScopedPtr<jscore::LynxObject> &options) {
+    if (!render_object_impl_java_impl_.IsNull()) {
+        JNIEnv* env = base::android::AttachCurrentThread();
+        base::android::ScopedLocalJavaRef<jobject> jkeyframes =
+                base::android::JNIHelper::ConvertToJNIObject(env, keyframes.Get());
+        base::android::ScopedLocalJavaRef<jobject> joptions =
+                base::android::JNIHelper::ConvertToJNIObject(env, options.Get());
+        Java_RenderObjectImpl_animate(
+                env,
+                render_object_impl_java_impl_.Get(),
+                jkeyframes.Release(),
+                joptions.Release());
+    }
+}
+
+
+void RenderObjectImplAndroid::CancelAnimation(const std::string &id) {
+    if (!render_object_impl_java_impl_.IsNull()) {
+        JNIEnv* env = base::android::AttachCurrentThread();
+        Java_RenderObjectImpl_cancelAnimation(
+                env,
+                render_object_impl_java_impl_.Get());
+    }
+}
+
 void RenderObjectImplAndroid::DispatchEvent(
     JNIEnv* env,
     jstring event,

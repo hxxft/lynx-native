@@ -3,102 +3,74 @@ package com.lynx.ui.anim.matrix;
 
 import android.text.TextUtils;
 import android.view.View;
-import android.view.animation.AccelerateDecelerateInterpolator;
-import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Animation;
-import android.view.animation.DecelerateInterpolator;
-import android.view.animation.LinearInterpolator;
 
 import com.lynx.ui.LynxUI;
 import com.lynx.ui.anim.AnimDriver;
-import com.lynx.ui.anim.AnimProperties;
-import com.lynx.ui.anim.AnimTimingFunction;
+import com.lynx.ui.anim.AnimInfo;
+
+import java.util.List;
 
 public class MatrixAnimDriver extends AnimDriver {
-
-    private Matrix3dAnimation mAnimation;
-    private AnimInformation mInfo;
+    private Animation mAnimation;
     private View mTarget;
     private float mOriginOpacity;
     private boolean mIsStop = false;
     // Prevent disorder of the Start and End callback while duration is zero.
     private boolean mIsStart = false;
 
-    public MatrixAnimDriver(final LynxUI ui, final String animEvent,
-                            AnimProperties from, AnimProperties to) {
+    private MatrixAnimDriver(final LynxUI proxy) {
+        mTarget = proxy.getView();
+        saveRelevantStatus();
+    }
 
-        // Get AnimInformation
-        if (from != null) {
-            mInfo = Matrix3dParser.parser(from.toMatrix3d, to.toMatrix3d,
-                    to.fromOpacity, to.toOpacity, from.perspective);
+    public MatrixAnimDriver(final LynxUI proxy,
+                            List<AnimInfo> infoList,
+                            final AnimInfo.Option option) {
+        this(proxy);
+
+        MatrixKeyFrames keyFrames = new MatrixKeyFrames();
+
+        if (option.iterations != 0) {
+            for (int i = 1; i < infoList.size(); i++) {
+                AnimInfo first = infoList.get(i - 1);
+                AnimInfo second = infoList.get(i);
+                MatrixTweenInfo matrix3dInfo = MatrixInfoParser.parser(first, second,
+                        mTarget.getWidth(), mTarget.getHeight());
+                keyFrames.setKeyFrame(first.option.offset, matrix3dInfo);
+            }
+
+            keyFrames.setDuration(option.duration == 0 ? 1 : option.duration);
+            keyFrames.setFillEnabled(true);
+            keyFrames.setFillBefore(option.fillBefore);
+            keyFrames.setFillAfter(option.fillAfter);
+            keyFrames.setInterpolator(option.interpolator);
+            keyFrames.setRepeatMode(option.repeatMode);
+            keyFrames.setRepeatCount(option.iterations - 1);
+            keyFrames.setDirection(option.direction);
         } else {
-            mInfo = Matrix3dParser.parser(null, to.toMatrix3d, to.fromOpacity,
-                    to.toOpacity, to.perspective);
+            // Avoids 0 in duration as Animation will ignore start offset.
+            keyFrames.setDuration(1);
         }
+        keyFrames.setStartOffset(option.delay);
 
-        mTarget = ui.getView();
-
-        float originX = XCast.toFloat(to.transformOrigin.get(0), 0) *
-                ui.getView().getWidth();
-        float originY = XCast.toFloat(to.transformOrigin.get(1), 0) *
-                ui.getView().getHeight();
-
-        mAnimation = new Matrix3dAnimation(mInfo, originX, originY);
-        mAnimation.setDuration(to.time);
-        mAnimation.setFillAfter(true);
-        mAnimation.setFillEnabled(true);
-
-        // Set interpolator
-        switch (AnimTimingFunction.is(to.type)) {
-            case LINEAR:
-                mAnimation.setInterpolator(new LinearInterpolator()); break;
-            case EASE_IN:
-                mAnimation.setInterpolator(new AccelerateInterpolator()); break;
-            case EASE_OUT:
-                mAnimation.setInterpolator(new DecelerateInterpolator()); break;
-            case EASE:
-            case EASE_IN_OUT:
-                mAnimation.setInterpolator(new AccelerateDecelerateInterpolator()); break;
-            default: break;
-        }
-
-        // Set Listener
+        mAnimation = keyFrames;
         mAnimation.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
-
-                if (mIsStart) {
-                    return;
-                }
-
-                if (!TextUtils.isEmpty(animEvent)) {
-                    ui.postEvent(animEvent, null);
-                }
-                // Opacity Animation enable when view's alpha > 0 so that set alpha to
-                // enable animation. And reset origin value when stop.
-                if (mInfo.opacityEnable) {
-                    mOriginOpacity = mTarget.getAlpha();
-                    mTarget.setAlpha(1);
-                }
-
-                mIsStart = true;
             }
-
             @Override
             public void onAnimationEnd(Animation animation) {
-                if (!mIsStart) {
-                    onAnimationStart(animation);
-                }
-                if (!mIsStop && !TextUtils.isEmpty(animEvent)) {
-                    ui.postEvent(animEvent, null);
+                if (mAnimation.hasEnded()) {
+                    proxy.postEvent(AnimInfo.Option.EVENT_FINISH + option.id);
                 }
             }
-
             @Override
             public void onAnimationRepeat(Animation animation) {}
         });
 
-        mTarget.startAnimation(mAnimation);
+        mTarget.startAnimation(keyFrames);
+
     }
 
     @Override
@@ -114,8 +86,19 @@ public class MatrixAnimDriver extends AnimDriver {
         if (mAnimation != null) {
             mAnimation.cancel();
         }
-        if (mInfo != null && mInfo.opacityEnable) {
-            mTarget.setAlpha(mOriginOpacity);
+        restoreRelevantStatus();
+    }
+
+    private void saveRelevantStatus() {
+        // Opacity Animation will not be fully enabled when view's alpha < 1 so that set
+        // alpha to 1 to enable animation. Keeps origin value, Resets when stop.
+        mOriginOpacity = mTarget.getAlpha();
+        if (mOriginOpacity != 1) {
+            mTarget.setAlpha(1);
         }
+    }
+
+    private void restoreRelevantStatus() {
+        mTarget.setAlpha(mOriginOpacity);
     }
 }

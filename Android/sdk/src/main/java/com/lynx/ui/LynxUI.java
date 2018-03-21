@@ -11,7 +11,6 @@ import com.lynx.base.Position;
 import com.lynx.base.Size;
 import com.lynx.base.Style;
 import com.lynx.core.base.LynxEvent;
-import com.lynx.core.base.LynxObject;
 import com.lynx.core.impl.RenderImplInterface;
 import com.lynx.core.impl.RenderObjectAttr;
 import com.lynx.core.impl.RenderObjectImpl;
@@ -21,7 +20,7 @@ import com.lynx.core.touch.TouchTarget;
 import com.lynx.core.touch.gesture.GestureEventInfo;
 import com.lynx.core.tree.LynxUIAction;
 import com.lynx.ui.anim.AnimDriver;
-import com.lynx.ui.anim.AnimProperties;
+import com.lynx.ui.anim.AnimInfo;
 import com.lynx.ui.body.LynxUIBody;
 import com.lynx.ui.coordinator.CrdActionExecutor;
 import com.lynx.ui.coordinator.CrdAttributeConvertor;
@@ -32,14 +31,12 @@ import com.lynx.ui.coordinator.CrdTypes;
 import com.lynx.ui.drawable.UIBackgroundDrawable;
 import com.lynx.ui.event.TGFlowHandler;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import static android.view.View.LAYER_TYPE_HARDWARE;
 import static android.view.View.LAYER_TYPE_NONE;
-import static com.lynx.core.impl.RenderObjectAttr.ANIMATE_PROPS;
 import static com.lynx.ui.LynxUIFactory.UI_TYPE_CELLVIEW;
 
 public abstract class LynxUI<T extends View>
@@ -50,13 +47,12 @@ public abstract class LynxUI<T extends View>
     protected T mView;
     protected RenderObjectImpl mRenderObjectImpl;
 
-    // Animator
-    private List<AnimDriver> mAnimDrivers;
-    private AnimProperties mOldAnimProperties;
     private UIBackgroundDrawable mBgDrawable;
 
     // Touch & Gesture
     private TGFlowHandler mTGFlowHandler;
+
+    private AnimDriver mAnimDriver;
 
     // Coordinator & Animation
     private CrdAttributeConvertor mCrdAttributeConvertor;
@@ -162,9 +158,6 @@ public abstract class LynxUI<T extends View>
 
     @Override
     public void setData(int attr, Object param) {
-        if(attr == ANIMATE_PROPS.value()) {
-            startAnimWithCallback((LynxObject)param);
-        }
     }
 
     public void setBackground(Style style) {
@@ -393,31 +386,19 @@ public abstract class LynxUI<T extends View>
     protected void resetStyle() {
     }
 
-    // TODO: 17/8/8 实现接口
-    public void startAnimWithCallback(final LynxObject properties) {
+    @Override
+    public void animate(List<AnimInfo> infoList, AnimInfo.Option option) {
 
-        AnimProperties animProperties = AnimProperties.createFrom(properties);
-
-        AnimDriver driver = AnimDriver.create(this, (String)properties.getProperty("name"), mOldAnimProperties, animProperties);
+        AnimDriver driver = AnimDriver.create(this, infoList, option);
         driver.startAnim();
-        mOldAnimProperties = animProperties;
 
-        // 加入动画队列，方便stop时进行cancel
-        if (mAnimDrivers == null) {
-            mAnimDrivers = new ArrayList<>();
-        }
-        mAnimDrivers.add(driver);
+        mAnimDriver = driver;
     }
 
-    // TODO: 17/8/8 实现接口
-    public void stopAnim() {
-        mOldAnimProperties = null;
-        if (mAnimDrivers == null) {
-            return;
-        }
-        for (AnimDriver driver : mAnimDrivers) {
-            driver.stopAnim();
-        }
+    @Override
+    public void cancelAnimation() {
+        mAnimDriver.stopAnim();
+        mView.clearAnimation();
     }
 
     public void postEvent(String eventName) {

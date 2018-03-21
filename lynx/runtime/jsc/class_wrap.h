@@ -7,7 +7,9 @@
 #include <vector>
 #include <JavaScriptCore/JavaScript.h>
 #include <third_party/JavaScriptCore/JavaScriptCore/JSObjectRef.h>
+#include <third_party/JavaScriptCore/JavaScriptCore/JavaScript.h>
 #include "runtime/jsc/object_wrap.h"
+#include "jsc_helper.h"
 
 namespace jscore {
     class ClassWrap {
@@ -96,6 +98,20 @@ namespace jscore {
         void SetCallAsFunctionCallback(JSObjectCallAsFunctionCallback callback) {
             js_class_definition_.callAsFunction = callback;
         }
+
+        void SetCallAsConstructorCallback(JSObjectCallAsConstructorCallback callback) {
+            js_class_definition_.callAsConstructor = callback;
+        }
+
+        void ExposedAsConstructor(JSContextRef context, JSClassRef class_ref) {
+            JSObjectRef constructor =
+                    JSObjectMakeConstructor(context,
+                                            class_ref,
+                                            js_class_definition_.callAsConstructor);
+            jscore::JSCHelper::SetValueProperty(context, JSContextGetGlobalObject(context),
+                                                js_class_definition_.className, constructor,
+                                                kJSPropertyAttributeDontDelete, 0);
+        }
         
         JSClassRef MakeClass() {
             js_class_definition_.attributes = attributes_;
@@ -111,17 +127,21 @@ namespace jscore {
             return class_ref;
         }
         
-        JSObjectRef MakeObject(JSContextRef context) {
-            return MakeObject(context, NULL);
+        JSObjectRef MakeObject(JSContextRef context, bool exposed_as_constructor = false) {
+            return MakeObject(context, NULL, exposed_as_constructor);
         }
         
-        JSObjectRef MakeObject(JSContextRef context, void* data) {
+        JSObjectRef MakeObject(JSContextRef context, void* data,
+                               bool exposed_as_constructor = false) {
             JSClassRef class_ref;
             if (class_ref_ != 0) {
                 class_ref = class_ref_;
             } else {
                 class_ref = MakeClass();
                 class_ref_ = class_ref;
+                if (exposed_as_constructor) {
+                    ExposedAsConstructor(context, class_ref_);
+                }
             }
             JSObjectRef object_ref = JSObjectMake(context, class_ref, data);
             return object_ref;

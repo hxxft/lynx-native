@@ -1,6 +1,7 @@
 // Copyright 2017 The Lynx Authors. All rights reserved.
 
 #include <sstream>
+#include <runtime/base/lynx_value.h>
 
 #include "runtime/base/lynx_value.h"
 #include "runtime/element.h"
@@ -10,6 +11,7 @@
 
 #include "render/event_target.h"
 #include "render/render_object.h"
+#include "render/animation.h"
 
 namespace jscore {
 
@@ -42,11 +44,11 @@ namespace jscore {
         RegisterMethodCallback("getText", &GetTextCallback);
         RegisterMethodCallback("start", &StartCallback);
         RegisterMethodCallback("stop", &StopCallback);
-        RegisterMethodCallback("stopAnimate", &StopAnimateCallback);
-        RegisterMethodCallback("startAnimateWithCallback", &StartAnimateWithCallbackCallback);
         RegisterMethodCallback("setPullView", &SetPullViewCallback);
         RegisterMethodCallback("closePullView", &ClosePullViewCallback);
         RegisterMethodCallback("hasChildNodes", &HasChildNodesCallback);
+        RegisterMethodCallback("animate", &Animate);
+
 
         RegisterAccessorCallback("tagName", &GetTagNameCallback, 0);
         RegisterAccessorCallback("nodeType", &GetNodeTypeCallback, 0);
@@ -60,8 +62,9 @@ namespace jscore {
         RegisterAccessorCallback("scrollTop", &GetScrollTopCallback, &SetScrollTopCallback);
         RegisterAccessorCallback("scrollLeft", &GetScrollLeftCallback, &SetScrollLeftCallback);
         RegisterAccessorCallback("nextSibling", &GetNextSiblingCallback, 0);
+        RegisterAccessorCallback("clientWidth", &GetClientWidthCallback, 0);
+        RegisterAccessorCallback("clientHeight", &GetClientHeightCallback, 0);
         RegisterAccessorCallback("textContent", &GetTextContentCallback, &SetTextContentCallback);
-        RegisterAccessorCallback("forceScrollAnimate", 0, &SetForceScrollAnimateCallback);
         RegisterAccessorCallback("childNodes", &GetChildNodesCallback, 0);
         RegisterAccessorCallback("firstChild", &GetFirstChildCallback, 0);
         RegisterAccessorCallback("index", &GetIndexCallback, 0);
@@ -326,32 +329,6 @@ namespace jscore {
     }
 
     base::ScopedPtr<LynxValue>
-    Element::StopAnimateCallback(LynxObjectTemplate* object, base::ScopedPtr<LynxArray>& array) {
-
-        return base::ScopedPtr<LynxValue>(NULL);
-    }
-
-    base::ScopedPtr<LynxValue>
-    Element::StartAnimateWithCallbackCallback(LynxObjectTemplate* object,
-                                              base::ScopedPtr<LynxArray>& array) {
-        Element *element = static_cast<Element *>(object);
-        lynx::RenderObject* render_object = element->render_object();
-        if (array.Get() != NULL && array->Size() > 1) {
-            LynxFunction* js_function = array->Get(1)->data_.lynx_function;
-            std::string event = lynx::kAnimateEvent + js_function->GetKey();
-            //render_object->AddEventListener(event, js_function, false);
-
-            LynxObject* properties = array->Get(0)->data_.lynx_object;
-            properties->Set("name", LynxValue::MakeString(event.c_str()).Release());
-            render_object->SetData(lynx::RenderObject::ANIMATE_PROPS,
-                                   base::ScopedPtr<LynxValue>(properties));
-            array->Release();
-        }
-
-        return base::ScopedPtr<LynxValue>(NULL);
-    }
-
-    base::ScopedPtr<LynxValue>
     Element::SetPullViewCallback(LynxObjectTemplate* object, base::ScopedPtr<LynxArray>& array) {
 
         return base::ScopedPtr<LynxValue>(NULL);
@@ -454,6 +431,16 @@ namespace jscore {
         return base::ScopedPtr<LynxValue>(NULL);
     }
 
+    base::ScopedPtr<LynxValue> Element::GetClientHeightCallback(LynxObjectTemplate *object) {
+        int height = config::GlobalConfigData::GetInstance()->screen_height();
+        return base::ScopedPtr<LynxValue>(LynxValue::MakeInt(height));
+    }
+
+    base::ScopedPtr<LynxValue> Element::GetClientWidthCallback(LynxObjectTemplate *object) {
+        int width = config::GlobalConfigData::GetInstance()->screen_width();
+        return base::ScopedPtr<LynxValue>(LynxValue::MakeInt(width));
+    }
+
     base::ScopedPtr<LynxValue> Element::GetFirstChildCallback(LynxObjectTemplate* object) {
         Element* element = static_cast<Element*>(object);
         lynx::RenderObject* render_object = element->render_object();
@@ -515,9 +502,20 @@ namespace jscore {
         render_object->SetScrollLeft(scroll_left);
     }
 
-    void Element::SetForceScrollAnimateCallback(LynxObjectTemplate* object,
-                                              base::ScopedPtr<jscore::LynxValue> value) {
-
+    base::ScopedPtr<LynxValue>
+    Element::Animate(LynxObjectTemplate* object, base::ScopedPtr<LynxArray>& array) {
+        Element* element = static_cast<Element*>(object);
+        lynx::RenderObject* render_object = element->render_object();
+        if (array.Get() != NULL && array->Size() == 2
+                && array->Get(0)->type_ == LynxValue::Type::VALUE_LYNX_ARRAY
+                && array->Get(1)->type_ == LynxValue::Type::VALUE_LYNX_OBJECT) {
+            base::ScopedPtr<LynxArray> keyframes =
+                    LynxValue::MakeArrayScoped(array->Release(0).Release()->data_.lynx_array);
+            base::ScopedPtr<LynxObject> options =
+                    LynxValue::MakeObjectScoped(array->Release(1).Release()->data_.lynx_object);
+            return LynxValue::MakeObjectTemplate(render_object->Animate(keyframes, options).Release());
+        }
+        return base::ScopedPtr<LynxValue>();
     }
 
     void Element::ProtectChild(JSContext* context, Element* child) {
