@@ -17,6 +17,7 @@ namespace jscore {
         void Push(LynxValue* value);
         LynxValue* Pop();
         LynxValue* Get(int index);
+        base::ScopedPtr<LynxValue> Release(int index);
         int Size();
 
         void Release() {

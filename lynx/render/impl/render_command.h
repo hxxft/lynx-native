@@ -11,6 +11,8 @@
 #include "base/size.h"
 #include "base/weak_ptr.h"
 #include "runtime/base/lynx_value.h"
+#include "runtime/base/lynx_array.h"
+#include "runtime/base/lynx_object.h"
 #include "runtime/canvas_cmd.h"
 #include "layout/css_style.h"
 
@@ -28,14 +30,12 @@ class RenderCommand : public base::Clouse {
         CMD_SET_ATTR,
         CMD_ADD_VIEW,
         CMD_REMOVE_VIEW,
-        CMD_REQUEST_LAYOUT,
         CMD_SET_LABEL_TEXT,
-        CMD_SET_IMAGE_SRC,
         CMD_ADD_EVENT_LISTENER,
         CMD_REMOVE_EVENT_LISTENER,
         CMD_SET_DATA,
-        CMD_CANVAS_DRAW,
-        CMD_CANVAS_APPEND
+        CMD_ANIMATE,
+        CMD_CANCEL_ANIMATION,
     };
 
     virtual void Execute() = 0;
@@ -144,6 +144,35 @@ class RenderCommand : public base::Clouse {
     private:
         int key_;
         base::ScopedPtr<jscore::LynxValue> value_;
+    };
+
+    class RendererAnimateCommand : public RenderCommand {
+    public:
+        explicit RendererAnimateCommand(RenderObjectImpl* host,
+                                        base::ScopedPtr<jscore::LynxArray> keyframes,
+                                        base::ScopedPtr<jscore::LynxObject> options)
+                : RenderCommand(host, CMD_ANIMATE), options_(options), keyframes_(keyframes){
+
+        }
+        virtual ~RendererAnimateCommand() {}
+        virtual void Execute();
+
+    private:
+        base::ScopedPtr<jscore::LynxObject> options_;
+        base::ScopedPtr<jscore::LynxArray> keyframes_;
+    };
+
+    class RendererCancelAnimationCommand : public RenderCommand {
+    public:
+        explicit RendererCancelAnimationCommand(RenderObjectImpl* host, const std::string& id)
+                : RenderCommand(host, CMD_CANCEL_ANIMATION) {
+
+        }
+        virtual ~RendererCancelAnimationCommand() {}
+        virtual void Execute();
+
+    private:
+        std::string id_;
     };
 
 

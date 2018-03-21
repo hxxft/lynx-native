@@ -12,7 +12,6 @@
 #include "runtime/screen.h"
 #include "runtime/document.h"
 #include "runtime/console.h"
-#include "runtime/body.h"
 
 #include "runtime/jsc/timeout_callback.h"
 #include "runtime/jsc/jsc_helper.h"
@@ -54,7 +53,8 @@ namespace jscore {
         JSObjectRef screen_object = JSCHelper::ConvertToJSObject(context_, lynx_new Screen());
         JSObjectRef navigator_object = JSCHelper::ConvertToJSObject(context_, lynx_new Navigator(this));
         JSObjectRef document_object = JSCHelper::ConvertToJSObject(context_, lynx_new Document(this));
-        JSObjectRef body_object = JSCHelper::ConvertToJSObject(context_, lynx_new Body(this));
+        Element* body_element = lynx_new Element(this, runtime_->render_tree_host()->render_root());
+        JSObjectRef body_object = JSCHelper::ConvertToJSObject(context_, body_element);
         JSObjectRef location_object = JSCHelper::ConvertToJSObject(context_, location_);
 //        JSObjectRef history_object = JSCHelper::ConvertToJSObject(context_, history_);
 

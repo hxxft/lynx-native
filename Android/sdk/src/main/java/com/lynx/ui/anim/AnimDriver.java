@@ -3,16 +3,15 @@ package com.lynx.ui.anim;
 
 import com.lynx.ui.LynxUI;
 import com.lynx.ui.anim.matrix.MatrixAnimDriver;
-import com.lynx.ui.anim.property.PropertyAnimDriver;
+
+import java.util.List;
 
 public abstract class AnimDriver {
 
-    public static AnimDriver create(LynxUI ui, String animEvent, AnimProperties from, AnimProperties to) {
-        if (to.toMatrix3d != null) {
-            return new MatrixAnimDriver(ui, animEvent, from, to);
-        } else {
-            return new PropertyAnimDriver(ui, animEvent, to);
-        }
+    public static AnimDriver create(LynxUI proxy,
+                                    List<AnimInfo> infoList,
+                                    AnimInfo.Option option) {
+        return new MatrixAnimDriver(proxy, infoList, option);
     }
 
     public abstract void startAnim();

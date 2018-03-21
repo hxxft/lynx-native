@@ -62,6 +62,13 @@ namespace base {
             }
 		}
 
+		void release(T* t) {
+            iterator it = find(t);
+            if (it != set_.end()) {
+                set_.erase(it);
+            }
+		}
+
 	private:
 		std::unordered_set<T*> set_;
 	};

@@ -21,36 +21,38 @@ namespace base {
         base::android::ScopedLocalJavaRef<jobject> JNIHelper::ConvertToJNIObject(JNIEnv *env,
                                               jscore::LynxValue *value) {
             base::android::ScopedLocalJavaRef<jobject> obj;
-            switch (value->type_) {
-                case jscore::LynxValue::VALUE_INT:
-                    obj = JType::NewInt(env, value->data_.i);
-                    break;
-                case jscore::LynxValue::VALUE_LONG:
-                    obj = JType::NewLong(env, value->data_.l);
-                    break;
-                case jscore::LynxValue::VALUE_BOOL:
-                    obj = JType::NewBoolean(env, value->data_.b);
-                    break;
-                case jscore::LynxValue::VALUE_FLOAT:
-                    obj = JType::NewFloat(env, value->data_.f);
-                    break;
-                case jscore::LynxValue::VALUE_DOUBLE:
-                    obj = JType::NewDouble(env, value->data_.d);
-                    break;
-                case jscore::LynxValue::VALUE_STRING:
-                    obj = base::android::ScopedLocalJavaRef<jobject>
-                            (env, JType::NewString(env, value->data_.str).Release());
-                    break;
-                case jscore::LynxValue::VALUE_LYNX_ARRAY:
-                    obj = base::android::ScopedLocalJavaRef<jobject>
-                            (env, ConvertToJNIArray(env, value->data_.lynx_array).Release());
-                    break;
-                case jscore::LynxValue::VALUE_LYNX_OBJECT:
-                    obj = base::android::ScopedLocalJavaRef<jobject>
-                            (env, ConvertToJNIObject(env, value->data_.lynx_object).Release());
-                    break;
-                default:
-                    break;
+            if (value != NULL) {
+                switch (value->type_) {
+                    case jscore::LynxValue::VALUE_INT:
+                        obj = JType::NewInt(env, value->data_.i);
+                        break;
+                    case jscore::LynxValue::VALUE_LONG:
+                        obj = JType::NewLong(env, value->data_.l);
+                        break;
+                    case jscore::LynxValue::VALUE_BOOL:
+                        obj = JType::NewBoolean(env, value->data_.b);
+                        break;
+                    case jscore::LynxValue::VALUE_FLOAT:
+                        obj = JType::NewFloat(env, value->data_.f);
+                        break;
+                    case jscore::LynxValue::VALUE_DOUBLE:
+                        obj = JType::NewDouble(env, value->data_.d);
+                        break;
+                    case jscore::LynxValue::VALUE_STRING:
+                        obj = base::android::ScopedLocalJavaRef<jobject>
+                                (env, JType::NewString(env, value->data_.str).Release());
+                        break;
+                    case jscore::LynxValue::VALUE_LYNX_ARRAY:
+                        obj = base::android::ScopedLocalJavaRef<jobject>
+                                (env, ConvertToJNIArray(env, value->data_.lynx_array).Release());
+                        break;
+                    case jscore::LynxValue::VALUE_LYNX_OBJECT:
+                        obj = base::android::ScopedLocalJavaRef<jobject>
+                                (env, ConvertToJNIObject(env, value->data_.lynx_object).Release());
+                        break;
+                    default:
+                        break;
+                }
             }
             return obj;
         }

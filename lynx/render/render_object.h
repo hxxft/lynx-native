@@ -24,6 +24,7 @@ namespace lynx {
 class TouchEvent;
 class RenderObjectImpl;
 class RenderTreeHost;
+class Animation;
 class RenderObject : public LayoutObject, public EventTarget {
  public:
   RenderObject(const char* tag_name,
@@ -110,7 +111,9 @@ class RenderObject : public LayoutObject, public EventTarget {
 
   inline int scroll_top() { return scroll_top_; }
 
-  inline void SetForceScrollAnimate(bool animate);
+  base::ScopedPtr<Animation> Animate(base::ScopedPtr<jscore::LynxArray> &keyframes,
+                                     base::ScopedPtr<jscore::LynxObject> &options);
+  void CancelAnimation(const std::string& id);
 
   RenderObjectImpl* impl() { return impl_.Get(); }
 
@@ -150,7 +153,6 @@ class RenderObject : public LayoutObject, public EventTarget {
     SCROLL_LEFT,
     GET_TEXT,
     TEXT_LAYOUT,
-    ANIMATE_PROPS,
     CANVAS_DRAW,
     CANVAS_APPEND,
     CANVAS_IMAGE_DATA

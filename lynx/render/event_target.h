@@ -14,8 +14,6 @@
 namespace lynx {
 //typedef jscore::JSFunction EventListener;
 
-static std::string kAnimateEvent = "@LynxAnimate@";
-
 class JSArray;
 class EventListener {
 public:
@@ -26,6 +24,8 @@ public:
             capture_(capture), function_(function){
 
     }
+
+    ~EventListener() {}
 };
 
 class EventTarget {
@@ -38,6 +38,7 @@ class EventTarget {
     virtual void AddEventListener(const std::string& event,  jscore::LynxFunction* listener, bool capture);
 
     virtual void RemoveEventListener(const std::string& event, jscore::LynxFunction* listener);
+    virtual void RemoveEventListener(const std::string& event);
 
     jscore::Element* GetTarget() {
         return target_data_;

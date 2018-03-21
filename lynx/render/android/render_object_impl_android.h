@@ -44,6 +44,9 @@ class RenderObjectImplAndroid : public RenderObjectImpl {
     virtual void AddEventListener(const std::string& event);
     virtual void RemoveEventListener(const std::string& event);
     virtual void SetData(int key, base::ScopedPtr<jscore::LynxValue> value);
+    virtual void Animate(base::ScopedPtr<jscore::LynxArray> &keyframes,
+                         base::ScopedPtr<jscore::LynxObject> &options);
+    virtual void CancelAnimation(const std::string &id);
 
  private:
     base::android::ScopedGlobalJavaRef<jobject> render_object_impl_java_impl_;

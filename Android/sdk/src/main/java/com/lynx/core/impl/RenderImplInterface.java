@@ -5,6 +5,9 @@ package com.lynx.core.impl;
 import com.lynx.base.Position;
 import com.lynx.base.Size;
 import com.lynx.base.Style;
+import com.lynx.ui.anim.AnimInfo;
+
+import java.util.List;
 
 
 public interface RenderImplInterface {
@@ -19,4 +22,6 @@ public interface RenderImplInterface {
     void addEventListener(String event);
     void removeEventListener(String event);
     void setData(int attr, Object param);
+    void animate(List<AnimInfo> infoList, AnimInfo.Option option);
+    void cancelAnimation();
 }

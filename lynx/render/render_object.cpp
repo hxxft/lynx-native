@@ -10,6 +10,7 @@
 #include "runtime/base/lynx_value.h"
 #include "runtime/base/lynx_array.h"
 #include "render/render_object.h"
+#include "render/animation.h"
 
 namespace lynx {
 
@@ -423,15 +424,34 @@ void RenderObject::RemoveFixedChild(RenderObject* fixed_child) {
   }
 }
 
+base::ScopedPtr<Animation> RenderObject::Animate(base::ScopedPtr<jscore::LynxArray>& keyframes,
+                           base::ScopedPtr<jscore::LynxObject>& options) {
+  static long animation_count = 0;
+  const static std::string str_id = "id";
+  std::ostringstream animation_id;
+  animation_id << "anim_" << animation_count++;
+  options->Set(str_id, jscore::LynxValue::MakeString(animation_id.str()).Release());
+  RenderCommand* cmd = lynx_new RendererAnimateCommand(impl(), keyframes, options);
+  render_tree_host_->UpdateRenderObject(cmd);
+  auto animation = lynx_new Animation(animation_id.str());
+  animation->set_render_object(weak_ptr_);
+  return base::ScopedPtr<Animation>(animation);
+}
+
+void RenderObject::CancelAnimation(const std::string& id) {
+  RenderCommand* cmd = lynx_new RendererCancelAnimationCommand(impl(), id);
+  render_tree_host_->UpdateRenderObject(cmd);
+}
+
 void RenderObject::ReceiveCanvasRenderCmd(base::ScopedPtr<base::CanvasRenderCommand>& cmd_single){
     if(canvas_cmds_.Get() == NULL){
         canvas_cmds_.Reset(lynx_new jscore::LynxArray());
     }
     if(cmd_single->cmd_type_.compare("drawCmd") == 0){
-        RenderCommand* cmd = lynx_new RendererDataUpdateCommand(impl(), 5, std::move(canvas_cmds_), RenderCommand::CMD_SET_DATA);
+        RenderCommand* cmd = lynx_new RendererDataUpdateCommand(impl(), CANVAS_DRAW, std::move(canvas_cmds_), RenderCommand::CMD_SET_DATA);
         render_tree_host_->UpdateRenderObject(cmd);
     }else if(cmd_single->cmd_type_.compare("appendCmd") == 0){
-        RenderCommand* cmd = lynx_new RendererDataUpdateCommand(impl(), 6, std::move(canvas_cmds_), RenderCommand::CMD_SET_DATA);
+        RenderCommand* cmd = lynx_new RendererDataUpdateCommand(impl(), CANVAS_APPEND, std::move(canvas_cmds_), RenderCommand::CMD_SET_DATA);
         render_tree_host_->UpdateRenderObject(cmd);
     }else{
         canvas_cmds_->Push(cmd_single.Release());

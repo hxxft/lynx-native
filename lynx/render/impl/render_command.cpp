@@ -97,4 +97,12 @@ void RendererOperatorCommand::Execute() {
                 break;
         }
     }
+
+    void RendererAnimateCommand::Execute() {
+        host_->Animate(keyframes_, options_);
+    }
+
+    void RendererCancelAnimationCommand::Execute() {
+        host_->CancelAnimation(id_);
+    }
 }  // namespace lynx

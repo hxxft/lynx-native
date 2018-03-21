@@ -32,6 +32,13 @@ namespace jscore {
         return values_[index];
     }
 
+    base::ScopedPtr<LynxValue> LynxArray::Release(int index) {
+        LynxValue* temp = values_[index];
+        values_[index] = NULL;
+        RemovePtr(temp);
+        return jscore::LynxValue::MakeValueScoped(temp);
+    }
+
     int LynxArray::Size() {
         return values_.size();
     }
@@ -45,7 +52,7 @@ namespace jscore {
             }
         }
         if (!exist) {
-            ptrs_.erase(value);
+            ptrs_.release(value);
         }
     }
 
