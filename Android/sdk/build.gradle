@@ -54,6 +54,7 @@ dependencies {
     compile 'com.squareup.okhttp3:okhttp:3.4.1'
     compile 'com.squareup.okio:okio:1.11.0'
     compile 'com.squareup.okhttp3:okhttp-urlconnection:3.4.1'
+    annotationProcessor project(":apt")
     provided 'com.android.volley:volley:1.0.0'
 
     // picasso

@@ -24,8 +24,11 @@ namespace jscore {
             return context_;
         }
 
+        std::map<std::string,int> element_methods;
+
         static void ProtectChild(JSContext* context, Element* child);
         static void UnprotectChild(JSContext* context, Element* child);
+        static std::map<int,std::map<std::string, int>> s_rpc_methods;
 
     private:
 
@@ -104,6 +107,12 @@ namespace jscore {
                                     base::ScopedPtr<jscore::LynxValue> value);
         static void SetScrollLeftCallback(LynxObjectTemplate* object,
                                     base::ScopedPtr<jscore::LynxValue> value);
+
+        static JSValueRef ExtraCallback(JSContextRef ctx, JSObjectRef function,
+                                        JSObjectRef thisObject, size_t argumentCount,
+                                        const JSValueRef arguments[], JSValueRef* exception);
+
+        void SetAllExtraMethod();
     };
 }
 

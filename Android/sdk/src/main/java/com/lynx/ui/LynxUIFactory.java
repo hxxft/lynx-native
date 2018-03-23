@@ -4,6 +4,7 @@ package com.lynx.ui;
 import android.content.Context;
 
 import com.lynx.core.impl.RenderObjectImpl;
+import com.lynx.modules.ext.ModuleManager;
 import com.lynx.ui.button.LynxUIButton;
 import com.lynx.ui.canvas.LynxUICanvas;
 import com.lynx.ui.checkbox.LynxUICheckBox;
@@ -96,6 +97,7 @@ public class LynxUIFactory {
                 ui = new LynxUICanvas(context, impl);
                 break;
             default:
+                ui = ModuleManager.createExtLynxUI(impl.getRenderObjectType(),context,impl);
                 break;
         }
         return ui;

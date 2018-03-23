@@ -4,11 +4,15 @@ package com.lynx.core;
 import android.content.Context;
 
 import com.lynx.base.Style;
+import com.lynx.modules.ext.LynxModule;
+import com.lynx.modules.ext.ModuleManager;
 import com.lynx.net.NetRequestManager;
 import com.lynx.net.cookie.LynxCookieStore;
 import com.lynx.resources.ResourceManager;
 import com.lynx.utils.PixelUtil;
 import com.lynx.utils.ScreenUtil;
+
+import java.util.List;
 
 public class LynxRuntimeManager {
 
@@ -16,8 +20,10 @@ public class LynxRuntimeManager {
 
     private static LynxRuntime mIdleRuntime = null;
 
-    public static void prepare(Context context) {
+    public static void prepare(Context context, List<? extends LynxModule> modules) {
         prepare(context, LynxRuntime.DEFAULT_ZOOM_REF);
+        ModuleManager.registerExtModule(modules);
+        ModuleManager.createUIComponent();
     }
 
     public static void prepare(Context context, int zoomReferencePx) {

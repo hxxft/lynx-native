@@ -6,7 +6,7 @@ import android.view.View;
 
 import com.lynx.core.base.LynxFunctionObject;
 import com.lynx.core.tree.LynxRenderTreeHostImpl;
-import com.lynx.modules.ModuleRegister;
+import com.lynx.modules.ext.ModuleManager;
 import com.lynx.utils.DeviceInfoUtil;
 import com.lynx.utils.ScreenUtil;
 
@@ -96,7 +96,7 @@ public class LynxRuntime {
 
     public LynxRenderTreeHostImpl active(View view) {
         mContext = view.getContext();
-        ModuleRegister register = new ModuleRegister(this);
+        ModuleManager.registerJSObject(this);
         return mHost;
     }
 
@@ -112,7 +112,6 @@ public class LynxRuntime {
 
         nativeDestroyNativeJSRuntime(mNativeRuntime);
         mNativeRuntime = 0;
-
         if(mEnableMemoryCheck) {
             checkMemoryLeak();
         }
