@@ -30,7 +30,7 @@ include_directories(${CMAKE_SOURCE_DIR}/../../lynx/third_party/googletest/includ
 
 set(UNITTEST_SRC_LIST
         ${CMAKE_SOURCE_DIR}/../../lynx/third_party/googletest/src/gtest-all.cc
-        ${CMAKE_SOURCE_DIR}/../../lynx/test/gtest_driver.cpp
+        ${CMAKE_SOURCE_DIR}/../../lynx/test/gtest_driver.cc
         ${CMAKE_SOURCE_DIR}/../../lynx/base/scoped_ptr_unittest.cc
         ${CMAKE_SOURCE_DIR}/../../lynx/base/ref_counted_ptr_unittest.cc
         ${CMAKE_SOURCE_DIR}/../../lynx/base/weak_ptr_unittest.cc
@@ -61,120 +61,120 @@ aux_source_directory(${CMAKE_SOURCE_DIR}/../../lynx/lepus
                      LEPUS_SOURCE_FILES)
 
 add_library(lynx SHARED
-                ${CMAKE_SOURCE_DIR}/../../lynx/base/android/java_type.cpp
-                ${CMAKE_SOURCE_DIR}/../../lynx/base/android/convert.cpp
-                ${CMAKE_SOURCE_DIR}/../../lynx/base/android/android_jni.cpp
-                ${CMAKE_SOURCE_DIR}/../../lynx/base/android/params_transform.cpp
-                ${CMAKE_SOURCE_DIR}/../../lynx/base/android/jni_helper.cpp
-                ${CMAKE_SOURCE_DIR}/../../lynx/base/android/scoped_java_ref.cpp
-                ${CMAKE_SOURCE_DIR}/../../lynx/base/debug/memory_debug.cpp
-                ${CMAKE_SOURCE_DIR}/../../lynx/base/debug/memory_tracker.cpp
-                ${CMAKE_SOURCE_DIR}/../../lynx/base/debug/timing_tracker.cpp
-                ${CMAKE_SOURCE_DIR}/../../lynx/base/observer/observer_list.cpp
+                ${CMAKE_SOURCE_DIR}/../../lynx/base/android/java_type.cc
+                ${CMAKE_SOURCE_DIR}/../../lynx/base/android/convert.cc
+                ${CMAKE_SOURCE_DIR}/../../lynx/base/android/android_jni.cc
+                ${CMAKE_SOURCE_DIR}/../../lynx/base/android/params_transform.cc
+                ${CMAKE_SOURCE_DIR}/../../lynx/base/android/jni_helper.cc
+                ${CMAKE_SOURCE_DIR}/../../lynx/base/android/scoped_java_ref.cc
+                ${CMAKE_SOURCE_DIR}/../../lynx/base/debug/memory_debug.cc
+                ${CMAKE_SOURCE_DIR}/../../lynx/base/debug/memory_tracker.cc
+                ${CMAKE_SOURCE_DIR}/../../lynx/base/debug/timing_tracker.cc
+                ${CMAKE_SOURCE_DIR}/../../lynx/base/observer/observer_list.cc
                 ${CMAKE_SOURCE_DIR}/../../lynx/base/string/string_number_convert.cc
-            	${CMAKE_SOURCE_DIR}/../../lynx/base/threading/thread.cpp
-            	${CMAKE_SOURCE_DIR}/../../lynx/base/threading/message_loop.cpp
-            	${CMAKE_SOURCE_DIR}/../../lynx/base/threading/message_pump_posix.cpp
-            	${CMAKE_SOURCE_DIR}/../../lynx/base/threading/message_pump_android.cpp
+            	${CMAKE_SOURCE_DIR}/../../lynx/base/threading/thread.cc
+            	${CMAKE_SOURCE_DIR}/../../lynx/base/threading/message_loop.cc
+            	${CMAKE_SOURCE_DIR}/../../lynx/base/threading/message_pump_posix.cc
+            	${CMAKE_SOURCE_DIR}/../../lynx/base/threading/message_pump_android.cc
             	${CMAKE_SOURCE_DIR}/../../lynx/base/trace_event/trace_logger.cc
             	${CMAKE_SOURCE_DIR}/../../lynx/base/trace_event/trace_writer.cc
-            	${CMAKE_SOURCE_DIR}/../../lynx/base/timer/timer.cpp
-            	${CMAKE_SOURCE_DIR}/../../lynx/base/timer/timer_heap.cpp
-            	${CMAKE_SOURCE_DIR}/../../lynx/base/timer/time_utils.cpp
+            	${CMAKE_SOURCE_DIR}/../../lynx/base/timer/timer.cc
+            	${CMAKE_SOURCE_DIR}/../../lynx/base/timer/timer_heap.cc
+            	${CMAKE_SOURCE_DIR}/../../lynx/base/timer/time_utils.cc
             	${CMAKE_SOURCE_DIR}/../../lynx/build/jni_load.cc
-            	${CMAKE_SOURCE_DIR}/../../lynx/config/global_config_data.cpp
-            	#${CMAKE_SOURCE_DIR}/../../lynx/render/test/demo.cpp
-            	${CMAKE_SOURCE_DIR}/../../lynx/render/event_target.cpp
-            	${CMAKE_SOURCE_DIR}/../../lynx/render/render_object.cpp
-            	${CMAKE_SOURCE_DIR}/../../lynx/render/render_tree_host.cpp
-            	${CMAKE_SOURCE_DIR}/../../lynx/render/render_tree_host_impl.cpp
-            	${CMAKE_SOURCE_DIR}/../../lynx/render/view_stub.cpp
-            	${CMAKE_SOURCE_DIR}/../../lynx/render/view.cpp
-            	${CMAKE_SOURCE_DIR}/../../lynx/render/body.cpp
-            	${CMAKE_SOURCE_DIR}/../../lynx/render/label.cpp
-            	${CMAKE_SOURCE_DIR}/../../lynx/render/input.cpp
-            	${CMAKE_SOURCE_DIR}/../../lynx/render/swiper_view.cpp
-            	${CMAKE_SOURCE_DIR}/../../lynx/render/extended_view.cpp
-            	${CMAKE_SOURCE_DIR}/../../lynx/render/canvas_view.cpp
-            	${CMAKE_SOURCE_DIR}/../../lynx/render/image_view.cpp
-            	${CMAKE_SOURCE_DIR}/../../lynx/render/list_view.cpp
-            	${CMAKE_SOURCE_DIR}/../../lynx/render/cell_view.cpp
-            	${CMAKE_SOURCE_DIR}/../../lynx/render/text_area.cpp
-            	${CMAKE_SOURCE_DIR}/../../lynx/render/scroll_view.cpp
-            	${CMAKE_SOURCE_DIR}/../../lynx/render/list_shadow.cpp
-            	${CMAKE_SOURCE_DIR}/../../lynx/render/animation.cpp
-            	${CMAKE_SOURCE_DIR}/../../lynx/render/android/render_object_impl_android.cpp
-            	${CMAKE_SOURCE_DIR}/../../lynx/render/android/label_measurer_android.cpp
-            	${CMAKE_SOURCE_DIR}/../../lynx/render/android/render_tree_host_impl_android.cpp
-            	#${CMAKE_SOURCE_DIR}/../../lynx/render/optimize/optimized_render_object.cpp
-            	${CMAKE_SOURCE_DIR}/../../lynx/render/impl/render_object_impl.cpp
-            	${CMAKE_SOURCE_DIR}/../../lynx/render/impl/render_command.cpp
-            	${CMAKE_SOURCE_DIR}/../../lynx/render/impl/command_collector.cpp
-            	${CMAKE_SOURCE_DIR}/../../lynx/layout/css_color.cpp
-            	${CMAKE_SOURCE_DIR}/../../lynx/layout/css_style.cpp
-            	${CMAKE_SOURCE_DIR}/../../lynx/layout/css_layout.cpp
-            	${CMAKE_SOURCE_DIR}/../../lynx/layout/css_type.cpp
-            	${CMAKE_SOURCE_DIR}/../../lynx/layout/container_node.cpp
-                ${CMAKE_SOURCE_DIR}/../../lynx/layout/layout_object.cpp
-                ${CMAKE_SOURCE_DIR}/../../lynx/runtime/android/jni_runtime_bridge.cpp
-                ${CMAKE_SOURCE_DIR}/../../lynx/runtime/android/method_register.cpp
-                ${CMAKE_SOURCE_DIR}/../../lynx/runtime/android/result_callback.cpp
-                ${CMAKE_SOURCE_DIR}/../../lynx/runtime/base/lynx_array.cpp
-                ${CMAKE_SOURCE_DIR}/../../lynx/runtime/base/lynx_object.cpp
-                ${CMAKE_SOURCE_DIR}/../../lynx/runtime/base/lynx_value.cpp
-                ${CMAKE_SOURCE_DIR}/../../lynx/runtime/base/lynx_function_object.cpp
-                ${CMAKE_SOURCE_DIR}/../../lynx/runtime/base/lynx_object_template.cpp
-                ${CMAKE_SOURCE_DIR}/../../lynx/runtime/base/lynx_function_object_android.cpp
-            	${CMAKE_SOURCE_DIR}/../../lynx/runtime/loader.cpp
-            	${CMAKE_SOURCE_DIR}/../../lynx/runtime/runtime.cpp
-            	${CMAKE_SOURCE_DIR}/../../lynx/runtime/js_context.cpp
-            	${CMAKE_SOURCE_DIR}/../../lynx/runtime/jsc/js_vm.cpp
-            	${CMAKE_SOURCE_DIR}/../../lynx/runtime/history.cpp
-            	${CMAKE_SOURCE_DIR}/../../lynx/runtime/location.cpp
-            	${CMAKE_SOURCE_DIR}/../../lynx/runtime/navigator.cpp
-            	${CMAKE_SOURCE_DIR}/../../lynx/runtime/screen.cpp
-            	${CMAKE_SOURCE_DIR}/../../lynx/runtime/console.cpp
-            	${CMAKE_SOURCE_DIR}/../../lynx/runtime/document.cpp
-            	${CMAKE_SOURCE_DIR}/../../lynx/runtime/canvas.cpp
-            	${CMAKE_SOURCE_DIR}/../../lynx/runtime/canvas_2d_context.cpp
-            	${CMAKE_SOURCE_DIR}/../../lynx/runtime/element.cpp
-            	${CMAKE_SOURCE_DIR}/../../lynx/runtime/timed_task.cpp
-            	${CMAKE_SOURCE_DIR}/../../lynx/runtime/js_event.cpp
-            	${CMAKE_SOURCE_DIR}/../../lynx/runtime/jsc/jsc_helper.cpp
-            	${CMAKE_SOURCE_DIR}/../../lynx/runtime/jsc/jsc_context.cpp
-            	${CMAKE_SOURCE_DIR}/../../lynx/runtime/jsc/jsc_runtime.cpp
-            	#${CMAKE_SOURCE_DIR}/../../lynx/runtime/v8/simple_allocator.cpp
-            	${CMAKE_SOURCE_DIR}/../../lynx/runtime/jsc/jsc_function.cpp
-            	${CMAKE_SOURCE_DIR}/../../lynx/runtime/jsc/timeout_callback.cpp
-            	#${CMAKE_SOURCE_DIR}/../../lynx/runtime/jsc/params_transform.cpp
-            	${CMAKE_SOURCE_DIR}/../../lynx/runtime/jsc/objects/window_object.cpp
-            	${CMAKE_SOURCE_DIR}/../../lynx/runtime/jsc/objects/object_template.cpp
-                ${CMAKE_SOURCE_DIR}/../../lynx/runtime/jsc/objects/function_object.cpp
-                ${CMAKE_SOURCE_DIR}/../../lynx/runtime/jsc/Performance.cpp
-            	${CMAKE_SOURCE_DIR}/../../lynx/net/url_request_context.cpp
-            	${CMAKE_SOURCE_DIR}/../../lynx/net/url_request_ghost_delegate.cpp
-            	${CMAKE_SOURCE_DIR}/../../lynx/net/android/url_request_android.cpp
-            	${CMAKE_SOURCE_DIR}/../../lynx/loader/html/html_loader.cpp
-            	${CMAKE_SOURCE_DIR}/../../lynx/loader/html/html_request_delegate.cpp
-            	${CMAKE_SOURCE_DIR}/../../lynx/loader/script/script_loader.cpp
-            	${CMAKE_SOURCE_DIR}/../../lynx/loader/script/script_request_delegate.cpp
-            	${CMAKE_SOURCE_DIR}/../../lynx/loader/cache/source_cache.cpp
-            	${CMAKE_SOURCE_DIR}/../../lynx/loader/cache/source_cache_manager.cpp
+            	${CMAKE_SOURCE_DIR}/../../lynx/config/global_config_data.cc
+            	#${CMAKE_SOURCE_DIR}/../../lynx/render/test/demo.cc
+            	${CMAKE_SOURCE_DIR}/../../lynx/render/event_target.cc
+            	${CMAKE_SOURCE_DIR}/../../lynx/render/render_object.cc
+            	${CMAKE_SOURCE_DIR}/../../lynx/render/render_tree_host.cc
+            	${CMAKE_SOURCE_DIR}/../../lynx/render/render_tree_host_impl.cc
+            	${CMAKE_SOURCE_DIR}/../../lynx/render/view_stub.cc
+            	${CMAKE_SOURCE_DIR}/../../lynx/render/view.cc
+            	${CMAKE_SOURCE_DIR}/../../lynx/render/body.cc
+            	${CMAKE_SOURCE_DIR}/../../lynx/render/label.cc
+            	${CMAKE_SOURCE_DIR}/../../lynx/render/input.cc
+            	${CMAKE_SOURCE_DIR}/../../lynx/render/swiper_view.cc
+            	${CMAKE_SOURCE_DIR}/../../lynx/render/extended_view.cc
+            	${CMAKE_SOURCE_DIR}/../../lynx/render/canvas_view.cc
+            	${CMAKE_SOURCE_DIR}/../../lynx/render/image_view.cc
+            	${CMAKE_SOURCE_DIR}/../../lynx/render/list_view.cc
+            	${CMAKE_SOURCE_DIR}/../../lynx/render/cell_view.cc
+            	${CMAKE_SOURCE_DIR}/../../lynx/render/text_area.cc
+            	${CMAKE_SOURCE_DIR}/../../lynx/render/scroll_view.cc
+            	${CMAKE_SOURCE_DIR}/../../lynx/render/list_shadow.cc
+            	${CMAKE_SOURCE_DIR}/../../lynx/render/animation.cc
+            	${CMAKE_SOURCE_DIR}/../../lynx/render/android/render_object_impl_android.cc
+            	${CMAKE_SOURCE_DIR}/../../lynx/render/android/label_measurer_android.cc
+            	${CMAKE_SOURCE_DIR}/../../lynx/render/android/render_tree_host_impl_android.cc
+            	#${CMAKE_SOURCE_DIR}/../../lynx/render/optimize/optimized_render_object.cc
+            	${CMAKE_SOURCE_DIR}/../../lynx/render/impl/render_object_impl.cc
+            	${CMAKE_SOURCE_DIR}/../../lynx/render/impl/render_command.cc
+            	${CMAKE_SOURCE_DIR}/../../lynx/render/impl/command_collector.cc
+            	${CMAKE_SOURCE_DIR}/../../lynx/layout/css_color.cc
+            	${CMAKE_SOURCE_DIR}/../../lynx/layout/css_style.cc
+            	${CMAKE_SOURCE_DIR}/../../lynx/layout/css_layout.cc
+            	${CMAKE_SOURCE_DIR}/../../lynx/layout/css_type.cc
+            	${CMAKE_SOURCE_DIR}/../../lynx/layout/container_node.cc
+                ${CMAKE_SOURCE_DIR}/../../lynx/layout/layout_object.cc
+                ${CMAKE_SOURCE_DIR}/../../lynx/runtime/android/jni_runtime_bridge.cc
+                ${CMAKE_SOURCE_DIR}/../../lynx/runtime/android/method_register.cc
+                ${CMAKE_SOURCE_DIR}/../../lynx/runtime/android/result_callback.cc
+                ${CMAKE_SOURCE_DIR}/../../lynx/runtime/base/lynx_array.cc
+                ${CMAKE_SOURCE_DIR}/../../lynx/runtime/base/lynx_object.cc
+                ${CMAKE_SOURCE_DIR}/../../lynx/runtime/base/lynx_value.cc
+                ${CMAKE_SOURCE_DIR}/../../lynx/runtime/base/lynx_function_object.cc
+                ${CMAKE_SOURCE_DIR}/../../lynx/runtime/base/lynx_object_template.cc
+                ${CMAKE_SOURCE_DIR}/../../lynx/runtime/base/lynx_function_object_android.cc
+            	${CMAKE_SOURCE_DIR}/../../lynx/runtime/loader.cc
+            	${CMAKE_SOURCE_DIR}/../../lynx/runtime/runtime.cc
+            	${CMAKE_SOURCE_DIR}/../../lynx/runtime/js_context.cc
+            	${CMAKE_SOURCE_DIR}/../../lynx/runtime/jsc/js_vm.cc
+            	${CMAKE_SOURCE_DIR}/../../lynx/runtime/history.cc
+            	${CMAKE_SOURCE_DIR}/../../lynx/runtime/location.cc
+            	${CMAKE_SOURCE_DIR}/../../lynx/runtime/navigator.cc
+            	${CMAKE_SOURCE_DIR}/../../lynx/runtime/screen.cc
+            	${CMAKE_SOURCE_DIR}/../../lynx/runtime/console.cc
+            	${CMAKE_SOURCE_DIR}/../../lynx/runtime/document.cc
+            	${CMAKE_SOURCE_DIR}/../../lynx/runtime/canvas.cc
+            	${CMAKE_SOURCE_DIR}/../../lynx/runtime/canvas_2d_context.cc
+            	${CMAKE_SOURCE_DIR}/../../lynx/runtime/element.cc
+            	${CMAKE_SOURCE_DIR}/../../lynx/runtime/timed_task.cc
+            	${CMAKE_SOURCE_DIR}/../../lynx/runtime/js_event.cc
+            	${CMAKE_SOURCE_DIR}/../../lynx/runtime/jsc/jsc_helper.cc
+            	${CMAKE_SOURCE_DIR}/../../lynx/runtime/jsc/jsc_context.cc
+            	${CMAKE_SOURCE_DIR}/../../lynx/runtime/jsc/jsc_runtime.cc
+            	#${CMAKE_SOURCE_DIR}/../../lynx/runtime/v8/simple_allocator.cc
+            	${CMAKE_SOURCE_DIR}/../../lynx/runtime/jsc/jsc_function.cc
+            	${CMAKE_SOURCE_DIR}/../../lynx/runtime/jsc/timeout_callback.cc
+            	#${CMAKE_SOURCE_DIR}/../../lynx/runtime/jsc/params_transform.cc
+            	${CMAKE_SOURCE_DIR}/../../lynx/runtime/jsc/objects/window_object.cc
+            	${CMAKE_SOURCE_DIR}/../../lynx/runtime/jsc/objects/object_template.cc
+                ${CMAKE_SOURCE_DIR}/../../lynx/runtime/jsc/objects/function_object.cc
+                ${CMAKE_SOURCE_DIR}/../../lynx/runtime/jsc/Performance.cc
+            	${CMAKE_SOURCE_DIR}/../../lynx/net/url_request_context.cc
+            	${CMAKE_SOURCE_DIR}/../../lynx/net/url_request_ghost_delegate.cc
+            	${CMAKE_SOURCE_DIR}/../../lynx/net/android/url_request_android.cc
+            	${CMAKE_SOURCE_DIR}/../../lynx/loader/html/html_loader.cc
+            	${CMAKE_SOURCE_DIR}/../../lynx/loader/html/html_request_delegate.cc
+            	${CMAKE_SOURCE_DIR}/../../lynx/loader/script/script_loader.cc
+            	${CMAKE_SOURCE_DIR}/../../lynx/loader/script/script_request_delegate.cc
+            	${CMAKE_SOURCE_DIR}/../../lynx/loader/cache/source_cache.cc
+            	${CMAKE_SOURCE_DIR}/../../lynx/loader/cache/source_cache_manager.cc
 
-            	${CMAKE_SOURCE_DIR}/../../lynx/parser/input_stream.cpp
-            	${CMAKE_SOURCE_DIR}/../../lynx/parser/render_parser.cpp
-            	${CMAKE_SOURCE_DIR}/../../lynx/parser/render_token.cpp
-            	${CMAKE_SOURCE_DIR}/../../lynx/parser/render_tokenizer.cpp
-            	${CMAKE_SOURCE_DIR}/../../lynx/parser/tree_builder.cpp
-            	${CMAKE_SOURCE_DIR}/../../lynx/parser/style_parser.cpp
+            	${CMAKE_SOURCE_DIR}/../../lynx/parser/input_stream.cc
+            	${CMAKE_SOURCE_DIR}/../../lynx/parser/render_parser.cc
+            	${CMAKE_SOURCE_DIR}/../../lynx/parser/render_token.cc
+            	${CMAKE_SOURCE_DIR}/../../lynx/parser/render_tokenizer.cc
+            	${CMAKE_SOURCE_DIR}/../../lynx/parser/tree_builder.cc
+            	${CMAKE_SOURCE_DIR}/../../lynx/parser/style_parser.cc
 
             	${CMAKE_SOURCE_DIR}/../../lynx/third_party/jsoncpp/src/lib_json/json_reader.cpp
             	${CMAKE_SOURCE_DIR}/../../lynx/third_party/jsoncpp/src/lib_json/json_value.cpp
             	${CMAKE_SOURCE_DIR}/../../lynx/third_party/jsoncpp/src/lib_json/json_writer.cpp
 
-            	${CMAKE_SOURCE_DIR}/../../lynx/render/android/jni_coordinator_bridge.cpp
-            	${CMAKE_SOURCE_DIR}/../../lynx/render/coordinator/coordinator_action.cpp
-            	${CMAKE_SOURCE_DIR}/../../lynx/render/coordinator/coordinator_executor.cpp
+            	${CMAKE_SOURCE_DIR}/../../lynx/render/android/jni_coordinator_bridge.cc
+            	${CMAKE_SOURCE_DIR}/../../lynx/render/coordinator/coordinator_action.cc
+            	${CMAKE_SOURCE_DIR}/../../lynx/render/coordinator/coordinator_executor.cc
 
             	${LEPUS_SOURCE_FILES}
                 ${UNITTEST_SRC_LIST}

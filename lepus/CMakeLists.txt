@@ -13,7 +13,7 @@ set(LIBRARY_OUTPUT_PATH "${PROJECT_BINARY_DIR}/lib")
 include_directories(${CMAKE_SOURCE_DIR}/../lynx)
 aux_source_directory(${CMAKE_SOURCE_DIR}/../lynx/lepus SOURCE_FILES)
 add_library(lepus
-    ${CMAKE_SOURCE_DIR}/../lynx/parser/input_stream.cpp
+    ${CMAKE_SOURCE_DIR}/../lynx/parser/input_stream.cc
     ${CMAKE_SOURCE_DIR}/../lynx/parser/input_stream.h
     ${CMAKE_SOURCE_DIR}/../lynx/lepus/token.h 
     ${CMAKE_SOURCE_DIR}/../lynx/lepus/scanner.h
