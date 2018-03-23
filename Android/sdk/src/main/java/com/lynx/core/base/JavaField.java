@@ -1,7 +1,7 @@
 // Copyright 2017 The Lynx Authors. All rights reserved.
 package com.lynx.core.base;
 
-import com.lynx.core.LynxField;
+import com.lynx.core.annotation.JSField;
 
 /**
  * An identifiable wrapper for Java field
@@ -29,8 +29,8 @@ import com.lynx.core.LynxField;
         }
     }
 
-    public void linkMethod(JavaMethod method, LynxField annotation) {
-        if (annotation.method() == LynxField.Method.Get) {
+    public void linkMethod(JavaMethod method, JSField annotation) {
+        if (annotation.method() == JSField.Method.Get) {
             if (method.getParameterLength() > 0) {
                 throw new RuntimeException(method.getDeclaringClass().getCanonicalName() +
                         " has Get Method which should not has arguments");

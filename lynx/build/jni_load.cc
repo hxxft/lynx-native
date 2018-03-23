@@ -1,5 +1,6 @@
 #include "base/android/convert.h"
 #include "base/android/java_type.h"
+#include "runtime/android/method_register.h"
 #include "base/threading/message_pump_android.h"
 #include "render/android/render_object_impl_android.h"
 #include "render/label_measurer.h"
@@ -19,6 +20,7 @@ JNIEXPORT jint JNICALL JNI_OnLoad(JavaVM *vm, void *reserved)
     base::android::InitVM(vm);
     JNIEnv* env = base::android::AttachCurrentThread();
     base::MessagePumpAndroid::RegisterJNIUtils(env);
+    lynx::MethodRegister::RegisterJNIUtils(env);
     base::Convert::BindingJavaClass(env);
     lynx::LabelMeasurer::RegisterJNIUtils(env);
     net::URLRequestAndroid::RegisterJNIUtils(env);

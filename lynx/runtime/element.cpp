@@ -2,11 +2,11 @@
 
 #include <sstream>
 #include <runtime/base/lynx_value.h>
+#include <algorithm>
 
 #include "runtime/base/lynx_value.h"
 #include "runtime/element.h"
 #include "runtime/jsc/jsc_helper.h"
-#include "runtime/base/lynx_array.h"
 #include "runtime/jsc/objects/object_template.h"
 
 #include "render/event_target.h"
@@ -16,6 +16,7 @@
 namespace jscore {
 
     //static int ElementObjectCount = 0;
+    std::map<int,std::map<std::string, int>>  Element::s_rpc_methods;
     Element::Element(JSContext* context, lynx::RenderObject* render_object)
             : is_protect_(false), render_object_(render_object), context_(context) {
         //LOGD("lynx-debug", "construct ElementCount: %d", ++ElementObjectCount);
@@ -24,7 +25,9 @@ namespace jscore {
             render_object_->SetJSRef(this);
         }
 
-        set_class_name("Element");
+        std::string tag_name = render_object->tag_name().c_str();
+        std::transform(tag_name.begin(),++(tag_name.begin()),tag_name.begin(), ::toupper);
+        set_class_name(tag_name);
 
         RegisterMethodCallback("appendChild", &AppendChildCallback);
         RegisterMethodCallback("appendChildren", &AppendChildrenCallback);
@@ -49,6 +52,7 @@ namespace jscore {
         RegisterMethodCallback("hasChildNodes", &HasChildNodesCallback);
         RegisterMethodCallback("animate", &Animate);
 
+        SetAllExtraMethod();
 
         RegisterAccessorCallback("tagName", &GetTagNameCallback, 0);
         RegisterAccessorCallback("nodeType", &GetNodeTypeCallback, 0);
@@ -316,6 +320,32 @@ namespace jscore {
         return base::ScopedPtr<LynxValue>(LynxValue::MakeString(render_object->GetText().c_str()));
     }
 
+    JSValueRef
+    Element::ExtraCallback (JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject,
+                            size_t argumentCount, const JSValueRef arguments[],
+                            JSValueRef* exception) {
+
+        JSStringRef name_key = JSStringCreateWithUTF8CString("name");
+        auto  func_property = JSObjectGetProperty(ctx,function,name_key,NULL);
+        auto function_name = JSCHelper::ConvertToString(ctx, func_property);
+        JSStringRelease(name_key);
+        ObjectTemplate *obj = ObjectWrap::Unwrap<ObjectTemplate>(thisObject);
+        Element *element = static_cast<Element *>(obj->target());
+        lynx::RenderObject *render_object = element->render_object();
+        auto method_spec_iter = element->element_methods.find(function_name);
+        if (method_spec_iter != element->element_methods.end()) {
+            int method_id = method_spec_iter->second;
+            base::ScopedPtr<LynxValue> property_scoped_ptr;
+            if (argumentCount > 0) {
+                property_scoped_ptr =
+                        JSCHelper::ConvertToLynxArray(ctx, const_cast<JSValueRef *>(arguments),
+                                                      argumentCount);
+            }
+            render_object->SetData(method_id, property_scoped_ptr);
+        }
+        return JSCHelper::ConvertToJSValue(ctx, NULL);
+    }
+
     base::ScopedPtr<LynxValue>
     Element::StartCallback(LynxObjectTemplate* object, base::ScopedPtr<LynxArray>& array) {
 
@@ -539,6 +569,19 @@ namespace jscore {
         while(render_child) {
             UnprotectChild(context, render_child->GetJSRef());
             render_child = static_cast<lynx::RenderObject*>(renderer->Next());
+        }
+    }
+
+    void Element::SetAllExtraMethod() {
+        int type = render_object_->render_object_type();
+        auto methods =  s_rpc_methods.find(type);
+        if(methods != s_rpc_methods.end()){
+           element_methods = methods->second;
+           std::map<std::string,int>::iterator method_itr;
+           for (method_itr = element_methods.begin();
+                method_itr != element_methods.end(); ++method_itr) {
+                RegisterRawMethodCallback(method_itr->first, &ExtraCallback);
+            }
         }
     }
 }

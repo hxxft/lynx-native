@@ -19,6 +19,7 @@ import com.lynx.core.touch.TouchEventInfo;
 import com.lynx.core.touch.TouchTarget;
 import com.lynx.core.touch.gesture.GestureEventInfo;
 import com.lynx.core.tree.LynxUIAction;
+import com.lynx.modules.ext.ModuleManager;
 import com.lynx.ui.anim.AnimDriver;
 import com.lynx.ui.anim.AnimInfo;
 import com.lynx.ui.body.LynxUIBody;
@@ -158,6 +159,9 @@ public abstract class LynxUI<T extends View>
 
     @Override
     public void setData(int attr, Object param) {
+        if (mRenderObjectImpl != null) {
+            ModuleManager.callById(mRenderObjectImpl.getRenderObjectType(), this, attr, param);
+        }
     }
 
     public void setBackground(Style style) {

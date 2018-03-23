@@ -5,7 +5,7 @@ import android.util.Log;
 import android.webkit.JavascriptInterface;
 
 import com.lynx.base.CalledByNative;
-import com.lynx.core.LynxMethod;
+import com.lynx.core.annotation.JSMethod;
 
 import java.lang.reflect.Method;
 import java.util.List;
@@ -13,8 +13,8 @@ import java.util.Map;
 import java.util.Set;
 
 public class LynxFunctionObject {
-    private LynxArray mMethodNameArray;
-    private Object mReceiver;
+    protected LynxArray mMethodNameArray;
+    protected Object mReceiver;
 
     public LynxFunctionObject() {
         initWithReceiver(this);
@@ -24,7 +24,9 @@ public class LynxFunctionObject {
         initWithReceiver(receiver);
     }
 
-    private void initWithReceiver(Object receiver) {
+
+
+    protected void initWithReceiver(Object receiver) {
         mReceiver = receiver;
         mMethodNameArray = new LynxArray();
         if (!JavaCenter.link().hasRegistered(receiver.getClass())) {
@@ -48,7 +50,7 @@ public class LynxFunctionObject {
     }
 
     private boolean extractJSMethod(Method method) {
-        LynxMethod annotation = method.getAnnotation(LynxMethod.class);
+        JSMethod annotation = method.getAnnotation(JSMethod.class);
         if (annotation != null) {
             JavaMethod methodAfterAnalyse = new JavaMethod(method);
             JavaCenter.link().registerMethod(methodAfterAnalyse);

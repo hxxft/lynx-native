@@ -1,26 +1,30 @@
 // Copyright 2017 The Lynx Authors. All rights reserved.
-package com.lynx.modules;
+package com.lynx.modules.ext;
 
-import com.lynx.core.base.LynxFunctionObject;
+import com.lynx.core.LynxRuntime;
 
-public abstract class LynxModule extends LynxFunctionObject {
+public abstract class JSComponent {
     private boolean mHasBeenUsed = false;
 
-    public LynxModule() {
+    public JSComponent(LynxRuntime runtime) {
     }
 
     public void initialize() {
 
     }
 
-    public abstract String moduleName();
 
-    @Override
     public Object exec(String methodName, Object[] args) {
         if (!mHasBeenUsed) {
             initialize();
             mHasBeenUsed = true;
         }
-        return super.exec(methodName, args);
+        return null;
     }
+
+
+    public void onDestroy() {
+    }
+
+
 }
