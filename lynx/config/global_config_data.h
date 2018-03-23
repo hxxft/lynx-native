@@ -35,20 +35,24 @@ class GlobalConfigData {
         return screen_height_;
     }
 
-    inline int zoom_reference() {
-        return zoom_reference_;
+    inline int zoom_ratio() {
+        return zoom_ratio_;
     }
 
     inline const std::string device_info() {
         return device_info_;
     }
 
-    void SetScreenConfig(int width, int height, double density, int zoom_reference,
+    void SetScreenConfig(int width_px, int height_px, double density, int zoom_ratio_px,
                          std::string& device_info) {
-        screen_width_ = (int) (width / density);
-        screen_height_ = (int) (height / density);
+        screen_width_ = (int) (width_px / density);
+        screen_height_ = (int) (height_px / density);
         screen_density_ = density;
-        zoom_reference_ = (int) (zoom_reference / density);
+        if (zoom_ratio_px <= 0) {
+            zoom_ratio_ = 750;
+        } else {
+            zoom_ratio_ = (int) (zoom_ratio_px / density);
+        }
         device_info_ = device_info;
     }
 
@@ -64,7 +68,7 @@ class GlobalConfigData {
     double screen_density_;
     int screen_width_;
     int screen_height_;
-    int zoom_reference_;
+    int zoom_ratio_;
     std::string device_info_;
 
     lynx::CSSStyleConfig style_config_;
