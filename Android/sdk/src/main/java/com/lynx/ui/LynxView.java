@@ -5,6 +5,7 @@ import android.content.Context;
 import android.view.View;
 
 import com.lynx.base.FrameRateController;
+import com.lynx.base.Position;
 import com.lynx.base.Size;
 import com.lynx.core.LynxRuntime;
 import com.lynx.core.LynxRuntimeManager;
@@ -18,7 +19,7 @@ import java.io.FileNotFoundException;
 
 public class LynxView extends AndroidBody {
 
-    private Size mMeasuredSize = new Size(0, 0);
+    private Position mViewport = new Position();
 
     protected LynxRuntime mRuntime;
 
@@ -75,10 +76,8 @@ public class LynxView extends AndroidBody {
 
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
-        int width = r - l;
-        int height = b - t;
-        if(mMeasuredSize.update(width, height) && mRuntime != null) {
-            mRenderTreeHostImpl.updateViewport(width, height);
+        if (mViewport.update(l, t, r, b) && mRuntime != null) {
+            mRenderTreeHostImpl.updateViewport(mViewport);
         }
         super.onLayout(changed, l, t, r, b);
     }

@@ -22,6 +22,7 @@ namespace lynx{
         if(impl_.Get() != NULL){
             return impl_->GetImagePixel(x, y, w, h);
         }
+        return base::ScopedPtr<jscore::LynxObject>();
     }
 
 }

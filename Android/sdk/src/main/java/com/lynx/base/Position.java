@@ -21,6 +21,17 @@ public class Position {
         this.mBottom = bottom;
     }
 
+    public boolean update(int left, int top, int right, int bottom) {
+        if (left != mLeft || top != mTop || right != mRight || bottom != mBottom) {
+            mLeft = left;
+            mTop = top;
+            mRight = right;
+            mBottom = bottom;
+            return true;
+        }
+        return false;
+    }
+
     public int getWidth() { return  mRight - mLeft; }
 
     public int getHeight() { return  mBottom- mTop; }

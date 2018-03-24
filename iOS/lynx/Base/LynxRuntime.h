@@ -5,16 +5,22 @@
 #import "LynxRenderTreeHostImpl.h"
 #import "LYXFunctionObject.h"
 
-#include "runtime/jsc/jsc_runtime.h"
+#include "runtime/runtime.h"
 
 @interface LynxRuntime : NSObject {
     @private
-    jscore::JSCRuntime* runtime_;
+    jscore::Runtime* runtime_;
 }
 
 @property(nonatomic, readonly) LynxRenderTreeHostImpl *host;
 
-- (LynxRenderTreeHostImpl *) activeWithSize:(CGSize)size andDensity:(CGFloat)density;
++ (CGFloat) defaultZoomRatio;
+
+- (void) prepare;
+
+- (void) prepareWithZoomRatio:(CGFloat) zoomRatio;
+
+- (LynxRenderTreeHostImpl *) active;
 
 - (void) loadUrl:(NSString *) url;
 

@@ -9,12 +9,14 @@
 void UpdateViewport(JNIEnv* env,
                     jobject jcaller,
                     jlong hostImpl,
-                    jint width,
-                    jint height) {
+                    jint left,
+                    jint top,
+                    jint right,
+                    jint bottom) {
     lynx::RenderTreeHostImplAndroid* host =
         reinterpret_cast<lynx::RenderTreeHostImplAndroid*>(hostImpl);
     if (host != NULL) {
-        host->UpdateViewport(width, height);
+        host->UpdateViewport(left, top, right, bottom);
     }
 }
 

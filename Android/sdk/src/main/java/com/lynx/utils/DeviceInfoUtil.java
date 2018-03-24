@@ -8,12 +8,12 @@ public class DeviceInfoUtil {
 
     public static String getInfo() {
         if (sDefaultUserAgent == null) {
-            buildDefaultUserAgent();
+            buildDefaultInfo();
         }
         return sDefaultUserAgent;
     }
 
-    private static void buildDefaultUserAgent() {
+    private static void buildDefaultInfo() {
         if (sDefaultUserAgent == null) {
             String temp = "Linux; Android " + Build.VERSION.RELEASE + "; " +
                      Build.MODEL + " Build/" + Build.DISPLAY;

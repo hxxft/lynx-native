@@ -7,7 +7,6 @@
 #include "base/debug/memory_debug.h"
 
 #include "runtime/js_context.h"
-#include "runtime/jsc/jsc_runtime.h"
 #include <JavaScriptCore/JavaScript.h>
 
 namespace jscore {
