@@ -35,7 +35,7 @@ void Body::Layout(int left, int top, int right, int bottom) {
         int width = right - left;
         int height = bottom - top;
         View::Measure(width, height);
-        View::Layout(0, 0, width, height);
+        View::Layout(left, top, right, bottom);
     }
 }
 

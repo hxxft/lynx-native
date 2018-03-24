@@ -6,7 +6,6 @@
 #import "LynxFilePathUtility.h"
 #import "LYXScreenUtil.h"
 
-#include "runtime/jsc/jsc_runtime.h"
 #include "layout/css_style.h"
 #include "render/ios/render_object_impl_ios.h"
 #include "config/global_config_data.h"
@@ -24,9 +23,14 @@ using namespace lynx;
 
 -(id) initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
+        
+        // Init Runtime
         _runtime = [[LynxRuntime alloc] init];
-        _renderTreeHostImpl = [_runtime activeWithSize:frame.size andDensity:[[LYXScreenUtil shareInstance] getScreenDensity]];
-        [_renderTreeHostImpl updateViewport:frame.size];
+        [_runtime prepare];
+        _renderTreeHostImpl = [_runtime active];
+        
+        // Update viewport
+        [_renderTreeHostImpl updateViewport:frame];
         
         // Connect RenderTreeHost and BodyView
         LynxUIBody* lynxUIBody = (LynxUIBody*)[_renderTreeHostImpl.rootRenderObjectImpl createLynxUI];

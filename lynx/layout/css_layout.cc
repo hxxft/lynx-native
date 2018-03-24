@@ -6,49 +6,48 @@
 #include "layout/css_layout.h"
 #include "render/render_tree_host.h"
 
-using namespace base;
 using namespace std;
 
 namespace lynx {
 
 
-    Size CSSStaticLayout::Measure(LayoutObject* renderer, int width_descriptor, int height_descriptor) {
+    base::Size CSSStaticLayout::Measure(LayoutObject* renderer, int width_descriptor, int height_descriptor) {
 
         CSSStyle* style = renderer->GetStyle();
 
-        int width_mode = Size::Descriptor::GetMode(width_descriptor);
-        int height_mode = Size::Descriptor::GetMode(height_descriptor);
+        int width_mode = base::Size::Descriptor::GetMode(width_descriptor);
+        int height_mode = base::Size::Descriptor::GetMode(height_descriptor);
 
         int measured_width_mode = width_mode;
         int measured_height_mode = height_mode;
         if (!CSS_IS_UNDEFINED(style->width_)
             || !CSS_IS_UNDEFINED(style->max_width_)) {
-            measured_width_mode = Size::Descriptor::EXACTLY;
+            measured_width_mode = base::Size::Descriptor::EXACTLY;
         }
         if (!CSS_IS_UNDEFINED(style->height_)
             || !CSS_IS_UNDEFINED(style->max_height_)) {
-            measured_height_mode = Size::Descriptor::EXACTLY;
+            measured_height_mode = base::Size::Descriptor::EXACTLY;
         }
 
-        int measured_width = Size::Descriptor::GetSize(width_descriptor);
-        int measured_height = Size::Descriptor::GetSize(height_descriptor);
-        if (measured_width_mode != Size::Descriptor::UNSPECIFIED) {
-            measured_width = style->ClampWidth(Size::Descriptor::GetSize(width_descriptor));
+        int measured_width = base::Size::Descriptor::GetSize(width_descriptor);
+        int measured_height = base::Size::Descriptor::GetSize(height_descriptor);
+        if (measured_width_mode != base::Size::Descriptor::UNSPECIFIED) {
+            measured_width = style->ClampWidth(base::Size::Descriptor::GetSize(width_descriptor));
         }
-        if (measured_height_mode != Size::Descriptor::UNSPECIFIED) {
-            measured_height = style->ClampHeight(Size::Descriptor::GetSize(height_descriptor));
+        if (measured_height_mode != base::Size::Descriptor::UNSPECIFIED) {
+            measured_height = style->ClampHeight(base::Size::Descriptor::GetSize(height_descriptor));
         }
 
-        Size size = MeasureInner(renderer, measured_width, measured_width_mode,
+        base::Size size = MeasureInner(renderer, measured_width, measured_width_mode,
                                  measured_height, measured_height_mode);
 
         int w = !CSS_IS_UNDEFINED(width_descriptor)
-                && width_mode == Size::Descriptor::EXACTLY ?
-                style->ClampExactWidth(Size::Descriptor::GetSize(width_descriptor))
+                && width_mode == base::Size::Descriptor::EXACTLY ?
+                style->ClampExactWidth(base::Size::Descriptor::GetSize(width_descriptor))
                                                            : style->ClampWidth(size.width_);
         int h = !CSS_IS_UNDEFINED(height_descriptor)
-                && height_mode == Size::Descriptor::EXACTLY ?
-                style->ClampExactHeight(Size::Descriptor::GetSize(height_descriptor))
+                && height_mode == base::Size::Descriptor::EXACTLY ?
+                style->ClampExactHeight(base::Size::Descriptor::GetSize(height_descriptor))
                                                             : style->ClampHeight(size.height_);
 
         size.Update(w, h);
@@ -57,10 +56,10 @@ namespace lynx {
 
 
 
-    Size CSSStaticLayout::MeasureInner(LayoutObject* renderer, int width, int width_mode,
+    base::Size CSSStaticLayout::MeasureInner(LayoutObject* renderer, int width, int width_mode,
                                      int height, int height_mode) {
 
-        Size measured_size;
+        base::Size measured_size;
         CSSStyle* style = renderer->GetStyle();
 
         int w = width;
@@ -108,9 +107,9 @@ namespace lynx {
         return false;
     }
 
-    Size CSSStaticLayout::MeasureRowOneLine(LayoutObject* renderer, int width, int width_mode,
+    base::Size CSSStaticLayout::MeasureRowOneLine(LayoutObject* renderer, int width, int width_mode,
                                             int height, int height_mode, int start, int end) {
-        Size measured_size(0 , 0);
+        base::Size measured_size(0 , 0);
         int calc_width = 0;
         int calc_height = 0;
 
@@ -137,16 +136,16 @@ namespace lynx {
             }
 
             if(!CSS_IS_UNDEFINED(child_style->width_)){
-                measure_width = Size::Descriptor::Make(child_style->ClampWidth(), Size::Descriptor::AT_MOST);
+                measure_width = base::Size::Descriptor::Make(child_style->ClampWidth(), base::Size::Descriptor::AT_MOST);
             } else {
-                measure_width = Size::Descriptor::Make(
+                measure_width = base::Size::Descriptor::Make(
                         residual_width - child_style->margin_left_ - child_style->margin_right_,
-                        Size::Descriptor::UNSPECIFIED);
+                        base::Size::Descriptor::UNSPECIFIED);
             }
 
-            Size child_size = child->Measure(measure_width,
-                                             Size::Descriptor::Make(height - child_style->margin_top_ - child_style->margin_bottom_,
-                                                                    Size::Descriptor::AT_MOST));
+            base::Size child_size = child->Measure(measure_width,
+                                             base::Size::Descriptor::Make(height - child_style->margin_top_ - child_style->margin_bottom_,
+                                                                    base::Size::Descriptor::AT_MOST));
 
             calc_width += child_size.width_ + child_style->margin_left_ + child_style->margin_right_;
             calc_height = child_size.height_;
@@ -194,15 +193,15 @@ namespace lynx {
             int recalc_width = residual_width * child_style->flex_/total_flex;
 
             int measure_width = recalc_width == 0 ?
-                               Size::Descriptor::Make(width, Size::Descriptor::AT_MOST)
+                               base::Size::Descriptor::Make(width, base::Size::Descriptor::AT_MOST)
                                                 :
-                               width_mode == Size::Descriptor::UNSPECIFIED ?
-                               Size::Descriptor::Make(recalc_width, Size::Descriptor::AT_MOST) :
-                               Size::Descriptor::Make(recalc_width, Size::Descriptor::EXACTLY);
+                               width_mode == base::Size::Descriptor::UNSPECIFIED ?
+                               base::Size::Descriptor::Make(recalc_width, base::Size::Descriptor::AT_MOST) :
+                               base::Size::Descriptor::Make(recalc_width, base::Size::Descriptor::EXACTLY);
 
             //测量子view的宽高/
-            Size child_size = child->Measure(measure_width,
-                                           Size::Descriptor::Make(height, Size::Descriptor::AT_MOST));
+            base::Size child_size = child->Measure(measure_width,
+                                           base::Size::Descriptor::Make(height, base::Size::Descriptor::AT_MOST));
 
 
             calc_width += child_size.width_;
@@ -218,7 +217,7 @@ namespace lynx {
         return measured_size;
     }
 
-    Size CSSStaticLayout::MeasureRowWrap(LayoutObject* renderer, int width, int width_mode,
+    base::Size CSSStaticLayout::MeasureRowWrap(LayoutObject* renderer, int width, int width_mode,
                                        int height, int height_mode) {
 
         int current_calc_width = 0;
@@ -226,7 +225,7 @@ namespace lynx {
         int calc_height = 0;
         int start = 0;
 
-        Size measured_size(renderer->GetStyle()->width_ ,renderer->GetStyle()->height_);
+        base::Size measured_size(renderer->GetStyle()->width_ ,renderer->GetStyle()->height_);
 
         for(int index = 0, child_view_count = renderer->GetChildCount(); index < child_view_count;) {
 
@@ -239,19 +238,19 @@ namespace lynx {
             }
 
             int measure_width = width - child_style->margin_left_ - child_style->margin_right_;
-            Size child_size(0, 0);
+            base::Size child_size(0, 0);
 
             if(child_style->flex_ == 0) {
 
-                child_size = child->Measure(Size::Descriptor::Make(measure_width, Size::Descriptor::AT_MOST),
-                                          Size::Descriptor::Make(height, Size::Descriptor::AT_MOST));
+                child_size = child->Measure(base::Size::Descriptor::Make(measure_width, base::Size::Descriptor::AT_MOST),
+                                          base::Size::Descriptor::Make(height, base::Size::Descriptor::AT_MOST));
             }
 
             current_calc_width = current_calc_width + child_size.width_ + child_style->margin_left_ + child_style->margin_right_;
             if(current_calc_width <= width) {
                 calc_width = current_calc_width;
                 if(index == child_view_count - 1) {
-                    Size row_size = MeasureRowOneLine(renderer, width, width_mode, height, height_mode, start, index);
+                    base::Size row_size = MeasureRowOneLine(renderer, width, width_mode, height, height_mode, start, index);
                     calc_width = row_size.width_ > calc_width ? row_size.width_ : calc_width;
                     calc_height += row_size.height_;
                 }
@@ -266,7 +265,7 @@ namespace lynx {
                     end -= 1;
                 }
 
-                Size row_size = MeasureRowOneLine(renderer, width, width_mode, height, height_mode, start, end);
+                base::Size row_size = MeasureRowOneLine(renderer, width, width_mode, height, height_mode, start, end);
 
                 calc_width = row_size.width_ > calc_width ? row_size.width_ : calc_width;
                 calc_height += row_size.height_;
@@ -282,7 +281,7 @@ namespace lynx {
         return measured_size;
     }
 
-    Size CSSStaticLayout::MeasureRow(LayoutObject* renderer, int width, int width_mode,
+    base::Size CSSStaticLayout::MeasureRow(LayoutObject* renderer, int width, int width_mode,
                                    int height, int height_mode) {
 
         CSSStyle* item_style = renderer->GetStyle();
@@ -294,9 +293,9 @@ namespace lynx {
         }
     }
 
-    Size CSSStaticLayout::MeasureColumnOneLine(LayoutObject* renderer, int width, int width_mode,
+    base::Size CSSStaticLayout::MeasureColumnOneLine(LayoutObject* renderer, int width, int width_mode,
                                              int height, int height_mode, int start, int end) {
-        Size measured_size(0 , 0);
+        base::Size measured_size(0 , 0);
         int calc_width = 0;
         int calc_height = 0;
 
@@ -323,15 +322,15 @@ namespace lynx {
             }
 
             if (!CSS_IS_UNDEFINED(child_style->height_)){
-                measure_height = Size::Descriptor::Make(child_style->ClampHeight(), Size::Descriptor::AT_MOST);
+                measure_height = base::Size::Descriptor::Make(child_style->ClampHeight(), base::Size::Descriptor::AT_MOST);
             } else {
-                measure_height = Size::Descriptor::Make(
+                measure_height = base::Size::Descriptor::Make(
                         residual_height - calc_height - child_style->margin_top_ - child_style->margin_bottom_,
-                        Size::Descriptor::UNSPECIFIED);
+                        base::Size::Descriptor::UNSPECIFIED);
             }
 
-            Size child_size = child->Measure(Size::Descriptor::Make(width - child_style->margin_right_ - child_style->margin_left_,
-                                                                    Size::Descriptor::AT_MOST),
+            base::Size child_size = child->Measure(base::Size::Descriptor::Make(width - child_style->margin_right_ - child_style->margin_left_,
+                                                                    base::Size::Descriptor::AT_MOST),
                                              measure_height);
 
             calc_width = child_size.width_;
@@ -381,13 +380,13 @@ namespace lynx {
 
             //测量子view的宽高/
             int measure_height = recalc_height == 0 ?
-                                Size::Descriptor::Make(height, Size::Descriptor::AT_MOST)
+                                base::Size::Descriptor::Make(height, base::Size::Descriptor::AT_MOST)
                                                   :
-                                height_mode == Size::Descriptor::UNSPECIFIED ?
-                                Size::Descriptor::Make(recalc_height, Size::Descriptor::AT_MOST) :
-                                Size::Descriptor::Make(recalc_height, Size::Descriptor::EXACTLY);
+                                height_mode == base::Size::Descriptor::UNSPECIFIED ?
+                                base::Size::Descriptor::Make(recalc_height, base::Size::Descriptor::AT_MOST) :
+                                base::Size::Descriptor::Make(recalc_height, base::Size::Descriptor::EXACTLY);
 
-            Size child_size = child->Measure(Size::Descriptor::Make(width, Size::Descriptor::AT_MOST),
+            base::Size child_size = child->Measure(base::Size::Descriptor::Make(width, base::Size::Descriptor::AT_MOST),
                                            measure_height);
 
 
@@ -404,7 +403,7 @@ namespace lynx {
         return measured_size;
     }
 
-    Size CSSStaticLayout::MeasureColumnWrap(LayoutObject* renderer, int width, int width_mode,
+    base::Size CSSStaticLayout::MeasureColumnWrap(LayoutObject* renderer, int width, int width_mode,
                                           int height, int height_mode) {
 
         int current_calc_height = 0;
@@ -412,7 +411,7 @@ namespace lynx {
         int calc_height = 0;
         int start = 0;
 
-        Size measured_size(renderer->GetStyle()->width_ ,renderer->GetStyle()->height_);
+        base::Size measured_size(renderer->GetStyle()->width_ ,renderer->GetStyle()->height_);
 
         for(int index = 0, child_view_count = renderer->GetChildCount(); index < child_view_count;) {
 
@@ -425,19 +424,19 @@ namespace lynx {
             }
 
             int measure_height = height - child_style->margin_top_ - child_style->margin_bottom_;
-            Size child_size(0, 0);
+            base::Size child_size(0, 0);
 
             if(child_style->flex_ == 0) {
 
-                child_size = child->Measure(Size::Descriptor::Make(width, Size::Descriptor::AT_MOST),
-                                          Size::Descriptor::Make(measure_height, Size::Descriptor::AT_MOST));
+                child_size = child->Measure(base::Size::Descriptor::Make(width, base::Size::Descriptor::AT_MOST),
+                                          base::Size::Descriptor::Make(measure_height, base::Size::Descriptor::AT_MOST));
             }
 
             current_calc_height = current_calc_height + child_size.height_ + child_style->margin_top_ + child_style->margin_bottom_;
             if(current_calc_height <= height) {
                 calc_height = current_calc_height;
                 if(index == child_view_count - 1) {
-                    Size column_size = MeasureColumnOneLine(renderer, width, width_mode, height, height_mode, start, index);
+                    base::Size column_size = MeasureColumnOneLine(renderer, width, width_mode, height, height_mode, start, index);
 
                     calc_width += column_size.width_;
                     calc_height = column_size.height_ > calc_height ? column_size.height_ : calc_height;
@@ -453,7 +452,7 @@ namespace lynx {
                     end -= 1;
                 }
 
-                Size column_size = MeasureColumnOneLine(renderer, width, width_mode,
+                base::Size column_size = MeasureColumnOneLine(renderer, width, width_mode,
                                                        height, height_mode, start, end);
 
                 calc_width += column_size.width_;
@@ -470,7 +469,7 @@ namespace lynx {
         return measured_size;
     }
 
-    Size CSSStaticLayout::MeasureColumn(LayoutObject* renderer, int width, int width_mode,
+    base::Size CSSStaticLayout::MeasureColumn(LayoutObject* renderer, int width, int width_mode,
                                       int height, int height_mode) {
 
         CSSStyle* item_style = renderer->GetStyle();
@@ -1081,13 +1080,13 @@ namespace lynx {
         w -= renderer->GetStyle()->margin_left_ + renderer->GetStyle()->margin_right_;
         h -= renderer->GetStyle()->margin_top_ + renderer->GetStyle()->margin_bottom_;
 
-        Size size = renderer->Measure(Size::Descriptor::Make(w, Size::Descriptor::AT_MOST),
-                                 Size::Descriptor::Make(h, Size::Descriptor::AT_MOST));
+        base::Size size = renderer->Measure(base::Size::Descriptor::Make(w, base::Size::Descriptor::AT_MOST),
+                                 base::Size::Descriptor::Make(h, base::Size::Descriptor::AT_MOST));
     }
 
     void CSSStaticLayout::MeasureFixed(LayoutObject* renderer) {
-        int width = static_cast<RenderObject*>(renderer)->render_tree_host()->view_port().width_;
-        int height = static_cast<RenderObject*>(renderer)->render_tree_host()->view_port().height_;
+        int width = static_cast<RenderObject *>(renderer)->render_tree_host()->viewport().GetWidth();
+        int height = static_cast<RenderObject *>(renderer)->render_tree_host()->viewport().GetHeight();
         CSSStyle* parent_style = static_cast<RenderObject*>(renderer)->render_tree_host()
                 ->render_root()->GetStyle();
 
@@ -1107,8 +1106,8 @@ namespace lynx {
     }
 
     void CSSStaticLayout::LayoutFixed(LayoutObject* parentNode, LayoutObject* renderer) {
-        int width = static_cast<RenderObject*>(renderer)->render_tree_host()->view_port().width_;
-        int height = static_cast<RenderObject*>(renderer)->render_tree_host()->view_port().height_;
+        int width = static_cast<RenderObject *>(renderer)->render_tree_host()->viewport().GetWidth();
+        int height = static_cast<RenderObject *>(renderer)->render_tree_host()->viewport().GetHeight();
         LayoutFixedOrAbsolute(parentNode, renderer, width, height);
     }
 

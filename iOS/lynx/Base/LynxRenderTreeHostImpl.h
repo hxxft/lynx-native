@@ -28,7 +28,7 @@ namespace lynx {
 
 - (void) prepareCommit;
 
-- (void) updateViewport:(CGSize)size;
+- (void) updateViewport:(CGRect)frame;
 
 - (void) collectAction:(LynxUIAction *)action;
 @end

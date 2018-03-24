@@ -134,14 +134,14 @@ jboolean CheckMemoryEnabled(JNIEnv* env, jclass jcaller) {
 }
 
 void InitGlobalConfig(JNIEnv* env, jclass jcaller,
-                      jint screenWidth,
-                      jint screenHeight,
+                      jint screenWidthPx,
+                      jint screenHeightPx,
                       jdouble density,
-                      jint zoomReference,
+                      jint zoomRatioPx,
                       jstring deviceInfo) {
     std::string device_info = base::android::JNIHelper::ConvertToString(env, deviceInfo);
     config::GlobalConfigData::GetInstance()->SetScreenConfig(
-            screenWidth, screenHeight, density, zoomReference, device_info);
+            screenWidthPx, screenHeightPx, density, zoomRatioPx, device_info);
 }
 
 void SetExceptionListner(JNIEnv* env, jobject jcaller,

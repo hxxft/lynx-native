@@ -89,10 +89,7 @@ CSSStyle::CSSStyle() {
   config_ = config::GlobalConfigData::GetInstance()->style_config();
   density_ = config::GlobalConfigData::GetInstance()->screen_density();
   screen_width_ = config::GlobalConfigData::GetInstance()->screen_width();
-  zoom_reference_ = config::GlobalConfigData::GetInstance()->zoom_reference();
-  if (zoom_reference_ <= 0) {
-    zoom_reference_ = 750;
-  }
+  zoom_ratio_ = config::GlobalConfigData::GetInstance()->zoom_ratio();
 
   Reset();
 }
@@ -178,7 +175,7 @@ bool CSSStyle::ToPx(const std::string& value, double& px) {
   if (is_px) {
     px = round(d * density_);
   } else {
-    px = round(d * density_ * screen_width_ / zoom_reference_);
+    px = round(d * density_ * screen_width_ / zoom_ratio_);
   }
   return true;
 }

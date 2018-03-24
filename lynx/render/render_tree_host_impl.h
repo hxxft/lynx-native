@@ -4,7 +4,7 @@
 #define LYNX_RENDER_RENDER_TREE_HOST_IMPL_H_
 
 #include "base/ref_counted_ptr.h"
-#include "base/size.h"
+#include "base/position.h"
 #include "render/render_tree_host_client.h"
 #include "runtime/thread_manager.h"
 
@@ -35,7 +35,7 @@ class RenderTreeHostImpl : public RenderTreeHostClient,
     virtual ~RenderTreeHostImpl();
 
     void DoRenderAction();
-    void UpdateViewport(int width, int height);
+    void UpdateViewport(int left, int top, int width, int height);
 
     virtual void BeginFrame();
     virtual void Commit();
@@ -60,7 +60,7 @@ class RenderTreeHostImpl : public RenderTreeHostClient,
     jscore::ThreadManager* thread_manager_;
     RenderTreeHost* render_tree_host_;
     base::ScopedRefPtr<RenderObjectImpl> render_root_;
-    base::Size viewport_;
+    base::Position viewport_;
 
     bool is_parse_finished_;
     bool is_first_layouted_;

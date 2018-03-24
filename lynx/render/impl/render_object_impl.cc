@@ -2,7 +2,7 @@
 
 #include "render/impl/render_object_impl.h"
 
-#if IOS
+#if OS_IOS
 #include "render/ios/render_object_impl_ios.h"
 #else
 #include "render/android/render_object_impl_android.h"
@@ -24,7 +24,7 @@ RenderObjectImpl::~RenderObjectImpl() {
 
 RenderObjectImpl* RenderObjectImpl::Create(jscore::ThreadManager *proxy,
         RenderObjectType type) {
-#if IOS
+#if OS_IOS
     return lynx_new RenderObjectImplIOS(proxy, type);
 #else
     return lynx_new RenderObjectImplAndroid(proxy, type);

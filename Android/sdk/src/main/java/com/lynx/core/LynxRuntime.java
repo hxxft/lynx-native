@@ -18,10 +18,10 @@ public class LynxRuntime {
 
     private static native void nativeCheckMemoryLeak();
 
-    private static native void nativeInitGlobalConfig(int screenWidth,
-                                                      int screenHeight,
+    private static native void nativeInitGlobalConfig(int screenWidthPx,
+                                                      int screenHeightPx,
                                                       double density,
-                                                      int zoomReference,
+                                                      int zoomRatioPx,
                                                       String deviceInfo);
 
     private native int nativeCreateNativeJSRuntime();
@@ -61,12 +61,12 @@ public class LynxRuntime {
         mNativeRuntime = nativeCreateNativeJSRuntime();
     }
 
-    public static void prepare(int zoomReferencePx) {
+    public static void prepare(int zoomRatioPx) {
         checkMemoryEnabled();
         nativeInitGlobalConfig(ScreenUtil.getScreenWidth(),
                 ScreenUtil.getScreenHeight(),
                 ScreenUtil.getScreenDensity(),
-                zoomReferencePx,
+                zoomRatioPx,
                 DeviceInfoUtil.getInfo());
     }
 

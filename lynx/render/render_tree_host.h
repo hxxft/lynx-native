@@ -15,7 +15,7 @@ class RenderObject;
 class RenderTreeHost : public base::RefCountPtr<RenderTreeHost> {
  public:
     struct BeginFrameData {
-        base::Size viewport_;
+        base::Position viewport_;
         RenderTreeHostClient* client_;
     };
 /*
@@ -55,8 +55,8 @@ class RenderTreeHost : public base::RefCountPtr<RenderTreeHost> {
 
     jscore::ThreadManager* thread_manager() { return thread_manager_; }
 
-    const base::Size& view_port() {
-        return view_port_;
+    const base::Position& viewport() {
+        return viewport_;
     }
 
     jscore::JSContext* context() {
@@ -80,7 +80,7 @@ class RenderTreeHost : public base::RefCountPtr<RenderTreeHost> {
     jscore::ThreadManager* thread_manager_;
     RenderObject *render_root_;
     base::ScopedRefPtr<RenderTreeHostImpl> render_tree_host_impl_;
-    base::Size view_port_;
+    base::Position viewport_;
     bool did_first_layout_;
     std::map<std::string, RenderObject*> renderer_id_map_;
     std::string page_location_;

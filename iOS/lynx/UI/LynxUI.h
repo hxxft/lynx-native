@@ -13,10 +13,10 @@
 @class LynxRenderObjectImpl;
 @class LynxUIBody;
 
-@interface LynxUI : NSObject<LYXCrdSponsor, LYXCrdResponder>
+@interface LynxUI<__covariant V : UIView*> : NSObject<LYXCrdSponsor, LYXCrdResponder>
 
 @property(nonatomic, readwrite) LynxRenderObjectImpl *renderObjectImpl;
-@property(nonatomic, readwrite) UIView *view;
+@property(nonatomic, readwrite) V view;
 
 @property(nonatomic, readwrite) CGFloat offsetTop;
 @property(nonatomic, readwrite) CGFloat offsetLeft;
@@ -27,11 +27,11 @@
 
 - (BOOL) isEmpty;
 
-- (UIView *) getView;
+- (V) getView;
 
 - (LynxUIBody *) getRootUI;
 
-- (UIView *) createView:(LynxRenderObjectImpl *) impl;
+- (V) createView:(LynxRenderObjectImpl *) impl;
 
 - (void) updateStyle:(const lynx::CSSStyle&) style;
 

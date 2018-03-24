@@ -48,7 +48,8 @@ void RenderTreeHostImpl::DoRenderAction() {
 
 bool RenderTreeHostImpl::FirstLayout() {
   if (is_parse_finished_ && !is_first_layouted_) {
-    render_tree_host_->ForceLayout(0, 0, viewport_.width_, viewport_.height_);
+    render_tree_host_->ForceLayout(viewport_.left_, viewport_.top_,
+                                   viewport_.right_, viewport_.bottom_);
     render_tree_host_->ForceFlushCommands();
     base::ScopedRefPtr<RenderTreeHost> ref(render_tree_host_);
     //thread_manager_->RunOnJSThread(base::Bind(&RenderTreeHost::TreeSync, ref));
@@ -57,9 +58,8 @@ bool RenderTreeHostImpl::FirstLayout() {
   return is_first_layouted_;
 }
 
-void RenderTreeHostImpl::UpdateViewport(int width, int height) {
-  viewport_.width_ = width;
-  viewport_.height_ = height;
+void RenderTreeHostImpl::UpdateViewport(int left, int top, int right, int bottom) {
+  viewport_.Reset(left, top, right, bottom);
 
   BeginFrame();
 }

@@ -33,8 +33,12 @@
     }
 }
 
-- (void) updateViewport:(CGSize)size {
-    render_tree_host_impl_->UpdateViewport(size.width, size.height);
+- (void) updateViewport:(CGRect) frame {
+    int left = frame.origin.x;
+    int top = frame.origin.y;
+    int right = left + frame.size.width;
+    int bottom = top + frame.size.height;
+    render_tree_host_impl_->UpdateViewport(left, top, right, bottom);
 }
 
 - (void) collectAction:(LynxUIAction *)action {

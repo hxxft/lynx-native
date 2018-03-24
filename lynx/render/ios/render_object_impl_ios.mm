@@ -72,6 +72,15 @@ namespace lynx {
         [ios_ setData:data withKey:key];
     }
     
+    void RenderObjectImplIOS::Animate(base::ScopedPtr<jscore::LynxArray> &keyframes,
+                                      base::ScopedPtr<jscore::LynxObject> &options) {
+        
+    }
+    
+    void RenderObjectImplIOS::CancelAnimation(const std::string &id) {
+        
+    }
+    
     void RenderObjectImplIOS::DispatchEvent(const std::string& event, NSArray *array) {
         if (!array) {
             @throw [[NSException alloc]
@@ -100,4 +109,7 @@ namespace lynx {
         }
     }
     
+    base::ScopedPtr<jscore::LynxObject> RenderObjectImplIOS::GetImagePixel(int x, int y, int w,int h) {
+        return base::ScopedPtr<jscore::LynxObject>();
+    }
 }

@@ -32,7 +32,11 @@ class Thread {
     MessageLoop* Looper() { return &message_loop_; }
 
     static long int CurrentId() {
+#if OS_IOS
+        return pthread_mach_thread_np(pthread_self());
+#elif OS_ANDROID
         return pthread_self();
+#endif
     }
 
  private:

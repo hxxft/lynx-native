@@ -40,7 +40,9 @@ namespace base {
         size_t CaptureBacktrace(void** buffer, size_t max)
         {
             BacktraceState state = {buffer, buffer + max};
+#if OS_ANDROID
             _Unwind_Backtrace(unwindCallback, &state);
+#endif
 
             return state.current - buffer;
         }
