@@ -39,6 +39,7 @@ namespace lynx {
                                                             false);
             }
         }
+        return base::ScopedPtr<jscore::LynxValue>();
     }
     
     base::ScopedPtr<jscore::LynxValue>
@@ -55,12 +56,14 @@ namespace lynx {
                                                                array->Get(1)->data_.lynx_function);
             }
         }
+        return base::ScopedPtr<jscore::LynxValue>();
     }
 
     base::ScopedPtr<jscore::LynxValue>
     Animation::Finish(jscore::LynxObjectTemplate *object,
                            base::ScopedPtr<jscore::LynxArray>& array) {
 
+        return base::ScopedPtr<jscore::LynxValue>();
     }
 
     base::ScopedPtr<jscore::LynxValue>
@@ -71,17 +74,18 @@ namespace lynx {
             animation->render_object_->CancelAnimation(animation->id_);
         }
         animation->RemoveAllEventListener();
+        return base::ScopedPtr<jscore::LynxValue>();
     }
 
     base::ScopedPtr<jscore::LynxValue>
     Animation::Pause(jscore::LynxObjectTemplate *object,
                           base::ScopedPtr<jscore::LynxArray>& array) {
-
+        return base::ScopedPtr<jscore::LynxValue>();
     }
 
     base::ScopedPtr<jscore::LynxValue> Animation::Play(jscore::LynxObjectTemplate *object,
                          base::ScopedPtr<jscore::LynxArray>& array) {
-
+        return base::ScopedPtr<jscore::LynxValue>();
     }
 
     void Animation::RemoveAllEventListener() {

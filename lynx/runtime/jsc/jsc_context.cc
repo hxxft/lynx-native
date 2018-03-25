@@ -5,6 +5,7 @@
 #include "runtime/jsc/objects/window_object.h"
 #include "runtime/jsc/jsc_class_wrap_storage.h"
 
+#include "runtime/runtime.h"
 #include "runtime/history.h"
 #include "runtime/location.h"
 #include "runtime/navigator.h"

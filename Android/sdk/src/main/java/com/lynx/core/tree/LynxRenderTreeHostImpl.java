@@ -3,13 +3,14 @@ package com.lynx.core.tree;
 
 import com.lynx.base.CalledByNative;
 import com.lynx.base.FrameRateController;
+import com.lynx.base.Position;
 import com.lynx.base.SupposeUIThread;
 import com.lynx.core.impl.RenderObjectImpl;
 import com.lynx.ui.LynxUI;
 
 public class LynxRenderTreeHostImpl implements FrameRateController.VSyncListener {
 
-    private native void nativeUpdateViewport(long hostImpl, int width, int height);
+    private native void nativeUpdateViewport(long hostImpl, int left, int top, int right, int bottom);
     private native void nativeOnVSync(long hostImpl);
     private long mHostImpl;
 
@@ -54,8 +55,9 @@ public class LynxRenderTreeHostImpl implements FrameRateController.VSyncListener
         mRootRender.setUI(root);
     }
 
-    public void updateViewport(int width, int height) {
-        nativeUpdateViewport(mHostImpl, width, height);
+    public void updateViewport(Position viewport) {
+        nativeUpdateViewport(mHostImpl, viewport.mLeft, viewport.mTop,
+                viewport.mRight, viewport.mBottom);
     }
 
     // Should be called on UI thread

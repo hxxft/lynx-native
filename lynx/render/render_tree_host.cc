@@ -66,9 +66,9 @@ void RenderTreeHost::ForceLayout(int left, int top, int right, int bottom) {
 }
 
 void RenderTreeHost::DoBeginFrame(const BeginFrameData& data) {
-    view_port_ = data.viewport_;
+    viewport_ = data.viewport_;
     PrepareCommit(data);
-    render_root_->Layout(0, 0, data.viewport_.width_, data.viewport_.height_);
+    render_root_->Layout(viewport_.left_, viewport_.top_, viewport_.right_, viewport_.bottom_);
     render_tree_host_impl_->NotifyBeginFrameComplete();
 }
 

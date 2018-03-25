@@ -5,15 +5,15 @@
 
 @implementation LYXPixelUtil
 
-const static int kLynxDefaultReferScreenWidth = 750;
+const static int kLynxDefaultZoomRatioDp = 750;
 
 + (CGFloat) pxToLynxNumber:(CGFloat) px {
-    // Origin: px / density * (LYNX_DEFAULT_REFER_SCREEN_WIDTH / (screenWidth / density))
-    return px * kLynxDefaultReferScreenWidth / [[LYXScreenUtil shareInstance] getScreenWidth];
+    // Origin: px / density * (zoomRatio / (screenWidth / density))
+    return px * kLynxDefaultZoomRatioDp / [[LYXScreenUtil shareInstance] getScreenWidth];
 }
 
 + (CGFloat) lynxNumberToPx:(CGFloat) number {
-    return number * [[LYXScreenUtil shareInstance] getScreenWidth] / kLynxDefaultReferScreenWidth;
+    return number * [[LYXScreenUtil shareInstance] getScreenWidth] / kLynxDefaultZoomRatioDp;
 }
 
 @end

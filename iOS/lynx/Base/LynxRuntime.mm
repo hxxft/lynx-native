@@ -2,27 +2,48 @@
 
 #import "LynxRuntime.h"
 #import "LYXModuleRegister.h"
+#import "LYXDeviceInfoUtil.h"
+#import "LYXScreenUtil.h"
 
 #include "config/global_config_data.h"
 #include "parser/render_parser.h"
 #include "render/render_tree_host.h"
 #include "render/ios/render_tree_host_impl_ios.h"
 #include "runtime/base/lynx_function_object_ios.h"
+#include "runtime/jsc/jsc_context.h"
 
 @implementation LynxRuntime
+
+static CGFloat kDefaultZoomRatio = -1;
+
++ (CGFloat) defaultZoomRatio {
+    return kDefaultZoomRatio;
+}
 
 - (id) init {
     self = [super init];
     if (self) {
-        runtime_ = new jscore::JSCRuntime();
+        runtime_ = new jscore::Runtime(new jscore::JSCContext());
         // Default
         runtime_->InitRuntime("");
     }
     return self;
 }
 
-- (LynxRenderTreeHostImpl *) activeWithSize:(CGSize)size andDensity:(CGFloat)density {
-    config::GlobalConfigData::GetInstance()->SetScreenConfig(size.width, size.height, density);
+- (void) prepare {
+    [self prepareWithZoomRatio: -1];
+}
+
+- (void) prepareWithZoomRatio:(CGFloat) zoomRatio {
+    std::string deviceInfo = [[LYXDeviceInfoUtil deviceInfo] UTF8String];
+    config::GlobalConfigData::GetInstance()->SetScreenConfig([[LYXScreenUtil shareInstance] getScreenWidth],
+                                                             [[LYXScreenUtil shareInstance] getScreenHeight],
+                                                             [[LYXScreenUtil shareInstance] getScreenDensity],
+                                                             zoomRatio,
+                                                             deviceInfo);
+}
+
+- (LynxRenderTreeHostImpl *) active {
     // Create RenderTreeHost
     lynx::RenderTreeHost* render_tree_host = runtime_->SetupRenderHost();
     LYXModuleRegister *moduleRegister = [[LYXModuleRegister alloc] initWithRuntime:self];

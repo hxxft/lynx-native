@@ -34,10 +34,12 @@ class WeakReference {
 
   WeakReference& operator=(const WeakReference& ref) {
     invalidate_flag_ = ref.invalidate_flag_;
+    return *this;
   }
 
   WeakReference& operator=(WeakReference&& ref) {
     invalidate_flag_ = ref.invalidate_flag_;
+    return *this;
   }
 
  private:

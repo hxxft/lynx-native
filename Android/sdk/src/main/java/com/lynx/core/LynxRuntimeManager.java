@@ -26,14 +26,14 @@ public class LynxRuntimeManager {
         ModuleManager.createUIComponent();
     }
 
-    public static void prepare(Context context, int zoomReferencePx) {
+    public static void prepare(Context context, int zoomRatioPx) {
         ScreenUtil.init(context);
-        PixelUtil.init(zoomReferencePx);
+        PixelUtil.init(zoomRatioPx);
         Style.init(ScreenUtil.getScreenDensity());
         NetRequestManager.init(context);
         LynxCookieStore.initInstance(context);
         ResourceManager.init(context);
-        LynxRuntime.prepare(zoomReferencePx);
+        LynxRuntime.prepare(zoomRatioPx);
         initialize();
     }
 

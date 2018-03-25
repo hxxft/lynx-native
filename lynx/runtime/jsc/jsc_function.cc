@@ -7,6 +7,7 @@
 #include "runtime/jsc/jsc_helper.h"
 #include <sstream>
 #include "runtime/jsc/Performance.h"
+#include "base/print.h"
 
 namespace jscore {
     JSCFunction::JSCFunction(JSCContext* context, JSObjectRef function) : LynxFunction(context) {
