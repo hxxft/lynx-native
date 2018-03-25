@@ -1,4 +1,4 @@
-## Lynx##
+## Lynx
 
 Lynx 是一个使用Javascript来构建Android和iOS本地应用的框架。Lynx直接使用平台UI来进行渲染，同时可以使用CSS进行排版。
 
