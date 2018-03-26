@@ -16,16 +16,16 @@ jdoubleArray GenerateAction(JNIEnv *env, lynx::CoordinatorAction action) {
     temp[3] = action.scale_y_;
     temp[4] = action.rotate_x_;
     temp[5] = action.rotate_y_;
-    temp[6] = action.pivot_x_;
-    temp[7] = action.pivot_y_;
-    temp[8] = action.alpha_;
-    temp[9] = action.offset_top_;
-    temp[10] = action.offset_left_;
-    temp[11] = action.offset_bottom_;
-    temp[12] = action.offset_right_;
+    temp[6] = action.origin_x_;
+    temp[7] = action.origin_y_;
+    temp[8] = action.opacity_;
+    temp[9] = action.top_offset_;
+    temp[10] = action.left_offset_;
+    temp[11] = action.bottom_offset_;
+    temp[12] = action.right_offset_;
     temp[13] = action.consumed_;
     temp[14] = action.duration_;
-    temp[15] = action.interpolator_type_;
+    temp[15] = action.timing_function_;
     env->SetDoubleArrayRegion(result, 0, length, temp);
     return result;
 }

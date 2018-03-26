@@ -9,7 +9,7 @@ import com.lynx.modules.ext.JSComponent;
 import com.lynx.ui.LynxUI;
 import com.lynx.ui.coordinator.TransferStation;
 
-@JSObject(name = "LynxCoordinatorRegister")
+@JSObject
 public class CoordinatorRegister extends JSComponent {
     private LynxRuntime mRuntime;
 

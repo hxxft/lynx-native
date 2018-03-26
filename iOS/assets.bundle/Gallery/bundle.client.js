@@ -80,6 +80,16 @@ if (typeof __g == 'number') __g = global; // eslint-disable-line no-undef
 
 /***/ }),
 /* 1 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// Thank's IE8 for his funny defineProperty
+module.exports = !__webpack_require__(9)(function () {
+  return Object.defineProperty({}, 'a', { get: function () { return 7; } }).a != 7;
+});
+
+
+/***/ }),
+/* 2 */
 /***/ (function(module, exports) {
 
 var hasOwnProperty = {}.hasOwnProperty;
@@ -89,39 +99,15 @@ module.exports = function (it, key) {
 
 
 /***/ }),
-/* 2 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// Thank's IE8 for his funny defineProperty
-module.exports = !__webpack_require__(8)(function () {
-  return Object.defineProperty({}, 'a', { get: function () { return 7; } }).a != 7;
-});
-
-
-/***/ }),
 /* 3 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var dP = __webpack_require__(4);
-var createDesc = __webpack_require__(10);
-module.exports = __webpack_require__(2) ? function (object, key, value) {
-  return dP.f(object, key, createDesc(1, value));
-} : function (object, key, value) {
-  object[key] = value;
-  return object;
-};
-
-
-/***/ }),
-/* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var anObject = __webpack_require__(7);
 var IE8_DOM_DEFINE = __webpack_require__(29);
-var toPrimitive = __webpack_require__(23);
+var toPrimitive = __webpack_require__(24);
 var dP = Object.defineProperty;
 
-exports.f = __webpack_require__(2) ? Object.defineProperty : function defineProperty(O, P, Attributes) {
+exports.f = __webpack_require__(1) ? Object.defineProperty : function defineProperty(O, P, Attributes) {
   anObject(O);
   P = toPrimitive(P, true);
   anObject(Attributes);
@@ -135,11 +121,25 @@ exports.f = __webpack_require__(2) ? Object.defineProperty : function defineProp
 
 
 /***/ }),
+/* 4 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var dP = __webpack_require__(3);
+var createDesc = __webpack_require__(11);
+module.exports = __webpack_require__(1) ? function (object, key, value) {
+  return dP.f(object, key, createDesc(1, value));
+} : function (object, key, value) {
+  object[key] = value;
+  return object;
+};
+
+
+/***/ }),
 /* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // to indexed object, toObject with fallback for non-array-like ES3 strings
-var IObject = __webpack_require__(52);
+var IObject = __webpack_require__(55);
 var defined = __webpack_require__(13);
 module.exports = function (it) {
   return IObject(defined(it));
@@ -150,8 +150,8 @@ module.exports = function (it) {
 /* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var store = __webpack_require__(21)('wks');
-var uid = __webpack_require__(11);
+var store = __webpack_require__(22)('wks');
+var uid = __webpack_require__(12);
 var Symbol = __webpack_require__(0).Symbol;
 var USE_SYMBOL = typeof Symbol == 'function';
 
@@ -167,7 +167,7 @@ $exports.store = store;
 /* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var isObject = __webpack_require__(9);
+var isObject = __webpack_require__(10);
 module.exports = function (it) {
   if (!isObject(it)) throw TypeError(it + ' is not an object!');
   return it;
@@ -176,6 +176,14 @@ module.exports = function (it) {
 
 /***/ }),
 /* 8 */
+/***/ (function(module, exports) {
+
+var core = module.exports = { version: '2.5.1' };
+if (typeof __e == 'number') __e = core; // eslint-disable-line no-undef
+
+
+/***/ }),
+/* 9 */
 /***/ (function(module, exports) {
 
 module.exports = function (exec) {
@@ -188,7 +196,7 @@ module.exports = function (exec) {
 
 
 /***/ }),
-/* 9 */
+/* 10 */
 /***/ (function(module, exports) {
 
 module.exports = function (it) {
@@ -197,7 +205,7 @@ module.exports = function (it) {
 
 
 /***/ }),
-/* 10 */
+/* 11 */
 /***/ (function(module, exports) {
 
 module.exports = function (bitmap, value) {
@@ -211,7 +219,7 @@ module.exports = function (bitmap, value) {
 
 
 /***/ }),
-/* 11 */
+/* 12 */
 /***/ (function(module, exports) {
 
 var id = 0;
@@ -219,14 +227,6 @@ var px = Math.random();
 module.exports = function (key) {
   return 'Symbol('.concat(key === undefined ? '' : key, ')_', (++id + px).toString(36));
 };
-
-
-/***/ }),
-/* 12 */
-/***/ (function(module, exports) {
-
-var core = module.exports = { version: '2.5.1' };
-if (typeof __e == 'number') __e = core; // eslint-disable-line no-undef
 
 
 /***/ }),
@@ -252,158 +252,12 @@ module.exports = (
 
 /***/ }),
 /* 15 */
-/***/ (function(module, exports) {
-
-module.exports = {};
-
-
-/***/ }),
-/* 16 */
-/***/ (function(module, exports) {
-
-module.exports = true;
-
-
-/***/ }),
-/* 17 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// 19.1.2.14 / 15.2.3.14 Object.keys(O)
-var $keys = __webpack_require__(34);
-var enumBugKeys = __webpack_require__(14);
-
-module.exports = Object.keys || function keys(O) {
-  return $keys(O, enumBugKeys);
-};
-
-
-/***/ }),
-/* 18 */
-/***/ (function(module, exports) {
-
-exports.f = {}.propertyIsEnumerable;
-
-
-/***/ }),
-/* 19 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var def = __webpack_require__(4).f;
-var has = __webpack_require__(1);
-var TAG = __webpack_require__(6)('toStringTag');
-
-module.exports = function (it, tag, stat) {
-  if (it && !has(it = stat ? it : it.prototype, TAG)) def(it, TAG, { configurable: true, value: tag });
-};
-
-
-/***/ }),
-/* 20 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var shared = __webpack_require__(21)('keys');
-var uid = __webpack_require__(11);
-module.exports = function (key) {
-  return shared[key] || (shared[key] = uid(key));
-};
-
-
-/***/ }),
-/* 21 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var global = __webpack_require__(0);
-var SHARED = '__core-js_shared__';
-var store = global[SHARED] || (global[SHARED] = {});
-module.exports = function (key) {
-  return store[key] || (store[key] = {});
-};
-
-
-/***/ }),
-/* 22 */
-/***/ (function(module, exports) {
-
-// 7.1.4 ToInteger
-var ceil = Math.ceil;
-var floor = Math.floor;
-module.exports = function (it) {
-  return isNaN(it = +it) ? 0 : (it > 0 ? floor : ceil)(it);
-};
-
-
-/***/ }),
-/* 23 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// 7.1.1 ToPrimitive(input [, PreferredType])
-var isObject = __webpack_require__(9);
-// instead of the ES6 spec version, we didn't implement @@toPrimitive case
-// and the second argument - flag - preferred type is a string
-module.exports = function (it, S) {
-  if (!isObject(it)) return it;
-  var fn, val;
-  if (S && typeof (fn = it.toString) == 'function' && !isObject(val = fn.call(it))) return val;
-  if (typeof (fn = it.valueOf) == 'function' && !isObject(val = fn.call(it))) return val;
-  if (!S && typeof (fn = it.toString) == 'function' && !isObject(val = fn.call(it))) return val;
-  throw TypeError("Can't convert object to primitive value");
-};
-
-
-/***/ }),
-/* 24 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var global = __webpack_require__(0);
-var core = __webpack_require__(12);
-var LIBRARY = __webpack_require__(16);
-var wksExt = __webpack_require__(25);
-var defineProperty = __webpack_require__(4).f;
-module.exports = function (name) {
-  var $Symbol = core.Symbol || (core.Symbol = LIBRARY ? {} : global.Symbol || {});
-  if (name.charAt(0) != '_' && !(name in $Symbol)) defineProperty($Symbol, name, { value: wksExt.f(name) });
-};
-
-
-/***/ }),
-/* 25 */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports.f = __webpack_require__(6);
-
-
-/***/ }),
-/* 26 */
-/***/ (function(module, exports) {
-
-var toString = {}.toString;
-
-module.exports = function (it) {
-  return toString.call(it).slice(8, -1);
-};
-
-
-/***/ }),
-/* 27 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var isObject = __webpack_require__(9);
-var document = __webpack_require__(0).document;
-// typeof document.createElement is 'object' in old IE
-var is = isObject(document) && isObject(document.createElement);
-module.exports = function (it) {
-  return is ? document.createElement(it) : {};
-};
-
-
-/***/ }),
-/* 28 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var global = __webpack_require__(0);
-var core = __webpack_require__(12);
-var ctx = __webpack_require__(49);
-var hide = __webpack_require__(3);
+var core = __webpack_require__(8);
+var ctx = __webpack_require__(52);
+var hide = __webpack_require__(4);
 var PROTOTYPE = 'prototype';
 
 var $export = function (type, name, source) {
@@ -464,11 +318,157 @@ module.exports = $export;
 
 
 /***/ }),
+/* 16 */
+/***/ (function(module, exports) {
+
+module.exports = {};
+
+
+/***/ }),
+/* 17 */
+/***/ (function(module, exports) {
+
+module.exports = true;
+
+
+/***/ }),
+/* 18 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// 19.1.2.14 / 15.2.3.14 Object.keys(O)
+var $keys = __webpack_require__(34);
+var enumBugKeys = __webpack_require__(14);
+
+module.exports = Object.keys || function keys(O) {
+  return $keys(O, enumBugKeys);
+};
+
+
+/***/ }),
+/* 19 */
+/***/ (function(module, exports) {
+
+exports.f = {}.propertyIsEnumerable;
+
+
+/***/ }),
+/* 20 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var def = __webpack_require__(3).f;
+var has = __webpack_require__(2);
+var TAG = __webpack_require__(6)('toStringTag');
+
+module.exports = function (it, tag, stat) {
+  if (it && !has(it = stat ? it : it.prototype, TAG)) def(it, TAG, { configurable: true, value: tag });
+};
+
+
+/***/ }),
+/* 21 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var shared = __webpack_require__(22)('keys');
+var uid = __webpack_require__(12);
+module.exports = function (key) {
+  return shared[key] || (shared[key] = uid(key));
+};
+
+
+/***/ }),
+/* 22 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var global = __webpack_require__(0);
+var SHARED = '__core-js_shared__';
+var store = global[SHARED] || (global[SHARED] = {});
+module.exports = function (key) {
+  return store[key] || (store[key] = {});
+};
+
+
+/***/ }),
+/* 23 */
+/***/ (function(module, exports) {
+
+// 7.1.4 ToInteger
+var ceil = Math.ceil;
+var floor = Math.floor;
+module.exports = function (it) {
+  return isNaN(it = +it) ? 0 : (it > 0 ? floor : ceil)(it);
+};
+
+
+/***/ }),
+/* 24 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// 7.1.1 ToPrimitive(input [, PreferredType])
+var isObject = __webpack_require__(10);
+// instead of the ES6 spec version, we didn't implement @@toPrimitive case
+// and the second argument - flag - preferred type is a string
+module.exports = function (it, S) {
+  if (!isObject(it)) return it;
+  var fn, val;
+  if (S && typeof (fn = it.toString) == 'function' && !isObject(val = fn.call(it))) return val;
+  if (typeof (fn = it.valueOf) == 'function' && !isObject(val = fn.call(it))) return val;
+  if (!S && typeof (fn = it.toString) == 'function' && !isObject(val = fn.call(it))) return val;
+  throw TypeError("Can't convert object to primitive value");
+};
+
+
+/***/ }),
+/* 25 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var global = __webpack_require__(0);
+var core = __webpack_require__(8);
+var LIBRARY = __webpack_require__(17);
+var wksExt = __webpack_require__(26);
+var defineProperty = __webpack_require__(3).f;
+module.exports = function (name) {
+  var $Symbol = core.Symbol || (core.Symbol = LIBRARY ? {} : global.Symbol || {});
+  if (name.charAt(0) != '_' && !(name in $Symbol)) defineProperty($Symbol, name, { value: wksExt.f(name) });
+};
+
+
+/***/ }),
+/* 26 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports.f = __webpack_require__(6);
+
+
+/***/ }),
+/* 27 */
+/***/ (function(module, exports) {
+
+var toString = {}.toString;
+
+module.exports = function (it) {
+  return toString.call(it).slice(8, -1);
+};
+
+
+/***/ }),
+/* 28 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var isObject = __webpack_require__(10);
+var document = __webpack_require__(0).document;
+// typeof document.createElement is 'object' in old IE
+var is = isObject(document) && isObject(document.createElement);
+module.exports = function (it) {
+  return is ? document.createElement(it) : {};
+};
+
+
+/***/ }),
 /* 29 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = !__webpack_require__(2) && !__webpack_require__(8)(function () {
-  return Object.defineProperty(__webpack_require__(27)('div'), 'a', { get: function () { return 7; } }).a != 7;
+module.exports = !__webpack_require__(1) && !__webpack_require__(9)(function () {
+  return Object.defineProperty(__webpack_require__(28)('div'), 'a', { get: function () { return 7; } }).a != 7;
 });
 
 
@@ -478,15 +478,15 @@ module.exports = !__webpack_require__(2) && !__webpack_require__(8)(function () 
 
 "use strict";
 
-var LIBRARY = __webpack_require__(16);
-var $export = __webpack_require__(28);
+var LIBRARY = __webpack_require__(17);
+var $export = __webpack_require__(15);
 var redefine = __webpack_require__(35);
-var hide = __webpack_require__(3);
-var has = __webpack_require__(1);
-var Iterators = __webpack_require__(15);
-var $iterCreate = __webpack_require__(54);
-var setToStringTag = __webpack_require__(19);
-var getPrototypeOf = __webpack_require__(60);
+var hide = __webpack_require__(4);
+var has = __webpack_require__(2);
+var Iterators = __webpack_require__(16);
+var $iterCreate = __webpack_require__(57);
+var setToStringTag = __webpack_require__(20);
+var getPrototypeOf = __webpack_require__(63);
 var ITERATOR = __webpack_require__(6)('iterator');
 var BUGGY = !([].keys && 'next' in [].keys()); // Safari has buggy iterators w/o `next`
 var FF_ITERATOR = '@@iterator';
@@ -555,22 +555,22 @@ module.exports = function (Base, NAME, Constructor, next, DEFAULT, IS_SET, FORCE
 
 // 19.1.2.2 / 15.2.3.5 Object.create(O [, Properties])
 var anObject = __webpack_require__(7);
-var dPs = __webpack_require__(57);
+var dPs = __webpack_require__(60);
 var enumBugKeys = __webpack_require__(14);
-var IE_PROTO = __webpack_require__(20)('IE_PROTO');
+var IE_PROTO = __webpack_require__(21)('IE_PROTO');
 var Empty = function () { /* empty */ };
 var PROTOTYPE = 'prototype';
 
 // Create object with fake `null` prototype: use iframe Object with cleared prototype
 var createDict = function () {
   // Thrash, waste and sodomy: IE GC bug
-  var iframe = __webpack_require__(27)('iframe');
+  var iframe = __webpack_require__(28)('iframe');
   var i = enumBugKeys.length;
   var lt = '<';
   var gt = '>';
   var iframeDocument;
   iframe.style.display = 'none';
-  __webpack_require__(51).appendChild(iframe);
+  __webpack_require__(54).appendChild(iframe);
   iframe.src = 'javascript:'; // eslint-disable-line no-script-url
   // createDict = iframe.contentWindow.Object;
   // html.removeChild(iframe);
@@ -620,10 +620,10 @@ exports.f = Object.getOwnPropertySymbols;
 /* 34 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var has = __webpack_require__(1);
+var has = __webpack_require__(2);
 var toIObject = __webpack_require__(5);
-var arrayIndexOf = __webpack_require__(48)(false);
-var IE_PROTO = __webpack_require__(20)('IE_PROTO');
+var arrayIndexOf = __webpack_require__(51)(false);
+var IE_PROTO = __webpack_require__(21)('IE_PROTO');
 
 module.exports = function (object, names) {
   var O = toIObject(object);
@@ -643,7 +643,7 @@ module.exports = function (object, names) {
 /* 35 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(3);
+module.exports = __webpack_require__(4);
 
 
 /***/ }),
@@ -654,7 +654,7 @@ module.exports = __webpack_require__(3);
 /* harmony export (immutable) */ __webpack_exports__["a"] = createApp;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(37);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__src_app_vue__ = __webpack_require__(72);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__src_app_vue__ = __webpack_require__(76);
 
 
 function createApp() {
@@ -8212,16 +8212,19 @@ setTimeout(function () {
 
 module.exports = Vue$3;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(76), __webpack_require__(77)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(80), __webpack_require__(81)))
 
 /***/ }),
 /* 38 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__coordinator_3d_scroll_lepus__ = __webpack_require__(75);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__coordinator_3d_scroll_lepus___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__coordinator_3d_scroll_lepus__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__coordinator__ = __webpack_require__(40);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_defineProperty__ = __webpack_require__(44);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_defineProperty___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_defineProperty__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__coordinator_3d_scroll_lepus__ = __webpack_require__(79);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__coordinator_3d_scroll_lepus___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__coordinator_3d_scroll_lepus__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__coordinator__ = __webpack_require__(40);
+
 //
 //
 //
@@ -8289,35 +8292,28 @@ module.exports = Vue$3;
 /* harmony default export */ __webpack_exports__["a"] = ({
   components: {},
   data: function data() {
-    return { style: { "container": { "flexDirection": "row" }, "scrollview": { "flexDirection": "column", "width": "750" }, "placeholder": { "height": "900", "width": "750" }, "img-wrap": { "position": "absolute", "width": "750", "height": "750" }, "img-show": { "position": "absolute", "width": "750", "height": "750" }, "scroll-wrap": { "position": "absolute", "flexDirection": "row", "top": "200", "width": "750", "height": "700" }, "scroll-item-image": { "borderRadius": "20", "width": "450", "height": "700", "marginLeft": "40" }, "intro-wrap": { "marginTop": "50", "marginBottom": "50", "width": "600", "alignSelf": "center", "flexDirection": "column" }, "intro-name": { "fontSize": "70", "fontWeight": "bold", "width": "200" }, "intro-content": { "marginTop": "40", "fontSize": "40", "width": "600" }, "intro-img": { "marginTop": "40", "width": "600", "height": "300" } },
-      firstBgImg: 'pic_lynx_vertical.png',
-      secondBgImg: 'pic_cat_vertical.png',
-      thirdBgImg: 'pic_tiger_vertical.png',
-      curPage: 0,
-      cdrContext: null,
-      images: ['pic_lynx_vertical.png', 'pic_cat_vertical.png', 'pic_tiger_vertical.png', 'pic_lion_vertical.png'],
-      bgImages: ['pic_lynx_vertical.png', 'pic_cat_vertical.png', 'pic_tiger_vertical.png'],
-      animals: [{
-        name: 'Lynx',
-        intro: 'Lynx have a short tail, characteristic tufts of black hair on the tips of their ears, large, padded paws for walking on snow and long whiskers on the face. Under their neck, they have a ruff which has black bars resembling a bow tie although this is often not visible.',
-        pic: 'pic_lynx.png'
-      }, {
-        name: 'Cat',
-        intro: 'The domestic cat (Felis silvestris catus or Felis catus) is a small, typically furry, carnivorous mammal. They are often called house cats when kept as indoor pets or simply cats when there is no need to distinguish them from other felids and felines. Cats are often valued by humans for companionship and for their ability to hunt vermin. There are more than 70 cat breeds, though different associations proclaim different numbers according to their standards.',
-        pic: 'pic_cat.png'
-      }, {
-        name: 'Tiger',
-        intro: 'The tiger (Panthera tigris) is the largest cat species, most recognizable for their pattern of dark vertical stripes on reddish-orange fur with a lighter underside. The species is classified in the genus Panthera with the lion, leopard, jaguar, and snow leopard. Tigers are apex predators, primarily preying on ungulates such as deer and bovids. They are territorial and generally solitary but social animals, often requiring large contiguous areas of habitat that support their prey requirements. This, coupled with the fact that they are indigenous to some of the more densely populated places on Earth, has caused significant conflicts with humans.',
-        pic: 'pic_tiger.png'
-      }, {
-        name: 'Lion',
-        intro: 'The lion (Panthera leo) is one of the big cats in the Felidae family and a member of genus Panthera. It has been listed as Vulnerable on the IUCN Red List since 1996, as populations in African range countries declined by about 43% since the early 1990s. Lion populations are untenable outside designated protected areas. Although the cause of the decline is not fully understood, habitat loss and conflicts with humans are the greatest causes of concern. The West African lion population is listed as Critically Endangered since 2016. The only lion population in Asia survives in and around Indias Gir Forest National Park and is listed as Endangered since 1986.',
-        pic: 'pic_lion.png'
-      }]
-    };
+    var _ref;
+
+    return _ref = { style: { "container": { "flexDirection": "row" }, "scrollview": { "flexDirection": "column", "width": "750" }, "placeholder": { "height": "900", "width": "750" }, "img-wrap": { "position": "absolute", "width": "750", "height": "750" }, "img-show": { "position": "absolute", "width": "750", "height": "750" }, "scroll-wrap": { "position": "absolute", "flexDirection": "row", "top": "200", "width": "750", "height": "700" }, "scroll-item-image": { "borderRadius": "20", "width": "450", "height": "700", "marginLeft": "40" }, "intro-wrap": { "marginTop": "50", "marginBottom": "50", "width": "600", "alignSelf": "center", "flexDirection": "column" }, "intro-name": { "fontSize": "70", "fontWeight": "bold", "width": "200" }, "intro-content": { "marginTop": "40", "fontSize": "40", "width": "600" }, "intro-img": { "marginTop": "40", "width": "600", "height": "300" } } }, __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_defineProperty___default()(_ref, 'style', { "container": { "flexDirection": "row" }, "scrollview": { "flexDirection": "column", "width": "750" }, "placeholder": { "height": "900", "width": "750" }, "img-wrap": { "position": "absolute", "width": "750", "height": "750" }, "img-show": { "position": "absolute", "width": "750", "height": "750" }, "scroll-wrap": { "position": "absolute", "flexDirection": "row", "top": "200", "width": "750", "height": "700" }, "scroll-item-image": { "borderRadius": "20", "width": "450", "height": "700", "marginLeft": "40" }, "intro-wrap": { "marginTop": "50", "marginBottom": "50", "width": "600", "alignSelf": "center", "flexDirection": "column" }, "intro-name": { "fontSize": "70", "fontWeight": "bold", "width": "200" }, "intro-content": { "marginTop": "40", "fontSize": "40", "width": "600" }, "intro-img": { "marginTop": "40", "width": "600", "height": "300" } }), __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_defineProperty___default()(_ref, 'style', { "container": { "flexDirection": "row" }, "scrollview": { "flexDirection": "column", "width": "750" }, "placeholder": { "height": "900", "width": "750" }, "img-wrap": { "position": "absolute", "width": "750", "height": "750" }, "img-show": { "position": "absolute", "width": "750", "height": "750" }, "scroll-wrap": { "position": "absolute", "flexDirection": "row", "top": "200", "width": "750", "height": "700" }, "scroll-item-image": { "borderRadius": "20", "width": "450", "height": "700", "marginLeft": "40" }, "intro-wrap": { "marginTop": "50", "marginBottom": "50", "width": "600", "alignSelf": "center", "flexDirection": "column" }, "intro-name": { "fontSize": "70", "fontWeight": "bold", "width": "200" }, "intro-content": { "marginTop": "40", "fontSize": "40", "width": "600" }, "intro-img": { "marginTop": "40", "width": "600", "height": "300" } }), __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_defineProperty___default()(_ref, 'style', { "container": { "flexDirection": "row" }, "scrollview": { "flexDirection": "column", "width": "750" }, "placeholder": { "height": "900", "width": "750" }, "img-wrap": { "position": "absolute", "width": "750", "height": "750" }, "img-show": { "position": "absolute", "width": "750", "height": "750" }, "scroll-wrap": { "position": "absolute", "flexDirection": "row", "top": "200", "width": "750", "height": "700" }, "scroll-item-image": { "borderRadius": "20", "width": "450", "height": "700", "marginLeft": "40" }, "intro-wrap": { "marginTop": "50", "marginBottom": "50", "width": "600", "alignSelf": "center", "flexDirection": "column" }, "intro-name": { "fontSize": "70", "fontWeight": "bold", "width": "200" }, "intro-content": { "marginTop": "40", "fontSize": "40", "width": "600" }, "intro-img": { "marginTop": "40", "width": "600", "height": "300" } }), __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_defineProperty___default()(_ref, 'style', { "container": { "flexDirection": "row" }, "scrollview": { "flexDirection": "column", "width": "750" }, "placeholder": { "height": "900", "width": "750" }, "img-wrap": { "position": "absolute", "width": "750", "height": "750" }, "img-show": { "position": "absolute", "width": "750", "height": "750" }, "scroll-wrap": { "position": "absolute", "flexDirection": "row", "top": "200", "width": "750", "height": "700" }, "scroll-item-image": { "borderRadius": "20", "width": "450", "height": "700", "marginLeft": "40" }, "intro-wrap": { "marginTop": "50", "marginBottom": "50", "width": "600", "alignSelf": "center", "flexDirection": "column" }, "intro-name": { "fontSize": "70", "fontWeight": "bold", "width": "200" }, "intro-content": { "marginTop": "40", "fontSize": "40", "width": "600" }, "intro-img": { "marginTop": "40", "width": "600", "height": "300" } }), __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_defineProperty___default()(_ref, 'style', { "container": { "flexDirection": "row" }, "scrollview": { "flexDirection": "column", "width": "750" }, "placeholder": { "height": "900", "width": "750" }, "img-wrap": { "position": "absolute", "width": "750", "height": "750" }, "img-show": { "position": "absolute", "width": "750", "height": "750" }, "scroll-wrap": { "position": "absolute", "flexDirection": "row", "top": "200", "width": "750", "height": "700" }, "scroll-item-image": { "borderRadius": "20", "width": "450", "height": "700", "marginLeft": "40" }, "intro-wrap": { "marginTop": "50", "marginBottom": "50", "width": "600", "alignSelf": "center", "flexDirection": "column" }, "intro-name": { "fontSize": "70", "fontWeight": "bold", "width": "200" }, "intro-content": { "marginTop": "40", "fontSize": "40", "width": "600" }, "intro-img": { "marginTop": "40", "width": "600", "height": "300" } }), __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_defineProperty___default()(_ref, 'style', { "container": { "flexDirection": "row" }, "scrollview": { "flexDirection": "column", "width": "750" }, "placeholder": { "height": "900", "width": "750" }, "img-wrap": { "position": "absolute", "width": "750", "height": "750" }, "img-show": { "position": "absolute", "width": "750", "height": "750" }, "scroll-wrap": { "position": "absolute", "flexDirection": "row", "top": "200", "width": "750", "height": "700" }, "scroll-item-image": { "borderRadius": "20", "width": "450", "height": "700", "marginLeft": "40" }, "intro-wrap": { "marginTop": "50", "marginBottom": "50", "width": "600", "alignSelf": "center", "flexDirection": "column" }, "intro-name": { "fontSize": "70", "fontWeight": "bold", "width": "200" }, "intro-content": { "marginTop": "40", "fontSize": "40", "width": "600" }, "intro-img": { "marginTop": "40", "width": "600", "height": "300" } }), __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_defineProperty___default()(_ref, 'firstBgImg', 'pic_lynx_vertical.png'), __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_defineProperty___default()(_ref, 'secondBgImg', 'pic_cat_vertical.png'), __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_defineProperty___default()(_ref, 'thirdBgImg', 'pic_tiger_vertical.png'), __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_defineProperty___default()(_ref, 'curPage', 0), __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_defineProperty___default()(_ref, 'cdrContext', null), __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_defineProperty___default()(_ref, 'images', ['pic_lynx_vertical.png', 'pic_cat_vertical.png', 'pic_tiger_vertical.png', 'pic_lion_vertical.png']), __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_defineProperty___default()(_ref, 'bgImages', ['pic_lynx_vertical.png', 'pic_cat_vertical.png', 'pic_tiger_vertical.png']), __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_defineProperty___default()(_ref, 'animals', [{
+      name: 'Lynx',
+      intro: 'Lynx have a short tail, characteristic tufts of black hair on the tips of their ears, large, padded paws for walking on snow and long whiskers on the face. Under their neck, they have a ruff which has black bars resembling a bow tie although this is often not visible.',
+      pic: 'pic_lynx.png'
+    }, {
+      name: 'Cat',
+      intro: 'The domestic cat (Felis silvestris catus or Felis catus) is a small, typically furry, carnivorous mammal. They are often called house cats when kept as indoor pets or simply cats when there is no need to distinguish them from other felids and felines. Cats are often valued by humans for companionship and for their ability to hunt vermin. There are more than 70 cat breeds, though different associations proclaim different numbers according to their standards.',
+      pic: 'pic_cat.png'
+    }, {
+      name: 'Tiger',
+      intro: 'The tiger (Panthera tigris) is the largest cat species, most recognizable for their pattern of dark vertical stripes on reddish-orange fur with a lighter underside. The species is classified in the genus Panthera with the lion, leopard, jaguar, and snow leopard. Tigers are apex predators, primarily preying on ungulates such as deer and bovids. They are territorial and generally solitary but social animals, often requiring large contiguous areas of habitat that support their prey requirements. This, coupled with the fact that they are indigenous to some of the more densely populated places on Earth, has caused significant conflicts with humans.',
+      pic: 'pic_tiger.png'
+    }, {
+      name: 'Lion',
+      intro: 'The lion (Panthera leo) is one of the big cats in the Felidae family and a member of genus Panthera. It has been listed as Vulnerable on the IUCN Red List since 1996, as populations in African range countries declined by about 43% since the early 1990s. Lion populations are untenable outside designated protected areas. Although the cause of the decline is not fully understood, habitat loss and conflicts with humans are the greatest causes of concern. The West African lion population is listed as Critically Endangered since 2016. The only lion population in Asia survives in and around Indias Gir Forest National Park and is listed as Endangered since 1986.',
+      pic: 'pic_lion.png'
+    }]), _ref;
   },
   mounted: function mounted() {
-    this.cdrContext = new __WEBPACK_IMPORTED_MODULE_1__coordinator__["a" /* default */]("parentAffinity", "affinity", __WEBPACK_IMPORTED_MODULE_0__coordinator_3d_scroll_lepus___default.a);
+    this.cdrContext = new __WEBPACK_IMPORTED_MODULE_2__coordinator__["a" /* default */]("parentAffinity", "affinity", __WEBPACK_IMPORTED_MODULE_1__coordinator_3d_scroll_lepus___default.a);
   },
 
   methods: {
@@ -8376,7 +8372,7 @@ app.$mount('#app');
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_typeof__ = __webpack_require__(43);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_typeof__ = __webpack_require__(45);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_typeof___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_typeof__);
 
 
@@ -8402,7 +8398,7 @@ var CoordinatorContext = function CoordinatorContext(sponsorAffinity, responderA
   this.action = action;
 
   // Native method
-  LynxCoordinatorRegister.registerAction(sponsorAffinity, responderAffinity, action);
+  CoordinatorRegister.registerAction(sponsorAffinity, responderAffinity, action);
 };
 
 CoordinatorContext.prototype = {
@@ -8423,7 +8419,7 @@ CoordinatorContext.prototype.updateProperties = function (properties) {
     throw new Error('properties must be defined as Object');
   }
 
-  LynxCoordinatorRegister.updateProperties(this.sponsorAffinity, this.responderAffinity, properties, notify);
+  CoordinatorRegister.updateProperties(this.sponsorAffinity, this.responderAffinity, properties, notify);
 };
 
 /* harmony default export */ __webpack_exports__["a"] = (CoordinatorContext);
@@ -8432,16 +8428,22 @@ CoordinatorContext.prototype.updateProperties = function (properties) {
 /* 41 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = { "default": __webpack_require__(44), __esModule: true };
+module.exports = { "default": __webpack_require__(46), __esModule: true };
 
 /***/ }),
 /* 42 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = { "default": __webpack_require__(45), __esModule: true };
+module.exports = { "default": __webpack_require__(47), __esModule: true };
 
 /***/ }),
 /* 43 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = { "default": __webpack_require__(48), __esModule: true };
+
+/***/ }),
+/* 44 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8449,11 +8451,41 @@ module.exports = { "default": __webpack_require__(45), __esModule: true };
 
 exports.__esModule = true;
 
-var _iterator = __webpack_require__(42);
+var _defineProperty = __webpack_require__(41);
+
+var _defineProperty2 = _interopRequireDefault(_defineProperty);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = function (obj, key, value) {
+  if (key in obj) {
+    (0, _defineProperty2.default)(obj, key, {
+      value: value,
+      enumerable: true,
+      configurable: true,
+      writable: true
+    });
+  } else {
+    obj[key] = value;
+  }
+
+  return obj;
+};
+
+/***/ }),
+/* 45 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+exports.__esModule = true;
+
+var _iterator = __webpack_require__(43);
 
 var _iterator2 = _interopRequireDefault(_iterator);
 
-var _symbol = __webpack_require__(41);
+var _symbol = __webpack_require__(42);
 
 var _symbol2 = _interopRequireDefault(_symbol);
 
@@ -8468,27 +8500,38 @@ exports.default = typeof _symbol2.default === "function" && _typeof(_iterator2.d
 };
 
 /***/ }),
-/* 44 */
-/***/ (function(module, exports, __webpack_require__) {
-
-__webpack_require__(68);
-__webpack_require__(66);
-__webpack_require__(69);
-__webpack_require__(70);
-module.exports = __webpack_require__(12).Symbol;
-
-
-/***/ }),
-/* 45 */
-/***/ (function(module, exports, __webpack_require__) {
-
-__webpack_require__(67);
-__webpack_require__(71);
-module.exports = __webpack_require__(25).f('iterator');
-
-
-/***/ }),
 /* 46 */
+/***/ (function(module, exports, __webpack_require__) {
+
+__webpack_require__(69);
+var $Object = __webpack_require__(8).Object;
+module.exports = function defineProperty(it, key, desc) {
+  return $Object.defineProperty(it, key, desc);
+};
+
+
+/***/ }),
+/* 47 */
+/***/ (function(module, exports, __webpack_require__) {
+
+__webpack_require__(72);
+__webpack_require__(70);
+__webpack_require__(73);
+__webpack_require__(74);
+module.exports = __webpack_require__(8).Symbol;
+
+
+/***/ }),
+/* 48 */
+/***/ (function(module, exports, __webpack_require__) {
+
+__webpack_require__(71);
+__webpack_require__(75);
+module.exports = __webpack_require__(26).f('iterator');
+
+
+/***/ }),
+/* 49 */
 /***/ (function(module, exports) {
 
 module.exports = function (it) {
@@ -8498,21 +8541,21 @@ module.exports = function (it) {
 
 
 /***/ }),
-/* 47 */
+/* 50 */
 /***/ (function(module, exports) {
 
 module.exports = function () { /* empty */ };
 
 
 /***/ }),
-/* 48 */
+/* 51 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // false -> Array#indexOf
 // true  -> Array#includes
 var toIObject = __webpack_require__(5);
-var toLength = __webpack_require__(63);
-var toAbsoluteIndex = __webpack_require__(62);
+var toLength = __webpack_require__(66);
+var toAbsoluteIndex = __webpack_require__(65);
 module.exports = function (IS_INCLUDES) {
   return function ($this, el, fromIndex) {
     var O = toIObject($this);
@@ -8534,11 +8577,11 @@ module.exports = function (IS_INCLUDES) {
 
 
 /***/ }),
-/* 49 */
+/* 52 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // optional / simple context binding
-var aFunction = __webpack_require__(46);
+var aFunction = __webpack_require__(49);
 module.exports = function (fn, that, length) {
   aFunction(fn);
   if (that === undefined) return fn;
@@ -8560,13 +8603,13 @@ module.exports = function (fn, that, length) {
 
 
 /***/ }),
-/* 50 */
+/* 53 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // all enumerable object keys, includes symbols
-var getKeys = __webpack_require__(17);
+var getKeys = __webpack_require__(18);
 var gOPS = __webpack_require__(33);
-var pIE = __webpack_require__(18);
+var pIE = __webpack_require__(19);
 module.exports = function (it) {
   var result = getKeys(it);
   var getSymbols = gOPS.f;
@@ -8581,7 +8624,7 @@ module.exports = function (it) {
 
 
 /***/ }),
-/* 51 */
+/* 54 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var document = __webpack_require__(0).document;
@@ -8589,11 +8632,11 @@ module.exports = document && document.documentElement;
 
 
 /***/ }),
-/* 52 */
+/* 55 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // fallback for non-array-like ES3 and non-enumerable old V8 strings
-var cof = __webpack_require__(26);
+var cof = __webpack_require__(27);
 // eslint-disable-next-line no-prototype-builtins
 module.exports = Object('z').propertyIsEnumerable(0) ? Object : function (it) {
   return cof(it) == 'String' ? it.split('') : Object(it);
@@ -8601,29 +8644,29 @@ module.exports = Object('z').propertyIsEnumerable(0) ? Object : function (it) {
 
 
 /***/ }),
-/* 53 */
+/* 56 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 7.2.2 IsArray(argument)
-var cof = __webpack_require__(26);
+var cof = __webpack_require__(27);
 module.exports = Array.isArray || function isArray(arg) {
   return cof(arg) == 'Array';
 };
 
 
 /***/ }),
-/* 54 */
+/* 57 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 var create = __webpack_require__(31);
-var descriptor = __webpack_require__(10);
-var setToStringTag = __webpack_require__(19);
+var descriptor = __webpack_require__(11);
+var setToStringTag = __webpack_require__(20);
 var IteratorPrototype = {};
 
 // 25.1.2.1.1 %IteratorPrototype%[@@iterator]()
-__webpack_require__(3)(IteratorPrototype, __webpack_require__(6)('iterator'), function () { return this; });
+__webpack_require__(4)(IteratorPrototype, __webpack_require__(6)('iterator'), function () { return this; });
 
 module.exports = function (Constructor, NAME, next) {
   Constructor.prototype = create(IteratorPrototype, { next: descriptor(1, next) });
@@ -8632,7 +8675,7 @@ module.exports = function (Constructor, NAME, next) {
 
 
 /***/ }),
-/* 55 */
+/* 58 */
 /***/ (function(module, exports) {
 
 module.exports = function (done, value) {
@@ -8641,18 +8684,18 @@ module.exports = function (done, value) {
 
 
 /***/ }),
-/* 56 */
+/* 59 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var META = __webpack_require__(11)('meta');
-var isObject = __webpack_require__(9);
-var has = __webpack_require__(1);
-var setDesc = __webpack_require__(4).f;
+var META = __webpack_require__(12)('meta');
+var isObject = __webpack_require__(10);
+var has = __webpack_require__(2);
+var setDesc = __webpack_require__(3).f;
 var id = 0;
 var isExtensible = Object.isExtensible || function () {
   return true;
 };
-var FREEZE = !__webpack_require__(8)(function () {
+var FREEZE = !__webpack_require__(9)(function () {
   return isExtensible(Object.preventExtensions({}));
 });
 var setMeta = function (it) {
@@ -8700,14 +8743,14 @@ var meta = module.exports = {
 
 
 /***/ }),
-/* 57 */
+/* 60 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var dP = __webpack_require__(4);
+var dP = __webpack_require__(3);
 var anObject = __webpack_require__(7);
-var getKeys = __webpack_require__(17);
+var getKeys = __webpack_require__(18);
 
-module.exports = __webpack_require__(2) ? Object.defineProperties : function defineProperties(O, Properties) {
+module.exports = __webpack_require__(1) ? Object.defineProperties : function defineProperties(O, Properties) {
   anObject(O);
   var keys = getKeys(Properties);
   var length = keys.length;
@@ -8719,18 +8762,18 @@ module.exports = __webpack_require__(2) ? Object.defineProperties : function def
 
 
 /***/ }),
-/* 58 */
+/* 61 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var pIE = __webpack_require__(18);
-var createDesc = __webpack_require__(10);
+var pIE = __webpack_require__(19);
+var createDesc = __webpack_require__(11);
 var toIObject = __webpack_require__(5);
-var toPrimitive = __webpack_require__(23);
-var has = __webpack_require__(1);
+var toPrimitive = __webpack_require__(24);
+var has = __webpack_require__(2);
 var IE8_DOM_DEFINE = __webpack_require__(29);
 var gOPD = Object.getOwnPropertyDescriptor;
 
-exports.f = __webpack_require__(2) ? gOPD : function getOwnPropertyDescriptor(O, P) {
+exports.f = __webpack_require__(1) ? gOPD : function getOwnPropertyDescriptor(O, P) {
   O = toIObject(O);
   P = toPrimitive(P, true);
   if (IE8_DOM_DEFINE) try {
@@ -8741,7 +8784,7 @@ exports.f = __webpack_require__(2) ? gOPD : function getOwnPropertyDescriptor(O,
 
 
 /***/ }),
-/* 59 */
+/* 62 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // fallback for IE11 buggy Object.getOwnPropertyNames with iframe and window
@@ -8766,13 +8809,13 @@ module.exports.f = function getOwnPropertyNames(it) {
 
 
 /***/ }),
-/* 60 */
+/* 63 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 19.1.2.9 / 15.2.3.2 Object.getPrototypeOf(O)
-var has = __webpack_require__(1);
-var toObject = __webpack_require__(64);
-var IE_PROTO = __webpack_require__(20)('IE_PROTO');
+var has = __webpack_require__(2);
+var toObject = __webpack_require__(67);
+var IE_PROTO = __webpack_require__(21)('IE_PROTO');
 var ObjectProto = Object.prototype;
 
 module.exports = Object.getPrototypeOf || function (O) {
@@ -8785,10 +8828,10 @@ module.exports = Object.getPrototypeOf || function (O) {
 
 
 /***/ }),
-/* 61 */
+/* 64 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var toInteger = __webpack_require__(22);
+var toInteger = __webpack_require__(23);
 var defined = __webpack_require__(13);
 // true  -> String#at
 // false -> String#codePointAt
@@ -8808,10 +8851,10 @@ module.exports = function (TO_STRING) {
 
 
 /***/ }),
-/* 62 */
+/* 65 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var toInteger = __webpack_require__(22);
+var toInteger = __webpack_require__(23);
 var max = Math.max;
 var min = Math.min;
 module.exports = function (index, length) {
@@ -8821,11 +8864,11 @@ module.exports = function (index, length) {
 
 
 /***/ }),
-/* 63 */
+/* 66 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 7.1.15 ToLength
-var toInteger = __webpack_require__(22);
+var toInteger = __webpack_require__(23);
 var min = Math.min;
 module.exports = function (it) {
   return it > 0 ? min(toInteger(it), 0x1fffffffffffff) : 0; // pow(2, 53) - 1 == 9007199254740991
@@ -8833,7 +8876,7 @@ module.exports = function (it) {
 
 
 /***/ }),
-/* 64 */
+/* 67 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 7.1.13 ToObject(argument)
@@ -8844,14 +8887,14 @@ module.exports = function (it) {
 
 
 /***/ }),
-/* 65 */
+/* 68 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-var addToUnscopables = __webpack_require__(47);
-var step = __webpack_require__(55);
-var Iterators = __webpack_require__(15);
+var addToUnscopables = __webpack_require__(50);
+var step = __webpack_require__(58);
+var Iterators = __webpack_require__(16);
 var toIObject = __webpack_require__(5);
 
 // 22.1.3.4 Array.prototype.entries()
@@ -8885,18 +8928,27 @@ addToUnscopables('entries');
 
 
 /***/ }),
-/* 66 */
+/* 69 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var $export = __webpack_require__(15);
+// 19.1.2.4 / 15.2.3.6 Object.defineProperty(O, P, Attributes)
+$export($export.S + $export.F * !__webpack_require__(1), 'Object', { defineProperty: __webpack_require__(3).f });
+
+
+/***/ }),
+/* 70 */
 /***/ (function(module, exports) {
 
 
 
 /***/ }),
-/* 67 */
+/* 71 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-var $at = __webpack_require__(61)(true);
+var $at = __webpack_require__(64)(true);
 
 // 21.1.3.27 String.prototype[@@iterator]()
 __webpack_require__(30)(String, 'String', function (iterated) {
@@ -8915,36 +8967,36 @@ __webpack_require__(30)(String, 'String', function (iterated) {
 
 
 /***/ }),
-/* 68 */
+/* 72 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 // ECMAScript 6 symbols shim
 var global = __webpack_require__(0);
-var has = __webpack_require__(1);
-var DESCRIPTORS = __webpack_require__(2);
-var $export = __webpack_require__(28);
+var has = __webpack_require__(2);
+var DESCRIPTORS = __webpack_require__(1);
+var $export = __webpack_require__(15);
 var redefine = __webpack_require__(35);
-var META = __webpack_require__(56).KEY;
-var $fails = __webpack_require__(8);
-var shared = __webpack_require__(21);
-var setToStringTag = __webpack_require__(19);
-var uid = __webpack_require__(11);
+var META = __webpack_require__(59).KEY;
+var $fails = __webpack_require__(9);
+var shared = __webpack_require__(22);
+var setToStringTag = __webpack_require__(20);
+var uid = __webpack_require__(12);
 var wks = __webpack_require__(6);
-var wksExt = __webpack_require__(25);
-var wksDefine = __webpack_require__(24);
-var enumKeys = __webpack_require__(50);
-var isArray = __webpack_require__(53);
+var wksExt = __webpack_require__(26);
+var wksDefine = __webpack_require__(25);
+var enumKeys = __webpack_require__(53);
+var isArray = __webpack_require__(56);
 var anObject = __webpack_require__(7);
 var toIObject = __webpack_require__(5);
-var toPrimitive = __webpack_require__(23);
-var createDesc = __webpack_require__(10);
+var toPrimitive = __webpack_require__(24);
+var createDesc = __webpack_require__(11);
 var _create = __webpack_require__(31);
-var gOPNExt = __webpack_require__(59);
-var $GOPD = __webpack_require__(58);
-var $DP = __webpack_require__(4);
-var $keys = __webpack_require__(17);
+var gOPNExt = __webpack_require__(62);
+var $GOPD = __webpack_require__(61);
+var $DP = __webpack_require__(3);
+var $keys = __webpack_require__(18);
 var gOPD = $GOPD.f;
 var dP = $DP.f;
 var gOPN = gOPNExt.f;
@@ -9068,10 +9120,10 @@ if (!USE_NATIVE) {
   $GOPD.f = $getOwnPropertyDescriptor;
   $DP.f = $defineProperty;
   __webpack_require__(32).f = gOPNExt.f = $getOwnPropertyNames;
-  __webpack_require__(18).f = $propertyIsEnumerable;
+  __webpack_require__(19).f = $propertyIsEnumerable;
   __webpack_require__(33).f = $getOwnPropertySymbols;
 
-  if (DESCRIPTORS && !__webpack_require__(16)) {
+  if (DESCRIPTORS && !__webpack_require__(17)) {
     redefine(ObjectProto, 'propertyIsEnumerable', $propertyIsEnumerable, true);
   }
 
@@ -9146,7 +9198,7 @@ $JSON && $export($export.S + $export.F * (!USE_NATIVE || $fails(function () {
 });
 
 // 19.4.3.4 Symbol.prototype[@@toPrimitive](hint)
-$Symbol[PROTOTYPE][TO_PRIMITIVE] || __webpack_require__(3)($Symbol[PROTOTYPE], TO_PRIMITIVE, $Symbol[PROTOTYPE].valueOf);
+$Symbol[PROTOTYPE][TO_PRIMITIVE] || __webpack_require__(4)($Symbol[PROTOTYPE], TO_PRIMITIVE, $Symbol[PROTOTYPE].valueOf);
 // 19.4.3.5 Symbol.prototype[@@toStringTag]
 setToStringTag($Symbol, 'Symbol');
 // 20.2.1.9 Math[@@toStringTag]
@@ -9156,27 +9208,27 @@ setToStringTag(global.JSON, 'JSON', true);
 
 
 /***/ }),
-/* 69 */
+/* 73 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(24)('asyncIterator');
+__webpack_require__(25)('asyncIterator');
 
 
 /***/ }),
-/* 70 */
+/* 74 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(24)('observable');
+__webpack_require__(25)('observable');
 
 
 /***/ }),
-/* 71 */
+/* 75 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(65);
+__webpack_require__(68);
 var global = __webpack_require__(0);
-var hide = __webpack_require__(3);
-var Iterators = __webpack_require__(15);
+var hide = __webpack_require__(4);
+var Iterators = __webpack_require__(16);
 var TO_STRING_TAG = __webpack_require__(6)('toStringTag');
 
 var DOMIterables = ('CSSRuleList,CSSStyleDeclaration,CSSValueList,ClientRectList,DOMRectList,DOMStringList,' +
@@ -9195,14 +9247,14 @@ for (var i = 0; i < DOMIterables.length; i++) {
 
 
 /***/ }),
-/* 72 */
+/* 76 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_lynx_vue_loader_lib_selector_type_script_index_0_app_vue__ = __webpack_require__(38);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_lynx_vue_loader_lib_template_compiler_index_id_data_v_0c040613_hasScoped_false_transformToRequire_video_src_source_src_img_src_image_xlink_href_preserveWhitespace_false_node_modules_lynx_vue_loader_lib_selector_type_template_index_0_app_vue__ = __webpack_require__(74);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_lynx_vue_loader_lib_template_compiler_index_id_data_v_0c040613_hasScoped_false_transformToRequire_video_src_source_src_img_src_image_xlink_href_preserveWhitespace_false_node_modules_lynx_vue_loader_lib_selector_type_template_index_0_app_vue__ = __webpack_require__(78);
 var disposed = false
-var normalizeComponent = __webpack_require__(73)
+var normalizeComponent = __webpack_require__(77)
 /* script */
 
 /* template */
@@ -9238,7 +9290,7 @@ if (false) {(function () {
 
 
 /***/ }),
-/* 73 */
+/* 77 */
 /***/ (function(module, exports) {
 
 /* globals __VUE_SSR_CONTEXT__ */
@@ -9335,7 +9387,7 @@ module.exports = function normalizeComponent (
 
 
 /***/ }),
-/* 74 */
+/* 78 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -9431,13 +9483,13 @@ if (false) {
 }
 
 /***/ }),
-/* 75 */
+/* 79 */
 /***/ (function(module, exports) {
 
-module.exports = "var kMinScale = 0.8\nvar kMaxScale = 1\nvar kMarginLeft = 40\nvar kImgWidth = 450\nvar kTotalNum = 4\nvar kScrollWrapTag = 'scrollWrap'\nvar kFirstBgImgTag = 'firstBgImg'\nvar kSecondBgImgTag = 'secondBgImg'\nvar kThirdBgImgTag = 'thirdBgImg'\nvar kFirstItemTag = 'item0'\nvar kSecondItemTag = 'item1'\nvar kThirdItemTag = 'item2'\nvar kFourthItemTag = 'item3'\nvar kTouchSlop = 10\nvar kDuration = 300\n// per second\nvar kFlingVelocity = 1000\nvar kMaxMoveX = (kImgWidth - kMarginLeft) * kTotalNum\nvar kMinMoveX = (kImgWidth - kMarginLeft) * -1\nvar kEventName = \"onpagechanged\"\n\nvar preIndex = 0\nvar curIndex = 0\nvar startTouchX = 0\nvar startTouchY = 0\nvar curTouchX = 0\nvar totalMoveX = 0\nvar preTotalMoveX = 0\nvar curTouchType = 0\nvar ratioOfNextIndex = 0\nvar toNextIndex = 0\nvar touchDownTime = 0\nvar isAllowScroll = false\nvar curPage = 0\n\nvar toNextPageIndex = 0\n\nfunction init(tag) {\n  if (tag !== kFirstItemTag\n        && tag !== kScrollWrapTag\n        && tag !== kFirstBgImgTag\n        && tag !== kSecondBgImgTag\n        && tag !== kThirdBgImgTag) {\n      setScaleX(kMinScale)\n      setScaleY(kMinScale)\n  }\n  if (tag === kSecondBgImgTag || tag === kThirdBgImgTag) {\n      setAlpha(0)\n  }\n}\n\nfunction onDispatchTouchEvent(tag, type, touchX, touchY, timeStamp) {\n    curTouchX = touchX\n    curTouchType = type\n    switch (type) {\n      case 0:\n          touchDownTime = timeStamp\n          startTouchX = touchX\n          setConsumed(true)\n          isAllowScroll = false\n          break\n      case 1:\n      case 3:\n          if (isAllowScroll) {\n              var offsetX = totalMoveX - (kImgWidth + kMarginLeft) * curIndex\n              // Caculate if fling\n              var initialVelocity = (touchX - startTouchX) / ((timeStamp - touchDownTime) / 1000)\n              var isFling = false\n              if (initialVelocity < 0) {\n                isFling = -initialVelocity / ((timeStamp - touchDownTime) / 1000) > kFlingVelocity\n              } else {\n                isFling = initialVelocity / ((timeStamp - touchDownTime) / 1000) > kFlingVelocity\n              }\n              if (isFling) {\n                  if (initialVelocity < 0)\n                    toNextIndex = curIndex + 1\n                  else\n                    toNextIndex = curIndex\n              } else if (offsetX > (kImgWidth + kMarginLeft) / 2) {\n                toNextIndex = curIndex + 1\n              } else {\n                toNextIndex = curIndex\n              }\n              if (toNextIndex < 0) toNextIndex = 0\n              if (toNextIndex > kTotalNum - 1) toNextIndex = kTotalNum - 1\n              totalMoveX = toNextIndex * (kImgWidth + kMarginLeft)\n              preTotalMoveX = totalMoveX\n              curIndex = toNextIndex\n              console.log(toNextIndex)\n          }\n          break\n      case 2:\n          if (curTouchX - startTouchX > kTouchSlop || startTouchX - curTouchX > kTouchSlop) {\n\n              totalMoveX = -(curTouchX - startTouchX) + preTotalMoveX\n              if (totalMoveX > kMaxMoveX) totalMoveX = kMaxMoveX\n              if (totalMoveX < kMinMoveX) totalMoveX = kMinMoveX\n              preIndex = curIndex\n              curIndex = totalMoveX / (kImgWidth + kMarginLeft)\n              curIndex = Math.floor(curIndex)\n              var offsetX = totalMoveX - (kImgWidth + kMarginLeft) * curIndex\n              ratioOfNextIndex = offsetX / (kImgWidth + kMarginLeft)\n              isAllowScroll = true\n          } else {\n              isAllowScroll = false\n          }\n          setConsumed(isAllowScroll)\n          break\n      default:\n          break\n    }\n}\n\nfunction onTouchEventForWrap(tag, touchX, touchY) {\n    if (isAllowScroll) {\n        if (curTouchType === 1 || curTouchType === 3) {\n            setDuration(kDuration)\n            dispatchEvent(kEventName, toNextIndex)\n        } else if (curTouchType === 2) {\n            var nextPage = curPage\n            if (totalMoveX )\n            if (nextPage !== curPage) {\n                curPage = nextPage\n                dispatchEvent(kEventName, curPage)\n            }\n        }\n    }\n}\n\nfunction onTouchEventForImg(tag, touchX, touchY) {\n    var itemIndex = 0\n    if (tag === kFirstItemTag) {\n        itemIndex = 0\n    } else if (tag === kSecondItemTag) {\n        itemIndex = 1\n    } else if (tag === kThirdItemTag) {\n        itemIndex = 2\n    } else if (tag === kFourthItemTag) {\n        itemIndex = 3\n    }\n    if (isAllowScroll) {\n        if (curTouchType === 2) {\n          setTranslateX(-totalMoveX)\n          if (curIndex + 1 === itemIndex) {\n            var scale = ratioOfNextIndex * (kMaxScale - kMinScale) + kMinScale\n            setScaleX(scale)\n            setScaleY(scale)\n          } else if (curIndex === itemIndex) {\n            var scale = (1 - ratioOfNextIndex) * (kMaxScale - kMinScale) + kMinScale\n            setScaleX(scale)\n            setScaleY(scale)\n          } else {\n            setScaleX(kMinScale)\n            setScaleY(kMinScale)\n          }\n        } else if (curTouchType === 1) {\n            setDuration(kDuration)\n            setInterpolatorType(\"EASE_OUT\")\n            setTranslateX(-totalMoveX)\n            if (toNextIndex === itemIndex) {\n              setScaleX(kMaxScale)\n              setScaleY(kMaxScale)\n            } else {\n              setScaleX(kMinScale)\n              setScaleY(kMinScale)\n            }\n        }\n    }\n}\n\nfunction onTouchEventForBg(tag, touchX, touchY) {\n    if (isAllowScroll) {\n        var alpha = 1\n        if (curTouchType === 2 && curIndex >= 0 && curIndex < kTotalNum - 1) {\n            var curShowBgIndex = curIndex % 3\n            if (curShowBgIndex === 0) { // FirstBgImg show\n                if (tag === kFirstBgImgTag) alpha = (1 - ratioOfNextIndex)\n                if (tag === kSecondBgImgTag) alpha = ratioOfNextIndex\n                if (tag === kThirdBgImgTag) alpha = 0\n            } else if (curShowBgIndex === 1) { // SecondBgImg show\n                if (tag === kFirstBgImgTag) alpha = 0\n                if (tag === kSecondBgImgTag) alpha = (1 - ratioOfNextIndex)\n                if (tag === kThirdBgImgTag) alpha = ratioOfNextIndex\n            } else if (curShowBgIndex === 2) { // ThirdBgImg show\n                if (tag === kFirstBgImgTag) alpha = ratioOfNextIndex\n                if (tag === kSecondBgImgTag) alpha = 0\n                if (tag === kThirdBgImgTag) alpha = (1 - ratioOfNextIndex)\n            }\n            setAlpha(alpha)\n        } else if (curTouchType === 1 && curIndex >= 0 && curIndex <= kTotalNum - 1) {\n            var curShowBgIndex = toNextIndex % 3\n            if (curShowBgIndex === 0) { // FirstBgImg show\n                if (tag === kFirstBgImgTag) alpha = 1\n                if (tag === kSecondBgImgTag) alpha = 0\n                if (tag === kThirdBgImgTag) alpha = 0\n            } else if (curShowBgIndex === 1) { // SecondBgImg show\n                if (tag === kFirstBgImgTag) alpha = 0\n                if (tag === kSecondBgImgTag) alpha = 1\n                if (tag === kThirdBgImgTag) alpha = 0\n            } else if (curShowBgIndex === 2) { // ThirdBgImg show\n                if (tag === kFirstBgImgTag) alpha = 0\n                if (tag === kSecondBgImgTag) alpha = 0\n                if (tag === kThirdBgImgTag) alpha = 1\n            }\n            setDuration(kDuration)\n            setAlpha(alpha)\n        }\n    }\n}\n\nfunction onPropertiesUpdated(tag) {\n    curIndex = toNextPageIndex\n    // Caculate next page index\n    toNextIndex = toNextPageIndex\n    if (toNextIndex < 0) toNextIndex = 0\n    if (toNextIndex > kTotalNum - 1) toNextIndex = kTotalNum - 1\n    totalMoveX = toNextIndex * (kImgWidth + kMarginLeft)\n    preTotalMoveX = totalMoveX\n    // mock touch end\n    curTouchType = 1\n    isAllowScroll = true\n    if (tag.indexOf('item') === 0) {\n        onTouchEventForImg(tag, 0, 0)\n    } else if (tag.indexOf('BgImg') >= 0) {\n        onTouchEventForBg(tag, 0, 0)\n    } else if (tag === 'scrollWrap') {\n        onTouchEventForWrap(tag, 0, 0)\n    }\n    isAllowScroll = false\n}\n"
+module.exports = "var kMinScale = 0.8\nvar kMaxScale = 1\nvar kMarginLeft = 40\nvar kImgWidth = 450\nvar kTotalNum = 4\nvar kScrollWrapTag = 'scrollWrap'\nvar kFirstBgImgTag = 'firstBgImg'\nvar kSecondBgImgTag = 'secondBgImg'\nvar kThirdBgImgTag = 'thirdBgImg'\nvar kFirstItemTag = 'item0'\nvar kSecondItemTag = 'item1'\nvar kThirdItemTag = 'item2'\nvar kFourthItemTag = 'item3'\nvar kTouchSlop = 10\nvar kDuration = 300\n// per second\nvar kFlingVelocity = 1000\nvar kMaxMoveX = (kImgWidth - kMarginLeft) * kTotalNum\nvar kMinMoveX = (kImgWidth - kMarginLeft) * -1\nvar kEventName = \"onpagechanged\"\n\nvar preIndex = 0\nvar curIndex = 0\nvar startTouchX = 0\nvar startTouchY = 0\nvar curTouchX = 0\nvar totalMoveX = 0\nvar preTotalMoveX = 0\nvar curTouchType = 0\nvar ratioOfNextIndex = 0\nvar toNextIndex = 0\nvar touchDownTime = 0\nvar isAllowScroll = false\nvar curPage = 0\n\nvar toNextPageIndex = 0\n\nfunction init(tag) {\n  if (tag !== kFirstItemTag\n        && tag !== kScrollWrapTag\n        && tag !== kFirstBgImgTag\n        && tag !== kSecondBgImgTag\n        && tag !== kThirdBgImgTag) {\n      setScaleX(kMinScale)\n      setScaleY(kMinScale)\n  }\n  if (tag === kSecondBgImgTag || tag === kThirdBgImgTag) {\n      setOpacity(0)\n  }\n}\n\nfunction onDispatchTouchEvent(tag, type, touchX, touchY, timeStamp) {\n    curTouchX = touchX\n    curTouchType = type\n    switch (type) {\n      case 0:\n          touchDownTime = timeStamp\n          startTouchX = touchX\n          setConsumed(true)\n          isAllowScroll = false\n          break\n      case 1:\n      case 3:\n          if (isAllowScroll) {\n              var offsetX = totalMoveX - (kImgWidth + kMarginLeft) * curIndex\n              // Caculate if fling\n              var initialVelocity = (touchX - startTouchX) / ((timeStamp - touchDownTime) / 1000)\n              var isFling = false\n              if (initialVelocity < 0) {\n                isFling = -initialVelocity / ((timeStamp - touchDownTime) / 1000) > kFlingVelocity\n              } else {\n                isFling = initialVelocity / ((timeStamp - touchDownTime) / 1000) > kFlingVelocity\n              }\n              if (isFling) {\n                  if (initialVelocity < 0)\n                    toNextIndex = curIndex + 1\n                  else\n                    toNextIndex = curIndex\n              } else if (offsetX > (kImgWidth + kMarginLeft) / 2) {\n                toNextIndex = curIndex + 1\n              } else {\n                toNextIndex = curIndex\n              }\n              if (toNextIndex < 0) toNextIndex = 0\n              if (toNextIndex > kTotalNum - 1) toNextIndex = kTotalNum - 1\n              totalMoveX = toNextIndex * (kImgWidth + kMarginLeft)\n              preTotalMoveX = totalMoveX\n              curIndex = toNextIndex\n              console.log(toNextIndex)\n          }\n          break\n      case 2:\n          if (curTouchX - startTouchX > kTouchSlop || startTouchX - curTouchX > kTouchSlop) {\n\n              totalMoveX = -(curTouchX - startTouchX) + preTotalMoveX\n              if (totalMoveX > kMaxMoveX) totalMoveX = kMaxMoveX\n              if (totalMoveX < kMinMoveX) totalMoveX = kMinMoveX\n              preIndex = curIndex\n              curIndex = totalMoveX / (kImgWidth + kMarginLeft)\n              curIndex = Math.floor(curIndex)\n              var offsetX = totalMoveX - (kImgWidth + kMarginLeft) * curIndex\n              ratioOfNextIndex = offsetX / (kImgWidth + kMarginLeft)\n              isAllowScroll = true\n          } else {\n              isAllowScroll = false\n          }\n          setConsumed(isAllowScroll)\n          break\n      default:\n          break\n    }\n}\n\nfunction onTouchEventForWrap(tag, touchX, touchY) {\n    if (isAllowScroll) {\n        if (curTouchType === 1 || curTouchType === 3) {\n            setDuration(kDuration)\n            dispatchEvent(kEventName, toNextIndex)\n        } else if (curTouchType === 2) {\n            var nextPage = curPage\n            if (totalMoveX )\n            if (nextPage !== curPage) {\n                curPage = nextPage\n                dispatchEvent(kEventName, curPage)\n            }\n        }\n    }\n}\n\nfunction onTouchEventForImg(tag, touchX, touchY) {\n    var itemIndex = 0\n    if (tag === kFirstItemTag) {\n        itemIndex = 0\n    } else if (tag === kSecondItemTag) {\n        itemIndex = 1\n    } else if (tag === kThirdItemTag) {\n        itemIndex = 2\n    } else if (tag === kFourthItemTag) {\n        itemIndex = 3\n    }\n    if (isAllowScroll) {\n        if (curTouchType === 2) {\n          setTranslateX(-totalMoveX)\n          if (curIndex + 1 === itemIndex) {\n            var scale = ratioOfNextIndex * (kMaxScale - kMinScale) + kMinScale\n            setScaleX(scale)\n            setScaleY(scale)\n          } else if (curIndex === itemIndex) {\n            var scale = (1 - ratioOfNextIndex) * (kMaxScale - kMinScale) + kMinScale\n            setScaleX(scale)\n            setScaleY(scale)\n          } else {\n            setScaleX(kMinScale)\n            setScaleY(kMinScale)\n          }\n        } else if (curTouchType === 1) {\n            setDuration(kDuration)\n            setTimingFunction(\"EASE_OUT\")\n            setTranslateX(-totalMoveX)\n            if (toNextIndex === itemIndex) {\n              setScaleX(kMaxScale)\n              setScaleY(kMaxScale)\n            } else {\n              setScaleX(kMinScale)\n              setScaleY(kMinScale)\n            }\n        }\n    }\n}\n\nfunction onTouchEventForBg(tag, touchX, touchY) {\n    if (isAllowScroll) {\n        var opacity = 1\n        if (curTouchType === 2 && curIndex >= 0 && curIndex < kTotalNum - 1) {\n            var curShowBgIndex = curIndex % 3\n            if (curShowBgIndex === 0) { // FirstBgImg show\n                if (tag === kFirstBgImgTag) opacity = (1 - ratioOfNextIndex)\n                if (tag === kSecondBgImgTag) opacity = ratioOfNextIndex\n                if (tag === kThirdBgImgTag) opacity = 0\n            } else if (curShowBgIndex === 1) { // SecondBgImg show\n                if (tag === kFirstBgImgTag) opacity = 0\n                if (tag === kSecondBgImgTag) opacity = (1 - ratioOfNextIndex)\n                if (tag === kThirdBgImgTag) opacity = ratioOfNextIndex\n            } else if (curShowBgIndex === 2) { // ThirdBgImg show\n                if (tag === kFirstBgImgTag) opacity = ratioOfNextIndex\n                if (tag === kSecondBgImgTag) opacity = 0\n                if (tag === kThirdBgImgTag) opacity = (1 - ratioOfNextIndex)\n            }\n            setOpacity(opacity)\n        } else if (curTouchType === 1 && curIndex >= 0 && curIndex <= kTotalNum - 1) {\n            var curShowBgIndex = toNextIndex % 3\n            if (curShowBgIndex === 0) { // FirstBgImg show\n                if (tag === kFirstBgImgTag) opacity = 1\n                if (tag === kSecondBgImgTag) opacity = 0\n                if (tag === kThirdBgImgTag) opacity = 0\n            } else if (curShowBgIndex === 1) { // SecondBgImg show\n                if (tag === kFirstBgImgTag) opacity = 0\n                if (tag === kSecondBgImgTag) opacity = 1\n                if (tag === kThirdBgImgTag) opacity = 0\n            } else if (curShowBgIndex === 2) { // ThirdBgImg show\n                if (tag === kFirstBgImgTag) opacity = 0\n                if (tag === kSecondBgImgTag) opacity = 0\n                if (tag === kThirdBgImgTag) opacity = 1\n            }\n            setDuration(kDuration)\n            setOpacity(opacity)\n        }\n    }\n}\n\nfunction onPropertiesUpdated(tag) {\n    curIndex = toNextPageIndex\n    // Caculate next page index\n    toNextIndex = toNextPageIndex\n    if (toNextIndex < 0) toNextIndex = 0\n    if (toNextIndex > kTotalNum - 1) toNextIndex = kTotalNum - 1\n    totalMoveX = toNextIndex * (kImgWidth + kMarginLeft)\n    preTotalMoveX = totalMoveX\n    // mock touch end\n    curTouchType = 1\n    isAllowScroll = true\n    if (tag.indexOf('item') === 0) {\n        onTouchEventForImg(tag, 0, 0)\n    } else if (tag.indexOf('BgImg') >= 0) {\n        onTouchEventForBg(tag, 0, 0)\n    } else if (tag === 'scrollWrap') {\n        onTouchEventForWrap(tag, 0, 0)\n    }\n    isAllowScroll = false\n}\n"
 
 /***/ }),
-/* 76 */
+/* 80 */
 /***/ (function(module, exports) {
 
 // shim for using process in browser
@@ -9627,7 +9679,7 @@ process.umask = function() { return 0; };
 
 
 /***/ }),
-/* 77 */
+/* 81 */
 /***/ (function(module, exports) {
 
 var g;

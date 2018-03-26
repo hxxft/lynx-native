@@ -13,11 +13,11 @@ function onScrollEvent(tag, scrollTop, scrollLeft){
         var y = 0 - scrollTop
         setTranslateY(y)
         var alpha = y / (min - max)
-        setAlpha(alpha)
+        setOpacity(alpha)
     }
     if (scrollTop > max - min) {
         setTranslateY(min - max)
-        setAlpha(1)
+        setOpacity(1)
     }
 }
 function onScrollEventForImg(tag, scrollTop, scrollLeft){
@@ -30,8 +30,8 @@ function onScrollEventForImg(tag, scrollTop, scrollLeft){
     }
 }
 function onScrollEventForTitle(tag, scrollTop, scrollLeft){
-    setPivotX(0)
-    setPivotY(40)
+    setOriginX(0)
+    setOriginY(40)
     if (scrollTop < max - min) {
         var y = 0 - scrollTop
         setTranslateY(y)
@@ -47,9 +47,9 @@ function onScrollEventForTitle(tag, scrollTop, scrollLeft){
 }
 function onScrollEventForShadowLine(tag, scrollTop, scrollLeft) {
     if (scrollTop > max - min) {
-        setAlpha(1)
+        setOpacity(1)
     }
     if (scrollTop < max - min) {
-        setAlpha(0)
+        setOpacity(0)
     }
 }

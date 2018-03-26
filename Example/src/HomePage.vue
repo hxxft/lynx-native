@@ -136,13 +136,21 @@ export default {
     }
   },
   mounted() {
-    LynxCoordinatorRegister.registeAction("sponsorAffinity", "responderAffinity", animationCommand)
+    CoordinatorRegister.registerAction("sponsorAffinity", "responderAffinity", animationCommand)
   },
   methods: {
     onMenuClick(e) {
     },
     jumpToNewPage(page) {
-      PageNavigator.startNewPage(page.toLowerCase());
+      if (this.pageEnable(page)) {
+        PageNavigator.startNewPage(page.toLowerCase())
+      }
+    },
+    pageEnable(page) {
+      if (page == "Gallery" || page == "Coordinator" || page == "Swiper") {
+        return true
+      }
+      return false
     }
   }
 }
@@ -269,8 +277,15 @@ export default {
   margin-top: 50;
   flex-direction: column;
 }
+.item-title-wrap {
+  justify-content: space-between;
+}
 .item-title {
   color: black;
+  font-size: 35;
+}
+.item-not-ready {
+  color: #a0a0a0;
   font-size: 35;
 }
 .item-introduction {

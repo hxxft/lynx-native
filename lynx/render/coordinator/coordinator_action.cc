@@ -10,16 +10,16 @@ namespace lynx {
     double CoordinatorAction::scale_y_ = 0;
     double CoordinatorAction::rotate_x_ = 0;
     double CoordinatorAction::rotate_y_ = 0;
-    double CoordinatorAction::pivot_x_ = 0;
-    double CoordinatorAction::pivot_y_ = 0;
-    double CoordinatorAction::alpha_ = 0;
-    double CoordinatorAction::offset_top_ = 0;
-    double CoordinatorAction::offset_bottom_ = 0;
-    double CoordinatorAction::offset_left_ = 0;
-    double CoordinatorAction::offset_right_ = 0;
+    double CoordinatorAction::origin_x_ = 0;
+    double CoordinatorAction::origin_y_ = 0;
+    double CoordinatorAction::opacity_ = 0;
+    double CoordinatorAction::top_offset_ = 0;
+    double CoordinatorAction::bottom_offset_ = 0;
+    double CoordinatorAction::left_offset_ = 0;
+    double CoordinatorAction::right_offset_ = 0;
     bool CoordinatorAction::consumed_ = false;
     double CoordinatorAction::duration_ = 0;
-    double CoordinatorAction::interpolator_type_ = 0;
+    double CoordinatorAction::timing_function_ = 0;
     std::string CoordinatorAction::event_ = "";
     lepus::Value CoordinatorAction::params_for_event_ = NULL;
 
@@ -30,18 +30,18 @@ namespace lynx {
         scale_y_ = kNotSet;
         rotate_x_ = kNotSet;
         rotate_y_ = kNotSet;
-        pivot_x_ = kNotSet;
-        pivot_y_ = kNotSet;
-        alpha_ = kNotSet;
-        offset_top_ = kNotSet;
-        offset_bottom_ = kNotSet;
-        offset_left_ = kNotSet;
-        offset_right_ = kNotSet;
+        origin_x_ = kNotSet;
+        origin_y_ = kNotSet;
+        opacity_ = kNotSet;
+        top_offset_ = kNotSet;
+        bottom_offset_ = kNotSet;
+        left_offset_ = kNotSet;
+        right_offset_ = kNotSet;
         consumed_ = false;
         duration_ = kNotSet;
         event_ = "";
         params_for_event_ = NULL;
-        interpolator_type_ = kNotSet;
+        timing_function_ = kNotSet;
     }
 
 }

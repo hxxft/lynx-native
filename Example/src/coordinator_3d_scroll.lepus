@@ -45,7 +45,7 @@ function init(tag) {
       setScaleY(kMinScale)
   }
   if (tag === kSecondBgImgTag || tag === kThirdBgImgTag) {
-      setAlpha(0)
+      setOpacity(0)
   }
 }
 
@@ -155,7 +155,7 @@ function onTouchEventForImg(tag, touchX, touchY) {
           }
         } else if (curTouchType === 1) {
             setDuration(kDuration)
-            setInterpolatorType("EASE_OUT")
+            setTimingFunction("EASE_OUT")
             setTranslateX(-totalMoveX)
             if (toNextIndex === itemIndex) {
               setScaleX(kMaxScale)
@@ -170,40 +170,40 @@ function onTouchEventForImg(tag, touchX, touchY) {
 
 function onTouchEventForBg(tag, touchX, touchY) {
     if (isAllowScroll) {
-        var alpha = 1
+        var opacity = 1
         if (curTouchType === 2 && curIndex >= 0 && curIndex < kTotalNum - 1) {
             var curShowBgIndex = curIndex % 3
             if (curShowBgIndex === 0) { // FirstBgImg show
-                if (tag === kFirstBgImgTag) alpha = (1 - ratioOfNextIndex)
-                if (tag === kSecondBgImgTag) alpha = ratioOfNextIndex
-                if (tag === kThirdBgImgTag) alpha = 0
+                if (tag === kFirstBgImgTag) opacity = (1 - ratioOfNextIndex)
+                if (tag === kSecondBgImgTag) opacity = ratioOfNextIndex
+                if (tag === kThirdBgImgTag) opacity = 0
             } else if (curShowBgIndex === 1) { // SecondBgImg show
-                if (tag === kFirstBgImgTag) alpha = 0
-                if (tag === kSecondBgImgTag) alpha = (1 - ratioOfNextIndex)
-                if (tag === kThirdBgImgTag) alpha = ratioOfNextIndex
+                if (tag === kFirstBgImgTag) opacity = 0
+                if (tag === kSecondBgImgTag) opacity = (1 - ratioOfNextIndex)
+                if (tag === kThirdBgImgTag) opacity = ratioOfNextIndex
             } else if (curShowBgIndex === 2) { // ThirdBgImg show
-                if (tag === kFirstBgImgTag) alpha = ratioOfNextIndex
-                if (tag === kSecondBgImgTag) alpha = 0
-                if (tag === kThirdBgImgTag) alpha = (1 - ratioOfNextIndex)
+                if (tag === kFirstBgImgTag) opacity = ratioOfNextIndex
+                if (tag === kSecondBgImgTag) opacity = 0
+                if (tag === kThirdBgImgTag) opacity = (1 - ratioOfNextIndex)
             }
-            setAlpha(alpha)
+            setOpacity(opacity)
         } else if (curTouchType === 1 && curIndex >= 0 && curIndex <= kTotalNum - 1) {
             var curShowBgIndex = toNextIndex % 3
             if (curShowBgIndex === 0) { // FirstBgImg show
-                if (tag === kFirstBgImgTag) alpha = 1
-                if (tag === kSecondBgImgTag) alpha = 0
-                if (tag === kThirdBgImgTag) alpha = 0
+                if (tag === kFirstBgImgTag) opacity = 1
+                if (tag === kSecondBgImgTag) opacity = 0
+                if (tag === kThirdBgImgTag) opacity = 0
             } else if (curShowBgIndex === 1) { // SecondBgImg show
-                if (tag === kFirstBgImgTag) alpha = 0
-                if (tag === kSecondBgImgTag) alpha = 1
-                if (tag === kThirdBgImgTag) alpha = 0
+                if (tag === kFirstBgImgTag) opacity = 0
+                if (tag === kSecondBgImgTag) opacity = 1
+                if (tag === kThirdBgImgTag) opacity = 0
             } else if (curShowBgIndex === 2) { // ThirdBgImg show
-                if (tag === kFirstBgImgTag) alpha = 0
-                if (tag === kSecondBgImgTag) alpha = 0
-                if (tag === kThirdBgImgTag) alpha = 1
+                if (tag === kFirstBgImgTag) opacity = 0
+                if (tag === kSecondBgImgTag) opacity = 0
+                if (tag === kThirdBgImgTag) opacity = 1
             }
             setDuration(kDuration)
-            setAlpha(alpha)
+            setOpacity(opacity)
         }
     }
 }

@@ -18,7 +18,7 @@
     return self;
 }
 
-LYX_REGISTER_MODULE(LynxCoordinatorRegister)
+LYX_REGISTER_MODULE(CoordinatorRegister)
 
 LYX_REGISTER_METHOD_WName(registerAction, void,
                           registerSponsorAffinity: (NSString*) sponsorAffinity

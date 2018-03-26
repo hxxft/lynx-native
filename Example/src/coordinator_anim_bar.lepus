@@ -85,9 +85,9 @@ function onDispatchScrollEvent(tag, scrollTop, scrollLeft) {
 function onScrollEventForBg(tag, scrollTop, scrollLeft) {
     if (curScrollTop < (animHeight - defaultBarHeight)) {
         var y = -curScrollTop
-        setOffsetBottom(y)
+        setBottomOffset(y)
     } else {
-        setOffsetBottom(-animHeight + defaultBarHeight)
+        setBottomOffset(-animHeight + defaultBarHeight)
     }
 }
 
@@ -102,19 +102,19 @@ function onScrollEventForCard(tag, scrollTop, scrollLeft){
     if (curScrollTop < endCardScalePosition) {
         var left = curScrollTop
         var bottom = curScrollTop
-        setOffsetBottom(bottom)
-        setOffsetLeft(0-left)
+        setBottomOffset(bottom)
+        setLeftOffset(0-left)
         tempTranslateY = 0
     } else {
         if (curScrollTop < endScalePosition) {
             var rate = (curScrollTop - endCardScalePosition) / (endScalePosition - endCardScalePosition)
             var left = rate * (maxCardWidth - minCardWidth - endCardScalePosition)
             var bottom = rate * (maxCardHeight - minCardHeight - endCardScalePosition)
-            setOffsetBottom(bottom + endCardScalePosition)
-            setOffsetLeft(0 - left - endCardScalePosition)
+            setBottomOffset(bottom + endCardScalePosition)
+            setLeftOffset(0 - left - endCardScalePosition)
         } else {
-            setOffsetBottom(200)
-            setOffsetLeft(0 - 250)
+            setBottomOffset(200)
+            setLeftOffset(0 - 250)
         }
         if (curScrollTop > startTranslateUpPosition) {
             if (curScrollTop < endTranslateUpPosition) {
@@ -152,24 +152,24 @@ function onScrollEventForCard(tag, scrollTop, scrollLeft){
 
 function onScrollEventForImg(tag, scrollTop, scrollLeft) {
     if (curScrollTop < defaultImgMargin * 2) {
-        setOffsetTop(curScrollTop / 2)
-        setOffsetBottom(curScrollTop / 2)
-        setOffsetLeft(curScrollTop / 2)
-        setOffsetRight(curScrollTop / 2)
+        setTopOffset(curScrollTop / 2)
+        setBottomOffset(curScrollTop / 2)
+        setLeftOffset(curScrollTop / 2)
+        setRightOffset(curScrollTop / 2)
     } else {
         if (curScrollTop < endScalePosition) {
             var rate = (curScrollTop - defaultImgMargin * 2) / (endScalePosition - defaultImgMargin * 2)
             var left = rate * (maxImgWidth - minImgWidth)
             var bottom = rate * (maxImgHeight - minImgHeight)
-            setOffsetTop(defaultImgMargin)
-            setOffsetRight(left + defaultImgMargin)
-            setOffsetBottom(bottom + defaultImgMargin)
-            setOffsetLeft(defaultImgMargin)
+            setTopOffset(defaultImgMargin)
+            setRightOffset(left + defaultImgMargin)
+            setBottomOffset(bottom + defaultImgMargin)
+            setLeftOffset(defaultImgMargin)
         } else {
-            setOffsetTop(defaultImgMargin)
-            setOffsetRight(150 + defaultImgMargin)
-            setOffsetBottom(100 + defaultImgMargin)
-            setOffsetLeft(defaultImgMargin)
+            setTopOffset(defaultImgMargin)
+            setRightOffset(150 + defaultImgMargin)
+            setBottomOffset(100 + defaultImgMargin)
+            setLeftOffset(defaultImgMargin)
         }
     }
 }

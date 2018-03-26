@@ -21,17 +21,17 @@ namespace lynx {
         lepus::RegisterCFunction(ctx, "setScaleY", action_.SetScaleY);
         lepus::RegisterCFunction(ctx, "setRotateX", action_.SetRotateX);
         lepus::RegisterCFunction(ctx, "setRotateY", action_.SetRotateY);
-        lepus::RegisterCFunction(ctx, "setPivotX", action_.SetPivotX);
-        lepus::RegisterCFunction(ctx, "setPivotY", action_.SetPivotY);
-        lepus::RegisterCFunction(ctx, "setAlpha", action_.SetAlpha);
-        lepus::RegisterCFunction(ctx, "setOffsetTop", action_.SetOffsetTop);
-        lepus::RegisterCFunction(ctx, "setOffsetBottom", action_.SetOffsetBottom);
-        lepus::RegisterCFunction(ctx, "setOffsetLeft", action_.SetOffsetLeft);
-        lepus::RegisterCFunction(ctx, "setOffsetRight", action_.SetOffsetRight);
+        lepus::RegisterCFunction(ctx, "setOriginX", action_.SetOriginX);
+        lepus::RegisterCFunction(ctx, "setOriginY", action_.SetOriginY);
+        lepus::RegisterCFunction(ctx, "setOpacity", action_.SetOpacity);
+        lepus::RegisterCFunction(ctx, "setTopOffset", action_.SetTopOffset);
+        lepus::RegisterCFunction(ctx, "setBottomOffset", action_.SetBottomOffset);
+        lepus::RegisterCFunction(ctx, "setLeftOffset", action_.SetLeftOffset);
+        lepus::RegisterCFunction(ctx, "setRightOffset", action_.SetRightOffset);
         lepus::RegisterCFunction(ctx, "setConsumed", action_.SetConsumed);
         lepus::RegisterCFunction(ctx, "setDuration", action_.SetDuration);
         lepus::RegisterCFunction(ctx, "dispatchEvent", action_.DispatchEvent);
-        lepus::RegisterCFunction(ctx, "setInterpolatorType", action_.SetInterpolatorType);
+        lepus::RegisterCFunction(ctx, "setTimingFunction", action_.SetTimingFunction);
 
         vm_->Execute(ctx, executable);
         ctx_ = ctx;

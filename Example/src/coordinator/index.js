@@ -24,7 +24,7 @@ var CoordinatorContext = function (sponsorAffinity, responderAffinity, action) {
   this.action = action;
 
   // Native method
-  LynxCoordinatorRegister.registerAction(sponsorAffinity,
+  CoordinatorRegister.registerAction(sponsorAffinity,
      responderAffinity, action);
 
 };
@@ -46,7 +46,7 @@ CoordinatorContext.prototype.updateProperties = function (properties, notify = f
 		throw new Error('properties must be defined as Object');
 	}
 
-  LynxCoordinatorRegister.updateProperties(this.sponsorAffinity,
+  CoordinatorRegister.updateProperties(this.sponsorAffinity,
                                            this.responderAffinity,
                                            properties,
                                            notify);
