@@ -74,6 +74,7 @@ namespace jscore {
     void Runtime::LoadHTML(const std::string& html) {
         if (html.empty())
             return;
+        render_tree_host()->host_impl()->SetParseStart();
         parser::RenderParser parser(render_tree_host(), this);
         parser.Insert(html);
         thread_manager_->RunOnJSThread(

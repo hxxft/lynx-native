@@ -44,6 +44,11 @@ class RenderTreeHostImpl : public RenderTreeHostClient,
 
     void NotifyBeginFrameComplete();
 
+    void SetParseStart() {
+        is_parse_finished_ = false;
+        is_first_layouted_ = false;
+    }
+
     void SetParseFinished() {
         is_parse_finished_ = true;
     }
