@@ -69,14 +69,6 @@ namespace jscore {
         static base::ScopedPtr<LynxValue>
         GetTextCallback(LynxObjectTemplate* object, base::ScopedPtr<LynxArray>& array);
         static base::ScopedPtr<LynxValue>
-        StartCallback(LynxObjectTemplate* object, base::ScopedPtr<LynxArray>& array);
-        static base::ScopedPtr<LynxValue>
-        StopCallback(LynxObjectTemplate* object, base::ScopedPtr<LynxArray>& array);
-        static base::ScopedPtr<LynxValue>
-        SetPullViewCallback(LynxObjectTemplate* object, base::ScopedPtr<LynxArray>& array);
-        static base::ScopedPtr<LynxValue>
-        ClosePullViewCallback(LynxObjectTemplate* object, base::ScopedPtr<LynxArray>& array);
-        static base::ScopedPtr<LynxValue>
         HasChildNodesCallback(LynxObjectTemplate* object, base::ScopedPtr<LynxArray>& array);
         static base::ScopedPtr<LynxValue>
         Animate(LynxObjectTemplate* object, base::ScopedPtr<LynxArray>& array);
@@ -101,7 +93,6 @@ namespace jscore {
         static base::ScopedPtr<LynxValue> GetClientHeightCallback(LynxObjectTemplate* object);
         static base::ScopedPtr<LynxValue> GetChildNodesCallback(LynxObjectTemplate* object);
         static base::ScopedPtr<LynxValue> GetFirstChildCallback(LynxObjectTemplate* object);
-        static base::ScopedPtr<LynxValue> GetIndexCallback(LynxObjectTemplate* object);
 
         static void SetScrollTopCallback(LynxObjectTemplate* object,
                                     base::ScopedPtr<jscore::LynxValue> value);
