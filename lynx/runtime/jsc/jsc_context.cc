@@ -17,7 +17,7 @@
 #include "runtime/jsc/timeout_callback.h"
 #include "runtime/jsc/jsc_helper.h"
 #include "runtime/jsc/class_wrap.h"
-#include "base/print.h"
+#include "base/log/logging.h"
 
 namespace jscore {
 
@@ -32,6 +32,7 @@ namespace jscore {
     }
     
     void JSCContext::Initialize(JSVM* vm, Runtime* runtime) {
+        DLOG(INFO) << "JSCContext Initialize";
         JSContext::Initialize(vm, runtime);
         JSContextGroupRef context_group = static_cast<JSContextGroupRef>(vm->vm());
         
@@ -106,8 +107,7 @@ namespace jscore {
             std::string str = JSCHelper::ConvertToString(context_, exception);
             if (!str.empty()) {
                 OnExceptionOccured(str);
-                LOGE("lynx-error", "lynx-js-log: %s , line: %d, column: %d", str.c_str(),
-                     line, column);
+                DLOG(ERROR) << "JS Compile ERROR: " << str << "(" << line << ":"<<column << ")";
             }
         }
 

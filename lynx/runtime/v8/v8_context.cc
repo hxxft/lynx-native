@@ -4,7 +4,7 @@
 
 #include <sstream>
 
-#include "base/print.h"
+#include "base/log/logging.h"
 #include "runtime/v8/objects/body_object.h"
 #include "runtime/v8/objects/console_object.h"
 #include "runtime/v8/objects/document_object.h"
@@ -26,7 +26,6 @@ V8Context::~V8Context() {
 }
 
 void V8Context::Initialize(JSVM* vm, Runtime* runtime) {
-    LOGD("lynx-debug", "V8Context::Initialize");
     JSContext::Initialize(vm, runtime);
     v8::Isolate* isolate = static_cast<v8::Isolate*>(GetVM());
     v8::Isolate::Scope isolate_scope(isolate);
@@ -146,7 +145,7 @@ void V8Context::RunScript(const char* source) {
 
     if (tc.HasCaught()) {
         std::string error = GetErrorMessage(tc.Message(), tc.Exception());
-        LOGE("lynx", "JSRuntime error: %s", error.c_str());
+        DLOG(ERROR) << error;
     }
 
     if (!script.IsEmpty()) {
@@ -159,7 +158,7 @@ void V8Context::RunScript(const char* source) {
 
         if (tc.HasCaught()) {
             std::string error = GetErrorMessage(tc.Message(), tc.Exception());
-            LOGE("lynx", "JSRuntime error: %s", error.c_str());
+            DLOG(ERROR) << error;
         }
 
     }
@@ -221,6 +220,6 @@ std::string V8Context::GetErrorStackTrace(const v8::Local<v8::StackTrace>& stack
 
 void V8Context::OnUncaughtError(v8::Handle<v8::Message> message, v8::Handle<v8::Value> error) {
     std::string m_message = GetErrorMessage(message, error);
-    LOGE("NativeException", "error: %s", m_message.c_str());
+    DLOG(ERROR)<<m_message;
 }
 }  // namespace jscore

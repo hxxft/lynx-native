@@ -1,13 +1,13 @@
 // Copyright 2017 The Lynx Authors. All rights reserved.
 
 #include "runtime/jsc/jsc_function.h"
+
+#include "base/log/logging.h"
 #include "runtime/jsc/jsc_context.h"
 #include "runtime/jsc/object_wrap.h"
 #include "runtime/jsc/objects/object_template.h"
 #include "runtime/jsc/jsc_helper.h"
 #include <sstream>
-#include "runtime/jsc/Performance.h"
-#include "base/print.h"
 
 namespace jscore {
     JSCFunction::JSCFunction(JSCContext* context, JSObjectRef function) : LynxFunction(context) {
@@ -38,7 +38,6 @@ namespace jscore {
     }
 
     void JSCFunction::Run(void* target, LynxArray* args) {
-//        Performance p("invoke_void_function");
         if (target == 0) {
             return;
         }
@@ -70,7 +69,7 @@ namespace jscore {
             std::string str = JSCHelper::ConvertToString(ctx, exception);
             if (!str.empty()) {
                 context_->OnExceptionOccured(str);
-                LOGE("lynx-error", "lynx-js-log: %s", str.c_str());
+                DLOG(ERROR) << str;
             }
         }
     }

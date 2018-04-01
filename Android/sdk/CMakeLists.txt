@@ -70,6 +70,7 @@ add_library(lynx SHARED
                 ${CMAKE_SOURCE_DIR}/../../lynx/base/debug/memory_debug.cc
                 ${CMAKE_SOURCE_DIR}/../../lynx/base/debug/memory_tracker.cc
                 ${CMAKE_SOURCE_DIR}/../../lynx/base/debug/timing_tracker.cc
+                ${CMAKE_SOURCE_DIR}/../../lynx/base/log/logging.cc
                 ${CMAKE_SOURCE_DIR}/../../lynx/base/observer/observer_list.cc
                 ${CMAKE_SOURCE_DIR}/../../lynx/base/string/string_number_convert.cc
             	${CMAKE_SOURCE_DIR}/../../lynx/base/threading/thread.cc
@@ -148,8 +149,7 @@ add_library(lynx SHARED
             	#${CMAKE_SOURCE_DIR}/../../lynx/runtime/jsc/params_transform.cc
             	${CMAKE_SOURCE_DIR}/../../lynx/runtime/jsc/objects/window_object.cc
             	${CMAKE_SOURCE_DIR}/../../lynx/runtime/jsc/objects/object_template.cc
-                ${CMAKE_SOURCE_DIR}/../../lynx/runtime/jsc/objects/function_object.cc
-                ${CMAKE_SOURCE_DIR}/../../lynx/runtime/jsc/Performance.cc
+              ${CMAKE_SOURCE_DIR}/../../lynx/runtime/jsc/objects/function_object.cc
             	${CMAKE_SOURCE_DIR}/../../lynx/net/url_request_context.cc
             	${CMAKE_SOURCE_DIR}/../../lynx/net/url_request_ghost_delegate.cc
             	${CMAKE_SOURCE_DIR}/../../lynx/net/android/url_request_android.cc

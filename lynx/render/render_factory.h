@@ -5,7 +5,7 @@
 
 #include <stdint.h>
 #include <string>
-#include <base/print.h>
+#include "base/log/logging.h"
 
 #include "render/body.h"
 #include "render/image_view.h"
@@ -22,6 +22,7 @@
 #include "render/text_area.h"
 #include "runtime/thread_manager.h"
 #include "render/render_tree_host.h"
+
 namespace lynx {
 class RenderFactory {
 public:
@@ -74,8 +75,7 @@ public:
         } else if (tag.compare("xcanvas") == 0){
             return lynx_new CanvasView("xcanvas", LYNX_CANVAS, ++id, host);
         }else{
-
-            LOGE("[LYNX ERROR]", "Element Tag(%s) is Not Support", tag.c_str());
+            DLOG(ERROR) << tag << "is Not Support";
         }
         return NULL;
     }

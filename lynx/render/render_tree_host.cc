@@ -55,10 +55,10 @@ void RenderTreeHost::SetRenderRoot(RenderObject* root) {
 
 void RenderTreeHost::UpdateRenderObject(RenderCommand* command) {
     // exec command immediately
-    //thread_manager_->RunOnUIThread(command);
+    thread_manager_->RunOnUIThread(command);
 
     // collect command and wait vsync signal to exec
-    collector_.Collect(command);
+    //collector_.Collect(command);
 }
 
 void RenderTreeHost::ForceLayout(int left, int top, int right, int bottom) {

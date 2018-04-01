@@ -19,7 +19,6 @@ namespace jscore {
     std::map<int,std::map<std::string, int>>  Element::s_rpc_methods;
     Element::Element(JSContext* context, lynx::RenderObject* render_object)
             : is_protect_(false), render_object_(render_object), context_(context) {
-        //LOGD("lynx-debug", "construct ElementCount: %d", ++ElementObjectCount);
 
         if(render_object_.Get() != NULL) {
             render_object_->SetJSRef(this);
@@ -75,7 +74,6 @@ namespace jscore {
     }
 
     Element::~Element() {
-        //LOGD("lynx-debug", "destruct ElementCount: %d", --ElementObjectCount);
 
     }
 

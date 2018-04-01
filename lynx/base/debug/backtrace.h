@@ -12,6 +12,8 @@
 #include <dlfcn.h>
 #include <sstream>
 
+#include "base/log/logging.h"
+
 namespace {
 
     struct BacktraceState
@@ -58,10 +60,8 @@ namespace base {
                     symbol = info.dli_sname;
                 }
 
-                //os << "  #" << std::setw(2) << idx << ": " << addr << "  " << symbol << "\n";
-                LOGD("lynx-dump", "# %d: %s", idx, symbol);
+                DLOG(WARNING) << "#" << idx << ":" << symbol;
             }
-            LOGD("lynx-dump", "\n");
         }
 
 

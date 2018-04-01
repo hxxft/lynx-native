@@ -1,9 +1,11 @@
 // Copyright 2017 The Lynx Authors. All rights reserved.
 
-#include <base/print.h>
-#include <set>
 #include "base/debug/memory_tracker.h"
+
+#include "base/log/logging.h"
 #include "base/debug/backtrace.h"
+
+#include <set>
 
 namespace base {
     static MemoryTracker g_memory_tracker_;
@@ -35,7 +37,6 @@ namespace base {
         AutoLock lock(lock_);
         std::map<intptr_t, TrackerInfo>::iterator iter = tracker_map_.find(ptr);
         if(iter == tracker_map_.end()) {
-            LOGE("memory-tracker", "%d", ptr);
             debug::PrintCurrentBacktrace();
             return;
         }
@@ -46,7 +47,7 @@ namespace base {
         AutoLock lock(lock_);
         std::map<intptr_t, TrackerInfo>::iterator iter = tracker_map_.begin();
         for(; iter != tracker_map_.end(); ++iter) {
-            LOGE("memory-tracker", "%s: %d", iter->second.file_.c_str(), iter->second.line_);
+            DLOG(ERROR) << "Memory Leak: " << iter->second.file_ << ":" << iter->second.line_; 
             debug::PrintBacktrace(iter->second.buffer_, iter->second.size_);
         }
         tracker_map_.clear();

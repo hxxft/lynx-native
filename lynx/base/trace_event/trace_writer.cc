@@ -9,7 +9,7 @@
 #include <stdlib.h>
 #include <fcntl.h>
 
-#include "base/print.h"
+#include "base/log/logging.h"
 
 namespace base {
 void TraceWriter::Start() {
@@ -20,7 +20,7 @@ void TraceWriter::Start() {
 
   fd_ = open(file_path.str().c_str(), O_CREAT | O_RDWR);
 
-  LOGD("lynx-debug", "file open: %s, %d", file_path.str().c_str(), fd_);
+  DCHECK(fd_ != -1) << "trace file open failed: " << file_path.str();
 }
 
 void TraceWriter::Stop() {
@@ -33,8 +33,8 @@ void TraceWriter::Stop() {
     write(fd_, last_trace_.c_str(), last_trace_.length());
     write(fd_, "}", 1);
   }
-  LOGD("lynx-debug", "stop file writer");
 }
+
 void TraceWriter::Write(TraceEvent* event) {
   if(!last_trace_.empty() && fd_ != -1) {
     write(fd_, last_trace_.c_str(), last_trace_.length());
