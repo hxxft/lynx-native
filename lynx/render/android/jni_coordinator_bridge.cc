@@ -6,9 +6,10 @@
 #include "base/android/jni_helper.h"
 #include "render/coordinator/coordinator_executor.h"
 
-jdoubleArray GenerateAction(JNIEnv *env, lynx::CoordinatorAction action) {
+base::android::ScopedLocalJavaRef<jdoubleArray> GenerateAction(JNIEnv *env,
+                                                               lynx::CoordinatorAction action) {
     int length = 16;
-    jdoubleArray result = env->NewDoubleArray(length);
+    auto result = base::android::JType::NewDoubleArray(env, length);
     double temp[length];
     temp[0] = action.translate_x_;
     temp[1] = action.translate_y_;
@@ -26,13 +27,14 @@ jdoubleArray GenerateAction(JNIEnv *env, lynx::CoordinatorAction action) {
     temp[13] = action.consumed_;
     temp[14] = action.duration_;
     temp[15] = action.timing_function_;
-    env->SetDoubleArrayRegion(result, 0, length, temp);
+    env->SetDoubleArrayRegion(result.Get(), 0, length, temp);
     return result;
 }
 
-jobject GenerateEvent(JNIEnv *env, lynx::CoordinatorAction action) {
+base::android::ScopedLocalJavaRef<jobjectArray> GenerateEvent(JNIEnv *env,
+                                                         lynx::CoordinatorAction action) {
     if (action.event_.empty())
-        return NULL;
+        return base::android::ScopedLocalJavaRef<jobjectArray>();
     int length = 2;
     auto result = base::android::JType::NewObjectArray(env, length);
     auto event_name = base::android::JNIHelper::ConvertToJNIString(env, action.event_);
@@ -58,16 +60,15 @@ jobject GenerateEvent(JNIEnv *env, lynx::CoordinatorAction action) {
             break;
         default: break;
     }
-    return result.Release();
+    return result;
 }
 
-jobjectArray ConvertCoordinatorActionForAndroid(JNIEnv *env, lynx::CoordinatorAction action) {
+base::android::ScopedLocalJavaRef<jobjectArray>
+ConvertCoordinatorActionForAndroid(JNIEnv *env, lynx::CoordinatorAction action) {
     int length = 2;
-    auto scoped_array = base::android::JType::NewObjectArray(env, length);
-    jobjectArray result = scoped_array.Get();
-    scoped_array.Release();
-    env->SetObjectArrayElement(result, 0, GenerateAction(env, action));
-    env->SetObjectArrayElement(result, 1, GenerateEvent(env, action));
+    auto result = base::android::JType::NewObjectArray(env, length);
+    env->SetObjectArrayElement(result.Get(), 0, GenerateAction(env, action).Get());
+    env->SetObjectArrayElement(result.Get(), 1, GenerateEvent(env, action).Get());
     return result;
 }
 
@@ -96,6 +97,9 @@ const std::vector<lepus::Value> ConstructCoordinatorArgs(JNIEnv *env,
     for (int i = 0; i < length; ++i) {
         lepus_args.push_back(c_args[i]);
     }
+
+    env->ReleaseDoubleArrayElements(args, c_args, JNI_FALSE);
+
     return lepus_args;
 }
 
@@ -108,7 +112,7 @@ jobjectArray Execute(JNIEnv* env, jclass jcaller, jlong ptr,
                                                                                  executor,
                                                                                  tag,
                                                                                  args));
-    return ConvertCoordinatorActionForAndroid(env, action);
+    return ConvertCoordinatorActionForAndroid(env, action).Release();
 }
 
 jlong Prepare(JNIEnv *env, jclass jcaller, jstring executable) {
