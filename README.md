@@ -38,18 +38,48 @@ Lynx选择了Vue.js作为开发框架，当然的利于Lynx的API设计，使用
 
   Lynx是一个跨平台开发框架，底层基于C++编写，能方便的在Android/iOS平台上编译运行。
 
-  + Android平台编译  
-    + 执行`{$dir}/lynx-native/lynx/build/prebuild.sh`  
-    + 使用Android Studio打开`{$dir}/lynx-native/Android`  
-    + 编译运行example工程
+* 下载代码
 
-  + iOS平台编译  
+  ```shell
+  $ git clone https://github.com/hxxft/lynx-native.git
+  ```
 
-    + 在`{$dir}/lynx-native/iOS/`执行`pod install`, 没有安装pod的请先安装pd  
+* 编译
+    * Android平台  
 
-    + 使用xcode打开`{$dir}/lynx-native/iOS/lynx.xcworkspace`
+      * 执行
 
-      ​
+        ```shell
+        $ cd lynx-native
+        $ ./lynx/build/prebuild.sh
+        ```
+
+      * 使用Android Studio打开`./Android`文件夹
+
+      * 编译运行example工程
+
+    * iOS平台
+
+        * 执行
+
+          ```shell
+          $ cd lynx-native/iOS/
+          $ pod install
+          ```
+
+      * 使用xcode打开`./iOS/lynx.xcworkspace`
+
+      * 编译运行
+
+        ​
+
+## 文档
+
+Lynx项目目前处于alpha阶段，我们提供了基本的开发文档，后续我们会在完善项目的同时持续完善文档。
+
+Lynx文档地址：https://hxxft.github.io/lynx-book
+
+
 
 ### Lynx工作流程
 
@@ -76,7 +106,7 @@ Lynx选择了Vue.js作为开发框架，当然的利于Lynx的API设计，使用
 
 ### 联系方式
 
-Lynx项目目前处于alpha阶段，已经具有完备的雏形，喜欢尝鲜体验的同学可以先尝试编译项目中的demo进行体验。后续一个月内我们将会提供完善的API文档，以及更详细设计文档，也欢迎有兴趣的同学加入的我们的项目中，给我们提Issue和Pull Request。 
+喜欢尝鲜体验的同学可以先尝试编译项目中的demo进行体验。后续我们将会持续完善开发文档，并且提供更详细设计文档，也欢迎有兴趣的同学加入的我们的项目中，给我们提Issue和Pull Request。 
 
 有兴趣的同学也可以加入Lynx交流群(674140735)，一起参与讨论。
 
