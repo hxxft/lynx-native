@@ -85,7 +85,7 @@ android::ScopedLocalJavaRef<jobject>  Convert::PositionConvert(
 #define STYLE_CLASS_PATH "com/lynx/base/Style"
 #define STYLE_CONSTRUCTOR_METHOD "<init>", "()V"
 #define STYLE_BACKGROUBD_COLOR_FIELD "mBackgroundColor", "I"
-#define STYLE_BORDER_WIDTH_FIELD "mBorderWidth", "D"
+#define STYLE_BORDER_WIDTH_FIELD "mBorderWidth", "I"
 #define STYLE_BORDER_COLOR_FIELD "mBorderColor", "I"
 #define STYLE_BORDER_RADIUS_FIELD "mBorderRadius", "D"
 #define STYLE_OPACITY_FIELD "mOpacity", "D"
@@ -150,7 +150,7 @@ android::ScopedLocalJavaRef<jobject>  Convert::StyleConvert(
     jobject style_obj = env->NewObject(style_class_, style_constructor_);
 
     env->SetIntField(style_obj, background_color_field_, style.background_color_.Cast());
-    env->SetDoubleField(style_obj, border_width_field_, style.border_width_);
+    env->SetIntField(style_obj, border_width_field_, style.border_width_);
     env->SetIntField(style_obj, border_color_field_, style.border_color_.Cast());
     env->SetDoubleField(style_obj, border_radius_field_, style.border_radius_);
     env->SetDoubleField(style_obj, opacity_field_, style.opacity_);

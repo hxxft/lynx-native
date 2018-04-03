@@ -42,9 +42,4 @@ public class LynxUILabel extends LynxUI<AndroidLabel> {
         super.setData(attr, param);
     }
 
-    protected void setPadding(@NonNull Style style) {
-        mView.setPadding(style.mPaddingLeft, style.mPaddingTop,
-                style.mPaddingRight, style.mPaddingBottom);
-    }
-
 }

@@ -21,7 +21,7 @@ public class UIBackgroundDrawable extends Drawable {
     public UIBackgroundDrawable() {
         mMakers = new ArrayList<>();
         // This adding order will affect the drawing order
-        mMakers.add(new BackgroundColorMaker());
+        mMakers.add(new BgColorMaker());
         mMakers.add(new BorderMaker());
     }
 

@@ -9,8 +9,7 @@ import android.support.annotation.NonNull;
 import com.lynx.base.Position;
 import com.lynx.base.Style;
 
-// TODO: 17/8/7 需要去除border占据的部分
-public class BackgroundColorMaker implements IMaker{
+public class BgColorMaker implements IMaker{
     private RectF mBackgroundRectF;
     private Paint mBackgroundPaint;
 
@@ -19,25 +18,21 @@ public class BackgroundColorMaker implements IMaker{
     private float mBackgroundRadius = 0;
     private float mWidth = 0;
     private float mHeight = 0;
+    private float mWidthOffset = 0;
+    private float mHeightOffset = 0;
     private int mCurrentColor = 0;
 
-    public BackgroundColorMaker() {
+    public BgColorMaker() {
         mBackgroundPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mBackgroundRectF = new RectF();
     }
 
     private void syncRecF() {
-        mBackgroundRectF.set(0, 0, mWidth, mHeight);
-    }
-
-    public void reset() {
-        mBackgroundPaint.reset();
-        mBackgroundRectF.setEmpty();
-        needBgColor = false;
+        mBackgroundRectF.set(0, 0, mWidth + mWidthOffset, mHeight + mHeightOffset);
     }
 
     @Override
-    public void updateBounds(@NonNull  Position bounds) {
+    public void updateBounds(@NonNull Position bounds) {
         mWidth = bounds.getWidth();
         mHeight = bounds.getHeight();
         syncRecF();
@@ -48,14 +43,15 @@ public class BackgroundColorMaker implements IMaker{
         if (style.mBackgroundColor != 0) {
             needBgColor = true;
             if (mCurrentColor != style.mBackgroundColor) {
-                // 设置背景颜色
                 mBackgroundPaint.setColor(style.mBackgroundColor);
                 mCurrentColor = style.mBackgroundColor;
             }
         } else {
             needBgColor = false;
         }
-        // 设置圆角
+        if (style.mBorderWidth != 0) {
+            mHeightOffset = mWidthOffset = (float) (-style.mBorderWidth * 2);
+        }
         if ((float) style.mBorderRadius > 0) {
             mBackgroundRadius = (float) (style.mBorderRadius);
         } else {

@@ -36,7 +36,7 @@ public class Style {
 
 
     public int mBackgroundColor;
-    public double mBorderWidth;
+    public int mBorderWidth;
     public int mBorderColor;
     public double mBorderRadius;
     public double mOpacity ;
