@@ -20,6 +20,11 @@ ScopedLocalJavaRef<jobjectArray> JType::NewObjectArray(JNIEnv* env, int length) 
             (env, env->NewObjectArray(length, object_clazz, nullptr));
 }
 
+
+ScopedLocalJavaRef<jdoubleArray> JType::NewDoubleArray(JNIEnv* env, int length) {
+    return ScopedLocalJavaRef<jdoubleArray>(env, env->NewDoubleArray(length));
+}
+
 ScopedLocalJavaRef<jobjectArray> JType::NewStringArray(JNIEnv* env, int length) {
     EnsureInstance(env, Type::String);
     return ScopedLocalJavaRef<jobjectArray>

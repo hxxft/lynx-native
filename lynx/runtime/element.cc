@@ -44,10 +44,6 @@ namespace jscore {
         RegisterMethodCallback("setStyle", &SetStyleCallback);
         RegisterMethodCallback("setText", &SetTextCallback);
         RegisterMethodCallback("getText", &GetTextCallback);
-        RegisterMethodCallback("start", &StartCallback);
-        RegisterMethodCallback("stop", &StopCallback);
-        RegisterMethodCallback("setPullView", &SetPullViewCallback);
-        RegisterMethodCallback("closePullView", &ClosePullViewCallback);
         RegisterMethodCallback("hasChildNodes", &HasChildNodesCallback);
         RegisterMethodCallback("animate", &Animate);
 
@@ -70,7 +66,6 @@ namespace jscore {
         RegisterAccessorCallback("textContent", &GetTextContentCallback, &SetTextContentCallback);
         RegisterAccessorCallback("childNodes", &GetChildNodesCallback, 0);
         RegisterAccessorCallback("firstChild", &GetFirstChildCallback, 0);
-        RegisterAccessorCallback("index", &GetIndexCallback, 0);
     }
 
     Element::~Element() {
@@ -345,30 +340,6 @@ namespace jscore {
     }
 
     base::ScopedPtr<LynxValue>
-    Element::StartCallback(LynxObjectTemplate* object, base::ScopedPtr<LynxArray>& array) {
-
-        return base::ScopedPtr<LynxValue>(NULL);
-    }
-
-    base::ScopedPtr<LynxValue>
-    Element::StopCallback(LynxObjectTemplate* object, base::ScopedPtr<LynxArray>& array) {
-
-        return base::ScopedPtr<LynxValue>(NULL);
-    }
-
-    base::ScopedPtr<LynxValue>
-    Element::SetPullViewCallback(LynxObjectTemplate* object, base::ScopedPtr<LynxArray>& array) {
-
-        return base::ScopedPtr<LynxValue>(NULL);
-    }
-
-    base::ScopedPtr<LynxValue>
-    Element::ClosePullViewCallback(LynxObjectTemplate* object, base::ScopedPtr<LynxArray>& array) {
-
-        return base::ScopedPtr<LynxValue>(NULL);
-    }
-
-    base::ScopedPtr<LynxValue>
     Element::HasChildNodesCallback(LynxObjectTemplate* object, base::ScopedPtr<LynxArray>& array) {
         Element* element = static_cast<Element*>(object);
         lynx::RenderObject* render_object = element->render_object();
@@ -508,10 +479,6 @@ namespace jscore {
             render_child = static_cast<lynx::RenderObject*>(render_child->Next());
         }
         return LynxValue::MakeValueScoped(array);
-    }
-
-    base::ScopedPtr<LynxValue> Element::GetIndexCallback(LynxObjectTemplate* object) {
-        return base::ScopedPtr<LynxValue>(NULL);
     }
 
     void Element::SetScrollTopCallback(LynxObjectTemplate* object,

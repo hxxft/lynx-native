@@ -46,15 +46,22 @@ namespace lynx {
         SetCoordinatorNumber(SetTranslateX, translate_x_)
         SetCoordinatorNumber(SetScaleX, scale_x_)
         SetCoordinatorNumber(SetScaleY, scale_y_)
-        SetCoordinatorNumber(SetPivotX, pivot_x_)
-        SetCoordinatorNumber(SetPivotY, pivot_y_)
+
+        SetCoordinatorNumber(SetOriginX, origin_x_)
+
+        SetCoordinatorNumber(SetOriginY, origin_y_)
         SetCoordinatorNumber(SetRotateX, rotate_x_)
         SetCoordinatorNumber(SetRotateY, rotate_y_)
-        SetCoordinatorNumber(SetAlpha, alpha_)
-        SetCoordinatorNumber(SetOffsetTop, offset_top_)
-        SetCoordinatorNumber(SetOffsetBottom, offset_bottom_)
-        SetCoordinatorNumber(SetOffsetRight, offset_right_)
-        SetCoordinatorNumber(SetOffsetLeft, offset_left_)
+
+        SetCoordinatorNumber(SetOpacity, opacity_)
+
+        SetCoordinatorNumber(SetTopOffset, top_offset_)
+
+        SetCoordinatorNumber(SetBottomOffset, bottom_offset_)
+
+        SetCoordinatorNumber(SetRightOffset, right_offset_)
+
+        SetCoordinatorNumber(SetLeftOffset, left_offset_)
         SetCoordinatorNumber(SetDuration, duration_)
         SetCoordinatorBool(SetConsumed, consumed_)
 
@@ -69,19 +76,19 @@ namespace lynx {
             return lepus::Value();
         }
 
-        static lepus::Value SetInterpolatorType(lepus::Context* context) {
+        static lepus::Value SetTimingFunction(lepus::Context *context) {
             int params_count = context->GetParamsSize();
             std::string type = context->GetParam(0)->str_->c_str();
             if (type.compare("LINEAR")) {
-                interpolator_type_ = 0;
+                timing_function_ = 0;
             } else if (type.compare("EASE")) {
-                interpolator_type_ = 1;
+                timing_function_ = 1;
             } else if (type.compare("EASE_OUT")) {
-                interpolator_type_ = 2;
+                timing_function_ = 2;
             } else if (type.compare("EASE_IN")) {
-                interpolator_type_ = 3;
+                timing_function_ = 3;
             } else if (type.compare("EASE_IN_OUT")) {
-                interpolator_type_ = 4;
+                timing_function_ = 4;
             }
             return lepus::Value();
         }
@@ -94,16 +101,16 @@ namespace lynx {
         static double scale_y_;
         static double rotate_x_;
         static double rotate_y_;
-        static double pivot_x_;
-        static double pivot_y_;
-        static double alpha_;
-        static double offset_top_;
-        static double offset_bottom_;
-        static double offset_left_;
-        static double offset_right_;
+        static double origin_x_;
+        static double origin_y_;
+        static double opacity_;
+        static double top_offset_;
+        static double bottom_offset_;
+        static double left_offset_;
+        static double right_offset_;
         static bool consumed_;
         static double duration_;
-        static double interpolator_type_;
+        static double timing_function_;
 
         static std::string event_;
         static lepus::Value params_for_event_;

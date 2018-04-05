@@ -11,16 +11,16 @@ import com.lynx.utils.PixelUtil;
     private float mScaleY = 0;
     private float mRotationY = 0;
     private float mRotationX = 0;
-    private float mPivotY = 0;
-    private float mPivotX = 0;
-    private float mAlpha = 0;
+    private float mOriginY = 0;
+    private float mOriginX = 0;
+    private float mOpacity = 0;
     private float mOffsetTop = 0;
     private float mOffsetBottom = 0;
     private float mOffsetLeft = 0;
     private float mOffsetRight = 0;
     private boolean mIsConsumed = false;
     private long mDuration = 0;
-    private int mInterpolatorType = 0;
+    private int mTimingFunction = 0;
     private String mEvent;
     private Object mParamsForEvent = 0;
 
@@ -34,16 +34,16 @@ import com.lynx.utils.PixelUtil;
         mScaleY = (float) dResult[i++];
         mRotationX = (float) dResult[i++];
         mRotationY = (float) dResult[i++];
-        mPivotX = convertToPx(dResult[i++]);
-        mPivotY = convertToPx(dResult[i++]);
-        mAlpha = (float) dResult[i++];
+        mOriginX = convertToPx(dResult[i++]);
+        mOriginY = convertToPx(dResult[i++]);
+        mOpacity = (float) dResult[i++];
         mOffsetTop = convertToPx(dResult[i++]);
         mOffsetLeft = convertToPx(dResult[i++]);
         mOffsetBottom = convertToPx(dResult[i++]);
         mOffsetRight = convertToPx(dResult[i++]);
         mIsConsumed = dResult[i++] != 0;
         mDuration = (long) dResult[i++];
-        mInterpolatorType = (int) dResult[i++];
+        mTimingFunction = (int) dResult[i++];
 
         // parse event
         Object[] eResult = (Object[]) result[1];
@@ -85,30 +85,30 @@ import com.lynx.utils.PixelUtil;
     }
 
     public float getPivotX() {
-        return mPivotX;
+        return mOriginX;
     }
 
     public float getPivotY() {
-        return mPivotY;
+        return mOriginY;
     }
 
     public float getAlpha() {
-        return mAlpha;
+        return mOpacity;
     }
 
-    public float getOffsetBottom() {
+    public float getBottomOffset() {
         return mOffsetBottom;
     }
 
-    public float getOffsetTop() {
+    public float getTopOffset() {
         return mOffsetTop;
     }
 
-    public float getOffsetRight() {
+    public float getRightOffset() {
         return mOffsetRight;
     }
 
-    public float getOffsetLeft() {
+    public float getLeftOffset() {
         return mOffsetLeft;
     }
 
@@ -130,7 +130,7 @@ import com.lynx.utils.PixelUtil;
     }
 
     public int getInterpolatorType() {
-        return mInterpolatorType;
+        return mTimingFunction;
     }
 
 }

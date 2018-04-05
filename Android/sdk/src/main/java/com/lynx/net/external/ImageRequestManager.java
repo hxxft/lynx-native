@@ -3,6 +3,7 @@ package com.lynx.net.external;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
 import android.widget.ImageView;
 
@@ -16,6 +17,7 @@ import com.squareup.picasso.Callback;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.RequestCreator;
+import com.squareup.picasso.Target;
 import com.squareup.picasso.Transformation;
 
 import java.io.IOException;
@@ -113,16 +115,10 @@ public class ImageRequestManager extends NetRequestManager {
         if (TextUtils.isEmpty(url)) {
             return null;
         }
-        Bitmap result = null;
-        try {
-            result = mPicasso
-                    .load(url)
-                    .networkPolicy(NetworkPolicy.OFFLINE)
-                    .get();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return (T) result;
+        CacheDetector detector = new CacheDetector();
+        // Async action
+        mPicasso.load(url).networkPolicy(NetworkPolicy.OFFLINE).into(detector);
+        return (T) detector.bitmap;
     }
 
     @Override
@@ -187,6 +183,23 @@ public class ImageRequestManager extends NetRequestManager {
         @Override
         public String key() {
             return mImageTransformation.key();
+        }
+    }
+
+    private static class CacheDetector implements Target {
+        public Bitmap bitmap;
+
+        @Override
+        public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+            this.bitmap = bitmap;
+        }
+
+        @Override
+        public void onBitmapFailed(Drawable errorDrawable) {
+        }
+
+        @Override
+        public void onPrepareLoad(Drawable placeHolderDrawable) {
         }
     }
 }

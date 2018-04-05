@@ -39,8 +39,8 @@ LYX_NOT_IMPLEMENTED(- (instancetype) init)
 - (void) executeAction:(lynx::CoordinatorAction) action {
     
     UIViewAnimationOptions interpolator = UIViewAnimationOptionCurveEaseInOut;
-    if (action.interpolator_type_ != lynx::CoordinatorAction::kNotSet) {
-        switch ((int) action.interpolator_type_) {
+    if (action.timing_function_ != lynx::CoordinatorAction::kNotSet) {
+        switch ((int) action.timing_function_) {
             case 0://LINEAR
                 interpolator = UIViewAnimationOptionCurveLinear; break;
             case 1://EASE_IN
@@ -92,34 +92,34 @@ LYX_NOT_IMPLEMENTED(- (instancetype) init)
                              transform = CATransform3DRotate(transform, angle, 0, 1, 0);
                              isTransformChanged = YES;
                          }
-                         if (action.alpha_ != lynx::CoordinatorAction::kNotSet){
-                             view.alpha = action.alpha_;
+                         if (action.opacity_ != lynx::CoordinatorAction::kNotSet){
+                             view.alpha = action.opacity_;
                          }
                          CGPoint anchorPoint = view.layer.anchorPoint;
-                         if (action.pivot_x_ != lynx::CoordinatorAction::kNotSet) {
-                             anchorPoint.x = [LYXPixelUtil lynxNumberToPx:action.pivot_x_] / view.frame.size.width;
+                         if (action.origin_x_ != lynx::CoordinatorAction::kNotSet) {
+                             anchorPoint.x = [LYXPixelUtil lynxNumberToPx:action.origin_x_] / view.frame.size.width;
                              isTransformChanged = YES;
                          }
-                         if (action.pivot_y_ != lynx::CoordinatorAction::kNotSet) {
-                             anchorPoint.y = [LYXPixelUtil lynxNumberToPx:action.pivot_y_] / view.frame.size.height;
+                         if (action.origin_y_ != lynx::CoordinatorAction::kNotSet) {
+                             anchorPoint.y = [LYXPixelUtil lynxNumberToPx:action.origin_y_] / view.frame.size.height;
                              isTransformChanged = YES;
                          }
 
                          BOOL isLayoutOffsetChanged = NO;
-                         if (action.offset_top_ != lynx::CoordinatorAction::kNotSet) {
-                             [_ui setOffsetTop:[LYXPixelUtil lynxNumberToPx:action.offset_top_]];
+                         if (action.top_offset_ != lynx::CoordinatorAction::kNotSet) {
+                             [_ui setOffsetTop:[LYXPixelUtil lynxNumberToPx:action.top_offset_]];
                              isLayoutOffsetChanged = YES;
                          }
-                         if (action.offset_bottom_ != lynx::CoordinatorAction::kNotSet) {
-                             [_ui setOffsetBottom:[LYXPixelUtil lynxNumberToPx:action.offset_bottom_]];
+                         if (action.bottom_offset_ != lynx::CoordinatorAction::kNotSet) {
+                             [_ui setOffsetBottom:[LYXPixelUtil lynxNumberToPx:action.bottom_offset_]];
                              isLayoutOffsetChanged = YES;
                          }
-                         if (action.offset_left_ != lynx::CoordinatorAction::kNotSet) {
-                             [_ui setOffsetLeft:[LYXPixelUtil lynxNumberToPx:action.offset_left_]];
+                         if (action.left_offset_ != lynx::CoordinatorAction::kNotSet) {
+                             [_ui setOffsetLeft:[LYXPixelUtil lynxNumberToPx:action.left_offset_]];
                              isLayoutOffsetChanged = YES;
                          }
-                         if (action.offset_right_ != lynx::CoordinatorAction::kNotSet) {
-                             [_ui setOffsetRight:[LYXPixelUtil lynxNumberToPx:action.offset_right_]];
+                         if (action.right_offset_ != lynx::CoordinatorAction::kNotSet) {
+                             [_ui setOffsetRight:[LYXPixelUtil lynxNumberToPx:action.right_offset_]];
                              isLayoutOffsetChanged = YES;
                          }
 

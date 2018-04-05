@@ -15,8 +15,8 @@ RenderTreeHostImpl::RenderTreeHostImpl(jscore::ThreadManager* thread_manager,
       thread_manager_(thread_manager),
       render_tree_host_(host),
       render_root_(root),
-      is_parse_finished_(false),
-      is_first_layouted_(false) {}
+      is_parse_finished_(true),
+      is_first_layouted_(true) {}
 
 RenderTreeHostImpl::~RenderTreeHostImpl() {}
 

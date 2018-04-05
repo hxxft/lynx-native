@@ -69,6 +69,7 @@ class JType {
     static jdouble DoubleValue(JNIEnv* env, jobject value);
 
     static ScopedLocalJavaRef<jobjectArray> NewObjectArray(JNIEnv* env, int length);
+    static ScopedLocalJavaRef<jdoubleArray> NewDoubleArray(JNIEnv* env, int length);
     static ScopedLocalJavaRef<jobjectArray> NewStringArray(JNIEnv* env, int length);
 
     static Type getClassType(int retType);

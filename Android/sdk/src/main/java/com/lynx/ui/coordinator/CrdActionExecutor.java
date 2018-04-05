@@ -104,32 +104,32 @@ public class CrdActionExecutor {
                 }
             });
         }
-        if (result.getOffsetTop() != CrdResult.NOT_SET) {
-            holders.add(new PropertyAnimHolder(view, mUI.getOffsetTop(), result.getOffsetTop()) {
+        if (result.getTopOffset() != CrdResult.NOT_SET) {
+            holders.add(new PropertyAnimHolder(view, mUI.getOffsetTop(), result.getTopOffset()) {
                 @Override
                 void updateValue(View view, float value) {
                     mUI.setOffsetTop((int) value);
                 }
             });
         }
-        if (result.getOffsetBottom() != CrdResult.NOT_SET) {
-            holders.add(new PropertyAnimHolder(view, mUI.getOffsetBottom(), result.getOffsetBottom()) {
+        if (result.getBottomOffset() != CrdResult.NOT_SET) {
+            holders.add(new PropertyAnimHolder(view, mUI.getOffsetBottom(), result.getBottomOffset()) {
                 @Override
                 void updateValue(View view, float value) {
                     mUI.setOffsetBottom((int) value);
                 }
             });
         }
-        if (result.getOffsetLeft() != CrdResult.NOT_SET) {
-            holders.add(new PropertyAnimHolder(view, mUI.getOffsetLeft(), result.getOffsetLeft()) {
+        if (result.getLeftOffset() != CrdResult.NOT_SET) {
+            holders.add(new PropertyAnimHolder(view, mUI.getOffsetLeft(), result.getLeftOffset()) {
                 @Override
                 void updateValue(View view, float value) {
                     mUI.setOffsetLeft((int) value);
                 }
             });
         }
-        if (result.getOffsetRight() != CrdResult.NOT_SET) {
-            holders.add(new PropertyAnimHolder(view, mUI.getOffsetRight(), result.getOffsetRight()) {
+        if (result.getRightOffset() != CrdResult.NOT_SET) {
+            holders.add(new PropertyAnimHolder(view, mUI.getOffsetRight(), result.getRightOffset()) {
                 @Override
                 void updateValue(View view, float value) {
                     mUI.setOffsetRight((int) value);
@@ -155,10 +155,10 @@ public class CrdActionExecutor {
                 public void onAnimationEnd(Animator animation) {
                     dispatchEvent(result);
 
-                    if (result.getOffsetTop() != CrdResult.NOT_SET ||
-                        result.getOffsetBottom() != CrdResult.NOT_SET ||
-                        result.getOffsetRight() != CrdResult.NOT_SET ||
-                        result.getOffsetLeft() != CrdResult.NOT_SET) {
+                    if (result.getTopOffset() != CrdResult.NOT_SET ||
+                        result.getBottomOffset() != CrdResult.NOT_SET ||
+                        result.getRightOffset() != CrdResult.NOT_SET ||
+                        result.getLeftOffset() != CrdResult.NOT_SET) {
                         mUI.updateFrame();
                     }
                 }
@@ -203,20 +203,20 @@ public class CrdActionExecutor {
             view.setAlpha(result.getAlpha());
         }
         boolean isLayoutOffsetUpdated = false;
-        if (result.getOffsetTop() != CrdResult.NOT_SET) {
-            mUI.setOffsetTop((int) result.getOffsetTop());
+        if (result.getTopOffset() != CrdResult.NOT_SET) {
+            mUI.setOffsetTop((int) result.getTopOffset());
             isLayoutOffsetUpdated = true;
         }
-        if (result.getOffsetBottom() != CrdResult.NOT_SET) {
-            mUI.setOffsetBottom((int) result.getOffsetBottom());
+        if (result.getBottomOffset() != CrdResult.NOT_SET) {
+            mUI.setOffsetBottom((int) result.getBottomOffset());
             isLayoutOffsetUpdated = true;
         }
-        if (result.getOffsetRight() != CrdResult.NOT_SET) {
-            mUI.setOffsetRight((int) result.getOffsetRight());
+        if (result.getRightOffset() != CrdResult.NOT_SET) {
+            mUI.setOffsetRight((int) result.getRightOffset());
             isLayoutOffsetUpdated = true;
         }
-        if (result.getOffsetLeft() != CrdResult.NOT_SET) {
-            mUI.setOffsetLeft((int) result.getOffsetLeft());
+        if (result.getLeftOffset() != CrdResult.NOT_SET) {
+            mUI.setOffsetLeft((int) result.getLeftOffset());
             isLayoutOffsetUpdated = true;
         }
         if (isLayoutOffsetUpdated) {
