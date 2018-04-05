@@ -75,7 +75,7 @@ public:
         } else if (tag.compare("xcanvas") == 0){
             return lynx_new CanvasView("xcanvas", LYNX_CANVAS, ++id, host);
         }else{
-            DLOG(ERROR) << tag << "is Not Support";
+            DLOG(ERROR) << tag << " is Not Support";
         }
         return NULL;
     }

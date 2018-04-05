@@ -1,5 +1,6 @@
 // Copyright 2017 The Lynx Authors. All rights reserved.
 
+#include <base/log/logging.h>
 #include "render/image_view.h"
 
 #include "render/impl/render_object_impl.h"
@@ -7,6 +8,7 @@
 
 namespace lynx {
 const static char* kImageSrcAttribute = "src";
+const std::string kAssets = "Asset://assets/";
 
 ImageView::ImageView(const char *tag_name,
                      uint64_t id,
@@ -20,6 +22,7 @@ ImageView::ImageView(const char *tag_name,
 }
 
 base::Size ImageView::OnMeasure(int width_descriptor, int height_descriptor) {
+    DLOG(INFO) << style_.width() << " "<<style_.height();
     if (!CSS_IS_UNDEFINED(style_.height())) {
         measured_size_.height_ = style_.height();
     }
@@ -36,7 +39,7 @@ void ImageView::SetAttribute(const std::string &key, const std::string &value) {
             || value.find("https:") != std::string::npos) {
             RenderObject::SetAttribute(key, value);
         } else {
-            RenderObject::SetAttribute(key, render_tree_host_->page_location() + value);
+            RenderObject::SetAttribute(key, kAssets + value);
         }
     } else {
         RenderObject::SetAttribute(key, value);
