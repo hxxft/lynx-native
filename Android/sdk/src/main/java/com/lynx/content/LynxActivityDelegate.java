@@ -39,7 +39,8 @@ public class LynxActivityDelegate implements DebugDevHost{
         }
 
         if (!app.isLegalPage(pageName)) {
-            throw new RuntimeException("Page has not been register in Manifest.json");
+            mActivity.finish();
+            return;
         }
 
         Page currentPage = app.getPage(pageName);
