@@ -8,24 +8,25 @@
 namespace lynx {
 class Input : public RenderObject {
  public:
-    Input(const char* tag_name,
-          uint64_t id,
-          RenderTreeHost* host);
+  Input(const char* tag_name, uint64_t id, RenderTreeHost* host);
 
-    Input(const char* tag_name,
-          RenderObjectType type,
-          uint64_t id,
-          RenderObjectImpl* proxy,
-          RenderTreeHost* host,
-          int default_line_count);
+  Input(const char* tag_name,
+        RenderObjectType type,
+        uint64_t id,
+        RenderObjectImpl* proxy,
+        RenderTreeHost* host,
+        int default_line_count);
 
-    virtual ~Input() {}
-    virtual base::Size OnMeasure(int width_descriptor, int height_descriptor);
+  virtual ~Input() {}
 
-private:
-    int default_line_count_;
-    const static int kDefaultLineCount = 1;
-    const static int kDefaultWHRate = 4 / 1;
+ protected:
+  virtual base::Size OnMeasure(int width_descriptor,
+                               int height_descriptor) override;
+
+ private:
+  int default_line_count_;
+  const static int kDefaultLineCount = 1;
+  const static int kDefaultWHRate = 4 / 1;
 };
 }  // namespace lynx
 

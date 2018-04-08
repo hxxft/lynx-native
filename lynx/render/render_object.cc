@@ -1,16 +1,15 @@
 // Copyright 2017 The Lynx Authors. All rights reserved.
 
-
 #include <sstream>
 #include <vector>
 
+#include "render/animation.h"
 #include "render/impl/render_command.h"
 #include "render/impl/render_object_impl.h"
-#include "render/render_tree_host.h"
-#include "runtime/base/lynx_value.h"
-#include "runtime/base/lynx_array.h"
 #include "render/render_object.h"
-#include "render/animation.h"
+#include "render/render_tree_host.h"
+#include "runtime/base/lynx_array.h"
+#include "runtime/base/lynx_value.h"
 
 namespace lynx {
 
@@ -21,10 +20,6 @@ RenderObject::RenderObject(const char* tag_name,
                            RenderTreeHost* host)
     : tag_name_(tag_name),
       id_(id),
-      offset_top_(0),
-      offset_left_(0),
-      offset_width_(0),
-      offset_height_(0),
       scroll_height_(0),
       scroll_width_(0),
       scroll_top_(0),
@@ -165,9 +160,8 @@ base::Size RenderObject::Measure(int width_descriptor, int height_descriptor) {
     if (!IsInvisible()) {
       base::Size size(base::Size::Descriptor::GetSize(measured_size_.width_),
                       base::Size::Descriptor::GetSize(measured_size_.height_));
-      RenderCommand* cmd = lynx_new RendererSizeUpdateCommand(impl(),
-                                                              size,
-                                                              RenderCommand::CMD_SET_SIZE);
+      RenderCommand* cmd = lynx_new RendererSizeUpdateCommand(
+          impl(), size, RenderCommand::CMD_SET_SIZE);
       render_tree_host_->UpdateRenderObject(cmd);
     }
   }
@@ -175,46 +169,25 @@ base::Size RenderObject::Measure(int width_descriptor, int height_descriptor) {
 }
 
 void RenderObject::Layout(int left, int top, int right, int bottom) {
-    bool dirty = measured_position_.NeedToReset(left, top, right, bottom) || IsDirty();
-
-    offset_top_ = top - (parent_ == NULL? 0 : ((RenderObject*) parent_)->style_.border_width_);
-    offset_left_ = left - (parent_ == NULL? 0 : ((RenderObject*) parent_)->style_.border_width_);
-    offset_height_ = bottom - top;
-    offset_width_ = right - left;
-
-    if (measured_position_.Reset(left, top, right, bottom) && !IsInvisible()) {
-        base::Position position(left, top, right, bottom);
-        RecalculateLayoutPosition(position);
-        RenderCommand* cmd = lynx_new RendererPosUpdateCommand(impl(),
-                                                               position,
-                                                               RenderCommand::CMD_SET_POSITION);
-        render_tree_host_->UpdateRenderObject(cmd);
-    }
-
-    if (dirty) {
-        OnLayout(left, top, right, bottom);
-        UpToDate();
-    }
-
-}
-
-base::Size RenderObject::OnMeasure(int width_descriptor, int height_descriptor) {
-    return base::Size(0, 0);
-}
-
-void RenderObject::OnLayout(int left, int top, int right, int bottom) {
+  if (measured_position_.NeedToReset(left, top, right, bottom) &&
+      !IsInvisible()) {
+    base::Position position(left, top, right, bottom);
+    RecalculateLayoutPosition(position);
+    RenderCommand* cmd = lynx_new RendererPosUpdateCommand(
+        impl(), position, RenderCommand::CMD_SET_POSITION);
+    render_tree_host_->UpdateRenderObject(cmd);
+  }
+  LayoutObject::Layout(left, top, right, bottom);
 }
 
 void RenderObject::SetText(const std::string& text) {
-    text_ = text;
-    if (!IsInvisible()) {
-        RenderCommand* cmd = lynx_new RendererAttrUpdateCommand(impl(),
-                                                                "",
-                                                                text,
-                                                                RenderCommand::CMD_SET_LABEL_TEXT);
-        render_tree_host_->UpdateRenderObject(cmd);
-    }
-    Dirty();
+  text_ = text;
+  if (!IsInvisible()) {
+    RenderCommand* cmd = lynx_new RendererAttrUpdateCommand(
+        impl(), "", text, RenderCommand::CMD_SET_LABEL_TEXT);
+    render_tree_host_->UpdateRenderObject(cmd);
+  }
+  Dirty();
 }
 
 void RenderObject::AppendChild(RenderObject* child) {
@@ -290,13 +263,15 @@ void RenderObject::FlushStyle() {
 }
 
 void RenderObject::SetScrollLeft(int scroll_left) {
-    base::ScopedPtr<jscore::LynxValue> param = jscore::LynxValue::MakeInt(scroll_left);
-    SetData(RENDER_OBJECT_ATTRS::SCROLL_LEFT, param);
+  base::ScopedPtr<jscore::LynxValue> param =
+      jscore::LynxValue::MakeInt(scroll_left);
+  SetData(RENDER_OBJECT_ATTRS::SCROLL_LEFT, param);
 }
 
 void RenderObject::SetScrollTop(int scroll_top) {
-    base::ScopedPtr<jscore::LynxValue> param = jscore::LynxValue::MakeInt(scroll_top);
-    SetData(RENDER_OBJECT_ATTRS::SCROLL_TOP, param);
+  base::ScopedPtr<jscore::LynxValue> param =
+      jscore::LynxValue::MakeInt(scroll_top);
+  SetData(RENDER_OBJECT_ATTRS::SCROLL_TOP, param);
 }
 
 void RenderObject::UpdateData(int key,
@@ -315,7 +290,6 @@ void RenderObject::UpdateData(int key,
       break;
   }
 }
-
 
 void RenderObject::SetData(int key, base::ScopedPtr<jscore::LynxValue> value) {
   switch (key) {
@@ -424,14 +398,17 @@ void RenderObject::RemoveFixedChild(RenderObject* fixed_child) {
   }
 }
 
-base::ScopedPtr<Animation> RenderObject::Animate(base::ScopedPtr<jscore::LynxArray>& keyframes,
-                           base::ScopedPtr<jscore::LynxObject>& options) {
+base::ScopedPtr<Animation> RenderObject::Animate(
+    base::ScopedPtr<jscore::LynxArray>& keyframes,
+    base::ScopedPtr<jscore::LynxObject>& options) {
   static long animation_count = 0;
   const static std::string str_id = "id";
   std::ostringstream animation_id;
   animation_id << "anim_" << animation_count++;
-  options->Set(str_id, jscore::LynxValue::MakeString(animation_id.str()).Release());
-  RenderCommand* cmd = lynx_new RendererAnimateCommand(impl(), keyframes, options);
+  options->Set(str_id,
+               jscore::LynxValue::MakeString(animation_id.str()).Release());
+  RenderCommand* cmd =
+      lynx_new RendererAnimateCommand(impl(), keyframes, options);
   render_tree_host_->UpdateRenderObject(cmd);
   auto animation = lynx_new Animation(animation_id.str());
   animation->set_render_object(weak_ptr_);
@@ -443,19 +420,24 @@ void RenderObject::CancelAnimation(const std::string& id) {
   render_tree_host_->UpdateRenderObject(cmd);
 }
 
-void RenderObject::ReceiveCanvasRenderCmd(base::ScopedPtr<base::CanvasRenderCommand>& cmd_single){
-    if(canvas_cmds_.Get() == NULL){
-        canvas_cmds_.Reset(lynx_new jscore::LynxArray());
-    }
-    if(cmd_single->cmd_type_.compare("drawCmd") == 0){
-        RenderCommand* cmd = lynx_new RendererDataUpdateCommand(impl(), CANVAS_DRAW, std::move(canvas_cmds_), RenderCommand::CMD_SET_DATA);
-        render_tree_host_->UpdateRenderObject(cmd);
-    }else if(cmd_single->cmd_type_.compare("appendCmd") == 0){
-        RenderCommand* cmd = lynx_new RendererDataUpdateCommand(impl(), CANVAS_APPEND, std::move(canvas_cmds_), RenderCommand::CMD_SET_DATA);
-        render_tree_host_->UpdateRenderObject(cmd);
-    }else{
-        canvas_cmds_->Push(cmd_single.Release());
-    }
+void RenderObject::ReceiveCanvasRenderCmd(
+    base::ScopedPtr<base::CanvasRenderCommand>& cmd_single) {
+  if (canvas_cmds_.Get() == NULL) {
+    canvas_cmds_.Reset(lynx_new jscore::LynxArray());
+  }
+  if (cmd_single->cmd_type_.compare("drawCmd") == 0) {
+    RenderCommand* cmd = lynx_new RendererDataUpdateCommand(
+        impl(), CANVAS_DRAW, std::move(canvas_cmds_),
+        RenderCommand::CMD_SET_DATA);
+    render_tree_host_->UpdateRenderObject(cmd);
+  } else if (cmd_single->cmd_type_.compare("appendCmd") == 0) {
+    RenderCommand* cmd = lynx_new RendererDataUpdateCommand(
+        impl(), CANVAS_APPEND, std::move(canvas_cmds_),
+        RenderCommand::CMD_SET_DATA);
+    render_tree_host_->UpdateRenderObject(cmd);
+  } else {
+    canvas_cmds_->Push(cmd_single.Release());
+  }
 };
 
 }  // namespace lynx

@@ -7,32 +7,37 @@
 
 namespace lynx {
 class TextNode : public RenderObject {
-public:
-    TextNode(jscore::ThreadManager* manager,
-             const char* tag_name,
-             uint64_t id,
-             RenderTreeHost* host);
-    virtual ~TextNode();
+ public:
+  TextNode(jscore::ThreadManager* manager,
+           const char* tag_name,
+           uint64_t id,
+           RenderTreeHost* host);
+  virtual ~TextNode();
 
-    virtual void SetText(const std::string& text);
-    friend class Label;
-private:
-    RenderObject* label_;
+  virtual void SetText(const std::string& text);
+  friend class Label;
+
+ private:
+  RenderObject* label_;
 };
 
 class Label : public RenderObject {
-public:
-    Label(jscore::ThreadManager* manager,
+ public:
+  Label(jscore::ThreadManager* manager,
         const char* tag_name,
         uint64_t id,
         RenderTreeHost* host);
-    virtual ~Label() {}
-    virtual base::Size OnMeasure(int width_descriptor, int height_descriptor);
-    virtual void InsertChild(ContainerNode* child, int index);
-    virtual void InsertBefore(RenderObject* child, RenderObject* reference);
+  virtual ~Label() {}
+  virtual void InsertChild(ContainerNode* child, int index) override;
+  virtual void InsertBefore(RenderObject* child,
+                            RenderObject* reference) override;
 
-private:
-    TextNode* text_node_;
+ protected:
+  virtual base::Size OnMeasure(int width_descriptor,
+                               int height_descriptor) override;
+
+ private:
+  TextNode* text_node_;
 };
 }  // namespace lynx
 

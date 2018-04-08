@@ -8,12 +8,14 @@
 namespace lynx {
 class ImageView : public RenderObject {
  public:
-    ImageView(const char* tag_name,
-              uint64_t id,
-              RenderTreeHost* host);
-    virtual ~ImageView() {}
-    virtual base::Size OnMeasure(int width_descriptor, int height_descriptor);
-    virtual void SetAttribute(const std::string& key, const std::string& value);
+  ImageView(const char* tag_name, uint64_t id, RenderTreeHost* host);
+  virtual ~ImageView() {}
+  virtual void SetAttribute(const std::string& key,
+                            const std::string& value) override;
+
+ protected:
+  virtual base::Size OnMeasure(int width_descriptor,
+                               int height_descriptor) override;
 };
 }  // namespace lynx
 

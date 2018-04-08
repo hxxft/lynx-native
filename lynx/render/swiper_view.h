@@ -8,13 +8,15 @@
 namespace lynx {
 class SwiperView : public View {
  public:
-    SwiperView(jscore::ThreadManager* manager,
-               const char *tag_name,
-               uint64_t id,
-               RenderTreeHost* host);
-    virtual ~SwiperView() {}
-    virtual base::Size Measure(int width, int height);
-    virtual void Layout(int left, int top, int right, int bottom);
+  SwiperView(jscore::ThreadManager* manager,
+             const char* tag_name,
+             uint64_t id,
+             RenderTreeHost* host);
+  virtual ~SwiperView() {}
+  virtual base::Size OnMeasure(int width, int height) override;
+
+ protected:
+  virtual void OnLayout(int left, int top, int right, int bottom) override;
 };
 }  // namespace lynx
 

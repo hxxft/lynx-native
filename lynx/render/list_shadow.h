@@ -3,23 +3,24 @@
 #ifndef LYNX_RENDER_LIST_SHADOW_H_
 #define LYNX_RENDER_LIST_SHADOW_H_
 
-#include "render/view.h"
 #include "render/cell_container.h"
+#include "render/view.h"
 
 namespace lynx {
 class ListShadow : public View {
  public:
-    ListShadow(const char* tag_name,
-               uint64_t id,
-               RenderTreeHost* host);
-    virtual ~ListShadow() {}
-    virtual void InsertChild(ContainerNode* child, int index);
-    virtual void Layout(int left, int top, int right, int bottom);
-    virtual void RemoveChild(ContainerNode* child);
-    virtual void InsertBefore(RenderObject* child, RenderObject* reference);
+  ListShadow(const char* tag_name, uint64_t id, RenderTreeHost* host);
+  virtual ~ListShadow() {}
+  virtual void InsertChild(ContainerNode* child, int index) override;
+  virtual void RemoveChild(ContainerNode* child) override;
+  virtual void InsertBefore(RenderObject* child,
+                            RenderObject* reference) override;
 
-private:
-    CellsContainer container_;
+ protected:
+  virtual void OnLayout(int left, int top, int right, int bottom) override;
+
+ private:
+  CellsContainer container_;
 };
 }  // namespace lynx
 

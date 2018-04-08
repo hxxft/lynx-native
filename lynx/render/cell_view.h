@@ -9,10 +9,12 @@ namespace lynx {
 
 class CellView : public View {
  public:
-    CellView(jscore::ThreadManager* manager, RenderTreeHost* host);
-    virtual ~CellView() {}
-    virtual void Layout(int left, int top, int right, int bottom);
+  CellView(jscore::ThreadManager* manager, RenderTreeHost* host);
+  virtual ~CellView() {}
+
+ protected:
+  virtual void OnLayout(int left, int top, int right, int bottom) override;
 };
-}
+}  // namespace lynx
 
 #endif  // LYNX_RENDER_CELL_VIEW_H_

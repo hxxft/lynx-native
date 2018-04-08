@@ -34,25 +34,18 @@ class RenderObject : public LayoutObject, public EventTarget {
                RenderTreeHost* host);
   virtual ~RenderObject();
 
-  // impl virtual method in LayoutObject
-  base::Size Measure(int width_descriptor, int height_descriptor);
-  void Layout(int left, int top, int right, int bottom);
-  // Subclasses should override onMeasure(int, int) to provide
-  // a measurements of their content.
-  virtual base::Size OnMeasure(int width_descriptor, int height_descriptor);
-  // Called from layout when this node should assign a position to each of its children.
-  virtual void OnLayout(int left, int top, int right, int bottom);
-
-  virtual void SetStyle(const std::string& key, const std::string& value);
+  virtual void SetStyle(const std::string& key,
+                        const std::string& value) override;
 
   void FlushStyle();
 
   // impl virtual method in ConatinerNode
-  virtual void InsertChild(ContainerNode* child, int index);
-  virtual void RemoveChild(ContainerNode* child);
+  virtual void InsertChild(ContainerNode* child, int index) override;
+  virtual void RemoveChild(ContainerNode* child) override;
 
   // impl virtual method in EventTarget
-  virtual void RegisterEvent(const std::string& event, RegisterEventType type);
+  virtual void RegisterEvent(const std::string& event,
+                             RegisterEventType type) override;
 
   virtual void SetText(const std::string& text);
   const std::string& GetText() { return text_; }
@@ -111,8 +104,9 @@ class RenderObject : public LayoutObject, public EventTarget {
 
   inline int scroll_top() { return scroll_top_; }
 
-  base::ScopedPtr<Animation> Animate(base::ScopedPtr<jscore::LynxArray> &keyframes,
-                                     base::ScopedPtr<jscore::LynxObject> &options);
+  base::ScopedPtr<Animation> Animate(
+      base::ScopedPtr<jscore::LynxArray>& keyframes,
+      base::ScopedPtr<jscore::LynxObject>& options);
   void CancelAnimation(const std::string& id);
 
   RenderObjectImpl* impl() { return impl_.Get(); }
@@ -130,9 +124,7 @@ class RenderObject : public LayoutObject, public EventTarget {
   }
 
   const RenderObjectType render_object_type() { return render_object_type_; }
-  const bool IsCanvas() {
-    return render_object_type_ == LYNX_CANVAS;
-  }
+  const bool IsCanvas() { return render_object_type_ == LYNX_CANVAS; }
 
   const bool IsInvisible() { return render_object_type_ == LYNX_LAYOUT_VIEW; }
 
@@ -159,6 +151,10 @@ class RenderObject : public LayoutObject, public EventTarget {
   };
 
  protected:
+  base::Size Measure(int width_descriptor,
+                     int height_descriptor) override final;
+  void Layout(int left, int top, int right, int bottom) override final;
+
   void GetVisibleChildren(RenderObject* renderer,
                           std::vector<RenderObject*>& visible_chidren);
   int GetVisibleChildrenLength(RenderObject* renderer);
@@ -171,11 +167,6 @@ class RenderObject : public LayoutObject, public EventTarget {
 
   std::string tag_name_;
   uint64_t id_;
-
-  int offset_top_;
-  int offset_left_;
-  int offset_width_;
-  int offset_height_;
 
   int scroll_height_;
   int scroll_width_;

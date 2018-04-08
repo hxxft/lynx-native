@@ -4,10 +4,9 @@
 
 namespace lynx {
 
-ViewStub::ViewStub(jscore::ThreadManager *manager,
-                       const char *tag_name,
-                       uint64_t id,
-                       RenderTreeHost *host)
-    : View(tag_name, LYNX_LAYOUT_VIEW, id, NULL, host) {
-}
-}
+ViewStub::ViewStub(jscore::ThreadManager* manager,
+                   const char* tag_name,
+                   uint64_t id,
+                   RenderTreeHost* host)
+    : View(tag_name, LYNX_LAYOUT_VIEW, id, NULL, host) {}
+}  // namespace lynx

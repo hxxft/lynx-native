@@ -5,64 +5,73 @@
 
 #include <string>
 
-#include "base/size.h"
 #include "base/position.h"
+#include "base/size.h"
 #include "layout/container_node.h"
 #include "layout/css_style.h"
 
 namespace lynx {
 class LayoutObject : public ContainerNode {
  public:
-    LayoutObject();
-    virtual ~LayoutObject();
+  LayoutObject();
+  virtual ~LayoutObject();
 
-    virtual void InsertChild(ContainerNode* child, int index);
-    virtual void RemoveChild(ContainerNode* child);
+  void ReLayout(int left, int top, int right, int bottom);
 
-    virtual base::Size Measure(int width_descriptor, int height_descriptor);
+  virtual void InsertChild(ContainerNode* child, int index);
+  virtual void RemoveChild(ContainerNode* child);
 
-    // Subclasses should override onMeasure(int, int) to provide
-    // a measurements of their content.
-    virtual base::Size OnMeasure(int width_descriptor, int height_descriptor);
+  virtual void SetStyle(const std::string& key, const std::string& value) {
+    style_.SetValue(key, value);
+  }
 
-    virtual void Layout(int left, int top, int right, int bottom);
+  const CSSStyle& style() { return style_; }
 
-    // Called from layout when this node should assign a position to each of its children.
-    virtual void OnLayout(int left, int top, int right, int bottom);
+  const base::Size& measured_size() { return measured_size_; }
 
-    virtual void SetStyle(const std::string& key,
-                        const std::string& value) {
-        style_.SetValue(key, value);
-    }
+  const base::Position& measured_position() { return measured_position_; }
 
-    CSSStyle* GetStyle() { return &style_; }
+  void Dirty();
 
-    base::Size& GetMeasuredSize() {
-        return measured_size_;
-    }
+  bool IsDirty();
 
-    enum LAYOUT_STATE {
-        LAYOUT_STATE_DIRTY,
-        LAYOUT_STATE_UP_TO_DATE,
-    };
+ protected:
+  enum LAYOUT_STATE {
+    LAYOUT_STATE_DIRTY,
+    LAYOUT_STATE_UP_TO_DATE,
+  };
 
-    void Dirty();
+  void UpToDate();
 
-    void UpToDate();
+  bool ShouldRemeasure(int width, int height);
 
-    bool IsDirty();
+  friend class CSSStaticLayout;
+  virtual base::Size Measure(int width_descriptor, int height_descriptor);
 
-    bool ShouldRemeasure(int width, int height);
+  // Subclasses should override onMeasure(int, int) to provide
+  // a measurements of their content.
+  virtual base::Size OnMeasure(int width_descriptor, int height_descriptor);
 
-    base::Size measured_size_;
-    base::Position measured_position_;
+  virtual void Layout(int left, int top, int right, int bottom);
 
-    LAYOUT_STATE layout_state_;
+  // Called from layout when this node should assign a position to each of its
+  // children.
+  virtual void OnLayout(int left, int top, int right, int bottom);
 
-    CSSStyle style_;
+  base::Size measured_size_;
+  base::Position measured_position_;
 
-private:
-    base::Size last_measured_size_from_parent_;
+  LAYOUT_STATE layout_state_;
+
+  CSSStyle style_;
+
+  int offset_top_;
+  int offset_left_;
+  int offset_width_;
+  int offset_height_;
+
+ private:
+  base::Size last_measured_size_from_parent_;
 };
 }  // namespace lynx
 

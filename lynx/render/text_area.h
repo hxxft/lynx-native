@@ -6,16 +6,14 @@
 #include "render/input.h"
 
 namespace lynx {
-    class TextArea : public Input {
-    public:
-        TextArea(const char *tag_name,
-                 uint64_t id,
-                 RenderTreeHost *host);
-        virtual ~TextArea() {}
+class TextArea : public Input {
+ public:
+  TextArea(const char* tag_name, uint64_t id, RenderTreeHost* host);
+  virtual ~TextArea() {}
 
-    private:
-        const static int kDefaultLineCount = 2;
-    };
-}
+ private:
+  const static int kDefaultLineCount = 2;
+};
+}  // namespace lynx
 
-#endif //LYNX_RENDER_TEXT_AREA_H_
+#endif  // LYNX_RENDER_TEXT_AREA_H_

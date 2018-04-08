@@ -8,11 +8,11 @@
 namespace lynx {
 class ViewStub : public View {
  public:
-    ViewStub(jscore::ThreadManager* manager,
-               const char *tag_name,
-               uint64_t id,
-               RenderTreeHost* host);
+  ViewStub(jscore::ThreadManager* manager,
+           const char* tag_name,
+           uint64_t id,
+           RenderTreeHost* host);
 };
-}
+}  // namespace lynx
 
 #endif  // LYNX_RENDER_LAYOUT_VIEW_H_
