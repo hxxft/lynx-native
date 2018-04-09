@@ -3,9 +3,12 @@
 #include "layout/css_layout.h"
 #include <vector>
 #include "layout/css_type.h"
+#include "layout/css_style.h"
+#include "layout/layout_object.h"
+#ifndef TESTING
 #include "render/render_object.h"
 #include "render/render_tree_host.h"
-
+#endif
 using namespace std;
 
 namespace lynx {
@@ -1244,6 +1247,7 @@ void CSSStaticLayout::MeasureAbsolute(LayoutObject* renderer,
 }
 
 void CSSStaticLayout::MeasureFixed(LayoutObject* renderer) {
+#ifndef TESTING
   int width = static_cast<RenderObject*>(renderer)
                   ->render_tree_host()
                   ->viewport()
@@ -1257,13 +1261,17 @@ void CSSStaticLayout::MeasureFixed(LayoutObject* renderer) {
                                        ->render_root()
                                        ->style());
 
+
   int available_width = width - parent_style->border_width_ * 2 -
                         parent_style->padding_right_ -
                         parent_style->padding_left_;
   int available_height = height - parent_style->border_width_ * 2 -
                          parent_style->padding_top_ -
                          parent_style->padding_bottom_;
-
+#else
+    int available_width = 0;
+    int available_height = 0;
+#endif
   // The same logic
   MeasureAbsolute(renderer, available_width, 0, available_height, 0);
 }
@@ -1277,6 +1285,7 @@ void CSSStaticLayout::LayoutAbsolute(LayoutObject* parentNode,
 
 void CSSStaticLayout::LayoutFixed(LayoutObject* parentNode,
                                   LayoutObject* renderer) {
+#ifndef TESTING
   int width = static_cast<RenderObject*>(renderer)
                   ->render_tree_host()
                   ->viewport()
@@ -1285,6 +1294,10 @@ void CSSStaticLayout::LayoutFixed(LayoutObject* parentNode,
                    ->render_tree_host()
                    ->viewport()
                    .GetHeight();
+#else
+    int width = 0;
+    int height = 0;
+#endif
   LayoutFixedOrAbsolute(parentNode, renderer, width, height);
 }
 
@@ -1439,5 +1452,13 @@ int CSSStaticLayout::CalculateOffsetWithFlexContainerStyle(LayoutObject* parent,
   }
 
   return offset;
+}
+    
+LayoutObject* CSSStaticLayout::GetRoot(LayoutObject* renderer) {
+    ContainerNode* node = renderer;
+    while(node->parent()) {
+        node = node->parent();
+    }
+    return static_cast<LayoutObject*>(node);
 }
 }  // namespace lynx

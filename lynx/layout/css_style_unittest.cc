@@ -13,7 +13,7 @@ class CSSStyleTest : public testing::Test {
  public:
   CSSStyleTest() {
     CSSStyle::Initialize(&config_);
-    css_style_ = new CSSStyle(&config_, 1.5, 350.0);
+    css_style_ = new CSSStyle(&config_, 1.5, 350.0, 750.0);
   }
 
   ~CSSStyleTest() { delete css_style_; }

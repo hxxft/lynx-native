@@ -1,0 +1,11 @@
+//  Created by dli on 2017/10/18.
+//  Copyright © 2017年 dli. All rights reserved.
+//
+#include "gtest/gtest.h"
+
+%s
+
+int main(int argc, char **argv) {
+    testing::InitGoogleTest(&argc, argv);
+    return RUN_ALL_TESTS();
+}

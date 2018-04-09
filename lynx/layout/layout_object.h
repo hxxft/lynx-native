@@ -25,6 +25,10 @@ class LayoutObject : public ContainerNode {
     style_.SetValue(key, value);
   }
 
+  void SetStyle(const CSSStyle& style) {
+    style_ = style;
+  }
+
   const CSSStyle& style() { return style_; }
 
   const base::Size& measured_size() { return measured_size_; }
@@ -34,6 +38,11 @@ class LayoutObject : public ContainerNode {
   void Dirty();
 
   bool IsDirty();
+
+  int offset_top() { return offset_top_; }
+  int offset_left() { return offset_left_; }
+  int offset_width() { return offset_width_; }
+  int offset_height() { return offset_height_; }
 
  protected:
   enum LAYOUT_STATE {

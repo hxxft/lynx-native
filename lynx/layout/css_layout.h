@@ -16,6 +16,7 @@ class CSSStaticLayout {
     static void Layout(LayoutObject* renderer, int width, int height);
 
  private:
+    static LayoutObject* GetRoot(LayoutObject* renderer);
     static base::Size MeasureInner(LayoutObject* renderer, int width, int width_mode,
                                    int height, int height_mode);
     static bool MeasureSpecially(LayoutObject* renderer, int width, int width_mode,

@@ -11,6 +11,7 @@ namespace lynx {
 class Node {
  public:
     Node() : previous_(NULL), next_(NULL) {}
+    virtual ~Node() {}
     inline Node* Next() { return next_; }
     inline Node* Previous() { return previous_; }
     friend class ContainerNode;

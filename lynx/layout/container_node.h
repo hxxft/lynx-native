@@ -14,7 +14,7 @@ class ContainerNode : public Node {
         last_child_(NULL),
         child_count_(0) {
         }
-
+    virtual ~ContainerNode() {}
     virtual void InsertChild(ContainerNode* child, int index);
     virtual void RemoveChild(ContainerNode* child);
 
@@ -27,6 +27,10 @@ class ContainerNode : public Node {
     int Find(Node* node);
 
     int GetChildCount() {return child_count_;}
+    
+    ContainerNode* parent() {
+        return parent_;
+    }
 
  protected:
     ContainerNode* parent_;

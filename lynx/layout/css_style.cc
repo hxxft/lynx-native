@@ -1,8 +1,9 @@
 // Copyright 2017 The Lynx Authors. All rights reserved.
 
 #include "layout/css_style.h"
-
+#ifndef TESTING
 #include "config/global_config_data.h"
+#endif
 #include "layout/css_style_config.h"
 
 namespace lynx {
@@ -86,21 +87,23 @@ void CSSStyle::Initialize(CSSStyleConfig* config) {
 }
 
 CSSStyle::CSSStyle() {
+#ifndef TESTING
   config_ = config::GlobalConfigData::GetInstance()->style_config();
   density_ = config::GlobalConfigData::GetInstance()->screen_density();
   screen_width_ = config::GlobalConfigData::GetInstance()->screen_width();
   zoom_ratio_ = config::GlobalConfigData::GetInstance()->zoom_ratio();
-
+#endif
   Reset();
 }
 
 CSSStyle::CSSStyle(CSSStyleConfig* config,
                    double density,
-                   double screen_width) {
+                   double screen_width,
+                   double zoom_ratio) {
   config_ = config;
   density_ = density;
   screen_width_ = screen_width;
-
+  zoom_ratio_ = zoom_ratio; 
   Reset();
 }
 

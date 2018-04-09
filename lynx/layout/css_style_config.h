@@ -19,6 +19,8 @@ class CSSStyleConfig {
 
  private:
     StyleFuncMap func_map_;
+    
+    
 };
 }  // namespace lynx
 

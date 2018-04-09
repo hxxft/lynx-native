@@ -1,0 +1,5 @@
+destination/
+lib/
+build/
+cxx/
+src/main.cpp

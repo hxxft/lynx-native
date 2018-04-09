@@ -2,8 +2,9 @@
 
 #include "layout/layout_object.h"
 
+#ifndef TESTING
 #include "base/trace_event/trace_event_common.h"
-
+#endif
 namespace lynx {
 
 LayoutObject::LayoutObject()
@@ -65,7 +66,9 @@ void LayoutObject::ReLayout(int left, int top, int right, int bottom) {
     Dirty();
   }
   if (IsDirty()) {
+#ifndef TESTING
     TRACE_EVENT0("Layout", "LayoutObject::Layout");
+#endif
     int width = right - left;
     int height = bottom - top;
     Measure(width, height);

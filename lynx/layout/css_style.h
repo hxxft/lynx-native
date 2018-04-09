@@ -17,9 +17,6 @@
 #include "layout/css_layout.h"
 #include "layout/css_type.h"
 
-namespace base {
-class Convert;
-}
 
 namespace lynx {
 const static std::string kPX = "px";
@@ -27,7 +24,7 @@ class CSSStyleConfig;
 class CSSStyle {
  public:
   CSSStyle();
-  CSSStyle(CSSStyleConfig* config, double density, double screen_width);
+  CSSStyle(CSSStyleConfig* config, double density, double screen_width, double zoom_ratio);
 
   ~CSSStyle();
 
@@ -78,7 +75,6 @@ class CSSStyle {
   static void Initialize(CSSStyleConfig* config);
 
   friend class CSSStaticLayout;
-  friend class base::Convert;
 
  private:
   double ClampWidthInner(double width) const;
