@@ -10,6 +10,7 @@ import com.lynx.base.Position;
 import com.lynx.base.Style;
 
 public class BorderMaker implements IMaker {
+    private IControl mControl;
     private RectF mBorderRectF;
     private RectF mInnerBorderRectF;
     private Paint mBorderPaint;
@@ -18,6 +19,7 @@ public class BorderMaker implements IMaker {
     private boolean needBorder = false;
     private boolean needInnerBorder = false;
 
+    private int mBorderColor = 0;
     private float mBorderRadius = 0;
     private float mBorderWidth = 0;
     private float mWidth = 0;
@@ -25,7 +27,9 @@ public class BorderMaker implements IMaker {
     private float mEdge = 0;
     private float mHelperEdge = 0;
 
-    public BorderMaker() {
+    public BorderMaker(IControl control) {
+        mControl = control;
+
         mBorderPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mBorderRectF = new RectF();
 
@@ -42,14 +46,20 @@ public class BorderMaker implements IMaker {
 
     @Override
     public void updateStyle(Style style) {
+        boolean requireInvalidate = false;
         float borderRadius = (float) (style.mBorderRadius);
-        if ((float) style.mBorderWidth > 0) {
+        if (mBorderColor != style.mBorderColor) {
+            mBorderColor = style.mBorderColor;
+            mBorderPaint.setColor(mBorderColor);
+            mInnerBorderPaint.setColor(mBorderColor);
+            requireInvalidate = true;
+        }
+        if (mBorderWidth != style.mBorderWidth) {
             needBorder = true;
-            mBorderPaint.setColor(style.mBorderColor);
-            mBorderPaint.setAntiAlias(true);
-            mBorderPaint.setStrokeWidth((float) style.mBorderWidth);
-            mBorderPaint.setStyle(Paint.Style.STROKE);
             mBorderWidth = (float) style.mBorderWidth;
+            mBorderPaint.setAntiAlias(true);
+            mBorderPaint.setStyle(Paint.Style.STROKE);
+            mBorderPaint.setStrokeWidth(mBorderWidth);
             mEdge = mBorderWidth / 2;
             // Set border radius
             if (mBorderWidth > borderRadius) {
@@ -61,21 +71,23 @@ public class BorderMaker implements IMaker {
                 mBorderPaint.setStrokeWidth(borderRadius);
                 mEdge = borderRadius / 2;
                 // Set paint and rect of inner border
-                mInnerBorderPaint.setColor(style.mBorderColor);
                 mInnerBorderPaint.setAntiAlias(true);
-                mInnerBorderPaint.setStrokeWidth(mBorderWidth - borderRadius);
                 mInnerBorderPaint.setStyle(Paint.Style.STROKE);
+                mInnerBorderPaint.setStrokeWidth(mBorderWidth - borderRadius);
                 mHelperEdge = borderRadius + (mBorderWidth - borderRadius) / 2;
             } else {
                 // When border width < radius，only draw a round border and shrink the radius
                 mBorderRadius = borderRadius - mBorderWidth / 2;
                 needInnerBorder = false;
             }
-        } else {
-            needBorder = false;
-            mBorderRadius = 0;
+            requireInvalidate = true;
         }
         syncRecF();
+        needBorder = mBorderWidth > 0 && mBorderColor != 0;
+        requireInvalidate = requireInvalidate && needBorder;
+        if (requireInvalidate) {
+            mControl.invalidate();
+        }
     }
 
     @Override

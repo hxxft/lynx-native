@@ -331,6 +331,67 @@ class CSSStyle {
     }
   }
 
+  void SetBackgroundImage(const std::string& value) {
+    auto start = value.find('(');
+    auto end = value.find(')');
+    if (start != std::string::npos && end != std::string::npos) {
+      background_image_ = value.substr(start + 1, end - start - 1);
+    } else {
+      background_image_ = "";
+    }
+  }
+
+  void SetBackgroundRepeat(const std::string& value) {
+    if (UNLIKELY(!ToBackgroundImageRepeatType(value, background_repeat_))) {
+    }
+  }
+
+  void SetBackgroundSize(const std::string& value) {
+    std::string width_value, height_value;
+    std::vector<std::string> split_result = base::SplitString(value, ' ');
+    if (split_result.size() >= 2) {
+        width_value = split_result[0];
+        height_value = split_result[1];
+    } else if (split_result.size() == 1) {
+        width_value = split_result[0];
+    }
+    if (UNLIKELY(!ToPx(width_value, background_width_))) {
+        background_width_ = CSS_UNDEFINED;
+    }
+    if (UNLIKELY(!ToPx(height_value, background_height_))) {
+        background_height_ = CSS_UNDEFINED;
+    }
+  }
+
+  void SetBackgroundPosition(const std::string& value) {
+    std::string x_value, y_value;
+      std::vector<std::string> split_result = base::SplitString(value, ' ');
+      if (split_result.size() >= 2) {
+          x_value = split_result[0];
+          y_value = split_result[1];
+      } else if (split_result.size() == 1) {
+          x_value = split_result[0];
+      }
+    if (UNLIKELY(!ToPx(x_value, background_position_x_))) {
+        background_position_x_ = 0;
+    }
+    if (UNLIKELY(!ToPx(y_value, background_position_y_))) {
+        background_position_y_ = 0;
+    }
+  }
+
+  void SetBackgroundPositionX(const std::string& value) {
+      if (UNLIKELY(!ToPx(value, background_position_x_))) {
+          background_position_x_ = 0;
+      }
+  }
+
+  void SetBackgroundPositionY(const std::string& value) {
+      if (UNLIKELY(!ToPx(value, background_position_y_))) {
+          background_position_y_ = 0;
+      }
+  }
+
  public:
   // base css style
   double width_;
@@ -359,6 +420,12 @@ class CSSStyle {
   CSSColor border_color_;
   double border_radius_;
   double opacity_;
+  std::string background_image_;
+  CSSStyleType background_repeat_;
+  double background_width_;
+  double background_height_;
+  double background_position_x_;
+  double background_position_y_;
 
   // for text
   CSSColor font_color_;

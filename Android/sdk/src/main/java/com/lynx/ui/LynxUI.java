@@ -140,9 +140,6 @@ public abstract class LynxUI<T extends View>
         setAlpha((float) (style.mOpacity / 255f));
         setLayerType(style);
         setDisplayType(style);
-
-        mView.requestLayout();
-        mView.invalidate();
     }
 
     @Override

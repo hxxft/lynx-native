@@ -33,6 +33,11 @@ public class Style {
     public final static int CSS_HIDDEN = 22;
     public final static int CSS_POINTER_EVENT_NONE = 23;
     public final static int CSS_POINTER_EVENT_AUTO = 24;
+    // background-repeat
+    public final static int CSS_BACKGROUND_REPEAT = 25; // default
+    public final static int CSS_BACKGROUND_REPEAT_X = 26;
+    public final static int CSS_BACKGROUND_REPEAT_Y = 27;
+    public final static int CSS_BACKGROUND_NO_REPEAT = 28;
 
 
     public int mBackgroundColor;
@@ -45,6 +50,13 @@ public class Style {
     public int mVisible;
     public int mPositionType;
     public int mPointerEvents;
+    // background-image
+    public String mBackgroundImage;
+    public int mBackgroundPositionX;
+    public int mBackgroundPositionY;
+    public int mBackgroundRepeat;
+    public int mBackgroundWidth;
+    public int mBackgroundHeight;
 
     public int mWidth;
     public int mHeight;
@@ -93,6 +105,9 @@ public class Style {
         mBorderRadius = 0;  // CSS_UNDEFINED;
         mOpacity = 255;
         mPointerEvents = CSS_POINTER_EVENT_AUTO;
+        mBackgroundRepeat = CSS_BACKGROUND_REPEAT;
+        mBackgroundWidth = Constants.UNDEFINED;
+        mBackgroundHeight = Constants.UNDEFINED;
 
         mFlexDirection = CSSFLEX_DIRECTION_ROW;
 
@@ -110,5 +125,6 @@ public class Style {
 
         mObjectFit = CSSIMAGE_OBJECT_FIT_COVER;
         mZIndex = 0;
+
     }
 }

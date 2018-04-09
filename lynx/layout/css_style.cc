@@ -84,6 +84,18 @@ void CSSStyle::Initialize(CSSStyleConfig* config) {
   (*func_map)["lineHeight"] = &CSSStyle::SetLineHeight;
   (*func_map)["pointer-events"] = &CSSStyle::SetPointerEvents;
   (*func_map)["pointerEvents"] = &CSSStyle::SetPointerEvents;
+  (*func_map)["backgroundImage"] = &CSSStyle::SetBackgroundImage;
+  (*func_map)["background-image"] = &CSSStyle::SetBackgroundImage;
+  (*func_map)["backgroundRepeat"] = &CSSStyle::SetBackgroundRepeat;
+  (*func_map)["background-repeat"] = &CSSStyle::SetBackgroundRepeat;
+  (*func_map)["backgroundSize"] = &CSSStyle::SetBackgroundSize;
+  (*func_map)["background-size"] = &CSSStyle::SetBackgroundSize;
+  (*func_map)["backgroundPosition"] = &CSSStyle::SetBackgroundPosition;
+  (*func_map)["background-position"] = &CSSStyle::SetBackgroundPosition;
+  (*func_map)["backgroundPositionX"] = &CSSStyle::SetBackgroundPositionX;
+  (*func_map)["background-position-x"] = &CSSStyle::SetBackgroundPositionX;
+  (*func_map)["backgroundPositionY"] = &CSSStyle::SetBackgroundPositionY;
+  (*func_map)["background-position-y"] = &CSSStyle::SetBackgroundPositionY;
 }
 
 CSSStyle::CSSStyle() {
@@ -160,9 +172,17 @@ void CSSStyle::Reset() {
   css_object_fit_ = CSSIMAGE_OBJECT_FIT_COVER;
   pointer_events_ = CSS_POINTER_EVENTS_AUTO;
   zindex_ = 0;
+  background_image_ = "";
+  background_repeat_ = CSS_BACKGROUND_REPEAT;
+  background_width_ = CSS_UNDEFINED;
+  background_height_ = CSS_UNDEFINED;
+  background_position_x_ = 0;
+  background_position_y_ = 0;
 }
 
 bool CSSStyle::ToPx(const std::string& value, double& px) {
+  if (value.empty()) return false;
+
   bool is_px = false;
   std::string px_str = value;
   int start = value.length() - kPX.length();

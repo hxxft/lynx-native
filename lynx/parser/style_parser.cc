@@ -46,7 +46,7 @@ namespace parser {
                     break;
                     
                 case STYLE_VALUE_STATE:
-                    if(IsWhitespace(ch))
+                    if(IsWhitespace(ch) && style_.style().value_.empty())
                         state_ = STYLE_VALUE_STATE;
                     else if(ch == ';')
                         state_ = DATA_STATE;

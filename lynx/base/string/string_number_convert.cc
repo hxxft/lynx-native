@@ -36,4 +36,24 @@ bool StringToInt(const std::string& input, int64_t& output, uint8_t base = 10) {
   return valid;
 }
 
+std::vector<std::string> SplitString(const std::string& target, char separator) {
+  std::vector<std::string> result;
+  std::string::size_type i = 0;
+  std::string::size_type value_start = INT_MAX;
+  while (i < target.size()) {
+    bool last_c = i == target.size() - 1;
+    if (target[i] != separator && value_start == INT_MAX) {
+      value_start = i;
+    } else if (target[i] == separator || i == target.size() - 1) {
+      std::string::size_type sub_num = last_c ? target.size() - value_start : i - value_start;
+      if (value_start != INT_MAX) {
+        result.push_back(target.substr(value_start, sub_num));
+        value_start = INT_MAX;
+      }
+    }
+    i++;
+  }
+  return result;
+}
+
 }  // namespace base

@@ -10,6 +10,7 @@ import com.lynx.base.Position;
 import com.lynx.base.Style;
 
 public class BgColorMaker implements IMaker{
+    private IControl mControl;
     private RectF mBackgroundRectF;
     private Paint mBackgroundPaint;
 
@@ -18,17 +19,16 @@ public class BgColorMaker implements IMaker{
     private float mBackgroundRadius = 0;
     private float mWidth = 0;
     private float mHeight = 0;
-    private float mWidthOffset = 0;
-    private float mHeightOffset = 0;
     private int mCurrentColor = 0;
 
-    public BgColorMaker() {
+    public BgColorMaker(IControl control) {
+        mControl = control;
         mBackgroundPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mBackgroundRectF = new RectF();
     }
 
     private void syncRecF() {
-        mBackgroundRectF.set(0, 0, mWidth + mWidthOffset, mHeight + mHeightOffset);
+        mBackgroundRectF.set(0, 0, mWidth, mHeight);
     }
 
     @Override
@@ -40,24 +40,22 @@ public class BgColorMaker implements IMaker{
 
     @Override
     public void updateStyle(@NonNull Style style) {
-        if (style.mBackgroundColor != 0) {
-            needBgColor = true;
-            if (mCurrentColor != style.mBackgroundColor) {
-                mBackgroundPaint.setColor(style.mBackgroundColor);
-                mCurrentColor = style.mBackgroundColor;
-            }
-        } else {
-            needBgColor = false;
+        boolean requireInvalidate = false;
+        if (mCurrentColor != style.mBackgroundColor) {
+            mBackgroundPaint.setColor(style.mBackgroundColor);
+            mCurrentColor = style.mBackgroundColor;
+            requireInvalidate = true;
         }
-        if (style.mBorderWidth != 0) {
-            mHeightOffset = mWidthOffset = (float) (-style.mBorderWidth * 2);
-        }
-        if ((float) style.mBorderRadius > 0) {
-            mBackgroundRadius = (float) (style.mBorderRadius);
-        } else {
-            mBackgroundRadius = 0;
+        needBgColor = mCurrentColor != 0;
+        if (mBackgroundRadius != style.mBorderRadius) {
+            mBackgroundRadius = style.mBorderRadius > 0 ? (float) (style.mBorderRadius) : 0;
+            requireInvalidate = true;
         }
         syncRecF();
+        requireInvalidate = requireInvalidate && needBgColor && mWidth != 0 && mHeight != 0;
+        if (requireInvalidate) {
+            mControl.invalidate();
+        }
     }
 
     @Override
@@ -67,4 +65,5 @@ public class BgColorMaker implements IMaker{
             canvas.drawRoundRect(mBackgroundRectF, mBackgroundRadius, mBackgroundRadius, mBackgroundPaint);
         }
     }
+
 }

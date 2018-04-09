@@ -100,6 +100,19 @@ bool ToPointerEventsType(const std::string& value, CSSStyleType & type) {
   FALSE_RETURN(CSS_POINTER_EVENTS_AUTO);
 }
 
+bool ToBackgroundImageRepeatType(const std::string &value, CSSStyleType &type) {
+  if (value.compare("no-repeat") == 0) {
+    TRUE_RETURN(CSS_BACKGROUND_NO_REPEAT);
+  } else if (value.compare("repeat-x") == 0) {
+    TRUE_RETURN(CSS_BACKGROUND_REPEAT_X);
+  } else if (value.compare("repeat-y") == 0) {
+    TRUE_RETURN(CSS_BACKGROUND_REPEAT_Y);
+  } else if (value.compare("repeat") == 0) {
+    TRUE_RETURN(CSS_BACKGROUND_REPEAT);
+  }
+  FALSE_RETURN(CSS_BACKGROUND_REPEAT);
+}
+
 bool ToTextAlignType(const std::string& value, TextStyleType& type) {
   if (value.compare("left") == 0) {
     TRUE_RETURN(CSSTEXT_ALIGN_LEFT);
