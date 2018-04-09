@@ -46,7 +46,7 @@ public class ImageRequestManager extends NetRequestManager {
             imageView = data.getImageView();
         }
 
-        Object tag = imageView == null ? this : imageView;
+        Object tag = imageView == null ? request : imageView;
         if (imageView != null) {
             mPicasso.cancelRequest(imageView);
         } else {
@@ -65,42 +65,23 @@ public class ImageRequestManager extends NetRequestManager {
 
     @Override
     public void fetch(NetRequest request) {
-        NetRequestBuilder info = request.getNetRequestInfo();
-        NetResponse response = request.getNetResponse();
-        String url = info.getUrl();
-        if (TextUtils.isEmpty(url)) {
-            return;
-        }
+        RequestCreator requestCreator = requestCreator(mPicasso, request);
+        if (requestCreator == null) return;
+
         ImageView imageView = null;
-        ImageTransformation imageTransformation = null;
-
-        Object externalData = info.getExternalData();
-
+        Object externalData = request.getNetRequestInfo().getExternalData();
         if (externalData != null
                 && externalData instanceof ImageRequestExternalData) {
-            ImageRequestExternalData data = ((ImageRequestExternalData) externalData);
-            imageView = data.getImageView();
-            imageTransformation = data.getTransformation();
+            imageView = ((ImageRequestExternalData) externalData).getImageView();
         }
 
-        Object tag = imageView == null ? this : imageView;
-
-        RequestCreator creator = mPicasso
-                .load(url)
-                .tag(tag)
-                .noPlaceholder();
-
-        if (imageTransformation != null) {
-            creator.transform(new ImageRequestTransformation(imageTransformation));
-        }
-
-        LoadedListener loadedListener = new LoadedListener(mPicasso,
-                url, (ImageNetResponse) response);
+        LoadedListener loadedListener = new LoadedListener(mPicasso, request,
+                request.getNetResponse());
 
         if (imageView != null) {
-            creator.into(imageView, loadedListener);
+            requestCreator.into(imageView, loadedListener);
         } else {
-            creator.fetch(loadedListener);
+            requestCreator.fetch(loadedListener);
         }
     }
 
@@ -115,10 +96,48 @@ public class ImageRequestManager extends NetRequestManager {
         if (TextUtils.isEmpty(url)) {
             return null;
         }
+        return fetchFromCache(mPicasso, request);
+    }
+
+    private static  <T> T fetchFromCache(Picasso picasso, NetRequest request) {
         CacheDetector detector = new CacheDetector();
-        // Async action
-        mPicasso.load(url).networkPolicy(NetworkPolicy.OFFLINE).into(detector);
+        RequestCreator creator = requestCreator(picasso, request);
+        if (creator != null) {
+            // Async action
+            creator.networkPolicy(NetworkPolicy.OFFLINE).into(detector);
+        }
         return (T) detector.bitmap;
+    }
+
+    private static RequestCreator requestCreator(Picasso picasso, NetRequest request) {
+        NetRequestBuilder info = request.getNetRequestInfo();
+        String url = info.getUrl();
+        if (TextUtils.isEmpty(url)) {
+            return null;
+        }
+        ImageView imageView = null;
+        ImageTransformation imageTransformation = null;
+
+        Object externalData = info.getExternalData();
+
+        if (externalData != null
+                && externalData instanceof ImageRequestExternalData) {
+            ImageRequestExternalData data = ((ImageRequestExternalData) externalData);
+            imageView = data.getImageView();
+            imageTransformation = data.getTransformation();
+        }
+
+        Object tag = imageView == null ? request : imageView;
+
+        RequestCreator creator = picasso
+                .load(url)
+                .tag(tag)
+                .noPlaceholder();
+
+        if (imageTransformation != null) {
+            creator.transform(new ImageRequestTransformation(imageTransformation));
+        }
+        return creator;
     }
 
     @Override
@@ -130,29 +149,21 @@ public class ImageRequestManager extends NetRequestManager {
     }
 
     static class LoadedListener implements Callback {
-        private ImageNetResponse mResponse;
+        private NetResponse mResponse;
         private Picasso mPicasso;
-        private String mUrl;
+        private NetRequest mNetRequest;
 
-        public LoadedListener(Picasso picasso, String url, ImageNetResponse response) {
+        public LoadedListener(Picasso picasso, NetRequest request, NetResponse response) {
             mResponse = response;
             mPicasso = picasso;
-            mUrl = url;
+            mNetRequest = request;
         }
 
         @Override
         public void onSuccess() {
             if (mResponse != null) {
                 if (mResponse.getType() == Bitmap.class) {
-                    Bitmap result = null;
-                    try {
-                        result = mPicasso
-                                .load(mUrl)
-                                .networkPolicy(NetworkPolicy.OFFLINE)
-                                .get();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                    Bitmap result = fetchFromCache(mPicasso, mNetRequest);
                     mResponse.onResponse(result);
                 } else {
                     mResponse.onResponse(null);

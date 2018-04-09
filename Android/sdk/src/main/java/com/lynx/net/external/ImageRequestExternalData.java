@@ -14,6 +14,10 @@ public class ImageRequestExternalData {
         mImageTransformation = transformation;
     }
 
+    public ImageRequestExternalData(ImageTransformation transformation) {
+        mImageTransformation = transformation;
+    }
+
     public ImageView getImageView() {
         return mImageView;
     }
