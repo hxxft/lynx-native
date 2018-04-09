@@ -1,3 +1,5 @@
+#!/usr/bin/env ruby
+
 require 'watir-webdriver'
 require 'fileutils'
 
@@ -8,9 +10,6 @@ caps = Selenium::WebDriver::Remote::Capabilities.chrome(
   }
 )
 browser = Watir::Browser.new(:chrome, :desired_capabilities => caps, :switches => ['--window-position=0,0'])
-browser.driver.manage.window.resize_to(400, 600)
-
-puts browser.driver.manage.window.size
 
 Dir.chdir(File.dirname($0))
 

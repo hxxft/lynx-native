@@ -8,7 +8,16 @@
 
 1. 安装Ruby，cmake
 
-2. 将layout_test/Tools/加入path中
+2. 安装WebDriver依赖
+
+   ```shell
+   $ sudo gem install watir
+   $ sudo gem install watir-webdriver 
+   ```
+
+   ​
+
+3. 将layout_test/Tools/加入path中
 
    ```shell
    $ cd lynx-native/layout_test/
@@ -17,7 +26,7 @@
 
    ​
 
-3. 在mac平台编译执行
+4. 在mac平台编译执行
 
    ```shell
    $ mkdir build
