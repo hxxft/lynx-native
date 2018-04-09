@@ -73,7 +73,7 @@ CxxEmitter.prototype = Object.create(Emitter.prototype, {
   // 添加成为子节点
   NodeInsertChild: {
     value: function(parentName, nodeName, index) {
-      this.push(parentName + '->InsertChild(' + nodeName + ', 0);');
+      this.push(parentName + '->InsertChild(' + nodeName + ', -1);');
     }
   },
 
@@ -124,7 +124,7 @@ CxxEmitter.prototype = Object.create(Emitter.prototype, {
 
   AssertEqual:{
     value:function(v0, v1) {
-      this.push('EXPECT_EQ(' + v0 + ', ' + v1 + ');');
+      this.push('EXPECT_NEAR(' + v0 + ', ' + v1 + ', 1);');
     }
   },
 })
