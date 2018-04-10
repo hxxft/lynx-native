@@ -9,6 +9,7 @@
 #include <cmath>
 #include <map>
 #include <string>
+#include <base/string/string_utils.h>
 
 #include "base/compiler_specific.h"
 #include "base/string/string_number_convert.h"
@@ -347,35 +348,23 @@ class CSSStyle {
   }
 
   void SetBackgroundSize(const std::string& value) {
-    std::string width_value, height_value;
-    std::vector<std::string> split_result = base::SplitString(value, ' ');
-    if (split_result.size() >= 2) {
-        width_value = split_result[0];
-        height_value = split_result[1];
-    } else if (split_result.size() == 1) {
-        width_value = split_result[0];
-    }
-    if (UNLIKELY(!ToPx(width_value, background_width_))) {
+    std::vector<std::string> split_result;
+    base::SplitString(value, ' ', split_result);
+    if (UNLIKELY(split_result.size() > 0 && !ToPx(split_result[0], background_width_))) {
         background_width_ = CSS_UNDEFINED;
     }
-    if (UNLIKELY(!ToPx(height_value, background_height_))) {
+    if (split_result.size() > 1 && UNLIKELY(!ToPx(split_result[1], background_height_))) {
         background_height_ = CSS_UNDEFINED;
     }
   }
 
   void SetBackgroundPosition(const std::string& value) {
-    std::string x_value, y_value;
-      std::vector<std::string> split_result = base::SplitString(value, ' ');
-      if (split_result.size() >= 2) {
-          x_value = split_result[0];
-          y_value = split_result[1];
-      } else if (split_result.size() == 1) {
-          x_value = split_result[0];
-      }
-    if (UNLIKELY(!ToPx(x_value, background_position_x_))) {
+    std::vector<std::string> split_result;
+    base::SplitString(value, ' ', split_result);
+    if (UNLIKELY(split_result.size() > 0 && !ToPx(split_result[0], background_position_x_))) {
         background_position_x_ = 0;
     }
-    if (UNLIKELY(!ToPx(y_value, background_position_y_))) {
+    if (split_result.size() > 1 && UNLIKELY(!ToPx(split_result[1], background_position_y_))) {
         background_position_y_ = 0;
     }
   }
