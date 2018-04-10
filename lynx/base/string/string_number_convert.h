@@ -1,3 +1,4 @@
+// Copyright 2017 The Lynx Authors. All rights reserved.
 #ifndef LYNX_BASE_STRING_NUMBER_CONVERT_H_
 #define LYNX_BASE_STRING_NUMBER_CONVERT_H_
 

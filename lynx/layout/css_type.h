@@ -44,7 +44,12 @@ enum CSSStyleType {
   CSS_HIDDEN = 22,
 
   CSS_POINTER_EVENTS_NONE = 23,
-  CSS_POINTER_EVENTS_AUTO = 24
+  CSS_POINTER_EVENTS_AUTO = 24,
+
+  CSS_BACKGROUND_REPEAT = 25,
+  CSS_BACKGROUND_REPEAT_X = 26,
+  CSS_BACKGROUND_REPEAT_Y = 27,
+  CSS_BACKGROUND_NO_REPEAT = 28
 };
 
 enum TextStyleType {
@@ -86,6 +91,8 @@ bool ToFlexWrapType(const std::string& value, CSSStyleType& type);
 bool ToPositionType(const std::string& value, CSSStyleType& type);
 
 bool ToPointerEventsType(const std::string& value, CSSStyleType & type);
+
+bool ToBackgroundImageRepeatType(const std::string &value, CSSStyleType &type);
 
 bool ToTextAlignType(const std::string& value, TextStyleType& type);
 

@@ -10,6 +10,7 @@ import com.lynx.base.Position;
 import com.lynx.base.Style;
 
 public class BorderMaker implements IMaker {
+    private IControl mControl;
     private RectF mBorderRectF;
     private RectF mInnerBorderRectF;
     private Paint mBorderPaint;
@@ -18,6 +19,7 @@ public class BorderMaker implements IMaker {
     private boolean needBorder = false;
     private boolean needInnerBorder = false;
 
+    private int mBorderColor = 0;
     private float mBorderRadius = 0;
     private float mBorderWidth = 0;
     private float mWidth = 0;
@@ -25,7 +27,9 @@ public class BorderMaker implements IMaker {
     private float mEdge = 0;
     private float mHelperEdge = 0;
 
-    public BorderMaker() {
+    public BorderMaker(IControl control) {
+        mControl = control;
+
         mBorderPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mBorderRectF = new RectF();
 
@@ -42,49 +46,57 @@ public class BorderMaker implements IMaker {
 
     @Override
     public void updateStyle(Style style) {
+        boolean requireInvalidate = false;
         float borderRadius = (float) (style.mBorderRadius);
-        // 设置border属性
-        if ((float) style.mBorderWidth > 0) {
+        if (mBorderColor != style.mBorderColor) {
+            mBorderColor = style.mBorderColor;
+            mBorderPaint.setColor(mBorderColor);
+            mInnerBorderPaint.setColor(mBorderColor);
+            requireInvalidate = true;
+        }
+        if (mBorderWidth != style.mBorderWidth) {
             needBorder = true;
-            mBorderPaint.setColor(style.mBorderColor);
-            mBorderPaint.setAntiAlias(true);
-            mBorderPaint.setStrokeWidth((float) style.mBorderWidth);
-            mBorderPaint.setStyle(Paint.Style.STROKE);
             mBorderWidth = (float) style.mBorderWidth;
+            mBorderPaint.setAntiAlias(true);
+            mBorderPaint.setStyle(Paint.Style.STROKE);
+            mBorderPaint.setStrokeWidth(mBorderWidth);
             mEdge = mBorderWidth / 2;
-            // 设置border的radius
+            // Set border radius
             if (mBorderWidth > borderRadius) {
-                // 当border width > radius时候，应该绘制两层，一层外圆角边框，一层内直角边框
+                // When border width > radius, two layer should be draw, an outer round border
+                // and an inner right-angle border
                 needInnerBorder = true;
-                // 重新设置外边框绘制radius和border width
+                // Set radius and width of outer border
                 mBorderRadius = borderRadius / 2;
                 mBorderPaint.setStrokeWidth(borderRadius);
                 mEdge = borderRadius / 2;
-                // 设置内边框的画笔以及绘制区域
-                mInnerBorderPaint.setColor(style.mBorderColor);
+                // Set paint and rect of inner border
                 mInnerBorderPaint.setAntiAlias(true);
-                mInnerBorderPaint.setStrokeWidth(mBorderWidth - borderRadius);
                 mInnerBorderPaint.setStyle(Paint.Style.STROKE);
+                mInnerBorderPaint.setStrokeWidth(mBorderWidth - borderRadius);
                 mHelperEdge = borderRadius + (mBorderWidth - borderRadius) / 2;
             } else {
-                // 当border width < radius，绘制应圆角边框，radius应该进行缩小
+                // When border width < radius，only draw a round border and shrink the radius
                 mBorderRadius = borderRadius - mBorderWidth / 2;
                 needInnerBorder = false;
             }
-        } else {
-            needBorder = false;
-            mBorderRadius = 0;
+            requireInvalidate = true;
         }
         syncRecF();
+        needBorder = mBorderWidth > 0 && mBorderColor != 0;
+        requireInvalidate = requireInvalidate && needBorder;
+        if (requireInvalidate) {
+            mControl.invalidate();
+        }
     }
 
     @Override
     public void draw(@NonNull Canvas canvas) {
         if (needBorder && mWidth != 0 && mHeight != 0) {
-            // 绘制具有radius的圆角边框
+            // Draw outer round border
             canvas.drawRoundRect(mBorderRectF, mBorderRadius, mBorderRadius, mBorderPaint);
 
-            // 如果radius < border width，绘制内边框
+            // Draw inner right-angle border if needed
             if (needInnerBorder) {
                 canvas.drawRect(mInnerBorderRectF, mInnerBorderPaint);
             }
@@ -96,11 +108,4 @@ public class BorderMaker implements IMaker {
         mInnerBorderRectF.set(mHelperEdge, mHelperEdge, mWidth - mHelperEdge, mHeight - mHelperEdge);
     }
 
-    private void reset() {
-        mBorderPaint.reset();
-        mInnerBorderPaint.reset();
-        mBorderRectF.setEmpty();
-        needBorder = false;
-        needInnerBorder = false;
-    }
 }

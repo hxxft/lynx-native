@@ -136,12 +136,10 @@ public abstract class LynxUI<T extends View>
             return;
 
         setBackground(style);
+        setPadding(style);
         setAlpha((float) (style.mOpacity / 255f));
         setLayerType(style);
         setDisplayType(style);
-
-        mView.requestLayout();
-        mView.invalidate();
     }
 
     @Override
@@ -176,6 +174,13 @@ public abstract class LynxUI<T extends View>
         }
     }
 
+    public void setPadding(Style style) {
+        mView.setPadding(style.mPaddingLeft + style.mBorderWidth,
+                style.mPaddingTop + style.mBorderWidth,
+                style.mPaddingRight + style.mBorderWidth,
+                style.mPaddingBottom + style.mBorderWidth);
+    }
+
     protected void setEnabled(boolean enable) {
         mView.setEnabled(enable);
     }
@@ -187,8 +192,6 @@ public abstract class LynxUI<T extends View>
     }
 
     protected void setLayerType(Style style) {
-        // TODO 加上box-shadow
-//        if (!mView.isHardwareAccelerated() && style.mBorderRadius > 0 && style.mCssBoxShadow == null) {
         if (!mView.isHardwareAccelerated()
                 && style.mBorderRadius > 0
                 && mView.getLayerType() != LAYER_TYPE_HARDWARE) {

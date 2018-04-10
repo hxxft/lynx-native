@@ -9,8 +9,8 @@ import android.support.annotation.NonNull;
 import com.lynx.base.Position;
 import com.lynx.base.Style;
 
-// TODO: 17/8/7 需要去除border占据的部分
-public class BackgroundColorMaker implements IMaker{
+public class BgColorMaker implements IMaker{
+    private IControl mControl;
     private RectF mBackgroundRectF;
     private Paint mBackgroundPaint;
 
@@ -21,7 +21,8 @@ public class BackgroundColorMaker implements IMaker{
     private float mHeight = 0;
     private int mCurrentColor = 0;
 
-    public BackgroundColorMaker() {
+    public BgColorMaker(IControl control) {
+        mControl = control;
         mBackgroundPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mBackgroundRectF = new RectF();
     }
@@ -30,14 +31,8 @@ public class BackgroundColorMaker implements IMaker{
         mBackgroundRectF.set(0, 0, mWidth, mHeight);
     }
 
-    public void reset() {
-        mBackgroundPaint.reset();
-        mBackgroundRectF.setEmpty();
-        needBgColor = false;
-    }
-
     @Override
-    public void updateBounds(@NonNull  Position bounds) {
+    public void updateBounds(@NonNull Position bounds) {
         mWidth = bounds.getWidth();
         mHeight = bounds.getHeight();
         syncRecF();
@@ -45,23 +40,22 @@ public class BackgroundColorMaker implements IMaker{
 
     @Override
     public void updateStyle(@NonNull Style style) {
-        if (style.mBackgroundColor != 0) {
-            needBgColor = true;
-            if (mCurrentColor != style.mBackgroundColor) {
-                // 设置背景颜色
-                mBackgroundPaint.setColor(style.mBackgroundColor);
-                mCurrentColor = style.mBackgroundColor;
-            }
-        } else {
-            needBgColor = false;
+        boolean requireInvalidate = false;
+        if (mCurrentColor != style.mBackgroundColor) {
+            mBackgroundPaint.setColor(style.mBackgroundColor);
+            mCurrentColor = style.mBackgroundColor;
+            requireInvalidate = true;
         }
-        // 设置圆角
-        if ((float) style.mBorderRadius > 0) {
-            mBackgroundRadius = (float) (style.mBorderRadius);
-        } else {
-            mBackgroundRadius = 0;
+        needBgColor = mCurrentColor != 0;
+        if (mBackgroundRadius != style.mBorderRadius) {
+            mBackgroundRadius = style.mBorderRadius > 0 ? (float) (style.mBorderRadius) : 0;
+            requireInvalidate = true;
         }
         syncRecF();
+        requireInvalidate = requireInvalidate && needBgColor && mWidth != 0 && mHeight != 0;
+        if (requireInvalidate) {
+            mControl.invalidate();
+        }
     }
 
     @Override
@@ -71,4 +65,5 @@ public class BackgroundColorMaker implements IMaker{
             canvas.drawRoundRect(mBackgroundRectF, mBackgroundRadius, mBackgroundRadius, mBackgroundPaint);
         }
     }
+
 }

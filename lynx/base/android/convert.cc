@@ -6,6 +6,7 @@
 #include "base/position.h"
 #include "base/size.h"
 #include "layout/css_style.h"
+#include "jni_helper.h"
 
 namespace base {
 #define SIZE_CLASS_PATH "com/lynx/base/Size"
@@ -85,7 +86,7 @@ android::ScopedLocalJavaRef<jobject>  Convert::PositionConvert(
 #define STYLE_CLASS_PATH "com/lynx/base/Style"
 #define STYLE_CONSTRUCTOR_METHOD "<init>", "()V"
 #define STYLE_BACKGROUBD_COLOR_FIELD "mBackgroundColor", "I"
-#define STYLE_BORDER_WIDTH_FIELD "mBorderWidth", "D"
+#define STYLE_BORDER_WIDTH_FIELD "mBorderWidth", "I"
 #define STYLE_BORDER_COLOR_FIELD "mBorderColor", "I"
 #define STYLE_BORDER_RADIUS_FIELD "mBorderRadius", "D"
 #define STYLE_OPACITY_FIELD "mOpacity", "D"
@@ -109,6 +110,12 @@ android::ScopedLocalJavaRef<jobject>  Convert::PositionConvert(
 #define POSITION_TYPE_FIELD "mPositionType", "I"
 #define OBJECT_FIT_TYPE_FIELD "mObjectFit", "I"
 #define POINTER_EVENTS_TYPE_FIELD "mPointerEvents", "I"
+#define BACKGROUND_IMAGE_FIELD "mBackgroundImage", "Ljava/lang/String;"
+#define BACKGROUND_REPEAT_FIELD "mBackgroundRepeat", "I"
+#define BACKGROUND_WIDTH_FIELD "mBackgroundWidth", "I"
+#define BACKGROUND_HEIGHT_FIELD "mBackgroundHeight", "I"
+#define BACKGROUND_POSITION_X_FIELD "mBackgroundPositionX", "I"
+#define BACKGROUND_POSITION_Y_FIELD "mBackgroundPositionY", "I"
 
 jclass Convert::style_class_ = nullptr;
 jmethodID Convert::style_constructor_ = 0;
@@ -137,6 +144,12 @@ jfieldID Convert::padding_bottom_field_ = 0;
 jfieldID Convert::position_type_field_ = 0;
 jfieldID Convert::object_fit_field_ = 0;
 jfieldID Convert::pointer_events_field_ = 0;
+jfieldID Convert::background_image_field_ = 0;
+jfieldID Convert::background_repeat_field_ = 0;
+jfieldID Convert::background_width_field_ = 0;
+jfieldID Convert::background_height_field_ = 0;
+jfieldID Convert::background_position_x_field_ = 0;
+jfieldID Convert::background_position_y_field_ = 0;
 
 android::ScopedLocalJavaRef<jobject>  Convert::StyleConvert(
     const lynx::CSSStyle& style) {
@@ -150,7 +163,7 @@ android::ScopedLocalJavaRef<jobject>  Convert::StyleConvert(
     jobject style_obj = env->NewObject(style_class_, style_constructor_);
 
     env->SetIntField(style_obj, background_color_field_, style.background_color_.Cast());
-    env->SetDoubleField(style_obj, border_width_field_, style.border_width_);
+    env->SetIntField(style_obj, border_width_field_, style.border_width_);
     env->SetIntField(style_obj, border_color_field_, style.border_color_.Cast());
     env->SetDoubleField(style_obj, border_radius_field_, style.border_radius_);
     env->SetDoubleField(style_obj, opacity_field_, style.opacity_);
@@ -174,6 +187,14 @@ android::ScopedLocalJavaRef<jobject>  Convert::StyleConvert(
     env->SetIntField(style_obj, position_type_field_, style.css_position_type_);
     env->SetIntField(style_obj, object_fit_field_, style.css_object_fit_);
     env->SetIntField(style_obj, pointer_events_field_, style.pointer_events_);
+    auto background_image = style.background_image_;
+    env->SetObjectField(style_obj, background_image_field_,
+                        base::android::JNIHelper::ConvertToJNIString(env, background_image).Get());
+    env->SetIntField(style_obj, background_repeat_field_, style.background_repeat_);
+    env->SetIntField(style_obj, background_width_field_, style.background_width_);
+    env->SetIntField(style_obj, background_height_field_, style.background_height_);
+    env->SetIntField(style_obj, background_position_x_field_, style.background_position_x_);
+    env->SetIntField(style_obj, background_position_y_field_, style.background_position_y_);
     base::android::CheckException(env);
 
     return android::ScopedLocalJavaRef<jobject>(env, style_obj);
@@ -224,6 +245,12 @@ void Convert::BindingJavaClass(JNIEnv* env) {
         position_type_field_ = env->GetFieldID(style_class_, POSITION_TYPE_FIELD);
         object_fit_field_ = env->GetFieldID(style_class_, OBJECT_FIT_TYPE_FIELD);
         pointer_events_field_ = env->GetFieldID(style_class_, POINTER_EVENTS_TYPE_FIELD);
+        background_image_field_ = env->GetFieldID(style_class_, BACKGROUND_IMAGE_FIELD);
+        background_repeat_field_ = env->GetFieldID(style_class_, BACKGROUND_REPEAT_FIELD);
+        background_width_field_ = env->GetFieldID(style_class_, BACKGROUND_WIDTH_FIELD);
+        background_height_field_ = env->GetFieldID(style_class_, BACKGROUND_HEIGHT_FIELD);
+        background_position_x_field_ = env->GetFieldID(style_class_, BACKGROUND_POSITION_X_FIELD);
+        background_position_y_field_ = env->GetFieldID(style_class_, BACKGROUND_POSITION_Y_FIELD);
     }
     base::android::CheckException(env);
 }

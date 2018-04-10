@@ -240,11 +240,6 @@ public class LynxUIInput extends LynxUI<AndroidInput> {
         }
     }
 
-    protected void setPadding(Style style) {
-        mView.setPadding(style.mPaddingLeft, style.mPaddingTop,
-                style.mPaddingRight, style.mPaddingBottom);
-    }
-
     @Override
     public void addEventListener(String event) {
         super.addEventListener(event);

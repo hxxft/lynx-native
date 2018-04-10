@@ -69,6 +69,12 @@ namespace base {
         static jfieldID position_type_field_;
         static jfieldID object_fit_field_;
         static jfieldID pointer_events_field_;
+        static jfieldID background_image_field_;
+        static jfieldID background_repeat_field_;
+        static jfieldID background_width_field_;
+        static jfieldID background_height_field_;
+        static jfieldID background_position_x_field_;
+        static jfieldID background_position_y_field_;
 
     };
 }

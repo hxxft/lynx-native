@@ -12,6 +12,7 @@
 
 #include "base/compiler_specific.h"
 #include "base/string/string_number_convert.h"
+#include "base/string/string_utils.h"
 
 #include "layout/css_color.h"
 #include "layout/css_layout.h"
@@ -331,6 +332,55 @@ class CSSStyle {
     }
   }
 
+  void SetBackgroundImage(const std::string& value) {
+    auto start = value.find('(');
+    auto end = value.find(')');
+    if (start != std::string::npos && end != std::string::npos) {
+      background_image_ = value.substr(start + 1, end - start - 1);
+    } else {
+      background_image_ = "";
+    }
+  }
+
+  void SetBackgroundRepeat(const std::string& value) {
+    if (UNLIKELY(!ToBackgroundImageRepeatType(value, background_repeat_))) {
+    }
+  }
+
+  void SetBackgroundSize(const std::string& value) {
+    std::vector<std::string> split_result;
+    base::SplitString(value, ' ', split_result);
+    if (UNLIKELY(split_result.size() > 0 && !ToPx(split_result[0], background_width_))) {
+        background_width_ = CSS_UNDEFINED;
+    }
+    if (split_result.size() > 1 && UNLIKELY(!ToPx(split_result[1], background_height_))) {
+        background_height_ = CSS_UNDEFINED;
+    }
+  }
+
+  void SetBackgroundPosition(const std::string& value) {
+    std::vector<std::string> split_result;
+    base::SplitString(value, ' ', split_result);
+    if (UNLIKELY(split_result.size() > 0 && !ToPx(split_result[0], background_position_x_))) {
+        background_position_x_ = 0;
+    }
+    if (split_result.size() > 1 && UNLIKELY(!ToPx(split_result[1], background_position_y_))) {
+        background_position_y_ = 0;
+    }
+  }
+
+  void SetBackgroundPositionX(const std::string& value) {
+      if (UNLIKELY(!ToPx(value, background_position_x_))) {
+          background_position_x_ = 0;
+      }
+  }
+
+  void SetBackgroundPositionY(const std::string& value) {
+      if (UNLIKELY(!ToPx(value, background_position_y_))) {
+          background_position_y_ = 0;
+      }
+  }
+
  public:
   // base css style
   double width_;
@@ -359,6 +409,12 @@ class CSSStyle {
   CSSColor border_color_;
   double border_radius_;
   double opacity_;
+  std::string background_image_;
+  CSSStyleType background_repeat_;
+  double background_width_;
+  double background_height_;
+  double background_position_x_;
+  double background_position_y_;
 
   // for text
   CSSColor font_color_;

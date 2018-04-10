@@ -10,10 +10,6 @@ import com.lynx.content.LynxApplicationDelegate;
 import com.lynx.content.info.App;
 import java.util.Arrays;
 
-/**
- * Created by yanxing on 17/9/20.
- */
-
 public class MainApplication extends Application implements LynxApplication {
     private LynxApplicationDelegate mDelegate;
 

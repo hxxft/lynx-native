@@ -15,14 +15,15 @@ import com.lynx.base.Style;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UIBackgroundDrawable extends Drawable {
+public class UIBackgroundDrawable extends Drawable implements IControl {
     protected List<IMaker> mMakers;
 
     public UIBackgroundDrawable() {
         mMakers = new ArrayList<>();
         // This adding order will affect the drawing order
-        mMakers.add(new BackgroundColorMaker());
-        mMakers.add(new BorderMaker());
+        mMakers.add(new BgColorMaker(this));
+        mMakers.add(new BgImageMaker(this));
+        mMakers.add(new BorderMaker(this));
     }
 
     public void updateBounds(@NonNull Position position) {
@@ -57,5 +58,10 @@ public class UIBackgroundDrawable extends Drawable {
     @Override
     public int getOpacity() {
         return PixelFormat.OPAQUE;
+    }
+
+    @Override
+    public void invalidate() {
+        invalidateSelf();
     }
 }
