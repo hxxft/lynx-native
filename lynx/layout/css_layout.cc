@@ -127,9 +127,9 @@ base::Size CSSStaticLayout::MeasureRowOneLine(LayoutObject* renderer,
   int calc_width = 0;
   int calc_height = 0;
 
-  int total_flex = 0;
+  float total_flex = 0;
   // 对于row排版，且是no_wrap的操作，孩子想要多宽就给多宽
-  int residual_width = width;
+  float residual_width = width;
 
   //计算子view中无flex属性的view
   //size，并且计算出剩下含有flex属性的子view可使用的宽度
@@ -213,7 +213,7 @@ base::Size CSSStaticLayout::MeasureRowOneLine(LayoutObject* renderer,
       continue;
 
     //根据flex属性重新计算子view宽度
-    int recalc_width = residual_width * child_style->flex_ / total_flex;
+    int recalc_width = round(residual_width * child_style->flex_ / total_flex);
 
     int measure_width =
         recalc_width == 0
@@ -238,6 +238,8 @@ base::Size CSSStaticLayout::MeasureRowOneLine(LayoutObject* renderer,
     measured_size.height_ = measured_size.height_ > child_item_height
                                 ? measured_size.height_
                                 : child_item_height;
+    residual_width -= child_size.width_;
+    total_flex -= child_style->flex_;
   }
   measured_size.width_ = calc_width;
   // measured_size.height_ = calc_height;
@@ -342,9 +344,9 @@ base::Size CSSStaticLayout::MeasureColumnOneLine(LayoutObject* renderer,
   int calc_width = 0;
   int calc_height = 0;
 
-  int total_flex = 0;
+  float total_flex = 0;
   // 对于row排版，且是no_wrap的操作，孩子想要多宽就给多宽
-  int residual_height = height;
+  float residual_height = height;
 
   //计算子view中无flex属性的view
   //size，并且计算出剩下含有flex属性的子view可使用的宽度
@@ -428,7 +430,7 @@ base::Size CSSStaticLayout::MeasureColumnOneLine(LayoutObject* renderer,
       continue;
 
     //根据flex属性重新计算子view宽度
-    int recalc_height = residual_height * child_style->flex_ / total_flex;
+    int recalc_height = round(residual_height * child_style->flex_ / total_flex);
 
     //测量子view的宽高/
     int measure_height =
@@ -453,6 +455,8 @@ base::Size CSSStaticLayout::MeasureColumnOneLine(LayoutObject* renderer,
     measured_size.width_ = measured_size.width_ > child_item_width
                                ? measured_size.width_
                                : child_item_width;
+      residual_height -= child_size.height_;
+      total_flex -= child_style->flex_;
   }
   // measured_size.width_ = calc_width;
   measured_size.height_ = calc_height;
@@ -659,7 +663,7 @@ void CSSStaticLayout::LayoutRowWrap(LayoutObject* renderer,
         } else if (item_style->flex_justify_content_ ==
                    CSSFLEX_JUSTIFY_FLEX_CENTER) {
           adjust_width_start =
-              (available_width - total_use_width_without_absolute) / 2;
+              round((float)(available_width - total_use_width_without_absolute) / 2.0f);
         } else if (total_use_width_without_absolute <= available_width &&
                    item_style->flex_justify_content_ ==
                        CSSFLEX_JUSTIFY_SPACE_BETWEEN) {
@@ -729,7 +733,7 @@ void CSSStaticLayout::LayoutRowWrap(LayoutObject* renderer,
         } else if (align == CSSFLEX_ALIGN_CENTER ||
                    align == CSSFLEX_ALIGN_CENTER) {
           adjust_y =
-              (current_line_height - recalc_child->measured_size_.height_) / 2;
+              round((float)(current_line_height - recalc_child->measured_size_.height_) / 2.0f);
         }
 
         int l = child_origin_x;
@@ -807,7 +811,7 @@ void CSSStaticLayout::LayoutRow(LayoutObject* renderer, int width, int height) {
       } else if (item_style->flex_justify_content_ ==
                  CSSFLEX_JUSTIFY_FLEX_CENTER) {
         adjust_width_start =
-            (available_width - total_use_width_without_absolute) / 2;
+            round((float)(available_width - total_use_width_without_absolute) / 2.0f);
       } else if (total_use_width_without_absolute <= available_width &&
                  item_style->flex_justify_content_ ==
                      CSSFLEX_JUSTIFY_SPACE_BETWEEN) {
@@ -874,7 +878,7 @@ void CSSStaticLayout::LayoutRow(LayoutObject* renderer, int width, int height) {
         }
       } else if (align == CSSFLEX_ALIGN_CENTER ||
                  align == CSSFLEX_ALIGN_CENTER) {
-        adjust_y = (available_height - child->measured_size_.height_) / 2;
+        adjust_y = round((float)(available_height - child->measured_size_.height_) / 2.0f);
       }
 
       int l = child_origin_x;
@@ -985,7 +989,7 @@ void CSSStaticLayout::LayoutColumnWrap(LayoutObject* renderer,
         } else if (item_style->flex_justify_content_ ==
                    CSSFLEX_JUSTIFY_FLEX_CENTER) {
           adjust_height_start =
-              (available_height - total_use_height_without_absolute) / 2;
+              round((float)(available_height - total_use_height_without_absolute) / 2.0f);
         } else if (total_use_height_without_absolute <= available_height &&
                    item_style->flex_justify_content_ ==
                        CSSFLEX_JUSTIFY_SPACE_BETWEEN) {
@@ -1135,7 +1139,7 @@ void CSSStaticLayout::LayoutColumn(LayoutObject* renderer,
       } else if (item_style->flex_justify_content_ ==
                  CSSFLEX_JUSTIFY_FLEX_CENTER) {
         adjust_height_start =
-            (available_height - total_use_height_without_absolute) / 2;
+            round((float)(available_height - total_use_height_without_absolute) / 2.0f);
       } else if (total_use_height_without_absolute <= available_height &&
                  item_style->flex_justify_content_ ==
                      CSSFLEX_JUSTIFY_SPACE_BETWEEN) {
@@ -1428,7 +1432,7 @@ int CSSStaticLayout::CalculateOffsetWithFlexContainerStyle(LayoutObject* parent,
                    CSSFLEX_JUSTIFY_FLEX_CENTER ||
                parent_style->flex_justify_content_ ==
                    CSSFLEX_JUSTIFY_SPACE_AROUND) {
-      offset = (available_target_axis - child_size_on_target_axis) / 2;
+      offset = round((float)(available_target_axis - child_size_on_target_axis) / 2.0f);
     }
   } else {
     // Cross axis
@@ -1447,7 +1451,7 @@ int CSSStaticLayout::CalculateOffsetWithFlexContainerStyle(LayoutObject* parent,
                align == CSSFLEX_ALIGN_STRETCH) {
       // Nothing to do when position: absolute/fixed
     } else if (align == CSSFLEX_ALIGN_CENTER || align == CSSFLEX_ALIGN_CENTER) {
-      offset = (available_target_axis - child_size_on_target_axis) / 2;
+      offset = round((float)(available_target_axis - child_size_on_target_axis) / 2.0f);
     }
   }
 

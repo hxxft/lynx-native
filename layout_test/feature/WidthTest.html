@@ -1,0 +1,52 @@
+<div id="test_width" style="width:400px; height:200px; flex-wrap:wrap">
+  
+  <div id="child_with_width_flex" style="width: 100px; height: 100px">
+    <div style="width: 10px; flex:1"></div>
+  </div>
+
+  <div id="child_both_has_flex" style="width: 100px; height: 100px">
+    <div style="width: 10px; flex:1"></div>
+    <div style="margin-right: 10px; flex:1"></div>
+  </div>
+
+  <div id="child_flex_with_no_width" style="width: 100px; height: 100px">
+    <div style="height: 10px; flex:1"></div>
+  </div>
+
+  <div id="childs_no_width_with_flex_both" style="width: 100px; height: 100px">
+    <div style="height: 10px; flex:1"></div>
+    <div style="margin-top: 10px; flex:1"></div>
+  </div>
+
+  
+  <div id="child_bigger_than_parent" style="width:200px; height:100px">
+    <div style="width:150px;height:50px"></div>
+    <div style="width:150px;height:50px"></div>
+  </div>
+
+  <!-- child with flex -->
+  <div id="child_bigger_than_parent_with_flex" style="width:200px; height:100px">
+    <div style="width: 100px; height: 50px; flex:1"></div>
+    <div style="width: 100px; height: 50px; flex:1"></div>
+    <div style="width: 100px; height: 50px; flex:1"></div>
+  </div>
+
+  <div id="child_bigger_than_parent_with_parent_wrap" style="width:200px; height:100px; flex-wrap: wrap">
+    <div style="width: 100px; height: 50px; flex:1"></div>
+    <div style="width: 100px; height: 50px; flex:1"></div>
+    <div style="width: 100px; height: 50px; flex:1"></div>
+  </div>
+
+  <!-- child with wrap -->
+  <div id="child_with_no_flex_parent_wrap"style="width:200px; height:100px; flex-wrap: wrap">
+    <div style="width: 100px; height: 50px"></div>
+    <div style="width: 100px; height: 50px"></div>
+    <div style="width: 100px; height: 50px"></div>
+  </div>
+ 
+  <!-- width with margin and panding-->
+  <div id="width_with_margin_padding" style="width: 100px; height:100px">
+    <div style="width:10px; margin-left:20px; padding-right:20px"></div>
+    <div style="width:10px; flex:1"></div>
+  </div>
+</div>
