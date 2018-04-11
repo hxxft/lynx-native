@@ -67,8 +67,8 @@ namespace lepus {
                 &const_values_[index] : nullptr;
         }
         
-        int SearchUpvalue(String* name) {
-            for(std::size_t i = 0; i < upvalues_.size(); ++i) {
+        size_t SearchUpvalue(String* name) {
+            for(size_t i = 0; i < upvalues_.size(); ++i) {
                 if(upvalues_[i].name_ == name) {
                     return i;
                 }

@@ -29,7 +29,7 @@ namespace jscore {
         static std::string ConvertToString(LynxValue* value);
         static base::ScopedPtr<LynxValue> ConvertToLynxValue(JSContextRef ctx, JSValueRef value);
         static base::ScopedPtr<LynxArray> ConvertToLynxArray(JSContextRef ctx, JSObjectRef value);
-        static base::ScopedPtr<LynxArray> ConvertToLynxArray(JSContextRef ctx, JSValueRef *value, int length);
+        static base::ScopedPtr<LynxArray> ConvertToLynxArray(JSContextRef ctx, JSValueRef *value, size_t length);
         static base::ScopedPtr<LynxObject> ConvertToLynxObject(JSContextRef ctx, JSObjectRef value);
         static LynxObjectTemplate* ConvertToLynxObjectTemplate(JSContextRef ctx, JSObjectRef value);
         static base::ScopedPtr<LynxValue> ConvertToLynxFunction(JSContextRef ctx, JSObjectRef value);

@@ -7,14 +7,21 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		420B8AD01F7E2D3A005717FB /* LynxPageInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 420B8ACF1F7E2D3A005717FB /* LynxPageInfo.m */; };
 		421438CC207DB07000ECF750 /* logging.cc in Sources */ = {isa = PBXBuildFile; fileRef = 421438CB207DB07000ECF750 /* logging.cc */; };
 		421438CF207DB6E700ECF750 /* string_utils.cc in Sources */ = {isa = PBXBuildFile; fileRef = 421438CD207DB6E600ECF750 /* string_utils.cc */; };
-		4239864B1F793F42008775F6 /* LynxFilePathUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 4239864A1F793F42008775F6 /* LynxFilePathUtility.m */; };
-		4239BA281F7C988600AC9DC5 /* LynxApplicationInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 4239BA271F7C988600AC9DC5 /* LynxApplicationInfo.m */; };
+		421438E4207DE59F00ECF750 /* coordinator_commands.mm in Sources */ = {isa = PBXBuildFile; fileRef = 421438D1207DE59E00ECF750 /* coordinator_commands.mm */; };
+		421438E5207DE59F00ECF750 /* coordinator_pretreatment.mm in Sources */ = {isa = PBXBuildFile; fileRef = 421438D5207DE59E00ECF750 /* coordinator_pretreatment.mm */; };
+		421438E6207DE59F00ECF750 /* coordinator_transfer_station.mm in Sources */ = {isa = PBXBuildFile; fileRef = 421438D6207DE59E00ECF750 /* coordinator_transfer_station.mm */; };
+		421438E7207DE59F00ECF750 /* coordinator_types.mm in Sources */ = {isa = PBXBuildFile; fileRef = 421438D9207DE59E00ECF750 /* coordinator_types.mm */; };
+		421438E8207DE59F00ECF750 /* coordinator_action_executor.mm in Sources */ = {isa = PBXBuildFile; fileRef = 421438DA207DE59E00ECF750 /* coordinator_action_executor.mm */; };
+		421438E9207DE59F00ECF750 /* coordinator_cmd_executor.mm in Sources */ = {isa = PBXBuildFile; fileRef = 421438DF207DE59E00ECF750 /* coordinator_cmd_executor.mm */; };
+		421438EA207DE59F00ECF750 /* coordinator_treatment.mm in Sources */ = {isa = PBXBuildFile; fileRef = 421438E1207DE59E00ECF750 /* coordinator_treatment.mm */; };
+		421438F6207DF52E00ECF750 /* resource_reader.mm in Sources */ = {isa = PBXBuildFile; fileRef = 421438ED207DF52D00ECF750 /* resource_reader.mm */; };
+		421438F7207DF52E00ECF750 /* application_info.mm in Sources */ = {isa = PBXBuildFile; fileRef = 421438EE207DF52D00ECF750 /* application_info.mm */; };
+		421438F8207DF52E00ECF750 /* page_info.mm in Sources */ = {isa = PBXBuildFile; fileRef = 421438F2207DF52D00ECF750 /* page_info.mm */; };
+		421438F9207DF52E00ECF750 /* resource_manager.mm in Sources */ = {isa = PBXBuildFile; fileRef = 421438F4207DF52D00ECF750 /* resource_manager.mm */; };
+		4239864B1F793F42008775F6 /* file_path_utility.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4239864A1F793F42008775F6 /* file_path_utility.mm */; };
 		423E18721F0639D100813438 /* jsc_context.cc in Sources */ = {isa = PBXBuildFile; fileRef = 423E18701F0639D100813438 /* jsc_context.cc */; };
-		4248745C1F7CED1500CDF17E /* LynxResourceManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4248745B1F7CED1500CDF17E /* LynxResourceManager.m */; };
-		4248745F1F7CF73500CDF17E /* LynxResourceReader.m in Sources */ = {isa = PBXBuildFile; fileRef = 4248745E1F7CF73500CDF17E /* LynxResourceReader.m */; };
 		4259BF451F161DB30031D3B0 /* observer_list.cc in Sources */ = {isa = PBXBuildFile; fileRef = 4259BF431F161DB30031D3B0 /* observer_list.cc */; };
 		426776671F73FB3A009012DC /* view_stub.cc in Sources */ = {isa = PBXBuildFile; fileRef = 426776651F73FB39009012DC /* view_stub.cc */; };
 		4273CC3A1F00032E00321655 /* container_node.cc in Sources */ = {isa = PBXBuildFile; fileRef = 4273CC331F00032E00321655 /* container_node.cc */; };
@@ -26,27 +33,24 @@
 		4273CC4D1F0012CD00321655 /* event_target.cc in Sources */ = {isa = PBXBuildFile; fileRef = 4273CC4B1F0012CD00321655 /* event_target.cc */; };
 		4273CE6D1F02917200321655 /* jsc_helper.cc in Sources */ = {isa = PBXBuildFile; fileRef = 4273CE6B1F02917200321655 /* jsc_helper.cc */; };
 		4273D2321F04B84700321655 /* window_object.cc in Sources */ = {isa = PBXBuildFile; fileRef = 4273D2301F04B84700321655 /* window_object.cc */; };
-		42B4F2001F7E420B001519E1 /* LynxViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 42B4F1FF1F7E420B001519E1 /* LynxViewController.m */; };
+		42B4F2001F7E420B001519E1 /* lynx_view_controller.mm in Sources */ = {isa = PBXBuildFile; fileRef = 42B4F1FF1F7E420B001519E1 /* lynx_view_controller.mm */; };
 		42B4F2021F7E42CC001519E1 /* assets.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 42B4F2011F7E42CB001519E1 /* assets.bundle */; };
-		42B4F2051F7E4710001519E1 /* LYXAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 42B4F2041F7E470F001519E1 /* LYXAppDelegate.m */; };
+		42B4F2051F7E4710001519E1 /* app_delegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 42B4F2041F7E470F001519E1 /* app_delegate.mm */; };
 		42D7BD6D1DCB7E99000BE5A5 /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 42D7BD6C1DCB7E99000BE5A5 /* JavaScriptCore.framework */; };
 		42D7BD751DCB8C27000BE5A5 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 42D7BD741DCB8C27000BE5A5 /* UIKit.framework */; };
 		5C7CD5C8675C8191C96DB698 /* libPods-lynx.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BE0761E22DF76E8A9BE04005 /* libPods-lynx.a */; };
-		BC1B52591FCFE5A100B506AC /* LYXCrdTransferStation.m in Sources */ = {isa = PBXBuildFile; fileRef = BC1B52581FCFE5A100B506AC /* LYXCrdTransferStation.m */; };
-		BC1B525C1FCFE7A400B506AC /* LYXCrdTypes.m in Sources */ = {isa = PBXBuildFile; fileRef = BC1B525B1FCFE7A400B506AC /* LYXCrdTypes.m */; };
-		BC1B526F1FD0F67000B506AC /* LYXCrdCommands.m in Sources */ = {isa = PBXBuildFile; fileRef = BC1B526E1FD0F67000B506AC /* LYXCrdCommands.m */; };
 		BC2ED21E1F0CBF00001B2E50 /* loader.cc in Sources */ = {isa = PBXBuildFile; fileRef = BC2ED21D1F0CBF00001B2E50 /* loader.cc */; };
-		BC31B0071F611A3900C0234C /* LynxUIActionCollector.mm in Sources */ = {isa = PBXBuildFile; fileRef = BC31B0061F611A3900C0234C /* LynxUIActionCollector.mm */; };
-		BC31B00A1F611D5200C0234C /* LynxUIAction.m in Sources */ = {isa = PBXBuildFile; fileRef = BC31B0091F611D5200C0234C /* LynxUIAction.m */; };
-		BC31B0101F613AE000C0234C /* LynxRenderObjectImpl.mm in Sources */ = {isa = PBXBuildFile; fileRef = BC31B00F1F613AE000C0234C /* LynxRenderObjectImpl.mm */; };
-		BC31B0161F624F6D00C0234C /* LynxUIBody.mm in Sources */ = {isa = PBXBuildFile; fileRef = BC31B0131F624F6D00C0234C /* LynxUIBody.mm */; };
-		BC31B0171F624F6D00C0234C /* LynxView.mm in Sources */ = {isa = PBXBuildFile; fileRef = BC31B0151F624F6D00C0234C /* LynxView.mm */; };
-		BC31B01A1F6264E600C0234C /* LynxUIFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = BC31B0191F6264E600C0234C /* LynxUIFactory.m */; };
-		BC31B01D1F6271BE00C0234C /* LynxUIEventAction.m in Sources */ = {isa = PBXBuildFile; fileRef = BC31B01C1F6271BE00C0234C /* LynxUIEventAction.m */; };
-		BC31B0201F6273A500C0234C /* LynxUIUpdateDataAction.m in Sources */ = {isa = PBXBuildFile; fileRef = BC31B01F1F6273A500C0234C /* LynxUIUpdateDataAction.m */; };
-		BC31B0231F627DE700C0234C /* LynxUI.mm in Sources */ = {isa = PBXBuildFile; fileRef = BC31B0221F627DE700C0234C /* LynxUI.mm */; };
-		BC31B0261F6282AB00C0234C /* LynxRuntime.mm in Sources */ = {isa = PBXBuildFile; fileRef = BC31B0251F6282AB00C0234C /* LynxRuntime.mm */; };
-		BC31B0291F6284D200C0234C /* LynxRenderTreeHostImpl.mm in Sources */ = {isa = PBXBuildFile; fileRef = BC31B0281F6284D200C0234C /* LynxRenderTreeHostImpl.mm */; };
+		BC31B0071F611A3900C0234C /* ui_action_collector.mm in Sources */ = {isa = PBXBuildFile; fileRef = BC31B0061F611A3900C0234C /* ui_action_collector.mm */; };
+		BC31B00A1F611D5200C0234C /* ui_action.mm in Sources */ = {isa = PBXBuildFile; fileRef = BC31B0091F611D5200C0234C /* ui_action.mm */; };
+		BC31B0101F613AE000C0234C /* lynx_render_object_impl.mm in Sources */ = {isa = PBXBuildFile; fileRef = BC31B00F1F613AE000C0234C /* lynx_render_object_impl.mm */; };
+		BC31B0161F624F6D00C0234C /* lynx_ui_body.mm in Sources */ = {isa = PBXBuildFile; fileRef = BC31B0131F624F6D00C0234C /* lynx_ui_body.mm */; };
+		BC31B0171F624F6D00C0234C /* lynx_content_view.mm in Sources */ = {isa = PBXBuildFile; fileRef = BC31B0151F624F6D00C0234C /* lynx_content_view.mm */; };
+		BC31B01A1F6264E600C0234C /* ui_factory.mm in Sources */ = {isa = PBXBuildFile; fileRef = BC31B0191F6264E600C0234C /* ui_factory.mm */; };
+		BC31B01D1F6271BE00C0234C /* ui_event_action.mm in Sources */ = {isa = PBXBuildFile; fileRef = BC31B01C1F6271BE00C0234C /* ui_event_action.mm */; };
+		BC31B0201F6273A500C0234C /* ui_update_data_action.mm in Sources */ = {isa = PBXBuildFile; fileRef = BC31B01F1F6273A500C0234C /* ui_update_data_action.mm */; };
+		BC31B0231F627DE700C0234C /* lynx_ui.mm in Sources */ = {isa = PBXBuildFile; fileRef = BC31B0221F627DE700C0234C /* lynx_ui.mm */; };
+		BC31B0261F6282AB00C0234C /* lynx_runtime.mm in Sources */ = {isa = PBXBuildFile; fileRef = BC31B0251F6282AB00C0234C /* lynx_runtime.mm */; };
+		BC31B0291F6284D200C0234C /* lynx_render_tree_host_impl.mm in Sources */ = {isa = PBXBuildFile; fileRef = BC31B0281F6284D200C0234C /* lynx_render_tree_host_impl.mm */; };
 		BC41C10D1F04EC1300EB4BA3 /* global_config_data.cc in Sources */ = {isa = PBXBuildFile; fileRef = BC41C10B1F04EC1300EB4BA3 /* global_config_data.cc */; };
 		BC41C20B1F04EC2000EB4BA3 /* init.sh in Resources */ = {isa = PBXBuildFile; fileRef = BC41C10F1F04EC2000EB4BA3 /* init.sh */; };
 		BC41C2251F04EC2000EB4BA3 /* CMakeLists.txt in Resources */ = {isa = PBXBuildFile; fileRef = BC41C12D1F04EC2000EB4BA3 /* CMakeLists.txt */; };
@@ -65,7 +69,7 @@
 		BC5D48F52065132300424ABA /* canvas_2d_context.cc in Sources */ = {isa = PBXBuildFile; fileRef = BC5D48F12065132200424ABA /* canvas_2d_context.cc */; };
 		BC5D48F82065139E00424ABA /* animation.cc in Sources */ = {isa = PBXBuildFile; fileRef = BC5D48F62065139D00424ABA /* animation.cc */; };
 		BC5D48F92065139E00424ABA /* canvas_view.cc in Sources */ = {isa = PBXBuildFile; fileRef = BC5D48F72065139D00424ABA /* canvas_view.cc */; };
-		BC5D48FC2066443200424ABA /* LYXDeviceInfoUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = BC5D48FB2066443100424ABA /* LYXDeviceInfoUtil.m */; };
+		BC5D48FC2066443200424ABA /* device_info_util.mm in Sources */ = {isa = PBXBuildFile; fileRef = BC5D48FB2066443100424ABA /* device_info_util.mm */; };
 		BC5D49012066448300424ABA /* string_number_convert.cc in Sources */ = {isa = PBXBuildFile; fileRef = BC5D48FF2066448300424ABA /* string_number_convert.cc */; };
 		BC5D49052066450800424ABA /* trace_logger.cc in Sources */ = {isa = PBXBuildFile; fileRef = BC5D49042066450800424ABA /* trace_logger.cc */; };
 		BC5D49082066451E00424ABA /* trace_writer.cc in Sources */ = {isa = PBXBuildFile; fileRef = BC5D49072066451E00424ABA /* trace_writer.cc */; };
@@ -73,22 +77,22 @@
 		BC5DBD721F5C60A5005A47E3 /* DemoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BC5DBD6B1F5C60A5005A47E3 /* DemoViewController.m */; };
 		BC5DBD731F5C60A5005A47E3 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = BC5DBD6C1F5C60A5005A47E3 /* Info.plist */; };
 		BC5DBD741F5C60A5005A47E3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BC5DBD6D1F5C60A5005A47E3 /* LaunchScreen.storyboard */; };
-		BC5DBD801F5E79D8005A47E3 /* LynxStyleConvector.mm in Sources */ = {isa = PBXBuildFile; fileRef = BC5DBD7F1F5E79D8005A47E3 /* LynxStyleConvector.mm */; };
-		BC5DBD831F5E7A05005A47E3 /* LynxFrameRateController.mm in Sources */ = {isa = PBXBuildFile; fileRef = BC5DBD821F5E7A05005A47E3 /* LynxFrameRateController.mm */; };
-		BC5DBD961F5E7D96005A47E3 /* LynxImageDownloader.mm in Sources */ = {isa = PBXBuildFile; fileRef = BC5DBD931F5E7D96005A47E3 /* LynxImageDownloader.mm */; };
-		BC5DBD971F5E7D96005A47E3 /* LynxUIImage.mm in Sources */ = {isa = PBXBuildFile; fileRef = BC5DBD951F5E7D96005A47E3 /* LynxUIImage.mm */; };
+		BC5DBD801F5E79D8005A47E3 /* style_convector.mm in Sources */ = {isa = PBXBuildFile; fileRef = BC5DBD7F1F5E79D8005A47E3 /* style_convector.mm */; };
+		BC5DBD831F5E7A05005A47E3 /* framerate_controller.mm in Sources */ = {isa = PBXBuildFile; fileRef = BC5DBD821F5E7A05005A47E3 /* framerate_controller.mm */; };
+		BC5DBD961F5E7D96005A47E3 /* image_downloader.mm in Sources */ = {isa = PBXBuildFile; fileRef = BC5DBD931F5E7D96005A47E3 /* image_downloader.mm */; };
+		BC5DBD971F5E7D96005A47E3 /* lynx_ui_image.mm in Sources */ = {isa = PBXBuildFile; fileRef = BC5DBD951F5E7D96005A47E3 /* lynx_ui_image.mm */; };
 		BC5DBD9A1F5E7E26005A47E3 /* render_tree_host_impl_ios.mm in Sources */ = {isa = PBXBuildFile; fileRef = BC5DBD981F5E7E26005A47E3 /* render_tree_host_impl_ios.mm */; };
-		BC5DBDA01F5E7E5D005A47E3 /* LynxListViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = BC5DBD9D1F5E7E5D005A47E3 /* LynxListViewController.mm */; };
-		BC5DBDA11F5E7E5D005A47E3 /* LynxUIListView.mm in Sources */ = {isa = PBXBuildFile; fileRef = BC5DBD9F1F5E7E5D005A47E3 /* LynxUIListView.mm */; };
-		BC5DBDA71F5E7E79005A47E3 /* LynxUILabel.mm in Sources */ = {isa = PBXBuildFile; fileRef = BC5DBDA51F5E7E79005A47E3 /* LynxUILabel.mm */; };
+		BC5DBDA01F5E7E5D005A47E3 /* listview_controller.mm in Sources */ = {isa = PBXBuildFile; fileRef = BC5DBD9D1F5E7E5D005A47E3 /* listview_controller.mm */; };
+		BC5DBDA11F5E7E5D005A47E3 /* lynx_ui_listview.mm in Sources */ = {isa = PBXBuildFile; fileRef = BC5DBD9F1F5E7E5D005A47E3 /* lynx_ui_listview.mm */; };
+		BC5DBDA71F5E7E79005A47E3 /* lynx_ui_label.mm in Sources */ = {isa = PBXBuildFile; fileRef = BC5DBDA51F5E7E79005A47E3 /* lynx_ui_label.mm */; };
 		BC5DBDA91F5E7EAA005A47E3 /* label_measurer_ios.mm in Sources */ = {isa = PBXBuildFile; fileRef = BC5DBDA81F5E7EAA005A47E3 /* label_measurer_ios.mm */; };
-		BC5DBDB01F5E9D87005A47E3 /* LynxUIScrollView.mm in Sources */ = {isa = PBXBuildFile; fileRef = BC5DBDAC1F5E9D87005A47E3 /* LynxUIScrollView.mm */; };
-		BC5DBDB11F5E9D87005A47E3 /* LynxUIView.mm in Sources */ = {isa = PBXBuildFile; fileRef = BC5DBDAF1F5E9D87005A47E3 /* LynxUIView.mm */; };
-		BC5DBDB41F5EC7BE005A47E3 /* IOSView.mm in Sources */ = {isa = PBXBuildFile; fileRef = BC5DBDB31F5EC7BE005A47E3 /* IOSView.mm */; };
-		BC5DBDBA1F5EF76F005A47E3 /* IOSScrollView.mm in Sources */ = {isa = PBXBuildFile; fileRef = BC5DBDB91F5EF76F005A47E3 /* IOSScrollView.mm */; };
-		BC6748E91F6585D400D50971 /* IOSSwiperView.m in Sources */ = {isa = PBXBuildFile; fileRef = BC6748E81F6585D400D50971 /* IOSSwiperView.m */; };
-		BC6748EC1F66394000D50971 /* IOSLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = BC6748EB1F66394000D50971 /* IOSLabel.m */; };
-		BC6748EF1F66775700D50971 /* LynxSwiperController.m in Sources */ = {isa = PBXBuildFile; fileRef = BC6748EE1F66775700D50971 /* LynxSwiperController.m */; };
+		BC5DBDB01F5E9D87005A47E3 /* lynx_ui_scrollview.mm in Sources */ = {isa = PBXBuildFile; fileRef = BC5DBDAC1F5E9D87005A47E3 /* lynx_ui_scrollview.mm */; };
+		BC5DBDB11F5E9D87005A47E3 /* lynx_ui_view.mm in Sources */ = {isa = PBXBuildFile; fileRef = BC5DBDAF1F5E9D87005A47E3 /* lynx_ui_view.mm */; };
+		BC5DBDB41F5EC7BE005A47E3 /* view_wrapper.mm in Sources */ = {isa = PBXBuildFile; fileRef = BC5DBDB31F5EC7BE005A47E3 /* view_wrapper.mm */; };
+		BC5DBDBA1F5EF76F005A47E3 /* scrollview_wrapper.mm in Sources */ = {isa = PBXBuildFile; fileRef = BC5DBDB91F5EF76F005A47E3 /* scrollview_wrapper.mm */; };
+		BC6748E91F6585D400D50971 /* lynx_swiper_view.mm in Sources */ = {isa = PBXBuildFile; fileRef = BC6748E81F6585D400D50971 /* lynx_swiper_view.mm */; };
+		BC6748EC1F66394000D50971 /* label_wrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = BC6748EB1F66394000D50971 /* label_wrapper.m */; };
+		BC6748EF1F66775700D50971 /* lynx_swiper_controller.mm in Sources */ = {isa = PBXBuildFile; fileRef = BC6748EE1F66775700D50971 /* lynx_swiper_controller.mm */; };
 		BC6748F21F667FE300D50971 /* swiper_view.cc in Sources */ = {isa = PBXBuildFile; fileRef = BC6748F01F667FE300D50971 /* swiper_view.cc */; };
 		BC6D1CDE1F558C38007DD652 /* lynx_array.cc in Sources */ = {isa = PBXBuildFile; fileRef = BC6D1CD11F558C38007DD652 /* lynx_array.cc */; };
 		BC6D1CDF1F558C38007DD652 /* lynx_function_object.cc in Sources */ = {isa = PBXBuildFile; fileRef = BC6D1CD41F558C38007DD652 /* lynx_function_object.cc */; };
@@ -120,22 +124,19 @@
 		BC6D1D3C1F55C3E0007DD652 /* memory_debug.cc in Sources */ = {isa = PBXBuildFile; fileRef = BC6D1D381F55C3E0007DD652 /* memory_debug.cc */; };
 		BC6D1D3D1F55C3E0007DD652 /* memory_tracker.cc in Sources */ = {isa = PBXBuildFile; fileRef = BC6D1D3A1F55C3E0007DD652 /* memory_tracker.cc */; };
 		BC6D1D411F55C414007DD652 /* url_request_ghost_delegate.cc in Sources */ = {isa = PBXBuildFile; fileRef = BC6D1D3F1F55C414007DD652 /* url_request_ghost_delegate.cc */; };
-		BC8040951FCA5C620041CF01 /* LYXModule.m in Sources */ = {isa = PBXBuildFile; fileRef = BC8040941FCA5C620041CF01 /* LYXModule.m */; };
-		BC8040981FCB07750041CF01 /* LYXOcCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = BC8040971FCB07750041CF01 /* LYXOcCenter.m */; };
-		BC80409B1FCB07950041CF01 /* LYXOcMethod.m in Sources */ = {isa = PBXBuildFile; fileRef = BC80409A1FCB07950041CF01 /* LYXOcMethod.m */; };
-		BC80409E1FCB08EC0041CF01 /* LYXOcField.m in Sources */ = {isa = PBXBuildFile; fileRef = BC80409D1FCB08EC0041CF01 /* LYXOcField.m */; };
-		BC8040A11FCBB8D40041CF01 /* LYXOcProperty.m in Sources */ = {isa = PBXBuildFile; fileRef = BC8040A01FCBB8D40041CF01 /* LYXOcProperty.m */; };
-		BC8040A41FCBCB800041CF01 /* LYXModuleRegister.m in Sources */ = {isa = PBXBuildFile; fileRef = BC8040A31FCBCB800041CF01 /* LYXModuleRegister.m */; };
-		BC8040A71FCBCB930041CF01 /* LYXModuleBundle.m in Sources */ = {isa = PBXBuildFile; fileRef = BC8040A61FCBCB930041CF01 /* LYXModuleBundle.m */; };
-		BC8040AB1FCE8FB10041CF01 /* LYXOcPropertyTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = BC8040AA1FCE8FB00041CF01 /* LYXOcPropertyTransformer.m */; };
+		BC8040951FCA5C620041CF01 /* module.mm in Sources */ = {isa = PBXBuildFile; fileRef = BC8040941FCA5C620041CF01 /* module.mm */; };
+		BC8040981FCB07750041CF01 /* oc_center.mm in Sources */ = {isa = PBXBuildFile; fileRef = BC8040971FCB07750041CF01 /* oc_center.mm */; };
+		BC80409B1FCB07950041CF01 /* oc_method.mm in Sources */ = {isa = PBXBuildFile; fileRef = BC80409A1FCB07950041CF01 /* oc_method.mm */; };
+		BC80409E1FCB08EC0041CF01 /* oc_field.mm in Sources */ = {isa = PBXBuildFile; fileRef = BC80409D1FCB08EC0041CF01 /* oc_field.mm */; };
+		BC8040A11FCBB8D40041CF01 /* oc_property.mm in Sources */ = {isa = PBXBuildFile; fileRef = BC8040A01FCBB8D40041CF01 /* oc_property.mm */; };
+		BC8040A41FCBCB800041CF01 /* module_register.mm in Sources */ = {isa = PBXBuildFile; fileRef = BC8040A31FCBCB800041CF01 /* module_register.mm */; };
+		BC8040A71FCBCB930041CF01 /* module_bundle.mm in Sources */ = {isa = PBXBuildFile; fileRef = BC8040A61FCBCB930041CF01 /* module_bundle.mm */; };
+		BC8040AB1FCE8FB10041CF01 /* oc_property_transformer.mm in Sources */ = {isa = PBXBuildFile; fileRef = BC8040AA1FCE8FB00041CF01 /* oc_property_transformer.mm */; };
 		BC87985C1FC7B22800F76993 /* switch.cc in Sources */ = {isa = PBXBuildFile; fileRef = BC8798591FC7B22800F76993 /* switch.cc */; };
-		BC87985F1FC7B30900F76993 /* LYXPageNavigator.m in Sources */ = {isa = PBXBuildFile; fileRef = BC87985E1FC7B30900F76993 /* LYXPageNavigator.m */; };
-		BC8798721FC7C22300F76993 /* LYXFunctionObject.m in Sources */ = {isa = PBXBuildFile; fileRef = BC8798711FC7C22300F76993 /* LYXFunctionObject.m */; };
+		BC87985F1FC7B30900F76993 /* page_navigator.mm in Sources */ = {isa = PBXBuildFile; fileRef = BC87985E1FC7B30900F76993 /* page_navigator.mm */; };
+		BC8798721FC7C22300F76993 /* lynx_function_object.mm in Sources */ = {isa = PBXBuildFile; fileRef = BC8798711FC7C22300F76993 /* lynx_function_object.mm */; };
 		BC8798751FC7C28C00F76993 /* lynx_function_object_ios.mm in Sources */ = {isa = PBXBuildFile; fileRef = BC8798741FC7C28C00F76993 /* lynx_function_object_ios.mm */; };
-		BC8798781FC7C61200F76993 /* LYXCrdRegister.m in Sources */ = {isa = PBXBuildFile; fileRef = BC8798771FC7C61200F76993 /* LYXCrdRegister.m */; };
-		BC8A0CE41FB2B5E6002B0370 /* LYXCrdCommandExecutor.mm in Sources */ = {isa = PBXBuildFile; fileRef = BC8A0CE31FB2B5E6002B0370 /* LYXCrdCommandExecutor.mm */; };
-		BC8A0CEA1FB2BA91002B0370 /* LYXCrdPreTreatment.m in Sources */ = {isa = PBXBuildFile; fileRef = BC8A0CE91FB2BA91002B0370 /* LYXCrdPreTreatment.m */; };
-		BC8A0CED1FB2BA9E002B0370 /* LYXCrdTreatment.m in Sources */ = {isa = PBXBuildFile; fileRef = BC8A0CEC1FB2BA9E002B0370 /* LYXCrdTreatment.m */; };
+		BC8798781FC7C61200F76993 /* coordinator_register.mm in Sources */ = {isa = PBXBuildFile; fileRef = BC8798771FC7C61200F76993 /* coordinator_register.mm */; };
 		BC8A0D171FB2E477002B0370 /* builtin.cc in Sources */ = {isa = PBXBuildFile; fileRef = BC8A0CF21FB2E477002B0370 /* builtin.cc */; };
 		BC8A0D181FB2E477002B0370 /* code_generator.cc in Sources */ = {isa = PBXBuildFile; fileRef = BC8A0CF41FB2E477002B0370 /* code_generator.cc */; };
 		BC8A0D191FB2E477002B0370 /* function.cc in Sources */ = {isa = PBXBuildFile; fileRef = BC8A0CF81FB2E477002B0370 /* function.cc */; };
@@ -149,9 +150,8 @@
 		BC8A0D241FB2E477002B0370 /* vm_context.cc in Sources */ = {isa = PBXBuildFile; fileRef = BC8A0D151FB2E477002B0370 /* vm_context.cc */; };
 		BC8A0D2A1FB2E487002B0370 /* coordinator_action.cc in Sources */ = {isa = PBXBuildFile; fileRef = BC8A0D261FB2E487002B0370 /* coordinator_action.cc */; };
 		BC8A0D2B1FB2E487002B0370 /* coordinator_executor.cc in Sources */ = {isa = PBXBuildFile; fileRef = BC8A0D281FB2E487002B0370 /* coordinator_executor.cc */; };
-		BC8A0D2E1FB2FEA9002B0370 /* LYXCrdActionExecutor.m in Sources */ = {isa = PBXBuildFile; fileRef = BC8A0D2D1FB2FEA9002B0370 /* LYXCrdActionExecutor.m */; };
-		BC8A0D351FB3EFE7002B0370 /* LYXPixelUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = BC8A0D341FB3EFE7002B0370 /* LYXPixelUtil.m */; };
-		BC8A0D381FB3F041002B0370 /* LYXScreenUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = BC8A0D371FB3F041002B0370 /* LYXScreenUtil.m */; };
+		BC8A0D351FB3EFE7002B0370 /* pixel_util.mm in Sources */ = {isa = PBXBuildFile; fileRef = BC8A0D341FB3EFE7002B0370 /* pixel_util.mm */; };
+		BC8A0D381FB3F041002B0370 /* screen_util.mm in Sources */ = {isa = PBXBuildFile; fileRef = BC8A0D371FB3F041002B0370 /* screen_util.mm */; };
 		BC8A6C6C1F288FF00035AE84 /* js_event.cc in Sources */ = {isa = PBXBuildFile; fileRef = BC8A6C631F288FF00035AE84 /* js_event.cc */; };
 		BC9D343A1E1DEC92009BD30A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BC9D342D1E1DEC92009BD30A /* Assets.xcassets */; };
 		BC9D343E1E1DEC92009BD30A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = BC9D34341E1DEC92009BD30A /* main.m */; };
@@ -209,23 +209,41 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		420B8ACE1F7E2D3A005717FB /* LynxPageInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LynxPageInfo.h; sourceTree = "<group>"; };
-		420B8ACF1F7E2D3A005717FB /* LynxPageInfo.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LynxPageInfo.m; sourceTree = "<group>"; };
 		421438CA207DB07000ECF750 /* logging.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = logging.h; sourceTree = "<group>"; };
 		421438CB207DB07000ECF750 /* logging.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = logging.cc; sourceTree = "<group>"; };
 		421438CD207DB6E600ECF750 /* string_utils.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = string_utils.cc; sourceTree = "<group>"; };
 		421438CE207DB6E600ECF750 /* string_utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = string_utils.h; sourceTree = "<group>"; };
-		423986491F793E5B008775F6 /* LynxFilePathUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LynxFilePathUtility.h; sourceTree = "<group>"; };
-		4239864A1F793F42008775F6 /* LynxFilePathUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LynxFilePathUtility.m; sourceTree = "<group>"; };
-		4239BA271F7C988600AC9DC5 /* LynxApplicationInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LynxApplicationInfo.m; sourceTree = "<group>"; };
-		4239BA291F7C98A400AC9DC5 /* LynxApplicationInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LynxApplicationInfo.h; sourceTree = "<group>"; };
-		4239BA2D1F7CE55100AC9DC5 /* LynxManifest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LynxManifest.h; sourceTree = "<group>"; };
+		421438D1207DE59E00ECF750 /* coordinator_commands.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = coordinator_commands.mm; sourceTree = "<group>"; };
+		421438D2207DE59E00ECF750 /* coordinator_object.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = coordinator_object.h; sourceTree = "<group>"; };
+		421438D3207DE59E00ECF750 /* coordinator_types.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = coordinator_types.h; sourceTree = "<group>"; };
+		421438D4207DE59E00ECF750 /* coordinator_action_executor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = coordinator_action_executor.h; sourceTree = "<group>"; };
+		421438D5207DE59E00ECF750 /* coordinator_pretreatment.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = coordinator_pretreatment.mm; sourceTree = "<group>"; };
+		421438D6207DE59E00ECF750 /* coordinator_transfer_station.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = coordinator_transfer_station.mm; sourceTree = "<group>"; };
+		421438D7207DE59E00ECF750 /* transfer_station.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = transfer_station.h; sourceTree = "<group>"; };
+		421438D8207DE59E00ECF750 /* coordinator_pretreatment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = coordinator_pretreatment.h; sourceTree = "<group>"; };
+		421438D9207DE59E00ECF750 /* coordinator_types.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = coordinator_types.mm; sourceTree = "<group>"; };
+		421438DA207DE59E00ECF750 /* coordinator_action_executor.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = coordinator_action_executor.mm; sourceTree = "<group>"; };
+		421438DB207DE59E00ECF750 /* coordinator_sponsor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = coordinator_sponsor.h; sourceTree = "<group>"; };
+		421438DC207DE59E00ECF750 /* coordinator_treatment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = coordinator_treatment.h; sourceTree = "<group>"; };
+		421438DD207DE59E00ECF750 /* coordinator_responder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = coordinator_responder.h; sourceTree = "<group>"; };
+		421438DE207DE59E00ECF750 /* coordinator_commands.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = coordinator_commands.h; sourceTree = "<group>"; };
+		421438DF207DE59E00ECF750 /* coordinator_cmd_executor.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = coordinator_cmd_executor.mm; sourceTree = "<group>"; };
+		421438E0207DE59E00ECF750 /* coordinator_cmd_executor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = coordinator_cmd_executor.h; sourceTree = "<group>"; };
+		421438E1207DE59E00ECF750 /* coordinator_treatment.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = coordinator_treatment.mm; sourceTree = "<group>"; };
+		421438E3207DE59E00ECF750 /* coordinator_transfer_station.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = coordinator_transfer_station.h; sourceTree = "<group>"; };
+		421438ED207DF52D00ECF750 /* resource_reader.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = resource_reader.mm; sourceTree = "<group>"; };
+		421438EE207DF52D00ECF750 /* application_info.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = application_info.mm; sourceTree = "<group>"; };
+		421438EF207DF52D00ECF750 /* page_info.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = page_info.h; sourceTree = "<group>"; };
+		421438F0207DF52D00ECF750 /* manifest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = manifest.h; sourceTree = "<group>"; };
+		421438F1207DF52D00ECF750 /* resource_manager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = resource_manager.h; sourceTree = "<group>"; };
+		421438F2207DF52D00ECF750 /* page_info.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = page_info.mm; sourceTree = "<group>"; };
+		421438F3207DF52D00ECF750 /* application_info.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = application_info.h; sourceTree = "<group>"; };
+		421438F4207DF52D00ECF750 /* resource_manager.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = resource_manager.mm; sourceTree = "<group>"; };
+		421438F5207DF52D00ECF750 /* resource_reader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = resource_reader.h; sourceTree = "<group>"; };
+		423986491F793E5B008775F6 /* file_path_utility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = file_path_utility.h; sourceTree = "<group>"; };
+		4239864A1F793F42008775F6 /* file_path_utility.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = file_path_utility.mm; sourceTree = "<group>"; };
 		423E18701F0639D100813438 /* jsc_context.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = jsc_context.cc; path = jsc/jsc_context.cc; sourceTree = "<group>"; };
 		423E18711F0639D100813438 /* jsc_context.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = jsc_context.h; path = jsc/jsc_context.h; sourceTree = "<group>"; };
-		4248745A1F7CED1500CDF17E /* LynxResourceManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LynxResourceManager.h; sourceTree = "<group>"; };
-		4248745B1F7CED1500CDF17E /* LynxResourceManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LynxResourceManager.m; sourceTree = "<group>"; };
-		4248745D1F7CF73500CDF17E /* LynxResourceReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LynxResourceReader.h; sourceTree = "<group>"; };
-		4248745E1F7CF73500CDF17E /* LynxResourceReader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LynxResourceReader.m; sourceTree = "<group>"; };
 		4259BF431F161DB30031D3B0 /* observer_list.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = observer_list.cc; sourceTree = "<group>"; };
 		4259BF441F161DB30031D3B0 /* observer_list.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = observer_list.h; sourceTree = "<group>"; };
 		4259BF471F1620240031D3B0 /* observer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = observer.h; sourceTree = "<group>"; };
@@ -255,11 +273,11 @@
 		4273D2301F04B84700321655 /* window_object.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = window_object.cc; path = jsc/objects/window_object.cc; sourceTree = "<group>"; };
 		4273D2311F04B84700321655 /* window_object.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = window_object.h; path = jsc/objects/window_object.h; sourceTree = "<group>"; };
 		42B188151E598BFA00934968 /* thread_manager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = thread_manager.h; sourceTree = "<group>"; };
-		42B4F1FE1F7E420B001519E1 /* LynxViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LynxViewController.h; sourceTree = "<group>"; };
-		42B4F1FF1F7E420B001519E1 /* LynxViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LynxViewController.m; sourceTree = "<group>"; };
+		42B4F1FE1F7E420B001519E1 /* lynx_view_controller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lynx_view_controller.h; sourceTree = "<group>"; };
+		42B4F1FF1F7E420B001519E1 /* lynx_view_controller.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = lynx_view_controller.mm; sourceTree = "<group>"; };
 		42B4F2011F7E42CB001519E1 /* assets.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = assets.bundle; sourceTree = "<group>"; };
-		42B4F2031F7E470F001519E1 /* LYXAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LYXAppDelegate.h; sourceTree = "<group>"; };
-		42B4F2041F7E470F001519E1 /* LYXAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LYXAppDelegate.m; sourceTree = "<group>"; };
+		42B4F2031F7E470F001519E1 /* app_delegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = app_delegate.h; sourceTree = "<group>"; };
+		42B4F2041F7E470F001519E1 /* app_delegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = app_delegate.mm; sourceTree = "<group>"; };
 		42CA2DB81E60269900E1200E /* platform_string.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = platform_string.h; sourceTree = "<group>"; };
 		42D7BCD61DCB440C000BE5A5 /* lynx.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = lynx.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		42D7BCEF1DCB440C000BE5A5 /* lynx.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = lynx.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -267,36 +285,30 @@
 		42D7BD6C1DCB7E99000BE5A5 /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		42D7BD741DCB8C27000BE5A5 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		B4D94627078F1EE06B8F031F /* Pods-lynx.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-lynx.debug.xcconfig"; path = "Pods/Target Support Files/Pods-lynx/Pods-lynx.debug.xcconfig"; sourceTree = "<group>"; };
-		BC1B52571FCFE5A100B506AC /* LYXCrdTransferStation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LYXCrdTransferStation.h; sourceTree = "<group>"; };
-		BC1B52581FCFE5A100B506AC /* LYXCrdTransferStation.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LYXCrdTransferStation.m; sourceTree = "<group>"; };
-		BC1B525A1FCFE7A400B506AC /* LYXCrdTypes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LYXCrdTypes.h; sourceTree = "<group>"; };
-		BC1B525B1FCFE7A400B506AC /* LYXCrdTypes.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LYXCrdTypes.m; sourceTree = "<group>"; };
-		BC1B526D1FD0F67000B506AC /* LYXCrdCommands.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LYXCrdCommands.h; sourceTree = "<group>"; };
-		BC1B526E1FD0F67000B506AC /* LYXCrdCommands.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LYXCrdCommands.m; sourceTree = "<group>"; };
 		BC2ED21C1F0CBEF2001B2E50 /* loader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = loader.h; sourceTree = "<group>"; };
 		BC2ED21D1F0CBF00001B2E50 /* loader.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = loader.cc; sourceTree = "<group>"; };
-		BC31B0051F611A3900C0234C /* LynxUIActionCollector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LynxUIActionCollector.h; sourceTree = "<group>"; };
-		BC31B0061F611A3900C0234C /* LynxUIActionCollector.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = LynxUIActionCollector.mm; sourceTree = "<group>"; };
-		BC31B0081F611D5200C0234C /* LynxUIAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LynxUIAction.h; sourceTree = "<group>"; };
-		BC31B0091F611D5200C0234C /* LynxUIAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LynxUIAction.m; sourceTree = "<group>"; };
-		BC31B00E1F613AE000C0234C /* LynxRenderObjectImpl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LynxRenderObjectImpl.h; sourceTree = "<group>"; };
-		BC31B00F1F613AE000C0234C /* LynxRenderObjectImpl.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = LynxRenderObjectImpl.mm; sourceTree = "<group>"; };
-		BC31B0121F624F6D00C0234C /* LynxUIBody.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LynxUIBody.h; sourceTree = "<group>"; };
-		BC31B0131F624F6D00C0234C /* LynxUIBody.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = LynxUIBody.mm; sourceTree = "<group>"; };
-		BC31B0141F624F6D00C0234C /* LynxView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LynxView.h; sourceTree = "<group>"; };
-		BC31B0151F624F6D00C0234C /* LynxView.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = LynxView.mm; sourceTree = "<group>"; };
-		BC31B0181F6264E600C0234C /* LynxUIFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LynxUIFactory.h; sourceTree = "<group>"; };
-		BC31B0191F6264E600C0234C /* LynxUIFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LynxUIFactory.m; sourceTree = "<group>"; };
-		BC31B01B1F6271BE00C0234C /* LynxUIEventAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LynxUIEventAction.h; sourceTree = "<group>"; };
-		BC31B01C1F6271BE00C0234C /* LynxUIEventAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LynxUIEventAction.m; sourceTree = "<group>"; };
-		BC31B01E1F6273A500C0234C /* LynxUIUpdateDataAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LynxUIUpdateDataAction.h; sourceTree = "<group>"; };
-		BC31B01F1F6273A500C0234C /* LynxUIUpdateDataAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LynxUIUpdateDataAction.m; sourceTree = "<group>"; };
-		BC31B0211F627DE700C0234C /* LynxUI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LynxUI.h; sourceTree = "<group>"; };
-		BC31B0221F627DE700C0234C /* LynxUI.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = LynxUI.mm; sourceTree = "<group>"; };
-		BC31B0241F6282AB00C0234C /* LynxRuntime.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LynxRuntime.h; sourceTree = "<group>"; };
-		BC31B0251F6282AB00C0234C /* LynxRuntime.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = LynxRuntime.mm; sourceTree = "<group>"; };
-		BC31B0271F6284D200C0234C /* LynxRenderTreeHostImpl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LynxRenderTreeHostImpl.h; sourceTree = "<group>"; };
-		BC31B0281F6284D200C0234C /* LynxRenderTreeHostImpl.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = LynxRenderTreeHostImpl.mm; sourceTree = "<group>"; };
+		BC31B0051F611A3900C0234C /* ui_action_collector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ui_action_collector.h; sourceTree = "<group>"; };
+		BC31B0061F611A3900C0234C /* ui_action_collector.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ui_action_collector.mm; sourceTree = "<group>"; };
+		BC31B0081F611D5200C0234C /* ui_action.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ui_action.h; sourceTree = "<group>"; };
+		BC31B0091F611D5200C0234C /* ui_action.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ui_action.mm; sourceTree = "<group>"; };
+		BC31B00E1F613AE000C0234C /* lynx_render_object_impl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lynx_render_object_impl.h; sourceTree = "<group>"; };
+		BC31B00F1F613AE000C0234C /* lynx_render_object_impl.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = lynx_render_object_impl.mm; sourceTree = "<group>"; };
+		BC31B0121F624F6D00C0234C /* lynx_ui_body.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lynx_ui_body.h; sourceTree = "<group>"; };
+		BC31B0131F624F6D00C0234C /* lynx_ui_body.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = lynx_ui_body.mm; sourceTree = "<group>"; };
+		BC31B0141F624F6D00C0234C /* lynx_content_view.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lynx_content_view.h; sourceTree = "<group>"; };
+		BC31B0151F624F6D00C0234C /* lynx_content_view.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = lynx_content_view.mm; sourceTree = "<group>"; };
+		BC31B0181F6264E600C0234C /* ui_factory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ui_factory.h; sourceTree = "<group>"; };
+		BC31B0191F6264E600C0234C /* ui_factory.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ui_factory.mm; sourceTree = "<group>"; };
+		BC31B01B1F6271BE00C0234C /* ui_event_action.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ui_event_action.h; sourceTree = "<group>"; };
+		BC31B01C1F6271BE00C0234C /* ui_event_action.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ui_event_action.mm; sourceTree = "<group>"; };
+		BC31B01E1F6273A500C0234C /* ui_update_data_action.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ui_update_data_action.h; sourceTree = "<group>"; };
+		BC31B01F1F6273A500C0234C /* ui_update_data_action.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ui_update_data_action.mm; sourceTree = "<group>"; };
+		BC31B0211F627DE700C0234C /* lynx_ui.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lynx_ui.h; sourceTree = "<group>"; };
+		BC31B0221F627DE700C0234C /* lynx_ui.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = lynx_ui.mm; sourceTree = "<group>"; };
+		BC31B0241F6282AB00C0234C /* lynx_runtime.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lynx_runtime.h; sourceTree = "<group>"; };
+		BC31B0251F6282AB00C0234C /* lynx_runtime.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = lynx_runtime.mm; sourceTree = "<group>"; };
+		BC31B0271F6284D200C0234C /* lynx_render_tree_host_impl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lynx_render_tree_host_impl.h; sourceTree = "<group>"; };
+		BC31B0281F6284D200C0234C /* lynx_render_tree_host_impl.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = lynx_render_tree_host_impl.mm; sourceTree = "<group>"; };
 		BC3414C41E5C6AAE00E7755C /* uri.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = uri.h; sourceTree = "<group>"; };
 		BC3414C51E5F11D100E7755C /* scoped_ptr_map.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = scoped_ptr_map.h; sourceTree = "<group>"; };
 		BC3414C61E5F11D100E7755C /* scoped_vector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = scoped_vector.h; sourceTree = "<group>"; };
@@ -345,8 +357,8 @@
 		BC5D48F32065132300424ABA /* canvas.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = canvas.h; sourceTree = "<group>"; };
 		BC5D48F62065139D00424ABA /* animation.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = animation.cc; sourceTree = "<group>"; };
 		BC5D48F72065139D00424ABA /* canvas_view.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = canvas_view.cc; sourceTree = "<group>"; };
-		BC5D48FA2066443100424ABA /* LYXDeviceInfoUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LYXDeviceInfoUtil.h; sourceTree = "<group>"; };
-		BC5D48FB2066443100424ABA /* LYXDeviceInfoUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LYXDeviceInfoUtil.m; sourceTree = "<group>"; };
+		BC5D48FA2066443100424ABA /* device_info_util.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = device_info_util.h; sourceTree = "<group>"; };
+		BC5D48FB2066443100424ABA /* device_info_util.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = device_info_util.mm; sourceTree = "<group>"; };
 		BC5D48FF2066448300424ABA /* string_number_convert.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = string_number_convert.cc; sourceTree = "<group>"; };
 		BC5D49002066448300424ABA /* string_number_convert.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = string_number_convert.h; sourceTree = "<group>"; };
 		BC5D4902206644E400424ABA /* trace_event_common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = trace_event_common.h; sourceTree = "<group>"; };
@@ -359,38 +371,38 @@
 		BC5DBD6B1F5C60A5005A47E3 /* DemoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DemoViewController.m; path = lynx/DemoViewController.m; sourceTree = SOURCE_ROOT; };
 		BC5DBD6C1F5C60A5005A47E3 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = lynx/Info.plist; sourceTree = SOURCE_ROOT; };
 		BC5DBD6D1F5C60A5005A47E3 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = lynx/LaunchScreen.storyboard; sourceTree = SOURCE_ROOT; };
-		BC5DBD7E1F5E79D8005A47E3 /* LynxStyleConvector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LynxStyleConvector.h; sourceTree = "<group>"; };
-		BC5DBD7F1F5E79D8005A47E3 /* LynxStyleConvector.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = LynxStyleConvector.mm; sourceTree = "<group>"; };
-		BC5DBD811F5E7A05005A47E3 /* LynxFrameRateController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LynxFrameRateController.h; sourceTree = "<group>"; };
-		BC5DBD821F5E7A05005A47E3 /* LynxFrameRateController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = LynxFrameRateController.mm; sourceTree = "<group>"; };
-		BC5DBD8C1F5E7D3B005A47E3 /* LynxRenderObjectAttr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LynxRenderObjectAttr.h; sourceTree = "<group>"; };
-		BC5DBD921F5E7D96005A47E3 /* LynxImageDownloader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LynxImageDownloader.h; sourceTree = "<group>"; };
-		BC5DBD931F5E7D96005A47E3 /* LynxImageDownloader.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = LynxImageDownloader.mm; sourceTree = "<group>"; };
-		BC5DBD941F5E7D96005A47E3 /* LynxUIImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LynxUIImage.h; sourceTree = "<group>"; };
-		BC5DBD951F5E7D96005A47E3 /* LynxUIImage.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = LynxUIImage.mm; sourceTree = "<group>"; };
+		BC5DBD7E1F5E79D8005A47E3 /* style_convector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = style_convector.h; sourceTree = "<group>"; };
+		BC5DBD7F1F5E79D8005A47E3 /* style_convector.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = style_convector.mm; sourceTree = "<group>"; };
+		BC5DBD811F5E7A05005A47E3 /* framerate_controller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = framerate_controller.h; sourceTree = "<group>"; };
+		BC5DBD821F5E7A05005A47E3 /* framerate_controller.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = framerate_controller.mm; sourceTree = "<group>"; };
+		BC5DBD8C1F5E7D3B005A47E3 /* render_object_attr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = render_object_attr.h; sourceTree = "<group>"; };
+		BC5DBD921F5E7D96005A47E3 /* image_downloader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = image_downloader.h; sourceTree = "<group>"; };
+		BC5DBD931F5E7D96005A47E3 /* image_downloader.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = image_downloader.mm; path = ../Image/image_downloader.mm; sourceTree = "<group>"; };
+		BC5DBD941F5E7D96005A47E3 /* lynx_ui_image.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lynx_ui_image.h; sourceTree = "<group>"; };
+		BC5DBD951F5E7D96005A47E3 /* lynx_ui_image.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = lynx_ui_image.mm; sourceTree = "<group>"; };
 		BC5DBD981F5E7E26005A47E3 /* render_tree_host_impl_ios.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = render_tree_host_impl_ios.mm; sourceTree = "<group>"; };
 		BC5DBD991F5E7E26005A47E3 /* render_tree_host_impl_ios.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = render_tree_host_impl_ios.h; sourceTree = "<group>"; };
-		BC5DBD9C1F5E7E5D005A47E3 /* LynxListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LynxListViewController.h; sourceTree = "<group>"; };
-		BC5DBD9D1F5E7E5D005A47E3 /* LynxListViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = LynxListViewController.mm; sourceTree = "<group>"; };
-		BC5DBD9E1F5E7E5D005A47E3 /* LynxUIListView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LynxUIListView.h; sourceTree = "<group>"; };
-		BC5DBD9F1F5E7E5D005A47E3 /* LynxUIListView.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = LynxUIListView.mm; sourceTree = "<group>"; };
-		BC5DBDA41F5E7E79005A47E3 /* LynxUILabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LynxUILabel.h; sourceTree = "<group>"; };
-		BC5DBDA51F5E7E79005A47E3 /* LynxUILabel.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = LynxUILabel.mm; sourceTree = "<group>"; };
+		BC5DBD9C1F5E7E5D005A47E3 /* listview_controller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = listview_controller.h; sourceTree = "<group>"; };
+		BC5DBD9D1F5E7E5D005A47E3 /* listview_controller.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = listview_controller.mm; sourceTree = "<group>"; };
+		BC5DBD9E1F5E7E5D005A47E3 /* lynx_ui_listview.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lynx_ui_listview.h; sourceTree = "<group>"; };
+		BC5DBD9F1F5E7E5D005A47E3 /* lynx_ui_listview.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = lynx_ui_listview.mm; sourceTree = "<group>"; };
+		BC5DBDA41F5E7E79005A47E3 /* lynx_ui_label.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lynx_ui_label.h; sourceTree = "<group>"; };
+		BC5DBDA51F5E7E79005A47E3 /* lynx_ui_label.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = lynx_ui_label.mm; sourceTree = "<group>"; };
 		BC5DBDA81F5E7EAA005A47E3 /* label_measurer_ios.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = label_measurer_ios.mm; sourceTree = "<group>"; };
-		BC5DBDAB1F5E9D87005A47E3 /* LynxUIScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LynxUIScrollView.h; sourceTree = "<group>"; };
-		BC5DBDAC1F5E9D87005A47E3 /* LynxUIScrollView.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = LynxUIScrollView.mm; sourceTree = "<group>"; };
-		BC5DBDAE1F5E9D87005A47E3 /* LynxUIView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LynxUIView.h; sourceTree = "<group>"; };
-		BC5DBDAF1F5E9D87005A47E3 /* LynxUIView.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = LynxUIView.mm; sourceTree = "<group>"; };
-		BC5DBDB21F5EC7BE005A47E3 /* IOSView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IOSView.h; sourceTree = "<group>"; };
-		BC5DBDB31F5EC7BE005A47E3 /* IOSView.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = IOSView.mm; sourceTree = "<group>"; };
-		BC5DBDB81F5EF76F005A47E3 /* IOSScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IOSScrollView.h; sourceTree = "<group>"; };
-		BC5DBDB91F5EF76F005A47E3 /* IOSScrollView.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = IOSScrollView.mm; sourceTree = "<group>"; };
-		BC6748E71F6585D400D50971 /* IOSSwiperView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IOSSwiperView.h; sourceTree = "<group>"; };
-		BC6748E81F6585D400D50971 /* IOSSwiperView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IOSSwiperView.m; sourceTree = "<group>"; };
-		BC6748EA1F66394000D50971 /* IOSLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IOSLabel.h; sourceTree = "<group>"; };
-		BC6748EB1F66394000D50971 /* IOSLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IOSLabel.m; sourceTree = "<group>"; };
-		BC6748ED1F66775700D50971 /* LynxSwiperController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LynxSwiperController.h; sourceTree = "<group>"; };
-		BC6748EE1F66775700D50971 /* LynxSwiperController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LynxSwiperController.m; sourceTree = "<group>"; };
+		BC5DBDAB1F5E9D87005A47E3 /* lynx_ui_scrollview.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lynx_ui_scrollview.h; sourceTree = "<group>"; };
+		BC5DBDAC1F5E9D87005A47E3 /* lynx_ui_scrollview.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = lynx_ui_scrollview.mm; sourceTree = "<group>"; };
+		BC5DBDAE1F5E9D87005A47E3 /* lynx_ui_view.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lynx_ui_view.h; sourceTree = "<group>"; };
+		BC5DBDAF1F5E9D87005A47E3 /* lynx_ui_view.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = lynx_ui_view.mm; sourceTree = "<group>"; };
+		BC5DBDB21F5EC7BE005A47E3 /* view_wrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = view_wrapper.h; sourceTree = "<group>"; };
+		BC5DBDB31F5EC7BE005A47E3 /* view_wrapper.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = view_wrapper.mm; sourceTree = "<group>"; };
+		BC5DBDB81F5EF76F005A47E3 /* scrollview_wrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = scrollview_wrapper.h; sourceTree = "<group>"; };
+		BC5DBDB91F5EF76F005A47E3 /* scrollview_wrapper.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = scrollview_wrapper.mm; sourceTree = "<group>"; };
+		BC6748E71F6585D400D50971 /* lynx_swiper_view.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lynx_swiper_view.h; sourceTree = "<group>"; };
+		BC6748E81F6585D400D50971 /* lynx_swiper_view.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = lynx_swiper_view.mm; sourceTree = "<group>"; };
+		BC6748EA1F66394000D50971 /* label_wrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = label_wrapper.h; sourceTree = "<group>"; };
+		BC6748EB1F66394000D50971 /* label_wrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = label_wrapper.m; sourceTree = "<group>"; };
+		BC6748ED1F66775700D50971 /* lynx_swiper_controller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lynx_swiper_controller.h; sourceTree = "<group>"; };
+		BC6748EE1F66775700D50971 /* lynx_swiper_controller.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = lynx_swiper_controller.mm; sourceTree = "<group>"; };
 		BC6748F01F667FE300D50971 /* swiper_view.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = swiper_view.cc; sourceTree = "<group>"; };
 		BC6748F11F667FE300D50971 /* swiper_view.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = swiper_view.h; sourceTree = "<group>"; };
 		BC6D1CD11F558C38007DD652 /* lynx_array.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = lynx_array.cc; sourceTree = "<group>"; };
@@ -459,43 +471,34 @@
 		BC6D1D3E1F55C414007DD652 /* url_parser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = url_parser.h; sourceTree = "<group>"; };
 		BC6D1D3F1F55C414007DD652 /* url_request_ghost_delegate.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = url_request_ghost_delegate.cc; sourceTree = "<group>"; };
 		BC6D1D401F55C414007DD652 /* url_request_ghost_delegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = url_request_ghost_delegate.h; sourceTree = "<group>"; };
-		BC8040941FCA5C620041CF01 /* LYXModule.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LYXModule.m; sourceTree = "<group>"; };
-		BC8040961FCB07750041CF01 /* LYXOcCenter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = LYXOcCenter.h; path = lynx/Base/LYXOcCenter.h; sourceTree = SOURCE_ROOT; };
-		BC8040971FCB07750041CF01 /* LYXOcCenter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = LYXOcCenter.m; path = lynx/Base/LYXOcCenter.m; sourceTree = SOURCE_ROOT; };
-		BC8040991FCB07950041CF01 /* LYXOcMethod.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LYXOcMethod.h; sourceTree = "<group>"; };
-		BC80409A1FCB07950041CF01 /* LYXOcMethod.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LYXOcMethod.m; sourceTree = "<group>"; };
-		BC80409C1FCB08EC0041CF01 /* LYXOcField.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LYXOcField.h; sourceTree = "<group>"; };
-		BC80409D1FCB08EC0041CF01 /* LYXOcField.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LYXOcField.m; sourceTree = "<group>"; };
-		BC80409F1FCBB8D40041CF01 /* LYXOcProperty.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LYXOcProperty.h; sourceTree = "<group>"; };
-		BC8040A01FCBB8D40041CF01 /* LYXOcProperty.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LYXOcProperty.m; sourceTree = "<group>"; };
-		BC8040A21FCBCB800041CF01 /* LYXModuleRegister.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LYXModuleRegister.h; sourceTree = "<group>"; };
-		BC8040A31FCBCB800041CF01 /* LYXModuleRegister.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LYXModuleRegister.m; sourceTree = "<group>"; };
-		BC8040A51FCBCB930041CF01 /* LYXModuleBundle.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LYXModuleBundle.h; sourceTree = "<group>"; };
-		BC8040A61FCBCB930041CF01 /* LYXModuleBundle.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LYXModuleBundle.m; sourceTree = "<group>"; };
-		BC8040A81FCBEC7F0041CF01 /* LYXDefines.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = LYXDefines.h; path = lynx/Base/LYXDefines.h; sourceTree = SOURCE_ROOT; };
-		BC8040A91FCE8FB00041CF01 /* LYXOcPropertyTransformer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LYXOcPropertyTransformer.h; sourceTree = "<group>"; };
-		BC8040AA1FCE8FB00041CF01 /* LYXOcPropertyTransformer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LYXOcPropertyTransformer.m; sourceTree = "<group>"; };
-		BC8798561FC7217100F76993 /* LYXModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LYXModule.h; sourceTree = "<group>"; };
+		BC8040941FCA5C620041CF01 /* module.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = module.mm; sourceTree = "<group>"; };
+		BC8040961FCB07750041CF01 /* oc_center.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = oc_center.h; path = lynx/Base/oc_center.h; sourceTree = SOURCE_ROOT; };
+		BC8040971FCB07750041CF01 /* oc_center.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = oc_center.mm; path = lynx/Base/oc_center.mm; sourceTree = SOURCE_ROOT; };
+		BC8040991FCB07950041CF01 /* oc_method.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = oc_method.h; sourceTree = "<group>"; };
+		BC80409A1FCB07950041CF01 /* oc_method.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = oc_method.mm; sourceTree = "<group>"; };
+		BC80409C1FCB08EC0041CF01 /* oc_field.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = oc_field.h; sourceTree = "<group>"; };
+		BC80409D1FCB08EC0041CF01 /* oc_field.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = oc_field.mm; sourceTree = "<group>"; };
+		BC80409F1FCBB8D40041CF01 /* oc_property.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = oc_property.h; sourceTree = "<group>"; };
+		BC8040A01FCBB8D40041CF01 /* oc_property.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = oc_property.mm; sourceTree = "<group>"; };
+		BC8040A21FCBCB800041CF01 /* module_register.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = module_register.h; sourceTree = "<group>"; };
+		BC8040A31FCBCB800041CF01 /* module_register.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = module_register.mm; sourceTree = "<group>"; };
+		BC8040A51FCBCB930041CF01 /* module_bundle.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = module_bundle.h; sourceTree = "<group>"; };
+		BC8040A61FCBCB930041CF01 /* module_bundle.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = module_bundle.mm; sourceTree = "<group>"; };
+		BC8040A81FCBEC7F0041CF01 /* defines.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = defines.h; path = lynx/Base/defines.h; sourceTree = SOURCE_ROOT; };
+		BC8040A91FCE8FB00041CF01 /* oc_property_transformer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = oc_property_transformer.h; sourceTree = "<group>"; };
+		BC8040AA1FCE8FB00041CF01 /* oc_property_transformer.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = oc_property_transformer.mm; sourceTree = "<group>"; };
+		BC8798561FC7217100F76993 /* module.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = module.h; sourceTree = "<group>"; };
 		BC8798591FC7B22800F76993 /* switch.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = switch.cc; sourceTree = "<group>"; };
 		BC87985A1FC7B22800F76993 /* switch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = switch.h; sourceTree = "<group>"; };
 		BC87985B1FC7B22800F76993 /* upvalue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = upvalue.h; sourceTree = "<group>"; };
-		BC87985D1FC7B30900F76993 /* LYXPageNavigator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LYXPageNavigator.h; sourceTree = "<group>"; };
-		BC87985E1FC7B30900F76993 /* LYXPageNavigator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LYXPageNavigator.m; sourceTree = "<group>"; };
-		BC8798701FC7C22300F76993 /* LYXFunctionObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LYXFunctionObject.h; path = lynx/Base/LYXFunctionObject.h; sourceTree = SOURCE_ROOT; };
-		BC8798711FC7C22300F76993 /* LYXFunctionObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LYXFunctionObject.m; path = lynx/Base/LYXFunctionObject.m; sourceTree = SOURCE_ROOT; };
+		BC87985D1FC7B30900F76993 /* page_navigator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = page_navigator.h; sourceTree = "<group>"; };
+		BC87985E1FC7B30900F76993 /* page_navigator.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = page_navigator.mm; sourceTree = "<group>"; };
+		BC8798701FC7C22300F76993 /* lynx_function_object.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = lynx_function_object.h; path = lynx/Base/lynx_function_object.h; sourceTree = SOURCE_ROOT; };
+		BC8798711FC7C22300F76993 /* lynx_function_object.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = lynx_function_object.mm; path = lynx/Base/lynx_function_object.mm; sourceTree = SOURCE_ROOT; };
 		BC8798731FC7C28C00F76993 /* lynx_function_object_ios.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lynx_function_object_ios.h; sourceTree = "<group>"; };
 		BC8798741FC7C28C00F76993 /* lynx_function_object_ios.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = lynx_function_object_ios.mm; sourceTree = "<group>"; };
-		BC8798761FC7C61200F76993 /* LYXCrdRegister.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LYXCrdRegister.h; sourceTree = "<group>"; };
-		BC8798771FC7C61200F76993 /* LYXCrdRegister.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LYXCrdRegister.m; sourceTree = "<group>"; };
-		BC8A0CDC1FB0C0F3002B0370 /* LYXCrdResponder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LYXCrdResponder.h; sourceTree = "<group>"; };
-		BC8A0CDF1FB2B21A002B0370 /* LYXCrdObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LYXCrdObject.h; sourceTree = "<group>"; };
-		BC8A0CE21FB2B5E6002B0370 /* LYXCrdCommandExecutor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LYXCrdCommandExecutor.h; sourceTree = "<group>"; };
-		BC8A0CE31FB2B5E6002B0370 /* LYXCrdCommandExecutor.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = LYXCrdCommandExecutor.mm; sourceTree = "<group>"; };
-		BC8A0CE51FB2B99B002B0370 /* LYXTransferStation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LYXTransferStation.h; sourceTree = "<group>"; };
-		BC8A0CE81FB2BA91002B0370 /* LYXCrdPreTreatment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LYXCrdPreTreatment.h; sourceTree = "<group>"; };
-		BC8A0CE91FB2BA91002B0370 /* LYXCrdPreTreatment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LYXCrdPreTreatment.m; sourceTree = "<group>"; };
-		BC8A0CEB1FB2BA9E002B0370 /* LYXCrdTreatment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LYXCrdTreatment.h; sourceTree = "<group>"; };
-		BC8A0CEC1FB2BA9E002B0370 /* LYXCrdTreatment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LYXCrdTreatment.m; sourceTree = "<group>"; };
+		BC8798761FC7C61200F76993 /* coordinator_register.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = coordinator_register.h; sourceTree = "<group>"; };
+		BC8798771FC7C61200F76993 /* coordinator_register.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = coordinator_register.mm; sourceTree = "<group>"; };
 		BC8A0CF21FB2E477002B0370 /* builtin.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = builtin.cc; sourceTree = "<group>"; };
 		BC8A0CF31FB2E477002B0370 /* builtin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = builtin.h; sourceTree = "<group>"; };
 		BC8A0CF41FB2E477002B0370 /* code_generator.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = code_generator.cc; sourceTree = "<group>"; };
@@ -531,15 +534,12 @@
 		BC8A0D271FB2E487002B0370 /* coordinator_action.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = coordinator_action.h; sourceTree = "<group>"; };
 		BC8A0D281FB2E487002B0370 /* coordinator_executor.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = coordinator_executor.cc; sourceTree = "<group>"; };
 		BC8A0D291FB2E487002B0370 /* coordinator_executor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = coordinator_executor.h; sourceTree = "<group>"; };
-		BC8A0D2C1FB2FEA9002B0370 /* LYXCrdActionExecutor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LYXCrdActionExecutor.h; sourceTree = "<group>"; };
-		BC8A0D2D1FB2FEA9002B0370 /* LYXCrdActionExecutor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LYXCrdActionExecutor.m; sourceTree = "<group>"; };
-		BC8A0D331FB3EFE7002B0370 /* LYXPixelUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LYXPixelUtil.h; sourceTree = "<group>"; };
-		BC8A0D341FB3EFE7002B0370 /* LYXPixelUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LYXPixelUtil.m; sourceTree = "<group>"; };
-		BC8A0D361FB3F041002B0370 /* LYXScreenUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LYXScreenUtil.h; sourceTree = "<group>"; };
-		BC8A0D371FB3F041002B0370 /* LYXScreenUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LYXScreenUtil.m; sourceTree = "<group>"; };
+		BC8A0D331FB3EFE7002B0370 /* pixel_util.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pixel_util.h; sourceTree = "<group>"; };
+		BC8A0D341FB3EFE7002B0370 /* pixel_util.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = pixel_util.mm; sourceTree = "<group>"; };
+		BC8A0D361FB3F041002B0370 /* screen_util.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = screen_util.h; sourceTree = "<group>"; };
+		BC8A0D371FB3F041002B0370 /* screen_util.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = screen_util.mm; sourceTree = "<group>"; };
 		BC8A6C631F288FF00035AE84 /* js_event.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = js_event.cc; sourceTree = "<group>"; };
 		BC8A6C641F288FF00035AE84 /* js_event.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = js_event.h; sourceTree = "<group>"; };
-		BC921A651FE3B4DB00DA6221 /* LYXCrdSponsor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LYXCrdSponsor.h; sourceTree = "<group>"; };
 		BC9D342D1E1DEC92009BD30A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = lynx/Assets.xcassets; sourceTree = SOURCE_ROOT; };
 		BC9D34341E1DEC92009BD30A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = lynx/main.m; sourceTree = SOURCE_ROOT; };
 		BCA8DC7E1F4BDD4E00D8F988 /* utils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = utils.h; sourceTree = "<group>"; };
@@ -692,20 +692,46 @@
 			path = log;
 			sourceTree = "<group>";
 		};
-		4239BA261F7C983C00AC9DC5 /* App */ = {
+		421438D0207DE59E00ECF750 /* coordinator */ = {
 			isa = PBXGroup;
 			children = (
-				4248745A1F7CED1500CDF17E /* LynxResourceManager.h */,
-				4248745B1F7CED1500CDF17E /* LynxResourceManager.m */,
-				4239BA271F7C988600AC9DC5 /* LynxApplicationInfo.m */,
-				4239BA291F7C98A400AC9DC5 /* LynxApplicationInfo.h */,
-				4239BA2D1F7CE55100AC9DC5 /* LynxManifest.h */,
-				4248745D1F7CF73500CDF17E /* LynxResourceReader.h */,
-				4248745E1F7CF73500CDF17E /* LynxResourceReader.m */,
-				420B8ACE1F7E2D3A005717FB /* LynxPageInfo.h */,
-				420B8ACF1F7E2D3A005717FB /* LynxPageInfo.m */,
+				421438D1207DE59E00ECF750 /* coordinator_commands.mm */,
+				421438D2207DE59E00ECF750 /* coordinator_object.h */,
+				421438D3207DE59E00ECF750 /* coordinator_types.h */,
+				421438D4207DE59E00ECF750 /* coordinator_action_executor.h */,
+				421438D5207DE59E00ECF750 /* coordinator_pretreatment.mm */,
+				421438D6207DE59E00ECF750 /* coordinator_transfer_station.mm */,
+				421438D7207DE59E00ECF750 /* transfer_station.h */,
+				421438D8207DE59E00ECF750 /* coordinator_pretreatment.h */,
+				421438D9207DE59E00ECF750 /* coordinator_types.mm */,
+				421438DA207DE59E00ECF750 /* coordinator_action_executor.mm */,
+				421438DB207DE59E00ECF750 /* coordinator_sponsor.h */,
+				421438DC207DE59E00ECF750 /* coordinator_treatment.h */,
+				421438DD207DE59E00ECF750 /* coordinator_responder.h */,
+				421438DE207DE59E00ECF750 /* coordinator_commands.h */,
+				421438DF207DE59E00ECF750 /* coordinator_cmd_executor.mm */,
+				421438E0207DE59E00ECF750 /* coordinator_cmd_executor.h */,
+				421438E1207DE59E00ECF750 /* coordinator_treatment.mm */,
+				421438E3207DE59E00ECF750 /* coordinator_transfer_station.h */,
 			);
-			name = App;
+			name = coordinator;
+			path = lynx/widget/coordinator;
+			sourceTree = SOURCE_ROOT;
+		};
+		421438EC207DF52D00ECF750 /* app */ = {
+			isa = PBXGroup;
+			children = (
+				421438ED207DF52D00ECF750 /* resource_reader.mm */,
+				421438EE207DF52D00ECF750 /* application_info.mm */,
+				421438EF207DF52D00ECF750 /* page_info.h */,
+				421438F0207DF52D00ECF750 /* manifest.h */,
+				421438F1207DF52D00ECF750 /* resource_manager.h */,
+				421438F2207DF52D00ECF750 /* page_info.mm */,
+				421438F3207DF52D00ECF750 /* application_info.h */,
+				421438F4207DF52D00ECF750 /* resource_manager.mm */,
+				421438F5207DF52D00ECF750 /* resource_reader.h */,
+			);
+			path = app;
 			sourceTree = "<group>";
 		};
 		4259BF421F161D7B0031D3B0 /* observer */ = {
@@ -817,15 +843,15 @@
 		42D7BCD81DCB440C000BE5A5 /* Lynx */ = {
 			isa = PBXGroup;
 			children = (
-				BC8798551FC7215200F76993 /* Modules */,
-				BC8A0D321FB3EFC1002B0370 /* Utils */,
-				42B4F2031F7E470F001519E1 /* LYXAppDelegate.h */,
-				42B4F2041F7E470F001519E1 /* LYXAppDelegate.m */,
-				42B4F1FE1F7E420B001519E1 /* LynxViewController.h */,
-				42B4F1FF1F7E420B001519E1 /* LynxViewController.m */,
-				4239BA261F7C983C00AC9DC5 /* App */,
-				BC5DBD7D1F5E79D8005A47E3 /* Base */,
-				BC5DBD791F5E7874005A47E3 /* UI */,
+				421438EC207DF52D00ECF750 /* app */,
+				BC8798551FC7215200F76993 /* modules */,
+				BC8A0D321FB3EFC1002B0370 /* utils */,
+				42B4F2031F7E470F001519E1 /* app_delegate.h */,
+				42B4F2041F7E470F001519E1 /* app_delegate.mm */,
+				42B4F1FE1F7E420B001519E1 /* lynx_view_controller.h */,
+				42B4F1FF1F7E420B001519E1 /* lynx_view_controller.mm */,
+				BC5DBD7D1F5E79D8005A47E3 /* base */,
+				BC5DBD791F5E7874005A47E3 /* widget */,
 				BC5DBD691F5C60A5005A47E3 /* Demo.storyboard */,
 				BC5DBD6A1F5C60A5005A47E3 /* DemoViewController.h */,
 				BC5DBD6B1F5C60A5005A47E3 /* DemoViewController.m */,
@@ -846,15 +872,15 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		BC31B0111F624F6D00C0234C /* Body */ = {
+		BC31B0111F624F6D00C0234C /* body */ = {
 			isa = PBXGroup;
 			children = (
-				BC31B0121F624F6D00C0234C /* LynxUIBody.h */,
-				BC31B0131F624F6D00C0234C /* LynxUIBody.mm */,
-				BC31B0141F624F6D00C0234C /* LynxView.h */,
-				BC31B0151F624F6D00C0234C /* LynxView.mm */,
+				BC31B0121F624F6D00C0234C /* lynx_ui_body.h */,
+				BC31B0131F624F6D00C0234C /* lynx_ui_body.mm */,
+				BC31B0141F624F6D00C0234C /* lynx_content_view.h */,
+				BC31B0151F624F6D00C0234C /* lynx_content_view.mm */,
 			);
-			path = Body;
+			path = body;
 			sourceTree = "<group>";
 		};
 		BC41C0FB1F04EC0200EB4BA3 /* loader */ = {
@@ -962,132 +988,132 @@
 			path = trace_event;
 			sourceTree = "<group>";
 		};
-		BC5DBD791F5E7874005A47E3 /* UI */ = {
+		BC5DBD791F5E7874005A47E3 /* widget */ = {
 			isa = PBXGroup;
 			children = (
-				BC8A0CDB1FB0C0C2002B0370 /* Coordinator */,
-				BC6748E31F6585B400D50971 /* Swiper */,
-				BC31B0211F627DE700C0234C /* LynxUI.h */,
-				BC31B0221F627DE700C0234C /* LynxUI.mm */,
-				BC31B0111F624F6D00C0234C /* Body */,
-				BC5DBDAA1F5E9D87005A47E3 /* ScrollView */,
-				BC5DBDAD1F5E9D87005A47E3 /* View */,
-				BC5DBDA21F5E7E79005A47E3 /* Label */,
-				BC5DBD9B1F5E7E5D005A47E3 /* ListView */,
-				BC5DBD911F5E7D96005A47E3 /* Image */,
+				421438D0207DE59E00ECF750 /* coordinator */,
+				BC6748E31F6585B400D50971 /* swiper */,
+				BC31B0211F627DE700C0234C /* lynx_ui.h */,
+				BC31B0221F627DE700C0234C /* lynx_ui.mm */,
+				BC31B0111F624F6D00C0234C /* body */,
+				BC5DBDAA1F5E9D87005A47E3 /* scrollview */,
+				BC5DBDAD1F5E9D87005A47E3 /* view */,
+				BC5DBDA21F5E7E79005A47E3 /* label */,
+				BC5DBD9B1F5E7E5D005A47E3 /* listview */,
+				BC5DBD911F5E7D96005A47E3 /* image */,
 			);
-			name = UI;
-			path = Lynx/UI;
+			name = widget;
+			path = Lynx/widget;
 			sourceTree = SOURCE_ROOT;
 		};
-		BC5DBD7D1F5E79D8005A47E3 /* Base */ = {
+		BC5DBD7D1F5E79D8005A47E3 /* base */ = {
 			isa = PBXGroup;
 			children = (
-				BC5DBD8C1F5E7D3B005A47E3 /* LynxRenderObjectAttr.h */,
-				BC5DBD811F5E7A05005A47E3 /* LynxFrameRateController.h */,
-				BC5DBD821F5E7A05005A47E3 /* LynxFrameRateController.mm */,
-				BC5DBD7E1F5E79D8005A47E3 /* LynxStyleConvector.h */,
-				BC5DBD7F1F5E79D8005A47E3 /* LynxStyleConvector.mm */,
-				BC31B0051F611A3900C0234C /* LynxUIActionCollector.h */,
-				BC31B0061F611A3900C0234C /* LynxUIActionCollector.mm */,
-				BC31B0081F611D5200C0234C /* LynxUIAction.h */,
-				BC31B0091F611D5200C0234C /* LynxUIAction.m */,
-				BC31B00E1F613AE000C0234C /* LynxRenderObjectImpl.h */,
-				BC31B00F1F613AE000C0234C /* LynxRenderObjectImpl.mm */,
-				BC31B0181F6264E600C0234C /* LynxUIFactory.h */,
-				BC31B0191F6264E600C0234C /* LynxUIFactory.m */,
-				BC31B01B1F6271BE00C0234C /* LynxUIEventAction.h */,
-				BC31B01C1F6271BE00C0234C /* LynxUIEventAction.m */,
-				BC31B01E1F6273A500C0234C /* LynxUIUpdateDataAction.h */,
-				BC31B01F1F6273A500C0234C /* LynxUIUpdateDataAction.m */,
-				BC31B0241F6282AB00C0234C /* LynxRuntime.h */,
-				BC31B0251F6282AB00C0234C /* LynxRuntime.mm */,
-				BC31B0271F6284D200C0234C /* LynxRenderTreeHostImpl.h */,
-				BC31B0281F6284D200C0234C /* LynxRenderTreeHostImpl.mm */,
-				423986491F793E5B008775F6 /* LynxFilePathUtility.h */,
-				4239864A1F793F42008775F6 /* LynxFilePathUtility.m */,
-				BC8798701FC7C22300F76993 /* LYXFunctionObject.h */,
-				BC8798711FC7C22300F76993 /* LYXFunctionObject.m */,
-				BC8040961FCB07750041CF01 /* LYXOcCenter.h */,
-				BC8040971FCB07750041CF01 /* LYXOcCenter.m */,
-				BC8040991FCB07950041CF01 /* LYXOcMethod.h */,
-				BC80409A1FCB07950041CF01 /* LYXOcMethod.m */,
-				BC80409C1FCB08EC0041CF01 /* LYXOcField.h */,
-				BC80409D1FCB08EC0041CF01 /* LYXOcField.m */,
-				BC80409F1FCBB8D40041CF01 /* LYXOcProperty.h */,
-				BC8040A01FCBB8D40041CF01 /* LYXOcProperty.m */,
-				BC8040A81FCBEC7F0041CF01 /* LYXDefines.h */,
-				BC8040A91FCE8FB00041CF01 /* LYXOcPropertyTransformer.h */,
-				BC8040AA1FCE8FB00041CF01 /* LYXOcPropertyTransformer.m */,
+				BC5DBD8C1F5E7D3B005A47E3 /* render_object_attr.h */,
+				BC5DBD811F5E7A05005A47E3 /* framerate_controller.h */,
+				BC5DBD821F5E7A05005A47E3 /* framerate_controller.mm */,
+				BC5DBD7E1F5E79D8005A47E3 /* style_convector.h */,
+				BC5DBD7F1F5E79D8005A47E3 /* style_convector.mm */,
+				BC31B0051F611A3900C0234C /* ui_action_collector.h */,
+				BC31B0061F611A3900C0234C /* ui_action_collector.mm */,
+				BC31B0081F611D5200C0234C /* ui_action.h */,
+				BC31B0091F611D5200C0234C /* ui_action.mm */,
+				BC31B00E1F613AE000C0234C /* lynx_render_object_impl.h */,
+				BC31B00F1F613AE000C0234C /* lynx_render_object_impl.mm */,
+				BC31B0181F6264E600C0234C /* ui_factory.h */,
+				BC31B0191F6264E600C0234C /* ui_factory.mm */,
+				BC31B01B1F6271BE00C0234C /* ui_event_action.h */,
+				BC31B01C1F6271BE00C0234C /* ui_event_action.mm */,
+				BC31B01E1F6273A500C0234C /* ui_update_data_action.h */,
+				BC31B01F1F6273A500C0234C /* ui_update_data_action.mm */,
+				BC31B0241F6282AB00C0234C /* lynx_runtime.h */,
+				BC31B0251F6282AB00C0234C /* lynx_runtime.mm */,
+				BC31B0271F6284D200C0234C /* lynx_render_tree_host_impl.h */,
+				BC31B0281F6284D200C0234C /* lynx_render_tree_host_impl.mm */,
+				423986491F793E5B008775F6 /* file_path_utility.h */,
+				4239864A1F793F42008775F6 /* file_path_utility.mm */,
+				BC8798701FC7C22300F76993 /* lynx_function_object.h */,
+				BC8798711FC7C22300F76993 /* lynx_function_object.mm */,
+				BC8040961FCB07750041CF01 /* oc_center.h */,
+				BC8040971FCB07750041CF01 /* oc_center.mm */,
+				BC8040991FCB07950041CF01 /* oc_method.h */,
+				BC80409A1FCB07950041CF01 /* oc_method.mm */,
+				BC80409C1FCB08EC0041CF01 /* oc_field.h */,
+				BC80409D1FCB08EC0041CF01 /* oc_field.mm */,
+				BC80409F1FCBB8D40041CF01 /* oc_property.h */,
+				BC8040A01FCBB8D40041CF01 /* oc_property.mm */,
+				BC8040A81FCBEC7F0041CF01 /* defines.h */,
+				BC8040A91FCE8FB00041CF01 /* oc_property_transformer.h */,
+				BC8040AA1FCE8FB00041CF01 /* oc_property_transformer.mm */,
 			);
-			name = Base;
-			path = Lynx/Base;
+			name = base;
+			path = Lynx/base;
 			sourceTree = SOURCE_ROOT;
 		};
-		BC5DBD911F5E7D96005A47E3 /* Image */ = {
+		BC5DBD911F5E7D96005A47E3 /* image */ = {
 			isa = PBXGroup;
 			children = (
-				BC5DBD921F5E7D96005A47E3 /* LynxImageDownloader.h */,
-				BC5DBD931F5E7D96005A47E3 /* LynxImageDownloader.mm */,
-				BC5DBD941F5E7D96005A47E3 /* LynxUIImage.h */,
-				BC5DBD951F5E7D96005A47E3 /* LynxUIImage.mm */,
+				BC5DBD921F5E7D96005A47E3 /* image_downloader.h */,
+				BC5DBD931F5E7D96005A47E3 /* image_downloader.mm */,
+				BC5DBD941F5E7D96005A47E3 /* lynx_ui_image.h */,
+				BC5DBD951F5E7D96005A47E3 /* lynx_ui_image.mm */,
 			);
-			path = Image;
+			path = image;
 			sourceTree = "<group>";
 		};
-		BC5DBD9B1F5E7E5D005A47E3 /* ListView */ = {
+		BC5DBD9B1F5E7E5D005A47E3 /* listview */ = {
 			isa = PBXGroup;
 			children = (
-				BC5DBD9C1F5E7E5D005A47E3 /* LynxListViewController.h */,
-				BC5DBD9D1F5E7E5D005A47E3 /* LynxListViewController.mm */,
-				BC5DBD9E1F5E7E5D005A47E3 /* LynxUIListView.h */,
-				BC5DBD9F1F5E7E5D005A47E3 /* LynxUIListView.mm */,
+				BC5DBD9C1F5E7E5D005A47E3 /* listview_controller.h */,
+				BC5DBD9D1F5E7E5D005A47E3 /* listview_controller.mm */,
+				BC5DBD9E1F5E7E5D005A47E3 /* lynx_ui_listview.h */,
+				BC5DBD9F1F5E7E5D005A47E3 /* lynx_ui_listview.mm */,
 			);
-			path = ListView;
+			path = listview;
 			sourceTree = "<group>";
 		};
-		BC5DBDA21F5E7E79005A47E3 /* Label */ = {
+		BC5DBDA21F5E7E79005A47E3 /* label */ = {
 			isa = PBXGroup;
 			children = (
-				BC5DBDA41F5E7E79005A47E3 /* LynxUILabel.h */,
-				BC5DBDA51F5E7E79005A47E3 /* LynxUILabel.mm */,
-				BC6748EA1F66394000D50971 /* IOSLabel.h */,
-				BC6748EB1F66394000D50971 /* IOSLabel.m */,
+				BC5DBDA41F5E7E79005A47E3 /* lynx_ui_label.h */,
+				BC5DBDA51F5E7E79005A47E3 /* lynx_ui_label.mm */,
+				BC6748EA1F66394000D50971 /* label_wrapper.h */,
+				BC6748EB1F66394000D50971 /* label_wrapper.m */,
 			);
-			path = Label;
+			path = label;
 			sourceTree = "<group>";
 		};
-		BC5DBDAA1F5E9D87005A47E3 /* ScrollView */ = {
+		BC5DBDAA1F5E9D87005A47E3 /* scrollview */ = {
 			isa = PBXGroup;
 			children = (
-				BC5DBDAB1F5E9D87005A47E3 /* LynxUIScrollView.h */,
-				BC5DBDAC1F5E9D87005A47E3 /* LynxUIScrollView.mm */,
-				BC5DBDB81F5EF76F005A47E3 /* IOSScrollView.h */,
-				BC5DBDB91F5EF76F005A47E3 /* IOSScrollView.mm */,
+				BC5DBDAB1F5E9D87005A47E3 /* lynx_ui_scrollview.h */,
+				BC5DBDAC1F5E9D87005A47E3 /* lynx_ui_scrollview.mm */,
+				BC5DBDB81F5EF76F005A47E3 /* scrollview_wrapper.h */,
+				BC5DBDB91F5EF76F005A47E3 /* scrollview_wrapper.mm */,
 			);
-			path = ScrollView;
+			path = scrollview;
 			sourceTree = "<group>";
 		};
-		BC5DBDAD1F5E9D87005A47E3 /* View */ = {
+		BC5DBDAD1F5E9D87005A47E3 /* view */ = {
 			isa = PBXGroup;
 			children = (
-				BC5DBDAE1F5E9D87005A47E3 /* LynxUIView.h */,
-				BC5DBDAF1F5E9D87005A47E3 /* LynxUIView.mm */,
-				BC5DBDB21F5EC7BE005A47E3 /* IOSView.h */,
-				BC5DBDB31F5EC7BE005A47E3 /* IOSView.mm */,
+				BC5DBDAE1F5E9D87005A47E3 /* lynx_ui_view.h */,
+				BC5DBDAF1F5E9D87005A47E3 /* lynx_ui_view.mm */,
+				BC5DBDB21F5EC7BE005A47E3 /* view_wrapper.h */,
+				BC5DBDB31F5EC7BE005A47E3 /* view_wrapper.mm */,
 			);
-			path = View;
+			path = view;
 			sourceTree = "<group>";
 		};
-		BC6748E31F6585B400D50971 /* Swiper */ = {
+		BC6748E31F6585B400D50971 /* swiper */ = {
 			isa = PBXGroup;
 			children = (
-				BC6748E71F6585D400D50971 /* IOSSwiperView.h */,
-				BC6748E81F6585D400D50971 /* IOSSwiperView.m */,
-				BC6748ED1F66775700D50971 /* LynxSwiperController.h */,
-				BC6748EE1F66775700D50971 /* LynxSwiperController.m */,
+				BC6748E71F6585D400D50971 /* lynx_swiper_view.h */,
+				BC6748E81F6585D400D50971 /* lynx_swiper_view.mm */,
+				BC6748ED1F66775700D50971 /* lynx_swiper_controller.h */,
+				BC6748EE1F66775700D50971 /* lynx_swiper_controller.mm */,
 			);
-			path = Swiper;
+			path = swiper;
 			sourceTree = "<group>";
 		};
 		BC6D1CD01F558C38007DD652 /* base */ = {
@@ -1179,48 +1205,22 @@
 			path = debug;
 			sourceTree = "<group>";
 		};
-		BC8798551FC7215200F76993 /* Modules */ = {
+		BC8798551FC7215200F76993 /* modules */ = {
 			isa = PBXGroup;
 			children = (
-				BC8798561FC7217100F76993 /* LYXModule.h */,
-				BC87985D1FC7B30900F76993 /* LYXPageNavigator.h */,
-				BC87985E1FC7B30900F76993 /* LYXPageNavigator.m */,
-				BC8798761FC7C61200F76993 /* LYXCrdRegister.h */,
-				BC8798771FC7C61200F76993 /* LYXCrdRegister.m */,
-				BC8040941FCA5C620041CF01 /* LYXModule.m */,
-				BC8040A21FCBCB800041CF01 /* LYXModuleRegister.h */,
-				BC8040A31FCBCB800041CF01 /* LYXModuleRegister.m */,
-				BC8040A51FCBCB930041CF01 /* LYXModuleBundle.h */,
-				BC8040A61FCBCB930041CF01 /* LYXModuleBundle.m */,
+				BC87985D1FC7B30900F76993 /* page_navigator.h */,
+				BC87985E1FC7B30900F76993 /* page_navigator.mm */,
+				BC8798761FC7C61200F76993 /* coordinator_register.h */,
+				BC8798771FC7C61200F76993 /* coordinator_register.mm */,
+				BC8798561FC7217100F76993 /* module.h */,
+				BC8040941FCA5C620041CF01 /* module.mm */,
+				BC8040A21FCBCB800041CF01 /* module_register.h */,
+				BC8040A31FCBCB800041CF01 /* module_register.mm */,
+				BC8040A51FCBCB930041CF01 /* module_bundle.h */,
+				BC8040A61FCBCB930041CF01 /* module_bundle.mm */,
 			);
-			path = Modules;
+			path = modules;
 			sourceTree = "<group>";
-		};
-		BC8A0CDB1FB0C0C2002B0370 /* Coordinator */ = {
-			isa = PBXGroup;
-			children = (
-				BC921A651FE3B4DB00DA6221 /* LYXCrdSponsor.h */,
-				BC8A0CDC1FB0C0F3002B0370 /* LYXCrdResponder.h */,
-				BC8A0CDF1FB2B21A002B0370 /* LYXCrdObject.h */,
-				BC8A0CE21FB2B5E6002B0370 /* LYXCrdCommandExecutor.h */,
-				BC8A0CE31FB2B5E6002B0370 /* LYXCrdCommandExecutor.mm */,
-				BC8A0CE51FB2B99B002B0370 /* LYXTransferStation.h */,
-				BC8A0CE81FB2BA91002B0370 /* LYXCrdPreTreatment.h */,
-				BC8A0CE91FB2BA91002B0370 /* LYXCrdPreTreatment.m */,
-				BC8A0CEB1FB2BA9E002B0370 /* LYXCrdTreatment.h */,
-				BC8A0CEC1FB2BA9E002B0370 /* LYXCrdTreatment.m */,
-				BC8A0D2C1FB2FEA9002B0370 /* LYXCrdActionExecutor.h */,
-				BC8A0D2D1FB2FEA9002B0370 /* LYXCrdActionExecutor.m */,
-				BC1B52571FCFE5A100B506AC /* LYXCrdTransferStation.h */,
-				BC1B52581FCFE5A100B506AC /* LYXCrdTransferStation.m */,
-				BC1B525A1FCFE7A400B506AC /* LYXCrdTypes.h */,
-				BC1B525B1FCFE7A400B506AC /* LYXCrdTypes.m */,
-				BC1B526D1FD0F67000B506AC /* LYXCrdCommands.h */,
-				BC1B526E1FD0F67000B506AC /* LYXCrdCommands.m */,
-			);
-			name = Coordinator;
-			path = lynx/UI/Coordinator;
-			sourceTree = SOURCE_ROOT;
 		};
 		BC8A0CF11FB2E477002B0370 /* lepus */ = {
 			isa = PBXGroup;
@@ -1279,17 +1279,17 @@
 			path = coordinator;
 			sourceTree = "<group>";
 		};
-		BC8A0D321FB3EFC1002B0370 /* Utils */ = {
+		BC8A0D321FB3EFC1002B0370 /* utils */ = {
 			isa = PBXGroup;
 			children = (
-				BC5D48FA2066443100424ABA /* LYXDeviceInfoUtil.h */,
-				BC5D48FB2066443100424ABA /* LYXDeviceInfoUtil.m */,
-				BC8A0D331FB3EFE7002B0370 /* LYXPixelUtil.h */,
-				BC8A0D341FB3EFE7002B0370 /* LYXPixelUtil.m */,
-				BC8A0D361FB3F041002B0370 /* LYXScreenUtil.h */,
-				BC8A0D371FB3F041002B0370 /* LYXScreenUtil.m */,
+				BC5D48FA2066443100424ABA /* device_info_util.h */,
+				BC5D48FB2066443100424ABA /* device_info_util.mm */,
+				BC8A0D331FB3EFE7002B0370 /* pixel_util.h */,
+				BC8A0D341FB3EFE7002B0370 /* pixel_util.mm */,
+				BC8A0D361FB3F041002B0370 /* screen_util.h */,
+				BC8A0D371FB3F041002B0370 /* screen_util.mm */,
 			);
-			path = Utils;
+			path = utils;
 			sourceTree = "<group>";
 		};
 		BC9D34941E1E015D009BD30A /* Core */ = {
@@ -1748,34 +1748,34 @@
 			files = (
 				BCF6EBE21E49FF2D00FCD189 /* message_pump_posix.cc in Sources */,
 				BC41C2431F04EC2000EB4BA3 /* json_writer.cpp in Sources */,
-				BC1B525C1FCFE7A400B506AC /* LYXCrdTypes.m in Sources */,
 				BC8A0D171FB2E477002B0370 /* builtin.cc in Sources */,
-				BC5DBDB41F5EC7BE005A47E3 /* IOSView.mm in Sources */,
+				BC5DBDB41F5EC7BE005A47E3 /* view_wrapper.mm in Sources */,
 				BC8A0D211FB2E477002B0370 /* syntax_tree.cc in Sources */,
 				BC6D1D311F55C3A1007DD652 /* script_request_delegate.cc in Sources */,
 				BCF6EC021E49FF2D00FCD189 /* css_color.cc in Sources */,
 				BC6D1D161F55C327007DD652 /* render_style.cc in Sources */,
 				BCF00A7B1F0E7BC400D56168 /* timed_task.cc in Sources */,
+				421438E5207DE59F00ECF750 /* coordinator_pretreatment.mm in Sources */,
 				BC87985C1FC7B22800F76993 /* switch.cc in Sources */,
-				BC8A0CED1FB2BA9E002B0370 /* LYXCrdTreatment.m in Sources */,
-				BC31B01D1F6271BE00C0234C /* LynxUIEventAction.m in Sources */,
+				BC31B01D1F6271BE00C0234C /* ui_event_action.mm in Sources */,
 				4273CC3C1F00032E00321655 /* layout_object.cc in Sources */,
 				BCD050881EA0A87A00359EC1 /* render_tree_host_impl.cc in Sources */,
 				BC8A0D231FB2E477002B0370 /* vm.cc in Sources */,
-				BC5DBD831F5E7A05005A47E3 /* LynxFrameRateController.mm in Sources */,
+				BC5DBD831F5E7A05005A47E3 /* framerate_controller.mm in Sources */,
 				BC8A0D1F1FB2E477002B0370 /* scanner.cc in Sources */,
+				421438F6207DF52E00ECF750 /* resource_reader.mm in Sources */,
 				BC5D48F92065139E00424ABA /* canvas_view.cc in Sources */,
 				BC6D1CE31F558C38007DD652 /* lynx_value.cc in Sources */,
 				BC6D1CE91F558C7D007DD652 /* object_template.cc in Sources */,
-				BC31B0201F6273A500C0234C /* LynxUIUpdateDataAction.m in Sources */,
+				BC31B0201F6273A500C0234C /* ui_update_data_action.mm in Sources */,
 				421438CC207DB07000ECF750 /* logging.cc in Sources */,
 				423E18721F0639D100813438 /* jsc_context.cc in Sources */,
 				BC6D1D3D1F55C3E0007DD652 /* memory_tracker.cc in Sources */,
 				BC9D343E1E1DEC92009BD30A /* main.m in Sources */,
 				BC41C2411F04EC2000EB4BA3 /* json_value.cpp in Sources */,
-				BC1B526F1FD0F67000B506AC /* LYXCrdCommands.m in Sources */,
 				BC6D1CE21F558C38007DD652 /* lynx_object_template.cc in Sources */,
-				BC8040A71FCBCB930041CF01 /* LYXModuleBundle.m in Sources */,
+				BC8040A71FCBCB930041CF01 /* module_bundle.mm in Sources */,
+				421438F8207DF52E00ECF750 /* page_info.mm in Sources */,
 				4273CE6D1F02917200321655 /* jsc_helper.cc in Sources */,
 				BC6D1D2F1F55C3A1007DD652 /* html_request_delegate.cc in Sources */,
 				BC6D1CEC1F558CC5007DD652 /* location_object.cc in Sources */,
@@ -1783,116 +1783,116 @@
 				BC5D48F82065139E00424ABA /* animation.cc in Sources */,
 				BCD0506E1EA0A87A00359EC1 /* body.cc in Sources */,
 				BC6D1D181F55C327007DD652 /* render_tokenizer.cc in Sources */,
-				BC5DBDB01F5E9D87005A47E3 /* LynxUIScrollView.mm in Sources */,
-				BC8798781FC7C61200F76993 /* LYXCrdRegister.m in Sources */,
-				BC31B0261F6282AB00C0234C /* LynxRuntime.mm in Sources */,
+				BC5DBDB01F5E9D87005A47E3 /* lynx_ui_scrollview.mm in Sources */,
+				BC8798781FC7C61200F76993 /* coordinator_register.mm in Sources */,
+				BC31B0261F6282AB00C0234C /* lynx_runtime.mm in Sources */,
 				BCF6EC111E49FF2D00FCD189 /* runtime.cc in Sources */,
 				BC5DBD9A1F5E7E26005A47E3 /* render_tree_host_impl_ios.mm in Sources */,
 				BC8A6C6C1F288FF00035AE84 /* js_event.cc in Sources */,
 				BC6D1D2E1F55C3A1007DD652 /* html_loader.cc in Sources */,
 				BC5D49012066448300424ABA /* string_number_convert.cc in Sources */,
-				BC6748EF1F66775700D50971 /* LynxSwiperController.m in Sources */,
+				BC6748EF1F66775700D50971 /* lynx_swiper_controller.mm in Sources */,
 				BC6D1D151F55C327007DD652 /* render_parser.cc in Sources */,
-				BC6748EC1F66394000D50971 /* IOSLabel.m in Sources */,
+				BC6748EC1F66394000D50971 /* label_wrapper.m in Sources */,
 				BC2ED21E1F0CBF00001B2E50 /* loader.cc in Sources */,
-				BC5DBD961F5E7D96005A47E3 /* LynxImageDownloader.mm in Sources */,
+				BC5DBD961F5E7D96005A47E3 /* image_downloader.mm in Sources */,
 				BC5D48F42065132300424ABA /* canvas.cc in Sources */,
-				BC5DBDA01F5E7E5D005A47E3 /* LynxListViewController.mm in Sources */,
+				BC5DBDA01F5E7E5D005A47E3 /* listview_controller.mm in Sources */,
 				BC8A0D2B1FB2E487002B0370 /* coordinator_executor.cc in Sources */,
 				BCD050711EA0A87A00359EC1 /* image_view.cc in Sources */,
+				421438E6207DE59F00ECF750 /* coordinator_transfer_station.mm in Sources */,
 				BC6D1CE11F558C38007DD652 /* lynx_object.cc in Sources */,
 				BCF6EBE11E49FF2D00FCD189 /* message_pump_ios.mm in Sources */,
 				BCDC312E1F7361EF009A6ECC /* extended_view.cc in Sources */,
 				BC6D1D171F55C327007DD652 /* render_token.cc in Sources */,
-				BC31B00A1F611D5200C0234C /* LynxUIAction.m in Sources */,
+				BC31B00A1F611D5200C0234C /* ui_action.mm in Sources */,
 				4273CC4D1F0012CD00321655 /* event_target.cc in Sources */,
 				421438CF207DB6E700ECF750 /* string_utils.cc in Sources */,
 				BC41C2EB1F04FD0E00EB4BA3 /* history.cc in Sources */,
 				4273CC441F00036800321655 /* command_collector.cc in Sources */,
 				BCF6EC031E49FF2D00FCD189 /* css_layout.cc in Sources */,
-				BC1B52591FCFE5A100B506AC /* LYXCrdTransferStation.m in Sources */,
 				4273CC451F00036800321655 /* render_command.cc in Sources */,
 				BC8A0D201FB2E477002B0370 /* semantic_analysis.cc in Sources */,
-				BC8040A41FCBCB800041CF01 /* LYXModuleRegister.m in Sources */,
-				BC5D48FC2066443200424ABA /* LYXDeviceInfoUtil.m in Sources */,
+				BC8040A41FCBCB800041CF01 /* module_register.mm in Sources */,
+				BC5D48FC2066443200424ABA /* device_info_util.mm in Sources */,
 				BCD050871EA0A87A00359EC1 /* render_tree_host.cc in Sources */,
 				BC6748F21F667FE300D50971 /* swiper_view.cc in Sources */,
-				BC31B0291F6284D200C0234C /* LynxRenderTreeHostImpl.mm in Sources */,
+				BC31B0291F6284D200C0234C /* lynx_render_tree_host_impl.mm in Sources */,
 				BC41C2401F04EC2000EB4BA3 /* json_reader.cpp in Sources */,
-				BC5DBDB11F5E9D87005A47E3 /* LynxUIView.mm in Sources */,
-				BC5DBDBA1F5EF76F005A47E3 /* IOSScrollView.mm in Sources */,
+				BC5DBDB11F5E9D87005A47E3 /* lynx_ui_view.mm in Sources */,
+				BC5DBDBA1F5EF76F005A47E3 /* scrollview_wrapper.mm in Sources */,
 				4259BF451F161DB30031D3B0 /* observer_list.cc in Sources */,
-				BC31B01A1F6264E600C0234C /* LynxUIFactory.m in Sources */,
-				4239864B1F793F42008775F6 /* LynxFilePathUtility.m in Sources */,
+				BC31B01A1F6264E600C0234C /* ui_factory.mm in Sources */,
+				4239864B1F793F42008775F6 /* file_path_utility.mm in Sources */,
 				BC6D1CDF1F558C38007DD652 /* lynx_function_object.cc in Sources */,
+				421438F7207DF52E00ECF750 /* application_info.mm in Sources */,
 				BC6D1D3C1F55C3E0007DD652 /* memory_debug.cc in Sources */,
 				BC6D1CF61F558DCD007DD652 /* console.cc in Sources */,
 				BCF6EBE41E49FF2D00FCD189 /* time_utils.cc in Sources */,
 				BC6D1CDE1F558C38007DD652 /* lynx_array.cc in Sources */,
-				BC5DBD971F5E7D96005A47E3 /* LynxUIImage.mm in Sources */,
+				BC5DBD971F5E7D96005A47E3 /* lynx_ui_image.mm in Sources */,
 				BC41C2F11F06257B00EB4BA3 /* location.cc in Sources */,
 				BC6D1D411F55C414007DD652 /* url_request_ghost_delegate.cc in Sources */,
-				420B8AD01F7E2D3A005717FB /* LynxPageInfo.m in Sources */,
 				BCF6EBE31E49FF2D00FCD189 /* thread.cc in Sources */,
+				421438E4207DE59F00ECF750 /* coordinator_commands.mm in Sources */,
 				BC8A0D1E1FB2E477002B0370 /* parser.cc in Sources */,
 				BC6D1D1A1F55C327007DD652 /* tree_builder.cc in Sources */,
-				BC87985F1FC7B30900F76993 /* LYXPageNavigator.m in Sources */,
+				BC87985F1FC7B30900F76993 /* page_navigator.mm in Sources */,
+				421438E9207DE59F00ECF750 /* coordinator_cmd_executor.mm in Sources */,
 				BC6D1CFE1F558DF8007DD652 /* screen.cc in Sources */,
-				BC80409B1FCB07950041CF01 /* LYXOcMethod.m in Sources */,
+				BC80409B1FCB07950041CF01 /* oc_method.mm in Sources */,
 				BCF6EBE51E49FF2D00FCD189 /* timer.cc in Sources */,
-				BC5DBDA71F5E7E79005A47E3 /* LynxUILabel.mm in Sources */,
+				BC5DBDA71F5E7E79005A47E3 /* lynx_ui_label.mm in Sources */,
 				BC41C2FD1F065AEE00EB4BA3 /* jsc_function.cc in Sources */,
-				BC8040A11FCBB8D40041CF01 /* LYXOcProperty.m in Sources */,
+				BC8040A11FCBB8D40041CF01 /* oc_property.mm in Sources */,
 				BC8A0D1C1FB2E477002B0370 /* lepus_string.cc in Sources */,
 				BCD050821EA0A87A00359EC1 /* list_view.cc in Sources */,
-				BC8040951FCA5C620041CF01 /* LYXModule.m in Sources */,
+				BC8040951FCA5C620041CF01 /* module.mm in Sources */,
 				BCD050731EA0A87A00359EC1 /* render_object_impl_ios.mm in Sources */,
 				BC6D1CE81F558C7D007DD652 /* function_object.cc in Sources */,
 				4273CC3B1F00032E00321655 /* css_type.cc in Sources */,
 				BC6D1CFD1F558DF8007DD652 /* navigator.cc in Sources */,
-				4239BA281F7C988600AC9DC5 /* LynxApplicationInfo.m in Sources */,
 				BC6D1D2D1F55C3A1007DD652 /* source_cache_manager.cc in Sources */,
 				BC6D1D301F55C3A1007DD652 /* script_loader.cc in Sources */,
 				BCD050811EA0A87A00359EC1 /* list_shadow.cc in Sources */,
-				BC31B0161F624F6D00C0234C /* LynxUIBody.mm in Sources */,
+				BC31B0161F624F6D00C0234C /* lynx_ui_body.mm in Sources */,
 				BCD050891EA0A87A00359EC1 /* scroll_view.cc in Sources */,
+				421438E8207DE59F00ECF750 /* coordinator_action_executor.mm in Sources */,
 				BC8A0D2A1FB2E487002B0370 /* coordinator_action.cc in Sources */,
 				BCDC312B1F7361E1009A6ECC /* text_area.cc in Sources */,
 				BCF6EC051E49FF2D00FCD189 /* url_request_ios.mm in Sources */,
+				421438E7207DE59F00ECF750 /* coordinator_types.mm in Sources */,
 				BC6D1D341F55C3B7007DD652 /* cell_container.cc in Sources */,
 				4273D2321F04B84700321655 /* window_object.cc in Sources */,
-				BC5DBD801F5E79D8005A47E3 /* LynxStyleConvector.mm in Sources */,
-				BC8A0CEA1FB2BA91002B0370 /* LYXCrdPreTreatment.m in Sources */,
+				BC5DBD801F5E79D8005A47E3 /* style_convector.mm in Sources */,
 				BCF00A781F0E7AE200D56168 /* js_vm.cc in Sources */,
+				421438EA207DE59F00ECF750 /* coordinator_treatment.mm in Sources */,
 				BC5D48F52065132300424ABA /* canvas_2d_context.cc in Sources */,
-				BC8040981FCB07750041CF01 /* LYXOcCenter.m in Sources */,
+				BC8040981FCB07750041CF01 /* oc_center.mm in Sources */,
 				BC41C10D1F04EC1300EB4BA3 /* global_config_data.cc in Sources */,
 				426776671F73FB3A009012DC /* view_stub.cc in Sources */,
-				BC31B0171F624F6D00C0234C /* LynxView.mm in Sources */,
+				BC31B0171F624F6D00C0234C /* lynx_content_view.mm in Sources */,
 				BCD050721EA0A87A00359EC1 /* input.cc in Sources */,
-				BC8A0D351FB3EFE7002B0370 /* LYXPixelUtil.m in Sources */,
+				BC8A0D351FB3EFE7002B0370 /* pixel_util.mm in Sources */,
 				BC6D1D2C1F55C3A1007DD652 /* source_cache.cc in Sources */,
-				BC5DBDA11F5E7E5D005A47E3 /* LynxUIListView.mm in Sources */,
+				BC5DBDA11F5E7E5D005A47E3 /* lynx_ui_listview.mm in Sources */,
 				BC8A0D181FB2E477002B0370 /* code_generator.cc in Sources */,
-				4248745C1F7CED1500CDF17E /* LynxResourceManager.m in Sources */,
 				BC5DBD721F5C60A5005A47E3 /* DemoViewController.m in Sources */,
 				BC6D1CF71F558DCD007DD652 /* document.cc in Sources */,
-				BC31B0101F613AE000C0234C /* LynxRenderObjectImpl.mm in Sources */,
+				BC31B0101F613AE000C0234C /* lynx_render_object_impl.mm in Sources */,
 				BC6D1D141F55C327007DD652 /* input_stream.cc in Sources */,
+				421438F9207DF52E00ECF750 /* resource_manager.mm in Sources */,
 				4273CC3A1F00032E00321655 /* container_node.cc in Sources */,
 				BC6D1CF81F558DCD007DD652 /* element.cc in Sources */,
 				BCF00A6B1F0CE96C00D56168 /* js_context.cc in Sources */,
 				BCF6EBE61E49FF2D00FCD189 /* timer_heap.cc in Sources */,
-				4248745F1F7CF73500CDF17E /* LynxResourceReader.m in Sources */,
 				BCD050861EA0A87A00359EC1 /* render_object.cc in Sources */,
 				BC8798751FC7C28C00F76993 /* lynx_function_object_ios.mm in Sources */,
 				BC8A0D221FB2E477002B0370 /* table.cc in Sources */,
 				BC8A0D241FB2E477002B0370 /* vm_context.cc in Sources */,
-				BC31B0071F611A3900C0234C /* LynxUIActionCollector.mm in Sources */,
-				BC31B0231F627DE700C0234C /* LynxUI.mm in Sources */,
-				BC8A0CE41FB2B5E6002B0370 /* LYXCrdCommandExecutor.mm in Sources */,
-				BC8A0D2E1FB2FEA9002B0370 /* LYXCrdActionExecutor.m in Sources */,
-				BC8A0D381FB3F041002B0370 /* LYXScreenUtil.m in Sources */,
+				BC31B0071F611A3900C0234C /* ui_action_collector.mm in Sources */,
+				BC31B0231F627DE700C0234C /* lynx_ui.mm in Sources */,
+				BC8A0D381FB3F041002B0370 /* screen_util.mm in Sources */,
 				BCD050801EA0A87A00359EC1 /* label.cc in Sources */,
 				BCD0506F1EA0A87A00359EC1 /* cell_view.cc in Sources */,
 				BC5D49052066450800424ABA /* trace_logger.cc in Sources */,
@@ -1902,16 +1902,16 @@
 				BCD0508C1EA0A87A00359EC1 /* view.cc in Sources */,
 				BCF6EC041E49FF2D00FCD189 /* css_style.cc in Sources */,
 				BCF00A761F0E7AA700D56168 /* timeout_callback.cc in Sources */,
-				BC8798721FC7C22300F76993 /* LYXFunctionObject.m in Sources */,
-				42B4F2001F7E420B001519E1 /* LynxViewController.m in Sources */,
+				BC8798721FC7C22300F76993 /* lynx_function_object.mm in Sources */,
+				42B4F2001F7E420B001519E1 /* lynx_view_controller.mm in Sources */,
 				BCD0ECDF1F3C409000DFB990 /* url_request_context.cc in Sources */,
-				BC80409E1FCB08EC0041CF01 /* LYXOcField.m in Sources */,
+				BC80409E1FCB08EC0041CF01 /* oc_field.mm in Sources */,
 				BC6D1D191F55C327007DD652 /* style_parser.cc in Sources */,
 				4273CC461F00036800321655 /* render_object_impl.cc in Sources */,
-				BC8040AB1FCE8FB10041CF01 /* LYXOcPropertyTransformer.m in Sources */,
-				BC6748E91F6585D400D50971 /* IOSSwiperView.m in Sources */,
+				BC8040AB1FCE8FB10041CF01 /* oc_property_transformer.mm in Sources */,
+				BC6748E91F6585D400D50971 /* lynx_swiper_view.mm in Sources */,
 				BCF6EBDF1E49FF2D00FCD189 /* message_loop.cc in Sources */,
-				42B4F2051F7E4710001519E1 /* LYXAppDelegate.m in Sources */,
+				42B4F2051F7E4710001519E1 /* app_delegate.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2059,6 +2059,7 @@
 					"$(PROJECT_DIR)/../lynx",
 					"$(PROJECT_DIR)/../lynx/third_party/jsoncpp/src/lib_json",
 					"$(PROJECT_DIR)/../lynx/third_party/jsoncpp/include",
+					"$(PROJECT_DIR)/lynx",
 				);
 				INFOPLIST_FILE = lynx/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
@@ -2096,6 +2097,7 @@
 					"$(PROJECT_DIR)/../lynx",
 					"$(PROJECT_DIR)/../lynx/third_party/jsoncpp/src/lib_json",
 					"$(PROJECT_DIR)/../lynx/third_party/jsoncpp/include",
+					"$(PROJECT_DIR)/lynx",
 				);
 				INFOPLIST_FILE = lynx/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;

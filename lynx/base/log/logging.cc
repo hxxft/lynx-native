@@ -98,7 +98,7 @@ void LogMessage::Init(const char* file, int line) {
   std::string filename(file);
   size_t last_slash_pos = filename.find_last_of("\\/");
   if (last_slash_pos != std::string::npos) {
-    int size = last_slash_pos + 1;
+    size_t size = last_slash_pos + 1;
     filename = filename.substr(size, filename.length() - size);
   }
 

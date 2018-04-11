@@ -37,7 +37,7 @@ namespace jscore {
         return value;
     }
 
-    int LynxObject::Size() {
+    size_t LynxObject::Size() {
         return properties_.size();
     }
 

@@ -26,7 +26,7 @@ namespace base {
 
     private:
         struct TrackerInfo {
-            int size_;
+            size_t size_;
             void* buffer_[30];
             std::string file_;
             int line_;

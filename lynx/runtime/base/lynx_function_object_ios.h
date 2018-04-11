@@ -3,7 +3,8 @@
 #define LYNX_RUNTIME_IOS_LYNX_FUNCTION_OBJECT_H_
 
 #include "runtime/base/lynx_function_object.h"
-#import "LYXFunctionObject.h"
+#include "base/lynx_function_object.h"
+
 namespace jscore {
     class LynxFunctionObjectIOS : public LynxFunctionObject {
     public:

@@ -24,7 +24,7 @@ namespace base {
 
 		void clear() {
 			iterator iter = set_.begin();
-			for (iter; iter != set_.end(); ++iter) {
+			for (; iter != set_.end(); ++iter) {
 				lynx_delete(*iter);
 			}
 			set_.clear();

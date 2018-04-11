@@ -2,7 +2,7 @@
 
 #import <Foundation/Foundation.h>
 #import "DemoViewController.h"
-#import "LynxViewController.h"
+#include "lynx_view_controller.h"
 
 @interface DemoViewController ()
 

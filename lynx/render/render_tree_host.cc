@@ -80,7 +80,7 @@ void RenderTreeHost::DoCommit() {
     return;
   RenderCommandCollector::RenderCommandsStorage::iterator iter =
       commands->begin();
-  for (iter; iter != commands->end(); ++iter) {
+  for (; iter != commands->end(); ++iter) {
     (*iter)->Execute();
   }
   lynx_delete(commands);

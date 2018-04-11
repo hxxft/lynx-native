@@ -186,7 +186,7 @@ namespace jscore {
     }
 
     base::ScopedPtr<LynxArray> JSCHelper::ConvertToLynxArray(JSContextRef ctx, JSValueRef *value,
-                                                             int length) {
+                                                             size_t length) {
         base::ScopedPtr<LynxArray> array (lynx_new LynxArray());
         for (int i = 0; i < length; ++i) {
             array->Push(ConvertToLynxValue(ctx, value[i]).Release());

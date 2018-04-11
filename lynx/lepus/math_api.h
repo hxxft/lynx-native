@@ -105,7 +105,7 @@ namespace lepus {
         static bool seeded = false;
         if (!seeded) {
             seeded = true;
-            srand(time(NULL));
+            srand(static_cast<unsigned int>(time(NULL)));
         }
         return Value((float)rand()/RAND_MAX);
     }

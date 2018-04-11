@@ -97,7 +97,6 @@ namespace jscore {
         JSStringRelease(js_source);
         
         if (exception) {
-            int type = JSValueGetType(context_, exception);
 
             base::ScopedPtr<LynxObject> detail =
                     jscore::JSCHelper::ConvertToLynxObject(context_, (JSObjectRef) exception);

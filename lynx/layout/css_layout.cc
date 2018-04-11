@@ -1245,7 +1245,7 @@ void CSSStaticLayout::MeasureAbsolute(LayoutObject* renderer,
   w -= renderer->style().margin_left_ + renderer->style().margin_right_;
   h -= renderer->style().margin_top_ + renderer->style().margin_bottom_;
 
-  base::Size size = renderer->Measure(
+  renderer->Measure(
       base::Size::Descriptor::Make(w, base::Size::Descriptor::AT_MOST),
       base::Size::Descriptor::Make(h, base::Size::Descriptor::AT_MOST));
 }

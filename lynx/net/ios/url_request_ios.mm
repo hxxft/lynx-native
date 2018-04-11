@@ -1,7 +1,7 @@
 // Copyright 2017 The Lynx Authors. All rights reserved.
 
 #import "net/ios/url_request_ios.h"
-#import "LynxFilePathUtility.h"
+#include "base/file_path_utility.h"
 
 namespace net {
     

@@ -16,7 +16,7 @@ namespace jscore {
         virtual ~LynxObject();
         void Set(std::string name, LynxValue* value);
         void Delete(std::string name);
-        int Size();
+        size_t Size();
         std::string GetName(int index);
         LynxValue* GetProperty(std::string name);
 

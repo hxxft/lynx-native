@@ -25,7 +25,7 @@ namespace lepus {
             return length_;
         }
         
-        int find(const String& other, int index) {
+        long find(const String& other, int index) {
             char *str = strstr(str_+index, other.str_);
             if(str == nullptr)
                 return -1;

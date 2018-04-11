@@ -77,7 +77,6 @@ namespace lynx {
         }
 
         static lepus::Value SetTimingFunction(lepus::Context *context) {
-            int params_count = context->GetParamsSize();
             std::string type = context->GetParam(0)->str_->c_str();
             if (type.compare("LINEAR")) {
                 timing_function_ = 0;

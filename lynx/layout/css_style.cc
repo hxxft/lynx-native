@@ -185,7 +185,7 @@ bool CSSStyle::ToPx(const std::string& value, double& px) {
 
   bool is_px = false;
   std::string px_str = value;
-  int start = value.length() - kPX.length();
+  size_t start = value.length() - kPX.length();
   if (start > 0 && value.find(kPX, start - 1) != std::string::npos) {
     is_px = true;
     px_str = value.substr(0, start);

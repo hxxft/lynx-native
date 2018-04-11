@@ -3,7 +3,7 @@
 #ifndef LYNX_RENDER_OBJECT_PROXY_IOS_H_
 #define LYNX_RENDER_OBJECT_PROXY_IOS_H_
 
-#import "LynxRenderObjectImpl.h"
+#include "base/lynx_render_object_impl.h"
 
 #include <string>
 #include <unordered_set>

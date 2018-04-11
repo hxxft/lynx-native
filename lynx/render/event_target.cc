@@ -13,7 +13,7 @@ void EventTarget::DispatchEvent(const std::string& event, base::ScopedPtr<jscore
     TRACE_EVENT0("renderer", "EventTarget::DispatchEvent");
     EventListenerMap::iterator iter = event_listener_map_.find(event);
     if (iter == event_listener_map_.end()) return;
-    int length = iter->second->size();
+    size_t length = iter->second->size();
     for (int i = 0; i < length; i++) {
         if (target_data_ != NULL) {
             (*iter->second)[i]->function_->Run(target_data_, args.Get());
@@ -45,7 +45,7 @@ void EventTarget::RemoveEventListener(const std::string& event,
     base::ScopedVector<EventListener>::iterator vec_iter =
                                                     iter->second->begin();
 
-    for (vec_iter; vec_iter != iter->second->end(); vec_iter++) {
+    for (; vec_iter != iter->second->end(); vec_iter++) {
         if ((*vec_iter)->function_->GetKey().compare(function->GetKey()) == 0) {
             iter->second->erase(vec_iter);
             break;

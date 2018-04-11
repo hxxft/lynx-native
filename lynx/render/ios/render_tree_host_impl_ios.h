@@ -5,7 +5,7 @@
 
 #include "render/render_tree_host_impl.h"
 
-#import "LynxRenderTreeHostImpl.h"
+#include "base/lynx_render_tree_host_impl.h"
 
 namespace lynx {
     class RenderTreeHostImplIOS : public RenderTreeHostImpl, public RenderTreeHostImpl::VSyncListener {
