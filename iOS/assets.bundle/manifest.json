@@ -1,15 +1,37 @@
 {
-  "application": {
-    "packageName": "com.Example",
-    "icon": "icon.png",
-    "name": "Example",
-    "versionCode": "",
-    "versionName": "",
-    "mainPage": "App.vue",
-    "pages": [
-      {
-        "name": "App.vue"
-      }
-    ]
-  }
+    "debug": "true",
+    "application": {
+        "packageName": "com.AirQ",
+        "icon": "air_cond_icon.png",
+        "name": "Air Q",
+        "versionCode": "",
+        "versionName": "",
+        "mainPage": "Home.vue",
+        "pages": [
+            {
+                "name": "Launch.vue",
+                "screenOrientation": ""
+            },
+            {
+                "name": "App.vue",
+                "screenOrientation": ""
+            },
+            {
+                "name": "Gallery.vue",
+                "screenOrientation": ""
+            },
+            {
+                "name": "Swiper.vue",
+                "screenOrientation": ""
+            },
+            {
+                "name": "Coordinator.vue",
+                "screenOrientation": ""
+            },
+            {
+                "name": "Home.vue",
+                "screenOrientation": ""
+            }
+        ]
+    }
 }

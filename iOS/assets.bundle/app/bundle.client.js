@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 11);
+/******/ 	return __webpack_require__(__webpack_require__.s = 12);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -171,7 +171,7 @@ module.exports = function normalizeComponent (
 /* harmony export (immutable) */ __webpack_exports__["a"] = createApp;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__src_App_vue__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__src_App_vue__ = __webpack_require__(6);
  
                 
                 function createApp () { 
@@ -7728,34 +7728,162 @@ setTimeout(function () {
 
 module.exports = Vue$3;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(9), __webpack_require__(10)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(13), __webpack_require__(14)))
 
 /***/ }),
 /* 3 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_Hello_vue__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_Hello_vue__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_DrawerLayout_vue__ = __webpack_require__(7);
 //
 //
 //
 //
 //
 //
+//
+//
+//
+//
+//
+
 
 
 /* harmony default export */ __webpack_exports__["a"] = ({
   data: function data() {
-    return { style: { "container": { "flexDirection": "column", "justifyContent": "center", "alignItems": "center" } } };
+    return { style: { "container": { "flexDirection": "column", "justifyContent": "center", "alignItems": "center" }, "name": { "color": "#bbbbbb", "fontSize": "70", "alignSelf": "center", "fontWeight": "bold", "marginTop": "30", "marginBottom": "30" }, "setting": { "color": "#000000", "fontSize": "40", "marginLeft": "20", "marginTop": "20", "marginBottom": "20" }, "line": { "backgroundColor": "#dddddd", "height": "1", "alignSelf": "stretch" } } };
   },
 
   components: {
-    Hello: __WEBPACK_IMPORTED_MODULE_0__components_Hello_vue__["a" /* default */]
+    Hello: __WEBPACK_IMPORTED_MODULE_0__components_Hello_vue__["a" /* default */],
+    DrawerLayout: __WEBPACK_IMPORTED_MODULE_1__components_DrawerLayout_vue__["a" /* default */]
   }
 });
 
 /***/ }),
 /* 4 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["a"] = ({
+  name: 'DrawerLayout',
+  props: {
+    defaultCloseStateMarginLeft: {
+      type: Number,
+      default: -450
+    },
+    defaultOpenStateMarginLeft: {
+      type: Number,
+      default: 0
+    },
+    defaultCloseStateOpacity: {
+      type: Number,
+      default: 0
+    },
+    defaultOpenStateOpacity: {
+      type: Number,
+      default: 0.5
+    },
+    openState: {
+      type: String,
+      default: 'open'
+    },
+    closeState: {
+      type: String,
+      default: 'close'
+    }
+  },
+  data: function data() {
+    return { style: { "container": { "display": "flex", "position": "fixed", "zIndex": "100", "width": "450", "top": "0", "bottom": "0", "backgroundColor": "#ffffff", "flexDirection": "column" }, "gray": { "position": "fixed", "zIndex": "50", "backgroundColor": "#000000", "opacity": "0.9", "width": "750", "top": "0", "bottom": "0" } },
+      changedMarginLeft: this.defaultCloseStateMarginLeft,
+      startX: 0,
+      changedOpacity: this.defaultCloseStateOpacity,
+      state: this.closeState,
+      dragEnable: false
+    };
+  },
+
+  methods: {
+    openDrawer: function openDrawer() {
+      this.state = this.openState;
+      this.changedMarginLeft = this.defaultOpenStateMarginLeft;
+      this.changedOpacity = this.defaultOpenStateOpacity;
+    },
+    closeDrawer: function closeDrawer() {
+      this.state = this.closeState;
+      this.changedMarginLeft = this.defaultCloseStateMarginLeft;
+      this.changedOpacity = this.defaultCloseStateOpacity;
+    },
+    onTouchStart: function onTouchStart(e) {
+      this.startX = e.touches[0].clientX;
+      // Check drag enabled
+      if (this.startX > 1 && this.state == this.closeState) {
+        this.dragEnable = false;
+      } else {
+        this.dragEnable = true;
+      }
+    },
+    onTouchEnd: function onTouchEnd(e) {
+      if (this.changedMarginLeft > this.defaultCloseStateMarginLeft / 2) {
+        this.openDrawer();
+      } else {
+        this.closeDrawer();
+      }
+    },
+    onTouchMove: function onTouchMove(e) {
+      if (!this.dragEnable) return;
+      // Change margin left to drag
+      var moveX = e.touches[0].clientX - this.startX;
+      var tempMarginLeft = 0;
+      if (this.state == this.openState) {
+        tempMarginLeft = moveX + this.defaultOpenStateMarginLeft;
+      } else if (this.state == this.closeState) {
+        tempMarginLeft = moveX + this.defaultCloseStateMarginLeft;
+      }
+      if (tempMarginLeft > this.defaultOpenStateMarginLeft) {
+        tempMarginLeft = this.defaultOpenStateMarginLeft;
+      } else if (tempMarginLeft < this.defaultCloseStateMarginLeft) {
+        tempMarginLeft = this.defaultCloseStateMarginLeft;
+      }
+      this.changedMarginLeft = tempMarginLeft;
+      // Change opacity
+      this.changedOpacity = (1 - tempMarginLeft / this.defaultCloseStateMarginLeft) / 2;
+    },
+    onOutSideClick: function onOutSideClick(e) {
+      if (this.state == this.openState) {
+        this.closeDrawer();
+      }
+    }
+  }
+});
+
+/***/ }),
+/* 5 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -7777,12 +7905,12 @@ module.exports = Vue$3;
 });
 
 /***/ }),
-/* 5 */
+/* 6 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_lynx_vue_loader_lib_selector_type_script_index_0_App_vue__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_lynx_vue_loader_lib_template_compiler_index_id_data_v_6f3c9df3_hasScoped_false_transformToRequire_video_src_source_src_img_src_image_xlink_href_preserveWhitespace_false_node_modules_lynx_vue_loader_lib_selector_type_template_index_0_App_vue__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_lynx_vue_loader_lib_template_compiler_index_id_data_v_6f3c9df3_hasScoped_false_transformToRequire_video_src_source_src_img_src_image_xlink_href_preserveWhitespace_false_node_modules_lynx_vue_loader_lib_selector_type_template_index_0_App_vue__ = __webpack_require__(10);
 var disposed = false
 var normalizeComponent = __webpack_require__(0)
 /* script */
@@ -7820,12 +7948,55 @@ if (false) {(function () {
 
 
 /***/ }),
-/* 6 */
+/* 7 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_lynx_vue_loader_lib_selector_type_script_index_0_Hello_vue__ = __webpack_require__(4);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_lynx_vue_loader_lib_template_compiler_index_id_data_v_37d2d212_hasScoped_false_transformToRequire_video_src_source_src_img_src_image_xlink_href_preserveWhitespace_false_node_modules_lynx_vue_loader_lib_selector_type_template_index_0_Hello_vue__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_lynx_vue_loader_lib_selector_type_script_index_0_DrawerLayout_vue__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_lynx_vue_loader_lib_template_compiler_index_id_data_v_aeba5134_hasScoped_false_transformToRequire_video_src_source_src_img_src_image_xlink_href_preserveWhitespace_false_node_modules_lynx_vue_loader_lib_selector_type_template_index_0_DrawerLayout_vue__ = __webpack_require__(11);
+var disposed = false
+var normalizeComponent = __webpack_require__(0)
+/* script */
+
+/* template */
+
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_lynx_vue_loader_lib_selector_type_script_index_0_DrawerLayout_vue__["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_1__node_modules_lynx_vue_loader_lib_template_compiler_index_id_data_v_aeba5134_hasScoped_false_transformToRequire_video_src_source_src_img_src_image_xlink_href_preserveWhitespace_false_node_modules_lynx_vue_loader_lib_selector_type_template_index_0_DrawerLayout_vue__["a" /* default */],
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "src/components/DrawerLayout.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] DrawerLayout.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-aeba5134", Component.options)
+  } else {
+    hotAPI.reload("data-v-aeba5134", Component.options)
+  }
+})()}
+
+/* harmony default export */ __webpack_exports__["a"] = (Component.exports);
+
+
+/***/ }),
+/* 8 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_lynx_vue_loader_lib_selector_type_script_index_0_Hello_vue__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_lynx_vue_loader_lib_template_compiler_index_id_data_v_37d2d212_hasScoped_false_transformToRequire_video_src_source_src_img_src_image_xlink_href_preserveWhitespace_false_node_modules_lynx_vue_loader_lib_selector_type_template_index_0_Hello_vue__ = __webpack_require__(9);
 var disposed = false
 var normalizeComponent = __webpack_require__(0)
 /* script */
@@ -7863,7 +8034,7 @@ if (false) {(function () {
 
 
 /***/ }),
-/* 7 */
+/* 9 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -7886,7 +8057,7 @@ if (false) {
 }
 
 /***/ }),
-/* 8 */
+/* 10 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -7896,7 +8067,13 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     attrs: {
       "id": "app"
     }
-  }, [_c('Hello')], 1)
+  }, [_c('drawer-layout', [_c('label', {
+    staticClass: "name"
+  }, [_vm._v("Lynx")]), _c('view', {
+    staticClass: "line"
+  }), _c('label', {
+    staticClass: "setting"
+  }, [_vm._v("Setting")])]), _c('hello')], 1)
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -7910,7 +8087,62 @@ if (false) {
 }
 
 /***/ }),
-/* 9 */
+/* 11 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('view', [_c('view', {
+    ref: "container",
+    staticClass: "container",
+    style: ({
+      marginLeft: _vm.changedMarginLeft
+    }),
+    on: {
+      "touchstart": _vm.onTouchStart,
+      "touchend": _vm.onTouchEnd,
+      "touchmove": _vm.onTouchMove
+    }
+  }, [_vm._t("default")], 2), _c('view', {
+    staticClass: "gray",
+    style: ({
+      opacity: _vm.changedOpacity
+    }),
+    on: {
+      "click": _vm.onOutSideClick,
+      "touchstart": _vm.onTouchStart,
+      "touchend": _vm.onTouchEnd,
+      "touchmove": _vm.onTouchMove
+    }
+  })])
+}
+var staticRenderFns = []
+render._withStripped = true
+var esExports = { render: render, staticRenderFns: staticRenderFns }
+/* harmony default export */ __webpack_exports__["a"] = (esExports);
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-aeba5134", esExports)
+  }
+}
+
+/***/ }),
+/* 12 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__app_js__ = __webpack_require__(1);
+// client-entry
+
+
+const { app } = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__app_js__["a" /* createApp */])()
+app.$mount('#app')
+
+
+/***/ }),
+/* 13 */
 /***/ (function(module, exports) {
 
 // shim for using process in browser
@@ -8100,7 +8332,7 @@ process.umask = function() { return 0; };
 
 
 /***/ }),
-/* 10 */
+/* 14 */
 /***/ (function(module, exports) {
 
 var g;
@@ -8124,20 +8356,6 @@ try {
 // easier to handle this case. if(!global) { ...}
 
 module.exports = g;
-
-
-/***/ }),
-/* 11 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__app_js__ = __webpack_require__(1);
-// client-entry
-
-
-const { app } = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__app_js__["a" /* createApp */])()
-app.$mount('#app')
 
 
 /***/ })

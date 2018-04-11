@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		420B8AD01F7E2D3A005717FB /* LynxPageInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 420B8ACF1F7E2D3A005717FB /* LynxPageInfo.m */; };
+		421438CC207DB07000ECF750 /* logging.cc in Sources */ = {isa = PBXBuildFile; fileRef = 421438CB207DB07000ECF750 /* logging.cc */; };
+		421438CF207DB6E700ECF750 /* string_utils.cc in Sources */ = {isa = PBXBuildFile; fileRef = 421438CD207DB6E600ECF750 /* string_utils.cc */; };
 		4239864B1F793F42008775F6 /* LynxFilePathUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 4239864A1F793F42008775F6 /* LynxFilePathUtility.m */; };
 		4239BA281F7C988600AC9DC5 /* LynxApplicationInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 4239BA271F7C988600AC9DC5 /* LynxApplicationInfo.m */; };
 		423E18721F0639D100813438 /* jsc_context.cc in Sources */ = {isa = PBXBuildFile; fileRef = 423E18701F0639D100813438 /* jsc_context.cc */; };
@@ -209,6 +211,10 @@
 /* Begin PBXFileReference section */
 		420B8ACE1F7E2D3A005717FB /* LynxPageInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LynxPageInfo.h; sourceTree = "<group>"; };
 		420B8ACF1F7E2D3A005717FB /* LynxPageInfo.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LynxPageInfo.m; sourceTree = "<group>"; };
+		421438CA207DB07000ECF750 /* logging.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = logging.h; sourceTree = "<group>"; };
+		421438CB207DB07000ECF750 /* logging.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = logging.cc; sourceTree = "<group>"; };
+		421438CD207DB6E600ECF750 /* string_utils.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = string_utils.cc; sourceTree = "<group>"; };
+		421438CE207DB6E600ECF750 /* string_utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = string_utils.h; sourceTree = "<group>"; };
 		423986491F793E5B008775F6 /* LynxFilePathUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LynxFilePathUtility.h; sourceTree = "<group>"; };
 		4239864A1F793F42008775F6 /* LynxFilePathUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LynxFilePathUtility.m; sourceTree = "<group>"; };
 		4239BA271F7C988600AC9DC5 /* LynxApplicationInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LynxApplicationInfo.m; sourceTree = "<group>"; };
@@ -677,6 +683,15 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		421438C9207DB07000ECF750 /* log */ = {
+			isa = PBXGroup;
+			children = (
+				421438CA207DB07000ECF750 /* logging.h */,
+				421438CB207DB07000ECF750 /* logging.cc */,
+			);
+			path = log;
+			sourceTree = "<group>";
+		};
 		4239BA261F7C983C00AC9DC5 /* App */ = {
 			isa = PBXGroup;
 			children = (
@@ -764,6 +779,8 @@
 		42CA2DB71E60269900E1200E /* string */ = {
 			isa = PBXGroup;
 			children = (
+				421438CD207DB6E600ECF750 /* string_utils.cc */,
+				421438CE207DB6E600ECF750 /* string_utils.h */,
 				BC5D48FF2066448300424ABA /* string_number_convert.cc */,
 				BC5D49002066448300424ABA /* string_number_convert.h */,
 				42CA2DB81E60269900E1200E /* platform_string.h */,
@@ -1362,6 +1379,7 @@
 		BCF6EB251E49FF2D00FCD189 /* base */ = {
 			isa = PBXGroup;
 			children = (
+				421438C9207DB07000ECF750 /* log */,
 				BC5D48972063B5C500424ABA /* trace_event */,
 				BC5D488C2063B5AD00424ABA /* compiler_specific.h */,
 				BC6D1D361F55C3E0007DD652 /* debug */,
@@ -1750,6 +1768,7 @@
 				BC6D1CE31F558C38007DD652 /* lynx_value.cc in Sources */,
 				BC6D1CE91F558C7D007DD652 /* object_template.cc in Sources */,
 				BC31B0201F6273A500C0234C /* LynxUIUpdateDataAction.m in Sources */,
+				421438CC207DB07000ECF750 /* logging.cc in Sources */,
 				423E18721F0639D100813438 /* jsc_context.cc in Sources */,
 				BC6D1D3D1F55C3E0007DD652 /* memory_tracker.cc in Sources */,
 				BC9D343E1E1DEC92009BD30A /* main.m in Sources */,
@@ -1787,6 +1806,7 @@
 				BC6D1D171F55C327007DD652 /* render_token.cc in Sources */,
 				BC31B00A1F611D5200C0234C /* LynxUIAction.m in Sources */,
 				4273CC4D1F0012CD00321655 /* event_target.cc in Sources */,
+				421438CF207DB6E700ECF750 /* string_utils.cc in Sources */,
 				BC41C2EB1F04FD0E00EB4BA3 /* history.cc in Sources */,
 				4273CC441F00036800321655 /* command_collector.cc in Sources */,
 				BCF6EC031E49FF2D00FCD189 /* css_layout.cc in Sources */,

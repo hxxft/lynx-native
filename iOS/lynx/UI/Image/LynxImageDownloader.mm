@@ -21,6 +21,8 @@
     SDWebImageManager *manager = [SDWebImageManager sharedManager];
     
     NSString* path = [LynxFilePathUtility toFilePath:url];
+    if(path == nil)
+        return false;
     NSURL* ns_url = [NSURL fileURLWithPath:path];
     [manager loadImageWithURL:ns_url
                           options:SDWebImageRetryFailed

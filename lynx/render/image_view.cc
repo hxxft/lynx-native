@@ -8,8 +8,12 @@
 
 namespace lynx {
 const static char* kImageSrcAttribute = "src";
+#if OS_ANDROID
 const std::string kAssets = "Asset://assets/";
-
+#elif OS_IOS
+const std::string kAssets = "Assets://assets.bundle/assets/";
+#endif
+    
 ImageView::ImageView(const char *tag_name,
                      uint64_t id,
                      RenderTreeHost *host)

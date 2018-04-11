@@ -83,10 +83,7 @@ LogMessage::~LogMessage() {
     }
     __android_log_write(priority, "lynx", str_newline.c_str());
 #elif defined(OS_IOS)
-    printf("lynx");
-    printf(": ");
-    printf(__VA_ARGS__);
-    putchar('\n');
+      printf("lynx: %s\n", str_newline.c_str());
 #endif
   }
 

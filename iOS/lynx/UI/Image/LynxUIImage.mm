@@ -44,6 +44,7 @@
 }
 
 - (void) setImageUrl:(NSString *) url {
+    NSLog(@"%@\n", url);
     [[ImageDownLoader shareInstance] downloadImage: url
                                               then:^(UIImage* image){
                                                     [((UIImageView *) self.view) setImage:image];
