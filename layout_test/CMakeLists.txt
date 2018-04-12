@@ -18,6 +18,7 @@ include_directories(${CMAKE_SOURCE_DIR}/../layout_test/cxx)
 add_library(layout_test
     ${CMAKE_SOURCE_DIR}/../lynx/third_party/googletest/src/gtest-all.cc
     ${CMAKE_SOURCE_DIR}/../lynx/base/string/string_number_convert.cc
+    ${CMAKE_SOURCE_DIR}/../lynx/base/string/string_utils.cc
     ${CMAKE_SOURCE_DIR}/../lynx/layout/container_node.cc
     ${CMAKE_SOURCE_DIR}/../lynx/layout/container_node.h 
     ${CMAKE_SOURCE_DIR}/../lynx/layout/css_color.cc
