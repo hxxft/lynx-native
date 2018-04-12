@@ -152,6 +152,12 @@ public class AndroidScrollView extends ScrollView {
             return false;
         }
     }
+    
+    @Override
+    public void setPadding(int left, int top, int right, int bottom) {
+        mLinearLayout.setPadding(left, top, right, bottom);
+
+    }
 
     public void setOnScrollListener(OnScrollListener listener) {
         mOnScrollListener = listener;
