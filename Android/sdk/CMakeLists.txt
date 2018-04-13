@@ -73,6 +73,7 @@ add_library(lynx SHARED
                 ${CMAKE_SOURCE_DIR}/../../lynx/base/log/logging.cc
                 ${CMAKE_SOURCE_DIR}/../../lynx/base/observer/observer_list.cc
                 ${CMAKE_SOURCE_DIR}/../../lynx/base/string/string_number_convert.cc
+                ${CMAKE_SOURCE_DIR}/../../lynx/base/string/string_utils.cc
             	${CMAKE_SOURCE_DIR}/../../lynx/base/threading/thread.cc
             	${CMAKE_SOURCE_DIR}/../../lynx/base/threading/message_loop.cc
             	${CMAKE_SOURCE_DIR}/../../lynx/base/threading/message_pump_posix.cc
