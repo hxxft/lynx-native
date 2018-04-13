@@ -11,9 +11,25 @@ static NSString* ASSETS_PROTOCOL = @"Assets://";
 }
 
 + (NSString*)toFilePath:(NSString*) fileUrl {
+    
     NSString* fileType = [fileUrl pathExtension];
+    
     NSString* filePath = [[fileUrl stringByDeletingPathExtension]substringFromIndex:ASSETS_PROTOCOL.length-1];
-    return [[NSBundle mainBundle] pathForResource:filePath ofType:fileType];
+    
+    NSBundle * bundle = [NSBundle mainBundle];
+    
+    if ([filePath containsString:@".bundle"]) {
+        
+        NSArray<NSString *> * pathArray =  [filePath componentsSeparatedByString:@"bundle"];
+        
+        NSString * bundlePath = [pathArray.firstObject substringToIndex:(pathArray.firstObject.length-1)];
+        
+        bundle =  [NSBundle bundleWithPath:[[NSBundle mainBundle] pathForResource:bundlePath ofType:@"bundle"]];
+        
+        filePath =  (pathArray.count > 1) ? pathArray[1] : filePath;
+    }
+    
+    return [bundle pathForResource:filePath ofType:fileType];
 }
 
 @end
