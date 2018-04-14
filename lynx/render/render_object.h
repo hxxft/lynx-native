@@ -47,6 +47,12 @@ class RenderObject : public LayoutObject, public EventTarget {
   virtual void RegisterEvent(const std::string& event,
                              RegisterEventType type) override;
 
+  // override virtual method in LayoutObject
+  base::Size Measure(int width_descriptor,
+                     int height_descriptor) override final;
+  void Layout(int left, int top, int right, int bottom) override;
+
+
   virtual void SetText(const std::string& text);
   const std::string& GetText() { return text_; }
 
@@ -72,17 +78,6 @@ class RenderObject : public LayoutObject, public EventTarget {
 
   inline std::string& tag_name() { return tag_name_; }
 
-  inline void set_offset_top(int offset_top) { offset_top_ = offset_top; }
-
-  inline void set_offset_left(int offset_left) { offset_left_ = offset_left; }
-
-  inline int offset_top() { return offset_top_; }
-
-  inline int offset_left() { return offset_left_; }
-
-  inline int offset_width() { return offset_width_; }
-
-  inline int offset_height() { return offset_height_; }
 
   inline void set_scroll_height(int scroll_height) {
     scroll_height_ = scroll_height;
@@ -151,10 +146,6 @@ class RenderObject : public LayoutObject, public EventTarget {
   };
 
  protected:
-  base::Size Measure(int width_descriptor,
-                     int height_descriptor) override final;
-  void Layout(int left, int top, int right, int bottom) override final;
-
   void GetVisibleChildren(RenderObject* renderer,
                           std::vector<RenderObject*>& visible_chidren);
   int GetVisibleChildrenLength(RenderObject* renderer);

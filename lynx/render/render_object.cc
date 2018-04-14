@@ -154,8 +154,9 @@ void RenderObject::RecalculateLayoutPosition(base::Position& position) {
   }
 }
 
+
 base::Size RenderObject::Measure(int width_descriptor, int height_descriptor) {
-  if (ShouldRemeasure(width_descriptor, height_descriptor) || IsDirty()) {
+  if (NeedRemeasure(width_descriptor, height_descriptor)) {
     measured_size_ = OnMeasure(width_descriptor, height_descriptor);
     if (!IsInvisible()) {
       base::Size size(base::Size::Descriptor::GetSize(measured_size_.width_),
@@ -169,13 +170,13 @@ base::Size RenderObject::Measure(int width_descriptor, int height_descriptor) {
 }
 
 void RenderObject::Layout(int left, int top, int right, int bottom) {
-  if (measured_position_.NeedToReset(left, top, right, bottom) &&
+  if (!measured_position_.Equal(left, top, right, bottom) &&
       !IsInvisible()) {
-    base::Position position(left, top, right, bottom);
-    RecalculateLayoutPosition(position);
-    RenderCommand* cmd = lynx_new RendererPosUpdateCommand(
-        impl(), position, RenderCommand::CMD_SET_POSITION);
-    render_tree_host_->UpdateRenderObject(cmd);
+      base::Position position(left, top, right, bottom);
+      RecalculateLayoutPosition(position);
+      RenderCommand* cmd = lynx_new RendererPosUpdateCommand(
+                                                             impl(), position, RenderCommand::CMD_SET_POSITION);
+      render_tree_host_->UpdateRenderObject(cmd);
   }
   LayoutObject::Layout(left, top, right, bottom);
 }

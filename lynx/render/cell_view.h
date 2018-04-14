@@ -14,6 +14,7 @@ class CellView : public View {
 
  protected:
   virtual void OnLayout(int left, int top, int right, int bottom) override;
+  virtual void Layout(int left, int top, int right, int bottom) override;
 };
 }  // namespace lynx
 

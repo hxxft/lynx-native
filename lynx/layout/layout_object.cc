@@ -31,7 +31,7 @@ void LayoutObject::RemoveChild(ContainerNode* child) {
 }
 
 base::Size LayoutObject::Measure(int width_descriptor, int height_descriptor) {
-  if (ShouldRemeasure(width_descriptor, height_descriptor) || IsDirty()) {
+  if (NeedRemeasure(width_descriptor, height_descriptor)) {
     measured_size_ = OnMeasure(width_descriptor, height_descriptor);
   }
   return measured_size_;
@@ -62,7 +62,7 @@ void LayoutObject::OnLayout(int left, int top, int right, int bottom) {
 }
 
 void LayoutObject::ReLayout(int left, int top, int right, int bottom) {
-  if (measured_position_.NeedToReset(left, top, right, bottom)) {
+  if (!measured_position_.Equal(left, top, right, bottom)) {
     Dirty();
   }
   if (IsDirty()) {
@@ -92,9 +92,9 @@ bool LayoutObject::IsDirty() {
   return layout_state_ == LAYOUT_STATE_DIRTY;
 }
 
-bool LayoutObject::ShouldRemeasure(int width_descriptor,
-                                   int height_descriptor) {
+bool LayoutObject::NeedRemeasure(int width_descriptor, int height_descriptor) {
   return last_measured_size_from_parent_.Update(width_descriptor,
-                                                height_descriptor);
+                                                height_descriptor) ||
+         IsDirty();
 }
 }  // namespace lynx

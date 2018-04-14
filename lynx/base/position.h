@@ -9,94 +9,78 @@ namespace base {
 
 class Position {
  public:
-    Position():
-        left_(0), top_(0), right_(0), bottom_(0) {}
+  Position() : left_(0), top_(0), right_(0), bottom_(0) {}
 
-    Position(int l, int t, int r, int b) :
-        left_(l),
-        top_(t),
-        right_(r),
-        bottom_(b) {
-        }
+  Position(int l, int t, int r, int b)
+      : left_(l), top_(t), right_(r), bottom_(b) {}
 
-    Position(const Position& pos):
-        left_(pos.left_),
+  Position(const Position& pos)
+      : left_(pos.left_),
         top_(pos.top_),
         right_(pos.right_),
-        bottom_(pos.bottom_) {
-        }
+        bottom_(pos.bottom_) {}
 
-    ~Position() {}
+  ~Position() {}
 
-    void Update(Vector2D& vec) {
-        left_ += vec.x();
-        top_ += vec.y();
-        right_ += vec.x();
-        bottom_ += vec.y();
+  void Update(Vector2D& vec) {
+    left_ += vec.x();
+    top_ += vec.y();
+    right_ += vec.x();
+    bottom_ += vec.y();
+  }
+
+  Vector2D Offset() { return Vector2D(left_, top_); }
+
+  bool Reset(const Position& position) {
+    if (left_ == position.left_ && top_ == position.top_ &&
+        right_ == position.right_ && bottom_ == position.bottom_) {
+      return false;
     }
 
-    Vector2D Offset() {
-        return Vector2D(left_, top_);
+    left_ = position.left_;
+    top_ = position.top_;
+    right_ = position.right_;
+    bottom_ = position.bottom_;
+    return true;
+  }
+
+  bool Reset(int left, int top, int right, int bottom) {
+    if (left_ == left && top_ == top && right_ == right && bottom_ == bottom) {
+      return false;
     }
 
-    bool Reset(const Position& position) {
-        if (left_ == position.left_ &&
-                top_ == position.top_ &&
-                right_ == position.right_ &&
-                bottom_ == position.bottom_) {
-            return false;
-        }
+    left_ = left;
+    top_ = top;
+    right_ = right;
+    bottom_ = bottom;
+    return true;
+  }
 
-        left_ = position.left_;
-        top_ = position.top_;
-        right_ = position.right_;
-        bottom_ = position.bottom_;
-        return true;
-    }
+  bool Equal(int left, int top, int right, int bottom) {
+    return (left_ == left && top_ == top && right_ == right &&
+             bottom_ == bottom);
+  }
 
-    bool Reset(int left, int top, int right, int bottom) {
-        if (left_ == left &&
-                top_ == top &&
-                right_ == right &&
-                bottom_ == bottom) {
-            return false;
-        }
+  inline int GetWidth() const {
+    int width = right_ - left_;
+    return width > 0 ? width : 0;
+  }
 
-        left_ = left;
-        top_ = top;
-        right_ = right;
-        bottom_ = bottom;
-        return true;
-    }
+  inline int GetHeight() const {
+    int height = bottom_ - top_;
+    return height > 0 ? height : 0;
+  }
 
-    bool NeedToReset(int left, int top, int right, int bottom) {
-        return !(left_ == left &&
-            top_ == top &&
-            right_ == right &&
-            bottom_ == bottom);
-    }
-
-    inline int GetWidth() const {
-        int width = right_ - left_;
-        return width > 0 ? width : 0;
-    }
-
-    inline int GetHeight() const {
-        int height = bottom_ - top_;
-        return height > 0 ? height : 0;
-    }
-
-    inline bool IsEmpty() const {
-        return !(left_ || top_ || right_ || bottom_) ||
-        GetWidth() == 0 || GetHeight() == 0;
-    }
-
+  inline bool IsEmpty() const {
+    return !(left_ || top_ || right_ || bottom_) || GetWidth() == 0 ||
+           GetHeight() == 0;
+  }
 
  public:
-    int left_;
-    int top_;
-    int right_;
-    int bottom_;
+  int left_;
+  int top_;
+  int right_;
+  int bottom_;
 };
 
 }  // namespace base

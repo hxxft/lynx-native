@@ -14,6 +14,10 @@ CellView::CellView(jscore::ThreadManager* manager, RenderTreeHost* host)
   style_.set_flex_direction(CSSFLEX_DIRECTION_COLUMN);
 }
 
+void CellView::Layout(int left, int top, int right, int bottom) {
+  RenderObject::Layout(0, 0, right - left, bottom - top);
+}
+
 void CellView::OnLayout(int left, int top, int right, int bottom) {
   LayoutObject::OnLayout(0, 0, right - left, bottom - top);
   if (GetChildCount() > 0) {

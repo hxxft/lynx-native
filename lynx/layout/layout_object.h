@@ -25,9 +25,7 @@ class LayoutObject : public ContainerNode {
     style_.SetValue(key, value);
   }
 
-  void SetStyle(const CSSStyle& style) {
-    style_ = style;
-  }
+  void SetStyle(const CSSStyle& style) { style_ = style; }
 
   const CSSStyle& style() { return style_; }
 
@@ -39,10 +37,31 @@ class LayoutObject : public ContainerNode {
 
   bool IsDirty();
 
-  int offset_top() { return offset_top_; }
-  int offset_left() { return offset_left_; }
-  int offset_width() { return offset_width_; }
-  int offset_height() { return offset_height_; }
+  inline void set_offset_top(int offset_top) { offset_top_ = offset_top; }
+
+  inline void set_offset_left(int offset_left) { offset_left_ = offset_left; }
+
+  inline int offset_top() { return offset_top_; }
+
+  inline int offset_left() { return offset_left_; }
+
+  inline int offset_width() { return offset_width_; }
+
+  inline int offset_height() { return offset_height_; }
+
+  friend class CSSStaticLayout;
+  virtual base::Size Measure(int width_descriptor, int height_descriptor);
+
+  // Subclasses should override onMeasure(int, int) to provide
+  // a measurements of their content.
+  virtual base::Size OnMeasure(int width_descriptor, int height_descriptor);
+
+  // if you want to modify postion, override this function
+  virtual void Layout(int left, int top, int right, int bottom);
+
+  // Called from layout when this node should assign a position to each of its
+  // children. if you want to use new layout mode, override this function
+  virtual void OnLayout(int left, int top, int right, int bottom);
 
  protected:
   enum LAYOUT_STATE {
@@ -52,20 +71,7 @@ class LayoutObject : public ContainerNode {
 
   void UpToDate();
 
-  bool ShouldRemeasure(int width, int height);
-
-  friend class CSSStaticLayout;
-  virtual base::Size Measure(int width_descriptor, int height_descriptor);
-
-  // Subclasses should override onMeasure(int, int) to provide
-  // a measurements of their content.
-  virtual base::Size OnMeasure(int width_descriptor, int height_descriptor);
-
-  virtual void Layout(int left, int top, int right, int bottom);
-
-  // Called from layout when this node should assign a position to each of its
-  // children.
-  virtual void OnLayout(int left, int top, int right, int bottom);
+  bool NeedRemeasure(int width, int height);
 
   base::Size measured_size_;
   base::Position measured_position_;

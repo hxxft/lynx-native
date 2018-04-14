@@ -16,8 +16,7 @@ SwiperView::SwiperView(jscore::ThreadManager* manager,
            host) {}
 
 base::Size SwiperView::OnMeasure(int width, int height) {
-  if (!ShouldRemeasure(width, height) || !IsDirty())
-    return measured_size_;
+    
   measured_size_.height_ = 0;
   measured_size_.width_ = 0;
   base::Size measured_size;
@@ -35,13 +34,10 @@ base::Size SwiperView::OnMeasure(int width, int height) {
 }
 
 void SwiperView::OnLayout(int left, int top, int right, int bottom) {
-  LayoutObject::OnLayout(left, top, right, bottom);
-  if (IsDirty()) {
+    
     for (int i = 0; i < GetChildCount(); i++) {
-      CSSStaticLayout::Layout(static_cast<LayoutObject*>(Find(i)), right - left,
-                              bottom - top);
+        static_cast<LayoutObject*>(Find(i))->OnLayout(left, top, right, bottom);
     }
-  }
 }
 
 }  // namespace lynx
