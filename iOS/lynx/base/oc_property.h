@@ -5,33 +5,33 @@
 
 #import <Foundation/Foundation.h>
 
-enum LYXOcPropertyType {
-    LYXOcNoType = 0,
-    LYXOcVoidType = 'v',
-    LYXOcIntType = 'i',
-    LYXOcCharType = 'c',
-    LYXOcShortType = 's',
-    LYXOcLongType = 'l',
-    LYXOcLonglongType = 'q',
-    LYXOcFloatType = 'f',
-    LYXOcDoubleType = 'd',
-    LYXOcBoolType = 'b',
-    LYXOcStringType = '*',
-    LYXOcNSStringType = 'S',
-    LYXOcNSNumberType = 'N',
-    LYXOcNSArrayType = 'A',
-    LYXOcNSDictionaryType = 'D'
+enum LxOcPropertyType {
+    LxOcNoType = 0,
+    LxOcVoidType = 'v',
+    LxOcIntType = 'i',
+    LxOcCharType = 'c',
+    LxOcShortType = 's',
+    LxOcLongType = 'l',
+    LxOcLonglongType = 'q',
+    LxOcFloatType = 'f',
+    LxOcDoubleType = 'd',
+    LxOcBoolType = 'b',
+    LxOcStringType = '*',
+    LxOcNSStringType = 'S',
+    LxOcNSNumberType = 'N',
+    LxOcNSArrayType = 'A',
+    LxOcNSDictionaryType = 'D'
 };
 
-@interface LYXOcPropertyInfo : NSObject
+@interface LxOcPropertyInfo : NSObject
 @property(nonatomic, readwrite) NSString* typeStr;
 @property(nonatomic, readwrite) const char* objCType;
 @end
 
-@interface LYXOcProperty : NSObject
+@interface LxOcProperty : NSObject
 
-- (instancetype) initWithInfos:(NSArray<LYXOcPropertyInfo*>*)infos NS_DESIGNATED_INITIALIZER;
-- (instancetype) initWithInfo:(LYXOcPropertyInfo*)info NS_DESIGNATED_INITIALIZER;
+- (instancetype) initWithInfos:(NSArray<LxOcPropertyInfo*>*)infos NS_DESIGNATED_INITIALIZER;
+- (instancetype) initWithInfo:(LxOcPropertyInfo*)info NS_DESIGNATED_INITIALIZER;
 - (NSInteger) length;
 - (NSString*) transformedTypes;
 - (BOOL) isMatchedWith:(NSArray *)args;

@@ -9,7 +9,7 @@
 #include "base/ui_action.h"
 #include "widget/coordinator/transfer_station.h"
 
-@interface LxUIBody : LxUIView<LYXTransferStation>
+@interface LxUIBody : LxUIView<LxTransferStation>
 
 - (void) resetView:(ViewWrapper*)view;
 - (void) collectAction:(LynxUIAction *)action;

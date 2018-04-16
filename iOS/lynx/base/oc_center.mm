@@ -2,9 +2,9 @@
 
 #include "base/oc_center.h"
 
-@implementation LYXOcCenter
+@implementation LxOcCenter
 
-static LYXOcCenter *_singleLeton;
+static LxOcCenter *_singleLeton;
 
 + (instancetype) shareInstance {
     static dispatch_once_t onceToken;
@@ -28,11 +28,11 @@ static LYXOcCenter *_singleLeton;
     return [[_methodMap allKeys] containsObject:clazz];
 }
 
-- (void) registerAsSignatureMethod:(LYXOcMethod *) method {
+- (void) registerAsSignatureMethod:(LxOcMethod *) method {
     [_signatureMethodMap setObject:method forKey:method.signature];
 }
 
-- (void)registerMethod:(LYXOcMethod *)method {
+- (void)registerMethod:(LxOcMethod *)method {
     ClassMethodMap * classMethodMap = _methodMap[method.clazz];
     if (!classMethodMap) {
         classMethodMap = [[NSMutableDictionary alloc] init];
@@ -48,11 +48,11 @@ static LYXOcCenter *_singleLeton;
     [self registerAsSignatureMethod: method];
 }
 
-- (LYXOcMethod *)findMethodWithReceiver:(id)object
+- (LxOcMethod *)findMethodWithReceiver:(id)object
                      andMethod:(NSString *)methodName
                        andArgs:(NSArray *)array {
-    LYXOcMethod *method = nil;
-    NSString* signature = [LYXOcMethod generateSingatureWithReciever:[object class] methodName:methodName args:array];
+    LxOcMethod *method = nil;
+    NSString* signature = [LxOcMethod generateSingatureWithReciever:[object class] methodName:methodName args:array];
     method = _signatureMethodMap[signature];
     if (method) {
         return method;
@@ -63,11 +63,11 @@ static LYXOcCenter *_singleLeton;
     return method;
 }
 
-- (LYXOcMethod *)findMatchedMethodWithReceiver:(id)object
+- (LxOcMethod *)findMatchedMethodWithReceiver:(id)object
                                      andMethod:(NSString *)methodName
                                        andArgs:(NSArray *)args {
     MethodArray *methodArray = _methodMap[[object class]][methodName];
-    for (LYXOcMethod *method in methodArray) {
+    for (LxOcMethod *method in methodArray) {
         if ([[method argumentTypes] isMatchedWith:args]) {
             return method;
         }

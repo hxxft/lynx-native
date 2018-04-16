@@ -22,20 +22,20 @@ static NSString * const kAttrCoordinatorType = @"coordinator-type";
 
 
 @interface LynxUI()
-@property(nonatomic) LYXCrdTypes *coordinatorTypes;
+@property(nonatomic) LxCrdTypes *coordinatorTypes;
 @end
 
 @implementation LynxUI
 
 #pragma mark - LynxUI
 
-LYX_NOT_IMPLEMENTED(- (instancetype)init)
+LX_NOT_IMPLEMENTED(- (instancetype)init)
 
 - (id)initWithRenderObjectImpl:(LynxRenderObjectImpl *) impl {
     self = [super init];
     if (self) {
         _view = [self createView:impl];
-        _coordinatorTreatment = [[LYXCrdTreatment alloc] initWithResponder:self actionExecutor:[[LYXCrdActionExecutor alloc] initWithUI:self]];
+        _coordinatorTreatment = [[LxCrdTreatment alloc] initWithResponder:self actionExecutor:[[LxCrdActionExecutor alloc] initWithUI:self]];
         [self bindRenderObjectImpl:impl];
     }
     return self;
@@ -208,7 +208,7 @@ LYX_NOT_IMPLEMENTED(- (instancetype)init)
     }
 }
 
-#pragma mark - LYXCoordinatorObject
+#pragma mark - LxCoordinatorObject
 
 @synthesize coordinatorTag = _coordinatorTag;
 @synthesize coordinatorAffinity = _coordinatorAffinity;
@@ -239,7 +239,7 @@ LYX_NOT_IMPLEMENTED(- (instancetype)init)
     }
 }
 
-#pragma mark - LYXCoordinatorSponsor
+#pragma mark - LxCoordinatorSponsor
 
 @synthesize coordinatorTypes = _coordinatorTypes;
 
@@ -265,7 +265,7 @@ LYX_NOT_IMPLEMENTED(- (instancetype)init)
 - (void) setCoordinatorType:(NSString *) type {
     if (_coordinatorTypes && type && _coordinatorTypes.rawContent && [_coordinatorTypes.rawContent isEqualToString:type]) return;
     if (type && type.length != 0) {
-        _coordinatorTypes = [[LYXCrdTypes alloc] initWithContent:type];
+        _coordinatorTypes = [[LxCrdTypes alloc] initWithContent:type];
     } else {
         _coordinatorTypes = nil;
     }
@@ -277,7 +277,7 @@ LYX_NOT_IMPLEMENTED(- (instancetype)init)
     }
 }
 
-#pragma mark - LYXCrdResponder
+#pragma mark - LxCrdResponder
 @synthesize coordinatorTreatment = _coordinatorTreatment;
 
 - (void) setCoordinatorCommands:(NSString *) commands {

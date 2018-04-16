@@ -3,17 +3,17 @@
 #include "base/oc_property_transformer.h"
 #import <objc/runtime.h>
 
-@implementation LYXOcPropertyTransformer
+@implementation LxOcPropertyTransformer
 
-+ (NSString *)transformTypes:(NSArray<LYXOcPropertyInfo*> *)infos {
++ (NSString *)transformTypes:(NSArray<LxOcPropertyInfo*> *)infos {
     NSMutableString* types = [[NSMutableString alloc] init];
-    for (LYXOcPropertyInfo *info in infos) {
+    for (LxOcPropertyInfo *info in infos) {
         [types appendString:[self transformType:info]];
     }
     return types;
 }
 
-+ (NSString *)transformType:(LYXOcPropertyInfo*)info {
++ (NSString *)transformType:(LxOcPropertyInfo*)info {
     char type;
     switch(info.objCType[0]) {
         case _C_SHT:
@@ -24,40 +24,40 @@
         case _C_ULNG:
         case _C_LNG_LNG:
         case _C_ULNG_LNG:
-            type = LYXOcIntType;
+            type = LxOcIntType;
             break;
         case _C_FLT:
         case _C_DBL:
-            type = LYXOcDoubleType;
+            type = LxOcDoubleType;
             break;
         case _C_BOOL:
-            type = LYXOcBoolType;
+            type = LxOcBoolType;
             break;
         case _C_CHARPTR:
-            type = LYXOcStringType;
+            type = LxOcStringType;
             break;
         case _C_CHR:
         case _C_UCHR:
-            type = LYXOcCharType;
+            type = LxOcCharType;
             break;
         case _C_ID: {
             if ([info.typeStr isEqualToString:@"NSString"]) {
-                type = LYXOcNSStringType;
+                type = LxOcNSStringType;
             } else if ([info.typeStr isEqualToString:@"NSArray"]) {
-                type = LYXOcNSArrayType;
+                type = LxOcNSArrayType;
             } else if ([info.typeStr isEqualToString:@"NSDictionary"]) {
-                type = LYXOcNSDictionaryType;
+                type = LxOcNSDictionaryType;
             } else if ([info.typeStr isEqualToString:@"NSNumber"]) {
-                type = LYXOcNSNumberType;
+                type = LxOcNSNumberType;
             } else {
-                throw [NSException exceptionWithName:@"LYXOcProperty"
+                throw [NSException exceptionWithName:@"LxOcProperty"
                                               reason:[NSString stringWithFormat:@"Property '%@'not support", info.typeStr]
                                             userInfo:nil];
             }
             break;
         }
         default:
-            throw [NSException exceptionWithName:@"LYXOcProperty"
+            throw [NSException exceptionWithName:@"LxOcProperty"
                                           reason:[NSString stringWithFormat:@"Property '%@'not support", info.typeStr]
                                         userInfo:nil];
             break;
@@ -69,15 +69,15 @@
 + (NSString *)transformTypeForObject:(id)object {
     char type;
     if ([object isKindOfClass:NSNumber.class]) {
-        type = LYXOcNSNumberType;
+        type = LxOcNSNumberType;
     } else if ([object isKindOfClass:NSArray.class]) {
-        type = LYXOcNSArrayType;
+        type = LxOcNSArrayType;
     } else if ([object isKindOfClass:NSDictionary.class]) {
-        type = LYXOcNSDictionaryType;
+        type = LxOcNSDictionaryType;
     } else if ([object isKindOfClass:NSString.class]) {
-        type = LYXOcNSStringType;
+        type = LxOcNSStringType;
     } else {
-        throw [NSException exceptionWithName:@"LYXOcPropertyTransformer"
+        throw [NSException exceptionWithName:@"LxOcPropertyTransformer"
                                       reason:[NSString stringWithFormat:@"Property '%@'not support", NSStringFromClass([object class])]
                                     userInfo:nil];
     }

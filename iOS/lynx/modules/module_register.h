@@ -7,7 +7,7 @@
 
 #include "modules/module_bundle.h"
 
-@interface LYXModuleRegister : NSObject
+@interface LxModuleRegister : NSObject
 
 - (instancetype) initWithRuntime:(LynxRuntime *) runtime NS_DESIGNATED_INITIALIZER;
 @end

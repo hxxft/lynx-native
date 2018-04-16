@@ -5,7 +5,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface LYXDeviceInfoUtil : NSObject
+@interface LxDeviceInfoUtil : NSObject
 
 + (NSString*) deviceInfo;
 

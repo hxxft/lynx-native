@@ -5,7 +5,7 @@
 #include "widget/coordinator/coordinator_transfer_station.h"
 
 @interface LxUIBody()
-@property(nonatomic)  LYXCrdTransferStation *tranferStationImpl;
+@property(nonatomic)  LxCrdTransferStation *tranferStationImpl;
 @end;
 
 @implementation LxUIBody
@@ -15,7 +15,7 @@
 - (id) initWithRenderObjectImpl:(LynxRenderObjectImpl *) impl {
     self = [super initWithRenderObjectImpl:impl];
     if (self) {
-        _tranferStationImpl = [[LYXCrdTransferStation alloc] init];
+        _tranferStationImpl = [[LxCrdTransferStation alloc] init];
     }
     return self;
 }
@@ -38,7 +38,7 @@
     [((LxContentView *)self.view).renderTreeHostImpl collectAction:action];
 }
 
-#pragma mark - LYXTransferStation
+#pragma mark - LxTransferStation
 
 - (void) addExecutableAction:(NSString *) executable
              sponsorAffinity:(NSString *) sponsorAffinity
@@ -58,24 +58,24 @@
     [_tranferStationImpl removeAllExecutableAction];
 }
 
-- (void) addCoordinatorSponsor:(id<LYXCrdSponsor>) sponsor {
+- (void) addCoordinatorSponsor:(id<LxCrdSponsor>) sponsor {
     [_tranferStationImpl addCoordinatorSponsor:sponsor];
 }
 
-- (void) removeCoordinatorSponsor:(id<LYXCrdSponsor>) sponsor {
+- (void) removeCoordinatorSponsor:(id<LxCrdSponsor>) sponsor {
     [_tranferStationImpl removeCoordinatorSponsor:sponsor];
 }
 
-- (void) addCoordinatorResponder:(id<LYXCrdResponder>) responder {
+- (void) addCoordinatorResponder:(id<LxCrdResponder>) responder {
     [_tranferStationImpl addCoordinatorResponder:responder];
 }
 
-- (void) removeCoordinatorResponder:(id<LYXCrdResponder>) responder {
+- (void) removeCoordinatorResponder:(id<LxCrdResponder>) responder {
     [_tranferStationImpl removeCoordinatorResponder:responder];
 }
 
 - (BOOL) dispatchNestedActionType: (NSString *) type
-                          sponsor: (id<LYXCrdSponsor>) child
+                          sponsor: (id<LxCrdSponsor>) child
                            params: (NSArray *) params {
     return [_tranferStationImpl dispatchNestedActionType: type
                                                  sponsor: child

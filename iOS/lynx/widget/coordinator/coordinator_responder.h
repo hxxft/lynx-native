@@ -8,9 +8,9 @@
 #include "widget/coordinator/coordinator_treatment.h"
 #include "widget/coordinator/coordinator_object.h"
 
-@protocol LYXCrdResponder <LYXCrdObject>
+@protocol LxCrdResponder <LxCrdObject>
 @required
-@property(nonatomic, readonly) LYXCrdTreatment *coordinatorTreatment;
+@property(nonatomic, readonly) LxCrdTreatment *coordinatorTreatment;
 
 @end
 

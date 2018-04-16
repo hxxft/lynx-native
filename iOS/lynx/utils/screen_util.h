@@ -6,7 +6,7 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
-@interface LYXScreenUtil : NSObject
+@interface LxScreenUtil : NSObject
 
 @property(nonatomic, readonly, getter = getScreenHeight) CGFloat screenHeight;
 @property(nonatomic, readonly, getter = getScreenWidth) CGFloat screenWidth;

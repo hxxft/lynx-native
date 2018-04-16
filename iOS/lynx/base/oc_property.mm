@@ -7,30 +7,30 @@
 #include "base/defines.h"
 #include "base/oc_property_transformer.h"
 
-#pragma mark -- LYXOcPropertyInfo
-@implementation LYXOcPropertyInfo
+#pragma mark -- LxOcPropertyInfo
+@implementation LxOcPropertyInfo
     
 @end
 
-@implementation LYXOcProperty {
+@implementation LxOcProperty {
     NSString *_signature;
-    NSArray<LYXOcPropertyInfo *> *_infos;
+    NSArray<LxOcPropertyInfo *> *_infos;
 }
 
-LYX_NOT_IMPLEMENTED(- (instancetype) init)
+LX_NOT_IMPLEMENTED(- (instancetype) init)
 
-- (instancetype)initWithInfos:(NSArray<LYXOcPropertyInfo *> *)infos {
+- (instancetype)initWithInfos:(NSArray<LxOcPropertyInfo *> *)infos {
     self = [super init];
     if (self) {
-        _signature = [LYXOcPropertyTransformer transformTypes:infos];
+        _signature = [LxOcPropertyTransformer transformTypes:infos];
     }
     return self;
 }
 
-- (instancetype)initWithInfo:(LYXOcPropertyInfo *)info {
+- (instancetype)initWithInfo:(LxOcPropertyInfo *)info {
     self = [super init];
     if (self) {
-        _signature = [LYXOcPropertyTransformer transformType:info];
+        _signature = [LxOcPropertyTransformer transformType:info];
     }
     return self;
 }
@@ -44,31 +44,31 @@ LYX_NOT_IMPLEMENTED(- (instancetype) init)
 }
 
 - (BOOL)isMatchedWith:(NSArray *)args {
-    NSString *argsType = [LYXOcPropertyTransformer transformTypeForObjects:args];
+    NSString *argsType = [LxOcPropertyTransformer transformTypeForObjects:args];
     if (argsType.length == _signature.length) {
         for (int i = 0; i < argsType.length; ++i) {
             char type = [argsType characterAtIndex:i];
             char wantedType = [_signature characterAtIndex:i];
             if (type == wantedType) continue;
             switch (wantedType) {
-                case LYXOcDoubleType:
-                case LYXOcIntType:
-                case LYXOcBoolType:
-                    if (type != LYXOcNSNumberType)
+                case LxOcDoubleType:
+                case LxOcIntType:
+                case LxOcBoolType:
+                    if (type != LxOcNSNumberType)
                         return NO;
                     break;
-                case LYXOcNSNumberType:
-                    if (!(type == LYXOcBoolType
-                        || type == LYXOcIntType
-                        || type == LYXOcDoubleType))
+                case LxOcNSNumberType:
+                    if (!(type == LxOcBoolType
+                        || type == LxOcIntType
+                        || type == LxOcDoubleType))
                         return NO;
                     break;
-                case LYXOcStringType:
-                    if (type != LYXOcNSStringType)
+                case LxOcStringType:
+                    if (type != LxOcNSStringType)
                         return NO;
                     break;
-                case LYXOcNSArrayType:
-                case LYXOcNSStringType:
+                case LxOcNSArrayType:
+                case LxOcNSStringType:
                 default:
                     break;
             }
@@ -84,22 +84,22 @@ LYX_NOT_IMPLEMENTED(- (instancetype) init)
         char type = [_signature characterAtIndex:index];
         if ([object isKindOfClass:[NSNumber class]]) {
             switch (type) {
-                case LYXOcDoubleType: {
+                case LxOcDoubleType: {
                     double v = ((NSNumber *)object).doubleValue;
                     args[index] = (void *) (double*) &v;
                 }
                     break;
-                case LYXOcIntType: {
+                case LxOcIntType: {
                     int v = ((NSNumber *)object).intValue;
                     args[index] = (void *) (int*) &v;
                 }
                     break;
-                case LYXOcBoolType: {
+                case LxOcBoolType: {
                     BOOL v = ((NSNumber *)object).boolValue;
                     args[index] = (void *) (BOOL*) &v;
                 }
                     break;
-                case LYXOcNSNumberType:
+                case LxOcNSNumberType:
                     args[index] = (__bridge void *)object;
                     break;
                 default:
@@ -107,20 +107,20 @@ LYX_NOT_IMPLEMENTED(- (instancetype) init)
             }
         } else if ([object isKindOfClass:[NSString class]]) {
             switch (type) {
-                case LYXOcStringType:
+                case LxOcStringType:
                     args[index] = (void *)[((NSString *)object) UTF8String];
                     break;
-                case LYXOcNSStringType:
+                case LxOcNSStringType:
                     args[index] = (__bridge void *)object;
                     break;
                 default:
                     break;
             }
         } else if ([object isKindOfClass:[NSArray class]]
-                        && type == LYXOcNSArrayType) {
+                        && type == LxOcNSArrayType) {
             args[index] = (__bridge void *)object;
         } else if ([object isKindOfClass:[NSDictionary class]]
-                        && type == LYXOcNSDictionaryType) {
+                        && type == LxOcNSDictionaryType) {
             args[index] = (__bridge void *)object;
         }
         index++;

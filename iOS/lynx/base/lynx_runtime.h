@@ -34,7 +34,7 @@
 
 - (NSString *) runScript:(NSString *)script;
 
-- (void) addJavaScriptInterface:(LYXFunctionObject *) object withName:(NSString *) name ;
+- (void) addJavaScriptInterface:(LxFunctionObject *) object withName:(NSString *) name ;
 
 - (void) destroy;
 @end

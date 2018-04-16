@@ -5,16 +5,16 @@
 
 #import <Foundation/Foundation.h>
 
-#ifndef LYX_CONCAT
-#define LYX_CONCAT2(A, B) A ## B
-#define LYX_CONCAT(A, B) LYX_CONCAT2(A, B)
+#ifndef LX_CONCAT
+#define LX_CONCAT2(A, B) A ## B
+#define LX_CONCAT(A, B) LX_CONCAT2(A, B)
 #endif
 
-#ifndef LYX_NOT_IMPLEMENTED
-#define LYX_NOT_IMPLEMENTED(method) \
+#ifndef LX_NOT_IMPLEMENTED
+#define LX_NOT_IMPLEMENTED(method) \
 method NS_UNAVAILABLE { \
     NSString *msg = [NSString stringWithFormat:@"%s is not implemented in class %@", sel_getName(_cmd), self.class]; \
-    @throw [NSException exceptionWithName:@"LYXNotDesignatedInitializerException" \
+    @throw [NSException exceptionWithName:@"LxNotDesignatedInitializerException" \
                                    reason:msg \
                                  userInfo:nil]; \
 }

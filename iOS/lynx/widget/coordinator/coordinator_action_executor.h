@@ -8,7 +8,7 @@
 
 #include "render/coordinator/coordinator_action.h"
 
-@interface LYXCrdActionExecutor : NSObject
+@interface LxCrdActionExecutor : NSObject
 
 - (instancetype) initWithUI:(LynxUI *) ui;
 

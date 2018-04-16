@@ -8,16 +8,16 @@
 #include "modules/page_navigator.h"
 
 
-@implementation LYXModuleBundle
+@implementation LxModuleBundle
 
-LYX_NOT_IMPLEMENTED(- (instancetype) init)
+LX_NOT_IMPLEMENTED(- (instancetype) init)
 
 - (instancetype)initWithRuntime:(LynxRuntime *)runtime {
     self = [super init];
     if (self) {
         _modulePacket = [[NSMutableArray alloc] init];
-        [_modulePacket addObject:[[LYXPageNavigator alloc] init]];
-        [_modulePacket addObject:[[LYXCrdRegister alloc] initWithRuntime:runtime]];
+        [_modulePacket addObject:[[LxPageNavigator alloc] init]];
+        [_modulePacket addObject:[[LxCrdRegister alloc] initWithRuntime:runtime]];
     }
     return self;
 }

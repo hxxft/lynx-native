@@ -7,22 +7,22 @@
 
 #include "base/oc_property.h"
 
-typedef struct LYXMethodInfo {
+typedef struct LxMethodInfo {
     const char *const js_name;
     const char *const method;
-} LYXMethodInfo;
+} LxMethodInfo;
 
-@interface LYXOcMethod : NSObject
+@interface LxOcMethod : NSObject
 
 @property(nonatomic, readonly) Class clazz;
-@property(nonatomic, readonly) const LYXMethodInfo * info;
+@property(nonatomic, readonly) const LxMethodInfo * info;
 @property(nonatomic, readonly) NSString *signature;
 @property(nonatomic, readonly) NSString *name;
-@property(nonatomic, readonly) LYXOcProperty *returnType;
-@property(nonatomic, readonly) LYXOcProperty *argumentTypes;
+@property(nonatomic, readonly) LxOcProperty *returnType;
+@property(nonatomic, readonly) LxOcProperty *argumentTypes;
 @property(nonatomic, readonly) SEL selector;
 
-- (instancetype) initWithInfo:(const LYXMethodInfo *)info
+- (instancetype) initWithInfo:(const LxMethodInfo *)info
                      andClass:(Class) clazz NS_DESIGNATED_INITIALIZER;
 
 - (id) invokeWithReceiver:(id) object

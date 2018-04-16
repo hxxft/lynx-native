@@ -4,7 +4,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface LYXCrdTypes : NSObject
+@interface LxCrdTypes : NSObject
 extern NSString * const kCoordinatorType_Scroll;
 extern NSString * const kCoordinatorType_Touch;
 

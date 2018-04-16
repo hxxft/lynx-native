@@ -5,11 +5,11 @@
 #include "utils/pixel_util.h"
 #include "base/defines.h"
 
-@implementation LYXCrdActionExecutor {
+@implementation LxCrdActionExecutor {
     LynxUI *_ui;
 }
 
-LYX_NOT_IMPLEMENTED(- (instancetype) init)
+LX_NOT_IMPLEMENTED(- (instancetype) init)
 
 - (instancetype) initWithUI:(LynxUI *) ui {
     self = [super init];
@@ -65,11 +65,11 @@ LYX_NOT_IMPLEMENTED(- (instancetype) init)
                          CATransform3D transform = CATransform3DIdentity;
 
                          if (action.translate_x_ != lynx::CoordinatorAction::kNotSet) {
-                             transform = CATransform3DTranslate(transform, [LYXPixelUtil lynxNumberToPx:action.translate_x_], 0, 0);
+                             transform = CATransform3DTranslate(transform, [LxPixelUtil lynxNumberToPx:action.translate_x_], 0, 0);
                              isTransformChanged = YES;
                          }
                          if (action.translate_y_ != lynx::CoordinatorAction::kNotSet) {
-                             transform = CATransform3DTranslate(transform, 0, [LYXPixelUtil lynxNumberToPx:action.translate_y_], 0);
+                             transform = CATransform3DTranslate(transform, 0, [LxPixelUtil lynxNumberToPx:action.translate_y_], 0);
                              isTransformChanged = YES;
                          }
                          if (action.scale_x_ != lynx::CoordinatorAction::kNotSet) {
@@ -98,29 +98,29 @@ LYX_NOT_IMPLEMENTED(- (instancetype) init)
                          }
                          CGPoint anchorPoint = view.layer.anchorPoint;
                          if (action.origin_x_ != lynx::CoordinatorAction::kNotSet) {
-                             anchorPoint.x = [LYXPixelUtil lynxNumberToPx:action.origin_x_] / view.frame.size.width;
+                             anchorPoint.x = [LxPixelUtil lynxNumberToPx:action.origin_x_] / view.frame.size.width;
                              isTransformChanged = YES;
                          }
                          if (action.origin_y_ != lynx::CoordinatorAction::kNotSet) {
-                             anchorPoint.y = [LYXPixelUtil lynxNumberToPx:action.origin_y_] / view.frame.size.height;
+                             anchorPoint.y = [LxPixelUtil lynxNumberToPx:action.origin_y_] / view.frame.size.height;
                              isTransformChanged = YES;
                          }
 
                          BOOL isLayoutOffsetChanged = NO;
                          if (action.top_offset_ != lynx::CoordinatorAction::kNotSet) {
-                             [_ui setOffsetTop:[LYXPixelUtil lynxNumberToPx:action.top_offset_]];
+                             [_ui setOffsetTop:[LxPixelUtil lynxNumberToPx:action.top_offset_]];
                              isLayoutOffsetChanged = YES;
                          }
                          if (action.bottom_offset_ != lynx::CoordinatorAction::kNotSet) {
-                             [_ui setOffsetBottom:[LYXPixelUtil lynxNumberToPx:action.bottom_offset_]];
+                             [_ui setOffsetBottom:[LxPixelUtil lynxNumberToPx:action.bottom_offset_]];
                              isLayoutOffsetChanged = YES;
                          }
                          if (action.left_offset_ != lynx::CoordinatorAction::kNotSet) {
-                             [_ui setOffsetLeft:[LYXPixelUtil lynxNumberToPx:action.left_offset_]];
+                             [_ui setOffsetLeft:[LxPixelUtil lynxNumberToPx:action.left_offset_]];
                              isLayoutOffsetChanged = YES;
                          }
                          if (action.right_offset_ != lynx::CoordinatorAction::kNotSet) {
-                             [_ui setOffsetRight:[LYXPixelUtil lynxNumberToPx:action.right_offset_]];
+                             [_ui setOffsetRight:[LxPixelUtil lynxNumberToPx:action.right_offset_]];
                              isLayoutOffsetChanged = YES;
                          }
 

@@ -6,7 +6,7 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
-@interface LYXPixelUtil : NSObject
+@interface LxPixelUtil : NSObject
 
 + (CGFloat) pxToLynxNumber:(CGFloat) px;
 + (CGFloat) lynxNumberToPx:(CGFloat) number;

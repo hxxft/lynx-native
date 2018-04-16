@@ -2,9 +2,9 @@
 
 #include "utils/screen_util.h"
 
-@implementation LYXScreenUtil
+@implementation LxScreenUtil
 
-static LYXScreenUtil *_singleLeton;
+static LxScreenUtil *_singleLeton;
 
 + (instancetype) shareInstance {
     static dispatch_once_t onceToken;

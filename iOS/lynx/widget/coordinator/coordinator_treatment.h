@@ -6,27 +6,27 @@
 #import <Foundation/Foundation.h>
 #include "widget/coordinator/coordinator_cmd_executor.h"
 
-@protocol LYXCrdResponder;
-@class LYXCrdActionExecutor;
+@protocol LxCrdResponder;
+@class LxCrdActionExecutor;
 
-@interface LYXCrdTreatment : NSObject
+@interface LxCrdTreatment : NSObject
 extern NSString * const kAttrCoodinatorCommand;
 
 @property(nonatomic, readwrite, copy) NSString *scrollCommand;
-@property(nonatomic, readonly) id<LYXCrdResponder> responder;
+@property(nonatomic, readonly) id<LxCrdResponder> responder;
 
-- (instancetype)initWithResponder:(id<LYXCrdResponder>) responder actionExecutor:(LYXCrdActionExecutor *) executor NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithResponder:(id<LxCrdResponder>) responder actionExecutor:(LxCrdActionExecutor *) executor NS_DESIGNATED_INITIALIZER;
 
 - (void) addCoordinatorCommand:(NSString *) content;
 
-- (void) initialize:(LYXCrdCommandExecutor *) executor;
+- (void) initialize:(LxCrdCommandExecutor *) executor;
 
 - (void) reset;
 
-- (void) onPropertiesUpdated:(LYXCrdCommandExecutor *) executor;
+- (void) onPropertiesUpdated:(LxCrdCommandExecutor *) executor;
 
 - (BOOL) onNestedActionWithType:(NSString *) type
-                    andExecutor:(LYXCrdCommandExecutor *) executor
+                    andExecutor:(LxCrdCommandExecutor *) executor
                         andArgs:(NSArray *) args ;
 @end
 

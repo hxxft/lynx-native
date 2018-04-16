@@ -4,7 +4,7 @@
 
 #import <UIKit/UIKit.h>
 
-@implementation LYXDeviceInfoUtil
+@implementation LxDeviceInfoUtil
 
 static NSString *_deviceInfo;
 

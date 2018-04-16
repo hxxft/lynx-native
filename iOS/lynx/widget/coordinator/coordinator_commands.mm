@@ -5,11 +5,11 @@
 
 #include "base/defines.h"
 
-@implementation LYXCrdCommands {
+@implementation LxCrdCommands {
     NSMutableDictionary *_commands;
 }
 
-LYX_NOT_IMPLEMENTED(- (instancetype) init)
+LX_NOT_IMPLEMENTED(- (instancetype) init)
 
 - (instancetype)initWithContent:(NSString *) content {
     self = [super init];

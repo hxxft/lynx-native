@@ -8,9 +8,9 @@
 #include "widget/coordinator/coordinator_object.h"
 #include "widget/coordinator/coordinator_types.h"
 
-@protocol LYXCrdSponsor <LYXCrdObject>
+@protocol LxCrdSponsor <LxCrdObject>
 @required
-@property(nonatomic, readonly) LYXCrdTypes *coordinatorTypes;
+@property(nonatomic, readonly) LxCrdTypes *coordinatorTypes;
 
 - (BOOL) dispatchCoordinatorScrollTop:(NSInteger) scrollTop
                               andLeft:(NSInteger) scrollLeft;

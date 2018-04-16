@@ -7,7 +7,7 @@
 
 #include "render/coordinator/coordinator_action.h"
 
-@interface LYXCrdCommandExecutor : NSObject
+@interface LxCrdCommandExecutor : NSObject
 
 @property(nonatomic, copy) NSString *executable;
 

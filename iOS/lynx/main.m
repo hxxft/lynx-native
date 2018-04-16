@@ -5,6 +5,6 @@
 
 int main(int argc, char * argv[]) {
     @autoreleasepool {
-        return UIApplicationMain(argc, argv, nil, NSStringFromClass([LYXAppDelegate class]));
+        return UIApplicationMain(argc, argv, nil, NSStringFromClass([LxAppDelegate class]));
     }
 }

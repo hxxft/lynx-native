@@ -5,7 +5,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface LYXAppDelegate : UIResponder <UIApplicationDelegate>
+@interface LxAppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
 

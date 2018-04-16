@@ -6,7 +6,7 @@
 
 #include "base/ios/common.h"
 
-@implementation LYXCrdRegister {
+@implementation LxCrdRegister {
     LynxRuntime* _runtime;
 }
 
@@ -18,9 +18,9 @@
     return self;
 }
 
-LYX_REGISTER_MODULE(CoordinatorRegister)
+LX_REGISTER_MODULE(CoordinatorRegister)
 
-LYX_REGISTER_METHOD_WName(registerAction, void,
+LX_REGISTER_METHOD_WName(registerAction, void,
                           registerSponsorAffinity: (NSString*) sponsorAffinity
                                 responderAffinity: (NSString *) responderAffinity
                                            action: (NSString *) action) {
@@ -32,7 +32,7 @@ LYX_REGISTER_METHOD_WName(registerAction, void,
     });
 }
 
-LYX_REGISTER_METHOD_WName(removeAction, void,
+LX_REGISTER_METHOD_WName(removeAction, void,
                           removeActionBySponsorAffinity:(NSString*) sponsorAffinity
                                       responderAffinity: (NSString *) responderAffinity) {
     dispatch_sync(dispatch_get_main_queue(), ^{
@@ -42,7 +42,7 @@ LYX_REGISTER_METHOD_WName(removeAction, void,
     });
 }
 
-LYX_REGISTER_METHOD_WName(updateProperties, void,
+LX_REGISTER_METHOD_WName(updateProperties, void,
                           updateSponsorAffinity: (NSString*) sponsorAffinity
                               responderAffinity: (NSString *) responderAffinity
                                      properties: (NSDictionary *) object

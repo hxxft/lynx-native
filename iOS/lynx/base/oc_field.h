@@ -5,7 +5,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface LYXOcField : NSObject
+@interface LxOcField : NSObject
 
 @end
 

@@ -7,9 +7,9 @@
 
 #include "base/lynx_function_object.h"
 
-@interface LxModule : LYXFunctionObject
+@interface LxModule : LxFunctionObject
 
-#define LYX_REGISTER_MODULE(module) \
+#define LX_REGISTER_MODULE(module) \
 - (NSString *) moduleName { return @#module; }
 
 - (NSString *) moduleName;

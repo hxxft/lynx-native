@@ -4,17 +4,17 @@
 
 #include "utils/screen_util.h"
 
-@implementation LYXPixelUtil
+@implementation LxPixelUtil
 
 const static int kLynxDefaultZoomRatioDp = 750;
 
 + (CGFloat) pxToLynxNumber:(CGFloat) px {
     // Origin: px / density * (zoomRatio / (screenWidth / density))
-    return px * kLynxDefaultZoomRatioDp / [[LYXScreenUtil shareInstance] getScreenWidth];
+    return px * kLynxDefaultZoomRatioDp / [[LxScreenUtil shareInstance] getScreenWidth];
 }
 
 + (CGFloat) lynxNumberToPx:(CGFloat) number {
-    return number * [[LYXScreenUtil shareInstance] getScreenWidth] / kLynxDefaultZoomRatioDp;
+    return number * [[LxScreenUtil shareInstance] getScreenWidth] / kLynxDefaultZoomRatioDp;
 }
 
 @end

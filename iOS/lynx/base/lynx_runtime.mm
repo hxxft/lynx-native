@@ -36,10 +36,10 @@ static CGFloat kDefaultZoomRatio = -1;
 }
 
 - (void) prepareWithZoomRatio:(CGFloat) zoomRatio {
-    std::string deviceInfo = [[LYXDeviceInfoUtil deviceInfo] UTF8String];
-    config::GlobalConfigData::GetInstance()->SetScreenConfig([[LYXScreenUtil shareInstance] getScreenWidth],
-                                                             [[LYXScreenUtil shareInstance] getScreenHeight],
-                                                             [[LYXScreenUtil shareInstance] getScreenDensity],
+    std::string deviceInfo = [[LxDeviceInfoUtil deviceInfo] UTF8String];
+    config::GlobalConfigData::GetInstance()->SetScreenConfig([[LxScreenUtil shareInstance] getScreenWidth],
+                                                             [[LxScreenUtil shareInstance] getScreenHeight],
+                                                             [[LxScreenUtil shareInstance] getScreenDensity],
                                                              zoomRatio,
                                                              deviceInfo);
 }
@@ -47,7 +47,7 @@ static CGFloat kDefaultZoomRatio = -1;
 - (LynxRenderTreeHostImpl *) active {
     // Create RenderTreeHost
     lynx::RenderTreeHost* render_tree_host = runtime_->SetupRenderHost();
-    LYXModuleRegister *moduleRegister = [[LYXModuleRegister alloc] initWithRuntime:self];
+    LxModuleRegister *moduleRegister = [[LxModuleRegister alloc] initWithRuntime:self];
     _host = reinterpret_cast<lynx::RenderTreeHostImplIOS*>(render_tree_host->host_impl())->ios();
     return _host;
 }
@@ -73,7 +73,7 @@ static CGFloat kDefaultZoomRatio = -1;
     return @"";
 }
 
-- (void) addJavaScriptInterface:(LYXFunctionObject *) object
+- (void) addJavaScriptInterface:(LxFunctionObject *) object
                        withName:(NSString *) name {
     runtime_->AddJavaScriptInterface([name UTF8String], new jscore::LynxFunctionObjectIOS(object));
 }

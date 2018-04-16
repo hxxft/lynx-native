@@ -6,10 +6,10 @@
 #import <Foundation/Foundation.h>
 #include "base/oc_property.h"
 
-@interface LYXOcPropertyTransformer : NSObject
+@interface LxOcPropertyTransformer : NSObject
 
-+ (NSString *) transformType:(LYXOcPropertyInfo*) info;
-+ (NSString *) transformTypes:(NSArray<LYXOcPropertyInfo*>*) infos;
++ (NSString *) transformType:(LxOcPropertyInfo*) info;
++ (NSString *) transformTypes:(NSArray<LxOcPropertyInfo*>*) infos;
 + (NSString *) transformTypeForObject:(id) object;
 + (NSString *) transformTypeForObjects:(NSArray*) object;
 

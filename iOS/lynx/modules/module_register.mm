@@ -5,14 +5,14 @@
 #include "modules/module.h"
 #include "base/defines.h"
 
-@implementation LYXModuleRegister
+@implementation LxModuleRegister
 
-LYX_NOT_IMPLEMENTED(- (instancetype)init)
+LX_NOT_IMPLEMENTED(- (instancetype)init)
 
 -(instancetype)initWithRuntime:(LynxRuntime *)runtime {
     self = [super init];
     if (self) {
-        LYXModuleBundle *bundle = [[LYXModuleBundle alloc] initWithRuntime:runtime];
+        LxModuleBundle *bundle = [[LxModuleBundle alloc] initWithRuntime:runtime];
         for (LxModule *module in bundle.modulePacket) {
             [runtime addJavaScriptInterface:module withName:[module moduleName]];
         }

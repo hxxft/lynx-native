@@ -8,22 +8,22 @@
 #include "base/oc_method.h"
 #include "base/defines.h"
 
-@interface LYXFunctionObject : NSObject
+@interface LxFunctionObject : NSObject
 
-#define LYX_METHOD_PREFIX @"__lynx_method__"
+#define LX_METHOD_PREFIX @"__lynx_method__"
 
-#define LYX_GENERATE_IDENTIFIABLE_METHOD(js_name, method) \
-+ (const LYXMethodInfo *) LYX_CONCAT(__lynx_method__, LYX_CONCAT(js_name, LYX_CONCAT(__LINE__, __COUNTER__))) { \
-    static LYXMethodInfo info = {#js_name, #method}; \
+#define LX_GENERATE_IDENTIFIABLE_METHOD(js_name, method) \
++ (const LxMethodInfo *) LX_CONCAT(__lynx_method__, LX_CONCAT(js_name, LX_CONCAT(__LINE__, __COUNTER__))) { \
+    static LxMethodInfo info = {#js_name, #method}; \
     return &info; \
 }
 
-#define LYX_REGISTER_METHOD(returnValue, method) \
-LYX_GENERATE_IDENTIFIABLE_METHOD(, method) \
+#define LX_REGISTER_METHOD(returnValue, method) \
+LX_GENERATE_IDENTIFIABLE_METHOD(, method) \
 - (returnValue) method
 
-#define LYX_REGISTER_METHOD_WName(js_name, returnValue, method) \
-LYX_GENERATE_IDENTIFIABLE_METHOD(js_name, method) \
+#define LX_REGISTER_METHOD_WName(js_name, returnValue, method) \
+LX_GENERATE_IDENTIFIABLE_METHOD(js_name, method) \
 - (returnValue) method
 
 - (id) execMethod:(NSString *)name andArgs:(NSArray *) args;

@@ -9,7 +9,7 @@
 
 #include "modules/module.h"
 
-@interface LYXCrdRegister : LxModule
+@interface LxCrdRegister : LxModule
 
 - (instancetype)initWithRuntime:(LynxRuntime *) runtime;
 

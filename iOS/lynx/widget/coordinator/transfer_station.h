@@ -8,7 +8,7 @@
 #include "widget/coordinator/coordinator_responder.h"
 #include "widget/coordinator/coordinator_sponsor.h"
 
-@protocol LYXTransferStation <NSObject>
+@protocol LxTransferStation <NSObject>
 
 @required
 
@@ -24,16 +24,16 @@
                                  responderAffinity:(NSString *) responderAffinity;
 - (void) removeAllExecutableAction;
 
-- (void) addCoordinatorSponsor:(id<LYXCrdSponsor>) sponsor;
+- (void) addCoordinatorSponsor:(id<LxCrdSponsor>) sponsor;
 
-- (void) removeCoordinatorSponsor:(id<LYXCrdSponsor>) sponsor;
+- (void) removeCoordinatorSponsor:(id<LxCrdSponsor>) sponsor;
 
-- (void) addCoordinatorResponder:(id<LYXCrdResponder>) responder;
+- (void) addCoordinatorResponder:(id<LxCrdResponder>) responder;
 
-- (void) removeCoordinatorResponder:(id<LYXCrdResponder>) responder;
+- (void) removeCoordinatorResponder:(id<LxCrdResponder>) responder;
 
 - (BOOL) dispatchNestedActionType: (NSString *) type
-                          sponsor: (id<LYXCrdSponsor>) sponsor
+                          sponsor: (id<LxCrdSponsor>) sponsor
                            params: (NSArray *) params;
 
 @end

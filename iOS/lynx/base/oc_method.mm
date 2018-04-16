@@ -4,12 +4,12 @@
 #include "base/defines.h"
 #include "base/oc_property_transformer.h"
 
-@implementation LYXOcMethod
+@implementation LxOcMethod
 {
     NSInvocation *_invocation;
 }
 
-LYX_NOT_IMPLEMENTED(-(instancetype) init)
+LX_NOT_IMPLEMENTED(-(instancetype) init)
 
 - (void) skipWhiteSpace: (const char**) input {
     while (isspace(**input)) {
@@ -89,15 +89,15 @@ LYX_NOT_IMPLEMENTED(-(instancetype) init)
     _invocation = invocation;
     
     // Generate argument types
-    NSMutableArray<LYXOcPropertyInfo*> *propertyInfos = [[NSMutableArray alloc] init];
+    NSMutableArray<LxOcPropertyInfo*> *propertyInfos = [[NSMutableArray alloc] init];
     for (int i = 0; i < [methodSignature numberOfArguments] - 2; ++i) {
-        LYXOcPropertyInfo *info = [[LYXOcPropertyInfo alloc] init];
+        LxOcPropertyInfo *info = [[LxOcPropertyInfo alloc] init];
         info.typeStr = argArray[i];
         info.objCType = [methodSignature getArgumentTypeAtIndex:i + 2];
         [propertyInfos addObject:info];
     }
     
-    _argumentTypes = [[LYXOcProperty alloc] initWithInfos:propertyInfos];
+    _argumentTypes = [[LxOcProperty alloc] initWithInfos:propertyInfos];
     // Generate return type
     const char * temp = methodSignature.methodReturnType;
 }
@@ -105,7 +105,7 @@ LYX_NOT_IMPLEMENTED(-(instancetype) init)
 + (NSString *)generateSingatureWithReciever:(Class)clazz
                                  methodName:(NSString *)name
                                        args:(NSArray*)args {
-    return [NSString stringWithFormat:@"%@,%@,%@", NSStringFromClass(clazz), name, [LYXOcPropertyTransformer transformTypeForObjects:args]];;
+    return [NSString stringWithFormat:@"%@,%@,%@", NSStringFromClass(clazz), name, [LxOcPropertyTransformer transformTypeForObjects:args]];;
 }
 
 - (NSString *) generateSingature {
@@ -127,7 +127,7 @@ LYX_NOT_IMPLEMENTED(-(instancetype) init)
     return name;
 }
 
-- (instancetype)initWithInfo:(const LYXMethodInfo *)info
+- (instancetype)initWithInfo:(const LxMethodInfo *)info
                     andClass:(Class)clazz {
     self = [super init];
     if (self) {

@@ -5,11 +5,11 @@
 #include "app/application_info.h"
 #include "lynx_view_controller.h"
 
-@interface LYXAppDelegate ()
+@interface LxAppDelegate ()
 
 @end
 
-@implementation LYXAppDelegate
+@implementation LxAppDelegate
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {

@@ -21,7 +21,7 @@
     CGFloat statusHeight = [[UIApplication sharedApplication] statusBarFrame].size.height;
     // navigation bar
     CGFloat navBarHeight = self.navigationController.navigationBar.frame.size.height;
-    CGRect frame = CGRectMake(0, navBarHeight + statusHeight, [[LYXScreenUtil shareInstance] getScreenWidth], [[LYXScreenUtil shareInstance] getScreenHeight] - navBarHeight - statusHeight);
+    CGRect frame = CGRectMake(0, navBarHeight + statusHeight, [[LxScreenUtil shareInstance] getScreenWidth], [[LxScreenUtil shareInstance] getScreenHeight] - navBarHeight - statusHeight);
     content_view_ = [[LxContentView alloc] initWithFrame:frame];
     
     [self.view addSubview:content_view_];

@@ -9,18 +9,18 @@
 #include "base/oc_method.h"
 #include "base/lynx_function_object.h"
 
-@interface LYXOcCenter : NSObject
+@interface LxOcCenter : NSObject
 
-typedef  NSMutableArray<LYXOcMethod*> MethodArray;
-typedef  NSMutableDictionary<NSString*, NSMutableArray<LYXOcMethod*>*> ClassMethodMap;
+typedef  NSMutableArray<LxOcMethod*> MethodArray;
+typedef  NSMutableDictionary<NSString*, NSMutableArray<LxOcMethod*>*> ClassMethodMap;
 @property(nonatomic, readonly) NSMutableDictionary<NSString*, ClassMethodMap*> *methodMap;
 
-@property(nonatomic, readonly) NSMutableDictionary<NSString*, LYXOcMethod*> *signatureMethodMap;
+@property(nonatomic, readonly) NSMutableDictionary<NSString*, LxOcMethod*> *signatureMethodMap;
 
 + (instancetype) shareInstance;
 - (BOOL) hasRegister:(Class) clazz;
-- (void) registerMethod:(LYXOcMethod *) method;
-- (LYXOcMethod *) findMethodWithReceiver:(id) object
+- (void) registerMethod:(LxOcMethod *) method;
+- (LxOcMethod *) findMethodWithReceiver:(id) object
                                andMethod:(NSString *) methodName
                                  andArgs:(NSArray *) array;
 

@@ -15,18 +15,18 @@
 
 #include "render/coordinator/coordinator_action.h"
 
-@implementation LYXCrdTreatment {
+@implementation LxCrdTreatment {
     BOOL _inited;
-    LYXCrdCommands *_commands;
-    LYXCrdActionExecutor *_actionExecutor;
+    LxCrdCommands *_commands;
+    LxCrdActionExecutor *_actionExecutor;
 }
 NSString * const kAttrCoodinatorCommand = @"coordinator-command";
 static NSString * const kCommandInit = @"init";
 static NSString * const kCommandUpdateProperties = @"onPropertiesUpdated";
 
-LYX_NOT_IMPLEMENTED(-(instancetype) init)
+LX_NOT_IMPLEMENTED(-(instancetype) init)
 
-- (instancetype)initWithResponder:(id<LYXCrdResponder>) responder actionExecutor:(LYXCrdActionExecutor *) executor {
+- (instancetype)initWithResponder:(id<LxCrdResponder>) responder actionExecutor:(LxCrdActionExecutor *) executor {
     self = [super init];
     if (self) {
         _responder = responder;
@@ -37,10 +37,10 @@ LYX_NOT_IMPLEMENTED(-(instancetype) init)
 }
 
 - (void) addCoordinatorCommand:(NSString *) content {
-    _commands = [[LYXCrdCommands alloc] initWithContent:content];
+    _commands = [[LxCrdCommands alloc] initWithContent:content];
 }
 
-- (void) initialize:(LYXCrdCommandExecutor *) executor {
+- (void) initialize:(LxCrdCommandExecutor *) executor {
     if (!_inited) {
         _inited = YES;
         lynx::CoordinatorAction action = [executor executeCommandWithMethod:kCommandInit
@@ -55,7 +55,7 @@ LYX_NOT_IMPLEMENTED(-(instancetype) init)
     _inited = false;
 }
 
-- (void) onPropertiesUpdated:(LYXCrdCommandExecutor *) executor {
+- (void) onPropertiesUpdated:(LxCrdCommandExecutor *) executor {
     lynx::CoordinatorAction action = [executor executeCommandWithMethod:kCommandUpdateProperties
                                                                  andTag:_responder.coordinatorTag
                                                                 andArgs:NULL
@@ -65,10 +65,10 @@ LYX_NOT_IMPLEMENTED(-(instancetype) init)
 
 - (BOOL) onNestedScrollWithTop:(NSNumber *) scrollTop
                        andLeft:(NSNumber *) scrollLeft
-                   andExecutor:(LYXCrdCommandExecutor *) executor {
+                   andExecutor:(LxCrdCommandExecutor *) executor {
     double args[2];
-    args[0] = [LYXPixelUtil pxToLynxNumber:scrollTop.intValue];
-    args[1] = [LYXPixelUtil pxToLynxNumber:scrollLeft.intValue];
+    args[0] = [LxPixelUtil pxToLynxNumber:scrollTop.intValue];
+    args[1] = [LxPixelUtil pxToLynxNumber:scrollLeft.intValue];
     NSString* command = [_commands getCommand:kCoordinatorType_Scroll];
     if (command) {
         lynx::CoordinatorAction action = [executor executeCommandWithMethod:command
@@ -80,7 +80,7 @@ LYX_NOT_IMPLEMENTED(-(instancetype) init)
     return NO;
 }
 
-- (BOOL) onNestedTouchEvenWithExecutor:(LYXCrdCommandExecutor *)executor {
+- (BOOL) onNestedTouchEvenWithExecutor:(LxCrdCommandExecutor *)executor {
     NSString* command = [_commands getCommand:kCoordinatorType_Touch];
     if (command) {
         double args[2] = {0, 0};
@@ -96,7 +96,7 @@ LYX_NOT_IMPLEMENTED(-(instancetype) init)
 }
 
 - (BOOL) onNestedActionWithType:(NSString *) type
-                    andExecutor:(LYXCrdCommandExecutor *) executor
+                    andExecutor:(LxCrdCommandExecutor *) executor
                         andArgs:(NSArray *) args {
     if (_commands) {
         if ([type isEqualToString:kCoordinatorType_Scroll]) {

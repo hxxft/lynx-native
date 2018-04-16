@@ -5,7 +5,7 @@
 
 #import <Foundation/Foundation.h>
 
-@protocol LYXCrdObject <NSObject>
+@protocol LxCrdObject <NSObject>
 @required
 @property(nonatomic, readonly, copy) NSString *coordinatorAffinity;
 @property(nonatomic, readonly, copy) NSString *coordinatorTag;

@@ -16,7 +16,7 @@
 @class LynxRenderObjectImpl;
 @class LxUIBody;
 
-@interface LynxUI<__covariant V : UIView*> : NSObject<LYXCrdSponsor, LYXCrdResponder>
+@interface LynxUI<__covariant V : UIView*> : NSObject<LxCrdSponsor, LxCrdResponder>
 
 @property(nonatomic, readwrite) LynxRenderObjectImpl *renderObjectImpl;
 @property(nonatomic, readwrite) V view;

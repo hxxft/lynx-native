@@ -3,13 +3,13 @@
 #include "widget/coordinator/coordinator_types.h"
 #include "base/defines.h"
 
-@implementation LYXCrdTypes {
+@implementation LxCrdTypes {
     NSSet *_set;
 }
 NSString * const kCoordinatorType_Scroll = @"scroll";
 NSString * const kCoordinatorType_Touch = @"touch";
 
-LYX_NOT_IMPLEMENTED(- (instancetype) init)
+LX_NOT_IMPLEMENTED(- (instancetype) init)
 
 - (instancetype)initWithContent:(NSString *)content {
     self = [super init];

@@ -6,7 +6,7 @@
 #import <Foundation/Foundation.h>
 #include "widget/coordinator/transfer_station.h"
 
-@interface LYXCrdTransferStation : NSObject<LYXTransferStation>
+@interface LxCrdTransferStation : NSObject<LxTransferStation>
 
 @end
 

@@ -6,7 +6,7 @@
 #include "base/oc_method.h"
 #include "base/oc_center.h"
 
-@implementation LYXFunctionObject {
+@implementation LxFunctionObject {
     NSMutableArray<NSString*> *_methodNames;
 }
 
@@ -20,7 +20,7 @@
 }
 
 - (void) initWithReceiver:(Class) clazz {
-    if (clazz && ![[LYXOcCenter shareInstance] hasRegister:clazz]) {
+    if (clazz && ![[LxOcCenter shareInstance] hasRegister:clazz]) {
         unsigned int methodCount;
         while (clazz != [NSObject class] && clazz != [NSProxy class]) {
             Method *methods = class_copyMethodList(object_getClass(clazz), &methodCount);
@@ -28,10 +28,10 @@
             for (unsigned int i = 0; i < methodCount; i++) {
                 Method method = methods[i];
                 SEL selector = method_getName(method);
-                if ([NSStringFromSelector(selector) hasPrefix:LYX_METHOD_PREFIX]) {
+                if ([NSStringFromSelector(selector) hasPrefix:LX_METHOD_PREFIX]) {
                     IMP imp = method_getImplementation(method);
-                    auto methodInfo = ((const LYXMethodInfo *(*)(id, SEL))imp)(clazz, selector);
-                    LYXOcMethod *lynxMethod = [[LYXOcMethod alloc] initWithInfo:methodInfo andClass:clazz];
+                    auto methodInfo = ((const LxMethodInfo *(*)(id, SEL))imp)(clazz, selector);
+                    LxOcMethod *lynxMethod = [[LxOcMethod alloc] initWithInfo:methodInfo andClass:clazz];
                     [self registerJSMethod:lynxMethod];
                 }
             }
@@ -44,13 +44,13 @@
     }
 }
 
-- (void) registerJSMethod:(LYXOcMethod *) method {
+- (void) registerJSMethod:(LxOcMethod *) method {
     [_methodNames addObject: method.name];
-    [[LYXOcCenter shareInstance] registerMethod:method];
+    [[LxOcCenter shareInstance] registerMethod:method];
 }
 
 - (id)execMethod:(NSString *)name andArgs:(NSArray *)args {
-    LYXOcMethod *method = [[LYXOcCenter shareInstance] findMethodWithReceiver:self andMethod:name andArgs:args];
+    LxOcMethod *method = [[LxOcCenter shareInstance] findMethodWithReceiver:self andMethod:name andArgs:args];
     if (!method) {
         return NULL;
     } else {

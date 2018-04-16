@@ -5,7 +5,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface LYXCrdCommands : NSObject
+@interface LxCrdCommands : NSObject
 
 - (instancetype)initWithContent:(NSString *) content NS_DESIGNATED_INITIALIZER;
 - (NSString *)getCommand:(NSString *) type;

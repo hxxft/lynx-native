@@ -6,7 +6,7 @@
 
 #include "modules/module.h"
 
-@interface LYXPageNavigator : LxModule
+@interface LxPageNavigator : LxModule
 
 @end
 

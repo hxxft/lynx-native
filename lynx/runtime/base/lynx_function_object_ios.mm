@@ -7,7 +7,7 @@
 
 namespace jscore {
     
-    LynxFunctionObjectIOS::LynxFunctionObjectIOS(LYXFunctionObject* ios_object)
+    LynxFunctionObjectIOS::LynxFunctionObjectIOS(LxFunctionObject* ios_object)
     : ios_object_(ios_object) {
         base::ScopedPtr<LynxArray> array = base::ios::OCHelper::ConvertToLynxArray([ios_object_ methodNames]);
         for (int i = 0; i < array->Size(); ++i) {
@@ -26,7 +26,7 @@ namespace jscore {
                                         const std::string& name,
                                         base::ScopedPtr<LynxArray> array) {
         NSString* ios_name = base::ios::OCHelper::ConvertToOCString(name);
-        LYXFunctionObject *ios_object = static_cast<LynxFunctionObjectIOS*>(object)->ios_object_;
+        LxFunctionObject *ios_object = static_cast<LynxFunctionObjectIOS*>(object)->ios_object_;
         NSArray* args = base::ios::OCHelper::ConvertToOCArray(array.Get());
         id result = [ios_object execMethod: ios_name andArgs:args];
         return base::ios::OCHelper::ConvertToLynxValue(result);

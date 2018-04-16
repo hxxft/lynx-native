@@ -9,7 +9,7 @@
 
 @class LxModule;
 
-@interface LYXModuleBundle : NSObject
+@interface LxModuleBundle : NSObject
 
 @property(nonatomic, readonly) NSMutableArray<LxModule *> *modulePacket;
 

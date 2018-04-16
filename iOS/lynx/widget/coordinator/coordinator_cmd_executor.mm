@@ -5,13 +5,13 @@
 #include "render/coordinator/coordinator_executor.h"
 #include "base/debug/memory_debug.h"
 
-@interface LYXCrdCommandExecutor() {
+@interface LxCrdCommandExecutor() {
     lynx::CoordinatorExecutor *_cExecutor;
 }
 
 @end
 
-@implementation LYXCrdCommandExecutor
+@implementation LxCrdCommandExecutor
 
 - (id)initWithExecutableContent:(NSString *)content {
     self = [super init];

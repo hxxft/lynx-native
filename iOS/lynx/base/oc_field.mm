@@ -2,6 +2,6 @@
 
 #include "base/oc_field.h"
 
-@implementation LYXOcField
+@implementation LxOcField
 
 @end

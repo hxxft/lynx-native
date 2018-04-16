@@ -8,7 +8,7 @@
 namespace jscore {
     class LynxFunctionObjectIOS : public LynxFunctionObject {
     public:
-        LynxFunctionObjectIOS(LYXFunctionObject *ios_object);
+        LynxFunctionObjectIOS(LxFunctionObject *ios_object);
         virtual ~LynxFunctionObjectIOS();
         
     private:
@@ -16,7 +16,7 @@ namespace jscore {
                                                        const std::string& name,
                                                        base::ScopedPtr<LynxArray> array);
         
-        LYXFunctionObject *ios_object_;
+        LxFunctionObject *ios_object_;
     };
 }
 

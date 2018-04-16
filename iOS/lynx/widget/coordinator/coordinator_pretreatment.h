@@ -7,10 +7,10 @@
 
 #include "widget/coordinator/coordinator_cmd_executor.h"
 
-@interface LYXCrdPreTreatment : NSObject
+@interface LxCrdPreTreatment : NSObject
 
 - (BOOL) dispatchAction: (NSString *) type
-            andExecutor: (LYXCrdCommandExecutor *) executor
+            andExecutor: (LxCrdCommandExecutor *) executor
                  andTag: (NSString *) tag
               andParams: (NSArray *) params;
 @end
