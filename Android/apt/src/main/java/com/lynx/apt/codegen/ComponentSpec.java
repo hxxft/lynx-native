@@ -6,6 +6,7 @@ import javax.lang.model.element.ExecutableElement;
 
 public class ComponentSpec {
     public int type;
+    public String tagName;
     public String genClassName;
     public String packageName;
     public String fullAnnotationClassName;

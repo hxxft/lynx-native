@@ -21,6 +21,7 @@
 #include "render/canvas_view.h"
 #include "render/text_area.h"
 #include "runtime/thread_manager.h"
+#include "runtime/element.h"
 #include "render/render_tree_host.h"
 
 namespace lynx {
@@ -75,6 +76,11 @@ public:
         } else if (tag.compare("xcanvas") == 0){
             return lynx_new CanvasView("xcanvas", LYNX_CANVAS, ++id, host);
         }else{
+            auto result  = jscore::Element::s_element_tags.find(tag);
+            if(result != jscore::Element::s_element_tags.end()){
+                int type = result->second;
+                return lynx_new ExtendedView(tag.c_str(), static_cast<RenderObjectType>(type), ++id, host);
+            }
             DLOG(ERROR) << tag << " is Not Support";
         }
         return NULL;

@@ -6,7 +6,7 @@
 #include <jni.h>
 
 namespace lynx {
-        class MethodRegister {
+        class ElementRegisterUtil {
         public:
             static bool RegisterJNIUtils(JNIEnv *env);
         };

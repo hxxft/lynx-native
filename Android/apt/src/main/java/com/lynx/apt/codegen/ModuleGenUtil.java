@@ -52,6 +52,7 @@ public class ModuleGenUtil {
                     fullClassPath, i, fullClassPath);
             createComponents.addStatement("component$L.registerMethodSpecList()", i);
             createComponents.addStatement("map.put($L, component$L)", m.type, i);
+            createComponents.addStatement("com.lynx.utils.RegisterUtil.nativeRegisterTag($L,$S)", m.type, m.tagName);
         }
         createComponents.addStatement("return map");
         return createComponents.build();

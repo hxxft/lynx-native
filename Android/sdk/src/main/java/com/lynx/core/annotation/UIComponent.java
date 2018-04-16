@@ -11,4 +11,5 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.CLASS)
 public @interface UIComponent {
     int type();
+    String tag();
 }
