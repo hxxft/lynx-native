@@ -20,9 +20,9 @@ static NSString* ASSETS_PROTOCOL = @"Assets://";
     
     if ([filePath containsString:@".bundle"]) {
         
-        NSArray<NSString *> * pathArray =  [filePath componentsSeparatedByString:@"bundle"];
+        NSArray<NSString *> * pathArray =  [filePath componentsSeparatedByString:@".bundle"];
         
-        NSString * bundlePath = [pathArray.firstObject substringToIndex:(pathArray.firstObject.length-1)];
+        NSString * bundlePath = pathArray.firstObject;
         
         bundle =  [NSBundle bundleWithPath:[[NSBundle mainBundle] pathForResource:bundlePath ofType:@"bundle"]];
         
