@@ -68,8 +68,6 @@ class JSContext {
         return ua_.Get();
     }
 
-    std::string GetPageUrl();
-
     void OnExceptionOccured(std::string &error);
 
  protected:

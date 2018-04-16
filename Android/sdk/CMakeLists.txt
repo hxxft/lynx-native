@@ -131,8 +131,6 @@ add_library(lynx SHARED
             	${CMAKE_SOURCE_DIR}/../../lynx/runtime/runtime.cc
             	${CMAKE_SOURCE_DIR}/../../lynx/runtime/js_context.cc
             	${CMAKE_SOURCE_DIR}/../../lynx/runtime/jsc/js_vm.cc
-            	${CMAKE_SOURCE_DIR}/../../lynx/runtime/history.cc
-            	${CMAKE_SOURCE_DIR}/../../lynx/runtime/location.cc
             	${CMAKE_SOURCE_DIR}/../../lynx/runtime/navigator.cc
             	${CMAKE_SOURCE_DIR}/../../lynx/runtime/screen.cc
             	${CMAKE_SOURCE_DIR}/../../lynx/runtime/console.cc

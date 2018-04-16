@@ -6,8 +6,6 @@
 #include "runtime/jsc/jsc_class_wrap_storage.h"
 
 #include "runtime/runtime.h"
-#include "runtime/history.h"
-#include "runtime/location.h"
 #include "runtime/navigator.h"
 #include "runtime/loader.h"
 #include "runtime/screen.h"
@@ -48,8 +46,6 @@ namespace jscore {
         JSObjectRef global_object = JSContextGetGlobalObject(context_);
         JSObjectSetPrivate(global_object, this);
 
-        location_ = lynx_new Location(this);
-//        history_ = lynx_new History(this);
         JSObjectRef loader_object = JSCHelper::ConvertToJSObject(context_, lynx_new Loader(this));
         JSObjectRef console_object = JSCHelper::ConvertToJSObject(context_, lynx_new Console());
         JSObjectRef screen_object = JSCHelper::ConvertToJSObject(context_, lynx_new Screen());
@@ -57,8 +53,6 @@ namespace jscore {
         JSObjectRef document_object = JSCHelper::ConvertToJSObject(context_, lynx_new Document(this));
         Element* body_element = lynx_new Element(this, runtime_->render_tree_host()->render_root());
         JSObjectRef body_object = JSCHelper::ConvertToJSObject(context_, body_element);
-        JSObjectRef location_object = JSCHelper::ConvertToJSObject(context_, location_);
-//        JSObjectRef history_object = JSCHelper::ConvertToJSObject(context_, history_);
 
         JSCHelper::SetValueProperty(context_, global_object, "console", console_object,
                                     kJSPropertyAttributeNone, 0);
@@ -73,10 +67,6 @@ namespace jscore {
         JSCHelper::SetValueProperty(context_, global_object, "document", document_object,
                                     kJSPropertyAttributeNone, 0);
         JSCHelper::SetValueProperty(context_, document_object, "body", body_object,
-                                    kJSPropertyAttributeNone, 0);
-//        JSCHelper::SetValueProperty(context_, global_object, "history", history_object,
-//                                    kJSPropertyAttributeNone, 0);
-        JSCHelper::SetValueProperty(context_, global_object, "location", location_object,
                                     kJSPropertyAttributeNone, 0);
         JSCHelper::SetValueProperty(context_, global_object, "global", global_object,
                                     kJSPropertyAttributeNone, 0);
@@ -114,8 +104,7 @@ namespace jscore {
     }
 
     void JSCContext::LoadUrl(const std::string& url) {
-//        location_->SetUrl(url);
-//        history_->Go(url);
+
     }
 
     void JSCContext::AddJavaScriptInterface(const std::string &name,
