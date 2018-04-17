@@ -36,7 +36,7 @@ base::android::ScopedLocalJavaRef<jobjectArray> GenerateEvent(JNIEnv *env,
     if (action.event_.empty())
         return base::android::ScopedLocalJavaRef<jobjectArray>();
     int length = 2;
-    auto result = base::android::JType::NewObjectArray(env, length);
+    auto result = base::android::LxJType::NewObjectArray(env, length);
     auto event_name = base::android::JNIHelper::ConvertToJNIString(env, action.event_);
     env->SetObjectArrayElement(result.Get(), 0, event_name.Get());
     switch (action.params_for_event_.type_) {
@@ -48,13 +48,13 @@ base::android::ScopedLocalJavaRef<jobjectArray> GenerateEvent(JNIEnv *env,
             break;
         case lepus::ValueType::Value_Number:{
             double temp = action.params_for_event_.number_;
-            auto params = base::android::JType::NewDouble(env, temp);
+            auto params = base::android::LxJType::NewDouble(env, temp);
             env->SetObjectArrayElement(result.Get(), 1, params.Get());
         }
             break;
         case lepus::ValueType::Value_Boolean:{
             bool temp = action.params_for_event_.boolean_;
-            auto params = base::android::JType::NewBoolean(env, temp);
+            auto params = base::android::LxJType::NewBoolean(env, temp);
             env->SetObjectArrayElement(result.Get(), 1, params.Get());
         }
             break;
@@ -66,7 +66,7 @@ base::android::ScopedLocalJavaRef<jobjectArray> GenerateEvent(JNIEnv *env,
 base::android::ScopedLocalJavaRef<jobjectArray>
 ConvertCoordinatorActionForAndroid(JNIEnv *env, lynx::CoordinatorAction action) {
     int length = 2;
-    auto result = base::android::JType::NewObjectArray(env, length);
+    auto result = base::android::LxJType::NewObjectArray(env, length);
     env->SetObjectArrayElement(result.Get(), 0, GenerateAction(env, action).Get());
     env->SetObjectArrayElement(result.Get(), 1, GenerateEvent(env, action).Get());
     return result;

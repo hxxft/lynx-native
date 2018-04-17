@@ -10,7 +10,7 @@
 
 #include "v8.h"
 
-#include "base/android/java_type.h"
+#include "base/android/lynx_java_type.h"
 #include "base/value.h"
 
 using namespace base::android;
@@ -36,7 +36,7 @@ public:
     }
 
     inline static v8::Local<v8::Number> ConvertToV8Int(v8::Isolate* isolate, JNIEnv* env, jobject jobj) {
-        int value = JType::IntValue(env, jobj);
+        int value = LxJType::IntValue(env, jobj);
         return v8::Number::New(isolate, value);
     }
 
@@ -45,7 +45,7 @@ public:
     }
 
     inline static v8::Local<v8::Number> ConvertToV8Byte(v8::Isolate* isolate, JNIEnv* env, jobject jobj) {
-        return v8::Number::New(isolate, JType::ByteValue(env, jobj));
+        return v8::Number::New(isolate, LxJType::ByteValue(env, jobj));
     }
 
     inline static v8::Local<v8::Number> ConvertToV8Byte(v8::Isolate* isolate, jbyte value) {
@@ -53,7 +53,7 @@ public:
     }
 
     inline static v8::Local<v8::Number> ConvertToV8Short(v8::Isolate* isolate, JNIEnv* env, jobject jobj) {
-        return v8::Number::New(isolate, JType::ShortValue(env, jobj));
+        return v8::Number::New(isolate, LxJType::ShortValue(env, jobj));
     }
 
     inline static v8::Local<v8::Number> ConvertToV8Short(v8::Isolate* isolate, jshort value) {
@@ -61,7 +61,7 @@ public:
     }
 
     inline static v8::Local<v8::Number> ConvertToV8Long(v8::Isolate* isolate, JNIEnv* env, jobject jobj) {
-        return v8::Number::New(isolate, JType::LongValue(env, jobj));
+        return v8::Number::New(isolate, LxJType::LongValue(env, jobj));
     }
 
     inline static v8::Local<v8::Number> ConvertToV8Long(v8::Isolate* isolate, jlong value) {
@@ -69,7 +69,7 @@ public:
     }
 
     inline static v8::Local<v8::Number> ConvertToV8Float(v8::Isolate* isolate, JNIEnv* env, jobject jobj) {
-        return v8::Number::New(isolate, JType::FloatValue(env, jobj));
+        return v8::Number::New(isolate, LxJType::FloatValue(env, jobj));
     }
 
     inline static v8::Local<v8::Number> ConvertToV8Float(v8::Isolate* isolate, jfloat value) {
@@ -77,7 +77,7 @@ public:
     }
 
     inline static v8::Local<v8::Number> ConvertToV8Double(v8::Isolate* isolate, JNIEnv* env, jobject jobj) {
-        return v8::Number::New(isolate, JType::DoubleValue(env, jobj));
+        return v8::Number::New(isolate, LxJType::DoubleValue(env, jobj));
     }
 
     inline static v8::Local<v8::Number> ConvertToV8Double(v8::Isolate* isolate, jdouble value) {
@@ -85,7 +85,7 @@ public:
     }
 
     inline static v8::Local<v8::String> ConvertToV8Char(v8::Isolate* isolate, JNIEnv* env, jobject jobj) {
-        jchar jc = JType::CharValue(env, jobj);
+        jchar jc = LxJType::CharValue(env, jobj);
         auto v8Char = V8Helper::ConvertToV8String(isolate, &jc, 1);
         return v8Char;
     }
@@ -96,7 +96,7 @@ public:
     }
 
     inline static v8::Local<v8::Boolean> ConvertToV8Boolean(v8::Isolate* isolate, JNIEnv* env, jobject jobj) {
-        return v8::Boolean::New(isolate, JType::BooleanValue(env, jobj));
+        return v8::Boolean::New(isolate, LxJType::BooleanValue(env, jobj));
     }
 
     inline static v8::Local<v8::Boolean> ConvertToV8Boolean(v8::Isolate* isolate, jboolean value) {

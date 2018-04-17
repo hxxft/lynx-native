@@ -18,33 +18,11 @@ const static char kDoubleType = 'D';
 const static char kCharType = 'C';
 const static char kBooleanType = 'Z';
 const static char kByteType = 'B';
-
 const static char kVoidType = 'V';
 const static char kArrayFlag = '[';
 
 const static char kStringType = 's';
-const static char kLynxArrayType = 'b';
-const static char kLynxObjectType = 'c';
-const static char kLynxFunctionObjectType = 'd';
-const static char kLynxHolderType = 'e';
-
-
-enum class Type : int {
-    Boolean,
-    Char,
-    Byte,
-    Short,
-    Int,
-    Long,
-    Float,
-    Double,
-    String,
-    LynxArray,
-    LynxObject,
-    LynxHolder,
-    Object,
-    Null
-};
+const static char kObjectType = 'O';
 
 class JType {
  public:
@@ -72,43 +50,12 @@ class JType {
     static ScopedLocalJavaRef<jdoubleArray> NewDoubleArray(JNIEnv* env, int length);
     static ScopedLocalJavaRef<jobjectArray> NewStringArray(JNIEnv* env, int length);
 
-    static Type getClassType(int retType);
-
-    static bool IsInstanceOf(JNIEnv* env, jobject arg, Type retType);
+    static void Init(JNIEnv* env, char type);
     static void ReleaseAll(JNIEnv* env);
 
-    // LynxArray
-    static ScopedLocalJavaRef<jobject> NewLynxArray(JNIEnv *env,
-                                                    int length);
-    static void SetLynxArrayElement(JNIEnv *env,
-                                    jobject array,
-                                    int index,
-                                    jobject obj);
-    static ScopedLocalJavaRef<jobject> GetLynxArrayElement(JNIEnv *env, jobject array, int index);
-    static jstring GetLynxArrayElementTypes(JNIEnv *env, jobject array);
-    static jint GetLynxArrayLength(JNIEnv *env, jobject array);
-
-    // LynxObject
-    static ScopedLocalJavaRef<jobject> NewLynxObject(JNIEnv *env);
-    static void SetLynxObjectProperties(JNIEnv *env,
-                                        jobject jjsobj,
-                                        jobject array);
-    static void SetLynxObjectProperty(JNIEnv *env,
-                                        jobject jjsobj,
-                                        jobject key,
-                                        jobject value);
-    static ScopedLocalJavaRef<jobject> GetLynxObjectProperties(JNIEnv *env, jobject jjsobj);
-
-    // LynxObject
-    static long GetNativeLynxHolder(JNIEnv* env, jobject holder);
-
-    static void Init(JNIEnv* env, Type type);
-
  private:
-    JType() {
-    }
 
-    static void EnsureInstance(JNIEnv* env, Type type);
+    static void EnsureInstance(JNIEnv* env, char type);
 
     static jclass byte_clazz;
     static jmethodID byte_ctor;
@@ -145,24 +92,6 @@ class JType {
     static jclass string_clazz;
     static jclass object_clazz;
 
-    // LynxArray
-    static jclass lynx_array_clazz;
-    static jmethodID lynx_array_ctor;
-    static jmethodID lynx_array_set_method;
-    static jmethodID lynx_array_get_method;
-    static jmethodID lynx_array_get_element_type_method;
-    static jmethodID lynx_array_length_method;
-
-    // LynxObject
-    static jclass lynx_object_clazz;
-    static jmethodID lynx_object_ctor;
-    static jmethodID lynx_object_set_properties_method;
-    static jmethodID lynx_object_set_property_method;
-    static jmethodID lynx_object_get_properties_method;
-
-    // LynxHolder
-    static jclass lynx_holder_clazz;
-    static jmethodID lynx_holder_get_native_holder_method;
 };
 
 }  // namespace android

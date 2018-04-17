@@ -4,7 +4,7 @@
 
 #include "base/android/android_jni.h"
 #include "base/android/convert.h"
-#include "base/android/java_type.h"
+#include "base/android/lynx_java_type.h"
 #include "base/debug/memory_debug.h"
 #include "base/size.h"
 #include "render/label_measurer.h"
@@ -30,7 +30,7 @@ base::Size LabelMeasurer::MeasureLabelSize(RenderObject* render_object,
   base::android::ScopedLocalJavaRef<jobject> size_obj(
       Java_LabelMeasurer_measureLabelSize(
           env,
-          (jstring)base::android::JType::NewString(env, text.c_str()).Get(),
+          (jstring)base::android::LxJType::NewString(env, text.c_str()).Get(),
           style_obj.Get(), width, widthMode, height, heightMode));
 
   base::Size measured_size = base::Convert::SizeConvert(size_obj.Get());

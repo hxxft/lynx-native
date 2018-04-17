@@ -163,7 +163,7 @@ v8::Local<v8::Value> V8Helper::ConvertToV8Value(v8::Isolate* isolate, JNIEnv* en
 
 v8::Local<v8::Object> V8Helper::ConvertToV8Object(v8::Isolate* isolate, JNIEnv* env, const jobject obj) {
     auto v8_obj = v8::Object::New(isolate);
-    jobject properties_array_java = JType::GetJSObjectProperties(env, obj);
+    jobject properties_array_java = LxJType::GetJSObjectProperties(env, obj);
     if (properties_array_java != NULL) {
         auto properties_prray_js = ConvertToV8Array(isolate, env, properties_array_java);
         env->DeleteLocalRef(properties_array_java);
@@ -176,13 +176,13 @@ v8::Local<v8::Object> V8Helper::ConvertToV8Object(v8::Isolate* isolate, JNIEnv* 
 }
 
 v8::Local<v8::Array> V8Helper::ConvertToV8Array(v8::Isolate* isolate, JNIEnv* env, const jobject array) {
-    int length = (int)JType::GetJSArrayLength(env, array);
-    jstring types_j = JType::GetJSArrayElementTypes(env, array);
+    int length = (int)LxJType::GetJSArrayLength(env, array);
+    jstring types_j = LxJType::GetJSArrayElementTypes(env, array);
     const char* types_c = env->GetStringUTFChars(types_j, JNI_FALSE);
     std::string types(types_c);
     v8::Local<v8::Array> v8_array(v8::Array::New(isolate, length));
     for (int i = 0; i < length; i++) {
-        jobject java_obj = JType::GetJSArrayElement(env, array, i);
+        jobject java_obj = LxJType::GetJSArrayElement(env, array, i);
         auto v8_obj = ConvertToV8Value(isolate, env, java_obj, types[i]);
         v8_array->Set(i, v8_obj);
         env->DeleteLocalRef(java_obj);

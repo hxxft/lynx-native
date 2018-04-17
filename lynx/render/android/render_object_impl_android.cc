@@ -141,7 +141,7 @@ void RenderObjectImplAndroid::SetText(const std::string& text) {
         Java_RenderObjectImpl_setText(
             env,
             render_object_impl_java_impl_.Get(),
-            (jstring)base::android::JType::NewString(env, text.c_str()).Get());
+            (jstring)base::android::LxJType::NewString(env, text.c_str()).Get());
     }
 }
 
@@ -153,8 +153,8 @@ void RenderObjectImplAndroid::SetAttribute(
         Java_RenderObjectImpl_setAttribute(
             env,
             render_object_impl_java_impl_.Get(),
-            (jstring)base::android::JType::NewString(env, key.c_str()).Get(),
-            (jstring)base::android::JType::NewString(env, value.c_str()).Get());
+            (jstring)base::android::LxJType::NewString(env, key.c_str()).Get(),
+            (jstring)base::android::LxJType::NewString(env, value.c_str()).Get());
     }
 }
 
@@ -173,7 +173,7 @@ void RenderObjectImplAndroid::AddEventListener(const std::string& event) {
         Java_RenderObjectImpl_addEventListener(
             env,
             render_object_impl_java_impl_.Get(),
-            (jstring)base::android::JType::NewString(env, event.c_str()).Get());
+            (jstring)base::android::LxJType::NewString(env, event.c_str()).Get());
     }
 }
 
@@ -183,7 +183,7 @@ void RenderObjectImplAndroid::RemoveEventListener(const std::string& event) {
         Java_RenderObjectImpl_removeEventListener(
             env,
             render_object_impl_java_impl_.Get(),
-            base::android::JType::NewString(env, event.c_str()).Get());
+            base::android::LxJType::NewString(env, event.c_str()).Get());
     }
 }
 

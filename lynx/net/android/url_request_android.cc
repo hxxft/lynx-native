@@ -1,6 +1,6 @@
 // Copyright 2017 The Lynx Authors. All rights reserved.
 
-#include "base/android/java_type.h"
+#include "base/android/lynx_java_type.h"
 #include "net/url_request_context.h"
 #include "net/android/url_request_android.h"
 #include "net/url_request_ghost_delegate.h"
@@ -60,7 +60,7 @@ namespace net {
     void URLRequestAndroid::CreateRequestObject(const std::string& url) {
         JNIEnv* env = base::android::AttachCurrentThread();
         base::android::ScopedLocalJavaRef<jstring> url_java
-                = base::android::JType::NewString(env, url.c_str());
+                = base::android::LxJType::NewString(env, url.c_str());
         base::android::ScopedLocalJavaRef<jobject> request_obj
                 = Java_URLRequest_create(env,
                                          (jstring) url_java.Get(),

@@ -62,6 +62,7 @@ aux_source_directory(${CMAKE_SOURCE_DIR}/../../lynx/lepus
 
 add_library(lynx SHARED
                 ${CMAKE_SOURCE_DIR}/../../lynx/base/android/java_type.cc
+                ${CMAKE_SOURCE_DIR}/../../lynx/base/android/lynx_java_type.cc
                 ${CMAKE_SOURCE_DIR}/../../lynx/base/android/convert.cc
                 ${CMAKE_SOURCE_DIR}/../../lynx/base/android/android_jni.cc
                 ${CMAKE_SOURCE_DIR}/../../lynx/base/android/params_transform.cc

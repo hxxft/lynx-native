@@ -1,5 +1,4 @@
 #include "base/android/convert.h"
-#include "base/android/java_type.h"
 #include "runtime/android/element_register_util.h"
 #include "base/threading/message_pump_android.h"
 #include "render/android/render_object_impl_android.h"
@@ -30,8 +29,6 @@ JNIEXPORT jint JNICALL JNI_OnLoad(JavaVM *vm, void *reserved)
     jscore::JNIRuntimeBridge::RegisterJNIUtils(env);
     lynx::RenderTreeHostImplAndroid::RegisterJNIUtils(env);
     jscore::LynxFunctionObjectAndroid::RegisterJNIUtils(env);
-    base::android::JType::Init(env, base::android::Type::LynxObject);
-    base::android::JType::Init(env, base::android::Type::LynxArray);
     lynx::JNICoordinatorBridge::RegisterJNIUtils(env);
     jscore::ResultCallbackAndroid::RegisterJNIUtils(env);
     #if GTEST_ENABLE

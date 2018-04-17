@@ -7,7 +7,7 @@
 
 #include "base/scoped_ptr.h"
 #include "base/android/scoped_java_ref.h"
-#include "base/android/java_type.h"
+#include "base/android/lynx_java_type.h"
 #include "runtime/base/lynx_value.h"
 #include "runtime/base/lynx_array.h"
 #include "runtime/base/lynx_object.h"

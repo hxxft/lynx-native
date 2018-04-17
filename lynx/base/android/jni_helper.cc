@@ -24,23 +24,23 @@ namespace base {
             if (value != NULL) {
                 switch (value->type_) {
                     case jscore::LynxValue::VALUE_INT:
-                        obj = JType::NewInt(env, value->data_.i);
+                        obj = LxJType::NewInt(env, value->data_.i);
                         break;
                     case jscore::LynxValue::VALUE_LONG:
-                        obj = JType::NewLong(env, value->data_.l);
+                        obj = LxJType::NewLong(env, value->data_.l);
                         break;
                     case jscore::LynxValue::VALUE_BOOL:
-                        obj = JType::NewBoolean(env, value->data_.b);
+                        obj = LxJType::NewBoolean(env, value->data_.b);
                         break;
                     case jscore::LynxValue::VALUE_FLOAT:
-                        obj = JType::NewFloat(env, value->data_.f);
+                        obj = LxJType::NewFloat(env, value->data_.f);
                         break;
                     case jscore::LynxValue::VALUE_DOUBLE:
-                        obj = JType::NewDouble(env, value->data_.d);
+                        obj = LxJType::NewDouble(env, value->data_.d);
                         break;
                     case jscore::LynxValue::VALUE_STRING:
                         obj = base::android::ScopedLocalJavaRef<jobject>
-                                (env, JType::NewString(env, value->data_.str).Release());
+                                (env, LxJType::NewString(env, value->data_.str).Release());
                         break;
                     case jscore::LynxValue::VALUE_LYNX_ARRAY:
                         obj = base::android::ScopedLocalJavaRef<jobject>
@@ -60,7 +60,7 @@ namespace base {
         base::android::ScopedLocalJavaRef<jobjectArray> JNIHelper::ConvertToJNIObjectArray
                 (JNIEnv* env, jscore::LynxArray* array) {
             base::android::ScopedLocalJavaRef<jobjectArray> java_object_array =
-                    base::android::JType::NewObjectArray(env, array->Size());
+                    base::android::LxJType::NewObjectArray(env, array->Size());
             for (int i = 0; i < array->Size(); ++i) {
                 base::android::ScopedLocalJavaRef<jobject> java_object
                         = ConvertToJNIObject(env, array->Get(i));
@@ -72,11 +72,11 @@ namespace base {
         base::android::ScopedLocalJavaRef<jobject> JNIHelper::ConvertToJNIArray
                 (JNIEnv* env, jscore::LynxArray* array) {
             ScopedLocalJavaRef<jobject> java_object_array =
-                    base::android::JType::NewLynxArray(env, array->Size());
+                    base::android::LxJType::NewLynxArray(env, array->Size());
             for (int i = 0; i < array->Size(); ++i) {
                 base::android::ScopedLocalJavaRef<jobject> java_object
                         = ConvertToJNIObject(env, array->Get(i));
-                base::android::JType::SetLynxArrayElement(env,
+                base::android::LxJType::SetLynxArrayElement(env,
                                                           java_object_array.Get(),
                                                           i,
                                                           java_object.Get());
@@ -87,12 +87,12 @@ namespace base {
         base::android::ScopedLocalJavaRef<jobject> JNIHelper::ConvertToJNIObject
                 (JNIEnv* env, jscore::LynxObject* object) {
             ScopedLocalJavaRef<jobject> java_object_array =
-                    base::android::JType::NewLynxObject(env);
+                    base::android::LxJType::NewLynxObject(env);
             for (int i = 0; i < object->Size(); ++i) {
                 std::string key = object->GetName(i);
                 base::android::ScopedLocalJavaRef<jobject> java_object
                         = ConvertToJNIObject(env, object->GetProperty(key));
-                base::android::JType::SetLynxObjectProperty(env,
+                base::android::LxJType::SetLynxObjectProperty(env,
                                                             java_object_array.Get(),
                                                             ConvertToJNIString(env, key).Get(),
                                                             java_object.Get());
@@ -103,7 +103,7 @@ namespace base {
         base::ScopedPtr<jscore::LynxObject> JNIHelper::ConvertToLynxObject(JNIEnv *env,
                                                                            jobject obj) {
             base::android::ScopedLocalJavaRef<jobject> properties_array_java
-                    = base::android::JType::GetLynxObjectProperties(env, obj);
+                    = base::android::LxJType::GetLynxObjectProperties(env, obj);
             base::ScopedPtr<jscore::LynxObject> js_obj(lynx_new jscore::LynxObject());
             if (!properties_array_java.IsNull()) {
                 base::ScopedPtr<jscore::LynxArray> js_properties_array(
@@ -127,22 +127,22 @@ namespace base {
 
         base::ScopedPtr<jscore::LynxValue> JNIHelper::ConvertToLynxHolder(JNIEnv *env,
                                                                            jobject value) {
-            long ptr = JType::GetNativeLynxHolder(env, value);
+            long ptr = LxJType::GetNativeLynxHolder(env, value);
             jscore::LynxHolder *holder = reinterpret_cast<jscore::LynxHolder*>(ptr);
             return jscore::LynxValue::MakeLynxHolder(holder);
         }
 
         base::ScopedPtr<jscore::LynxArray> JNIHelper::ConvertToLynxArray(JNIEnv *env,
                                                                          jobject java_array) {
-            int length = (int) base::android::JType::GetLynxArrayLength(env, java_array);
-            jstring types_j = base::android::JType::GetLynxArrayElementTypes(env, java_array);
+            int length = (int) base::android::LxJType::GetLynxArrayLength(env, java_array);
+            jstring types_j = base::android::LxJType::GetLynxArrayElementTypes(env, java_array);
             const char* types_c = env->GetStringUTFChars(types_j, JNI_FALSE);
             std::string types(types_c);
 
             base::ScopedPtr<jscore::LynxArray> lynx_array(lynx_new jscore::LynxArray());
             for (int i = 0; i < length; ++i) {
                 base::android::ScopedLocalJavaRef<jobject> java_obj
-                        = base::android::JType::GetLynxArrayElement(env, java_array, i);
+                        = base::android::LxJType::GetLynxArrayElement(env, java_array, i);
                 jscore::LynxValue* object = ConvertToLynxValue(env,
                                                                java_obj.Get(),
                                                                types[i],
