@@ -3,4 +3,5 @@ package com.lynx.core.annotation;
 
 public @interface UIComponent {
     int type();
+    String tag();
 }

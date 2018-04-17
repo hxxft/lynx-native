@@ -17,6 +17,7 @@ namespace jscore {
 
     //static int ElementObjectCount = 0;
     std::map<int,std::map<std::string, int>>  Element::s_rpc_methods;
+    std::map<std::string,int>  Element::s_element_tags;
     Element::Element(JSContext* context, lynx::RenderObject* render_object)
             : is_protect_(false), render_object_(render_object), context_(context) {
 

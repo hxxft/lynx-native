@@ -64,7 +64,7 @@ public class UIComponentGenUtil {
             String methodName = m.getSimpleName().toString();
             int id = annotationId == 0 ? methodName.hashCode()
             : annotationId;
-            codeBlock.addStatement("com.lynx.utils.MethodRegisterUtil.nativeRegisterJSMethod($L,$S,$L)",
+            codeBlock.addStatement("com.lynx.utils.RegisterUtil.nativeRegisterJSMethod($L,$S,$L)",
                     type, m.getSimpleName().toString(),  id);
         }
         collectMethodSpecList.addCode(codeBlock.build());

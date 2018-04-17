@@ -100,6 +100,7 @@ public class ComponentProcess extends AbstractProcessor {
             TypeElement typeElement = (TypeElement) e;
             ComponentSpec componentSpec = genComponentSpec(typeElement);
             componentSpec.type = typeElement.getAnnotation(UIComponent.class).type();
+            componentSpec.tagName = typeElement.getAnnotation(UIComponent.class).tag();
             componentSpecList.add(componentSpec);
 
             JavaFile pageFactoryFile = JavaFile.builder(componentSpec.packageName,

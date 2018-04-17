@@ -29,6 +29,7 @@ namespace jscore {
         static void ProtectChild(JSContext* context, Element* child);
         static void UnprotectChild(JSContext* context, Element* child);
         static std::map<int,std::map<std::string, int>> s_rpc_methods;
+        static std::map<std::string, int> s_element_tags;
 
     private:
 
