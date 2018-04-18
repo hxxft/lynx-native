@@ -3,7 +3,7 @@
 #ifndef LYNX_RENDER_OBJECT_PROXY_IOS_H_
 #define LYNX_RENDER_OBJECT_PROXY_IOS_H_
 
-#include "base/lynx_render_object_impl.h"
+#include "base/render_object_impl_bridge.h"
 
 #include <string>
 #include <unordered_set>
@@ -22,8 +22,8 @@ namespace lynx {
         void UpdateData(int attr, id value);
         virtual base::ScopedPtr<jscore::LynxObject> GetImagePixel(int x, int y, int w,int h);
         
-        LynxRenderObjectImpl* ios() {
-            return ios_;
+        RenderObjectImplBridge* renderer_bridge() {
+            return renderer_bridge_;
         }
         
     private:
@@ -46,7 +46,7 @@ namespace lynx {
         void UpdateDataOnJSThread(int attr, base::ScopedPtr<jscore::LynxValue> value);
         
     private:
-        LynxRenderObjectImpl* ios_;
+        RenderObjectImplBridge* renderer_bridge_;
     };
 
 }

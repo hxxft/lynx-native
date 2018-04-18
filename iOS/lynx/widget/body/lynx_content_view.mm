@@ -2,7 +2,7 @@
 
 #include "widget/body/lynx_content_view.h"
 #include "widget/body/lynx_ui_body.h"
-#include "base/lynx_render_object_impl.h"
+#include "base/render_object_impl_bridge.h"
 #include "base/file_path_utility.h"
 #include "utils/screen_util.h"
 

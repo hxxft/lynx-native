@@ -1,7 +1,7 @@
 // Copyright 2017 The Lynx Authors. All rights reserved.
 
-#ifndef LYNX_CONTENT_BASE_LYNX_RENDER_OBJECT_IMPL_H_
-#define LYNX_CONTENT_BASE_LYNX_RENDER_OBJECT_IMPL_H_
+#ifndef LYNX_CONTENT_BASE_RENDER_OBJECT_IMPL_BRIDGE_H_
+#define LYNX_CONTENT_BASE_RENDER_OBJECT_IMPL_BRIDGE_H_
 
 #import <Foundation/Foundation.h>
 #include "widget/lynx_ui.h"
@@ -17,7 +17,7 @@ namespace lynx {
     class RenderObjectImplIOS;
 }
 
-@interface LynxRenderObjectImpl : NSObject {
+@interface RenderObjectImplBridge : NSObject {
     
     @public
     base::Position position_;
@@ -35,8 +35,8 @@ namespace lynx {
 @property(nonatomic, readwrite) NSMutableDictionary *data;
 @property(nonatomic, readwrite) NSMutableArray *events;
 @property(nonatomic, readwrite) NSMutableArray *children;
-@property(nonatomic, readwrite) LynxRenderObjectImpl *root;
-@property(nonatomic, readwrite) LynxRenderObjectImpl *parent;
+@property(nonatomic, readwrite) RenderObjectImplBridge *root;
+@property(nonatomic, readwrite) RenderObjectImplBridge *parent;
 @property(nonatomic, readwrite) LynxUI *ui;
 
 - (id) initWithRenderObjectImpl:(lynx::RenderObjectImplIOS*) impl withType:(lynx::RenderObjectType) type;
@@ -47,9 +47,9 @@ namespace lynx {
 
 - (void) setSize:(const base::Size&) size;
 
-- (void) insertChild:(LynxRenderObjectImpl *) child atIndex:(int) index;
+- (void) insertChild:(RenderObjectImplBridge *) child atIndex:(int) index;
 
-- (void) removeChild:(LynxRenderObjectImpl *) child;
+- (void) removeChild:(RenderObjectImplBridge *) child;
 
 - (void) setAttribute:(NSString *)value forKey:(NSString *) key;
 
@@ -70,4 +70,4 @@ namespace lynx {
 - (LynxUI *) createLynxUI;
 @end
 
-#endif  // LYNX_BASE_LYNX_RENDER_OBJECT_IMPL_H_
+#endif  // LYNX_CONTENT_BASE_RENDER_OBJECT_IMPL_BRIDGE_H_

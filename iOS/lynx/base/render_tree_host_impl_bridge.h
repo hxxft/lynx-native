@@ -6,7 +6,7 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
-#include "base/lynx_render_object_impl.h"
+#include "base/render_object_impl_bridge.h"
 
 #include "base/ui_action.h"
 #include "base/ui_action_collector.h"
@@ -15,12 +15,12 @@ namespace lynx {
     class RenderTreeHostImplIOS;
 }
 
-@interface LynxRenderTreeHostImpl : NSObject {
+@interface RenderTreeHostImplBridge : NSObject {
     @private
     lynx::RenderTreeHostImplIOS* render_tree_host_impl_;
 }
 
-@property(nonatomic, readonly) LynxRenderObjectImpl *rootRenderObjectImpl;
+@property(nonatomic, readonly) RenderObjectImplBridge *rootRenderObjectImpl;
 @property(nonatomic, readwrite) LynxUIActionCollector *collector;
 @property(nonatomic, readwrite) LynxUIActionCollector *lastCollector;
 

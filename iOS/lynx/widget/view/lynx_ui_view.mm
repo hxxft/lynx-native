@@ -2,17 +2,17 @@
 
 #include "widget/view/lynx_ui_view.h"
 
-#include "base/lynx_render_object_impl.h"
+#include "base/render_object_impl_bridge.h"
 
 #import <CoreGraphics/CGGeometry.h>
 
 @implementation LxUIView
 
-- (id) createView:(LynxRenderObjectImpl *) impl {
+- (id) createView:(RenderObjectImplBridge *) impl {
     return [[ViewWrapper alloc]initWithUI:self];;
 }
 
-- (void) insertChild:(LynxRenderObjectImpl *)child atIndex:(int)index {
+- (void) insertChild:(RenderObjectImplBridge *)child atIndex:(int)index {
     if (!child.ui) {
         [child createLynxUI];
     }

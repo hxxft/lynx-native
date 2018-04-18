@@ -12,7 +12,7 @@
 @property(nonatomic, readwrite) LynxRenderObjectAttr key;
 @property(nonatomic, readwrite) id data;
 
-- (id) initWithTarget:(LynxRenderObjectImpl *)target andKey:(LynxRenderObjectAttr)key andData:(id)data;
+- (id) initWithTarget:(RenderObjectImplBridge *)target andKey:(LynxRenderObjectAttr)key andData:(id)data;
 @end
 
 #endif  // UI_BASE_UI_UPDATE_DATA_ACTION_H_

@@ -5,7 +5,7 @@
 
 #import <Foundation/Foundation.h>
 
-#include "base/lynx_render_object_impl.h"
+#include "base/render_object_impl_bridge.h"
 
 typedef enum {
     DO_EVENT_NONE,
@@ -15,10 +15,10 @@ typedef enum {
 
 @interface LynxUIAction : NSObject
 
-@property(nonatomic, readwrite) LynxRenderObjectImpl *renderObjectImpl;
+@property(nonatomic, readwrite) RenderObjectImplBridge *renderObjectImpl;
 @property LynxUIActionType type;
 
-- (id) initWithType:(LynxUIActionType)type andTarget:(LynxRenderObjectImpl *)target;
+- (id) initWithType:(LynxUIActionType)type andTarget:(RenderObjectImplBridge *)target;
 
 - (void) doAction;
 @end

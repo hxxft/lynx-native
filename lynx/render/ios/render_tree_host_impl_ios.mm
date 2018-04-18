@@ -7,12 +7,12 @@ namespace lynx {
     
     RenderTreeHostImplIOS::RenderTreeHostImplIOS(jscore::ThreadManager* thread_manager, RenderTreeHost* host, RenderObjectImpl* root) : RenderTreeHostImpl(thread_manager, host, root) {
         RenderObjectImplIOS * rootIOS = static_cast<RenderObjectImplIOS *>(root);
-        ios_ = [[LynxRenderTreeHostImpl alloc] initWithRenderTreeHost:this
+        tree_host_bridge_ = [[RenderTreeHostImplBridge alloc] initWithRenderTreeHost:this
                                                   andRenderObjectImpl:rootIOS];
     }
     
     RenderTreeHostImplIOS::~RenderTreeHostImplIOS() {
-        ios_ = nil;
+        tree_host_bridge_ = nil;
     }
 
     void RenderTreeHostImplIOS::OnVSync() {
@@ -20,12 +20,12 @@ namespace lynx {
     }
     
     void RenderTreeHostImplIOS::BeginFrame() {
-        [ios_ beginFrame];
+        [tree_host_bridge_ beginFrame];
         RenderTreeHostImpl::BeginFrame();
     }
     
     void RenderTreeHostImplIOS::PrepareCommit() {
-        [ios_ prepareCommit];
+        [tree_host_bridge_ prepareCommit];
     }
     
 }

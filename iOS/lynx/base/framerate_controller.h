@@ -6,7 +6,7 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
-#include "base/lynx_render_tree_host_impl.h"
+#include "base/render_tree_host_impl_bridge.h"
 
 #include "render_tree_host_impl_ios.h"
 
@@ -15,9 +15,9 @@
 @private
     lynx::RenderTreeHostImpl::VSyncListener* vsync_listener_;
 }
-@property(nonatomic, readwrite, weak) LynxRenderTreeHostImpl *vsync_listener;
+@property(nonatomic, readwrite, weak) RenderTreeHostImplBridge *vsync_listener;
 @property(nonatomic, readwrite) CADisplayLink* displayLink;
--(instancetype)initWithVSyncListener:(LynxRenderTreeHostImpl *) vsync_listener;
+-(instancetype)initWithVSyncListener:(RenderTreeHostImplBridge *) vsync_listener;
 -(void) start;
 -(void) stop;
 @end

@@ -1,7 +1,7 @@
 // Copyright 2017 The Lynx Authors. All rights reserved.
 
 #include "widget/scrollview/lynx_ui_scrollview.h"
-#include "base/lynx_render_object_impl.h"
+#include "base/render_object_impl_bridge.h"
 
 #include "base/ios/common.h"
 
@@ -9,7 +9,7 @@
 
 static NSString * const kAttrPageEnable = @"page-enable";
 
-- (id)createView:(LynxRenderObjectImpl *) impl {
+- (id)createView:(RenderObjectImplBridge *) impl {
     return [[ScrollViewWrapper alloc] initWithUI:self];
 }
 
@@ -25,7 +25,7 @@ static NSString * const kAttrPageEnable = @"page-enable";
     self.view.contentSize = CGSizeMake(size.width_, size.height_);
 }
 
-- (void) insertChild:(LynxRenderObjectImpl *)child atIndex:(int)index {
+- (void) insertChild:(RenderObjectImplBridge *)child atIndex:(int)index {
     if (!child.ui) {
         [child createLynxUI];
     }

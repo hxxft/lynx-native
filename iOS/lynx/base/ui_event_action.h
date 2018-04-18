@@ -12,7 +12,7 @@
 @property(nonatomic, readwrite) NSString *event;
 @property(nonatomic, readwrite) NSArray *array;
 
-- (id) initWithTarget:(LynxRenderObjectImpl *)target andEvent:(NSString *)event andValue:(NSArray *)array;
+- (id) initWithTarget:(RenderObjectImplBridge *)target andEvent:(NSString *)event andValue:(NSArray *)array;
 @end
 
 #endif  // UI_BASE_UI_EVENT_ACTION_H_

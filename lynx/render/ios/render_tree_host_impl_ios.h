@@ -5,7 +5,7 @@
 
 #include "render/render_tree_host_impl.h"
 
-#include "base/lynx_render_tree_host_impl.h"
+#include "base/render_tree_host_impl_bridge.h"
 
 namespace lynx {
     class RenderTreeHostImplIOS : public RenderTreeHostImpl, public RenderTreeHostImpl::VSyncListener {
@@ -20,12 +20,12 @@ namespace lynx {
         virtual void BeginFrame();
         virtual void PrepareCommit();
         
-        LynxRenderTreeHostImpl* ios() {
-            return ios_;
+        RenderTreeHostImplBridge* tree_host_bridge() {
+            return tree_host_bridge_;
         }
         
     private:
-        LynxRenderTreeHostImpl *ios_;
+        RenderTreeHostImplBridge *tree_host_bridge_;
     };
 }
 

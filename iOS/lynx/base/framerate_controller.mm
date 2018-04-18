@@ -5,7 +5,7 @@
 
 @implementation LynxFrameRateController
 
--(instancetype)initWithVSyncListener:(LynxRenderTreeHostImpl *)vsync_listener
+-(instancetype)initWithVSyncListener:(RenderTreeHostImplBridge *)vsync_listener
 {
     self = [super init];
     if (self) {

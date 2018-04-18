@@ -5,7 +5,7 @@
 #include "widget/view/lynx_ui_view.h"
 #include "widget/view/view_wrapper.h"
 #import "base/lynx_runtime.h"
-#import "base/lynx_render_tree_host_impl.h"
+#import "base/render_tree_host_impl_bridge.h"
 
 #include "runtime/runtime.h"
 #include "render/render_object.h"
@@ -14,7 +14,7 @@
 @interface LxContentView : ViewWrapper
 
 @property(nonatomic, readwrite) LynxRuntime* runtime;
-@property(nonatomic, readwrite) LynxRenderTreeHostImpl* renderTreeHostImpl;
+@property(nonatomic, readwrite) RenderTreeHostImplBridge* renderTreeHostImpl;
 @property(nonatomic, readwrite) LynxFrameRateController* controller;
 
 -(id) init;

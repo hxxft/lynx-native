@@ -2,7 +2,7 @@
 
 #include "base/ui_action_collector.h"
 
-#include "base/lynx_render_object_impl.h"
+#include "base/render_object_impl_bridge.h"
 #include "base/ui_event_action.h"
 #include "base/ui_update_data_action.h"
 

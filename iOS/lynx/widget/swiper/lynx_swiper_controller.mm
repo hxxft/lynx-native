@@ -1,7 +1,7 @@
 // Copyright 2017 The Lynx Authors. All rights reserved.
 
 #include "widget/swiper/lynx_swiper_controller.h"
-#include "base/lynx_render_object_impl.h"
+#include "base/render_object_impl_bridge.h"
 
 @implementation LxSwiperController
 
@@ -17,8 +17,8 @@
 
 - (void)reloadData {
     [_children removeAllObjects];
-    LynxRenderObjectImpl *impl = _ui.renderObjectImpl;
-    for (LynxRenderObjectImpl *child in impl.children) {
+    RenderObjectImplBridge *impl = _ui.renderObjectImpl;
+    for (RenderObjectImplBridge *child in impl.children) {
         [_children addObject:child];
     }
     [_swiperView reloadData];
@@ -33,14 +33,14 @@
 }
 
 - (CGSize)tableView:(LxSwiperView *)swiperView sizeAtIndex:(NSInteger)index {
-    LynxRenderObjectImpl *child = _children[index];
+    RenderObjectImplBridge *child = _children[index];
     CGSize size;
     size.width = child->size_.width_;
     size.height = child->size_.height_;
     return size;
 }
 
-- (UIView *) buildChildView:(LynxRenderObjectImpl *)impl {
+- (UIView *) buildChildView:(RenderObjectImplBridge *)impl {
     if (!impl.ui) {
         [impl createLynxUI];
     }

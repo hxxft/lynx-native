@@ -5,7 +5,7 @@
 
 @implementation LxUIListView 
 
-- (id)createView:(LynxRenderObjectImpl *)impl {
+- (id)createView:(RenderObjectImplBridge *)impl {
     UITableView *view = [[UITableView alloc] init];
     _controller = [[LynxListViewController alloc] init:(UITableView *)view withUI:self];
     view.dataSource = _controller;
@@ -28,11 +28,11 @@
     }
 }
 
-- (void)removeChild:(LynxRenderObjectImpl *)child {
+- (void)removeChild:(RenderObjectImplBridge *)child {
     [self reloadData];
 }
 
-- (void)insertChild:(LynxRenderObjectImpl *)child atIndex:(int)index {
+- (void)insertChild:(RenderObjectImplBridge *)child atIndex:(int)index {
     [self reloadData];
 }
 

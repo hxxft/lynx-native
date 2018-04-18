@@ -5,7 +5,7 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
-#include "base/lynx_render_object_impl.h"
+#include "base/render_object_impl_bridge.h"
 #include "widget/lynx_ui.h"
 
 @interface LynxListViewController : NSObject <UITableViewDataSource, UITableViewDelegate>
@@ -16,7 +16,7 @@
 @property(nonatomic, readwrite) NSMutableArray *children;
 
 - (instancetype) init:(UITableView *)tableView withUI:(LynxUI *)ui;
-- (void) reloadData:(LynxRenderObjectImpl *)impl;
+- (void) reloadData:(RenderObjectImplBridge *)impl;
 @end
 
 #endif  // UI_WIDGET_LISTVIEW_LISTVIEW_CONTROLLER_H_

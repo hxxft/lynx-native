@@ -1,6 +1,6 @@
 // Copyright 2017 The Lynx Authors. All rights reserved.
 
-#include "base/lynx_render_object_impl.h"
+#include "base/render_object_impl_bridge.h"
 
 #include "widget/listview/lynx_ui_listview.h"
 
@@ -9,7 +9,7 @@
 
 #include "render/ios/render_object_impl_ios.h"
 
-@implementation LynxRenderObjectImpl
+@implementation RenderObjectImplBridge
 
 - (id) initWithRenderObjectImpl:(lynx::RenderObjectImplIOS*) impl withType:(lynx::RenderObjectType) type{
     self = [super init];
@@ -47,7 +47,7 @@
     }
 }
 
-- (void) insertChild:(LynxRenderObjectImpl *) child atIndex:(int) index {
+- (void) insertChild:(RenderObjectImplBridge *) child atIndex:(int) index {
     if(!child) return;
     if(!_children) {
         _children  = [[NSMutableArray alloc] init];
@@ -83,7 +83,7 @@
     }
 }
 
-- (void) removeChild:(LynxRenderObjectImpl *) child {
+- (void) removeChild:(RenderObjectImplBridge *) child {
     if (!_children) return;
     child.parent = nil;
     [_children removeObject:child];
@@ -145,7 +145,7 @@
 
 - (LynxUI *) createLynxUI {
     _ui = [LynxUIFactory createUI:self];
-    for (LynxRenderObjectImpl *child in _children) {
+    for (RenderObjectImplBridge *child in _children) {
         [child createLynxUI];
         [_ui insertChild:child atIndex:-1];
     }
@@ -159,10 +159,10 @@
     }
 }
 
-- (void)setRoot:(LynxRenderObjectImpl *)root {
+- (void)setRoot:(RenderObjectImplBridge *)root {
     _root = root;
     if (_children) {
-        for (LynxRenderObjectImpl *child in _children) {
+        for (RenderObjectImplBridge *child in _children) {
             [child setRoot:root];
         }
     }

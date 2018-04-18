@@ -6,7 +6,7 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
-#include "base/lynx_render_tree_host_impl.h"
+#include "base/render_tree_host_impl_bridge.h"
 #include "base/lynx_function_object.h"
 
 #include "runtime/runtime.h"
@@ -16,7 +16,7 @@
     jscore::Runtime* runtime_;
 }
 
-@property(nonatomic, readonly) LynxRenderTreeHostImpl *host;
+@property(nonatomic, readonly) RenderTreeHostImplBridge *host;
 
 + (CGFloat) defaultZoomRatio;
 
@@ -24,7 +24,7 @@
 
 - (void) prepareWithZoomRatio:(CGFloat) zoomRatio;
 
-- (LynxRenderTreeHostImpl *) active;
+- (RenderTreeHostImplBridge *) active;
 
 - (void) loadUrl:(NSString *) url;
 

@@ -12,7 +12,7 @@
 
 @implementation LynxUIFactory
 
-+ (LynxUI *) createUI:(LynxRenderObjectImpl *) impl {
++ (LynxUI *) createUI:(RenderObjectImplBridge *) impl {
     LynxUI* ui = NULL;
     switch (impl->type_) {
         case lynx::LYNX_BODY:

@@ -4,7 +4,7 @@
 
 @implementation LynxUIEventAction
 
-- (id) initWithTarget:(LynxRenderObjectImpl *)target andEvent:(NSString *)event andValue:(NSArray *)array {
+- (id) initWithTarget:(RenderObjectImplBridge *)target andEvent:(NSString *)event andValue:(NSArray *)array {
     self = [super initWithType:DO_EVENT_ACTION andTarget:target];
     if (self) {
         _event = event;

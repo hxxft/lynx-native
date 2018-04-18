@@ -12,7 +12,7 @@
 
 #pragma mark - LxUIBody
 
-- (id) initWithRenderObjectImpl:(LynxRenderObjectImpl *) impl {
+- (id) initWithRenderObjectImpl:(RenderObjectImplBridge *) impl {
     self = [super initWithRenderObjectImpl:impl];
     if (self) {
         _tranferStationImpl = [[LxCrdTransferStation alloc] init];
@@ -20,11 +20,11 @@
     return self;
 }
 
-- (UIView *)createView:(LynxRenderObjectImpl *)impl {
+- (UIView *)createView:(RenderObjectImplBridge *)impl {
     return nil;
 }
 
-- (void)bindRenderObjectImpl:(LynxRenderObjectImpl *)impl {
+- (void)bindRenderObjectImpl:(RenderObjectImplBridge *)impl {
     self.renderObjectImpl = impl;
 }
 

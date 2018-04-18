@@ -5,11 +5,11 @@
 
 #import <Foundation/Foundation.h>
 
-#include "base/lynx_render_object_impl.h"
+#include "base/render_object_impl_bridge.h"
 
 @interface LynxUIFactory : NSObject
 
-+ (LynxUI *) createUI:(LynxRenderObjectImpl *) impl;
++ (LynxUI *) createUI:(RenderObjectImplBridge *) impl;
 @end
 
 #endif  // UI_BASE_UI_FACTORY_H_

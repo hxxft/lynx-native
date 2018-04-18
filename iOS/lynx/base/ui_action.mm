@@ -4,7 +4,7 @@
 
 @implementation LynxUIAction
 
-- (id) initWithType:(LynxUIActionType)type andTarget:(LynxRenderObjectImpl *)target {
+- (id) initWithType:(LynxUIActionType)type andTarget:(RenderObjectImplBridge *)target {
     self = [super init];
     if (self) {
         _renderObjectImpl = target;

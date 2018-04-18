@@ -44,11 +44,11 @@ static CGFloat kDefaultZoomRatio = -1;
                                                              deviceInfo);
 }
 
-- (LynxRenderTreeHostImpl *) active {
+- (RenderTreeHostImplBridge *) active {
     // Create RenderTreeHost
     lynx::RenderTreeHost* render_tree_host = runtime_->SetupRenderHost();
     LxModuleRegister *moduleRegister = [[LxModuleRegister alloc] initWithRuntime:self];
-    _host = reinterpret_cast<lynx::RenderTreeHostImplIOS*>(render_tree_host->host_impl())->ios();
+    _host = reinterpret_cast<lynx::RenderTreeHostImplIOS*>(render_tree_host->host_impl())->tree_host_bridge();
     return _host;
 }
 

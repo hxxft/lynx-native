@@ -17,15 +17,15 @@
     return self;
 }
 
-- (void)reloadData:(LynxRenderObjectImpl *)impl {
+- (void)reloadData:(RenderObjectImplBridge *)impl {
     [_children removeAllObjects];
     [self buildChidrenImpl:impl];
     [self.tableView reloadData];
 }
 
--(void)buildChidrenImpl:(LynxRenderObjectImpl *)impl
+-(void)buildChidrenImpl:(RenderObjectImplBridge *)impl
 {
-    for (LynxRenderObjectImpl *child in impl.children) {
+    for (RenderObjectImplBridge *child in impl.children) {
         if (child->type_ == lynx::LYNX_LISTSHADOW) {
             [self buildChidrenImpl:child];
         } else {
@@ -48,7 +48,7 @@
     cell.contentView.clipsToBounds = YES;
     cell.clipsToBounds = YES;
     NSInteger row = [indexPath row];
-    LynxRenderObjectImpl *element = _children[row];
+    RenderObjectImplBridge *element = _children[row];
     UIView * childView = [self buildChildView:element];
     [cell.contentView addSubview:childView];
     return cell;
@@ -56,12 +56,12 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     NSInteger row = [indexPath row];
-    LynxRenderObjectImpl *impl = _children[row];
+    RenderObjectImplBridge *impl = _children[row];
     CGFloat height = impl->position_.GetHeight();
     return height;
 }
 
-- (UIView *) buildChildView:(LynxRenderObjectImpl *)impl {
+- (UIView *) buildChildView:(RenderObjectImplBridge *)impl {
     if (!impl.ui) {
         [impl createLynxUI];
     }

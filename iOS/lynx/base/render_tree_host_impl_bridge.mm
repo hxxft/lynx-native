@@ -1,18 +1,18 @@
 // Copyright 2017 The Lynx Authors. All rights reserved.
 
-#include "base/lynx_render_tree_host_impl.h"
+#include "base/render_tree_host_impl_bridge.h"
 
 #include "render/ios/render_tree_host_impl_ios.h"
 #include "render/ios/render_object_impl_ios.h"
 
-@implementation LynxRenderTreeHostImpl
+@implementation RenderTreeHostImplBridge
 
 - (id) initWithRenderTreeHost:(lynx::RenderTreeHostImplIOS *) renderTreeHostImpl
           andRenderObjectImpl:(lynx::RenderObjectImplIOS *) renderObjectImpl {
     self = [super init];
     if (self) {
         render_tree_host_impl_ = renderTreeHostImpl;
-        _rootRenderObjectImpl = renderObjectImpl->ios();
+        _rootRenderObjectImpl = renderObjectImpl->renderer_bridge();
         _collector = [[LynxUIActionCollector alloc] init];
     }
     return self;

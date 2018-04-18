@@ -8,7 +8,7 @@
 
 @implementation LxUIImage
 
-- (id)createView:(LynxRenderObjectImpl *)impl {
+- (id)createView:(RenderObjectImplBridge *)impl {
     return [[UIImageView alloc] init];
 }
 

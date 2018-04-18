@@ -42,7 +42,7 @@
 		BC2ED21E1F0CBF00001B2E50 /* loader.cc in Sources */ = {isa = PBXBuildFile; fileRef = BC2ED21D1F0CBF00001B2E50 /* loader.cc */; };
 		BC31B0071F611A3900C0234C /* ui_action_collector.mm in Sources */ = {isa = PBXBuildFile; fileRef = BC31B0061F611A3900C0234C /* ui_action_collector.mm */; };
 		BC31B00A1F611D5200C0234C /* ui_action.mm in Sources */ = {isa = PBXBuildFile; fileRef = BC31B0091F611D5200C0234C /* ui_action.mm */; };
-		BC31B0101F613AE000C0234C /* lynx_render_object_impl.mm in Sources */ = {isa = PBXBuildFile; fileRef = BC31B00F1F613AE000C0234C /* lynx_render_object_impl.mm */; };
+		BC31B0101F613AE000C0234C /* lynx_render_object_bridge.mm in Sources */ = {isa = PBXBuildFile; fileRef = BC31B00F1F613AE000C0234C /* lynx_render_object_bridge.mm */; };
 		BC31B0161F624F6D00C0234C /* lynx_ui_body.mm in Sources */ = {isa = PBXBuildFile; fileRef = BC31B0131F624F6D00C0234C /* lynx_ui_body.mm */; };
 		BC31B0171F624F6D00C0234C /* lynx_content_view.mm in Sources */ = {isa = PBXBuildFile; fileRef = BC31B0151F624F6D00C0234C /* lynx_content_view.mm */; };
 		BC31B01A1F6264E600C0234C /* ui_factory.mm in Sources */ = {isa = PBXBuildFile; fileRef = BC31B0191F6264E600C0234C /* ui_factory.mm */; };
@@ -50,7 +50,7 @@
 		BC31B0201F6273A500C0234C /* ui_update_data_action.mm in Sources */ = {isa = PBXBuildFile; fileRef = BC31B01F1F6273A500C0234C /* ui_update_data_action.mm */; };
 		BC31B0231F627DE700C0234C /* lynx_ui.mm in Sources */ = {isa = PBXBuildFile; fileRef = BC31B0221F627DE700C0234C /* lynx_ui.mm */; };
 		BC31B0261F6282AB00C0234C /* lynx_runtime.mm in Sources */ = {isa = PBXBuildFile; fileRef = BC31B0251F6282AB00C0234C /* lynx_runtime.mm */; };
-		BC31B0291F6284D200C0234C /* lynx_render_tree_host_impl.mm in Sources */ = {isa = PBXBuildFile; fileRef = BC31B0281F6284D200C0234C /* lynx_render_tree_host_impl.mm */; };
+		BC31B0291F6284D200C0234C /* render_tree_host_impl_bridge.mm in Sources */ = {isa = PBXBuildFile; fileRef = BC31B0281F6284D200C0234C /* render_tree_host_impl_bridge.mm */; };
 		BC41C10D1F04EC1300EB4BA3 /* global_config_data.cc in Sources */ = {isa = PBXBuildFile; fileRef = BC41C10B1F04EC1300EB4BA3 /* global_config_data.cc */; };
 		BC41C20B1F04EC2000EB4BA3 /* init.sh in Resources */ = {isa = PBXBuildFile; fileRef = BC41C10F1F04EC2000EB4BA3 /* init.sh */; };
 		BC41C2251F04EC2000EB4BA3 /* CMakeLists.txt in Resources */ = {isa = PBXBuildFile; fileRef = BC41C12D1F04EC2000EB4BA3 /* CMakeLists.txt */; };
@@ -288,8 +288,8 @@
 		BC31B0061F611A3900C0234C /* ui_action_collector.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ui_action_collector.mm; sourceTree = "<group>"; };
 		BC31B0081F611D5200C0234C /* ui_action.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ui_action.h; sourceTree = "<group>"; };
 		BC31B0091F611D5200C0234C /* ui_action.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ui_action.mm; sourceTree = "<group>"; };
-		BC31B00E1F613AE000C0234C /* lynx_render_object_impl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lynx_render_object_impl.h; sourceTree = "<group>"; };
-		BC31B00F1F613AE000C0234C /* lynx_render_object_impl.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = lynx_render_object_impl.mm; sourceTree = "<group>"; };
+		BC31B00E1F613AE000C0234C /* render_object_impl_bridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = render_object_impl_bridge.h; sourceTree = "<group>"; };
+		BC31B00F1F613AE000C0234C /* lynx_render_object_bridge.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = lynx_render_object_bridge.mm; sourceTree = "<group>"; };
 		BC31B0121F624F6D00C0234C /* lynx_ui_body.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lynx_ui_body.h; sourceTree = "<group>"; };
 		BC31B0131F624F6D00C0234C /* lynx_ui_body.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = lynx_ui_body.mm; sourceTree = "<group>"; };
 		BC31B0141F624F6D00C0234C /* lynx_content_view.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lynx_content_view.h; sourceTree = "<group>"; };
@@ -304,8 +304,8 @@
 		BC31B0221F627DE700C0234C /* lynx_ui.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = lynx_ui.mm; sourceTree = "<group>"; };
 		BC31B0241F6282AB00C0234C /* lynx_runtime.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lynx_runtime.h; sourceTree = "<group>"; };
 		BC31B0251F6282AB00C0234C /* lynx_runtime.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = lynx_runtime.mm; sourceTree = "<group>"; };
-		BC31B0271F6284D200C0234C /* lynx_render_tree_host_impl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lynx_render_tree_host_impl.h; sourceTree = "<group>"; };
-		BC31B0281F6284D200C0234C /* lynx_render_tree_host_impl.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = lynx_render_tree_host_impl.mm; sourceTree = "<group>"; };
+		BC31B0271F6284D200C0234C /* render_tree_host_impl_bridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = render_tree_host_impl_bridge.h; sourceTree = "<group>"; };
+		BC31B0281F6284D200C0234C /* render_tree_host_impl_bridge.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = render_tree_host_impl_bridge.mm; sourceTree = "<group>"; };
 		BC3414C41E5C6AAE00E7755C /* uri.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = uri.h; sourceTree = "<group>"; };
 		BC3414C51E5F11D100E7755C /* scoped_ptr_map.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = scoped_ptr_map.h; sourceTree = "<group>"; };
 		BC3414C61E5F11D100E7755C /* scoped_vector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = scoped_vector.h; sourceTree = "<group>"; };
@@ -1007,8 +1007,8 @@
 				BC31B0061F611A3900C0234C /* ui_action_collector.mm */,
 				BC31B0081F611D5200C0234C /* ui_action.h */,
 				BC31B0091F611D5200C0234C /* ui_action.mm */,
-				BC31B00E1F613AE000C0234C /* lynx_render_object_impl.h */,
-				BC31B00F1F613AE000C0234C /* lynx_render_object_impl.mm */,
+				BC31B00E1F613AE000C0234C /* render_object_impl_bridge.h */,
+				BC31B00F1F613AE000C0234C /* lynx_render_object_bridge.mm */,
 				BC31B0181F6264E600C0234C /* ui_factory.h */,
 				BC31B0191F6264E600C0234C /* ui_factory.mm */,
 				BC31B01B1F6271BE00C0234C /* ui_event_action.h */,
@@ -1017,8 +1017,8 @@
 				BC31B01F1F6273A500C0234C /* ui_update_data_action.mm */,
 				BC31B0241F6282AB00C0234C /* lynx_runtime.h */,
 				BC31B0251F6282AB00C0234C /* lynx_runtime.mm */,
-				BC31B0271F6284D200C0234C /* lynx_render_tree_host_impl.h */,
-				BC31B0281F6284D200C0234C /* lynx_render_tree_host_impl.mm */,
+				BC31B0271F6284D200C0234C /* render_tree_host_impl_bridge.h */,
+				BC31B0281F6284D200C0234C /* render_tree_host_impl_bridge.mm */,
 				423986491F793E5B008775F6 /* file_path_utility.h */,
 				4239864A1F793F42008775F6 /* file_path_utility.mm */,
 				BC8798701FC7C22300F76993 /* lynx_function_object.h */,
@@ -1800,7 +1800,7 @@
 				BC5D48FC2066443200424ABA /* device_info_util.mm in Sources */,
 				BCD050871EA0A87A00359EC1 /* render_tree_host.cc in Sources */,
 				BC6748F21F667FE300D50971 /* swiper_view.cc in Sources */,
-				BC31B0291F6284D200C0234C /* lynx_render_tree_host_impl.mm in Sources */,
+				BC31B0291F6284D200C0234C /* render_tree_host_impl_bridge.mm in Sources */,
 				BC41C2401F04EC2000EB4BA3 /* json_reader.cpp in Sources */,
 				BC5DBDB11F5E9D87005A47E3 /* lynx_ui_view.mm in Sources */,
 				BC5DBDBA1F5EF76F005A47E3 /* scrollview_wrapper.mm in Sources */,
@@ -1861,7 +1861,7 @@
 				BC8A0D181FB2E477002B0370 /* code_generator.cc in Sources */,
 				BC5DBD721F5C60A5005A47E3 /* DemoViewController.m in Sources */,
 				BC6D1CF71F558DCD007DD652 /* document.cc in Sources */,
-				BC31B0101F613AE000C0234C /* lynx_render_object_impl.mm in Sources */,
+				BC31B0101F613AE000C0234C /* lynx_render_object_bridge.mm in Sources */,
 				BC6D1D141F55C327007DD652 /* input_stream.cc in Sources */,
 				421438F9207DF52E00ECF750 /* resource_manager.mm in Sources */,
 				4273CC3A1F00032E00321655 /* container_node.cc in Sources */,

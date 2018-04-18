@@ -4,7 +4,7 @@
 
 @implementation LynxUIUpdateDataAction
 
-- (id) initWithTarget:(LynxRenderObjectImpl *)target andKey:(LynxRenderObjectAttr)key andData:(id)data {
+- (id) initWithTarget:(RenderObjectImplBridge *)target andKey:(LynxRenderObjectAttr)key andData:(id)data {
     self = [super initWithType:DO_UPDATE_DATA_ACTION andTarget:target];
     if (self) {
         _key = key;

@@ -13,12 +13,12 @@
 #include "base/position.h"
 #include "base/size.h"
 
-@class LynxRenderObjectImpl;
+@class RenderObjectImplBridge;
 @class LxUIBody;
 
 @interface LynxUI<__covariant V : UIView*> : NSObject<LxCrdSponsor, LxCrdResponder>
 
-@property(nonatomic, readwrite) LynxRenderObjectImpl *renderObjectImpl;
+@property(nonatomic, readwrite) RenderObjectImplBridge *renderObjectImpl;
 @property(nonatomic, readwrite) V view;
 
 @property(nonatomic, readwrite) CGFloat offsetTop;
@@ -26,7 +26,7 @@
 @property(nonatomic, readwrite) CGFloat offsetBottom;
 @property(nonatomic, readwrite) CGFloat offsetRight;
 
-- (id) initWithRenderObjectImpl:(LynxRenderObjectImpl *) impl NS_DESIGNATED_INITIALIZER;
+- (id) initWithRenderObjectImpl:(RenderObjectImplBridge *) impl NS_DESIGNATED_INITIALIZER;
 
 - (BOOL) isEmpty;
 
@@ -34,7 +34,7 @@
 
 - (LxUIBody *) getRootUI;
 
-- (V) createView:(LynxRenderObjectImpl *) impl;
+- (V) createView:(RenderObjectImplBridge *) impl;
 
 - (void) updateStyle:(const lynx::CSSStyle&) style;
 
@@ -46,9 +46,9 @@
 
 - (void) setSize:(const base::Size&) size;
 
-- (void) insertChild:(LynxRenderObjectImpl *) child atIndex:(int) index;
+- (void) insertChild:(RenderObjectImplBridge *) child atIndex:(int) index;
 
-- (void) removeChild:(LynxRenderObjectImpl *) child;
+- (void) removeChild:(RenderObjectImplBridge *) child;
 
 - (void) setText:(NSString *) text;
 
@@ -62,13 +62,13 @@
 
 - (void) removeEventListener:(NSString *) event;
 
-- (void) bindRenderObjectImpl:(LynxRenderObjectImpl *) impl;
+- (void) bindRenderObjectImpl:(RenderObjectImplBridge *) impl;
 
 - (void) unbindRenderObjectImpl;
 
-- (void) setAttribution:(LynxRenderObjectImpl *) impl;
+- (void) setAttribution:(RenderObjectImplBridge *) impl;
 
-- (void) addEvents:(LynxRenderObjectImpl *) impl;
+- (void) addEvents:(RenderObjectImplBridge *) impl;
 
 - (void) postEvent:(NSString *)event withValue:(NSArray *)array;
 

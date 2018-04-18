@@ -31,7 +31,7 @@ static NSString * const kAttrCoordinatorType = @"coordinator-type";
 
 LX_NOT_IMPLEMENTED(- (instancetype)init)
 
-- (id)initWithRenderObjectImpl:(LynxRenderObjectImpl *) impl {
+- (id)initWithRenderObjectImpl:(RenderObjectImplBridge *) impl {
     self = [super init];
     if (self) {
         _view = [self createView:impl];
@@ -49,7 +49,7 @@ LX_NOT_IMPLEMENTED(- (instancetype)init)
     return _view;
 }
 
-- (UIView *) createView:(LynxRenderObjectImpl *) impl {
+- (UIView *) createView:(RenderObjectImplBridge *) impl {
     @throw [NSException exceptionWithName:NSInternalInconsistencyException
                                    reason:[NSString stringWithFormat:@"You must override %@ in a subclass", NSStringFromSelector(_cmd)]
                                  userInfo:nil];
@@ -104,11 +104,11 @@ LX_NOT_IMPLEMENTED(- (instancetype)init)
     
 }
 
-- (void) insertChild:(LynxRenderObjectImpl *) child atIndex:(int) index {
+- (void) insertChild:(RenderObjectImplBridge *) child atIndex:(int) index {
     
 }
 
-- (void) removeChild:(LynxRenderObjectImpl *) child {
+- (void) removeChild:(RenderObjectImplBridge *) child {
     
 }
 
@@ -157,7 +157,7 @@ LX_NOT_IMPLEMENTED(- (instancetype)init)
     
 }
 
-- (void) bindRenderObjectImpl:(LynxRenderObjectImpl *) impl {
+- (void) bindRenderObjectImpl:(RenderObjectImplBridge *) impl {
     _renderObjectImpl = impl;
     [self updateStyle:impl->style_];
     [self setPosition:impl->position_];
@@ -165,7 +165,7 @@ LX_NOT_IMPLEMENTED(- (instancetype)init)
     [self addEvents:impl];
 }
 
-- (void) setAttribution:(LynxRenderObjectImpl *) impl {
+- (void) setAttribution:(RenderObjectImplBridge *) impl {
     if (impl.attributes.count != 0) {
         for (id key in impl.attributes) {
             id value = impl.attributes[key];
@@ -175,7 +175,7 @@ LX_NOT_IMPLEMENTED(- (instancetype)init)
     }
 }
 
-- (void) addEvents:(LynxRenderObjectImpl *) impl {
+- (void) addEvents:(RenderObjectImplBridge *) impl {
     if (impl.events.count != 0) {
         for (id key in impl.events) {
             [self addEventListener:SAFE_CONVERT(key, NSString)];

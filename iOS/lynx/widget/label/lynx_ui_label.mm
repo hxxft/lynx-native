@@ -4,12 +4,12 @@
 #import <CoreGraphics/CGGeometry.h>
 
 #include "base/style_convector.h"
-#include "base/lynx_render_object_impl.h"
+#include "base/render_object_impl_bridge.h"
 #include "base/ios/common.h"
 
 @implementation LxUILabel
 
-- (id)createView:(LynxRenderObjectImpl *)impl {
+- (id)createView:(RenderObjectImplBridge *)impl {
     UIView *view = [[LabelWrapper alloc] init];
     view.clipsToBounds = YES;
     return view;
@@ -34,7 +34,7 @@
     (self.view).text = text;
 }
 
-- (void)bindRenderObjectImpl:(LynxRenderObjectImpl *)impl {
+- (void)bindRenderObjectImpl:(RenderObjectImplBridge *)impl {
     [super bindRenderObjectImpl:impl];
     [self setText:impl.text];
 }
