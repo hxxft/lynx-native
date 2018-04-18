@@ -109,6 +109,7 @@ public class LynxRuntime {
     }
 
     public void destroy() {
+        if (mNativeRuntime == 0) return;
 
         nativeDestroyNativeJSRuntime(mNativeRuntime);
         mNativeRuntime = 0;
