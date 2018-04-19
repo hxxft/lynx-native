@@ -27,7 +27,7 @@
     [self.view addSubview:content_view_];
 
 //    [_lynxView loadScriptFile:@"test"];
-    [content_view_ loadPage:@"Assets://assets.bundle/home/"];
+    [content_view_ loadPage:@"Assets://assets.bundle/homedemo/"];
 //    NSString *url = @"http://localhost:8080/";
 //    [_lynxView loadUrl:url];
     
