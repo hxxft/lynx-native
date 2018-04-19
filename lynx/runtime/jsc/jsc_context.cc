@@ -95,8 +95,8 @@ namespace jscore {
 
             std::string str = JSCHelper::ConvertToString(context_, exception);
             if (!str.empty()) {
-                OnExceptionOccured(str);
                 DLOG(ERROR) << "JS Compile ERROR: " << str << "(" << line << ":"<<column << ")";
+                OnExceptionOccured(str);
             }
         }
 

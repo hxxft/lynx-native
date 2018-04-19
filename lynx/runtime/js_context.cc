@@ -6,6 +6,8 @@
 namespace jscore {
 
     void JSContext::OnExceptionOccured(std::string &error) {
-        runtime_->exception_handler()->OnReceiveResult(error);
+        if(runtime_ && runtime_->exception_handler()){
+          runtime_->exception_handler()->OnReceiveResult(error);
+        }
     }
 }
