@@ -26,7 +26,6 @@ ImageView::ImageView(const char *tag_name,
 }
 
 base::Size ImageView::OnMeasure(int width_descriptor, int height_descriptor) {
-    DLOG(INFO) << style_.width() << " "<<style_.height();
     if (!CSS_IS_UNDEFINED(style_.height())) {
         measured_size_.height_ = style_.height();
     }
