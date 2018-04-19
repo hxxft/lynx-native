@@ -29,6 +29,8 @@ class MessagePump {
     virtual void ScheduleDelayedWork(Clouse* clouse, int delayed_time) = 0;
 
     virtual void ScheduleIntervalWork(Clouse* clouse, int delayed_time) = 0;
+    
+    static MessagePump* Create(Delegate* delegate);
 };
 }  // namespace base
 

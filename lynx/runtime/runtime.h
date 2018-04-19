@@ -34,7 +34,7 @@ class Runtime {
     Runtime(JSContext* context);
     ~Runtime() {}
     void InitRuntime(const char* arg);
-    void RunScript(const base::PlatformString& source,
+    void RunScript(base::ScopedPtr<base::PlatformString> source,
                    base::ScopedPtr<ResultCallback> callback = base::ScopedPtr<ResultCallback>());
     void LoadScript(const std::string& source);
     void LoadScriptDataWithBaseUrl(const std::string& data, const std::string& url);
@@ -77,7 +77,7 @@ class Runtime {
 
 private:
     void InitRuntimeOnJSThread(const char* arg);
-    void RunScriptOnJSThread(const base::PlatformString& source,
+    void RunScriptOnJSThread(base::ScopedPtr<base::PlatformString> source,
                              base::ScopedPtr<ResultCallback> callback);
     void LoadScriptOnJSThread(const std::string& source);
     void LoadUrlOnJSThread(const std::string& url);

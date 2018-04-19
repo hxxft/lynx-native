@@ -2,11 +2,6 @@
 
 #include "render/impl/render_object_impl.h"
 
-#if OS_IOS
-#include "render/ios/render_object_impl_ios.h"
-#else
-#include "render/android/render_object_impl_android.h"
-#endif
 #include "render/render_object.h"
 
 namespace lynx {
@@ -21,15 +16,6 @@ RenderObjectImpl::RenderObjectImpl(
 RenderObjectImpl::~RenderObjectImpl() {
 }
 
-
-RenderObjectImpl* RenderObjectImpl::Create(jscore::ThreadManager *proxy,
-        RenderObjectType type) {
-#if OS_IOS
-    return lynx_new RenderObjectImplIOS(proxy, type);
-#else
-    return lynx_new RenderObjectImplAndroid(proxy, type);
-#endif
-}
 
 base::ScopedPtr<jscore::LynxValue> RenderObjectImpl::GetLynxValue() {
     if (render_object_weak_ptr_.IsValid()) {

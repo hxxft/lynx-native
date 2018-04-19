@@ -24,7 +24,11 @@ class URLRequest {
     }
     virtual ~URLRequest() {
     }
-
+    
+    static URLRequest* Create(URLRequestContext *context,
+                              const std::string &url,
+                              URLRequestDelegate *delegate);
+    
     // ThreadSafe
     virtual void Fetch() {}
 

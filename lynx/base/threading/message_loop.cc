@@ -4,12 +4,8 @@
 #include "base/threading/message_pump_posix.h"
 #include "base/debug/memory_debug.h"
 
-#if OS_ANDROID
 #include "base/task/task.h"
-#include "base/threading/message_pump_android.h"
-#else
-#include "base/threading/message_pump_ios.h"
-#endif
+
 
 namespace base {
 
@@ -27,11 +23,7 @@ MessagePump* MessageLoop::CreatePump(MESSAGE_LOOP_TYPE type) {
         pump = lynx_new MessagePumpPosix();
         break;
     case MESSAGE_LOOP_UI:
-#if OS_ANDROID
-        pump = lynx_new MessagePumpAndroid(this);
-#else
-        pump = lynx_new MessagePumpIOS(this);
-#endif
+        pump = MessagePump::Create(this);
         break;
     default:
         break;

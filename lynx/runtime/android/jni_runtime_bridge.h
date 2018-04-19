@@ -5,7 +5,7 @@
 
 
 #include <string>
-
+#include <jni.h>
 
 #include "runtime/runtime.h"
 

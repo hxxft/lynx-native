@@ -4,6 +4,9 @@
 #include "render/ios/render_object_impl_ios.h"
 
 namespace lynx {
+    RenderTreeHostImpl* RenderTreeHostImpl::Create(jscore::ThreadManager* thread_manager, RenderTreeHost* host, RenderObjectImpl* root) {
+        return lynx_new RenderTreeHostImplIOS(thread_manager, host, root);
+    }
     
     RenderTreeHostImplIOS::RenderTreeHostImplIOS(jscore::ThreadManager* thread_manager, RenderTreeHost* host, RenderObjectImpl* root) : RenderTreeHostImpl(thread_manager, host, root) {
         RenderObjectImplIOS * rootIOS = static_cast<RenderObjectImplIOS *>(root);

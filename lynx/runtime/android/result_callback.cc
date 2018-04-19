@@ -1,6 +1,6 @@
 // Copyright 2017 The Lynx Authors. All rights reserved.
 
-#include <base/android/jni_helper.h>
+#include "base/android/jni_helper.h"
 #include "runtime/android/result_callback.h"
 #include "ResultCallback_jni.h"
 

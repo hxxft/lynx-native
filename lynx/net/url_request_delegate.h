@@ -16,9 +16,9 @@ public:
     URLRequestDelegate() {}
     virtual ~URLRequestDelegate() {}
     // Callback will be invoked on JSThread
-    virtual void OnSuccess(const base::PlatformString& url, const base::PlatformString& response) {}
+    virtual void OnSuccess(base::ScopedPtr<base::PlatformString> url, base::ScopedPtr<base::PlatformString> response) {}
     // Callback will be invoked on JSThread
-    virtual void OnFailed(const base::PlatformString& url, const base::PlatformString& error) {}
+    virtual void OnFailed(base::ScopedPtr<base::PlatformString> url, base::ScopedPtr<base::PlatformString> error) {}
 };
 }
 #endif // URL_REQUEST_DELEGATE_H

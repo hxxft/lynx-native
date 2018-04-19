@@ -34,6 +34,7 @@ class RenderTreeHostImpl : public RenderTreeHostClient,
                        RenderObjectImpl* root);
     virtual ~RenderTreeHostImpl();
 
+    static RenderTreeHostImpl* Create(jscore::ThreadManager* thread_manager, RenderTreeHost* host, RenderObjectImpl* root);
     void DoRenderAction();
     void UpdateViewport(int left, int top, int width, int height);
 

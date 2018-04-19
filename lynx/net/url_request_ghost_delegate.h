@@ -21,21 +21,21 @@ class URLRequestGhostDelegate : public URLRequestDelegate {
 
     // NotThreadSafe
     // Should be called on UI thread.
-    void DeliverSuccess(base::PlatformString& url,
-                        base::PlatformString& response);
+    void DeliverSuccess(base::ScopedPtr<base::PlatformString> url,
+                        base::ScopedPtr<base::PlatformString> response);
 
     // NotThreadSafe
     // Should be called on UI thread.
-    void DeliverError(base::PlatformString& url,
-                      base::PlatformString& error);
+    void DeliverError(base::ScopedPtr<base::PlatformString> url,
+                      base::ScopedPtr<base::PlatformString> error);
 
     // Will be called on JS thread
-    virtual void OnSuccess(const base::PlatformString& url,
-                           const base::PlatformString& response);
+    virtual void OnSuccess(base::ScopedPtr<base::PlatformString> url,
+                           base::ScopedPtr<base::PlatformString> response);
 
     // Will be called on JS thread
-    virtual void OnFailed(const base::PlatformString& url,
-                          const base::PlatformString& error);
+    virtual void OnFailed(base::ScopedPtr<base::PlatformString> url,
+                          base::ScopedPtr<base::PlatformString> error);
 
     // NotThreadSafe
     // Should be called on UI thread.

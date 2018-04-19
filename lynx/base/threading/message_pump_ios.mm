@@ -3,6 +3,11 @@
 #include "message_pump_ios.h"
 
 namespace base {
+    
+    MessagePump* MessagePump::Create(Delegate* delegate) {
+        return lynx_new MessagePumpIOS(delegate);
+    }
+    
     const CFStringRef kMessageLoopExclusiveRunLoopMode =
     CFSTR("kMessageLoopExclusiveRunLoopMode");
     

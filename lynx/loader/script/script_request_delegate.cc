@@ -13,13 +13,13 @@ ScriptRequestDelegate::~ScriptRequestDelegate() {
     loader_->Release();
 }
 
-void ScriptRequestDelegate::OnSuccess(const base::PlatformString& url,
-                                      const base::PlatformString& response) {
-    loader_->LoadScriptOnJSThread(url_, response.ToString());
+void ScriptRequestDelegate::OnSuccess(base::ScopedPtr<base::PlatformString> url,
+                                      base::ScopedPtr<base::PlatformString> response) {
+    loader_->LoadScriptOnJSThread(url_, response->ToString());
 }
 
-void ScriptRequestDelegate::OnFailed(const base::PlatformString& url,
-                                     const base::PlatformString& error) {
+void ScriptRequestDelegate::OnFailed(base::ScopedPtr<base::PlatformString> url,
+                                     base::ScopedPtr<base::PlatformString> error) {
 }
 
 }  // namespace loader

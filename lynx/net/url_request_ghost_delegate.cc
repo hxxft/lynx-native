@@ -18,8 +18,8 @@ namespace net {
         weak_ptr_.Invalidate();
     }
 
-    void URLRequestGhostDelegate::DeliverSuccess(base::PlatformString& url,
-                                                 base::PlatformString& response) {
+    void URLRequestGhostDelegate::DeliverSuccess(base::ScopedPtr<base::PlatformString> url,
+                                                 base::ScopedPtr<base::PlatformString> response) {
         context_->runtime()
                 ->thread_manager()
                 ->RunOnJSThread(
@@ -29,8 +29,8 @@ namespace net {
                                    response));
     }
 
-    void URLRequestGhostDelegate::DeliverError(base::PlatformString &url,
-                                               base::PlatformString &error) {
+    void URLRequestGhostDelegate::DeliverError(base::ScopedPtr<base::PlatformString> url,
+                                               base::ScopedPtr<base::PlatformString> error) {
         context_->runtime()
                 ->thread_manager()
                 ->RunOnJSThread(
@@ -40,15 +40,15 @@ namespace net {
                                    error));
     }
 
-    void URLRequestGhostDelegate::OnSuccess(const base::PlatformString &url,
-                                            const base::PlatformString &response) {
+    void URLRequestGhostDelegate::OnSuccess(base::ScopedPtr<base::PlatformString> url,
+                                            base::ScopedPtr<base::PlatformString> response) {
         delegate_->OnSuccess(url, response);
         context_->Remove(request_);
         this->Die();
     }
 
-    void URLRequestGhostDelegate::OnFailed(const base::PlatformString &url,
-                                           const base::PlatformString &error) {
+    void URLRequestGhostDelegate::OnFailed(base::ScopedPtr<base::PlatformString> url,
+                                           base::ScopedPtr<base::PlatformString> error) {
         delegate_->OnFailed(url, error);
         context_->Remove(request_);
         this->Die();

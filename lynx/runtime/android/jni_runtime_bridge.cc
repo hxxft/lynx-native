@@ -6,6 +6,7 @@
 
 #include "base/android/jni_helper.h"
 #include "base/log/logging.h"
+#include "base/string/platform_string_impl.h"
 #include "config/global_config_data.h"
 #include "render/android/render_tree_host_impl_android.h"
 #include "render/android/render_object_impl_android.h"
@@ -44,7 +45,7 @@ void RunScript(JNIEnv *env, jobject jcaller,
                jstring source,
                jobject callback) {
     jscore::Runtime *runtime_ptr = reinterpret_cast<jscore::Runtime *>(runtime);
-    base::PlatformString platform_string(env, source);
+    base::ScopedPtr<base::PlatformString> platform_string(new base::PlatformStringImpl(env, source));
     base::ScopedPtr<jscore::ResultCallback> cb;
     if (callback != NULL) {
         cb.Reset(lynx_new jscore::ResultCallbackAndroid(env, callback));
@@ -55,9 +56,9 @@ void RunScript(JNIEnv *env, jobject jcaller,
 void LoadHTML(JNIEnv *env, jobject jcaller, jlong runtime, jstring url, jstring source) {
   DCHECK(runtime);
   jscore::Runtime* runtime_ptr = reinterpret_cast<jscore::Runtime*>(runtime);
-  base::PlatformString platform_string(env, source);
-  base::PlatformString platform_url(env, url);
-  runtime_ptr->LoadHTML(platform_url.ToString(), platform_string.ToString());
+  base::ScopedPtr<base::PlatformString> platform_string(new base::PlatformStringImpl(env, source));
+  base::ScopedPtr<base::PlatformString> platform_url(new base::PlatformStringImpl(env, url));
+  runtime_ptr->LoadHTML(platform_url->ToString(), platform_string->ToString());
 }
 
 static void LoadScriptDataWithBaseUrl(JNIEnv *env, jobject jcaller,
@@ -65,9 +66,11 @@ static void LoadScriptDataWithBaseUrl(JNIEnv *env, jobject jcaller,
                                       jstring source,
                                       jstring url) {
     jscore::Runtime* runtime_ptr = reinterpret_cast<jscore::Runtime*>(runtime);
-    base::PlatformString platform_url(env, url);
-    base::PlatformString platform_string(env, source);
-    runtime_ptr->LoadScriptDataWithBaseUrl(platform_string.ToString(), platform_url.ToString());
+    base::ScopedPtr<base::PlatformString> platform_string(
+        new base::PlatformStringImpl(env, source));
+    base::ScopedPtr<base::PlatformString> platform_url(
+        new base::PlatformStringImpl(env, url));
+    runtime_ptr->LoadScriptDataWithBaseUrl(platform_string->ToString(), platform_url->ToString());
 }
 
 void LoadUrl(JNIEnv *env, jobject jcaller, jlong runtime, jstring url) {

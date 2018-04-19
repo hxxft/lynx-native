@@ -9,12 +9,6 @@
 #include "runtime/element.h"
 #include "runtime/runtime.h"
 
-#if OS_ANDROID
-#include "render/android/render_tree_host_impl_android.h"
-#elif OS_IOS
-#include "render/ios/render_tree_host_impl_ios.h"
-#endif
-
 #include "base/trace_event/trace_event_common.h"
 
 namespace lynx {
@@ -39,13 +33,8 @@ void RenderTreeHost::SetRenderRoot(RenderObject* root) {
   render_root_ = root;
   if (render_root_ == NULL)
     return;
-#if OS_ANDROID
-  render_tree_host_impl_ =
-      lynx_new RenderTreeHostImplAndroid(thread_manager_, this, root->impl());
-#elif OS_IOS
-  render_tree_host_impl_ = lynx_new RenderTreeHostImplIOS(thread_manager_, this,
-                                                          render_root_->impl());
-#endif
+  render_tree_host_impl_ = RenderTreeHostImpl::Create(thread_manager_, this,
+                                                        render_root_->impl());
 }
 
 void RenderTreeHost::UpdateRenderObject(RenderCommand* command) {

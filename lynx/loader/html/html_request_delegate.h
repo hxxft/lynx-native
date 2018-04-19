@@ -12,10 +12,10 @@ class HTMLRequestDelegate: public net::URLRequestDelegate {
  public:
     HTMLRequestDelegate(HTMLLoader* loader, const std::string& url);
     ~HTMLRequestDelegate();
-    virtual void OnSuccess(const base::PlatformString& url,
-                           const base::PlatformString& response);
-    virtual void OnFailed(const base::PlatformString& url,
-                          const base::PlatformString& error);
+    virtual void OnSuccess(base::ScopedPtr<base::PlatformString> url,
+                           base::ScopedPtr<base::PlatformString> response);
+    virtual void OnFailed(base::ScopedPtr<base::PlatformString> url,
+                          base::ScopedPtr<base::PlatformString> error);
 
  private:
     HTMLLoader* loader_;

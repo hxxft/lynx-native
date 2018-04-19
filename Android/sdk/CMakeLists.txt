@@ -143,6 +143,7 @@ add_library(lynx SHARED
             	${CMAKE_SOURCE_DIR}/../../lynx/runtime/js_event.cc
             	${CMAKE_SOURCE_DIR}/../../lynx/runtime/jsc/jsc_helper.cc
             	${CMAKE_SOURCE_DIR}/../../lynx/runtime/jsc/jsc_context.cc
+            	${CMAKE_SOURCE_DIR}/../../lynx/runtime/jsc/js_value_ext.cc
             	#${CMAKE_SOURCE_DIR}/../../lynx/runtime/v8/simple_allocator.cc
             	${CMAKE_SOURCE_DIR}/../../lynx/runtime/jsc/jsc_function.cc
             	${CMAKE_SOURCE_DIR}/../../lynx/runtime/jsc/timeout_callback.cc

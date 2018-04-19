@@ -9,6 +9,11 @@ using namespace base;
 
 namespace lynx {
 
+    RenderObjectImpl* RenderObjectImpl::Create(jscore::ThreadManager *proxy,
+                                               RenderObjectType type) {
+        return lynx_new RenderObjectImplIOS(proxy, type);
+    }
+    
     RenderObjectImplIOS::RenderObjectImplIOS(jscore::ThreadManager* manager,RenderObjectType type) : RenderObjectImpl(manager, type){
         renderer_bridge_ = [[RenderObjectImplBridge alloc] initWithRenderObjectImpl:this withType:type];
     }
@@ -84,7 +89,7 @@ namespace lynx {
     void RenderObjectImplIOS::DispatchEvent(const std::string& event, NSArray *array) {
         if (!array) {
             @throw [[NSException alloc]
-                    initWithName:@"抛出错误" reason:@"array should not be null !" userInfo:nil];
+                    initWithName:@"dispatch event error" reason:@"array should not be null !" userInfo:nil];
         }
         base::ScopedRefPtr<RenderObjectImplIOS> ref(this);
         base::ScopedPtr<jscore::LynxArray> param(base::ios::OCHelper::ConvertToLynxArray(array));

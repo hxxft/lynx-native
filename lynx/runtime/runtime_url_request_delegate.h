@@ -12,12 +12,12 @@ class RuntimeURLRequestDelegate : public net::URLRequestDelegate {
  public:
     explicit RuntimeURLRequestDelegate(base::WeakPtr<Runtime>& ptr) : ptr_(ptr) {}
     virtual ~RuntimeURLRequestDelegate() {}
-    virtual void OnSuccess(const base::PlatformString& url, const base::PlatformString& response) {
+    virtual void OnSuccess(base::ScopedPtr<base::PlatformString> url, base::ScopedPtr<base::PlatformString> response) {
         if (ptr_.IsValid()) {
             ptr_.Get()->RunScript(response);
         }
     }
-    virtual void OnFailed(const base::PlatformString& url, const base::PlatformString& error) {}
+    virtual void OnFailed(base::ScopedPtr<base::PlatformString> url, base::ScopedPtr<base::PlatformString> error) {}
 
  private:
     base::WeakPtr<Runtime> ptr_;

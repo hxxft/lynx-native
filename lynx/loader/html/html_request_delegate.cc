@@ -12,13 +12,13 @@ HTMLRequestDelegate::~HTMLRequestDelegate() {
     loader_->Release();
 }
 
-void HTMLRequestDelegate::OnSuccess(const base::PlatformString& url,
-                                    const base::PlatformString& response) {
-    loader_->LoadHTML(url_, response.ToString());
+void HTMLRequestDelegate::OnSuccess(base::ScopedPtr<base::PlatformString> url,
+                                    base::ScopedPtr<base::PlatformString> response) {
+    loader_->LoadHTML(url_, response->ToString());
 }
 
-void HTMLRequestDelegate::OnFailed(const base::PlatformString& url,
-                                   const base::PlatformString& error) {
+void HTMLRequestDelegate::OnFailed(base::ScopedPtr<base::PlatformString> url,
+                                   base::ScopedPtr<base::PlatformString> error) {
 }
 
 }  // namespace loader

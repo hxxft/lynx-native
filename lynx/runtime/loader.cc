@@ -55,17 +55,17 @@ namespace jscore {
         return LynxValue::MakeValueScoped(NULL);
     }
     
-    void LoaderRequestDelegate::OnFailed(const base::PlatformString& url,
-                                         const base::PlatformString& error) {
+    void LoaderRequestDelegate::OnFailed(base::ScopedPtr<base::PlatformString> url,
+                                         base::ScopedPtr<base::PlatformString> error) {
         if (js_error_function_.Get() != NULL) {
             js_error_function_->Run(reinterpret_cast<void *>(TargetState::Global), NULL);
         }
     }
     
-    void LoaderRequestDelegate::OnSuccess(const base::PlatformString& url,
-                                          const base::PlatformString& response) {
+    void LoaderRequestDelegate::OnSuccess(base::ScopedPtr<base::PlatformString> url,
+                                          base::ScopedPtr<base::PlatformString> response) {
         if (js_succ_function_.Get() != NULL) {
-            context_->RunScript(const_cast<base::PlatformString*>(&response)->GetUTFChars());
+            context_->RunScript(response->GetUTFChars());
             js_succ_function_->Run(reinterpret_cast<void *>(TargetState::Global), NULL);
         }
     }

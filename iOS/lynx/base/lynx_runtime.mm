@@ -13,6 +13,8 @@
 #include "runtime/base/lynx_function_object_ios.h"
 #include "runtime/jsc/jsc_context.h"
 
+#include "base/string/platform_string_impl.h"
+
 @implementation LynxRuntime
 
 static CGFloat kDefaultZoomRatio = -1;
@@ -57,18 +59,19 @@ static CGFloat kDefaultZoomRatio = -1;
 }
 
 - (void)loadHtml:(NSString *)url withSource:(NSString*)html{
-    base::PlatformString scoped_url(url);
-    base::PlatformString scoped_source(html);
+    base::PlatformStringImpl scoped_url(url);
+    base::PlatformStringImpl scoped_source(html);
     runtime_->LoadHTML(scoped_url.ToString(), scoped_source.ToString());
 }
 
 - (void)loadHtmlData:(NSString *)html {
-    base::PlatformString scoped_source(html);
+    base::PlatformStringImpl scoped_source(html);
     runtime_->LoadHTML(scoped_source.ToString());
 }
 
 - (NSString *) runScript:(NSString *)script {
-    base::PlatformString scoped_source(script);
+    base::ScopedPtr<base::PlatformString> scoped_source(
+                                                        static_cast<base::PlatformString*>(new base::PlatformStringImpl(script)));
     runtime_->RunScript(scoped_source);
     return @"";
 }

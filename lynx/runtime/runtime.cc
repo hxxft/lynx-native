@@ -59,7 +59,7 @@ namespace jscore {
                 base::Bind(&Runtime::ReloadOnJSThread, weak_ptr_, force));
     }
 
-    void Runtime::RunScript(const base::PlatformString& source,
+    void Runtime::RunScript(base::ScopedPtr<base::PlatformString> source,
                             base::ScopedPtr<ResultCallback> callback) {
         TRACE_EVENT0("js", "Runtime::RunScript");
         thread_manager_->RunOnJSThread(
@@ -125,11 +125,11 @@ namespace jscore {
         context_->Initialize(vm_.Get(), this);
     }
 
-    void Runtime::RunScriptOnJSThread(const base::PlatformString& source,
+    void Runtime::RunScriptOnJSThread(base::ScopedPtr<base::PlatformString> source,
                                       base::ScopedPtr<ResultCallback> callback) {
         TRACE_EVENT0("js", "Runtime::RunScriptOnJSThread");
         std::string result =
-                context_->RunScript(const_cast<base::PlatformString*>(&source)->GetUTFChars());
+                context_->RunScript(source->GetUTFChars());
         if (callback.Get() != NULL) {
             callback->OnReceiveResult(result);
         }

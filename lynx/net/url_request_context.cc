@@ -5,12 +5,6 @@
 #include "net/url_request_delegate.h"
 #include "runtime/runtime.h"
 
-#if OS_ANDROID
-#include "net/android/url_request_android.h"
-#elif OS_IOS
-#include "net/ios/url_request_ios.h"
-#endif
-
 namespace net {
     
     URLRequestContext::URLRequestContext(jscore::Runtime* runtime)
@@ -22,12 +16,7 @@ namespace net {
     
     URLRequest* URLRequestContext::CreateRequest(const std::string& url,
                                                  URLRequestDelegate* delegate) {
-        URLRequest* request = NULL;
-#if OS_ANDROID
-        request =  lynx_new URLRequestAndroid(this, url, delegate);
-#elif OS_IOS
-        request =  lynx_new URLRequestIOS(this, url, delegate);
-#endif
+        URLRequest* request = URLRequest::Create(this, url, delegate);
         Add(request);
         return request;
     }
