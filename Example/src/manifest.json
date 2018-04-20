@@ -1,16 +1,40 @@
 {
+  "debug": true,
   "application": {
-    "packageName": "com.Example",
+    "packageName": "com.demo",
     "icon": "icon.png",
-    "name": "Example",
+    "name": "demo",
     "versionCode": "",
     "versionName": "",
-    "mainPage": "App.vue",
+    "mainPage": "HomeDemo.vue",
     "pages": [
       {
         "name": "App.vue"
+      },
+      {
+        "name": "ButtonDemo.vue"
+      },
+      {
+        "name": "CheckboxDemo.vue"
+      },
+      {
+        "name": "RadioDemo.vue"
+      },
+      {
+        "name": "SwiperDemo.vue"
+      },
+      {
+        "name": "HomeDemo.vue"
+      },
+      {
+        "name": "GalleryDemo.vue"
+      },
+      {
+        "name": "CoordinatorDemo.vue"
+      },
+      {
+        "name": "CanvasDemo.vue"
       }
     ]
-  },
-  "debug": "true"
+  }
 }

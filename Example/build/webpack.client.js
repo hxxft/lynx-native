@@ -58,6 +58,10 @@ module.exports = {
           limit: 1,
           name: utils.assetsPath('fonts/[name].[hash:7].[ext]')
         }
+      },
+      {
+        test: /\.lepus$/,
+        loader: 'raw-loader'
       }
     ]
   }

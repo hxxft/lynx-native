@@ -89,21 +89,24 @@ export default {
           groupName: "Component",
           itemList: [
             {
-              title: "Swiper",
-              introduction: "Swiper Demo"
-            }
-          ]
-        },
-        {
-          groupName: "Demos",
-          itemList: [
-            {
-              title: "Animations",
-              introduction: "Scroll Animation"
+              title: "Button",
+              introduction: "Button Demo"
             },
             {
-              title: "Shopping",
-              introduction: "Test Shopping"
+              title: "Checkbox",
+              introduction: "Checkbox Demo"
+            },
+            {
+              title: "Radio",
+              introduction: "Radio Demo"
+            },
+            {
+              title: "Canvas",
+              introduction: "Canvas Demo"
+            },
+            {
+              title: "Swiper",
+              introduction: "Swiper Demo"
             }
           ]
         },
@@ -143,14 +146,15 @@ export default {
     },
     jumpToNewPage(page) {
       if (this.pageEnable(page)) {
-        PageNavigator.startNewPage(page.toLowerCase())
+        console.log('jumpToNewPage')
+        PageNavigator.startNewPage(page.toLowerCase() + "demo")
       }
     },
     pageEnable(page) {
-      if (page == "Gallery" || page == "Coordinator" || page == "Swiper") {
-        return true
+      if (page.startsWith("Animations") || page.startsWith("Shopping")) {
+        return false
       }
-      return false
+      return true
     }
   }
 }

@@ -1,16 +1,10 @@
 const fs = require('fs');
 const path = require('path');
 const express = require('express');
+const net = require('net');
 const vueServerRenderer = require('../libs/vue-server-renderer');
-//const pushCommand = require('../debug/debug-client')
-const debugServerStart = require('../debug/debug-server')
-const bodyParser = require('body-parser');
+
 const app = express();
-const server = require('http').createServer(app);
-app.use(bodyParser.json({limit: '1mb'}));  //body-parser 解析json格式数据
-app.use(bodyParser.urlencoded({            //此项必须在 bodyParser.json 下面,为参数编码
-  extended: true
-}));
 
 // Server-Side Bundle File
 const serverBundleFilePath = path.join(__dirname, './out/bundle.server.js')
@@ -23,7 +17,6 @@ const clientBundleFileUrl = '/bundle.client.js';
 
 // Server-Side Rendering
 app.get('/', function (req, res) {
-  console.log('get /')
   bundleRenderer.renderToString((err, html) => {
     if (err){
       res.status(500).send(`
@@ -32,10 +25,17 @@ app.get('/', function (req, res) {
       `);
     } else {
       res.send(`
+        <!DOCTYPE html>
+        <html>
+          <head>
+            <meta charset="utf-8">
+            <title>Vue 2.0 SSR</title>
+          </head>
           <body>
             ${html}
             <script src="${clientBundleFileUrl}"></script>
-          </body>`);
+          </body>
+        </html>`);
     }
   });
 });
@@ -56,35 +56,12 @@ app.get(clientBundleFileUrl, function (req, res) {
   res.send(clientBundleFileCode);
 });
 
-app.get('*.png', function(req, res) {
-  var imgPath = path.join(__dirname, '../out');
-  const img = fs.readFileSync(imgPath + req.url);
-  res.send(img);
-})
-
-app.post('/log', function(req,res) {
-    console.log(req.body.log)
-    res.send('')
-})
-
-app.post('/', function(req,res) {
-  console.log(req.body.log)
-  res.send('')
-})
-
-const net = require('net')
-
-function push(socket, command) {
-  socket.write(command)
-  socket.end()
-}
-
-function sendCommand(command) {
+function pushCommand(command) {
   var HOST = '127.0.0.1'
   var POST = 8000
   var socket = new net.Socket()
   socket.connect(POST, HOST, function() {
-    socket.write('reload')
+    socket.write(command)
     socket.end()
   })
 }
@@ -92,6 +69,5 @@ function sendCommand(command) {
 // Start server
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, function () {
-  sendCommand('reload')
+  pushCommand('reload')
 });
-
