@@ -16,13 +16,13 @@ Lynx选择了Vue.js作为开发框架，当然的利于Lynx的API设计，使用
 
   React Native在进入页面的时候，或多或少会有一段时间的白屏，这点相对于Native流畅的首屏体验来说是一定的劣势。Lynx则可以做到和Native一致的流畅体验，在页面动画过程中，页面已经完成渲染展示，因此不会出现白屏或者闪屏。
 
-  <img src="https://github.com/hxxft/lynx-native/raw/master/images/about_page2.gif" width="240"/> <img src="https://github.com/hxxft/lynx-native/raw/master/images/about_page1.gif" width="240"/>  
+  <img src="https://hxxft.github.io/lynx-book/images/about_page2.gif" width="240"/> <img src="https://hxxft.github.io/lynx-book/images/about_page1.gif" width="240"/>  
 
 - 交互动画
 
   Lynx提供了更丰富的交互动画能力，能满足绝大部分场景的交互动画需求。相比于React Native以及Web在交互动画能力上的缺陷，Lynx的交互动画可以媲美于Flutter，可达到60fps的动画。
 
-  <img src="https://github.com/hxxft/lynx-native/raw/master/images/about_animation1.gif" width="240"/> <img src="https://github.com/hxxft/lynx-native/raw/master/images/about_animation2.gif" width="240"/> <img src="https://github.com/hxxft/lynx-native/raw/master/images/about_animation3.gif" width="240"/>
+  <img src="https://hxxft.github.io/lynx-book/images/about_animation1.gif" width="240"/> <img src="https://hxxft.github.io/lynx-book/images/about_animation2.gif" width="240"/> <img src="https://hxxft.github.io/lynx-book/images/about_animation3.gif" width="240"/>
 
 - 更快的JSBinding
 
@@ -83,7 +83,7 @@ Lynx文档地址：https://hxxft.github.io/lynx-book
 
 ### Lynx工作流程
 
-![image](https://github.com/hxxft/lynx-native/raw/master/images/lynx-native-design.png)
+![image](https://hxxft.github.io/lynx-book/design-doc/images/lynx-native-design.png)
 
 从一个页面打开到展示流程和输入事件到页面响应流程来介绍Lynx的工作流程，当前Lynx使用Vue.js前端框架：
 
@@ -99,7 +99,7 @@ Lynx文档地址：https://hxxft.github.io/lynx-book
 
 6. 当涉及到实时动画操作，由PlatformUI将事件同步传递给动画处理引擎AnimateVirtualMachine。引擎将根据AnimateScript（交互动画执行脚本，通过JS设置给交互动画引擎），执行平台View动画。
 
-具体设计文档可以参看[design document](https://github.com/hxxft/lynx-doc/blob/master/lynx-native-design.md)
+具体设计文档可以参看[design document](https://hxxft.github.io/lynx-book/design-doc/lynx-native-design.html)
 
 
 
