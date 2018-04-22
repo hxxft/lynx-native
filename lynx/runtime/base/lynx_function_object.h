@@ -21,10 +21,10 @@ namespace jscore {
 
         LynxFunctionObject();
         virtual ~LynxFunctionObject();
-        void RegisterMethodCallback(std::string method_name,
+        void RegisterMethodCallback(const std::string& method_name,
                                     LynxMethodCallback callback);
 
-        base::ScopedPtr<LynxValue> MethodCallback(std::string name,
+        base::ScopedPtr<LynxValue> MethodCallback(const std::string& name,
                                                 base::ScopedPtr<LynxArray> value);
 
         inline std::unordered_map<std::string, LynxMethodCallback> methods() {

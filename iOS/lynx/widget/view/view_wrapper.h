@@ -10,6 +10,7 @@
 @interface ViewWrapper : UIView
 
 @property(nonatomic, readwrite) LynxUI *ui;
+@property(nonatomic, readwrite) bool clickable;
 @property(nonatomic) UITapGestureRecognizer* singleTap;
 
 - (void)layoutSubviews;

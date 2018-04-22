@@ -15,7 +15,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.navigationItem.title = @"Lynx";
+    self.navigationItem.title = self.page_name_;
     
     // status bar
     CGFloat statusHeight = [[UIApplication sharedApplication] statusBarFrame].size.height;
@@ -26,13 +26,14 @@
     
     [self.view addSubview:content_view_];
 
-//    [_lynxView loadScriptFile:@"test"];
-    [content_view_ loadPage:@"Assets://assets.bundle/homedemo/"];
-//    NSString *url = @"http://localhost:8080/";
-//    [_lynxView loadUrl:url];
+
+    NSString* path = [NSString stringWithFormat:@"%@%@/", @"Assets://assets.bundle/", [self.page_name_ lowercaseString]];
+    [content_view_ loadPage:path];
+    
     
     // fix UITableViewWrapperView and UITableView size differs with autolayout
     self.automaticallyAdjustsScrollViewInsets = NO;
+
 }
 
 - (void)didReceiveMemoryWarning {

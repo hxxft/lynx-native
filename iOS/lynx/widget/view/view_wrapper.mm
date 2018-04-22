@@ -53,7 +53,7 @@
 @end
 
 @implementation ViewWrapper {
-    GestureHandler *swipe;
+    GestureHandler *swipe_;
 }
 
 - (void)layoutSubviews {
@@ -72,10 +72,12 @@
 }
 
 - (void)addEvent:(NSString *)event {
+    self.clickable = true;
     [self addGestureRecognizer:self.singleTap];
 }
 
 - (void)removeEvent:(NSString *)event {
+    self.clickable = false;
     [self removeGestureRecognizer:self.singleTap];
 }
 
@@ -106,10 +108,15 @@
     }
 
     if ([_ui dispatchCoordinatorTouchEvent:event type:@"touchbegan"]) {
-        if (!swipe) {
-            swipe = [[GestureHandler alloc] initWithUI:_ui];
-            [self addGestureRecognizer:swipe];
+        if (!swipe_) {
+            swipe_ = [[GestureHandler alloc] initWithUI:_ui];
+            [self addGestureRecognizer:swipe_];
         }
+        return self;
+    }
+    
+    //to-do fix the conflict with click and touch event
+    if (self.clickable) {
         return self;
     }
 
