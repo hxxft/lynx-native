@@ -20,7 +20,14 @@
 }
 
 - (void) initWithReceiver:(Class) clazz {
-    if (clazz && ![[LxOcCenter shareInstance] hasRegister:clazz]) {
+    if(!clazz) return;
+    [self registerOcCenterWithClazz: clazz];
+    [self registerJSMethod: clazz];
+}
+
+- (void) registerOcCenterWithClazz:(Class) clazz {
+    if(!clazz) return;
+    if (![[LxOcCenter shareInstance] hasRegister:clazz]) {
         unsigned int methodCount;
         while (clazz != [NSObject class] && clazz != [NSProxy class]) {
             Method *methods = class_copyMethodList(object_getClass(clazz), &methodCount);
@@ -32,21 +39,24 @@
                     IMP imp = method_getImplementation(method);
                     auto methodInfo = ((const LxMethodInfo *(*)(id, SEL))imp)(clazz, selector);
                     LxOcMethod *lynxMethod = [[LxOcMethod alloc] initWithInfo:methodInfo andClass:clazz];
-                    [self registerJSMethod:lynxMethod];
+                    [[LxOcCenter shareInstance] registerMethod:lynxMethod];
                 }
             }
             
             free(methods);
             clazz = class_getSuperclass(clazz);
         }
-    } else {
-        
     }
 }
 
-- (void) registerJSMethod:(LxOcMethod *) method {
-    [_methodNames addObject: method.name];
-    [[LxOcCenter shareInstance] registerMethod:method];
+- (void) registerJSMethod:(Class) clazz {
+    ClassMethodMap* methods = [[LxOcCenter shareInstance] findMethodsWithClazz:clazz];
+    
+    NSEnumerator* keys = [methods keyEnumerator] ;
+    NSString* key = nil;
+    while(key = [keys nextObject]) {
+        [_methodNames addObject: key];
+    }
 }
 
 - (id)execMethod:(NSString *)name andArgs:(NSArray *)args {

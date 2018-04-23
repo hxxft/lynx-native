@@ -12,7 +12,7 @@
 @interface LxOcCenter : NSObject
 
 typedef  NSMutableArray<LxOcMethod*> MethodArray;
-typedef  NSMutableDictionary<NSString*, NSMutableArray<LxOcMethod*>*> ClassMethodMap;
+typedef  NSMutableDictionary<NSString*, MethodArray*> ClassMethodMap;
 @property(nonatomic, readonly) NSMutableDictionary<NSString*, ClassMethodMap*> *methodMap;
 
 @property(nonatomic, readonly) NSMutableDictionary<NSString*, LxOcMethod*> *signatureMethodMap;
@@ -23,6 +23,7 @@ typedef  NSMutableDictionary<NSString*, NSMutableArray<LxOcMethod*>*> ClassMetho
 - (LxOcMethod *) findMethodWithReceiver:(id) object
                                andMethod:(NSString *) methodName
                                  andArgs:(NSArray *) array;
+- (ClassMethodMap*) findMethodsWithClazz: (Class) clazz;
 
 @end
 

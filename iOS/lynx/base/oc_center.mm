@@ -75,4 +75,8 @@ static LxOcCenter *_singleLeton;
     return nil;
 }
 
+- (ClassMethodMap*) findMethodsWithClazz: (Class) clazz {
+    return _methodMap[clazz];
+}
+
 @end
