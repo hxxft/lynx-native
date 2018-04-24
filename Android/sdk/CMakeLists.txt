@@ -68,22 +68,29 @@ add_library(lynx SHARED
                 ${CMAKE_SOURCE_DIR}/../../lynx/base/android/params_transform.cc
                 ${CMAKE_SOURCE_DIR}/../../lynx/base/android/jni_helper.cc
                 ${CMAKE_SOURCE_DIR}/../../lynx/base/android/scoped_java_ref.cc
+                ${CMAKE_SOURCE_DIR}/../../lynx/base/base64.cc
                 ${CMAKE_SOURCE_DIR}/../../lynx/base/debug/memory_debug.cc
                 ${CMAKE_SOURCE_DIR}/../../lynx/base/debug/memory_tracker.cc
                 ${CMAKE_SOURCE_DIR}/../../lynx/base/debug/timing_tracker.cc
                 ${CMAKE_SOURCE_DIR}/../../lynx/base/log/logging.cc
                 ${CMAKE_SOURCE_DIR}/../../lynx/base/observer/observer_list.cc
+                ${CMAKE_SOURCE_DIR}/../../lynx/base/poller/select_poller.cc
+                ${CMAKE_SOURCE_DIR}/../../lynx/base/poller/utility.cc
                 ${CMAKE_SOURCE_DIR}/../../lynx/base/string/string_number_convert.cc
                 ${CMAKE_SOURCE_DIR}/../../lynx/base/string/string_utils.cc
             	${CMAKE_SOURCE_DIR}/../../lynx/base/threading/thread.cc
             	${CMAKE_SOURCE_DIR}/../../lynx/base/threading/message_loop.cc
             	${CMAKE_SOURCE_DIR}/../../lynx/base/threading/message_pump_posix.cc
             	${CMAKE_SOURCE_DIR}/../../lynx/base/threading/message_pump_android.cc
+            	${CMAKE_SOURCE_DIR}/../../lynx/base/threading/message_pump_io_posix.cc
+            	${CMAKE_SOURCE_DIR}/../../lynx/base/threading/thread_local_posix.cc
             	${CMAKE_SOURCE_DIR}/../../lynx/base/trace_event/trace_logger.cc
             	${CMAKE_SOURCE_DIR}/../../lynx/base/trace_event/trace_writer.cc
             	${CMAKE_SOURCE_DIR}/../../lynx/base/timer/timer.cc
             	${CMAKE_SOURCE_DIR}/../../lynx/base/timer/timer_heap.cc
             	${CMAKE_SOURCE_DIR}/../../lynx/base/timer/time_utils.cc
+				${CMAKE_SOURCE_DIR}/../../lynx/base/io_buffer.cc	
+				${CMAKE_SOURCE_DIR}/../../lynx/base/rand_util.cc	
             	${CMAKE_SOURCE_DIR}/../../lynx/build/jni_load.cc
             	${CMAKE_SOURCE_DIR}/../../lynx/config/global_config_data.cc
             	#${CMAKE_SOURCE_DIR}/../../lynx/render/test/demo.cc

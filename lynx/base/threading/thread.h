@@ -11,38 +11,45 @@ namespace base {
 
 class Thread {
  public:
-    class ThreadParams {
-     public:
-        explicit ThreadParams(Thread* thread): thread_(thread) {}
-        Thread* thread_;
-    };
+  class ThreadParams {
+   public:
+    explicit ThreadParams(Thread* thread) : thread_(thread) {}
+    Thread* thread_;
+  };
 
-    explicit Thread(MessageLoop::MESSAGE_LOOP_TYPE type);
+  explicit Thread(MessageLoop::MESSAGE_LOOP_TYPE type);
 
-    virtual ~Thread();
+  explicit Thread(MessageLoop::MESSAGE_LOOP_TYPE type, const std::string& name);
 
-    virtual void Start();
+  virtual ~Thread();
 
-    virtual void Quit(base::Clouse* closue);
+  virtual void Start();
 
-    void Run();
+  virtual void Quit(base::Clouse* closue);
 
-    void Join(const Thread& thread);
+  void Run();
 
-    MessageLoop* Looper() { return &message_loop_; }
+  void Join(const Thread& thread);
 
-    static long int CurrentId() {
+  pthread_t thread_handle() { return thread_handle_; }
+
+  const std::string& thread_name() { return thread_name_; }
+
+  MessageLoop* Looper() { return &message_loop_; }
+
+  static long int CurrentId() {
 #if OS_IOS
-        return pthread_mach_thread_np(pthread_self());
+    return pthread_mach_thread_np(pthread_self());
 #elif OS_ANDROID
-        return pthread_self();
+    return pthread_self();
 #endif
-    }
+  }
 
  private:
-    void ThreadMain();
-    pthread_t thread_handle_;
-    MessageLoop message_loop_;
+  void ThreadMain();
+  pthread_t thread_handle_;
+  MessageLoop message_loop_;
+  std::string thread_name_;
 };
 
 }  // namespace base

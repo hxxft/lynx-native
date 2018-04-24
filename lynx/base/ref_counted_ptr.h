@@ -42,7 +42,7 @@ class ScopedRefPtr {
     }
   }
 
-    // Copy constructor.
+  // Copy constructor.
   ScopedRefPtr(const ScopedRefPtr<T>& r) : ptr_(r.ptr_) {
     if (ptr_)
       ptr_->AddRef();
@@ -91,7 +91,7 @@ class ScopedRefPtr {
     return *this = other.ptr_;
   }
 
-   template <typename U>
+  template <typename U>
   ScopedRefPtr<T>& operator=(const ScopedRefPtr<U>& r) {
     return *this = r.Get();
   }
@@ -113,9 +113,7 @@ class ScopedRefPtr {
     *pp = p;
   }
 
-  void Swap(ScopedRefPtr<T>& r) {
-    Swap(&r.ptr_);
-  }
+  void Swap(ScopedRefPtr<T>& r) { Swap(&r.ptr_); }
 
   T* Get() const { return ptr_; }
 

@@ -11,135 +11,139 @@
 
 namespace base {
 
-template<class T>
+template <class T>
 class ScopedPtr {
  public:
-    using element_type = T;
+  using element_type = T;
 
-    ScopedPtr(const ScopedPtr<T>& other) {
-      ptr_ = other.ptr_;
-      const_cast<ScopedPtr<T>*>(&other)->ptr_ = NULL;
+  ScopedPtr(const ScopedPtr<T>& other) {
+    ptr_ = other.ptr_;
+    const_cast<ScopedPtr<T>*>(&other)->ptr_ = NULL;
+  }
+
+  template <typename U>
+  ScopedPtr(ScopedPtr<U>&& other) {
+    ptr_ = other.Release();
+  }
+
+  explicit ScopedPtr(element_type* p) : ptr_(p) {}
+
+  ScopedPtr() : ptr_(nullptr) {}
+
+  ~ScopedPtr() {
+    if (ptr_) {
+      lynx_delete(static_cast<element_type*>(ptr_));
     }
+  }
 
-    template <typename U>
-    ScopedPtr(ScopedPtr<U>&& other) {
-      ptr_ = other.Release();
+  ScopedPtr& operator=(ScopedPtr&& other) {
+    Reset(other.Release());
+    return *this;
+  }
+
+  ScopedPtr& operator=(ScopedPtr& other) {
+    Reset(other.Release());
+    return *this;
+  }
+
+  template <typename U>
+  ScopedPtr& operator=(ScopedPtr<U>&& other) {
+    Reset(other.Release());
+    return *this;
+  }
+
+  template <typename U>
+  ScopedPtr& operator=(ScopedPtr<U>& other) {
+    Reset(other.Release());
+    return *this;
+  }
+
+  void Swap(ScopedPtr& scoped_ptr) {
+    element_type* ptr = ptr_;
+    ptr_ = scoped_ptr.ptr_;
+    scoped_ptr.ptr_ = ptr;
+  }
+
+  void Reset(element_type* p = nullptr) {
+    element_type* old_ptr = ptr_;
+    ptr_ = p;
+    if (old_ptr) {
+      lynx_delete(static_cast<element_type*>(old_ptr));
     }
+  }
 
-    explicit ScopedPtr(element_type* p) : ptr_(p) {}
+  element_type* Release() {
+    element_type* ptr = ptr_;
+    ptr_ = nullptr;
+    return ptr;
+  }
 
-    ScopedPtr() : ptr_(nullptr) {}
+  element_type* Get() const { return ptr_; }
 
-    ~ScopedPtr() {
-        if (ptr_) {
-            lynx_delete(static_cast<element_type*>(ptr_));
-        }
-    }
-
-    ScopedPtr& operator=(ScopedPtr&& other) {
-        Reset(other.Release());
-        return *this;
-    }
-
-    ScopedPtr& operator=(ScopedPtr& other) {
-      Reset(other.Release());
-      return *this;
-    }
-
-    template <typename U>
-    ScopedPtr& operator=(ScopedPtr<U>&& other) {
-      Reset(other.Release());
-      return *this;
-    }
-
-    template <typename U>
-    ScopedPtr& operator=(ScopedPtr<U>& other) {
-      Reset(other.Release());
-      return *this;
-    }
-
-    void Reset(element_type* p = nullptr) {
-      element_type* old_ptr = ptr_;
-      ptr_ = p;
-      if (old_ptr) {
-        lynx_delete(static_cast<element_type*>(old_ptr));
-      }
-    }
-
-    element_type* Release() {
-        element_type* ptr = ptr_;
-        ptr_ = nullptr;
-        return ptr;
-    }
-
-    element_type* Get() const { return ptr_; }
-
-    element_type& operator*() const { return *ptr_; }
-    element_type* operator->() const { return ptr_; }
+  element_type& operator*() const { return *ptr_; }
+  element_type* operator->() const { return ptr_; }
 
  private:
-    element_type* ptr_;
+  element_type* ptr_;
 };
 
-template<class T>
+template <class T>
 class ScopedPtr<T[]> {
-public:
-    using element_type = T;
+ public:
+  using element_type = T;
 
-    ScopedPtr(const ScopedPtr<element_type[]>& other) {
-        ptr_ = other.ptr_;
-        const_cast<ScopedPtr<element_type[]> *>(&other)->ptr_ = NULL;
+  ScopedPtr(const ScopedPtr<element_type[]>& other) {
+    ptr_ = other.ptr_;
+    const_cast<ScopedPtr<element_type[]>*>(&other)->ptr_ = NULL;
+  }
+
+  ScopedPtr(ScopedPtr<element_type[]>& other) {
+    ptr_ = other.ptr_;
+    other.ptr_ = NULL;
+  }
+
+  explicit ScopedPtr(element_type* p) : ptr_(p) {}
+
+  ScopedPtr() : ptr_(nullptr) {}
+
+  ~ScopedPtr() {
+    if (ptr_) {
+      lynx_deleteA(static_cast<element_type*>(ptr_));
     }
+  }
 
-    ScopedPtr(ScopedPtr<element_type[]>& other) {
-        ptr_ = other.ptr_;
-        other.ptr_ = NULL;
+  ScopedPtr& operator=(ScopedPtr&& other) {
+    Reset(other.Release());
+    return *this;
+  }
+
+  ScopedPtr& operator=(ScopedPtr& other) {
+    Reset(other.Release());
+    return *this;
+  }
+
+  void Reset(element_type* p = nullptr) {
+    element_type* old_ptr = ptr_;
+    ptr_ = p;
+    if (old_ptr) {
+      lynx_deleteA(static_cast<element_type*>(old_ptr));
     }
+  }
 
-    explicit ScopedPtr(element_type* p) : ptr_(p) {}
+  element_type* Release() {
+    element_type* ptr = ptr_;
+    ptr_ = nullptr;
+    return ptr;
+  }
 
-    ScopedPtr() : ptr_(nullptr) {}
+  element_type* Get() const { return ptr_; }
 
-    ~ScopedPtr() {
-        if (ptr_) {
-            lynx_deleteA(static_cast<element_type*>(ptr_));
-        }
-    }
+  element_type* operator->() const { return ptr_; }
 
-    ScopedPtr& operator=(ScopedPtr&& other) {
-        Reset(other.Release());
-        return *this;
-    }
+  element_type& operator[](size_t index) { return ptr_[index]; }
 
-    ScopedPtr& operator=(ScopedPtr& other) {
-        Reset(other.Release());
-        return *this;
-    }
-
-    void Reset(element_type* p = nullptr) {
-        element_type* old_ptr = ptr_;
-        ptr_ = p;
-        if (old_ptr) {
-            lynx_deleteA(static_cast<element_type*>(old_ptr));
-        }
-    }
-
-    element_type* Release() {
-        element_type* ptr = ptr_;
-        ptr_ = nullptr;
-        return ptr;
-    }
-
-    element_type* Get() const { return ptr_; }
-
-    element_type* operator->() const { return ptr_; }
-
-    element_type& operator[](size_t index) {
-        return ptr_[index];
-    }
-
-private:
-    element_type* ptr_;
+ private:
+  element_type* ptr_;
 };
 
 }  // namespace base
