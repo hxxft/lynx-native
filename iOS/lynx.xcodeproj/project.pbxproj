@@ -39,6 +39,10 @@
 		428DE90B208EDD320069BFE3 /* io_buffer.cc in Sources */ = {isa = PBXBuildFile; fileRef = 428DE907208EDD320069BFE3 /* io_buffer.cc */; };
 		428DE910208EDD4A0069BFE3 /* message_pump_io_posix.cc in Sources */ = {isa = PBXBuildFile; fileRef = 428DE90D208EDD490069BFE3 /* message_pump_io_posix.cc */; };
 		428DE911208EDD4A0069BFE3 /* thread_local_posix.cc in Sources */ = {isa = PBXBuildFile; fileRef = 428DE90E208EDD490069BFE3 /* thread_local_posix.cc */; };
+		428DE91720901A390069BFE3 /* net_errors_posix.cc in Sources */ = {isa = PBXBuildFile; fileRef = 428DE91320901A380069BFE3 /* net_errors_posix.cc */; };
+		428DE91820901A390069BFE3 /* net_errors.cc in Sources */ = {isa = PBXBuildFile; fileRef = 428DE91620901A380069BFE3 /* net_errors.cc */; };
+		428DE91E20901A3F0069BFE3 /* socket.cc in Sources */ = {isa = PBXBuildFile; fileRef = 428DE91A20901A3F0069BFE3 /* socket.cc */; };
+		428DE91F20901A3F0069BFE3 /* socket_posix.cc in Sources */ = {isa = PBXBuildFile; fileRef = 428DE91B20901A3F0069BFE3 /* socket_posix.cc */; };
 		42B4F2001F7E420B001519E1 /* lynx_view_controller.mm in Sources */ = {isa = PBXBuildFile; fileRef = 42B4F1FF1F7E420B001519E1 /* lynx_view_controller.mm */; };
 		42B4F2021F7E42CC001519E1 /* assets.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 42B4F2011F7E42CB001519E1 /* assets.bundle */; };
 		42B4F2051F7E4710001519E1 /* app_delegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 42B4F2041F7E470F001519E1 /* app_delegate.mm */; };
@@ -291,6 +295,14 @@
 		428DE90D208EDD490069BFE3 /* message_pump_io_posix.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = message_pump_io_posix.cc; sourceTree = "<group>"; };
 		428DE90E208EDD490069BFE3 /* thread_local_posix.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = thread_local_posix.cc; sourceTree = "<group>"; };
 		428DE90F208EDD4A0069BFE3 /* message_pump_io_posix.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = message_pump_io_posix.h; sourceTree = "<group>"; };
+		428DE91320901A380069BFE3 /* net_errors_posix.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = net_errors_posix.cc; sourceTree = "<group>"; };
+		428DE91420901A380069BFE3 /* net_error_list.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = net_error_list.h; sourceTree = "<group>"; };
+		428DE91520901A380069BFE3 /* net_errors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = net_errors.h; sourceTree = "<group>"; };
+		428DE91620901A380069BFE3 /* net_errors.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = net_errors.cc; sourceTree = "<group>"; };
+		428DE91A20901A3F0069BFE3 /* socket.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = socket.cc; sourceTree = "<group>"; };
+		428DE91B20901A3F0069BFE3 /* socket_posix.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = socket_posix.cc; sourceTree = "<group>"; };
+		428DE91C20901A3F0069BFE3 /* socket_posix.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = socket_posix.h; sourceTree = "<group>"; };
+		428DE91D20901A3F0069BFE3 /* socket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = socket.h; sourceTree = "<group>"; };
 		42B188151E598BFA00934968 /* thread_manager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = thread_manager.h; sourceTree = "<group>"; };
 		42B4F1FE1F7E420B001519E1 /* lynx_view_controller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lynx_view_controller.h; sourceTree = "<group>"; };
 		42B4F1FF1F7E420B001519E1 /* lynx_view_controller.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = lynx_view_controller.mm; sourceTree = "<group>"; };
@@ -828,6 +840,28 @@
 				428DE901208EDD300069BFE3 /* select_poller.h */,
 			);
 			path = poller;
+			sourceTree = "<group>";
+		};
+		428DE91220901A380069BFE3 /* base */ = {
+			isa = PBXGroup;
+			children = (
+				428DE91320901A380069BFE3 /* net_errors_posix.cc */,
+				428DE91420901A380069BFE3 /* net_error_list.h */,
+				428DE91520901A380069BFE3 /* net_errors.h */,
+				428DE91620901A380069BFE3 /* net_errors.cc */,
+			);
+			path = base;
+			sourceTree = "<group>";
+		};
+		428DE91920901A3F0069BFE3 /* socket */ = {
+			isa = PBXGroup;
+			children = (
+				428DE91A20901A3F0069BFE3 /* socket.cc */,
+				428DE91B20901A3F0069BFE3 /* socket_posix.cc */,
+				428DE91C20901A3F0069BFE3 /* socket_posix.h */,
+				428DE91D20901A3F0069BFE3 /* socket.h */,
+			);
+			path = socket;
 			sourceTree = "<group>";
 		};
 		42CA2DB71E60269900E1200E /* string */ = {
@@ -1515,6 +1549,8 @@
 		BCF6EB951E49FF2D00FCD189 /* net */ = {
 			isa = PBXGroup;
 			children = (
+				428DE91920901A3F0069BFE3 /* socket */,
+				428DE91220901A380069BFE3 /* base */,
 				BC6D1D3E1F55C414007DD652 /* url_parser.h */,
 				BC6D1D3F1F55C414007DD652 /* url_request_ghost_delegate.cc */,
 				BC6D1D401F55C414007DD652 /* url_request_ghost_delegate.h */,
@@ -1893,6 +1929,7 @@
 				BC6D1CFD1F558DF8007DD652 /* navigator.cc in Sources */,
 				BC6D1D2D1F55C3A1007DD652 /* source_cache_manager.cc in Sources */,
 				BC6D1D301F55C3A1007DD652 /* script_loader.cc in Sources */,
+				428DE91720901A390069BFE3 /* net_errors_posix.cc in Sources */,
 				BCD050811EA0A87A00359EC1 /* list_shadow.cc in Sources */,
 				BC31B0161F624F6D00C0234C /* lynx_ui_body.mm in Sources */,
 				BCD050891EA0A87A00359EC1 /* scroll_view.cc in Sources */,
@@ -1914,6 +1951,7 @@
 				BCD050721EA0A87A00359EC1 /* input.cc in Sources */,
 				BC8A0D351FB3EFE7002B0370 /* pixel_util.mm in Sources */,
 				BC6D1D2C1F55C3A1007DD652 /* source_cache.cc in Sources */,
+				428DE91E20901A3F0069BFE3 /* socket.cc in Sources */,
 				BC5DBDA11F5E7E5D005A47E3 /* lynx_ui_listview.mm in Sources */,
 				BC8A0D181FB2E477002B0370 /* code_generator.cc in Sources */,
 				BC5DBD721F5C60A5005A47E3 /* DemoViewController.m in Sources */,
@@ -1933,6 +1971,7 @@
 				BC31B0071F611A3900C0234C /* ui_action_collector.mm in Sources */,
 				BC31B0231F627DE700C0234C /* lynx_ui.mm in Sources */,
 				BC8A0D381FB3F041002B0370 /* screen_util.mm in Sources */,
+				428DE91820901A390069BFE3 /* net_errors.cc in Sources */,
 				BCD050801EA0A87A00359EC1 /* label.cc in Sources */,
 				BCD0506F1EA0A87A00359EC1 /* cell_view.cc in Sources */,
 				BC5D49052066450800424ABA /* trace_logger.cc in Sources */,
@@ -1951,6 +1990,7 @@
 				BC8040AB1FCE8FB10041CF01 /* oc_property_transformer.mm in Sources */,
 				BC6748E91F6585D400D50971 /* lynx_swiper_view.mm in Sources */,
 				BCF6EBDF1E49FF2D00FCD189 /* message_loop.cc in Sources */,
+				428DE91F20901A3F0069BFE3 /* socket_posix.cc in Sources */,
 				42B4F2051F7E4710001519E1 /* app_delegate.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

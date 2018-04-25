@@ -157,7 +157,11 @@ add_library(lynx SHARED
             	#${CMAKE_SOURCE_DIR}/../../lynx/runtime/jsc/params_transform.cc
             	${CMAKE_SOURCE_DIR}/../../lynx/runtime/jsc/objects/window_object.cc
             	${CMAKE_SOURCE_DIR}/../../lynx/runtime/jsc/objects/object_template.cc
-              ${CMAKE_SOURCE_DIR}/../../lynx/runtime/jsc/objects/function_object.cc
+                ${CMAKE_SOURCE_DIR}/../../lynx/runtime/jsc/objects/function_object.cc
+				${CMAKE_SOURCE_DIR}/../../lynx/net/base/net_errors.cc
+				${CMAKE_SOURCE_DIR}/../../lynx/net/base/net_errors_posix.cc
+				${CMAKE_SOURCE_DIR}/../../lynx/net/socket/socket.cc
+				${CMAKE_SOURCE_DIR}/../../lynx/net/socket/socket_posix.cc
             	${CMAKE_SOURCE_DIR}/../../lynx/net/url_request_context.cc
             	${CMAKE_SOURCE_DIR}/../../lynx/net/url_request_ghost_delegate.cc
             	${CMAKE_SOURCE_DIR}/../../lynx/net/android/url_request_android.cc
