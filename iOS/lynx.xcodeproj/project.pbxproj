@@ -43,6 +43,13 @@
 		428DE91820901A390069BFE3 /* net_errors.cc in Sources */ = {isa = PBXBuildFile; fileRef = 428DE91620901A380069BFE3 /* net_errors.cc */; };
 		428DE91E20901A3F0069BFE3 /* socket.cc in Sources */ = {isa = PBXBuildFile; fileRef = 428DE91A20901A3F0069BFE3 /* socket.cc */; };
 		428DE91F20901A3F0069BFE3 /* socket_posix.cc in Sources */ = {isa = PBXBuildFile; fileRef = 428DE91B20901A3F0069BFE3 /* socket_posix.cc */; };
+		428DE96E20902AF40069BFE3 /* websocket_hand_shake.cc in Sources */ = {isa = PBXBuildFile; fileRef = 428DE92120902AF40069BFE3 /* websocket_hand_shake.cc */; };
+		428DE9A320902AF40069BFE3 /* websocket_frame_parser.cc in Sources */ = {isa = PBXBuildFile; fileRef = 428DE96420902AF40069BFE3 /* websocket_frame_parser.cc */; };
+		428DE9A420902AF40069BFE3 /* websocket_frame.cc in Sources */ = {isa = PBXBuildFile; fileRef = 428DE96620902AF40069BFE3 /* websocket_frame.cc */; };
+		428DE9A520902AF40069BFE3 /* websocket_stream.cc in Sources */ = {isa = PBXBuildFile; fileRef = 428DE96820902AF40069BFE3 /* websocket_stream.cc */; };
+		428DE9A620902AF40069BFE3 /* websocket_errors.cc in Sources */ = {isa = PBXBuildFile; fileRef = 428DE96A20902AF40069BFE3 /* websocket_errors.cc */; };
+		428DE9A720902AF40069BFE3 /* websocket.cc in Sources */ = {isa = PBXBuildFile; fileRef = 428DE96B20902AF40069BFE3 /* websocket.cc */; };
+		428DE9AA20902B1E0069BFE3 /* rand_util.cc in Sources */ = {isa = PBXBuildFile; fileRef = 428DE9A820902B1D0069BFE3 /* rand_util.cc */; };
 		42B4F2001F7E420B001519E1 /* lynx_view_controller.mm in Sources */ = {isa = PBXBuildFile; fileRef = 42B4F1FF1F7E420B001519E1 /* lynx_view_controller.mm */; };
 		42B4F2021F7E42CC001519E1 /* assets.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 42B4F2011F7E42CB001519E1 /* assets.bundle */; };
 		42B4F2051F7E4710001519E1 /* app_delegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 42B4F2041F7E470F001519E1 /* app_delegate.mm */; };
@@ -303,6 +310,20 @@
 		428DE91B20901A3F0069BFE3 /* socket_posix.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = socket_posix.cc; sourceTree = "<group>"; };
 		428DE91C20901A3F0069BFE3 /* socket_posix.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = socket_posix.h; sourceTree = "<group>"; };
 		428DE91D20901A3F0069BFE3 /* socket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = socket.h; sourceTree = "<group>"; };
+		428DE92120902AF40069BFE3 /* websocket_hand_shake.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = websocket_hand_shake.cc; sourceTree = "<group>"; };
+		428DE96320902AF40069BFE3 /* websocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = websocket.h; sourceTree = "<group>"; };
+		428DE96420902AF40069BFE3 /* websocket_frame_parser.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = websocket_frame_parser.cc; sourceTree = "<group>"; };
+		428DE96520902AF40069BFE3 /* websocket_frame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = websocket_frame.h; sourceTree = "<group>"; };
+		428DE96620902AF40069BFE3 /* websocket_frame.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = websocket_frame.cc; sourceTree = "<group>"; };
+		428DE96720902AF40069BFE3 /* websocket_frame_parser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = websocket_frame_parser.h; sourceTree = "<group>"; };
+		428DE96820902AF40069BFE3 /* websocket_stream.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = websocket_stream.cc; sourceTree = "<group>"; };
+		428DE96920902AF40069BFE3 /* websocket_hand_shake.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = websocket_hand_shake.h; sourceTree = "<group>"; };
+		428DE96A20902AF40069BFE3 /* websocket_errors.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = websocket_errors.cc; sourceTree = "<group>"; };
+		428DE96B20902AF40069BFE3 /* websocket.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = websocket.cc; sourceTree = "<group>"; };
+		428DE96C20902AF40069BFE3 /* websocket_stream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = websocket_stream.h; sourceTree = "<group>"; };
+		428DE96D20902AF40069BFE3 /* websocket_errors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = websocket_errors.h; sourceTree = "<group>"; };
+		428DE9A820902B1D0069BFE3 /* rand_util.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = rand_util.cc; sourceTree = "<group>"; };
+		428DE9A920902B1E0069BFE3 /* rand_util.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = rand_util.h; sourceTree = "<group>"; };
 		42B188151E598BFA00934968 /* thread_manager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = thread_manager.h; sourceTree = "<group>"; };
 		42B4F1FE1F7E420B001519E1 /* lynx_view_controller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lynx_view_controller.h; sourceTree = "<group>"; };
 		42B4F1FF1F7E420B001519E1 /* lynx_view_controller.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = lynx_view_controller.mm; sourceTree = "<group>"; };
@@ -864,6 +885,33 @@
 			path = socket;
 			sourceTree = "<group>";
 		};
+		428DE92020902AF40069BFE3 /* websocket */ = {
+			isa = PBXGroup;
+			children = (
+				428DE92120902AF40069BFE3 /* websocket_hand_shake.cc */,
+				428DE96320902AF40069BFE3 /* websocket.h */,
+				428DE96420902AF40069BFE3 /* websocket_frame_parser.cc */,
+				428DE96520902AF40069BFE3 /* websocket_frame.h */,
+				428DE96620902AF40069BFE3 /* websocket_frame.cc */,
+				428DE96720902AF40069BFE3 /* websocket_frame_parser.h */,
+				428DE96820902AF40069BFE3 /* websocket_stream.cc */,
+				428DE96920902AF40069BFE3 /* websocket_hand_shake.h */,
+				428DE96A20902AF40069BFE3 /* websocket_errors.cc */,
+				428DE96B20902AF40069BFE3 /* websocket.cc */,
+				428DE96C20902AF40069BFE3 /* websocket_stream.h */,
+				428DE96D20902AF40069BFE3 /* websocket_errors.h */,
+			);
+			path = websocket;
+			sourceTree = "<group>";
+		};
+		428DE9AB20902C560069BFE3 /* debugger */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = debugger;
+			path = ../lynx/debugger;
+			sourceTree = "<group>";
+		};
 		42CA2DB71E60269900E1200E /* string */ = {
 			isa = PBXGroup;
 			children = (
@@ -1358,6 +1406,7 @@
 		BC9D34941E1E015D009BD30A /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				428DE9AB20902C560069BFE3 /* debugger */,
 				BC8A0CF11FB2E477002B0370 /* lepus */,
 				BC6D1D001F55C327007DD652 /* parser */,
 				BC41C10E1F04EC2000EB4BA3 /* third_party */,
@@ -1442,6 +1491,8 @@
 		BCF6EB251E49FF2D00FCD189 /* base */ = {
 			isa = PBXGroup;
 			children = (
+				428DE9A820902B1D0069BFE3 /* rand_util.cc */,
+				428DE9A920902B1E0069BFE3 /* rand_util.h */,
 				428DE902208EDD310069BFE3 /* base64.cc */,
 				428DE906208EDD310069BFE3 /* base64.h */,
 				428DE903208EDD310069BFE3 /* big_endian.h */,
@@ -1549,6 +1600,7 @@
 		BCF6EB951E49FF2D00FCD189 /* net */ = {
 			isa = PBXGroup;
 			children = (
+				428DE92020902AF40069BFE3 /* websocket */,
 				428DE91920901A3F0069BFE3 /* socket */,
 				428DE91220901A380069BFE3 /* base */,
 				BC6D1D3E1F55C414007DD652 /* url_parser.h */,
@@ -1854,6 +1906,7 @@
 				BC5D24B71F24FBA6002A964C /* oc_helper.mm in Sources */,
 				BC5D48F82065139E00424ABA /* animation.cc in Sources */,
 				BCD0506E1EA0A87A00359EC1 /* body.cc in Sources */,
+				428DE9AA20902B1E0069BFE3 /* rand_util.cc in Sources */,
 				BC6D1D181F55C327007DD652 /* render_tokenizer.cc in Sources */,
 				BC5DBDB01F5E9D87005A47E3 /* lynx_ui_scrollview.mm in Sources */,
 				BC8798781FC7C61200F76993 /* coordinator_register.mm in Sources */,
@@ -1878,6 +1931,7 @@
 				BCF6EBE11E49FF2D00FCD189 /* message_pump_ios.mm in Sources */,
 				BCDC312E1F7361EF009A6ECC /* extended_view.cc in Sources */,
 				BC6D1D171F55C327007DD652 /* render_token.cc in Sources */,
+				428DE9A420902AF40069BFE3 /* websocket_frame.cc in Sources */,
 				BC31B00A1F611D5200C0234C /* ui_action.mm in Sources */,
 				4273CC4D1F0012CD00321655 /* event_target.cc in Sources */,
 				421438CF207DB6E700ECF750 /* string_utils.cc in Sources */,
@@ -1907,8 +1961,10 @@
 				428DE90A208EDD320069BFE3 /* base64.cc in Sources */,
 				BC6D1D411F55C414007DD652 /* url_request_ghost_delegate.cc in Sources */,
 				BCF6EBE31E49FF2D00FCD189 /* thread.cc in Sources */,
+				428DE9A320902AF40069BFE3 /* websocket_frame_parser.cc in Sources */,
 				421438E4207DE59F00ECF750 /* coordinator_commands.mm in Sources */,
 				BC8A0D1E1FB2E477002B0370 /* parser.cc in Sources */,
+				428DE96E20902AF40069BFE3 /* websocket_hand_shake.cc in Sources */,
 				BC6D1D1A1F55C327007DD652 /* tree_builder.cc in Sources */,
 				BC87985F1FC7B30900F76993 /* page_navigator.mm in Sources */,
 				428DE911208EDD4A0069BFE3 /* thread_local_posix.cc in Sources */,
@@ -1952,6 +2008,7 @@
 				BC8A0D351FB3EFE7002B0370 /* pixel_util.mm in Sources */,
 				BC6D1D2C1F55C3A1007DD652 /* source_cache.cc in Sources */,
 				428DE91E20901A3F0069BFE3 /* socket.cc in Sources */,
+				428DE9A620902AF40069BFE3 /* websocket_errors.cc in Sources */,
 				BC5DBDA11F5E7E5D005A47E3 /* lynx_ui_listview.mm in Sources */,
 				BC8A0D181FB2E477002B0370 /* code_generator.cc in Sources */,
 				BC5DBD721F5C60A5005A47E3 /* DemoViewController.m in Sources */,
@@ -1974,11 +2031,13 @@
 				428DE91820901A390069BFE3 /* net_errors.cc in Sources */,
 				BCD050801EA0A87A00359EC1 /* label.cc in Sources */,
 				BCD0506F1EA0A87A00359EC1 /* cell_view.cc in Sources */,
+				428DE9A520902AF40069BFE3 /* websocket_stream.cc in Sources */,
 				BC5D49052066450800424ABA /* trace_logger.cc in Sources */,
 				BC8A0D191FB2E477002B0370 /* function.cc in Sources */,
 				BC5DBDA91F5E7EAA005A47E3 /* label_measurer_ios.mm in Sources */,
 				BC5D49082066451E00424ABA /* trace_writer.cc in Sources */,
 				BCD0508C1EA0A87A00359EC1 /* view.cc in Sources */,
+				428DE9A720902AF40069BFE3 /* websocket.cc in Sources */,
 				BCF6EC041E49FF2D00FCD189 /* css_style.cc in Sources */,
 				BCF00A761F0E7AA700D56168 /* timeout_callback.cc in Sources */,
 				BC8798721FC7C22300F76993 /* lynx_function_object.mm in Sources */,

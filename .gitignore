@@ -2,3 +2,4 @@
 .vscode/
 lynx/gen/
 lynx/gen/*
+node_modules/
