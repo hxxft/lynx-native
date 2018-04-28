@@ -23,13 +23,14 @@
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
     [super touchesBegan:touches withEvent:event];
     _needToBeHandled = [_ui dispatchCoordinatorTouchEvent:event type:@"touchbegan"];
+    self.state = UIGestureRecognizerStateBegan;
 }
 
 - (void)touchesMoved:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
     [super touchesMoved:touches withEvent:event];
     _needToBeHandled = [_ui dispatchCoordinatorTouchEvent:event type:@"touchmoved"];
     if (_needToBeHandled) {
-        self.state = UIGestureRecognizerStateBegan;
+        self.state = UIGestureRecognizerStateChanged;
     }
 }
 
@@ -48,6 +49,11 @@
 
 - (BOOL)canBePreventedByGestureRecognizer:(UIGestureRecognizer *)preventingGestureRecognizer {
     return _needToBeHandled;
+}
+
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer
+{
+    return YES;
 }
 
 @end
