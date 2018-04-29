@@ -107,11 +107,17 @@ namespace parser {
         lynx::RenderObject* renderer = renderer_stack_.top();
         lynx::RenderObject* text_node = lynx::RenderFactory::CreateRenderObject(
                 runtime_->thread_manager(), "text", tree_host_);
-        if(renderer &&  text_node
+        if(!text_node) {
+            DLOG(ERROR) << "Create Text Node Failed";
+            return;
+        }
+        if(renderer
            && renderer->render_object_type()
               == lynx::RenderObjectType::LYNX_LABEL) {
             renderer->AppendChild(text_node);
             text_node->SetText(token.data());
+        }else{
+            lynx_delete(text_node);
         }
     }
 

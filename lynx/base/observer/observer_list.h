@@ -8,7 +8,7 @@ namespace base {
     class ObserverList {
     public:
         ObserverList() : head_(nullptr), tail_(nullptr) {}
-        ~ObserverList() {}
+        ~ObserverList();
         
         void AddObserver(Observer* obs);
         void RemoveObserver(Observer* obs);

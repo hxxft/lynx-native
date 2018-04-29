@@ -164,4 +164,100 @@ bool ToObjectFitType(const std::string& value, ImageStyleType& type) {
   }
   FALSE_RETURN(CSSIMAGE_OBJECT_FIT_COVER);
 }
+
+std::string MapCSSType(CSSStyleType type) {
+  switch (type) {
+    case CSS_DISPLAY_NONE:
+      return "none";
+    case CSS_DISPLAY_FLEX:
+      return "flex";
+    case CSSFLEX_ALIGN_AUTO:
+      return "auto";
+    case CSSFLEX_ALIGN_FLEX_START:
+      return "flex-start";
+    case CSSFLEX_ALIGN_CENTER:
+      return "center";
+    case CSSFLEX_ALIGN_FLEX_END:
+      return "flex-end";
+    case CSSFLEX_ALIGN_STRETCH:
+      return "stretch";
+    case CSSFLEX_DIRECTION_COLUMN:
+      return "column";
+    case CSSFLEX_DIRECTION_COLUMN_REVERS:
+      return "none";
+    case CSSFLEX_DIRECTION_ROW:
+      return "row";
+    case CSSFLEX_DIRECTION_ROW_REVERSE:
+      return "none";
+    case CSSFLEX_JUSTIFY_FLEX_START:
+      return "flex-start";
+    case CSSFLEX_JUSTIFY_FLEX_CENTER:
+      return "center";
+    case CSSFLEX_JUSTIFY_FLEX_END:
+      return "flex-end";
+    case CSSFLEX_JUSTIFY_SPACE_BETWEEN:
+      return "space-between";
+    case CSSFLEX_JUSTIFY_SPACE_AROUND:
+      return "space-around";
+    case CSSFLEX_WRAP:
+      return "wrap";
+    case CSSFLEX_NOWRAP:
+      return "nowrap";
+    case CSS_POSITION_RELATIVE:
+      return "relative";
+    case CSS_POSITION_ABSOLUTE:
+      return "absolute";
+    case CSS_POSITION_FIXED:
+      return "fixed";
+    case CSS_VISIBLE:
+      return "visible";
+    case CSS_HIDDEN:
+      return "hidden";
+    default:
+      return "none";
+  }
+}
+
+std::string MapTextStyle(TextStyleType type) {
+  switch (type) {
+    case CSSTEXT_ALIGN_LEFT:
+      return "left";
+    case CSSTEXT_ALIGN_RIGHT:
+      return "right";
+    case CSSTEXT_ALIGN_CENTER:
+      return "center";
+    case CSSTEXT_TEXTDECORATION_LINETHROUGH:
+      return "line-through";
+    case CSSTEXT_TEXTDECORATION_NONE:
+      return "none";
+    case CSSTEXT_FONT_WEIGHT_NORMAL:
+      return "normal";
+    case CSSTEXT_FONT_WEIGHT_BOLD:
+      return "bold";
+    case CSSTEXT_OVERFLOW_ELLIPSIS:
+      return "ellipsis";
+    case CSSTEXT_OVERFLOW_NONE:
+      return "none";
+    case CSSTEXT_WHITESPACE_NOWRAP:
+      return "nowrap";
+    case CSSTEXT_WHITESPACE_NORMAL:
+      return "normal";
+    default:
+      return "none";
+  }
+}
+
+std::string MapImageStyle(ImageStyleType type) {
+  switch (type) {
+    case CSSIMAGE_OBJECT_FIT_FILL:
+      return "fill";
+    case CSSIMAGE_OBJECT_FIT_CONTAIN:
+      return "contain";
+    case CSSIMAGE_OBJECT_FIT_COVER:
+      return "cover";
+    default:
+      return "none";
+  }
+}
+
 }  // namesapce lynx

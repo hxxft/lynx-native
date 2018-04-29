@@ -28,8 +28,8 @@ base::Size SwiperView::OnMeasure(int width, int height) {
     measured_size_.width_ =
         std::max(measured_size_.width_, measured_size.width_);
   }
-  measured_size_.width_ = (int)style_.ClampWidth(measured_size_.width_);
-  measured_size_.height_ = (int)style_.ClampHeight(measured_size_.height_);
+  measured_size_.width_ = (int)css_style_.ClampWidth(measured_size_.width_);
+  measured_size_.height_ = (int)css_style_.ClampHeight(measured_size_.height_);
   return measured_size_;
 }
 

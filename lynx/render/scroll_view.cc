@@ -23,16 +23,16 @@ base::Size ScrollView::OnMeasure(int width, int height) {
   int height_temp = 0;
   for (int i = 0; i < GetChildCount(); i++) {
     RenderObject* child = static_cast<RenderObject*>(Find(i));
-    if (child->style().css_position_type_ == CSS_POSITION_ABSOLUTE ||
-        child->style().css_position_type_ == CSS_POSITION_FIXED) {
+    if (child->css_style().css_position_type_ == CSS_POSITION_ABSOLUTE ||
+        child->css_style().css_position_type_ == CSS_POSITION_FIXED) {
       continue;
     }
     width_temp += child->measured_size().width_ +
-                  child->style().margin_right() + child->style().margin_left();
+                  child->css_style().margin_right() + child->css_style().margin_left();
     height_temp += child->measured_size().height_ +
-                   child->style().margin_bottom() + child->style().margin_top();
+                   child->css_style().margin_bottom() + child->css_style().margin_top();
   }
-  if (style_.flex_direction() == CSSFLEX_DIRECTION_ROW) {
+  if (css_style_.flex_direction() == CSSFLEX_DIRECTION_ROW) {
     set_scroll_width(width_temp);
   } else {
     set_scroll_height(height_temp);

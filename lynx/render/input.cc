@@ -34,8 +34,8 @@ Input::Input(const char *tag_name,
 }
 
 base::Size Input::OnMeasure(int width_descriptor, int height_descriptor) {
-    int widthWanted = (int) style_.width_;
-    int heightWanted = (int) style_.height_;
+    int widthWanted = (int) css_style_.width_;
+    int heightWanted = (int) css_style_.height_;
     int widthMode = base::Size::Descriptor::GetMode(width_descriptor);
     int heightMode = base::Size::Descriptor::GetMode(height_descriptor);
     width_descriptor = base::Size::Descriptor::GetSize(width_descriptor);
@@ -45,19 +45,19 @@ base::Size Input::OnMeasure(int width_descriptor, int height_descriptor) {
             && !CSS_IS_UNDEFINED(width_descriptor)
             && (widthMode == base::Size::Descriptor::EXACTLY
                 || widthMode == base::Size::Descriptor::AT_MOST)?
-            (int) style_.ClampExactWidth(width_descriptor) :
-            (int) style_.ClampWidth();
+            (int) css_style_.ClampExactWidth(width_descriptor) :
+            (int) css_style_.ClampWidth();
     height_descriptor = CSS_IS_UNDEFINED(heightWanted)
              && !CSS_IS_UNDEFINED(height_descriptor)
              && (heightMode == base::Size::Descriptor::EXACTLY
                  || heightMode == base::Size::Descriptor::AT_MOST)?
-             (int) style_.ClampExactHeight(height_descriptor) :
-             (int) style_.ClampHeight();
+             (int) css_style_.ClampExactHeight(height_descriptor) :
+             (int) css_style_.ClampHeight();
 
-    width_descriptor -= style_.padding_left_ + style_.padding_right_
-             + style_.border_width_ * 2;
-    height_descriptor -= style_.padding_top_ + style_.padding_bottom_
-              + style_.border_width_ * 2;
+    width_descriptor -= css_style_.padding_left_ + css_style_.padding_right_
+             + css_style_.border_width_ * 2;
+    height_descriptor -= css_style_.padding_top_ + css_style_.padding_bottom_
+              + css_style_.border_width_ * 2;
 
     base::Size size;
     if (CSS_IS_UNDEFINED(heightWanted) || CSS_IS_UNDEFINED(widthWanted)) {
@@ -69,23 +69,23 @@ base::Size Input::OnMeasure(int width_descriptor, int height_descriptor) {
         size.width_ = size.height_ * kDefaultWHRate;
     }
 
-    size.width_ += style_.padding_left_ + style_.padding_right_
-                   + style_.border_width_ * 2;
-    size.height_ += style_.padding_top_ + style_.padding_bottom_
-                    + style_.border_width_ * 2;
+    size.width_ += css_style_.padding_left_ + css_style_.padding_right_
+                   + css_style_.border_width_ * 2;
+    size.height_ += css_style_.padding_top_ + css_style_.padding_bottom_
+                    + css_style_.border_width_ * 2;
 
-    size.width_ = (int) style_.ClampWidth(size.width_);
-    size.height_ = (int) style_.ClampHeight(size.height_);
+    size.width_ = (int) css_style_.ClampWidth(size.width_);
+    size.height_ = (int) css_style_.ClampHeight(size.height_);
 
 
     size.width_ = !CSS_IS_UNDEFINED(width_descriptor)
                   && widthMode == base::Size::Descriptor::EXACTLY ?
-                  (int) style_.ClampExactWidth(base::Size::Descriptor::GetSize(width_descriptor)) :
-                  (int) style_.ClampWidth(size.width_);
+                  (int) css_style_.ClampExactWidth(base::Size::Descriptor::GetSize(width_descriptor)) :
+                  (int) css_style_.ClampWidth(size.width_);
     size.height_ = !CSS_IS_UNDEFINED(height_descriptor)
                    && heightMode == base::Size::Descriptor::EXACTLY ?
-                   (int) style_.ClampExactHeight(base::Size::Descriptor::GetSize(height_descriptor)) :
-                   (int) style_.ClampHeight(size.height_);
+                   (int) css_style_.ClampExactHeight(base::Size::Descriptor::GetSize(height_descriptor)) :
+                   (int) css_style_.ClampHeight(size.height_);
 
     measured_size_ = size;
     return size;

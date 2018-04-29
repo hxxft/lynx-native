@@ -11,7 +11,7 @@ LayoutObject::LayoutObject()
     : measured_size_(),
       measured_position_(),
       layout_state_(LAYOUT_STATE_DIRTY),
-      style_(),
+      css_style_(),
       offset_top_(0),
       offset_left_(0),
       offset_width_(0),
@@ -46,10 +46,10 @@ void LayoutObject::Layout(int left, int top, int right, int bottom) {
   if (measured_position_.Reset(left, top, right, bottom) || IsDirty()) {
     offset_top_ =
         top -
-        (parent_ == NULL ? 0 : ((LayoutObject*)parent_)->style_.border_width_);
+        (parent_ == NULL ? 0 : ((LayoutObject*)parent_)->css_style_.border_width_);
     offset_left_ =
         left -
-        (parent_ == NULL ? 0 : ((LayoutObject*)parent_)->style_.border_width_);
+        (parent_ == NULL ? 0 : ((LayoutObject*)parent_)->css_style_.border_width_);
     offset_height_ = bottom - top;
     offset_width_ = right - left;
     UpToDate();

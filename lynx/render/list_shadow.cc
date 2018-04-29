@@ -11,7 +11,7 @@ ListShadow::ListShadow(const char* tag_name, uint64_t id, RenderTreeHost* host)
            id,
            RenderObjectImpl::Create(host->thread_manager(), LYNX_LISTSHADOW),
            host) {
-  style_.set_flex_direction(CSSFLEX_DIRECTION_COLUMN);
+  css_style_.set_flex_direction(CSSFLEX_DIRECTION_COLUMN);
 }
 
 void ListShadow::OnLayout(int left, int top, int right, int bottom) {

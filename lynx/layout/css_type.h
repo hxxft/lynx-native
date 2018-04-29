@@ -106,6 +106,10 @@ bool ToTextWhiteSpaceType(const std::string& value, TextStyleType& type);
 
 bool ToObjectFitType(const std::string& value, ImageStyleType& type);
 
+std::string MapCSSType(CSSStyleType type);
+std::string MapTextStyle(TextStyleType type);
+std::string MapImageStyle(ImageStyleType type);
+
 }  // namespace lynx
 
 #endif  // LYNX_LAYOUT_CSS_TYPE_H_

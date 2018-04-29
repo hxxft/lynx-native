@@ -22,12 +22,12 @@ class LayoutObject : public ContainerNode {
   virtual void RemoveChild(ContainerNode* child);
 
   virtual void SetStyle(const std::string& key, const std::string& value) {
-    style_.SetValue(key, value);
+    css_style_.SetValue(key, value);
   }
 
-  void SetStyle(const CSSStyle& style) { style_ = style; }
+  void set_css_style(const CSSStyle& css_style) { css_style_ = css_style; }
 
-  const CSSStyle& style() { return style_; }
+  const CSSStyle& css_style() { return css_style_; }
 
   const base::Size& measured_size() { return measured_size_; }
 
@@ -78,7 +78,7 @@ class LayoutObject : public ContainerNode {
 
   LAYOUT_STATE layout_state_;
 
-  CSSStyle style_;
+  CSSStyle css_style_;
 
   int offset_top_;
   int offset_left_;

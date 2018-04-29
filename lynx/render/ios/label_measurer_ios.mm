@@ -20,7 +20,7 @@ namespace lynx {
         int widthMode = base::Size::Descriptor::GetMode(size.width_);
         int heightMode = base::Size::Descriptor::GetMode(size.height_);
         
-        CSSStyle style = render_object->style();
+        CSSStyle style = render_object->css_style();
         NSString* label_text = [[NSString alloc]initWithUTF8String:text.c_str()];
         UIFont* ui_font;
         if (style.font_weight_ == lynx::CSSTEXT_FONT_WEIGHT_BOLD) {

@@ -16,7 +16,7 @@ namespace lynx {
 base::Size CSSStaticLayout::Measure(LayoutObject* renderer,
                                     int width_descriptor,
                                     int height_descriptor) {
-  const CSSStyle* style = &(renderer->style());
+  const CSSStyle* style = &(renderer->css_style());
 
   int width_mode = base::Size::Descriptor::GetMode(width_descriptor);
   int height_mode = base::Size::Descriptor::GetMode(height_descriptor);
@@ -67,7 +67,7 @@ base::Size CSSStaticLayout::MeasureInner(LayoutObject* renderer,
                                          int height,
                                          int height_mode) {
   base::Size measured_size;
-  const CSSStyle* style = &(renderer->style());
+  const CSSStyle* style = &(renderer->css_style());
 
   int w = width;
   int h = height;
@@ -100,7 +100,7 @@ bool CSSStaticLayout::MeasureSpecially(LayoutObject* renderer,
                                        int width_mode,
                                        int height,
                                        int height_mode) {
-  const CSSStyle* child_style = &(renderer->style());
+  const CSSStyle* child_style = &(renderer->css_style());
   if (child_style->css_display_type_ != CSS_DISPLAY_FLEX) {
     renderer->Measure(0, 0);
     return true;
@@ -137,7 +137,7 @@ base::Size CSSStaticLayout::MeasureRowOneLine(LayoutObject* renderer,
     int measure_width;
 
     LayoutObject* child = (LayoutObject*)renderer->Find(i);
-    const CSSStyle* child_style = &(child->style());
+    const CSSStyle* child_style = &(child->css_style());
 
     if (MeasureSpecially(child, width, width_mode, height, height_mode)) {
       continue;
@@ -177,21 +177,21 @@ base::Size CSSStaticLayout::MeasureRowOneLine(LayoutObject* renderer,
   }
 
   if ((calc_width == 0 && total_flex > 0) ||
-      (CSS_IS_UNDEFINED(renderer->style().width_) &&
-       CSS_IS_UNDEFINED(renderer->style().max_width_) &&
-       renderer->style().min_width_ == 0)) {
-    residual_width = renderer->style().ClampWidth(width);
+      (CSS_IS_UNDEFINED(renderer->css_style().width_) &&
+       CSS_IS_UNDEFINED(renderer->css_style().max_width_) &&
+       renderer->css_style().min_width_ == 0)) {
+    residual_width = renderer->css_style().ClampWidth(width);
     if (residual_width != width) {
-      residual_width = residual_width - renderer->style().padding_right_ -
-                       renderer->style().padding_left_ -
-                       2 * renderer->style().border_width_;
+      residual_width = residual_width - renderer->css_style().padding_right_ -
+                       renderer->css_style().padding_left_ -
+                       2 * renderer->css_style().border_width_;
     }
     residual_width -= calc_width;
   } else {
-    residual_width = renderer->style().ClampWidth(calc_width) -
-                     renderer->style().padding_right_ -
-                     renderer->style().padding_left_ -
-                     2 * renderer->style().border_width_ - calc_width;
+    residual_width = renderer->css_style().ClampWidth(calc_width) -
+                     renderer->css_style().padding_right_ -
+                     renderer->css_style().padding_left_ -
+                     2 * renderer->css_style().border_width_ - calc_width;
   }
 
   if (residual_width < 0)
@@ -199,7 +199,7 @@ base::Size CSSStaticLayout::MeasureRowOneLine(LayoutObject* renderer,
 
   for (int i = start; i <= end; i++) {
     LayoutObject* child = (LayoutObject*)renderer->Find(i);
-    const CSSStyle* child_style = &(child->style());
+    const CSSStyle* child_style = &(child->css_style());
 
     if (child_style->css_display_type_ != CSS_DISPLAY_FLEX) {
       continue;
@@ -256,12 +256,12 @@ base::Size CSSStaticLayout::MeasureRowWrap(LayoutObject* renderer,
   int calc_height = 0;
   int start = 0;
 
-  base::Size measured_size(renderer->style().width_, renderer->style().height_);
+  base::Size measured_size(renderer->css_style().width_, renderer->css_style().height_);
 
   for (int index = 0, child_view_count = renderer->GetChildCount();
        index < child_view_count;) {
     LayoutObject* child = (LayoutObject*)renderer->Find(index);
-    const CSSStyle* child_style = &(child->style());
+    const CSSStyle* child_style = &(child->css_style());
 
     if (MeasureSpecially(child, width, width_mode, height, height_mode)) {
       index++;
@@ -323,7 +323,7 @@ base::Size CSSStaticLayout::MeasureRow(LayoutObject* renderer,
                                        int width_mode,
                                        int height,
                                        int height_mode) {
-  const CSSStyle* item_style = &(renderer->style());
+  const CSSStyle* item_style = &(renderer->css_style());
   if (item_style->flex_wrap_ != CSSFLEX_WRAP) {
     return MeasureRowOneLine(renderer, width, width_mode, height, height_mode,
                              0, renderer->GetChildCount() - 1);
@@ -354,7 +354,7 @@ base::Size CSSStaticLayout::MeasureColumnOneLine(LayoutObject* renderer,
     int measure_height;
 
     LayoutObject* child = (LayoutObject*)renderer->Find(i);
-    const CSSStyle* child_style = &(child->style());
+    const CSSStyle* child_style = &(child->css_style());
 
     if (MeasureSpecially(child, width, width_mode, height, height_mode)) {
       continue;
@@ -394,21 +394,21 @@ base::Size CSSStaticLayout::MeasureColumnOneLine(LayoutObject* renderer,
   }
 
   if ((calc_height == 0 && total_flex > 0) ||
-      (CSS_IS_UNDEFINED(renderer->style().height_) &&
-       CSS_IS_UNDEFINED(renderer->style().max_height_) &&
-       renderer->style().min_height_ == 0)) {
-    residual_height = renderer->style().ClampHeight(height);
+      (CSS_IS_UNDEFINED(renderer->css_style().height_) &&
+       CSS_IS_UNDEFINED(renderer->css_style().max_height_) &&
+       renderer->css_style().min_height_ == 0)) {
+    residual_height = renderer->css_style().ClampHeight(height);
     if (residual_height != height) {
-      residual_height = residual_height - renderer->style().padding_top_ -
-                        renderer->style().padding_bottom_ -
-                        2 * renderer->style().border_width_;
+      residual_height = residual_height - renderer->css_style().padding_top_ -
+                        renderer->css_style().padding_bottom_ -
+                        2 * renderer->css_style().border_width_;
     }
     residual_height -= calc_height;
   } else {
-    residual_height = renderer->style().ClampHeight(calc_height) -
-                      renderer->style().padding_top_ -
-                      renderer->style().padding_bottom_ -
-                      2 * renderer->style().border_width_ - calc_height;
+    residual_height = renderer->css_style().ClampHeight(calc_height) -
+                      renderer->css_style().padding_top_ -
+                      renderer->css_style().padding_bottom_ -
+                      2 * renderer->css_style().border_width_ - calc_height;
   }
 
   if (residual_height < 0)
@@ -416,7 +416,7 @@ base::Size CSSStaticLayout::MeasureColumnOneLine(LayoutObject* renderer,
 
   for (int i = start; i <= end; i++) {
     LayoutObject* child = (LayoutObject*)renderer->Find(i);
-    const CSSStyle* child_style = &(child->style());
+    const CSSStyle* child_style = &(child->css_style());
 
     if (child_style->css_display_type_ != CSS_DISPLAY_FLEX) {
       continue;
@@ -473,12 +473,12 @@ base::Size CSSStaticLayout::MeasureColumnWrap(LayoutObject* renderer,
   int calc_height = 0;
   int start = 0;
 
-  base::Size measured_size(renderer->style().width_, renderer->style().height_);
+  base::Size measured_size(renderer->css_style().width_, renderer->css_style().height_);
 
   for (int index = 0, child_view_count = renderer->GetChildCount();
        index < child_view_count;) {
     LayoutObject* child = (LayoutObject*)renderer->Find(index);
-    const CSSStyle* child_style = &(child->style());
+    const CSSStyle* child_style = &(child->css_style());
 
     if (MeasureSpecially(child, width, width_mode, height, height_mode)) {
       index++;
@@ -542,7 +542,7 @@ base::Size CSSStaticLayout::MeasureColumn(LayoutObject* renderer,
                                           int width_mode,
                                           int height,
                                           int height_mode) {
-  const CSSStyle* item_style = &(renderer->style());
+  const CSSStyle* item_style = &(renderer->css_style());
   if (item_style->flex_wrap_ != CSSFLEX_WRAP) {
     return MeasureColumnOneLine(renderer, width, width_mode, height,
                                 height_mode, 0, renderer->GetChildCount() - 1);
@@ -555,7 +555,7 @@ base::Size CSSStaticLayout::MeasureColumn(LayoutObject* renderer,
 static bool sDisplayNoneFlag = false;
 
 void CSSStaticLayout::Layout(LayoutObject* renderer, int width, int height) {
-  const CSSStyle* item_style = &(renderer->style());
+  const CSSStyle* item_style = &(renderer->css_style());
   // 如果是隐藏的view，之后的view都不进行排版，需要重新measure
   if (sDisplayNoneFlag) {
     LayoutWhenDisplayNone(renderer);
@@ -580,7 +580,7 @@ void CSSStaticLayout::LayoutWhenDisplayNone(LayoutObject* renderer) {
 void CSSStaticLayout::LayoutRowWrap(LayoutObject* renderer,
                                     int width,
                                     int height) {
-  const CSSStyle* item_style = &(renderer->style());
+  const CSSStyle* item_style = &(renderer->css_style());
 
   int available_width = width - item_style->padding_left_ -
                         item_style->padding_right_ -
@@ -601,7 +601,7 @@ void CSSStaticLayout::LayoutRowWrap(LayoutObject* renderer,
   for (int index = 0, child_view_count = renderer->GetChildCount();
        index < child_view_count; index++) {
     LayoutObject* child = (LayoutObject*)renderer->Find(index);
-    const CSSStyle* child_style = &(child->style());
+    const CSSStyle* child_style = &(child->css_style());
 
     bool should_child_pass = false;
     int oldTotalUseWidthWithoutAbsolute = total_use_width_without_absolute;
@@ -691,7 +691,7 @@ void CSSStaticLayout::LayoutRowWrap(LayoutObject* renderer,
 
       for (int i = start; i <= index; i++) {
         LayoutObject* recalc_child = (LayoutObject*)renderer->Find(i);
-        const CSSStyle* recalc_child_style = &(recalc_child->style());
+        const CSSStyle* recalc_child_style = &(recalc_child->css_style());
 
         int align = item_style->flex_align_items_;
 
@@ -729,7 +729,7 @@ void CSSStaticLayout::LayoutRowWrap(LayoutObject* renderer,
           adjust_height = current_line_height -
                           recalc_child_style->margin_top_ -
                           recalc_child_style->margin_bottom_;
-          adjust_height = recalc_child->style().ClampHeight(adjust_height);
+          adjust_height = recalc_child->css_style().ClampHeight(adjust_height);
         } else if (align == CSSFLEX_ALIGN_CENTER ||
                    align == CSSFLEX_ALIGN_CENTER) {
           adjust_y =
@@ -764,7 +764,7 @@ void CSSStaticLayout::LayoutRowWrap(LayoutObject* renderer,
 }
 
 void CSSStaticLayout::LayoutRow(LayoutObject* renderer, int width, int height) {
-  const CSSStyle* item_style = &(renderer->style());
+  const CSSStyle* item_style = &(renderer->css_style());
   // 可用宽高为去除padding和border之后的宽高
   int available_width = width - item_style->padding_left_ -
                         item_style->padding_right_ -
@@ -780,7 +780,7 @@ void CSSStaticLayout::LayoutRow(LayoutObject* renderer, int width, int height) {
     for (int index = 0, child_view_count = renderer->GetChildCount();
          index < child_view_count; index++) {
       LayoutObject* child = (LayoutObject*)renderer->Find(index);
-      const CSSStyle* child_style = &(child->style());
+      const CSSStyle* child_style = &(child->css_style());
 
       if (child_style->css_display_type_ != CSS_DISPLAY_FLEX) {
         child->Layout(0, 0, 0, 0);
@@ -796,8 +796,8 @@ void CSSStaticLayout::LayoutRow(LayoutObject* renderer, int width, int height) {
       }
       current_row_without_absolute_count++;
       total_use_width_without_absolute += child->measured_size_.width_ +
-                                          child->style().margin_left_ +
-                                          child->style().margin_right_;
+                                          child->css_style().margin_left_ +
+                                          child->css_style().margin_right_;
     }
 
     int adjust_width_start = 0;
@@ -838,7 +838,7 @@ void CSSStaticLayout::LayoutRow(LayoutObject* renderer, int width, int height) {
     int child_origin_y = item_style->padding_top_ + item_style->border_width_;
     for (int i = 0, size = renderer->GetChildCount(); i < size; i++) {
       LayoutObject* child = (LayoutObject*)renderer->Find(i);
-      const CSSStyle* child_style = &(child->style());
+      const CSSStyle* child_style = &(child->css_style());
 
       int align = item_style->flex_align_items_;
 
@@ -874,7 +874,7 @@ void CSSStaticLayout::LayoutRow(LayoutObject* renderer, int width, int height) {
         if (CSS_IS_UNDEFINED(child_style->height_)) {
           adjust_height = available_height - child_style->margin_top_ -
                           child_style->margin_bottom_;
-          adjust_height = child->style().ClampHeight(adjust_height);
+          adjust_height = child->css_style().ClampHeight(adjust_height);
         }
       } else if (align == CSSFLEX_ALIGN_CENTER ||
                  align == CSSFLEX_ALIGN_CENTER) {
@@ -901,7 +901,7 @@ void CSSStaticLayout::LayoutRow(LayoutObject* renderer, int width, int height) {
 void CSSStaticLayout::LayoutColumnWrap(LayoutObject* renderer,
                                        int width,
                                        int height) {
-  const CSSStyle* item_style = &(renderer->style());
+  const CSSStyle* item_style = &(renderer->css_style());
 
   int available_width = width - item_style->padding_left_ -
                         item_style->padding_right_ -
@@ -922,7 +922,7 @@ void CSSStaticLayout::LayoutColumnWrap(LayoutObject* renderer,
 
   for (int index = 0; index < size; index++) {
     LayoutObject* child = (LayoutObject*)renderer->Find(index);
-    const CSSStyle* child_style = &(child->style());
+    const CSSStyle* child_style = &(child->css_style());
 
     bool child_should_pass = false;
     int oldTotalUseHeightWithoutAbsolute = total_use_height_without_absolute;
@@ -1017,7 +1017,7 @@ void CSSStaticLayout::LayoutColumnWrap(LayoutObject* renderer,
                            item_style->border_width_ + adjust_height_start;
       for (int i = start; i <= index; i++) {
         LayoutObject* recalc_child = (LayoutObject*)renderer->Find(i);
-        const CSSStyle* recalc_child_style = &(recalc_child->style());
+        const CSSStyle* recalc_child_style = &(recalc_child->css_style());
 
         int align = item_style->flex_align_items_;
 
@@ -1055,7 +1055,7 @@ void CSSStaticLayout::LayoutColumnWrap(LayoutObject* renderer,
           adjust_width = current_line_width -
                          recalc_child_style->margin_right_ -
                          recalc_child_style->margin_left_;
-          adjust_width = recalc_child->style().ClampWidth(adjust_width);
+          adjust_width = recalc_child->css_style().ClampWidth(adjust_width);
         } else if (align == CSSFLEX_ALIGN_CENTER ||
                    align == CSSFLEX_ALIGN_CENTER) {
           adjust_x = (current_line_width - recalc_child_style->margin_right_ -
@@ -1093,7 +1093,7 @@ void CSSStaticLayout::LayoutColumnWrap(LayoutObject* renderer,
 void CSSStaticLayout::LayoutColumn(LayoutObject* renderer,
                                    int width,
                                    int height) {
-  const CSSStyle* item_style = &(renderer->style());
+  const CSSStyle* item_style = &(renderer->css_style());
 
   int available_width = width - item_style->padding_left_ -
                         item_style->padding_right_ -
@@ -1108,7 +1108,7 @@ void CSSStaticLayout::LayoutColumn(LayoutObject* renderer,
   if (item_style->flex_wrap_ != CSSFLEX_WRAP) {
     for (int i = 0, size = renderer->GetChildCount(); i < size; i++) {
       LayoutObject* child = (LayoutObject*)renderer->Find(i);
-      const CSSStyle* child_style = &(child->style());
+      const CSSStyle* child_style = &(child->css_style());
       if (child_style->css_display_type_ != CSS_DISPLAY_FLEX) {
         child->Layout(0, 0, 0, 0);
         continue;
@@ -1123,8 +1123,8 @@ void CSSStaticLayout::LayoutColumn(LayoutObject* renderer,
       }
       current_column_without_absolute_count++;
       total_use_height_without_absolute += child->measured_size_.height_ +
-                                           child->style().margin_top_ +
-                                           child->style().margin_bottom_;
+                                           child->css_style().margin_top_ +
+                                           child->css_style().margin_bottom_;
     }
 
     int adjust_height_start = 0;
@@ -1166,7 +1166,7 @@ void CSSStaticLayout::LayoutColumn(LayoutObject* renderer,
                          adjust_height_start;
     for (int i = 0, size = renderer->GetChildCount(); i < size; i++) {
       LayoutObject* child = (LayoutObject*)renderer->Find(i);
-      const CSSStyle* child_style = &(child->style());
+      const CSSStyle* child_style = &(child->css_style());
 
       int align = item_style->flex_align_items_;
 
@@ -1198,7 +1198,7 @@ void CSSStaticLayout::LayoutColumn(LayoutObject* renderer,
         if (CSS_IS_UNDEFINED(child_style->width_)) {
           adjust_width = available_width - child_style->margin_right_ -
                          child_style->margin_left_;
-          adjust_width = child->style().ClampWidth(adjust_width);
+          adjust_width = child->css_style().ClampWidth(adjust_width);
         }
       } else if (align == CSSFLEX_ALIGN_CENTER) {
         adjust_x = (available_width - child_style->margin_right_ -
@@ -1229,21 +1229,21 @@ void CSSStaticLayout::MeasureAbsolute(LayoutObject* renderer,
                                       int width_mode,
                                       int height,
                                       int height_mode) {
-  int w = CSS_IS_UNDEFINED(renderer->style().width_) ? width
-                                                     : renderer->style().width_;
-  int h = CSS_IS_UNDEFINED(renderer->style().height_)
+  int w = CSS_IS_UNDEFINED(renderer->css_style().width_) ? width
+                                                     : renderer->css_style().width_;
+  int h = CSS_IS_UNDEFINED(renderer->css_style().height_)
               ? height
-              : renderer->style().height_;
+              : renderer->css_style().height_;
 
   w -=
-      CSS_IS_UNDEFINED(renderer->style().right_) ? 0 : renderer->style().right_;
-  w -= CSS_IS_UNDEFINED(renderer->style().left_) ? 0 : renderer->style().left_;
-  h -= CSS_IS_UNDEFINED(renderer->style().top_) ? 0 : renderer->style().top_;
-  h -= CSS_IS_UNDEFINED(renderer->style().bottom_) ? 0
-                                                   : renderer->style().bottom_;
+      CSS_IS_UNDEFINED(renderer->css_style().right_) ? 0 : renderer->css_style().right_;
+  w -= CSS_IS_UNDEFINED(renderer->css_style().left_) ? 0 : renderer->css_style().left_;
+  h -= CSS_IS_UNDEFINED(renderer->css_style().top_) ? 0 : renderer->css_style().top_;
+  h -= CSS_IS_UNDEFINED(renderer->css_style().bottom_) ? 0
+                                                   : renderer->css_style().bottom_;
 
-  w -= renderer->style().margin_left_ + renderer->style().margin_right_;
-  h -= renderer->style().margin_top_ + renderer->style().margin_bottom_;
+  w -= renderer->css_style().margin_left_ + renderer->css_style().margin_right_;
+  h -= renderer->css_style().margin_top_ + renderer->css_style().margin_bottom_;
 
   renderer->Measure(
       base::Size::Descriptor::Make(w, base::Size::Descriptor::AT_MOST),
@@ -1263,7 +1263,7 @@ void CSSStaticLayout::MeasureFixed(LayoutObject* renderer) {
   const CSSStyle* parent_style = &(static_cast<RenderObject*>(renderer)
                                        ->render_tree_host()
                                        ->render_root()
-                                       ->style());
+                                       ->css_style());
 
 
   int available_width = width - parent_style->border_width_ * 2 -
@@ -1309,8 +1309,8 @@ void CSSStaticLayout::LayoutFixedOrAbsolute(LayoutObject* parent,
                                             LayoutObject* child,
                                             int width,
                                             int height) {
-  const CSSStyle* parent_style = &(parent->style());
-  const CSSStyle* child_style = &(child->style());
+  const CSSStyle* parent_style = &(parent->css_style());
+  const CSSStyle* child_style = &(child->css_style());
 
   int l = 0, r = 0, t = 0, b = 0;
 
@@ -1389,8 +1389,8 @@ int CSSStaticLayout::CalculateOffsetWithFlexContainerStyle(LayoutObject* parent,
   int offset = 0;
   bool is_width_available = !CSS_IS_UNDEFINED(width);
 
-  const CSSStyle* parent_style = &(parent->style());
-  const CSSStyle* child_style = &(child->style());
+  const CSSStyle* parent_style = &(parent->css_style());
+  const CSSStyle* child_style = &(child->css_style());
 
   int available_width = CSS_UNDEFINED;
   int available_height = CSS_UNDEFINED;

@@ -27,60 +27,60 @@ class RenderTreeHost;
 class Animation;
 class RenderObject : public LayoutObject, public EventTarget {
  public:
-  RenderObject(const char* tag_name,
-               RenderObjectType type,
-               uint64_t id,
-               RenderObjectImpl* impl,
-               RenderTreeHost* host);
-  virtual ~RenderObject();
 
-  virtual void SetStyle(const std::string& key,
-                        const std::string& value) override;
+ RenderObject(const char* tag_name,
+              RenderObjectType type,
+              uint64_t id,
+              RenderObjectImpl* impl,
+              RenderTreeHost* host);
+ virtual ~RenderObject();
 
-  void FlushStyle();
+ virtual void SetStyle(const std::string& key,
+                       const std::string& value) override;
 
-  // impl virtual method in ConatinerNode
-  virtual void InsertChild(ContainerNode* child, int index) override;
-  virtual void RemoveChild(ContainerNode* child) override;
+ void FlushStyle();
 
-  // impl virtual method in EventTarget
-  virtual void RegisterEvent(const std::string& event,
-                             RegisterEventType type) override;
+ // impl virtual method in ConatinerNode
+ virtual void InsertChild(ContainerNode* child, int index) override;
+ virtual void RemoveChild(ContainerNode* child) override;
 
-  // override virtual method in LayoutObject
-  base::Size Measure(int width_descriptor,
-                     int height_descriptor) override final;
-  void Layout(int left, int top, int right, int bottom) override;
+ // impl virtual method in EventTarget
+ virtual void RegisterEvent(const std::string& event,
+                            RegisterEventType type) override;
 
+ // override virtual method in LayoutObject
+ base::Size Measure(int width_descriptor, int height_descriptor) override final;
+ void Layout(int left, int top, int right, int bottom) override;
 
-  virtual void SetText(const std::string& text);
-  const std::string& GetText() { return text_; }
+ virtual void SetText(const std::string& text);
+ const std::string& GetText() { return text_; }
 
-  RenderObject* NextSibling();
+ RenderObject* NextSibling();
 
-  void AppendChild(RenderObject* child);
+ void AppendChild(RenderObject* child);
 
-  RenderObject* RemoveChildByIndex(int index);
+ RenderObject* RemoveChildByIndex(int index);
 
-  virtual void InsertBefore(RenderObject* child, RenderObject* reference);
+ virtual void InsertBefore(RenderObject* child, RenderObject* reference);
 
-  // operator for attributes
-  typedef std::map<std::string, std::string> Attributes;
+ // operator for attributes
+ typedef std::map<std::string, std::string> Attributes;
+ typedef std::map<std::string, std::string> Styles;
 
-  virtual void SetAttribute(const std::string& key, const std::string& value);
-  bool HasAttribute(const std::string& key);
-  void RemoveAttribute(const std::string& key);
-  const Attributes& attributes() { return attributes_; }
+ virtual void SetAttribute(const std::string& key, const std::string& value);
+ bool HasAttribute(const std::string& key);
+ void RemoveAttribute(const std::string& key);
+ const Attributes& attributes() { return attributes_; }
+ const Styles& styles() { return styles_; }
 
-  // Sync attributes from element impl
-  void UpdateData(int key, base::ScopedPtr<jscore::LynxValue> value);
-  void SetData(int key, base::ScopedPtr<jscore::LynxValue> value);
+ // Sync attributes from element impl
+ void UpdateData(int key, base::ScopedPtr<jscore::LynxValue> value);
+ void SetData(int key, base::ScopedPtr<jscore::LynxValue> value);
 
-  inline std::string& tag_name() { return tag_name_; }
+ inline std::string& tag_name() { return tag_name_; }
 
-
-  inline void set_scroll_height(int scroll_height) {
-    scroll_height_ = scroll_height;
+ inline void set_scroll_height(int scroll_height) {
+   scroll_height_ = scroll_height;
   }
 
   inline int scroll_height() { return scroll_height_; }
@@ -167,6 +167,7 @@ class RenderObject : public LayoutObject, public EventTarget {
   std::string text_;
 
   Attributes attributes_;
+  Styles styles_;
 
   bool is_fixed_;
   std::vector<RenderObject*> fixed_children_;

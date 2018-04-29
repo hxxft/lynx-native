@@ -26,11 +26,11 @@ ImageView::ImageView(const char *tag_name,
 }
 
 base::Size ImageView::OnMeasure(int width_descriptor, int height_descriptor) {
-    if (!CSS_IS_UNDEFINED(style_.height())) {
-        measured_size_.height_ = style_.height();
+    if (!CSS_IS_UNDEFINED(css_style_.height())) {
+        measured_size_.height_ = css_style_.height();
     }
-    if (!CSS_IS_UNDEFINED(style_.width())) {
-        measured_size_.width_ = style_.width();
+    if (!CSS_IS_UNDEFINED(css_style_.width())) {
+        measured_size_.width_ = css_style_.width();
     }
     return measured_size_;
 }

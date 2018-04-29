@@ -103,6 +103,7 @@ void RenderObject::SetStyle(const std::string& key, const std::string& value) {
   if (!key.empty()) {
     LayoutObject::SetStyle(key, value);
     HandleFixedStyle();
+    styles_[key] = value;
   } else {
     FlushStyle();
   }
@@ -129,7 +130,7 @@ void RenderObject::InsertChild(ContainerNode* child, int index) {
   int insert_index = index < 0 ? GetChildCount() - 1 : index;
   for (int i = 0; i < insert_index; ++i) {
     RenderObject* temp = static_cast<RenderObject*>(Find(i));
-    if (temp->style_.css_position_type_ == CSSStyleType::CSS_POSITION_FIXED)
+    if (temp->css_style_.css_position_type_ == CSSStyleType::CSS_POSITION_FIXED)
       continue;
     final_insert_index += GetVisibleChildrenLength(temp);
   }
@@ -257,7 +258,7 @@ void RenderObject::RemoveAttribute(const std::string& key) {
 void RenderObject::FlushStyle() {
   if (!IsInvisible()) {
     RenderCommand* cmd = lynx_new RendererStyleUpdateCommand(
-        impl(), style_, RenderCommand::CMD_SET_STYLE);
+        impl(), css_style_, RenderCommand::CMD_SET_STYLE);
     render_tree_host_->UpdateRenderObject(cmd);
   }
   Dirty();
@@ -311,25 +312,25 @@ void RenderObject::SetData(int key, base::ScopedPtr<jscore::LynxValue> value) {
 }
 
 void RenderObject::HandleFixedStyle() {
-  CSSStyleType cur_fixed_state = style_.css_position_type();
+  CSSStyleType cur_fixed_state = css_style_.css_position_type();
   if (parent_ == NULL)
     return;
 
   if (is_fixed_ &&
       (cur_fixed_state != CSSStyleType::CSS_POSITION_FIXED ||
-       style_.visible_ == CSSStyleType::CSS_HIDDEN ||
-       style_.css_display_type_ == CSSStyleType::CSS_DISPLAY_NONE)) {
+       css_style_.visible_ == CSSStyleType::CSS_HIDDEN ||
+       css_style_.css_display_type_ == CSSStyleType::CSS_DISPLAY_NONE)) {
     static_cast<RenderObject*>(parent_)->RemoveFixedChild(this);
   } else if (!is_fixed_ &&
              cur_fixed_state == CSSStyleType::CSS_POSITION_FIXED &&
-             style_.visible_ == CSSStyleType::CSS_VISIBLE &&
-             style_.css_display_type_ != CSSStyleType::CSS_DISPLAY_NONE) {
+             css_style_.visible_ == CSSStyleType::CSS_VISIBLE &&
+             css_style_.css_display_type_ != CSSStyleType::CSS_DISPLAY_NONE) {
     static_cast<RenderObject*>(parent_)->AddFixedChild(this);
   }
 }
 
 void RenderObject::AddFixedChildIfHave(RenderObject* child) {
-  if (child->style_.css_position_type() == CSSStyleType::CSS_POSITION_FIXED) {
+  if (child->css_style_.css_position_type() == CSSStyleType::CSS_POSITION_FIXED) {
     child->HandleFixedStyle();
   }
   if (child->fixed_children_.size() > 0) {
@@ -341,7 +342,7 @@ void RenderObject::AddFixedChildIfHave(RenderObject* child) {
 }
 
 void RenderObject::RemoveFixedChildIfHave(RenderObject* removed) {
-  if (removed->style_.css_position_type() == CSSStyleType::CSS_POSITION_FIXED) {
+  if (removed->css_style_.css_position_type() == CSSStyleType::CSS_POSITION_FIXED) {
     removed->HandleFixedStyle();
   }
 

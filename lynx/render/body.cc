@@ -10,7 +10,7 @@ namespace lynx {
 Body::Body(jscore::ThreadManager* manager, RenderTreeHost* host)
     : View("body",
            LYNX_BODY,
-           -1,
+           9,
            RenderObjectImpl::Create(manager, LYNX_BODY),
            host),
       thread_manager_(manager),
