@@ -20,7 +20,7 @@ base::Size LabelMeasurer::MeasureLabelSize(RenderObject* render_object,
                                            const std::string& text) {
   JNIEnv* env = base::android::AttachCurrentThread();
   base::android::ScopedLocalJavaRef<jobject> style_obj =
-      base::Convert::StyleConvert(render_object->style());
+      base::Convert::StyleConvert(render_object->css_style());
 
   int width = base::Size::Descriptor::GetSize(size.width_);
   int height = base::Size::Descriptor::GetSize(size.height_);

@@ -47,8 +47,8 @@ base::Size Label::OnMeasure(int width_descriptor, int height_descriptor) {
     if(text_node_ == NULL) {
         return base::Size();
     }
-    int width_wanted = (int) style_.width_;
-    int height_wanted = (int) style_.height_;
+    int width_wanted = (int) css_style_.width_;
+    int height_wanted = (int) css_style_.height_;
     int width_mode = base::Size::Descriptor::GetMode(width_descriptor);
     int height_mode = base::Size::Descriptor::GetMode(height_descriptor);
     int width = base::Size::Descriptor::GetSize(width_descriptor);
@@ -58,22 +58,22 @@ base::Size Label::OnMeasure(int width_descriptor, int height_descriptor) {
             && !CSS_IS_UNDEFINED(width)
             && (width_mode == base::Size::Descriptor::EXACTLY
                 || width_mode == base::Size::Descriptor::AT_MOST)?
-            (int) style_.ClampExactWidth(width) :
-            (int) style_.ClampWidth();
+            (int) css_style_.ClampExactWidth(width) :
+            (int) css_style_.ClampWidth();
     height = CSS_IS_UNDEFINED(height_wanted)
              && !CSS_IS_UNDEFINED(height)
              && (height_mode == base::Size::Descriptor::EXACTLY
                  || height_mode == base::Size::Descriptor::AT_MOST)?
-             (int) style_.ClampExactHeight(height) :
-             (int) style_.ClampHeight();
+             (int) css_style_.ClampExactHeight(height) :
+             (int) css_style_.ClampHeight();
 
     if (!CSS_IS_UNDEFINED(width)) {
-        width -= style_.padding_left_ + style_.padding_right_
-                            + style_.border_width_ * 2;
+        width -= css_style_.padding_left_ + css_style_.padding_right_
+                            + css_style_.border_width_ * 2;
     }
     if (!CSS_IS_UNDEFINED(height)) {
-        height -= style_.padding_top_ + style_.padding_bottom_
-                  + style_.border_width_ * 2;
+        height -= css_style_.padding_top_ + css_style_.padding_bottom_
+                  + css_style_.border_width_ * 2;
     }
 
     base::Size size =
@@ -81,19 +81,19 @@ base::Size Label::OnMeasure(int width_descriptor, int height_descriptor) {
                     this, base::Size(width, height),
                     text_node_ == NULL ? GetText() : text_node_->GetText());
 
-    size.width_ += style_.padding_left_ + style_.padding_right_
-                   + style_.border_width_ * 2;
-    size.height_ += style_.padding_top_ + style_.padding_bottom_
-                    + style_.border_width_ * 2;
+    size.width_ += css_style_.padding_left_ + css_style_.padding_right_
+                   + css_style_.border_width_ * 2;
+    size.height_ += css_style_.padding_top_ + css_style_.padding_bottom_
+                    + css_style_.border_width_ * 2;
 
     size.width_ = !CSS_IS_UNDEFINED(width)
                           && width_mode == base::Size::Descriptor::EXACTLY ?
-                  (int) style_.ClampExactWidth(width) :
-                  (int) style_.ClampWidth(size.width_);
+                  (int) css_style_.ClampExactWidth(width) :
+                  (int) css_style_.ClampWidth(size.width_);
     size.height_ = !CSS_IS_UNDEFINED(height)
                            && height_mode == base::Size::Descriptor::EXACTLY ?
-                   (int) style_.ClampExactHeight(height) :
-                   (int) style_.ClampExactHeight(size.height_);
+                   (int) css_style_.ClampExactHeight(height) :
+                   (int) css_style_.ClampExactHeight(size.height_);
 
     measured_size_ = size;
     return size;

@@ -32,6 +32,7 @@ class Label : public RenderObject {
   virtual void InsertBefore(RenderObject* child,
                             RenderObject* reference) override;
 
+  TextNode* text_node() { return text_node_; }
  protected:
   virtual base::Size OnMeasure(int width_descriptor,
                                int height_descriptor) override;
