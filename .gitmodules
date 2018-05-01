@@ -1,0 +1,3 @@
+[submodule "lynx-cli"]
+	path = lynx-cli
+	url = https://github.com/hxxft/lynx-cli.git
