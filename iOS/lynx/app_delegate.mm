@@ -4,6 +4,8 @@
 #include "app/resource_manager.h"
 #include "app/application_info.h"
 #include "lynx_view_controller.h"
+#include "debugger/debug_client.h"
+#include "debugger/ios/debug_host_impl.h"
 
 @interface LxAppDelegate ()
 
@@ -24,6 +26,10 @@
     NSURL* url = [[LynxResourceManager instance] toResourceURL:@"Asset://manifest.json"];
     NSDictionary* dict = [[LynxResourceManager instance].reader readResourceAsJSON:url];
     LynxApplicationInfo* appInfo = [[LynxApplicationInfo alloc]initWithManifest:dict];
+    
+    if([appInfo debugable]) {
+        debug::DebugClient::Debugger()->Initialize(lynx_new debug::DebugHostImpl);
+    }
     
     UINavigationController *navController = [[UINavigationController alloc]initWithRootViewController:[[LynxViewController alloc] initWithName:appInfo.mainPage]];
     self.window.rootViewController = navController;

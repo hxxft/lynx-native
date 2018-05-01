@@ -10,6 +10,7 @@
 @property (readonly, nonatomic) NSString* packageName;
 @property (readonly, nonatomic) NSString* mainPage;
 @property (readonly, nonatomic) NSMutableArray* pages;
+@property (readonly, nonatomic) BOOL debugable;
 
 - (id) initWithManifest:(NSDictionary*)manifest;
 

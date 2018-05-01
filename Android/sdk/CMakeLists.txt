@@ -93,6 +93,9 @@ add_library(lynx SHARED
 				${CMAKE_SOURCE_DIR}/../../lynx/base/rand_util.cc	
             	${CMAKE_SOURCE_DIR}/../../lynx/build/jni_load.cc
             	${CMAKE_SOURCE_DIR}/../../lynx/config/global_config_data.cc
+				${CMAKE_SOURCE_DIR}/../../lynx/debugger/android/debug_host_impl.cc
+				${CMAKE_SOURCE_DIR}/../../lynx/debugger/debug_client.cc
+				${CMAKE_SOURCE_DIR}/../../lynx/debugger/debug_session.cc
             	#${CMAKE_SOURCE_DIR}/../../lynx/render/test/demo.cc
             	${CMAKE_SOURCE_DIR}/../../lynx/render/event_target.cc
             	${CMAKE_SOURCE_DIR}/../../lynx/render/render_object.cc

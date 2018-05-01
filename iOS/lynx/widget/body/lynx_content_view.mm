@@ -5,7 +5,7 @@
 #include "base/render_object_impl_bridge.h"
 #include "base/file_path_utility.h"
 #include "utils/screen_util.h"
-
+#include "app/resource_manager.h"
 #include "layout/css_style.h"
 #include "render/ios/render_object_impl_ios.h"
 #include "config/global_config_data.h"
@@ -76,8 +76,10 @@ using namespace lynx;
     if (nil != pagePath) {
         NSString* pageLayoutPath = [pagePath stringByAppendingString:@"index.html"];
 
-        NSString* file = [LynxFilePathUtility toFilePath:pageLayoutPath];
-        NSData* fileData = [NSData dataWithContentsOfFile:file];
+        NSURL* url = [[LynxResourceManager instance] toResourceURL:pageLayoutPath];
+        NSData* fileData = [NSData dataWithContentsOfURL:url];
+//        NSString* file = [LynxFilePathUtility toFilePath:pageLayoutPath];
+//        NSData* fileData = [NSData dataWithContentsOfFile:file];
         if (nil != fileData && fileData.length > 0)
         {
             NSString* htmlString = [[NSString alloc] initWithData:fileData

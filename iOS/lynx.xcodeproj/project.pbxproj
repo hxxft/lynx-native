@@ -20,6 +20,7 @@
 		421438F7207DF52E00ECF750 /* application_info.mm in Sources */ = {isa = PBXBuildFile; fileRef = 421438EE207DF52D00ECF750 /* application_info.mm */; };
 		421438F8207DF52E00ECF750 /* page_info.mm in Sources */ = {isa = PBXBuildFile; fileRef = 421438F2207DF52D00ECF750 /* page_info.mm */; };
 		421438F9207DF52E00ECF750 /* resource_manager.mm in Sources */ = {isa = PBXBuildFile; fileRef = 421438F4207DF52D00ECF750 /* resource_manager.mm */; };
+		42174FD32096A975001B8A48 /* debug_host_impl.mm in Sources */ = {isa = PBXBuildFile; fileRef = 42174FD12096A975001B8A48 /* debug_host_impl.mm */; };
 		4239864B1F793F42008775F6 /* file_path_utility.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4239864A1F793F42008775F6 /* file_path_utility.mm */; };
 		423E18721F0639D100813438 /* jsc_context.cc in Sources */ = {isa = PBXBuildFile; fileRef = 423E18701F0639D100813438 /* jsc_context.cc */; };
 		4259BF451F161DB30031D3B0 /* observer_list.cc in Sources */ = {isa = PBXBuildFile; fileRef = 4259BF431F161DB30031D3B0 /* observer_list.cc */; };
@@ -50,6 +51,12 @@
 		428DE9A620902AF40069BFE3 /* websocket_errors.cc in Sources */ = {isa = PBXBuildFile; fileRef = 428DE96A20902AF40069BFE3 /* websocket_errors.cc */; };
 		428DE9A720902AF40069BFE3 /* websocket.cc in Sources */ = {isa = PBXBuildFile; fileRef = 428DE96B20902AF40069BFE3 /* websocket.cc */; };
 		428DE9AA20902B1E0069BFE3 /* rand_util.cc in Sources */ = {isa = PBXBuildFile; fileRef = 428DE9A820902B1D0069BFE3 /* rand_util.cc */; };
+		428DE9B12091B4C40069BFE3 /* debug_client.cc in Sources */ = {isa = PBXBuildFile; fileRef = 428DE9AF2091B4C40069BFE3 /* debug_client.cc */; };
+		428DE9C02091B9E00069BFE3 /* inspector_dom_agent.cc in Sources */ = {isa = PBXBuildFile; fileRef = 428DE9B52091B9E00069BFE3 /* inspector_dom_agent.cc */; };
+		428DE9C12091B9E00069BFE3 /* inspector_css_agent.cc in Sources */ = {isa = PBXBuildFile; fileRef = 428DE9B92091B9E00069BFE3 /* inspector_css_agent.cc */; };
+		428DE9C22091B9E00069BFE3 /* inspector.cc in Sources */ = {isa = PBXBuildFile; fileRef = 428DE9BA2091B9E00069BFE3 /* inspector.cc */; };
+		428DE9C32091B9E00069BFE3 /* inspector_session.cc in Sources */ = {isa = PBXBuildFile; fileRef = 428DE9BB2091B9E00069BFE3 /* inspector_session.cc */; };
+		428DE9C82092BEA30069BFE3 /* debug_session.cc in Sources */ = {isa = PBXBuildFile; fileRef = 428DE9C62092BEA30069BFE3 /* debug_session.cc */; };
 		42B4F2001F7E420B001519E1 /* lynx_view_controller.mm in Sources */ = {isa = PBXBuildFile; fileRef = 42B4F1FF1F7E420B001519E1 /* lynx_view_controller.mm */; };
 		42B4F2021F7E42CC001519E1 /* assets.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 42B4F2011F7E42CB001519E1 /* assets.bundle */; };
 		42B4F2051F7E4710001519E1 /* app_delegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 42B4F2041F7E470F001519E1 /* app_delegate.mm */; };
@@ -89,8 +96,6 @@
 		BC5D49012066448300424ABA /* string_number_convert.cc in Sources */ = {isa = PBXBuildFile; fileRef = BC5D48FF2066448300424ABA /* string_number_convert.cc */; };
 		BC5D49052066450800424ABA /* trace_logger.cc in Sources */ = {isa = PBXBuildFile; fileRef = BC5D49042066450800424ABA /* trace_logger.cc */; };
 		BC5D49082066451E00424ABA /* trace_writer.cc in Sources */ = {isa = PBXBuildFile; fileRef = BC5D49072066451E00424ABA /* trace_writer.cc */; };
-		BC5DBD711F5C60A5005A47E3 /* Demo.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BC5DBD691F5C60A5005A47E3 /* Demo.storyboard */; };
-		BC5DBD721F5C60A5005A47E3 /* DemoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BC5DBD6B1F5C60A5005A47E3 /* DemoViewController.m */; };
 		BC5DBD731F5C60A5005A47E3 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = BC5DBD6C1F5C60A5005A47E3 /* Info.plist */; };
 		BC5DBD741F5C60A5005A47E3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BC5DBD6D1F5C60A5005A47E3 /* LaunchScreen.storyboard */; };
 		BC5DBD801F5E79D8005A47E3 /* style_convector.mm in Sources */ = {isa = PBXBuildFile; fileRef = BC5DBD7F1F5E79D8005A47E3 /* style_convector.mm */; };
@@ -255,6 +260,8 @@
 		421438F3207DF52D00ECF750 /* application_info.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = application_info.h; sourceTree = "<group>"; };
 		421438F4207DF52D00ECF750 /* resource_manager.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = resource_manager.mm; sourceTree = "<group>"; };
 		421438F5207DF52D00ECF750 /* resource_reader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = resource_reader.h; sourceTree = "<group>"; };
+		42174FD12096A975001B8A48 /* debug_host_impl.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = debug_host_impl.mm; sourceTree = "<group>"; };
+		42174FD22096A975001B8A48 /* debug_host_impl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = debug_host_impl.h; sourceTree = "<group>"; };
 		423986491F793E5B008775F6 /* file_path_utility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = file_path_utility.h; sourceTree = "<group>"; };
 		4239864A1F793F42008775F6 /* file_path_utility.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = file_path_utility.mm; sourceTree = "<group>"; };
 		423E18701F0639D100813438 /* jsc_context.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = jsc_context.cc; path = jsc/jsc_context.cc; sourceTree = "<group>"; };
@@ -324,6 +331,21 @@
 		428DE96D20902AF40069BFE3 /* websocket_errors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = websocket_errors.h; sourceTree = "<group>"; };
 		428DE9A820902B1D0069BFE3 /* rand_util.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = rand_util.cc; sourceTree = "<group>"; };
 		428DE9A920902B1E0069BFE3 /* rand_util.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = rand_util.h; sourceTree = "<group>"; };
+		428DE9AF2091B4C40069BFE3 /* debug_client.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = debug_client.cc; sourceTree = "<group>"; };
+		428DE9B02091B4C40069BFE3 /* debug_client.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = debug_client.h; sourceTree = "<group>"; };
+		428DE9B32091B9E00069BFE3 /* inspector_dom_agent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = inspector_dom_agent.h; sourceTree = "<group>"; };
+		428DE9B42091B9E00069BFE3 /* inspector_session.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = inspector_session.h; sourceTree = "<group>"; };
+		428DE9B52091B9E00069BFE3 /* inspector_dom_agent.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = inspector_dom_agent.cc; sourceTree = "<group>"; };
+		428DE9B62091B9E00069BFE3 /* inspector_response.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = inspector_response.h; sourceTree = "<group>"; };
+		428DE9B72091B9E00069BFE3 /* inspector_agent_base.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = inspector_agent_base.h; sourceTree = "<group>"; };
+		428DE9B82091B9E00069BFE3 /* inspector_css_agent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = inspector_css_agent.h; sourceTree = "<group>"; };
+		428DE9B92091B9E00069BFE3 /* inspector_css_agent.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = inspector_css_agent.cc; sourceTree = "<group>"; };
+		428DE9BA2091B9E00069BFE3 /* inspector.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = inspector.cc; sourceTree = "<group>"; };
+		428DE9BB2091B9E00069BFE3 /* inspector_session.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = inspector_session.cc; sourceTree = "<group>"; };
+		428DE9BC2091B9E00069BFE3 /* inspector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = inspector.h; sourceTree = "<group>"; };
+		428DE9C52091D7BB0069BFE3 /* debug_session.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = debug_session.h; sourceTree = "<group>"; };
+		428DE9C62092BEA30069BFE3 /* debug_session.cc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = debug_session.cc; sourceTree = "<group>"; };
+		428DE9CB209555420069BFE3 /* debug_host.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = debug_host.h; sourceTree = "<group>"; };
 		42B188151E598BFA00934968 /* thread_manager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = thread_manager.h; sourceTree = "<group>"; };
 		42B4F1FE1F7E420B001519E1 /* lynx_view_controller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lynx_view_controller.h; sourceTree = "<group>"; };
 		42B4F1FF1F7E420B001519E1 /* lynx_view_controller.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = lynx_view_controller.mm; sourceTree = "<group>"; };
@@ -417,9 +439,6 @@
 		BC5D49042066450800424ABA /* trace_logger.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = trace_logger.cc; sourceTree = "<group>"; };
 		BC5D49062066451E00424ABA /* trace_writer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = trace_writer.h; sourceTree = "<group>"; };
 		BC5D49072066451E00424ABA /* trace_writer.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = trace_writer.cc; sourceTree = "<group>"; };
-		BC5DBD691F5C60A5005A47E3 /* Demo.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Demo.storyboard; path = lynx/Demo.storyboard; sourceTree = SOURCE_ROOT; };
-		BC5DBD6A1F5C60A5005A47E3 /* DemoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DemoViewController.h; path = lynx/DemoViewController.h; sourceTree = SOURCE_ROOT; };
-		BC5DBD6B1F5C60A5005A47E3 /* DemoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DemoViewController.m; path = lynx/DemoViewController.m; sourceTree = SOURCE_ROOT; };
 		BC5DBD6C1F5C60A5005A47E3 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = lynx/Info.plist; sourceTree = SOURCE_ROOT; };
 		BC5DBD6D1F5C60A5005A47E3 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = lynx/LaunchScreen.storyboard; sourceTree = SOURCE_ROOT; };
 		BC5DBD7E1F5E79D8005A47E3 /* style_convector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = style_convector.h; sourceTree = "<group>"; };
@@ -783,6 +802,15 @@
 			path = app;
 			sourceTree = "<group>";
 		};
+		42174FD02096A975001B8A48 /* ios */ = {
+			isa = PBXGroup;
+			children = (
+				42174FD12096A975001B8A48 /* debug_host_impl.mm */,
+				42174FD22096A975001B8A48 /* debug_host_impl.h */,
+			);
+			path = ios;
+			sourceTree = "<group>";
+		};
 		4259BF421F161D7B0031D3B0 /* observer */ = {
 			isa = PBXGroup;
 			children = (
@@ -907,9 +935,33 @@
 		428DE9AB20902C560069BFE3 /* debugger */ = {
 			isa = PBXGroup;
 			children = (
+				42174FD02096A975001B8A48 /* ios */,
+				428DE9AF2091B4C40069BFE3 /* debug_client.cc */,
+				428DE9B02091B4C40069BFE3 /* debug_client.h */,
+				428DE9C52091D7BB0069BFE3 /* debug_session.h */,
+				428DE9C62092BEA30069BFE3 /* debug_session.cc */,
+				428DE9CB209555420069BFE3 /* debug_host.h */,
 			);
 			name = debugger;
 			path = ../lynx/debugger;
+			sourceTree = "<group>";
+		};
+		428DE9B22091B9E00069BFE3 /* inspector */ = {
+			isa = PBXGroup;
+			children = (
+				428DE9B32091B9E00069BFE3 /* inspector_dom_agent.h */,
+				428DE9B42091B9E00069BFE3 /* inspector_session.h */,
+				428DE9B52091B9E00069BFE3 /* inspector_dom_agent.cc */,
+				428DE9B62091B9E00069BFE3 /* inspector_response.h */,
+				428DE9B72091B9E00069BFE3 /* inspector_agent_base.h */,
+				428DE9B82091B9E00069BFE3 /* inspector_css_agent.h */,
+				428DE9B92091B9E00069BFE3 /* inspector_css_agent.cc */,
+				428DE9BA2091B9E00069BFE3 /* inspector.cc */,
+				428DE9BB2091B9E00069BFE3 /* inspector_session.cc */,
+				428DE9BC2091B9E00069BFE3 /* inspector.h */,
+			);
+			name = inspector;
+			path = ../lynx/inspector;
 			sourceTree = "<group>";
 		};
 		42CA2DB71E60269900E1200E /* string */ = {
@@ -963,9 +1015,6 @@
 				42B4F1FF1F7E420B001519E1 /* lynx_view_controller.mm */,
 				BC5DBD7D1F5E79D8005A47E3 /* base */,
 				BC5DBD791F5E7874005A47E3 /* widget */,
-				BC5DBD691F5C60A5005A47E3 /* Demo.storyboard */,
-				BC5DBD6A1F5C60A5005A47E3 /* DemoViewController.h */,
-				BC5DBD6B1F5C60A5005A47E3 /* DemoViewController.m */,
 				BC5DBD6C1F5C60A5005A47E3 /* Info.plist */,
 				BC5DBD6D1F5C60A5005A47E3 /* LaunchScreen.storyboard */,
 				BC9D342D1E1DEC92009BD30A /* Assets.xcassets */,
@@ -1406,6 +1455,7 @@
 		BC9D34941E1E015D009BD30A /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				428DE9B22091B9E00069BFE3 /* inspector */,
 				428DE9AB20902C560069BFE3 /* debugger */,
 				BC8A0CF11FB2E477002B0370 /* lepus */,
 				BC6D1D001F55C327007DD652 /* parser */,
@@ -1745,7 +1795,7 @@
 				TargetAttributes = {
 					42D7BCD51DCB440C000BE5A5 = {
 						CreatedOnToolsVersion = 7.2;
-						DevelopmentTeam = 7FDMDZ5N9L;
+						DevelopmentTeam = PM93V4ARD4;
 					};
 					42D7BCEE1DCB440C000BE5A5 = {
 						CreatedOnToolsVersion = 7.2;
@@ -1785,7 +1835,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				BC41C23F1F04EC2000EB4BA3 /* CMakeLists.txt in Resources */,
-				BC5DBD711F5C60A5005A47E3 /* Demo.storyboard in Resources */,
 				BC41C2421F04EC2000EB4BA3 /* json_valueiterator.inl in Resources */,
 				BC41C20B1F04EC2000EB4BA3 /* init.sh in Resources */,
 				BC41C2251F04EC2000EB4BA3 /* CMakeLists.txt in Resources */,
@@ -1872,6 +1921,7 @@
 			files = (
 				BCF6EBE21E49FF2D00FCD189 /* message_pump_posix.cc in Sources */,
 				BC41C2431F04EC2000EB4BA3 /* json_writer.cpp in Sources */,
+				428DE9C82092BEA30069BFE3 /* debug_session.cc in Sources */,
 				BC8A0D171FB2E477002B0370 /* builtin.cc in Sources */,
 				BC5DBDB41F5EC7BE005A47E3 /* view_wrapper.mm in Sources */,
 				BC8A0D211FB2E477002B0370 /* syntax_tree.cc in Sources */,
@@ -1888,6 +1938,7 @@
 				BC5DBD831F5E7A05005A47E3 /* framerate_controller.mm in Sources */,
 				BC8A0D1F1FB2E477002B0370 /* scanner.cc in Sources */,
 				428DE90B208EDD320069BFE3 /* io_buffer.cc in Sources */,
+				42174FD32096A975001B8A48 /* debug_host_impl.mm in Sources */,
 				421438F6207DF52E00ECF750 /* resource_reader.mm in Sources */,
 				BC5D48F92065139E00424ABA /* canvas_view.cc in Sources */,
 				BC6D1CE31F558C38007DD652 /* lynx_value.cc in Sources */,
@@ -1903,6 +1954,7 @@
 				421438F8207DF52E00ECF750 /* page_info.mm in Sources */,
 				4273CE6D1F02917200321655 /* jsc_helper.cc in Sources */,
 				BC6D1D2F1F55C3A1007DD652 /* html_request_delegate.cc in Sources */,
+				428DE9C02091B9E00069BFE3 /* inspector_dom_agent.cc in Sources */,
 				BC5D24B71F24FBA6002A964C /* oc_helper.mm in Sources */,
 				BC5D48F82065139E00424ABA /* animation.cc in Sources */,
 				BCD0506E1EA0A87A00359EC1 /* body.cc in Sources */,
@@ -1920,6 +1972,7 @@
 				BC6D1D151F55C327007DD652 /* render_parser.cc in Sources */,
 				BC6748EC1F66394000D50971 /* label_wrapper.m in Sources */,
 				BC2ED21E1F0CBF00001B2E50 /* loader.cc in Sources */,
+				428DE9B12091B4C40069BFE3 /* debug_client.cc in Sources */,
 				BC5DBD961F5E7D96005A47E3 /* image_downloader.mm in Sources */,
 				BC5D48F42065132300424ABA /* canvas.cc in Sources */,
 				BC5DBDA01F5E7E5D005A47E3 /* listview_controller.mm in Sources */,
@@ -1984,6 +2037,7 @@
 				428DE909208EDD320069BFE3 /* select_poller.cc in Sources */,
 				BC6D1CFD1F558DF8007DD652 /* navigator.cc in Sources */,
 				BC6D1D2D1F55C3A1007DD652 /* source_cache_manager.cc in Sources */,
+				428DE9C32091B9E00069BFE3 /* inspector_session.cc in Sources */,
 				BC6D1D301F55C3A1007DD652 /* script_loader.cc in Sources */,
 				428DE91720901A390069BFE3 /* net_errors_posix.cc in Sources */,
 				BCD050811EA0A87A00359EC1 /* list_shadow.cc in Sources */,
@@ -2011,13 +2065,13 @@
 				428DE9A620902AF40069BFE3 /* websocket_errors.cc in Sources */,
 				BC5DBDA11F5E7E5D005A47E3 /* lynx_ui_listview.mm in Sources */,
 				BC8A0D181FB2E477002B0370 /* code_generator.cc in Sources */,
-				BC5DBD721F5C60A5005A47E3 /* DemoViewController.m in Sources */,
 				BC6D1CF71F558DCD007DD652 /* document.cc in Sources */,
 				BC31B0101F613AE000C0234C /* lynx_render_object_bridge.mm in Sources */,
 				BC6D1D141F55C327007DD652 /* input_stream.cc in Sources */,
 				428DE908208EDD320069BFE3 /* utility.cc in Sources */,
 				421438F9207DF52E00ECF750 /* resource_manager.mm in Sources */,
 				4273CC3A1F00032E00321655 /* container_node.cc in Sources */,
+				428DE9C22091B9E00069BFE3 /* inspector.cc in Sources */,
 				BC6D1CF81F558DCD007DD652 /* element.cc in Sources */,
 				BCF00A6B1F0CE96C00D56168 /* js_context.cc in Sources */,
 				BCF6EBE61E49FF2D00FCD189 /* timer_heap.cc in Sources */,
@@ -2041,6 +2095,7 @@
 				BCF6EC041E49FF2D00FCD189 /* css_style.cc in Sources */,
 				BCF00A761F0E7AA700D56168 /* timeout_callback.cc in Sources */,
 				BC8798721FC7C22300F76993 /* lynx_function_object.mm in Sources */,
+				428DE9C12091B9E00069BFE3 /* inspector_css_agent.cc in Sources */,
 				42B4F2001F7E420B001519E1 /* lynx_view_controller.mm in Sources */,
 				BCD0ECDF1F3C409000DFB990 /* url_request_context.cc in Sources */,
 				BC80409E1FCB08EC0041CF01 /* oc_field.mm in Sources */,
@@ -2177,6 +2232,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = PM93V4ARD4;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
@@ -2208,7 +2264,7 @@
 					"$(PROJECT_DIR)/../Android/app/src/main/cpp/lynx/runtime/v8/libs",
 				);
 				ONLY_ACTIVE_ARCH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = lynx;
+				PRODUCT_BUNDLE_IDENTIFIER = com.lynx.example;
 				PRODUCT_NAME = lynx;
 				PROVISIONING_PROFILE = "";
 			};
@@ -2221,6 +2277,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = PM93V4ARD4;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
@@ -2245,7 +2302,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/../Android/app/src/main/cpp/lynx/runtime/v8/libs",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = lynx;
+				PRODUCT_BUNDLE_IDENTIFIER = com.lynx.example;
 				PRODUCT_NAME = lynx;
 				PROVISIONING_PROFILE = "";
 			};

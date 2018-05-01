@@ -27,9 +27,13 @@
     [self.view addSubview:content_view_];
 
 
-    NSString* path = [NSString stringWithFormat:@"%@%@/", @"Assets://assets.bundle/", [self.page_name_ lowercaseString]];
-    [content_view_ loadPage:path];
-    
+    //NSString* path = [NSString stringWithFormat:@"%@%@/", @"Assets://assets.bundle/", [self.page_name_ lowercaseString]];
+    NSString* path = [NSString stringWithFormat:@"%@%@/", self.protocal_, [self.page_name_ lowercaseString]];
+    if([self.protocal_ isEqualToString:@"Debug://"]) {
+        [content_view_ loadUrl:path];
+    }else{
+        [content_view_ loadPage:path];
+    }
     
     // fix UITableViewWrapperView and UITableView size differs with autolayout
     self.automaticallyAdjustsScrollViewInsets = NO;
@@ -44,6 +48,16 @@
 - (id) initWithName:(NSString*) name {
     self = [super init];
     if(self != nil) {
+        self.protocal_ =  @"Asset://";
+        self.page_name_ = name;
+    }
+    return self;
+}
+
+- (id) initWithProtocal:(NSString*) protocal forName:(NSString*) name {
+    self = [super init];
+    if(self != nil) {
+        self.protocal_ = protocal;
         self.page_name_ = name;
     }
     return self;

@@ -76,6 +76,7 @@ class CSSStyle {
   static void Initialize(CSSStyleConfig* config);
 
   friend class CSSStaticLayout;
+  friend class InspectorCSSAgent;
 
  private:
   double ClampWidthInner(double width) const;

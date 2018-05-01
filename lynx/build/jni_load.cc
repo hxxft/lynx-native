@@ -10,6 +10,7 @@
 #include "runtime/base/lynx_function_object_android.h"
 #include "render/android/jni_coordinator_bridge.h"
 #include "runtime/android/result_callback.h"
+#include "debugger/android/debug_host_impl.h"
 #if GTEST_ENABLE
 #include "test/gtest_driver.h"
 #endif
@@ -31,6 +32,7 @@ JNIEXPORT jint JNICALL JNI_OnLoad(JavaVM *vm, void *reserved)
     jscore::LynxFunctionObjectAndroid::RegisterJNIUtils(env);
     lynx::JNICoordinatorBridge::RegisterJNIUtils(env);
     jscore::ResultCallbackAndroid::RegisterJNIUtils(env);
+    debug::DebugHostImpl::RegisterJNIUtils(env);
     #if GTEST_ENABLE
     test::GTestBridge::RegisterJNIUtils(env);
     #endif

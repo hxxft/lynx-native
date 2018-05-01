@@ -90,12 +90,14 @@ namespace jscore {
 
             base::ScopedPtr<LynxObject> detail =
                     jscore::JSCHelper::ConvertToLynxObject(context_, (JSObjectRef) exception);
-            int line = detail->GetProperty("line")->data_.i;
-            int column = detail->GetProperty("column")->data_.i;
+            auto line = detail->GetProperty("line");
+            auto column = detail->GetProperty("column");
 
             std::string str = JSCHelper::ConvertToString(context_, exception);
             if (!str.empty()) {
-                DLOG(ERROR) << "JS Compile ERROR: " << str << "(" << line << ":"<<column << ")";
+                int line_number = line ? line->data_.i : -1;
+                int column_number = column ? column->data_.i : -1;
+                DLOG(ERROR) << "JS Compile ERROR: " << str << "(" << line_number << ":"<<column_number << ")";
                 OnExceptionOccured(str);
             }
         }

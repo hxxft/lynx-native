@@ -8,8 +8,10 @@
 @interface LynxViewController : UIViewController 
 
 @property(copy) NSString* page_name_;
+@property(copy) NSString* protocal_;
 
 - (id) initWithName:(NSString*) name;
+- (id) initWithProtocal:(NSString*) protocal forName:(NSString*) name;
 
 @end
 

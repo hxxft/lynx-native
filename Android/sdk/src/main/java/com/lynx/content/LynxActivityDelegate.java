@@ -13,7 +13,6 @@ import com.lynx.dev.DebugDevHost;
 import com.lynx.dev.DevSupportManager;
 import com.lynx.resources.ResourceManager;
 import com.lynx.ui.LynxView;
-import com.lynx.utils.ScreenUtil;
 
 public class LynxActivityDelegate implements DebugDevHost{
     private Activity mActivity;

@@ -18,11 +18,11 @@ static LynxResourceManager* g_resource_manager_ = nil;
     if (self) {
         asset_mode_application_location_ = [NSString stringWithFormat:@"file://%@", [[NSBundle mainBundle] pathForResource:@"assets" ofType:@"bundle"]];
         data_mode_application_location_ = @"file://";
-        debug_mode_application_location_ = @"http://127.0.0.1:3000/";
+        debug_mode_application_location_ = @"http://127.0.0.1:3000";
         
         asset_protocol_ = @"Asset://";
         data_protocol_ = @"Data://";
-        debug_protocol_ = @"Debug://";
+        debug_protocol_ = @"Debug:///";
         
         _reader = [LynxResourceReader alloc];
     }
@@ -38,6 +38,8 @@ static LynxResourceManager* g_resource_manager_ = nil;
         url = [NSURL URLWithString:[NSString stringWithFormat:@"%@/%@", data_mode_application_location_, [resource substringFromIndex:range.length]]];
     }else if((range = [resource rangeOfString:debug_protocol_]).location != NSNotFound){
         url = [NSURL URLWithString:[NSString stringWithFormat:@"%@/%@", debug_mode_application_location_, [resource substringFromIndex:range.length]]];
+    }else{
+        url = [NSURL URLWithString:resource];
     }
     return url;
 }

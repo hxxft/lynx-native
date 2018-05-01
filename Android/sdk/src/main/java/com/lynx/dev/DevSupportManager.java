@@ -2,10 +2,7 @@
 
 package com.lynx.dev;
 
-public class DevSupportManager {
-
-    private DebugLogger mLogger;
-    private DebugServer mDebugServer;
+public class DevSupportManager extends DebugHostImpl {
 
     private static DevSupportManager mDevSupportManager;
 
@@ -17,16 +14,11 @@ public class DevSupportManager {
     }
 
     public void setDebugDevHost(DebugDevHost host) {
-        if(mDebugServer != null) {
-            mDebugServer.setDebugDevHost(host);
-        }
+        mHost = host;
     }
 
     public void initialize() {
-        mDebugServer = new DebugServer();
-        mDebugServer.initialize();
-        mLogger = new DebugLogger();
-        mLogger.start();
+        mDevSupportManager.nativeAttach();
     }
 
 }

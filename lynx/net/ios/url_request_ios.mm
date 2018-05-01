@@ -1,6 +1,7 @@
 // Copyright 2017 The Lynx Authors. All rights reserved.
 
 #include "net/ios/url_request_ios.h"
+#include "app/resource_manager.h"
 #include "base/file_path_utility.h"
 #include "base/string/platform_string_impl.h"
 
@@ -27,16 +28,10 @@ namespace net {
     }
     
     void URLRequestIOS::Fetch() {
-        NSURL *ns_url;
+       
         NSString *ns_url_string =  [NSString stringWithUTF8String:url_.c_str()];
-        NSString *ns_path = @"";
-        if([LynxFilePathUtility isFilePath:ns_url_string]){
-            NSString* path = [LynxFilePathUtility toFilePath:ns_url_string];
-            ns_url = [NSURL fileURLWithPath:path];
-        }else {
-            ns_url = [NSURL URLWithString:ns_path];
-        }
-        
+        NSURL *ns_url = [[LynxResourceManager instance] toResourceURL:ns_url_string];
+
         if (ns_url.fileURL) {
             [[[NSURLSession sharedSession] downloadTaskWithURL:ns_url completionHandler:^(NSURL* _Nullable location,
                                                                                         NSURLResponse * _Nullable response, NSError * _Nullable error) {

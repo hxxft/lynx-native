@@ -1,6 +1,7 @@
 #include "net/websocket/websocket_hand_shake.h"
 #include "base/base64.h"
 #include "base/rand_util.h"
+#include "base/log/logging.h"
 
 #include "net/base/net_errors.h"
 #include <sys/socket.h>
@@ -73,6 +74,11 @@ namespace net {
     }
     
     int WebSocketHandShake::DoHandShakeLoop(int result) {
+        if(result < ERR_IO_PENDING) {
+            DLOG(ERROR) << "WebSocket DoHandShakeLoop Failed: " << ErrorToString(result);
+            delegate_->OnHandShakeFailed();
+            return result;
+        }
         int rv = 0;
         do {
             HandleShakeState state = next_hand_shake_state_;

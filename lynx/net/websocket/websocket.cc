@@ -123,6 +123,7 @@ namespace net {
                 
             default:
                 stream_->Close();
+                stream_.Reset();
                 return ;
         }
     }

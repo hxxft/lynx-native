@@ -27,6 +27,7 @@ MessagePumpIOPosix::~MessagePumpIOPosix() {
     close(wakeup_pipe_out_);
   }
   poller_->RemoveFileDescriptor(wakeup_pipe_out_);
+  poller_.Release();
 }
 
 void MessagePumpIOPosix::ScheduleWork() {
