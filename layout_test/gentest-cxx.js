@@ -66,7 +66,7 @@ CxxEmitter.prototype = Object.create(Emitter.prototype, {
           this.push(styleName + '.SetValue(' + '"' + keys[i] + '",' + '"' + styleMaps[keys[i]] + '");');
         }
       }
-      this.push(nodeName + '->SetStyle(' + styleName + ');');
+      this.push(nodeName + '->set_css_style(' + styleName + ');');
     }
   },
 

@@ -26,7 +26,7 @@ class MockLayoutHost {
     CSSStyle style(config(), 1, 750, 750);
     style.SetValue("flexDirection", "column");
     root_ = new LayoutObject;
-    root_->SetStyle(style);
+    root_->set_css_style(style);
   }
 
   void TearDown() {
