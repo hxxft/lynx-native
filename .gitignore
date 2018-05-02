@@ -3,3 +3,5 @@
 lynx/gen/
 lynx/gen/*
 node_modules/
+layout_test/build/
+lepus/build/
