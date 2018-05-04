@@ -10,12 +10,11 @@ namespace net {
                                                      URLRequest* request,
                                                      URLRequestDelegate* delegate) :
             URLRequestDelegate(), delegate_(delegate), context_(context),
-            request_(request), weak_ptr_(this) {
+            request_(request) {
         this->AddRef();
     }
 
     URLRequestGhostDelegate::~URLRequestGhostDelegate() {
-        weak_ptr_.Invalidate();
     }
 
     void URLRequestGhostDelegate::DeliverSuccess(base::ScopedPtr<base::PlatformString> url,
@@ -24,7 +23,7 @@ namespace net {
                 ->thread_manager()
                 ->RunOnJSThread(
                         base::Bind(&URLRequestGhostDelegate::OnSuccess,
-                                   weak_ptr_,
+                                   base::ScopedRefPtr<URLRequestGhostDelegate>(this),
                                    url,
                                    response));
     }
@@ -35,7 +34,7 @@ namespace net {
                 ->thread_manager()
                 ->RunOnJSThread(
                         base::Bind(&URLRequestGhostDelegate::OnFailed,
-                                   weak_ptr_,
+                                   base::ScopedRefPtr<URLRequestGhostDelegate>(this),
                                    url,
                                    error));
     }

@@ -44,7 +44,6 @@ class URLRequestGhostDelegate : public URLRequestDelegate {
  private:
 
     base::ScopedRefPtr<URLRequestDelegate> delegate_;
-    base::WeakPtr<URLRequestGhostDelegate> weak_ptr_;
     URLRequestContext* context_;
     URLRequest* request_;
 };

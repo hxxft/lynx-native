@@ -8,6 +8,7 @@
 #include "loader/utils.h"
 
 #include "base/trace_event/trace_event_common.h"
+#include "base/log/logging.h"
 
 namespace jscore {
 
@@ -15,17 +16,21 @@ namespace jscore {
             : thread_manager_(lynx_new ThreadManager()),
               url_request_context_(lynx_new net::URLRequestContext(this)),
               loader_(lynx_new loader::HTMLLoader(this)),
-              context_(context),
-              weak_ptr_(this) {
+              context_(context) {
 #if ENABLE_TRACING
       base::TraceLogger::Instance()->Start();
 #endif
       //inspector_ = new debug::Inspector(thread_manager_->js_thread(), "InspectorThread");
+                  AddRef();
+    }
+    
+    Runtime::~Runtime() {
+        DLOG(INFO) << "Destruct Runtime";
     }
     
     void Runtime::InitRuntime(const char* arg) {
         thread_manager_->RunOnJSThread(
-                base::Bind(&Runtime::InitRuntimeOnJSThread, weak_ptr_, arg));
+                                       base::Bind(&Runtime::InitRuntimeOnJSThread, base::ScopedRefPtr<Runtime>(this), arg));
     }
 
     lynx::RenderTreeHost* Runtime::SetupRenderHost() {
@@ -46,7 +51,7 @@ namespace jscore {
         }
         loader_->Load(url, type);
         thread_manager_->RunOnJSThread(
-                base::Bind(&Runtime::LoadUrlOnJSThread, weak_ptr_, url));
+                base::Bind(&Runtime::LoadUrlOnJSThread, base::ScopedRefPtr<Runtime>(this), url));
     }
 
     void Runtime::LoadScript(const std::string& url, int type) {
@@ -57,14 +62,14 @@ namespace jscore {
 
     void Runtime::Reload(bool force) {
         thread_manager_->RunOnJSThread(
-                base::Bind(&Runtime::ReloadOnJSThread, weak_ptr_, force));
+                base::Bind(&Runtime::ReloadOnJSThread, base::ScopedRefPtr<Runtime>(this), force));
     }
 
     void Runtime::RunScript(base::ScopedPtr<base::PlatformString> source,
                             base::ScopedPtr<ResultCallback> callback) {
         TRACE_EVENT0("js", "Runtime::RunScript");
         thread_manager_->RunOnJSThread(
-                base::Bind(&Runtime::RunScriptOnJSThread, weak_ptr_, source, callback));
+                base::Bind(&Runtime::RunScriptOnJSThread, base::ScopedRefPtr<Runtime>(this), source, callback));
     }
 
     void Runtime::LoadHTML(const std::string& url, const std::string& html) {
@@ -86,13 +91,13 @@ namespace jscore {
 
     void Runtime::LoadScript(const std::string& source) {
         thread_manager_->RunOnJSThread(
-                base::Bind(&Runtime::LoadScriptOnJSThread, weak_ptr_, source));
+                base::Bind(&Runtime::LoadScriptOnJSThread, base::ScopedRefPtr<Runtime>(this), source));
     }
 
     void Runtime::LoadScriptDataWithBaseUrl(const std::string& data, const std::string& url) {
         render_tree_host_->set_page_location(url);
         thread_manager_->RunOnJSThread(
-                base::Bind(&Runtime::LoadScriptOnJSThread, weak_ptr_, data));
+                base::Bind(&Runtime::LoadScriptOnJSThread, base::ScopedRefPtr<Runtime>(this), data));
     }
 
     void Runtime::FlushScript() {
@@ -102,7 +107,7 @@ namespace jscore {
     void Runtime::AddJavaScriptInterface(const std::string& name, LynxFunctionObject* object) {
         base::ScopedPtr<LynxFunctionObject> scoped_ptr(object);
         thread_manager_->RunOnJSThread(
-                base::Bind(&Runtime::AddJavaScriptInterfaceOnJSThread, weak_ptr_, name, scoped_ptr));
+                base::Bind(&Runtime::AddJavaScriptInterfaceOnJSThread, base::ScopedRefPtr<Runtime>(this), name, scoped_ptr));
     }
 
     void Runtime::AddJavaScriptInterfaceOnJSThread(const std::string& name,
@@ -114,10 +119,11 @@ namespace jscore {
         //inspector_->Detach();
         url_request_context_->Stop();
         thread_manager_->DetachUIThread();
-        thread_manager_->QuitJSThread(base::Bind(&Runtime::DestroyOnJSThread, weak_ptr_));
+        thread_manager_->QuitJSThread(base::Bind(&Runtime::DestroyOnJSThread, base::ScopedRefPtr<Runtime>(this)));
 #if ENABLE_TRACING
         base::TraceLogger::Instance()->Stop();
 #endif
+        Release();
     }
 
     void Runtime::InitRuntimeOnJSThread(const char *arg) {
@@ -152,7 +158,8 @@ namespace jscore {
     }
 
     void Runtime::DestroyOnJSThread() {
-        lynx_delete(this);
+        //lynx_delete(this);
+        Release();
     }
 
     void Runtime::SetUserAgent(const std::string& ua) {

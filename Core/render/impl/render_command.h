@@ -47,7 +47,6 @@ class RenderCommand : public base::Clouse {
  protected:
     RenderObjectImpl* host_;
     int type_;
-    base::WeakPtr<RenderCommand> weak_ptr_;
 };
 
     class RendererOperatorCommand : public RenderCommand {

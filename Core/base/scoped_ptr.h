@@ -34,6 +34,7 @@ class ScopedPtr {
     if (ptr_) {
       lynx_delete(static_cast<element_type*>(ptr_));
     }
+    ptr_ = nullptr;
   }
 
   ScopedPtr& operator=(ScopedPtr&& other) {

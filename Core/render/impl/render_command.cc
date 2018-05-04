@@ -8,14 +8,12 @@
 namespace lynx {
 RenderCommand::RenderCommand(RenderObjectImpl *host, int type)
     : host_(host),
-      type_(type),
-      weak_ptr_(this) {
+      type_(type) {
     host_->AddRef();
 }
 
 RenderCommand::~RenderCommand() {
     host_->Release();
-    weak_ptr_.Invalidate();
 }
 
 void RendererOperatorCommand::Execute() {

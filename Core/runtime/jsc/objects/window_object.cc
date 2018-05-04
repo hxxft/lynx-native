@@ -3,7 +3,6 @@
 #include "window_object.h"
 
 #include "config/global_config_data.h"
-#include "base/print.h"
 #include "runtime/jsc/jsc_helper.h"
 #include "runtime/jsc/class_wrap.h"
 

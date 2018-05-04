@@ -16,8 +16,7 @@ namespace lynx {
 RenderTreeHost::RenderTreeHost(jscore::JSContext* context,
                                jscore::ThreadManager* thread_manager,
                                RenderObject* root)
-    : weak_ptr_(this),
-      collector_(),
+    : collector_(),
       context_(context),
       thread_manager_(thread_manager),
       did_first_layout_(false),
@@ -26,7 +25,6 @@ RenderTreeHost::RenderTreeHost(jscore::JSContext* context,
 }
 
 RenderTreeHost::~RenderTreeHost() {
-  weak_ptr_.Invalidate();
 }
 
 void RenderTreeHost::SetRenderRoot(RenderObject* root) {

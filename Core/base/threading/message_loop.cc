@@ -15,7 +15,7 @@ namespace base {
 LazyInstance<ThreadLocalPointer<MessageLoop>> lazy_tls_ptr;
 
 MessageLoop::MessageLoop(MESSAGE_LOOP_TYPE type)
-    : lock_(), loop_type_(type), pump_(CreatePump(type)), weak_ptr_(this) {}
+    : lock_(), loop_type_(type), pump_(CreatePump(type)) {}
 
 void MessageLoop::BindToCurrentThread() {
   lazy_tls_ptr.Get()->Set(this);

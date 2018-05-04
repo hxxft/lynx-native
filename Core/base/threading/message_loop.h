@@ -48,7 +48,6 @@ class MessageLoop : public MessagePump::Delegate {
   Lock lock_;
   MESSAGE_LOOP_TYPE loop_type_;
   ScopedPtr<MessagePump> pump_;
-  WeakPtr<MessageLoop> weak_ptr_;
 };
 
 class MessageLoopForIO : public MessageLoop {

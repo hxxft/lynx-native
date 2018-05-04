@@ -4,7 +4,6 @@
 #define LYNX_RENDER_ANDROID_RENDER_TREE_HOST_IMPL_ANDROID_H_
 
 #include <jni.h>
-#include <base/print.h>
 
 #include "base/android/scoped_java_ref.h"
 #include "render/render_tree_host_impl.h"

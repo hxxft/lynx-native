@@ -68,7 +68,6 @@ class RenderTreeHost : public base::RefCountPtr<RenderTreeHost> {
  private:
   void PrepareCommit(const BeginFrameData& data);
 
-  base::WeakPtr<RenderTreeHost> weak_ptr_;
   RenderCommandCollector collector_;
   jscore::JSContext* context_;
   jscore::ThreadManager* thread_manager_;

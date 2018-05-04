@@ -4,7 +4,6 @@
 #define LYNX_NET_URL_REQUEST_H_
 
 #include <string>
-#include <base/print.h>
 #include "net/url_request_delegate.h"
 #include "net/url_request_ghost_delegate.h"
 #include "base/debug/memory_debug.h"

@@ -32,10 +32,10 @@ public:
     virtual void OnReceiveResult(const std::string &result) const {}
 };
 
-class Runtime {
+class Runtime : public base::RefCountPtr<Runtime>{
  public:
     Runtime(JSContext* context);
-    ~Runtime() {}
+    ~Runtime();
     void InitRuntime(const char* arg);
     void RunScript(base::ScopedPtr<base::PlatformString> source,
                    base::ScopedPtr<ResultCallback> callback = base::ScopedPtr<ResultCallback>());
@@ -96,9 +96,9 @@ private:
     base::ScopedRefPtr<loader::LynxLoader> loader_;
     base::ScopedPtr<JSContext> context_;
     base::ScopedRefPtr<JSVM> vm_;
-    base::WeakPtr<Runtime> weak_ptr_;
     base::ScopedPtr<ResultCallback> exception_handler_;
     //base::ScopedRefPtr<debug::Inspector> inspector_;
+    DISALLOW_COPY_AND_ASSIGN(Runtime);
 };
 
 }  // namespace jscore
