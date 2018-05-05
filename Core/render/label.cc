@@ -7,6 +7,7 @@
 #include "render/render_tree_host.h"
 
 namespace lynx {
+
 TextNode::TextNode(jscore::ThreadManager* manager,
                    const char* tag_name,
                    uint64_t id,
@@ -18,6 +19,7 @@ TextNode::TextNode(jscore::ThreadManager* manager,
                        host),
             label_(NULL){
 }
+
 TextNode::~TextNode() {
 }
 
@@ -105,6 +107,9 @@ base::Size Label::MeasureTextSize(const base::Size& size) {
 }
 
 void Label::InsertChild(ContainerNode* child, int index) {
+    if(text_node_ != nullptr) {
+        lynx_delete(text_node_);
+    }
     text_node_ = static_cast<TextNode*>(child);
     text_node_->label_ = this;
     if(!text_node_->GetText().empty()) {
