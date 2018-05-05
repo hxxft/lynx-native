@@ -54,6 +54,53 @@ base::Size LabelMeasurer::MeasureLabelSizeAndSetTextLayout(
   return measured_size;
 }
 
+base::Size LabelMeasurer::MeasureSpanSizeAndSetTextLayout(
+    RenderObject *render_object, const base::Size &size,
+    const std::vector<std::string> &inline_texts,
+    const std::vector<CSSStyle> &inline_styles) {
+  JNIEnv *env = base::android::AttachCurrentThread();
+
+  base::android::ScopedLocalJavaRef<jobject> style_obj =
+      base::Convert::StyleConvert(render_object->css_style());
+
+  const int len = inline_styles.size();
+  auto texts = base::android::JType::NewStringArray(env, len);
+  auto styles = base::android::JType::NewObjectArray(env, len);
+  auto text_iterator = inline_texts.begin();
+  auto style_iterator = inline_styles.begin();
+
+  for (int i = 0; i < len; i++) {
+    env->SetObjectArrayElement(
+        texts.Get(), i,
+        base::android::JType::NewString(env, text_iterator.base()->c_str())
+            .Get());
+    env->SetObjectArrayElement(
+        styles.Get(), i,
+        base::Convert::StyleConvert(*style_iterator.base()).Get());
+    text_iterator++;
+    style_iterator++;
+  }
+  base::android::ScopedLocalJavaRef<jobject> size_obj(
+      Java_LabelMeasurer_measureSpanLabelSize(
+          env, texts.Get(), styles.Get(),
+          style_obj.Get(),
+          base::Size::Descriptor::GetSize(size.width_), 
+          base::Size::Descriptor::GetMode(size.width_),
+          base::Size::Descriptor::GetSize(size.height_),
+          base::Size::Descriptor::GetMode(size.height_)
+           ));
+
+  base::Size measured_size = base::Convert::SizeConvert(size_obj.Get());
+
+  auto data =
+      jscore::LynxValue::MakePlatformValue(lynx_new jscore::PlatformValue(
+          env, Java_LabelMeasurer_getTextLayout(env).Get()));
+  render_object->SetData(RenderObject::TEXT_LAYOUT, data);
+
+  base::android::CheckException(env);
+  return measured_size;
+}
+
 bool LabelMeasurer::RegisterJNIUtils(JNIEnv* env) {
   return RegisterNativesImpl(env);
 }

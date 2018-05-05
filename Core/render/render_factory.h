@@ -23,6 +23,8 @@
 #include "runtime/thread_manager.h"
 #include "runtime/element.h"
 #include "render/render_tree_host.h"
+#include "render/span.h"
+#include "render/rich_text.h"
 
 namespace lynx {
 class RenderFactory {
@@ -75,6 +77,10 @@ public:
                                  host);
         } else if (tag.compare("xcanvas") == 0){
             return lynx_new CanvasView("xcanvas", LYNX_CANVAS, ++id, host);
+        } else if (tag.compare("richtext") == 0){
+            return lynx_new RichText(manager, "richtext", ++id, host);
+        } else if (tag.compare("span") == 0){
+            return lynx_new Span(manager, "span", ++id, host);
         }else{
             auto result  = jscore::Element::s_element_tags.find(tag);
             if(result != jscore::Element::s_element_tags.end()){

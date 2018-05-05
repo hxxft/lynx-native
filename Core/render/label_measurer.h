@@ -4,6 +4,7 @@
 #define LYNX_RENDER_LABEL_MEASURER_H_
 
 #include <string>
+#include <vector>
 
 #if OS_ANDROID
 #include "jni.h"
@@ -28,6 +29,12 @@ class LabelMeasurer {
                         RenderObject* render_object,
                         const base::Size& size,
                         const std::string& text);
+
+    static base::Size MeasureSpanSizeAndSetTextLayout(
+            RenderObject *render_object,
+            const base::Size &size,
+            const std::vector<std::string> &inline_texts,
+            const std::vector<CSSStyle> &inline_styles);
 
 #if OS_ANDROID
 

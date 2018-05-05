@@ -354,7 +354,9 @@ namespace jscore {
     }
 
     base::ScopedPtr<LynxValue> Element::GetNodeTypeCallback(LynxObjectTemplate* object) {
-        return LynxValue::MakeInt(1);
+        Element *element = static_cast<Element *>(object);
+        lynx::RenderObject* render_object = element->render_object();
+        return LynxValue::MakeInt(render_object->GetNodeType());
     }
 
     base::ScopedPtr<LynxValue> Element::GetParentNodeCallback(LynxObjectTemplate* object) {

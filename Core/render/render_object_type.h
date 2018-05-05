@@ -26,6 +26,8 @@ enum RenderObjectType {
     LYNX_RADIO_GROUP,
     LYNX_CHECKBOX,
     LYNX_CANVAS,
+    LYNX_SPAN,
+    LYNX_RICHTEXT
 };
 }  // namespace lynx
 

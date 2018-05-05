@@ -13,7 +13,8 @@ class TextNode : public RenderObject {
            uint64_t id,
            RenderTreeHost* host);
   virtual ~TextNode();
-
+  virtual void Layout(int left, int top, int right, int bottom) {}
+  virtual int GetNodeType() {return 3;}
   virtual void SetText(const std::string& text);
   friend class Label;
 
@@ -33,6 +34,8 @@ class Label : public RenderObject {
                             RenderObject* reference) override;
 
   TextNode* text_node() { return text_node_; }
+  virtual base::Size MeasureTextSize(const base::Size& size);
+
  protected:
   virtual base::Size OnMeasure(int width_descriptor,
                                int height_descriptor) override;

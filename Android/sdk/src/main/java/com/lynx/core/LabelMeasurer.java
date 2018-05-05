@@ -4,13 +4,17 @@ package com.lynx.core;
 import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.os.Build;
+import android.support.annotation.NonNull;
 import android.text.Layout;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.StaticLayout;
 import android.text.TextPaint;
 import android.text.TextUtils;
+import android.text.style.AbsoluteSizeSpan;
 import android.text.style.AlignmentSpan;
+import android.text.style.BackgroundColorSpan;
+import android.text.style.ForegroundColorSpan;
 import android.text.style.LineHeightSpan;
 import android.text.style.StrikethroughSpan;
 import android.text.style.StyleSpan;
@@ -26,11 +30,13 @@ import java.util.List;
 public class LabelMeasurer {
 
     private static final String ELLIPSIS = "\u2026";
+    private static final byte LABEL_MODE = 0x0001;
+    private static final byte RICH_TEXT_MODE = 0x0002;
     private static StaticLayout sLayout;
 
     private final static String XIAO_MI = "xiaomi";
 
-    private static TextPaint getTextPaint(){
+    private static TextPaint newTextPaint(int color, int textSize){
         TextPaint textPaint = new TextPaint();
         textPaint.setFlags(TextPaint.ANTI_ALIAS_FLAG);
 
@@ -39,6 +45,8 @@ public class LabelMeasurer {
             Typeface sansSerif = Typeface.SERIF;
             textPaint.setTypeface(sansSerif);
         }
+        textPaint.setColor(color);
+        textPaint.setTextSize(textSize);
         return textPaint;
     }
 
@@ -54,20 +62,16 @@ public class LabelMeasurer {
         if (text == null) {
             text = "";
         }
+        TextPaint textPaint = newTextPaint(style.mFontColor, style.mFontSize);
+        SpannableStringBuilder span = createSpan(style, text, LABEL_MODE);
+        Size measuredSize = getSize(style, width, height, style.mWidth, style.mHeight, textPaint, span);
+        return measuredSize;
+    }
 
-        int widthWanted = style.mWidth;
-        int heightWanted = style.mHeight;
-
-        TextPaint textPaint = getTextPaint();
-
-        // Set text color
-        textPaint.setColor(style.mFontColor);
-
-        // Set text size
-        textPaint.setTextSize(style.mFontSize);
-
-        SpannableStringBuilder span = createSpan(style, text);
-
+    @NonNull
+    private static Size getSize(Style style, int width, int height, int widthWanted,
+                                int heightWanted, TextPaint textPaint,
+                                SpannableStringBuilder span) {
         // Determine if it should be a single line
         boolean shouldBeSingleLine = style.mWhiteSpace == Style.CSSTEXT_WHITESPACE_NOWRAP;
 
@@ -149,7 +153,7 @@ public class LabelMeasurer {
             // TODO targetLine 为0 有问题
             int surplus = sLayout.getWidth() - width;
             // Keep the target line and above, remove other lines below
-            span.delete(sLayout.getLineEnd(targetLine), text.length());
+            span.delete(sLayout.getLineEnd(targetLine), span.length());
 
             // TODO 可能由于 wordbreak 问题，删除了可能已经够小了，无需往前删
             // Insert ellipsis
@@ -204,11 +208,29 @@ public class LabelMeasurer {
             measuredSize.mHeight = sLayout.getHeight();
         }
         measuredSize.mWidth = sLayout.getWidth();
-
         return measuredSize;
     }
 
-    private static SpannableStringBuilder createSpan(Style style, String text) {
+    @CalledByNative
+    public static Size measureSpanLabelSize(String[] inlineTextList, Object[] inlineStyleList,
+                                            Style outStyle, int width, int widthMode, int height,
+                                            int heightMode) {
+        sLayout = null;
+
+        TextPaint textPaint = newTextPaint(outStyle.mFontColor, outStyle.mFontSize);
+        SpannableStringBuilder span =new SpannableStringBuilder();
+        for (int i = 0; i < inlineStyleList.length; i++) {
+            final Object styleObj =  inlineStyleList[i];
+            span.append(createSpan(styleObj == null ? null: (Style) styleObj,
+                    inlineTextList[i], RICH_TEXT_MODE));
+        }
+        Size measuredSize = getSize(outStyle, width, height, outStyle.mWidth,
+                outStyle.mHeight, textPaint, span);
+        return measuredSize;
+    }
+
+
+    private static SpannableStringBuilder createSpan(Style style, String text, int mode) {
         SpannableStringBuilder sb = new SpannableStringBuilder();
         // TODO(5837930): Investigate whether it's worth optimizing this part and do it if so
 
@@ -216,7 +238,7 @@ public class LabelMeasurer {
         // up-to-bottom, otherwise all the spannables that are withing the region for which one may set
         // a new spannable will be wiped out
         List<SetSpanOperation> ops = new ArrayList<>();
-        buildSpannedFromText(style, text, sb, ops);
+        buildSpannedFromText(style, text, sb, ops, mode);
 
         // While setting the Spans on the final text, we also check whether any of them are images
         for (int i = ops.size() - 1; i >= 0; i--) {
@@ -226,29 +248,28 @@ public class LabelMeasurer {
         return sb;
     }
 
-    private static void buildSpannedFromText(Style style, String text, SpannableStringBuilder sb, List<SetSpanOperation> ops) {
+    private static void buildSpannedFromText(Style style, String text, SpannableStringBuilder sb,
+                                             List<SetSpanOperation> ops ,int mode) {
         int start = sb.length();
         if (text != null) {
             sb.append(text);
         }
 
         int end = sb.length();
-        if (end >= start) {
+        if (end >= start && style != null) {
             // Do not do this as it will slow down layout.draw(), do it by TextPaint instead.
             // You can do it with span while you want some effect like rich text.
-            /*
-            // Set text color
-            ops.add(new SetSpanOperation(start, end, new ForegroundColorSpan(style.mColor)));
-            // Set background color
-            ops.add(new SetSpanOperation(start, end, new BackgroundColorSpan(style.mBackgroundColor)));
-            // Set text decoration
-            // Set text size
-            if (!CSSFlexConstants.isUndefined(style.mFontSize)) {
-                ops.add(new SetSpanOperation(start, end, new AbsoluteSizeSpan(PixelUtils.toPixelFromSP(style.mFontSize))));
-            } else {
-                ops.add(new SetSpanOperation(start, end, new AbsoluteSizeSpan(PixelUtils.toPixelFromSP(FONT_SIZE_SP))));
+
+            if(mode == RICH_TEXT_MODE){
+                ops.add(new SetSpanOperation(start, end, new ForegroundColorSpan(style.mFontColor)));
+                ops.add(new SetSpanOperation(start, end,
+                        new BackgroundColorSpan(style.mBackgroundColor)));
+
+                if(style.mFontSize != Constants.UNDEFINED){
+                    ops.add(new SetSpanOperation(start, end, new AbsoluteSizeSpan(style.mFontSize)));
+                }
+
             }
-            */
 
             // Set text font weight
             if (style.mFontWeight == Style.CSSTEXT_FONT_WEIGHT_BOLD) {
