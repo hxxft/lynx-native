@@ -35,8 +35,8 @@ namespace lynx {
 @property(nonatomic, readwrite) NSMutableDictionary *data;
 @property(nonatomic, readwrite) NSMutableArray *events;
 @property(nonatomic, readwrite) NSMutableArray *children;
-@property(nonatomic, readwrite) RenderObjectImplBridge *root;
-@property(nonatomic, readwrite) RenderObjectImplBridge *parent;
+@property(nonatomic, readwrite, weak) RenderObjectImplBridge *root;
+@property(nonatomic, readwrite, weak) RenderObjectImplBridge *parent;
 @property(nonatomic, readwrite) LynxUI *ui;
 
 - (id) initWithRenderObjectImpl:(lynx::RenderObjectImplIOS*) impl withType:(lynx::RenderObjectType) type;

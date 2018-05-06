@@ -111,5 +111,9 @@
     }
 }
 
+-(void) dealloc {
+    lynx_delete(_cExecutor);
+}
+
 
 @end

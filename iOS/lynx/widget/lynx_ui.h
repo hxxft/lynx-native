@@ -18,7 +18,7 @@
 
 @interface LynxUI<__covariant V : UIView*> : NSObject<LxCrdSponsor, LxCrdResponder>
 
-@property(nonatomic, readwrite) RenderObjectImplBridge *renderObjectImpl;
+@property(nonatomic, readwrite, weak) RenderObjectImplBridge *renderObjectImpl;
 @property(nonatomic, readwrite) V view;
 
 @property(nonatomic, readwrite) CGFloat offsetTop;

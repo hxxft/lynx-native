@@ -16,7 +16,7 @@
     lynx::RenderTreeHostImpl::VSyncListener* vsync_listener_;
 }
 @property(nonatomic, readwrite, weak) RenderTreeHostImplBridge *vsync_listener;
-@property(nonatomic, readwrite) CADisplayLink* displayLink;
+@property(nonatomic, readwrite, weak) CADisplayLink* displayLink;
 -(instancetype)initWithVSyncListener:(RenderTreeHostImplBridge *) vsync_listener;
 -(void) start;
 -(void) stop;

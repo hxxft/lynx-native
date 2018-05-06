@@ -13,7 +13,7 @@
 extern NSString * const kAttrCoodinatorCommand;
 
 @property(nonatomic, readwrite, copy) NSString *scrollCommand;
-@property(nonatomic, readonly) id<LxCrdResponder> responder;
+@property(nonatomic, readonly, weak) id<LxCrdResponder> responder;
 
 - (instancetype)initWithResponder:(id<LxCrdResponder>) responder actionExecutor:(LxCrdActionExecutor *) executor NS_DESIGNATED_INITIALIZER;
 

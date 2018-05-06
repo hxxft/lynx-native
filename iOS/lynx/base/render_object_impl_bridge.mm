@@ -9,6 +9,7 @@
 
 #include "render/ios/render_object_impl_ios.h"
 
+
 @implementation RenderObjectImplBridge
 
 - (id) initWithRenderObjectImpl:(lynx::RenderObjectImplIOS*) impl withType:(lynx::RenderObjectType) type{

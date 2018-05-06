@@ -16,6 +16,7 @@
 @property(nonatomic, readwrite) LynxRuntime* runtime;
 @property(nonatomic, readwrite) RenderTreeHostImplBridge* renderTreeHostImpl;
 @property(nonatomic, readwrite) LynxFrameRateController* controller;
+@property(nonatomic, readwrite, weak) LxUIBody* uiBody;
 
 -(id) init;
 

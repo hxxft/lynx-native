@@ -9,7 +9,7 @@
 
 @interface ViewWrapper : UIView
 
-@property(nonatomic, readwrite) LynxUI *ui;
+@property(nonatomic, readwrite, weak) LynxUI *ui;
 @property(nonatomic, readwrite) bool clickable;
 @property(nonatomic) UITapGestureRecognizer* singleTap;
 
@@ -25,7 +25,7 @@
 
 @interface GestureHandler : UIGestureRecognizer
 
-@property(nonatomic, readwrite) LynxUI *ui;
+@property(nonatomic, readwrite, weak) LynxUI *ui;
 
 - (id)initWithUI:(LynxUI *)ui;
 

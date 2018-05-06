@@ -6,7 +6,7 @@
 #include "base/defines.h"
 
 @implementation LxCrdActionExecutor {
-    LynxUI *_ui;
+
 }
 
 LX_NOT_IMPLEMENTED(- (instancetype) init)

@@ -10,6 +10,8 @@
 
 @interface LxCrdActionExecutor : NSObject
 
+@property(nonatomic, readwrite, weak) LynxUI *ui;
+
 - (instancetype) initWithUI:(LynxUI *) ui;
 
 - (void) executeAction:(lynx::CoordinatorAction) action;
