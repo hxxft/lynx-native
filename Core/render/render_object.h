@@ -37,8 +37,8 @@ class RenderObject : public LayoutObject, public EventTarget {
 
  virtual void SetStyle(const std::string& key,
                        const std::string& value) override;
+  virtual void FlushStyle();
 
- void FlushStyle();
 
  // impl virtual method in ConatinerNode
  virtual void InsertChild(ContainerNode* child, int index) override;
@@ -53,7 +53,8 @@ class RenderObject : public LayoutObject, public EventTarget {
  void Layout(int left, int top, int right, int bottom) override;
 
  virtual void SetText(const std::string& text);
- const std::string& GetText() { return text_; }
+
+ virtual const std::string& GetText() { return text_; }
 
  RenderObject* NextSibling();
 
@@ -97,6 +98,7 @@ class RenderObject : public LayoutObject, public EventTarget {
 
   void SetScrollTop(int scroll_top);
 
+  virtual int GetNodeType() {return 1;}
   inline int scroll_top() { return scroll_top_; }
 
   base::ScopedPtr<Animation> Animate(

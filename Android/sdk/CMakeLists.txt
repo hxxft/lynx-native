@@ -105,6 +105,8 @@ add_library(lynx SHARED
             	${CMAKE_SOURCE_DIR}/../../Core/render/view.cc
             	${CMAKE_SOURCE_DIR}/../../Core/render/body.cc
             	${CMAKE_SOURCE_DIR}/../../Core/render/label.cc
+            	${CMAKE_SOURCE_DIR}/../../Core/render/rich_text.cc
+                ${CMAKE_SOURCE_DIR}/../../Core/render/span.cc
             	${CMAKE_SOURCE_DIR}/../../Core/render/input.cc
             	${CMAKE_SOURCE_DIR}/../../Core/render/swiper_view.cc
             	${CMAKE_SOURCE_DIR}/../../Core/render/extended_view.cc

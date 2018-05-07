@@ -30,6 +30,7 @@ public class LynxUIInput extends LynxUI<AndroidInput> {
     private static final String ATTR_AUTO_FOCUS = "auto-focus";
     private static final String ATTR_PLACE_HOLDER = "placeholder";
     private static final String ATTR_FOCUS = "focus";
+    private static final String ATTR_BLUR = "blur";
     private static final String ATTR_MAX_LENGTH = "maxlength";
 
     private static final String ATTR_CONFIRM_TYPE = "confirm-type";
@@ -48,6 +49,8 @@ public class LynxUIInput extends LynxUI<AndroidInput> {
 
     private int mMaxLength = DEFAULT_MAX_LENGTH;
 
+    private InputMethodManager mInputMethod;
+
     public LynxUIInput(Context context, RenderObjectImpl impl) {
         super(context, impl);
     }
@@ -57,6 +60,7 @@ public class LynxUIInput extends LynxUI<AndroidInput> {
         AndroidInput editText = new AndroidInput(context);
         editText.setSingleLine();
         editText.setPadding(0, 0, 0, 0);
+        mInputMethod = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
         return editText;
     }
 
@@ -91,6 +95,9 @@ public class LynxUIInput extends LynxUI<AndroidInput> {
             case ATTR_FOCUS:
                 requestFocus(mRenderObjectImpl);
                 break;
+            case ATTR_BLUR:
+                blur(mRenderObjectImpl);
+                break;
             case ATTR_MAX_LENGTH:
                 setMaxLength(mRenderObjectImpl);
                 break;
@@ -119,14 +126,22 @@ public class LynxUIInput extends LynxUI<AndroidInput> {
     protected void requestFocus(RenderObjectImpl impl) {
         if (impl == null) return;
         String focus = impl.getAttribute(ATTR_FOCUS);
-        if (Boolean.valueOf(focus)) {
+        if (Boolean.valueOf(focus) && !mView.hasFocus()) {
             mView.requestFocus();
-
-            InputMethodManager imm = (InputMethodManager) mView.getContext()
-                    .getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.showSoftInput(mView, InputMethodManager.SHOW_IMPLICIT);
+            mView.setFocusable(true);
+            mInputMethod.showSoftInput(mView, InputMethodManager.SHOW_IMPLICIT);
         }
     }
+
+    protected void blur (RenderObjectImpl impl){
+        if(impl == null) return;
+        String blur = impl.getAttribute(ATTR_BLUR);
+        if(Boolean.valueOf(blur) && mView.hasFocus()){
+            mView.clearFocus();
+            mInputMethod.hideSoftInputFromInputMethod(mView.getWindowToken(),0);
+        }
+    }
+
 
     protected void setMaxLength(RenderObjectImpl impl) {
         mMaxLength = Integer.valueOf(impl.getAttribute(ATTR_MAX_LENGTH));

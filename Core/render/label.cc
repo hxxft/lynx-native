@@ -28,6 +28,8 @@ void TextNode::SetText(const std::string &text) {
                 label_->impl(), "", text, RenderCommand::CMD_SET_LABEL_TEXT);
         render_tree_host_->UpdateRenderObject(cmd);
         label_->Dirty();
+    }else{
+        Dirty();
     }
 }
 
@@ -44,9 +46,6 @@ Label::Label(jscore::ThreadManager* manager,
 }
 
 base::Size Label::OnMeasure(int width_descriptor, int height_descriptor) {
-    if(text_node_ == NULL) {
-        return base::Size();
-    }
     int width_wanted = (int) css_style_.width_;
     int height_wanted = (int) css_style_.height_;
     int width_mode = base::Size::Descriptor::GetMode(width_descriptor);
@@ -76,7 +75,7 @@ base::Size Label::OnMeasure(int width_descriptor, int height_descriptor) {
                   + css_style_.border_width_ * 2;
     }
 
-    base::Size size =
+    base::Size size = MeasureTextSize(base::Size(width, height));
             LabelMeasurer::MeasureLabelSizeAndSetTextLayout(
                     this, base::Size(width, height),
                     text_node_ == NULL ? GetText() : text_node_->GetText());
@@ -97,6 +96,12 @@ base::Size Label::OnMeasure(int width_descriptor, int height_descriptor) {
 
     measured_size_ = size;
     return size;
+}
+
+base::Size Label::MeasureTextSize(const base::Size& size) {
+    return LabelMeasurer::MeasureLabelSizeAndSetTextLayout(
+            this, size,
+            text_node_ == NULL ? GetText() : text_node_->GetText());
 }
 
 void Label::InsertChild(ContainerNode* child, int index) {
