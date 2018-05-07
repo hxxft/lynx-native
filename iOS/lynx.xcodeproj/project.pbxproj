@@ -155,6 +155,8 @@
 		4217A90420994F04001B8A48 /* json_valueiterator.inl in Resources */ = {isa = PBXBuildFile; fileRef = 4217A26220994EFA001B8A48 /* json_valueiterator.inl */; };
 		4217A90520994F04001B8A48 /* init.sh in Resources */ = {isa = PBXBuildFile; fileRef = 4217A26320994EFA001B8A48 /* init.sh */; };
 		4239864B1F793F42008775F6 /* file_path_utility.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4239864A1F793F42008775F6 /* file_path_utility.mm */; };
+		42709AE920A04D0E00FD3466 /* rich_text.cc in Sources */ = {isa = PBXBuildFile; fileRef = 42709AE720A04D0E00FD3466 /* rich_text.cc */; };
+		42709AEC20A04D1800FD3466 /* span.cc in Sources */ = {isa = PBXBuildFile; fileRef = 42709AEB20A04D1800FD3466 /* span.cc */; };
 		42B4F2001F7E420B001519E1 /* lynx_view_controller.mm in Sources */ = {isa = PBXBuildFile; fileRef = 42B4F1FF1F7E420B001519E1 /* lynx_view_controller.mm */; };
 		42B4F2021F7E42CC001519E1 /* assets.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 42B4F2011F7E42CB001519E1 /* assets.bundle */; };
 		42B4F2051F7E4710001519E1 /* app_delegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 42B4F2041F7E470F001519E1 /* app_delegate.mm */; };
@@ -162,7 +164,7 @@
 		42D7BD751DCB8C27000BE5A5 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 42D7BD741DCB8C27000BE5A5 /* UIKit.framework */; };
 		BC31B0071F611A3900C0234C /* ui_action_collector.mm in Sources */ = {isa = PBXBuildFile; fileRef = BC31B0061F611A3900C0234C /* ui_action_collector.mm */; };
 		BC31B00A1F611D5200C0234C /* ui_action.mm in Sources */ = {isa = PBXBuildFile; fileRef = BC31B0091F611D5200C0234C /* ui_action.mm */; };
-		BC31B0101F613AE000C0234C /* lynx_render_object_bridge.mm in Sources */ = {isa = PBXBuildFile; fileRef = BC31B00F1F613AE000C0234C /* lynx_render_object_bridge.mm */; };
+		BC31B0101F613AE000C0234C /* render_object_impl_bridge.mm in Sources */ = {isa = PBXBuildFile; fileRef = BC31B00F1F613AE000C0234C /* render_object_impl_bridge.mm */; };
 		BC31B0161F624F6D00C0234C /* lynx_ui_body.mm in Sources */ = {isa = PBXBuildFile; fileRef = BC31B0131F624F6D00C0234C /* lynx_ui_body.mm */; };
 		BC31B0171F624F6D00C0234C /* lynx_content_view.mm in Sources */ = {isa = PBXBuildFile; fileRef = BC31B0151F624F6D00C0234C /* lynx_content_view.mm */; };
 		BC31B01A1F6264E600C0234C /* ui_factory.mm in Sources */ = {isa = PBXBuildFile; fileRef = BC31B0191F6264E600C0234C /* ui_factory.mm */; };
@@ -600,6 +602,10 @@
 		4217A26320994EFA001B8A48 /* init.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = init.sh; sourceTree = "<group>"; };
 		423986491F793E5B008775F6 /* file_path_utility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = file_path_utility.h; sourceTree = "<group>"; };
 		4239864A1F793F42008775F6 /* file_path_utility.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = file_path_utility.mm; sourceTree = "<group>"; };
+		42709AE720A04D0E00FD3466 /* rich_text.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = rich_text.cc; sourceTree = "<group>"; };
+		42709AE820A04D0E00FD3466 /* rich_text.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = rich_text.h; sourceTree = "<group>"; };
+		42709AEA20A04D1700FD3466 /* span.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = span.h; sourceTree = "<group>"; };
+		42709AEB20A04D1800FD3466 /* span.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = span.cc; sourceTree = "<group>"; };
 		42B4F1FE1F7E420B001519E1 /* lynx_view_controller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lynx_view_controller.h; sourceTree = "<group>"; };
 		42B4F1FF1F7E420B001519E1 /* lynx_view_controller.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = lynx_view_controller.mm; sourceTree = "<group>"; };
 		42B4F2011F7E42CB001519E1 /* assets.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = assets.bundle; sourceTree = "<group>"; };
@@ -615,7 +621,7 @@
 		BC31B0081F611D5200C0234C /* ui_action.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ui_action.h; sourceTree = "<group>"; };
 		BC31B0091F611D5200C0234C /* ui_action.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ui_action.mm; sourceTree = "<group>"; };
 		BC31B00E1F613AE000C0234C /* render_object_impl_bridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = render_object_impl_bridge.h; sourceTree = "<group>"; };
-		BC31B00F1F613AE000C0234C /* lynx_render_object_bridge.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = lynx_render_object_bridge.mm; sourceTree = "<group>"; };
+		BC31B00F1F613AE000C0234C /* render_object_impl_bridge.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = render_object_impl_bridge.mm; sourceTree = "<group>"; };
 		BC31B0121F624F6D00C0234C /* lynx_ui_body.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lynx_ui_body.h; sourceTree = "<group>"; };
 		BC31B0131F624F6D00C0234C /* lynx_ui_body.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = lynx_ui_body.mm; sourceTree = "<group>"; };
 		BC31B0141F624F6D00C0234C /* lynx_content_view.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lynx_content_view.h; sourceTree = "<group>"; };
@@ -1033,6 +1039,10 @@
 		421780A720994E6A001B8A48 /* render */ = {
 			isa = PBXGroup;
 			children = (
+				42709AEB20A04D1800FD3466 /* span.cc */,
+				42709AEA20A04D1700FD3466 /* span.h */,
+				42709AE720A04D0E00FD3466 /* rich_text.cc */,
+				42709AE820A04D0E00FD3466 /* rich_text.h */,
 				421780A820994E6A001B8A48 /* render_tree_host.h */,
 				421780A920994E6A001B8A48 /* impl */,
 				421780B020994E6A001B8A48 /* animation.h */,
@@ -1549,7 +1559,7 @@
 				BC31B0081F611D5200C0234C /* ui_action.h */,
 				BC31B0091F611D5200C0234C /* ui_action.mm */,
 				BC31B00E1F613AE000C0234C /* render_object_impl_bridge.h */,
-				BC31B00F1F613AE000C0234C /* lynx_render_object_bridge.mm */,
+				BC31B00F1F613AE000C0234C /* render_object_impl_bridge.mm */,
 				BC31B0181F6264E600C0234C /* ui_factory.h */,
 				BC31B0191F6264E600C0234C /* ui_factory.mm */,
 				BC31B01B1F6271BE00C0234C /* ui_event_action.h */,
@@ -1923,10 +1933,12 @@
 				421795D520994E85001B8A48 /* thread_local_posix.cc in Sources */,
 				42178EC720994E7B001B8A48 /* url_request_ios.mm in Sources */,
 				42178E8820994E7B001B8A48 /* switch.cc in Sources */,
+				42709AEC20A04D1800FD3466 /* span.cc in Sources */,
 				42178ED920994E7B001B8A48 /* layout_object.cc in Sources */,
 				421795DC20994E85001B8A48 /* memory_debug.cc in Sources */,
 				42178F3220994E7B001B8A48 /* render_object_impl_ios.mm in Sources */,
 				BC5DBD961F5E7D96005A47E3 /* image_downloader.mm in Sources */,
+				42709AE920A04D0E00FD3466 /* rich_text.cc in Sources */,
 				421795C020994E84001B8A48 /* observer_list.cc in Sources */,
 				BC5DBDA01F5E7E5D005A47E3 /* listview_controller.mm in Sources */,
 				421795BB20994E84001B8A48 /* trace_writer.cc in Sources */,
@@ -2037,7 +2049,7 @@
 				42178F1420994E7B001B8A48 /* lynx_function_object.cc in Sources */,
 				BC8A0D351FB3EFE7002B0370 /* pixel_util.mm in Sources */,
 				BC5DBDA11F5E7E5D005A47E3 /* lynx_ui_listview.mm in Sources */,
-				BC31B0101F613AE000C0234C /* lynx_render_object_bridge.mm in Sources */,
+				BC31B0101F613AE000C0234C /* render_object_impl_bridge.mm in Sources */,
 				421438F9207DF52E00ECF750 /* resource_manager.mm in Sources */,
 				BC31B0071F611A3900C0234C /* ui_action_collector.mm in Sources */,
 				42178F2320994E7B001B8A48 /* text_area.cc in Sources */,
@@ -2124,6 +2136,7 @@
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
+					"DEBUG_MEMORY=1",
 				);
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;

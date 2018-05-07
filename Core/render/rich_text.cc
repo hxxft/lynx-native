@@ -29,8 +29,12 @@ base::Size RichText::MeasureTextSize(const base::Size &size) {
       styles.push_back(s);
       child = static_cast<RenderObject*>(child->Next());
     }
+#if OS_ANDROID
     return LabelMeasurer::MeasureSpanSizeAndSetTextLayout(this, size, texts,
                                                           styles);
+#else
+    return base::Size();
+#endif
   } else {
     return Label::MeasureTextSize(size);
   }

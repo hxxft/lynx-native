@@ -215,7 +215,7 @@
 		42177F29209949A4001B8A48 /* render_tree_host_impl_bridge.mm in Sources */ = {isa = PBXBuildFile; fileRef = 42177EEB209949A4001B8A48 /* render_tree_host_impl_bridge.mm */; };
 		42177F2A209949A4001B8A48 /* oc_field.mm in Sources */ = {isa = PBXBuildFile; fileRef = 42177EED209949A4001B8A48 /* oc_field.mm */; };
 		42177F2B209949A4001B8A48 /* oc_center.mm in Sources */ = {isa = PBXBuildFile; fileRef = 42177EEE209949A4001B8A48 /* oc_center.mm */; };
-		42177F2C209949A4001B8A48 /* lynx_render_object_bridge.mm in Sources */ = {isa = PBXBuildFile; fileRef = 42177EF0209949A4001B8A48 /* lynx_render_object_bridge.mm */; };
+		42177F2C209949A4001B8A48 /* render_object_impl_bridge.mm in Sources */ = {isa = PBXBuildFile; fileRef = 42177EF0209949A4001B8A48 /* render_object_impl_bridge.mm */; };
 		42177F2D209949A4001B8A48 /* ui_update_data_action.mm in Sources */ = {isa = PBXBuildFile; fileRef = 42177EF1209949A4001B8A48 /* ui_update_data_action.mm */; };
 		42177F3820994B46001B8A48 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 42177F3720994B46001B8A48 /* Foundation.framework */; };
 		42177F3A20994B59001B8A48 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 42177F3920994B59001B8A48 /* CoreFoundation.framework */; };
@@ -730,7 +730,7 @@
 		42177EED209949A4001B8A48 /* oc_field.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = oc_field.mm; sourceTree = "<group>"; };
 		42177EEE209949A4001B8A48 /* oc_center.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = oc_center.mm; sourceTree = "<group>"; };
 		42177EEF209949A4001B8A48 /* ui_event_action.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ui_event_action.h; sourceTree = "<group>"; };
-		42177EF0209949A4001B8A48 /* lynx_render_object_bridge.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = lynx_render_object_bridge.mm; sourceTree = "<group>"; };
+		42177EF0209949A4001B8A48 /* render_object_impl_bridge.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = render_object_impl_bridge.mm; sourceTree = "<group>"; };
 		42177EF1209949A4001B8A48 /* ui_update_data_action.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ui_update_data_action.mm; sourceTree = "<group>"; };
 		42177EF2209949A4001B8A48 /* file_path_utility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = file_path_utility.h; sourceTree = "<group>"; };
 		42177F3320994B11001B8A48 /* libAFNetworking.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libAFNetworking.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1788,7 +1788,7 @@
 				42177EED209949A4001B8A48 /* oc_field.mm */,
 				42177EEE209949A4001B8A48 /* oc_center.mm */,
 				42177EEF209949A4001B8A48 /* ui_event_action.h */,
-				42177EF0209949A4001B8A48 /* lynx_render_object_bridge.mm */,
+				42177EF0209949A4001B8A48 /* render_object_impl_bridge.mm */,
 				42177EF1209949A4001B8A48 /* ui_update_data_action.mm */,
 				42177EF2209949A4001B8A48 /* file_path_utility.h */,
 			);
@@ -1953,7 +1953,7 @@
 				4217779E209945D4001B8A48 /* coordinator_action.cc in Sources */,
 				421777B9209945D4001B8A48 /* render_tokenizer_unittest.cc in Sources */,
 				42177EFA209949A4001B8A48 /* coordinator_commands.mm in Sources */,
-				42177F2C209949A4001B8A48 /* lynx_render_object_bridge.mm in Sources */,
+				42177F2C209949A4001B8A48 /* render_object_impl_bridge.mm in Sources */,
 				421777AD209945D4001B8A48 /* label.cc in Sources */,
 				42177766209945D4001B8A48 /* js_context.cc in Sources */,
 				421776FC209945D3001B8A48 /* syntax_tree.cc in Sources */,
