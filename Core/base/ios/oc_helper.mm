@@ -38,8 +38,8 @@ namespace base {
                 case jscore::LynxValue::VALUE_STRING:
                     obj = [NSString stringWithUTF8String:value->data_.str];
                     break;
-                case jscore::LynxValue::VALUE_LYNX_OBJECT:
-                    obj = ConvertToOCObject(value->data_.lynx_object);
+                case jscore::LynxValue::VALUE_LYNX_MAP:
+                    obj = ConvertToOCMap(value->data_.lynx_map);
                     break;
                 case jscore::LynxValue::VALUE_LYNX_ARRAY:
                     obj = ConvertToOCArray(value->data_.lynx_array);
@@ -50,7 +50,7 @@ namespace base {
             return obj;
         }
         
-        NSDictionary* OCHelper::ConvertToOCObject(jscore::LynxObject* lynx_object) {
+        NSDictionary* OCHelper::ConvertToOCMap(jscore::LynxMap* lynx_object) {
             NSMutableDictionary *object = [[NSMutableDictionary alloc] init];
             for (int i = 0; i < lynx_object->Size(); ++i) {
                 std::string name = lynx_object->GetName(i);
@@ -93,14 +93,14 @@ namespace base {
                 NSString *str = SAFE_CONVERT(value, NSString);
                 lynx_value = jscore::LynxValue::MakeString([str UTF8String]);
             } else if ([value isKindOfClass:[NSMutableDictionary class]] || [value isKindOfClass:[NSDictionary class]]) {
-                lynx_value = ConvertToLynxObject(SAFE_CONVERT(value, NSDictionary));
+                lynx_value = ConvertToLynxMap(SAFE_CONVERT(value, NSDictionary));
             }
             return lynx_value;
         }
 
-        base::ScopedPtr<jscore::LynxObject> OCHelper::ConvertToLynxObject(NSDictionary *dic) {
-            if (!dic) return base::ScopedPtr<jscore::LynxObject>();
-            base::ScopedPtr<jscore::LynxObject> lynx_object(lynx_new jscore::LynxObject());
+        base::ScopedPtr<jscore::LynxMap> OCHelper::ConvertToLynxMap(NSDictionary *dic) {
+            if (!dic) return base::ScopedPtr<jscore::LynxMap>();
+            base::ScopedPtr<jscore::LynxMap> lynx_object(lynx_new jscore::LynxMap());
             NSArray *key_array = [dic allKeys];
             for (NSUInteger i = 0; i < key_array.count; ++i) {
                 NSString *key = SAFE_CONVERT([key_array objectAtIndex:i], NSString);

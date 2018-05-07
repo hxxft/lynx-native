@@ -6,7 +6,7 @@
 #include "render/impl/command_collector.h"
 #include "render/render_object.h"
 #include "render/render_tree_host_client.h"
-#include "runtime/js_context.h"
+#include "runtime/js/js_context.h"
 #include "runtime/thread_manager.h"
 
 namespace lynx {

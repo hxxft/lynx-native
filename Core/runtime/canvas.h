@@ -3,7 +3,6 @@
 #ifndef LYNX_RUNTIME_CANVAS_H_
 #define LYNX_RUNTIME_CANVAS_H_
 
-
 #include "runtime/element.h"
 #include "runtime/canvas_2d_context.h"
 
@@ -13,10 +12,9 @@ namespace jscore {
         Canvas(JSContext* context, lynx::RenderObject* render_object);
         virtual ~Canvas();
 
-    private:
-        base::ScopedPtr<LynxValue>
-        static GetContextCallback(LynxObjectTemplate* object, base::ScopedPtr<LynxArray>& array);
+        base::ScopedPtr<LynxValue> GetContext(base::ScopedPtr<LynxArray>& array);
 
+    private:
         Canvas2DContext* context_2d_;
 
     };

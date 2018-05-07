@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.RadioGroup;
 
 import com.lynx.core.base.LynxEvent;
-import com.lynx.core.base.LynxObject;
+import com.lynx.core.base.LynxMap;
 import com.lynx.core.impl.RenderObjectImpl;
 import com.lynx.ui.LynxUI;
 import com.lynx.ui.LynxUIFactory;
@@ -98,9 +98,9 @@ public class LynxUIRadioGroup extends LynxUIGroup<AndroidRadioGroup> {
             AppCompatRadioButton view = (AppCompatRadioButton) mView.findViewById(checkedId);
             if (view != null) {
                 LynxEvent event = new LynxEvent(EVENT_CHANGE);
-                LynxObject detail = new LynxObject();
-                detail.setProperty("value", view.getText().toString());
-                event.setProperty("detail", detail);
+                LynxMap detail = new LynxMap();
+                detail.set("value", view.getText().toString());
+                event.set("detail", detail);
                 postEvent(EVENT_CHANGE, event);
             }
         }

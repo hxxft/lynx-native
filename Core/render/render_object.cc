@@ -3,7 +3,7 @@
 #include <sstream>
 #include <vector>
 
-#include "render/animation.h"
+#include "runtime/animation.h"
 #include "render/impl/render_command.h"
 #include "render/impl/render_object_impl.h"
 #include "render/render_object.h"
@@ -400,9 +400,9 @@ void RenderObject::RemoveFixedChild(RenderObject* fixed_child) {
   }
 }
 
-base::ScopedPtr<Animation> RenderObject::Animate(
+std::string RenderObject::Animate(
     base::ScopedPtr<jscore::LynxArray>& keyframes,
-    base::ScopedPtr<jscore::LynxObject>& options) {
+    base::ScopedPtr<jscore::LynxMap>& options) {
   static long animation_count = 0;
   const static std::string str_id = "id";
   std::ostringstream animation_id;
@@ -412,9 +412,7 @@ base::ScopedPtr<Animation> RenderObject::Animate(
   RenderCommand* cmd =
       lynx_new RendererAnimateCommand(impl(), keyframes, options);
   render_tree_host_->UpdateRenderObject(cmd);
-  auto animation = lynx_new Animation(animation_id.str());
-  animation->set_render_object(weak_ptr_);
-  return base::ScopedPtr<Animation>(animation);
+  return animation_id.str();
 }
 
 void RenderObject::CancelAnimation(const std::string& id) {

@@ -7,79 +7,53 @@
 #include <JavaScriptCore/JavaScript.h>
 
 #include "base/observer/observer.h"
-#include "runtime/js_context.h"
-#include "runtime/jsc/jsc_context.h"
 #include "base/debug/memory_debug.h"
-
+#include "runtime/js/object_wrap.h"
 
 namespace jscore {
-    class ObjectWrap : base::Observer {
+    class JSCContext;
+    class LynxObject;
+
+    class JSCObjectWrap : public ObjectWrap {
     public:
+
+        virtual ~JSCObjectWrap();
         
-        ObjectWrap(JSContext* context) : js_ref_(NULL), context_(context){
-            context_->AddObserver(this);
-        }
+        virtual void Update();
+
+        void RegisterMethodCallback(const std::string& method_name, JSMethodCallback callback);
+
+        void Protect();
+
+        void Unprotect();
         
-        virtual ~ObjectWrap() {
-            context_->RemoveObserver(this);
-        }
-        
-        virtual void Update() {
-            if(js_ref_) {
-                Wrap(NULL, js_ref_);
-            }
-            lynx_delete(this);
-        }
-        
-        JSObjectRef js_ref() {
-            return js_ref_;
+        static void Wrap(JSCContext* context, LynxObject* obj, JSObjectRef js_obj) {
+            lynx_new JSCObjectWrap(context, obj, js_obj);
         }
 
-        void Protect() {
-            if (js_ref_ != NULL) {
-                JSContextRef context = static_cast<JSCContext*>(context_)->GetContext();
-                JSValueProtect(context, js_ref_);
-            }
-        }
-
-        void Unprotect() {
-            if (js_ref_ != NULL) {
-                JSContextRef context = static_cast<JSCContext*>(context_)->GetContext();
-                JSValueUnprotect(context, js_ref_);
-            }
-        }
-        
         template<class T>
-        static inline T* Unwrap(JSObjectRef object) {
+        static T* Unwrap(JSObjectRef object) {
             assert(object != NULL);
             //assert(JSObjectGetPrivate(object) != NULL);
             void* data = JSObjectGetPrivate(object);
-            ObjectWrap* wrap = static_cast<ObjectWrap*>(data);
-            return static_cast<T*>(wrap);
+            JSCObjectWrap* wrap = static_cast<JSCObjectWrap*>(data);
+            return static_cast<T*>(wrap->lynx_object());
         }
-        
-        static inline void Wrap(ObjectWrap* wrap, JSObjectRef object) {
-            assert(object != NULL);
-            //assert(JSObjectGetPrivate(object) == NULL);
-            assert(JSObjectSetPrivate(object, wrap));
-            if(wrap != NULL) {
-                wrap->js_ref_ = object;
-            }
+
+        inline JSObjectRef js_ref() {
+            return js_object_;
         }
-        
-        static void InitializeCallback(JSContextRef ctx, JSObjectRef object) {
-        }
-        
-        static void FinalizeCallback(JSObjectRef object) {
-            ObjectWrap* object_wrap = Unwrap<ObjectWrap>(object);
-            if(object_wrap != NULL) {
-                lynx_delete(object_wrap);
-            }
-        }
-        
+
+        static void FinalizeCallback(JSObjectRef object);
+
     private:
-        JSObjectRef js_ref_;
-        JSContext* context_;
+
+        void OnJSObjectInitialize();
+        void OnJSObjectFinalize();
+
+        JSCObjectWrap(JSCContext* context, LynxObject* obj, JSObjectRef js_obj);
+
+        JSObjectRef js_object_;
         
     };
 }

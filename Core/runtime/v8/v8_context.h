@@ -6,36 +6,24 @@
 #include <string>
 
 #include "v8.h"
-#include "runtime/js_context.h"
-
+#include "runtime/js/js_context.h"
 
 namespace jscore {
 
-class DocumentObject;
-class NavigatorObject;
-class ConsoleObject;
-class ScreenObject;
-class LocationObject;
-class HistoryObject;
-class LoaderObject;
 class V8Context : public JSContext {
  public:
     explicit V8Context() : JSContext() {}
     virtual ~V8Context();
     virtual void Initialize(JSVM* vm,  Runtime* runtime);
-    virtual void RunScript(const char* source);
+    virtual std::string RunScript(const char* source);
     virtual void LoadUrl(const std::string& url);
+    virtual void AddJavaScriptInterface(const std::string &name,
+                                        base::ScopedPtr<LynxObjectPlatform> object);
+    virtual void OnLayoutFileParseFinished();
 
-    v8::Persistent<v8::Context>& GetContext() {
-        return context_;
-    }
-
-    HistoryObject* history_object() {
-        return history_object_;
-    }
-
-    v8::Persistent<v8::FunctionTemplate>& element_constructor() {
-        return element_constructor_;
+    v8::Local<v8::Context> GetContext() {
+        v8::Isolate* isolate = GetVM<v8::Isolate*>();
+        return context_.Get(isolate);
     }
 
  private:
@@ -50,24 +38,8 @@ class V8Context : public JSContext {
     void Clear();
     v8::Persistent<v8::Context> context_;
 
-    v8::Persistent<v8::FunctionTemplate> console_constructor_;
-    v8::Persistent<v8::FunctionTemplate> document_constructor_;
-    v8::Persistent<v8::FunctionTemplate> body_constructor_;
-    v8::Persistent<v8::FunctionTemplate> element_constructor_;
-    v8::Persistent<v8::FunctionTemplate> navigator_constructor_;
-    v8::Persistent<v8::FunctionTemplate> screen_constructor_;
-    v8::Persistent<v8::FunctionTemplate> location_constructor_;
-    v8::Persistent<v8::FunctionTemplate> history_constructor_;
-    v8::Persistent<v8::FunctionTemplate> loader_constructor_;
+    DISALLOW_COPY_AND_ASSIGN(V8Context);
 
-    // WindowObject* window_object_;
-    DocumentObject* document_object_;
-    NavigatorObject* navigator_object_;
-    ConsoleObject* console_object_;
-    ScreenObject* screen_object_;
-    LocationObject* location_object_;
-    HistoryObject* history_object_;
-    LoaderObject* loader_object_;
 };
 }  // namespace jscore
 

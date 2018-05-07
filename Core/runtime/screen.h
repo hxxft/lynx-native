@@ -2,17 +2,16 @@
 #ifndef LYNX_RUNTIME_SCREEN_H_
 #define LYNX_RUNTIME_SCREEN_H_
 
-#include "runtime/base/lynx_object_template.h"
+#include "runtime/base/lynx_object.h"
 
 namespace jscore {
-    class Screen : public LynxObjectTemplate {
+    class Screen : public LynxObject {
     public:
-        Screen();
+        Screen(JSContext* context);
         virtual ~Screen();
-    private:
 
-        static base::ScopedPtr<LynxValue> GetWidthCallback(LynxObjectTemplate* object);
-        static base::ScopedPtr<LynxValue> GetHeightCallback(LynxObjectTemplate* object);
+        base::ScopedPtr<LynxValue> GetWidth();
+        base::ScopedPtr<LynxValue> GetHeight();
     };
 }
 

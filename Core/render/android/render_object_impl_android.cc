@@ -189,7 +189,7 @@ void RenderObjectImplAndroid::SetData(
 
 void RenderObjectImplAndroid::Animate(
     base::ScopedPtr<jscore::LynxArray>& keyframes,
-    base::ScopedPtr<jscore::LynxObject>& options) {
+    base::ScopedPtr<jscore::LynxMap>& options) {
   if (!render_object_impl_java_impl_.IsNull()) {
     JNIEnv* env = base::android::AttachCurrentThread();
     base::android::ScopedLocalJavaRef<jobject> jkeyframes =
@@ -241,9 +241,9 @@ typedef struct {
   uint8_t blue;
 } argb;
 
-base::ScopedPtr<jscore::LynxObject>
+base::ScopedPtr<jscore::LynxMap>
 RenderObjectImplAndroid::GetImagePixel(int x, int y, int w, int h) {
-  base::ScopedPtr<jscore::LynxObject> ret(lynx_new jscore::LynxObject());
+  base::ScopedPtr<jscore::LynxMap> ret(lynx_new jscore::LynxMap());
   JNIEnv* env = base::android::AttachCurrentThread();
   if (native_bitmap_.Get() != NULL) {
     AndroidBitmapInfo bmp_info = {0};

@@ -28,7 +28,7 @@ public class PageNavigatorJSObject extends ExtLynxFunctionObject {
 
 import com.lynx.apt.codegen.ComponentSpec;
 import com.lynx.apt.codegen.ParameterGenUtil;
-import com.lynx.modules.ext.ExtLynxFunctionObject;
+import com.lynx.modules.ext.ExtLynxObject;
 import com.lynx.modules.ext.JSComponent;
 import com.squareup.javapoet.CodeBlock;
 import com.squareup.javapoet.MethodSpec;
@@ -42,7 +42,7 @@ public class JSComponentGenUtil {
 
     public static TypeSpec genJSComponentClass(ComponentSpec componentSpec) {
         TypeSpec.Builder builder = TypeSpec.classBuilder(componentSpec.genClassName);
-        builder.superclass(ExtLynxFunctionObject.class);
+        builder.superclass(ExtLynxObject.class);
         builder.addModifiers(Modifier.PUBLIC);
 
         builder.addMethod(genConstruct());

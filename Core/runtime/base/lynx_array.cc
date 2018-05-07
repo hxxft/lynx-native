@@ -1,5 +1,6 @@
 // Copyright 2017 The Lynx Authors. All rights reserved.
 
+#include <sstream>
 #include "lynx_array.h"
 
 namespace jscore {
@@ -60,4 +61,18 @@ namespace jscore {
         ptrs_.add(value);
     }
 
+    std::string LynxArray::ToString() {
+        std::stringstream stream;
+        stream<<"[";
+        for (int i = 0; i < Size(); ++i) {
+            if (Get(i) != NULL) {
+                stream << Get(i)->ToString();
+            }
+            if (i != Size() - 1) {
+                stream << ", ";
+            }
+        }
+        stream<<"]";
+        return stream.str();
+    }
 }

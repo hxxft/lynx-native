@@ -1,7 +1,7 @@
 // Copyright 2017 The Lynx Authors. All rights reserved.
 package com.lynx.ui.coordinator;
 
-import com.lynx.core.base.LynxObject;
+import com.lynx.core.base.LynxMap;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -22,7 +22,7 @@ public class CrdTransferStation implements TransferStation {
 
     @Override
     public void updatePropertiesInAction(String sponsorAffinity, String responderAffinity,
-                                         LynxObject object, boolean notify) {
+                                         LynxMap object, boolean notify) {
         if (mCoordinatorResponders != null
                 && mExecutorPool != null
                 && mAffinityRelationShip != null) {
@@ -32,9 +32,9 @@ public class CrdTransferStation implements TransferStation {
             CrdCommandExecutor executor = mExecutorPool.get(responderAffinity);
             Set<CrdResponder> set = mCoordinatorResponders.get(responderAffinity);
             if (executor == null || set == null) return;
-            for (Object o : object.getPropertyNames()) {
+            for (Object o : object.getKeySet()) {
                 String name = (String) o;
-                Object value = object.getProperty(name);
+                Object value = object.get(name);
                 if (value instanceof String) {
                     executor.updateProperty(name, (String) value);
                 } else if (value instanceof Boolean) {

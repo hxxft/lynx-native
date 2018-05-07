@@ -7,7 +7,7 @@
 #include "net/android/url_request_android.h"
 #include "base/android/params_transform.h"
 #include "runtime/android/jni_runtime_bridge.h"
-#include "runtime/base/lynx_function_object_android.h"
+#include "runtime/android/lynx_object_android.h"
 #include "render/android/jni_coordinator_bridge.h"
 #include "runtime/android/result_callback.h"
 #include "debugger/android/debug_host_impl.h"
@@ -29,7 +29,7 @@ JNIEXPORT jint JNICALL JNI_OnLoad(JavaVM *vm, void *reserved)
     base::android::ParamsTransform::RegisterJNIUtils(env);
     jscore::JNIRuntimeBridge::RegisterJNIUtils(env);
     lynx::RenderTreeHostImplAndroid::RegisterJNIUtils(env);
-    jscore::LynxFunctionObjectAndroid::RegisterJNIUtils(env);
+    jscore::LynxObjectAndroid::RegisterJNIUtils(env);
     lynx::JNICoordinatorBridge::RegisterJNIUtils(env);
     jscore::ResultCallbackAndroid::RegisterJNIUtils(env);
     debug::DebugHostImpl::RegisterJNIUtils(env);

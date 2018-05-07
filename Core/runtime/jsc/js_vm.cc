@@ -1,7 +1,7 @@
 // Copyright 2017 The Lynx Authors. All rights reserved.
 
-#include <runtime/js_vm.h>
 #include <JavaScriptCore/JavaScript.h>
+#include "runtime/js/js_vm.h"
 
 namespace jscore {
     void JSVM::Initialize() {

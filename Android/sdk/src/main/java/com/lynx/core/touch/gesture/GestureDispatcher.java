@@ -71,6 +71,7 @@ public class GestureDispatcher extends GestureDetector.SimpleOnGestureListener {
 
             for (int i = 0; i < mWatcherList.size(); ++i) {
                 GestureWatcher watcher = mWatcherList.get(i);
+                info.setCurTarget(watcher);
                 watcher.onCaptureGestureEvent(info);
                 if (info.getCancelBubble()) {
                     break;
@@ -80,6 +81,7 @@ public class GestureDispatcher extends GestureDetector.SimpleOnGestureListener {
             if (!info.getCancelBubble()) {
                 for (int i = mWatcherList.size() - 1; i >= 0; --i) {
                     GestureWatcher watcher = mWatcherList.get(i);
+                    info.setCurTarget(watcher);
                     watcher.performGesture(info);
                     if (info.getCancelBubble()) {
                         break;

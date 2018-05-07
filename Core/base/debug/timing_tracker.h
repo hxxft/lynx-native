@@ -13,7 +13,7 @@ namespace base {
         ~TimingTracker();
 
     private:
-        std::chrono::time_point<std::chrono::system_clock, std::chrono::nanoseconds> start_;
+        std::chrono::time_point<std::chrono::steady_clock, std::chrono::nanoseconds> start_;
         const char *log_;
     };
 }

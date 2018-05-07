@@ -2,8 +2,9 @@
 package com.lynx.ui.event;
 
 import com.lynx.core.base.LynxEvent;
-import com.lynx.core.base.LynxObject;
+import com.lynx.core.base.LynxMap;
 import com.lynx.core.touch.gesture.GestureEventInfo;
+import com.lynx.ui.LynxUI;
 
 /* package */ class GestureEvent extends LynxEvent {
 
@@ -15,18 +16,19 @@ import com.lynx.core.touch.gesture.GestureEventInfo;
     public GestureEvent(GestureEventInfo info) {
         super(KEY_GESTURE);
         mGestureType = info.getType();
+        setTarget(((LynxUI) info.getCurTarget()).getRenderObjectImpl());
 
-        LynxObject gesture = new LynxObject();
-        LynxObject detail = new LynxObject();
-        detail.setProperty(KEY_GESTURE_TYPE, mGestureType);
+        LynxMap gesture = new LynxMap();
+        LynxMap detail = new LynxMap();
+        detail.set(KEY_GESTURE_TYPE, mGestureType);
         if (info.getDetail() != null) {
             for (String key : info.getDetail().keySet()) {
-                detail.setProperty(key, info.getDetail().get(key));
+                detail.set(key, info.getDetail().get(key));
             }
         }
 
-        gesture.setProperty(KEY_GESTURE_DETAIL, detail);
-        this.setProperty(KEY_GESTURE, gesture);
+        gesture.set(KEY_GESTURE_DETAIL, detail);
+        this.set(KEY_GESTURE, gesture);
     }
 
     @Override

@@ -4,19 +4,20 @@
 
 #include <sstream>
 
+#include "base/print-bak.h"
 #include "base/log/logging.h"
-#include "runtime/v8/objects/body_object.h"
-#include "runtime/v8/objects/console_object.h"
-#include "runtime/v8/objects/document_object.h"
-#include "runtime/v8/objects/navigator_object.h"
-#include "runtime/v8/objects/screen_object.h"
-#include "runtime/v8/objects/window_object.h"
-#include "runtime/v8/objects/location_object.h"
-#include "runtime/v8/objects/history_object.h"
-#include "runtime/v8/objects/loader_object.h"
+#include "runtime/runtime.h"
+#include "runtime/element.h"
+#include "runtime/console.h"
+#include "runtime/document.h"
+#include "runtime/navigator.h"
+#include "runtime/screen.h"
+#include "runtime/global.h"
+#include "runtime/loader.h"
+#include "runtime/base/lynx_object_platform.h"
 #include "runtime/v8/simple_allocator.h"
-#include "runtime/v8/timeout_callback.h"
 #include "runtime/v8/v8_helper.h"
+#include "runtime/v8/prototype_builder.h"
 
 namespace jscore {
 
@@ -26,10 +27,11 @@ V8Context::~V8Context() {
 }
 
 void V8Context::Initialize(JSVM* vm, Runtime* runtime) {
+    DLOG(INFO) << "V8CContext Initialize";
     JSContext::Initialize(vm, runtime);
-    v8::Isolate* isolate = static_cast<v8::Isolate*>(GetVM());
+    v8::Isolate* isolate = GetVM<v8::Isolate*>();
     v8::Isolate::Scope isolate_scope(isolate);
-    v8::HandleScope handleScope(isolate);
+    v8::HandleScope handle_scope(isolate);
 
     // v8::V8::SetFlagsFromString(Constants::V8_STARTUP_FLAGS.c_str(),
     //                       Constants::V8_STARTUP_FLAGS.size());
@@ -40,99 +42,71 @@ void V8Context::Initialize(JSVM* vm, Runtime* runtime) {
         true, 100, v8::StackTrace::kOverview);
     v8::V8::AddMessageListener(V8Context::OnUncaughtError);
 
-    auto globalTemplate = v8::ObjectTemplate::New(isolate);
-
-    ConsoleObject::BindingClass(isolate, globalTemplate, console_constructor_);
-    NavigatorObject::BindingClass(isolate, globalTemplate, navigator_constructor_);
-    ScreenObject::BindingClass(isolate, globalTemplate, screen_constructor_);
-    HistoryObject::BindingClass(isolate, globalTemplate, this, history_constructor_);
-    WindowObject::BindingClass(isolate, globalTemplate, this);
-    LocationObject::BindingClass(isolate, globalTemplate, this, location_constructor_);
-    DocumentObject::BindingClass(isolate, globalTemplate, this, document_constructor_);
-    BodyObject::BindingClass(isolate, globalTemplate, this, body_constructor_);
-    ElementObject::BindingClass(isolate, globalTemplate, this, element_constructor_);
-    TimeoutCallback::BindingCallback(isolate, globalTemplate, this);
-    LoaderObject::BindingClass(isolate, globalTemplate, this, loader_constructor_);
-
-    v8::Local <v8::Context> context = v8::Context::New(isolate, nullptr, globalTemplate);
-
+    global_ = lynx_new Global(this);
+    V8PrototypeBuilder *global_prototype_builder = static_cast<V8PrototypeBuilder*>(
+            global_->class_template()->prototype_builder());
+    auto context = v8::Context::New(isolate, nullptr,
+                                    global_prototype_builder->GetClass(isolate)->InstanceTemplate());
     context_.Reset(isolate, context);
+    auto global_object = context->Global();
+    V8ObjectWrap::Wrap(this, global_, global_object);
 
     v8::Context::Scope context_scope(context);
 
-    auto global = context->Global();
+    auto loader_object = V8Helper::ConvertToV8Object(isolate, lynx_new Loader(this));
+    auto console_object = V8Helper::ConvertToV8Object(isolate, lynx_new Console(this));
+    auto screen_object = V8Helper::ConvertToV8Object(isolate, lynx_new Screen(this));
+    auto navigator_object = V8Helper::ConvertToV8Object(isolate, lynx_new Navigator(this));
+    auto document_object = V8Helper::ConvertToV8Object(isolate, lynx_new Document(this));
+    Element* body_element = lynx_new Element(this, runtime->render_tree_host()->render_root());
+    auto body_object = V8Helper::ConvertToV8Object(isolate, body_element);
 
-    auto document = DocumentObject::Create(isolate, document_constructor_);
-    auto navigator = NavigatorObject::Create(isolate, navigator_constructor_);
-    auto screen = ScreenObject::Create(isolate, screen_constructor_);
-    auto location = LocationObject::Create(isolate, location_constructor_);
-    auto console = ConsoleObject::Create(isolate, console_constructor_);
-    auto history = HistoryObject::Create(isolate, history_constructor_);
-    auto loader = LoaderObject::Create(isolate, loader_constructor_);
-
-    document->ToObject(context).ToLocalChecked()->Set(context,
-            V8Helper::ConvertToV8String(isolate, "body"),
-            BodyObject::Create(isolate, body_constructor_)).FromJust();
-
-    global->Set(context, V8Helper::ConvertToV8String(isolate, "console"), console).FromJust();
-    global->Set(context, V8Helper::ConvertToV8String(isolate, "document"), document).FromJust();
-    global->Set(context, V8Helper::ConvertToV8String(isolate, "global"), global).FromJust();
-    global->Set(context, V8Helper::ConvertToV8String(isolate, "window"), global).FromJust();
-    global->Set(context, V8Helper::ConvertToV8String(isolate, "navigator"), navigator).FromJust();
-    global->Set(context, V8Helper::ConvertToV8String(isolate, "screen"), screen).FromJust();
-    global->Set(context, V8Helper::ConvertToV8String(isolate, "location"), location).FromJust();
-    global->Set(context, V8Helper::ConvertToV8String(isolate, "history"), history).FromJust();
-    global->Set(context, V8Helper::ConvertToV8String(isolate, "loader"), loader).FromJust();
-
-    document_object_ = ObjectWrap::Unwrap<DocumentObject>(v8::Local<v8::Object>::Cast(document));
-    console_object_ = ObjectWrap::Unwrap<ConsoleObject>(v8::Local<v8::Object>::Cast(console));
-    navigator_object_ = ObjectWrap::Unwrap<NavigatorObject>(v8::Local<v8::Object>::Cast(navigator));
-    screen_object_ = ObjectWrap::Unwrap<ScreenObject>(v8::Local<v8::Object>::Cast(screen));
-    location_object_ = ObjectWrap::Unwrap<LocationObject>(v8::Local<v8::Object>::Cast(location));
-    history_object_ = ObjectWrap::Unwrap<HistoryObject>(v8::Local<v8::Object>::Cast(history));
-    loader_object_ = ObjectWrap::Unwrap<LoaderObject>(v8::Local<v8::Object>::Cast(loader));
+    global_object->Set(context, V8Helper::ConvertToV8String(isolate, "console"),
+                       console_object).FromJust();
+    global_object->Set(context, V8Helper::ConvertToV8String(isolate, "document"),
+                       document_object).FromJust();
+    global_object->Set(context, V8Helper::ConvertToV8String(isolate, "global"),
+                       global_object).FromJust();
+    global_object->Set(context, V8Helper::ConvertToV8String(isolate, "window"),
+                       global_object).FromJust();
+    global_object->Set(context, V8Helper::ConvertToV8String(isolate, "navigator"),
+                       navigator_object).FromJust();
+    global_object->Set(context, V8Helper::ConvertToV8String(isolate, "screen"),
+                       screen_object).FromJust();
+    global_object->Set(context, V8Helper::ConvertToV8String(isolate, "loader"),
+                       loader_object).FromJust();
+    document_object->Set(context, V8Helper::ConvertToV8String(isolate, "body"),
+                         body_object).FromJust();
 }
 
-    void V8Context::Clear() {
-        v8::Isolate* isolate = static_cast<v8::Isolate*>(GetVM());
-        v8::Isolate::Scope isolate_scope(isolate);
-        v8::HandleScope handleScope(isolate);
-        v8::Local<v8::Context> context = v8::Local<v8::Context>::New(isolate, GetContext());
-        Context::Scope context_scope(context);
-
-        Local<v8::Object> global = context->Global();
-        Local<v8::Array> keys = global->GetPropertyNames(context).ToLocalChecked();
-        for(jsize i =0;i<keys->Length();i++){
-            auto key = keys->Get(context, i).ToLocalChecked();
-            global->Set(key, v8::Null(isolate));
-            LOGD("DELETE","KEY = %s",V8Helper::ConvertToString(key->ToString()).c_str());
-            //global->Delete(context, key);
-        }
-        document_constructor_.Reset();
-        body_constructor_.Reset();
-        location_constructor_.Reset();
-        loader_constructor_.Reset();
-        navigator_constructor_.Reset();
-        screen_constructor_.Reset();
-        console_constructor_.Reset();
-        history_constructor_.Reset();
-        element_constructor_.Reset();
-        isolate->LowMemoryNotification();
-    }
-
-void V8Context::LoadUrl(const std::string &url) {
-    location_object_->SetUrl(url);
-    history_object_->Go(url);
-    loader_->Load(url, loader::XCFile::XC_URL);
-}
-
-void V8Context::RunScript(const char* source) {
-
-    v8::Isolate* isolate = static_cast<v8::Isolate*>(GetVM());
+void V8Context::Clear() {
+    v8::Isolate* isolate = GetVM<v8::Isolate*>();
     v8::Isolate::Scope isolate_scope(isolate);
     v8::HandleScope handleScope(isolate);
-    v8::Local<v8::Context> context = v8::Local<v8::Context>::New(isolate, GetContext());
-    Context::Scope context_scope(context);
+    v8::Local<v8::Context> context = GetContext();
+    v8::Context::Scope context_scope(context);
+
+    v8::Local<v8::Object> global = context->Global();
+    v8::Local<v8::Array> keys = global->GetPropertyNames(context).ToLocalChecked();
+    for (int i = 0; i < keys->Length(); i++) {
+        auto key = keys->Get(context, i).ToLocalChecked();
+        global->Set(key, v8::Null(isolate));
+        LOGD("DELETE", "KEY = %s", V8Helper::ConvertToString(key->ToString()).c_str());
+        //global->Delete(context, key);
+    }
+    isolate->LowMemoryNotification();
+}
+
+void V8Context::LoadUrl(const std::string &url) {
+}
+
+std::string V8Context::RunScript(const char* source) {
+
+    v8::Isolate* isolate = GetVM<v8::Isolate*>();
+    v8::Isolate::Scope isolate_scope(isolate);
+    v8::HandleScope handleScope(isolate);
+    v8::Local<v8::Context> context = GetContext();
+    v8::Context::Scope context_scope(context);
 
     v8::TryCatch tc(isolate);
 
@@ -163,6 +137,42 @@ void V8Context::RunScript(const char* source) {
 
     }
 
+    return "";
+
+}
+
+void V8Context::AddJavaScriptInterface(const std::string &name,
+                                       base::ScopedPtr<LynxObjectPlatform> object) {
+    v8::Isolate* isolate = GetVM<v8::Isolate*>();
+    v8::Isolate::Scope isolate_scope(isolate);
+    v8::HandleScope handle_scope(isolate);
+    v8::Local<v8::Context> context = GetContext();
+    v8::Context::Scope context_scope(context);
+    object->Attach(this);
+    auto v8_object = V8Helper::ConvertToV8Object(isolate, object.Release());
+    auto global = context->Global();
+    global->Set(context, V8Helper::ConvertToV8String(isolate, name), v8_object).FromJust();
+}
+
+void V8Context::OnLayoutFileParseFinished() {
+    // Create JSObject for element recursively
+    v8::Isolate* isolate = GetVM<v8::Isolate*>();
+    v8::Isolate::Scope isolate_scope(isolate);
+    v8::HandleScope handle_scope(isolate);
+    auto parent = runtime_->render_tree_host()->render_root();
+    std::vector<lynx::RenderObject*> stack;
+    stack.push_back(parent);
+    int index = 0;
+    while (index < stack.size()) {
+        parent = stack[index++];
+        for (int i = 0; i < parent->GetChildCount(); ++i) {
+            auto child = const_cast<lynx::RenderObject*>(parent->Get(i));
+            stack.push_back(child);
+            if (child->GetJSRef() != NULL) {
+                V8Helper::ConvertToV8Object(isolate, child->GetJSRef());
+            }
+        }
+    }
 }
 
 std::string V8Context::GetErrorMessage(const v8::Local <v8::Message> &message, const v8::Local <v8::Value> &error) {

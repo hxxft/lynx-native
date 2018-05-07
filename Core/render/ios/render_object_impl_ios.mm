@@ -78,7 +78,7 @@ namespace lynx {
     }
     
     void RenderObjectImplIOS::Animate(base::ScopedPtr<jscore::LynxArray> &keyframes,
-                                      base::ScopedPtr<jscore::LynxObject> &options) {
+                                      base::ScopedPtr<jscore::LynxMap> &options) {
         
     }
     
@@ -114,7 +114,7 @@ namespace lynx {
         }
     }
     
-    base::ScopedPtr<jscore::LynxObject> RenderObjectImplIOS::GetImagePixel(int x, int y, int w,int h) {
-        return base::ScopedPtr<jscore::LynxObject>();
+    base::ScopedPtr<jscore::LynxMap> RenderObjectImplIOS::GetImagePixel(int x, int y, int w,int h) {
+        return base::ScopedPtr<jscore::LynxMap>();
     }
 }

@@ -53,9 +53,9 @@ public class ParamsTransform {
             return JNIType.STRING_TYPE;
         } else if (LynxArray.class.isAssignableFrom(clazz)) {
             return JNIType.LYNX_ARRAY_TYPE;
-        } else if (LynxObject.class.isAssignableFrom(clazz)) {
+        } else if (LynxMap.class.isAssignableFrom(clazz)) {
             return JNIType.LYNX_OBJECT_TYPE;
-        } else if (clazz == LynxFunctionObject.class) {
+        } else if (clazz == LynxObject.class) {
             return JNIType.LYNX_FUNCTION_OBJECT_TYPE;
         } else if (LynxHolder.class.isAssignableFrom(clazz)) {
             return JNIType.LYNX_HOLDER;

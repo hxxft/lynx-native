@@ -13,19 +13,16 @@
 #include "render/body.h"
 #include "runtime/thread_manager.h"
 #include "net/url_request_context.h"
-#include "runtime/js_vm.h"
+#include "runtime/js/js_vm.h"
 #include "render/render_tree_host.h"
 
 //#include "inspector/inspector.h"
 #include "debugger/debug_client.h"
 
-namespace lynx {
-    class RenderTreeHost;
-}
-
 namespace jscore {
 
 class JSContext;
+class LynxObjectPlatform;
 
 class ResultCallback {
 public:
@@ -50,7 +47,7 @@ class Runtime : public base::RefCountPtr<Runtime>{
     void Reload(bool force);
     void Destroy();
     void AddJavaScriptInterface(const std::string& name,
-                                LynxFunctionObject* object);
+                                LynxObjectPlatform* object);
 
     void SetUserAgent(const std::string& ua);
     std::string GetUserAgent();
@@ -86,16 +83,15 @@ private:
     void LoadUrlOnJSThread(const std::string& url);
     void ReloadOnJSThread(bool force);
     void DestroyOnJSThread();
-    void AddJavaScriptInterfaceOnJSThread(const std::string& name,
-                                          base::ScopedPtr<LynxFunctionObject> object);
+
  protected:
     base::ScopedPtr<ThreadManager> thread_manager_;
     base::ScopedRefPtr<lynx::RenderTreeHost> render_tree_host_;
  private:
     base::ScopedPtr<net::URLRequestContext> url_request_context_;
     base::ScopedRefPtr<loader::LynxLoader> loader_;
-    base::ScopedPtr<JSContext> context_;
     base::ScopedRefPtr<JSVM> vm_;
+    base::ScopedRefPtr<JSContext> context_;
     base::ScopedPtr<ResultCallback> exception_handler_;
     //base::ScopedRefPtr<debug::Inspector> inspector_;
     DISALLOW_COPY_AND_ASSIGN(Runtime);

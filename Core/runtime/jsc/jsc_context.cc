@@ -1,9 +1,6 @@
-// Copyright 2017 The Lynx Authors. All rights reserved.
+	// Copyright 2017 The Lynx Authors. All rights reserved.
 
-#include "runtime/base/lynx_value.h"
 #include "runtime/jsc/jsc_context.h"
-#include "runtime/jsc/objects/window_object.h"
-#include "runtime/jsc/jsc_class_wrap_storage.h"
 
 #include "runtime/runtime.h"
 #include "runtime/navigator.h"
@@ -11,15 +8,19 @@
 #include "runtime/screen.h"
 #include "runtime/document.h"
 #include "runtime/console.h"
-
-#include "runtime/jsc/timeout_callback.h"
+#include "runtime/global.h"
+#include "runtime/base/lynx_value.h"
+#include "runtime/base/lynx_map.h"
+#include "runtime/base/lynx_object_platform.h"
+#include "runtime/js/class_template.h"
 #include "runtime/jsc/jsc_helper.h"
-#include "runtime/jsc/class_wrap.h"
+#include "runtime/jsc/prototype_builder.h"
+#include "runtime/jsc/object_wrap.h"
 #include "base/log/logging.h"
 
 namespace jscore {
 
-    JSCContext::JSCContext() : JSContext(), class_wrap_storage_(lynx_new JSCClassWrapStorage()) {
+    JSCContext::JSCContext() : JSContext() {
 
     }
 
@@ -34,21 +35,18 @@ namespace jscore {
         JSContext::Initialize(vm, runtime);
         JSContextGroupRef context_group = static_cast<JSContextGroupRef>(vm->vm());
         
-        ClassWrap* global_class_wrap = class_wrap_storage_->CreateClassWrap("Global", NULL);
-        TimeoutCallback::BindingClass(global_class_wrap);
-        WindowObject::BindingClass(global_class_wrap);
+        global_ = lynx_new Global(this);
+        JSCPrototypeBuilder *global_prototype_builder = static_cast<JSCPrototypeBuilder*>(
+                global_->class_template()->prototype_builder());
+        global_prototype_builder->SetJSClassAttributes(kJSClassAttributeNoAutomaticPrototype);
+        context_ = JSGlobalContextCreateInGroup(context_group, global_prototype_builder->class_ref());
 
-        global_class_wrap->SetJSClassAttributes(kJSClassAttributeNoAutomaticPrototype);
-        JSClassRef global_class = global_class_wrap->MakeClass();
-        context_ = JSGlobalContextCreateInGroup(context_group, global_class);
-        JSClassRelease(global_class);
-        
         JSObjectRef global_object = JSContextGetGlobalObject(context_);
-        JSObjectSetPrivate(global_object, this);
+        JSCObjectWrap::Wrap(this, global_, global_object);
 
         JSObjectRef loader_object = JSCHelper::ConvertToJSObject(context_, lynx_new Loader(this));
-        JSObjectRef console_object = JSCHelper::ConvertToJSObject(context_, lynx_new Console());
-        JSObjectRef screen_object = JSCHelper::ConvertToJSObject(context_, lynx_new Screen());
+        JSObjectRef console_object = JSCHelper::ConvertToJSObject(context_, lynx_new Console(this));
+        JSObjectRef screen_object = JSCHelper::ConvertToJSObject(context_, lynx_new Screen(this));
         JSObjectRef navigator_object = JSCHelper::ConvertToJSObject(context_, lynx_new Navigator(this));
         JSObjectRef document_object = JSCHelper::ConvertToJSObject(context_, lynx_new Document(this));
         Element* body_element = lynx_new Element(this, runtime_->render_tree_host()->render_root());
@@ -88,8 +86,8 @@ namespace jscore {
         
         if (exception) {
 
-            base::ScopedPtr<LynxObject> detail =
-                    jscore::JSCHelper::ConvertToLynxObject(context_, (JSObjectRef) exception);
+            base::ScopedPtr<LynxMap> detail =
+                    jscore::JSCHelper::ConvertToLynxMap(context_, (JSObjectRef) exception);
             auto line = detail->GetProperty("line");
             auto column = detail->GetProperty("column");
 
@@ -98,7 +96,7 @@ namespace jscore {
                 int line_number = line ? line->data_.i : -1;
                 int column_number = column ? column->data_.i : -1;
                 DLOG(ERROR) << "JS Compile ERROR: " << str << "(" << line_number << ":"<<column_number << ")";
-                OnExceptionOccured(str);
+                OnExceptionOccurred(str);
             }
         }
 
@@ -110,8 +108,9 @@ namespace jscore {
     }
 
     void JSCContext::AddJavaScriptInterface(const std::string &name,
-                                            LynxFunctionObject *object) {
-        JSObjectRef js_object = JSCHelper::ConvertToJSFunctionObject(context_, object);
+                                            base::ScopedPtr<LynxObjectPlatform> object) {
+        object->Attach(this);
+        JSObjectRef js_object = JSCHelper::ConvertToJSObject(context_, object.Release());
         JSObjectRef global = JSContextGetGlobalObject(context_);
         JSCHelper::SetValueProperty(context_,
                                     global,
@@ -119,5 +118,23 @@ namespace jscore {
                                     js_object,
                                     kJSPropertyAttributeReadOnly,
                                     NULL);
+    }
+
+    void JSCContext::OnLayoutFileParseFinished() {
+        // Create JSObject for element recursively
+        auto parent = runtime_->render_tree_host()->render_root();
+        std::vector<lynx::RenderObject*> stack;
+        stack.push_back(parent);
+        int index = 0;
+        while (index < stack.size()) {
+            parent = stack[index++];
+            for (int i = 0; i < parent->GetChildCount(); ++i) {
+                auto child = const_cast<lynx::RenderObject*>(parent->Get(i));
+                stack.push_back(child);
+                if (child->GetJSRef() != NULL) {
+                    JSCHelper::ConvertToJSObject(context_, child->GetJSRef());
+                }
+            }
+        }
     }
 }

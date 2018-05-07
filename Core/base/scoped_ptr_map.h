@@ -48,6 +48,10 @@ class ScopedPtrMap {
 
     int size() { return map_.size(); }
 
+    Ptr*& operator[](const Key& key) {
+        return map_[key];
+    }
+
  private:
     std::unordered_map<Key, Ptr*> map_;
 };

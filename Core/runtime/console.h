@@ -3,17 +3,17 @@
 #ifndef LYNX_RUNTIME_CONSOLE_H_
 #define LYNX_RUNTIME_CONSOLE_H_
 
-#include "runtime/base/lynx_object_template.h"
+#include "runtime/base/lynx_object.h"
 
 namespace jscore {
-    class Console : public LynxObjectTemplate {
+    class Console : public LynxObject {
     public:
-        Console();
+        Console(JSContext* context);
         virtual ~Console();
 
-    private:
-        static base::ScopedPtr<LynxValue>
-        LogCallback(LynxObjectTemplate* object, base::ScopedPtr<LynxArray>& array);
+        base::ScopedPtr<LynxValue> Log(base::ScopedPtr<LynxArray>& array);
+        base::ScopedPtr<LynxValue> Warn(base::ScopedPtr<LynxArray>& array);
+        base::ScopedPtr<LynxValue> Error(base::ScopedPtr<LynxArray>& array);
     };
 
 }

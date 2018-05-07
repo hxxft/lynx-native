@@ -3,10 +3,11 @@
 #ifndef XCORE_ANDROID_USER_AGENT_H
 #define XCORE_ANDROID_USER_AGENT_H
 
-#include "runtime/config.h"
-#include "config/global_config_data.h"
 #include <string>
 #include <base/threading/read_write_lock.h>
+
+#include "runtime/config.h"
+#include "config/global_config_data.h"
 
 #define DEFAULT_USER_AGENT ((((std::string(APP_NAME) + "/") + VERSION) + " ") + PLATFORM)
 

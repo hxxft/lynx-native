@@ -9,19 +9,19 @@ namespace jscore {
 
 class JSContext;
 class LynxArray;
-
-enum class TargetState : int {
-    Empty = 0,
-    Global = -1
-};
+class LynxObject;
 
 class LynxFunction {
  public:
     LynxFunction(JSContext* context) : context_(context){}
     virtual ~LynxFunction() {}
-    virtual void Run(void* target, LynxArray* args) {}
+    virtual void Run(LynxObject* target, LynxArray* args) {}
 
     std::string GetKey() { return js_function_key_;}
+
+    inline JSContext* context() {
+        return context_;
+    }
 
  protected:
     std::string js_function_key_;

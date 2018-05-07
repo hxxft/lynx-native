@@ -3,10 +3,10 @@
 #include "base/debug/memory_debug.h"
 #include "base/android/params_transform.h"
 #include "runtime/base/lynx_array.h"
+#include "runtime/base/lynx_map.h"
 #include "runtime/base/lynx_object.h"
-#include "runtime/base/lynx_object_template.h"
 #include "runtime/base/lynx_value.h"
-#include "runtime/base/lynx_function_object_android.h"
+#include "runtime/android/lynx_object_android.h"
 #include "runtime/base/lynx_holder.h"
 #include "runtime/platform_value.h"
 
@@ -46,9 +46,9 @@ namespace base {
                         obj = base::android::ScopedLocalJavaRef<jobject>
                                 (env, ConvertToJNIArray(env, value->data_.lynx_array).Release());
                         break;
-                    case jscore::LynxValue::VALUE_LYNX_OBJECT:
+                    case jscore::LynxValue::VALUE_LYNX_MAP:
                         obj = base::android::ScopedLocalJavaRef<jobject>
-                                (env, ConvertToJNIObject(env, value->data_.lynx_object).Release());
+                                (env, ConvertToJNIObject(env, value->data_.lynx_map).Release());
                         break;
                     default:
                         break;
@@ -85,26 +85,25 @@ namespace base {
         }
 
         base::android::ScopedLocalJavaRef<jobject> JNIHelper::ConvertToJNIObject
-                (JNIEnv* env, jscore::LynxObject* object) {
+                (JNIEnv* env, jscore::LynxMap* object) {
             ScopedLocalJavaRef<jobject> java_object_array =
-                    base::android::LxJType::NewLynxObject(env);
+                    base::android::LxJType::NewLynxMap(env);
             for (int i = 0; i < object->Size(); ++i) {
                 std::string key = object->GetName(i);
                 base::android::ScopedLocalJavaRef<jobject> java_object
                         = ConvertToJNIObject(env, object->GetProperty(key));
-                base::android::LxJType::SetLynxObjectProperty(env,
-                                                            java_object_array.Get(),
-                                                            ConvertToJNIString(env, key).Get(),
-                                                            java_object.Get());
+                base::android::LxJType::SetLynxMapProperty(env,
+                                                           java_object_array.Get(),
+                                                           ConvertToJNIString(env, key).Get(),
+                                                           java_object.Get());
             }
             return java_object_array;
         }
 
-        base::ScopedPtr<jscore::LynxObject> JNIHelper::ConvertToLynxObject(JNIEnv *env,
-                                                                           jobject obj) {
+        base::ScopedPtr<jscore::LynxMap> JNIHelper::ConvertToLynxMap(JNIEnv *env, jobject obj) {
             base::android::ScopedLocalJavaRef<jobject> properties_array_java
-                    = base::android::LxJType::GetLynxObjectProperties(env, obj);
-            base::ScopedPtr<jscore::LynxObject> js_obj(lynx_new jscore::LynxObject());
+                    = base::android::LxJType::GetLynxMapProperties(env, obj);
+            base::ScopedPtr<jscore::LynxMap> js_obj(lynx_new jscore::LynxMap());
             if (!properties_array_java.IsNull()) {
                 base::ScopedPtr<jscore::LynxArray> js_properties_array(
                         ConvertToLynxArray(env, properties_array_java.Get()));
@@ -117,11 +116,11 @@ namespace base {
             return js_obj;
         }
 
-        base::ScopedPtr<jscore::LynxFunctionObject> JNIHelper::ConvertToLynxFunctionObject(
+        base::ScopedPtr<jscore::LynxObjectPlatform> JNIHelper::ConvertToLynxObjectPlatform(
                 JNIEnv *env,
                 jobject value) {
-            return base::ScopedPtr<jscore::LynxFunctionObject>(
-                    lynx_new jscore::LynxFunctionObjectAndroid(env, value));
+            return base::ScopedPtr<jscore::LynxObjectPlatform>(
+                    lynx_new jscore::LynxObjectAndroid(env, value));
         }
 
 
@@ -214,13 +213,13 @@ namespace base {
                     value = base::ScopedPtr<jscore::LynxValue>(
                             ConvertToLynxArray(env, java_obj).Release());
                     break;
-                case base::android::kLynxObjectType: // LynxObject
+                case base::android::kLynxMapType: // LynxMap
                     value = base::ScopedPtr<jscore::LynxValue>(
-                            ConvertToLynxObject(env, java_obj).Release());
+                            ConvertToLynxMap(env, java_obj).Release());
                     break;
                 case base::android::kLynxFunctionObjectType: // LynxFunctionObject
-                    value = jscore::LynxValue::MakeFunctionObject(
-                            ConvertToLynxFunctionObject(env, java_obj).Release());
+                    value = jscore::LynxValue::MakeObject(
+                            ConvertToLynxObjectPlatform(env, java_obj).Release());
                     break;
                 case base::android::kLynxHolderType:
                     value = ConvertToLynxHolder(env, java_obj);
@@ -277,12 +276,12 @@ namespace base {
                     case base::android::kLynxArrayType: // LynxArray
                         element = ConvertToLynxArray(env, temp.Get()).Release();
                         break;
-                    case base::android::kLynxObjectType: // LynxObject
-                        element = ConvertToLynxObject(env, temp.Get()).Release();
+                    case base::android::kLynxMapType: // LynxMap
+                        element = ConvertToLynxMap(env, temp.Get()).Release();
                         break;
                     case base::android::kLynxFunctionObjectType: // LynxFunctionObject
-                        element = jscore::LynxValue::MakeFunctionObject(
-                                ConvertToLynxFunctionObject(env, temp.Get()).Release()).Release();
+                        element = jscore::LynxValue::MakeObject(
+                                ConvertToLynxObjectPlatform(env, temp.Get()).Release()).Release();
                         break;
                     case base::android::kVoidType:
                     default:

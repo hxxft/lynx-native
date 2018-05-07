@@ -97,7 +97,7 @@ void RenderTreeHost::RendererSync(RenderObject* renderer) {
       } else {
         element = lynx_new jscore::Element(context_, child);
       }
-      jscore::Element::ProtectChild(context_, element);
+      element->ProtectJSObject();
     }
     RendererSync(child);
     child = static_cast<RenderObject*>(child->Next());
