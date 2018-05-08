@@ -16,7 +16,7 @@
 #include "lepus/value.h"
 
 int main(int argc, const char * argv[]) {
-    std::ifstream t("../../test.js");
+    std::ifstream t("../../../test.js");
     std::string str((std::istreambuf_iterator<char>(t)),
                     std::istreambuf_iterator<char>());
     

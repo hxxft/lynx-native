@@ -31,6 +31,12 @@ namespace lepus {
     b = GET_REGISTER_B(i);                                  \
     c = GET_REGISTER_C(i);
     
+    VMContext::~VMContext() {
+        std::unordered_map<String*, int>::iterator iter;
+        for(iter = top_level_variables_.begin(); iter != top_level_variables_.end(); ++iter) {
+            iter->first->Release();
+        }
+    }
     
     void VMContext::Initialize() {
         RegisterBuiltin(this);
@@ -57,7 +63,8 @@ namespace lepus {
     
     Value VMContext::Call(const std::string& name, const std::vector<Value>& args) {
         Value ret;
-        auto reg_info = top_level_variables_.find(string_pool()->NewString(name));
+        base::ScopedRefPtr<String> scoped_str(string_pool()->NewString(name));
+        auto reg_info = top_level_variables_.find(scoped_str.Get());
         if(reg_info == top_level_variables_.end())
             return Value();
         int reg = reg_info->second;

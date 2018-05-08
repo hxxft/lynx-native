@@ -8,6 +8,8 @@
 namespace lepus {
     class Dictonary {
     public:
+        Dictonary();
+        ~Dictonary();
         void SetValue(const String* key, const Value& value);
         Value GetValue(const String* key);
     private:

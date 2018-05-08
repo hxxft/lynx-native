@@ -14,7 +14,7 @@ namespace lepus {
     
     class VMContext : public Context {
     public:
-        virtual ~VMContext(){}
+        virtual ~VMContext();
         virtual void Initialize();
         virtual void Execute(const std::string& source);
         virtual Value Call(const std::string& name, const std::vector<Value>& args);
