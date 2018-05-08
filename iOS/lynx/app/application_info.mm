@@ -12,7 +12,7 @@
 - (id) initWithManifest:(NSDictionary*)manifest {
     self = [super init];
     if(self) {
-        _debugable = [manifest objectForKey:@"debug"];
+        _debugable = [[manifest objectForKey:@"debug"] boolValue];
         NSDictionary* appInfo = [manifest objectForKey:@"application"];
         _packageName = [appInfo objectForKey:@"packageName"];
         _mainPage = [[appInfo objectForKey:@"mainPage"] stringByDeletingPathExtension];
