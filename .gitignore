@@ -1,7 +1,7 @@
 .DS_Store
 .vscode/
-lynx/gen/
-lynx/gen/*
+Core/gen/
+Core/gen/*
 node_modules/
 layout_test/build/
 lepus/build/

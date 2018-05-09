@@ -51,7 +51,7 @@ Lynx选择了Vue.js作为开发框架，当然的利于Lynx的API设计，使用
 
         ```shell
         $ cd lynx-native
-        $ ./lynx/build/prebuild.sh
+        $ ./Core/build/prebuild.sh
         ```
 
       * 使用Android Studio打开`./Android`文件夹
