@@ -22,7 +22,6 @@ namespace jscore {
         virtual void LoadUrl(const std::string& url);
         virtual void AddJavaScriptInterface(const std::string &name,
                                             base::ScopedPtr<LynxObjectPlatform> object);
-        virtual void OnLayoutFileParseFinished();
 
         JSGlobalContextRef GetContext() {
             return context_;

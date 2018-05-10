@@ -442,7 +442,7 @@ namespace jscore {
             base::ScopedPtr<LynxArray> keyframes =
                     LynxValue::MakeArrayScoped(array->Release(0).Release()->data_.lynx_array);
             base::ScopedPtr<LynxMap> options =
-                    LynxValue::MakeObjectScoped(array->Release(1).Release()->data_.lynx_map);
+                    LynxValue::MakeMapScoped(array->Release(1).Release()->data_.lynx_map);
 
             auto animation = lynx_new Animation(context_, render_object_->Animate(keyframes, options));
             animation->set_render_object(render_object_->weak_ptr());

@@ -32,6 +32,7 @@ namespace jscore {
         base::ScopedPtr<LynxValue> GetDomain();
         base::ScopedPtr<LynxValue> GetCookie();
         base::ScopedPtr<LynxValue> GetReadyState();
+        base::ScopedPtr<LynxValue> GetBody();
 
         void SetDomain(base::ScopedPtr<jscore::LynxValue> value);
         void SetCookie(base::ScopedPtr<jscore::LynxValue> value);
@@ -40,6 +41,8 @@ namespace jscore {
         void SetOnTouchEnd(base::ScopedPtr<jscore::LynxValue> value);
         void SetOnTouchMove(base::ScopedPtr<jscore::LynxValue> value);
 
+    private:
+        Element* body_;
     };
 }
 

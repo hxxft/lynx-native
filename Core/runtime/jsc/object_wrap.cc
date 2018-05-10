@@ -63,7 +63,8 @@ namespace jscore {
         if (js_object_ != NULL) {
             auto jsc_context = static_cast<JSCContext*>(context_);
             JSContextRef context = jsc_context->GetContext();
-            JSValueUnprotect(context, js_object_);
+            if (context != NULL)
+                JSValueUnprotect(context, js_object_);
         }
     }
 

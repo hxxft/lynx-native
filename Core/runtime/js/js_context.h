@@ -71,8 +71,6 @@ class JSContext : public base::RefCountPtr<Runtime> {
 
     void OnExceptionOccurred(std::string &error);
 
-    virtual void OnLayoutFileParseFinished() = 0;
-
     inline ClassTemplateStorage* class_template_storage() {
         return class_template_storage_.Get();
     }

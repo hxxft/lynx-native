@@ -165,7 +165,7 @@ namespace jscore {
 
     v8::Local<v8::Object> V8Helper::ConvertToV8Object(v8::Isolate* isolate, LynxObject* object) {
         if (object->object_wrap() != NULL) {
-            return static_cast<V8ObjectWrap*>(object->object_wrap())->handle();
+            return static_cast<V8ObjectWrap*>(object->object_wrap())->handle(isolate);
         }
         Global* global = object->context()->global();
         V8Context* context = static_cast<V8Context*>(global->context());

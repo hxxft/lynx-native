@@ -28,7 +28,7 @@ namespace jscore {
     }
 
     Canvas::~Canvas() {
-
+        context_2d_->UnprotectJSObject();
     }
 
     base::ScopedPtr<LynxValue> Canvas::GetContext(base::ScopedPtr<LynxArray>& array) {

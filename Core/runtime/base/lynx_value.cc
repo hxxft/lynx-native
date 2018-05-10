@@ -37,7 +37,7 @@ namespace jscore {
         return base::ScopedPtr<LynxArray>(lynx_array);
     }
 
-    base::ScopedPtr<LynxMap> LynxValue::MakeObjectScoped(LynxMap* lynx_object) {
+    base::ScopedPtr<LynxMap> LynxValue::MakeMapScoped(LynxMap *lynx_object) {
         return base::ScopedPtr<LynxMap>(lynx_object);
     }
 

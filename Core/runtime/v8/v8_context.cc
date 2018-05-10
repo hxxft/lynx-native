@@ -7,13 +7,7 @@
 #include "base/print-bak.h"
 #include "base/log/logging.h"
 #include "runtime/runtime.h"
-#include "runtime/element.h"
-#include "runtime/console.h"
-#include "runtime/document.h"
-#include "runtime/navigator.h"
-#include "runtime/screen.h"
 #include "runtime/global.h"
-#include "runtime/loader.h"
 #include "runtime/base/lynx_object_platform.h"
 #include "runtime/v8/simple_allocator.h"
 #include "runtime/v8/v8_helper.h"
@@ -38,45 +32,21 @@ void V8Context::Initialize(JSVM* vm, Runtime* runtime) {
     //const char* flag = "--expose_gc";
     //v8::V8::SetFlagsFromString(flag, static_cast<int>(strlen(flag)));
 
-    v8::V8::SetCaptureStackTraceForUncaughtExceptions(
-        true, 100, v8::StackTrace::kOverview);
+    v8::V8::SetCaptureStackTraceForUncaughtExceptions(true, 100, v8::StackTrace::kOverview);
     v8::V8::AddMessageListener(V8Context::OnUncaughtError);
 
     global_ = lynx_new Global(this);
-    V8PrototypeBuilder *global_prototype_builder = static_cast<V8PrototypeBuilder*>(
-            global_->class_template()->prototype_builder());
-    auto context = v8::Context::New(isolate, nullptr,
-                                    global_prototype_builder->GetClass(isolate)->InstanceTemplate());
+    auto global_template = static_cast<V8PrototypeBuilder*>(
+            global_->class_template()->prototype_builder())->GetClass(isolate)->InstanceTemplate();
+    auto context = v8::Context::New(isolate, nullptr, global_template);
+    v8::Context::Scope context_scope(context);
     context_.Reset(isolate, context);
     auto global_object = context->Global();
     V8ObjectWrap::Wrap(this, global_, global_object);
-
-    v8::Context::Scope context_scope(context);
-
-    auto loader_object = V8Helper::ConvertToV8Object(isolate, lynx_new Loader(this));
-    auto console_object = V8Helper::ConvertToV8Object(isolate, lynx_new Console(this));
-    auto screen_object = V8Helper::ConvertToV8Object(isolate, lynx_new Screen(this));
-    auto navigator_object = V8Helper::ConvertToV8Object(isolate, lynx_new Navigator(this));
-    auto document_object = V8Helper::ConvertToV8Object(isolate, lynx_new Document(this));
-    Element* body_element = lynx_new Element(this, runtime->render_tree_host()->render_root());
-    auto body_object = V8Helper::ConvertToV8Object(isolate, body_element);
-
-    global_object->Set(context, V8Helper::ConvertToV8String(isolate, "console"),
-                       console_object).FromJust();
-    global_object->Set(context, V8Helper::ConvertToV8String(isolate, "document"),
-                       document_object).FromJust();
     global_object->Set(context, V8Helper::ConvertToV8String(isolate, "global"),
                        global_object).FromJust();
     global_object->Set(context, V8Helper::ConvertToV8String(isolate, "window"),
                        global_object).FromJust();
-    global_object->Set(context, V8Helper::ConvertToV8String(isolate, "navigator"),
-                       navigator_object).FromJust();
-    global_object->Set(context, V8Helper::ConvertToV8String(isolate, "screen"),
-                       screen_object).FromJust();
-    global_object->Set(context, V8Helper::ConvertToV8String(isolate, "loader"),
-                       loader_object).FromJust();
-    document_object->Set(context, V8Helper::ConvertToV8String(isolate, "body"),
-                         body_object).FromJust();
 }
 
 void V8Context::Clear() {
@@ -152,27 +122,6 @@ void V8Context::AddJavaScriptInterface(const std::string &name,
     auto v8_object = V8Helper::ConvertToV8Object(isolate, object.Release());
     auto global = context->Global();
     global->Set(context, V8Helper::ConvertToV8String(isolate, name), v8_object).FromJust();
-}
-
-void V8Context::OnLayoutFileParseFinished() {
-    // Create JSObject for element recursively
-    v8::Isolate* isolate = GetVM<v8::Isolate*>();
-    v8::Isolate::Scope isolate_scope(isolate);
-    v8::HandleScope handle_scope(isolate);
-    auto parent = runtime_->render_tree_host()->render_root();
-    std::vector<lynx::RenderObject*> stack;
-    stack.push_back(parent);
-    int index = 0;
-    while (index < stack.size()) {
-        parent = stack[index++];
-        for (int i = 0; i < parent->GetChildCount(); ++i) {
-            auto child = const_cast<lynx::RenderObject*>(parent->Get(i));
-            stack.push_back(child);
-            if (child->GetJSRef() != NULL) {
-                V8Helper::ConvertToV8Object(isolate, child->GetJSRef());
-            }
-        }
-    }
 }
 
 std::string V8Context::GetErrorMessage(const v8::Local <v8::Message> &message, const v8::Local <v8::Value> &error) {

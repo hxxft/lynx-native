@@ -19,7 +19,6 @@ class V8Context : public JSContext {
     virtual void LoadUrl(const std::string& url);
     virtual void AddJavaScriptInterface(const std::string &name,
                                         base::ScopedPtr<LynxObjectPlatform> object);
-    virtual void OnLayoutFileParseFinished();
 
     v8::Local<v8::Context> GetContext() {
         v8::Isolate* isolate = GetVM<v8::Isolate*>();

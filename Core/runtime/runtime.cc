@@ -87,9 +87,6 @@ namespace jscore {
             base::Bind(&lynx::RenderTreeHost::TreeSync, render_tree_host_)); 
         render_tree_host()->ForceFlushCommands();
         render_tree_host()->host_impl()->SetParseFinished();
-        // Document parse finished
-        thread_manager_->RunOnJSThread(
-                base::Bind(&JSContext::OnLayoutFileParseFinished, base::ScopedRefPtr<JSContext>(context_)));
     }
 
     void Runtime::LoadScript(const std::string& source) {

@@ -42,7 +42,9 @@ namespace jscore {
         for (auto it = methods_.begin(); it != methods_.end(); ++it) {
             object_wrap_->RegisterMethodCallback(it->first, it->second);
         }
+        OnJSObjectAttached();
     }
+
     void LynxObject::ProtectJSObject() {
         if (object_wrap_ != NULL) {
             object_wrap_->Protect();

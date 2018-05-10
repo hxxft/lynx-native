@@ -47,6 +47,7 @@ namespace jscore {
 
         void ProtectJSObject();
         void UnprotectJSObject();
+        virtual void OnJSObjectAttached() {}
 
     protected:
         JSContext* context_;

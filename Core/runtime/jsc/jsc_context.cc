@@ -1,13 +1,8 @@
-	// Copyright 2017 The Lynx Authors. All rights reserved.
+// Copyright 2017 The Lynx Authors. All rights reserved.
 
 #include "runtime/jsc/jsc_context.h"
 
 #include "runtime/runtime.h"
-#include "runtime/navigator.h"
-#include "runtime/loader.h"
-#include "runtime/screen.h"
-#include "runtime/document.h"
-#include "runtime/console.h"
 #include "runtime/global.h"
 #include "runtime/base/lynx_value.h"
 #include "runtime/base/lynx_map.h"
@@ -44,33 +39,10 @@ namespace jscore {
         JSObjectRef global_object = JSContextGetGlobalObject(context_);
         JSCObjectWrap::Wrap(this, global_, global_object);
 
-        JSObjectRef loader_object = JSCHelper::ConvertToJSObject(context_, lynx_new Loader(this));
-        JSObjectRef console_object = JSCHelper::ConvertToJSObject(context_, lynx_new Console(this));
-        JSObjectRef screen_object = JSCHelper::ConvertToJSObject(context_, lynx_new Screen(this));
-        JSObjectRef navigator_object = JSCHelper::ConvertToJSObject(context_, lynx_new Navigator(this));
-        JSObjectRef document_object = JSCHelper::ConvertToJSObject(context_, lynx_new Document(this));
-        Element* body_element = lynx_new Element(this, runtime_->render_tree_host()->render_root());
-        JSObjectRef body_object = JSCHelper::ConvertToJSObject(context_, body_element);
-
-        JSCHelper::SetValueProperty(context_, global_object, "console", console_object,
-                                    kJSPropertyAttributeNone, 0);
-        JSCHelper::SetValueProperty(context_, global_object, "navigator", navigator_object,
-                                    kJSPropertyAttributeNone, 0);
-        JSCHelper::SetValueProperty(context_, global_object, "screen", screen_object,
-                                    kJSPropertyAttributeNone, 0);
         JSCHelper::SetValueProperty(context_, global_object, "window", global_object,
-                                    kJSPropertyAttributeNone, 0);
-        JSCHelper::SetValueProperty(context_, global_object, "loader", loader_object,
-                                    kJSPropertyAttributeNone, 0);
-        JSCHelper::SetValueProperty(context_, global_object, "document", document_object,
-                                    kJSPropertyAttributeNone, 0);
-        JSCHelper::SetValueProperty(context_, document_object, "body", body_object,
                                     kJSPropertyAttributeNone, 0);
         JSCHelper::SetValueProperty(context_, global_object, "global", global_object,
                                     kJSPropertyAttributeNone, 0);
-        JSCHelper::SetValueProperty(context_, global_object, "__global", global_object,
-                                    kJSPropertyAttributeNone, 0);
-        
     }
     
     std::string JSCContext::RunScript(const char* source) {
@@ -120,21 +92,4 @@ namespace jscore {
                                     NULL);
     }
 
-    void JSCContext::OnLayoutFileParseFinished() {
-        // Create JSObject for element recursively
-        auto parent = runtime_->render_tree_host()->render_root();
-        std::vector<lynx::RenderObject*> stack;
-        stack.push_back(parent);
-        int index = 0;
-        while (index < stack.size()) {
-            parent = stack[index++];
-            for (int i = 0; i < parent->GetChildCount(); ++i) {
-                auto child = const_cast<lynx::RenderObject*>(parent->Get(i));
-                stack.push_back(child);
-                if (child->GetJSRef() != NULL) {
-                    JSCHelper::ConvertToJSObject(context_, child->GetJSRef());
-                }
-            }
-        }
-    }
 }

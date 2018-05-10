@@ -71,6 +71,12 @@ class V8ObjectWrap : public ObjectWrap {
         assert(persistent().IsEmpty());
         assert(handle->InternalFieldCount() > 0);
         handle->SetAlignedPointerInInternalField(0, this);
+        // Special case: prototype of global also has internal field count as InstanceTemplate set
+        // and it may be used as this in get or set callback so a c++ point should be set to
+        // prevent crash.
+        if (handle->GetPrototype()->ToObject()->InternalFieldCount() > 0) {
+            handle->GetPrototype()->ToObject()->SetAlignedPointerInInternalField(0, this);
+        }
         persistent().Reset(isolate, handle);
         MakeWeak();
     }
