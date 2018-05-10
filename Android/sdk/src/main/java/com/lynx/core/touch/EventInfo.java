@@ -9,6 +9,7 @@ public class EventInfo<T extends EventTarget> {
     private int mPointerId;
     private String mType;
     private T mTarget;
+    private T mCurrentTarget;
 
     private MotionEvent mAndroidEvent;
 
@@ -62,5 +63,13 @@ public class EventInfo<T extends EventTarget> {
 
     public T getTarget() {
         return mTarget;
+    }
+
+    public void setCurTarget(T target) {
+        mCurrentTarget = target;
+    }
+
+    public T getCurTarget() {
+        return mCurrentTarget;
     }
 }

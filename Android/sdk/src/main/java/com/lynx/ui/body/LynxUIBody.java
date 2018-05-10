@@ -4,7 +4,7 @@ package com.lynx.ui.body;
 import android.content.Context;
 
 import com.lynx.base.SupposeUIThread;
-import com.lynx.core.base.LynxObject;
+import com.lynx.core.base.LynxMap;
 import com.lynx.core.tree.LynxUIAction;
 import com.lynx.ui.LynxView;
 import com.lynx.ui.coordinator.CrdResponder;
@@ -49,7 +49,7 @@ public class LynxUIBody extends LynxUIView implements TransferStation {
 
     @Override
     public void updatePropertiesInAction(String sponsorAffinity, String responderAffinity,
-                                         LynxObject object, boolean notify) {
+                                         LynxMap object, boolean notify) {
         mCrdTransferStation.updatePropertiesInAction(sponsorAffinity, responderAffinity, object, notify);
     }
 

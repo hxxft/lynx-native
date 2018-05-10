@@ -1,15 +1,13 @@
-//
-// Created by chicheng on 2017/9/26.
-//
+// Copyright 2017 The Lynx Authors. All rights reserved.
 
 #ifndef LYNX_RUNTIME_CANVAS_2D_CONTEXT_H_
 #define LYNX_RUNTIME_CANVAS_2D_CONTEXT_H_
 
+#include "base/macros.h"
 #include "runtime/element.h"
-#include "JavaScriptCore/JavaScript.h"
 
 namespace jscore{
-    class  Canvas2DContext : public LynxObjectTemplate {
+    class  Canvas2DContext : public LynxObject {
     public:
         Canvas2DContext(JSContext* context, lynx::RenderObject* render_object);
         virtual ~Canvas2DContext();
@@ -17,202 +15,63 @@ namespace jscore{
             return render_object_;
         }
 
-        JSContext* context() {
-            return context_;
-        }
+        void SetLineWidth(base::ScopedPtr<LynxValue> value);
+        base::ScopedPtr<LynxValue> GetLineWidth();
+
+        void SetFillStyle(base::ScopedPtr<LynxValue> value);
+        base::ScopedPtr<LynxValue> GetFillStyle();
+
+        void SetStrokeStyle(base::ScopedPtr<LynxValue> value);
+        base::ScopedPtr<LynxValue> GetStrokeStyle();
+
+        void SetLineCap(base::ScopedPtr<LynxValue> value);
+        base::ScopedPtr<LynxValue> GetLineCap();
+
+        void SetTextAlign(base::ScopedPtr<LynxValue> value);
+        base::ScopedPtr<LynxValue> GetTextAlign();
+
+        void SetLineJoin(base::ScopedPtr<LynxValue> value);
+        base::ScopedPtr<LynxValue> GetLineJoin();
+
+        void SetGlobalCompositeOperation(base::ScopedPtr<LynxValue> value);
+        base::ScopedPtr<LynxValue> GetGlobalCompositeOperation();
+
+        void SetFont(base::ScopedPtr<LynxValue> value);
+        base::ScopedPtr<LynxValue> GetFont();
+
+        base::ScopedPtr<LynxValue> Transform(base::ScopedPtr<LynxArray> &array);
+        base::ScopedPtr<LynxValue> Arc(base::ScopedPtr<LynxArray> &array);
+        base::ScopedPtr<LynxValue> Save(base::ScopedPtr<LynxArray> &array);
+        base::ScopedPtr<LynxValue> Fill(base::ScopedPtr<LynxArray> &array);
+        base::ScopedPtr<LynxValue> Stroke(base::ScopedPtr<LynxArray> &array);
+        base::ScopedPtr<LynxValue> Render(base::ScopedPtr<LynxArray> &array);
+        base::ScopedPtr<LynxValue> StrokeRect(base::ScopedPtr<LynxArray> &array);
+        base::ScopedPtr<LynxValue> AppendUpdate(base::ScopedPtr<LynxArray> &array);
+        base::ScopedPtr<LynxValue> Restore(base::ScopedPtr<LynxArray> &array);
+        base::ScopedPtr<LynxValue> BeginPath(base::ScopedPtr<LynxArray> &array);
+        base::ScopedPtr<LynxValue> ClosePath(base::ScopedPtr<LynxArray> &array);
+        base::ScopedPtr<LynxValue> MoveTo(base::ScopedPtr<LynxArray> &array);
+        base::ScopedPtr<LynxValue> LineTo(base::ScopedPtr<LynxArray> &array);
+        base::ScopedPtr<LynxValue> Translate(base::ScopedPtr<LynxArray> &array);
+        base::ScopedPtr<LynxValue> Scale(base::ScopedPtr<LynxArray> &array);
+        base::ScopedPtr<LynxValue> DrawImage(base::ScopedPtr<LynxArray> &array);
+        base::ScopedPtr<LynxValue> Rotate(base::ScopedPtr<LynxArray> &array);
+        base::ScopedPtr<LynxValue> FillRect(base::ScopedPtr<LynxArray> &array);
+        base::ScopedPtr<LynxValue> ClearRect(base::ScopedPtr<LynxArray> &array);
+        base::ScopedPtr<LynxValue> FillText(base::ScopedPtr<LynxArray> &array);
+        base::ScopedPtr<LynxValue> StrokeText(base::ScopedPtr<LynxArray> &array);
+        base::ScopedPtr<LynxValue> QuadraticCurveTo(base::ScopedPtr<LynxArray> &array);
+        base::ScopedPtr<LynxValue> BezierCurveTo(base::ScopedPtr<LynxArray> &array);
+        base::ScopedPtr<LynxValue> GetImageData(base::ScopedPtr<LynxArray> &array);
+
     private:
-        static void SetLineWidthCallback(LynxObjectTemplate* object,
-                                          base::ScopedPtr<jscore::LynxValue> value);
 
-        static base::ScopedPtr<LynxValue> GetLineWidthCallback(LynxObjectTemplate* object);
-
-        static void SetFillStyleCallback(LynxObjectTemplate* object,
-                                         base::ScopedPtr<jscore::LynxValue> value);
-
-        static base::ScopedPtr<LynxValue> GetFillStyleCallback(LynxObjectTemplate* object);
-
-        static void SetStrokeStyleCallback(LynxObjectTemplate* object,
-                                         base::ScopedPtr<jscore::LynxValue> value);
-
-        static base::ScopedPtr<LynxValue> GetStrokeStyleCallback(LynxObjectTemplate* object);
-
-        static void SetLineCapCallback(LynxObjectTemplate* object,
-                                           base::ScopedPtr<jscore::LynxValue> value);
-        static base::ScopedPtr<LynxValue> GetLineCapCallback(LynxObjectTemplate* object);
-
-        static void SetTextAlignCallback(LynxObjectTemplate* object,
-                                       base::ScopedPtr<jscore::LynxValue> value);
-        static base::ScopedPtr<LynxValue> GetTextAlignCallback(LynxObjectTemplate* object);
-
-        static void SetLineJoinCallback(LynxObjectTemplate* object,
-                                         base::ScopedPtr<jscore::LynxValue> value);
-        static base::ScopedPtr<LynxValue> GetLineJoinCallback(LynxObjectTemplate* object);
-
-        static void SetGlobalCompositeOperationCallback(LynxObjectTemplate* object,
-                                         base::ScopedPtr<jscore::LynxValue> value);
-        static base::ScopedPtr<LynxValue> GetGlobalCompositeOperationCallback(LynxObjectTemplate* object);
-
-        static void SetFontCallback(LynxObjectTemplate* object,
-                                                        base::ScopedPtr<jscore::LynxValue> value);
-        static base::ScopedPtr<LynxValue> GetFontCallback(LynxObjectTemplate* object);
-
-        static double ConvertToNum(jscore::LynxValue* value);
+        double ConvertToNum(LynxValue* value);
         static std::string ConvertToString(double value);
 
-        static JSValueRef RawTransformCallback(JSContextRef ctx,
-                                                           JSObjectRef function,
-                                                           JSObjectRef thisObject,
-                                                           size_t argumentCount,
-                                                           const JSValueRef arguments[],
-                                                           JSValueRef* exception);
-        static JSValueRef RawSaveCallback(JSContextRef ctx,
-                                               JSObjectRef function,
-                                               JSObjectRef thisObject,
-                                               size_t argumentCount,
-                                               const JSValueRef arguments[],
-                                               JSValueRef* exception);
-        static JSValueRef RawRestoreCallback(JSContextRef ctx,
-                                               JSObjectRef function,
-                                               JSObjectRef thisObject,
-                                               size_t argumentCount,
-                                               const JSValueRef arguments[],
-                                               JSValueRef* exception);
-        static JSValueRef RawTranslateCallback(JSContextRef ctx,
-                                               JSObjectRef function,
-                                               JSObjectRef thisObject,
-                                               size_t argumentCount,
-                                               const JSValueRef arguments[],
-                                               JSValueRef* exception);
-        static JSValueRef RawScaleCallback(JSContextRef ctx,
-                                               JSObjectRef function,
-                                               JSObjectRef thisObject,
-                                               size_t argumentCount,
-                                               const JSValueRef arguments[],
-                                               JSValueRef* exception);
-        static JSValueRef RawDrawImageCallback(JSContextRef ctx,
-                                           JSObjectRef function,
-                                           JSObjectRef thisObject,
-                                           size_t argumentCount,
-                                           const JSValueRef arguments[],
-                                           JSValueRef* exception);
-        static JSValueRef RawRotateCallback(JSContextRef ctx,
-                                               JSObjectRef function,
-                                               JSObjectRef thisObject,
-                                               size_t argumentCount,
-                                               const JSValueRef arguments[],
-                                               JSValueRef* exception);
-        static JSValueRef RawFillRectCallback(JSContextRef ctx,
-                                            JSObjectRef function,
-                                            JSObjectRef thisObject,
-                                            size_t argumentCount,
-                                            const JSValueRef arguments[],
-                                            JSValueRef* exception);
-        static JSValueRef RawStrokeRectCallback(JSContextRef ctx,
-                                            JSObjectRef function,
-                                            JSObjectRef thisObject,
-                                            size_t argumentCount,
-                                            const JSValueRef arguments[],
-                                            JSValueRef* exception);
-        static JSValueRef RawClearRectCallback(JSContextRef ctx,
-                                            JSObjectRef function,
-                                            JSObjectRef thisObject,
-                                            size_t argumentCount,
-                                            const JSValueRef arguments[],
-                                            JSValueRef* exception);
-        static JSValueRef RawFillCallback(JSContextRef ctx,
-                                            JSObjectRef function,
-                                            JSObjectRef thisObject,
-                                            size_t argumentCount,
-                                            const JSValueRef arguments[],
-                                            JSValueRef* exception);
-        static JSValueRef RawStrokeCallback(JSContextRef ctx,
-                                            JSObjectRef function,
-                                            JSObjectRef thisObject,
-                                            size_t argumentCount,
-                                            const JSValueRef arguments[],
-                                            JSValueRef* exception);
-        static JSValueRef RawRenderCallback(JSContextRef ctx,
-                                            JSObjectRef function,
-                                            JSObjectRef thisObject,
-                                            size_t argumentCount,
-                                            const JSValueRef arguments[],
-                                            JSValueRef* exception);
-        static JSValueRef RawUpdateCallback(JSContextRef ctx,
-                                            JSObjectRef function,
-                                            JSObjectRef thisObject,
-                                            size_t argumentCount,
-                                            const JSValueRef arguments[],
-                                            JSValueRef* exception);
-        static JSValueRef RawBeginPathCallback(JSContextRef ctx,
-                                            JSObjectRef function,
-                                            JSObjectRef thisObject,
-                                            size_t argumentCount,
-                                            const JSValueRef arguments[],
-                                            JSValueRef* exception);
-        static JSValueRef RawClosePathCallback(JSContextRef ctx,
-                                            JSObjectRef function,
-                                            JSObjectRef thisObject,
-                                            size_t argumentCount,
-                                            const JSValueRef arguments[],
-                                            JSValueRef* exception);
-        static JSValueRef RawMoveToCallback(JSContextRef ctx,
-                                               JSObjectRef function,
-                                               JSObjectRef thisObject,
-                                               size_t argumentCount,
-                                               const JSValueRef arguments[],
-                                               JSValueRef* exception);
-        static JSValueRef RawLineToCallback(JSContextRef ctx,
-                                               JSObjectRef function,
-                                               JSObjectRef thisObject,
-                                               size_t argumentCount,
-                                               const JSValueRef arguments[],
-                                               JSValueRef* exception);
-        static JSValueRef RawArcCallback(JSContextRef ctx,
-                                            JSObjectRef function,
-                                            JSObjectRef thisObject,
-                                            size_t argumentCount,
-                                            const JSValueRef arguments[],
-                                            JSValueRef* exception);
-        static JSValueRef RawFillTextCallback(JSContextRef ctx,
-                                         JSObjectRef function,
-                                         JSObjectRef thisObject,
-                                         size_t argumentCount,
-                                         const JSValueRef arguments[],
-                                         JSValueRef* exception);
-        static JSValueRef RawStrokeTextCallback(JSContextRef ctx,
-                                              JSObjectRef function,
-                                              JSObjectRef thisObject,
-                                              size_t argumentCount,
-                                              const JSValueRef arguments[],
-                                              JSValueRef* exception);
-        static JSValueRef RawQuadraticCurveToCallback(JSContextRef ctx,
-                                                JSObjectRef function,
-                                                JSObjectRef thisObject,
-                                                size_t argumentCount,
-                                                const JSValueRef arguments[],
-                                                JSValueRef* exception);
-        static JSValueRef RawBezierCurveToCallback(JSContextRef ctx,
-                                                      JSObjectRef function,
-                                                      JSObjectRef thisObject,
-                                                      size_t argumentCount,
-                                                      const JSValueRef arguments[],
-                                                      JSValueRef* exception);
-
-        static JSValueRef RawGetImageDataCallback(JSContextRef ctx,
-                                                   JSObjectRef function,
-                                                   JSObjectRef thisObject,
-                                                   size_t argumentCount,
-                                                   const JSValueRef arguments[],
-                                                   JSValueRef* exception);
-
-
-
-
         lynx::RenderObject *render_object_;
-        JSContext* context_;
 
         DISALLOW_COPY_AND_ASSIGN(Canvas2DContext);
-
 
     };
 }

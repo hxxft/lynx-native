@@ -1,7 +1,7 @@
 // Copyright 2017 The Lynx Authors. All rights reserved.
 package com.lynx.core.base;
 
-public class LynxEvent extends LynxObject implements Coalescence {
+public class LynxEvent extends LynxMap implements Coalescence {
 
     protected static final String TYPE = "type";
     protected String mType;
@@ -9,12 +9,12 @@ public class LynxEvent extends LynxObject implements Coalescence {
 
     public LynxEvent(String type) {
         mType = type;
-        setProperty(TYPE, type);
+        set(TYPE, type);
     }
 
     public void setTarget(LynxHolder target) {
         mTarget = target;
-        setProperty("target", target);
+        set("target", target);
     }
 
     public boolean canCoalesce() {

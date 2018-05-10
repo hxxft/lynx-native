@@ -1,4 +1,4 @@
-com/lynx/core/base/LynxFunctionObject.java
+com/lynx/core/base/LynxObject.java
 com/lynx/base/SystemMessageHandler.java
 com/lynx/core/LynxRuntime.java
 com/lynx/core/ResultCallback.java

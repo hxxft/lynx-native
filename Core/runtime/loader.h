@@ -4,13 +4,11 @@
 #define LYNX_RUNTIME_LOADER_H_
 
 #include <string>
-#include "base/weak_ptr.h"
 #include "net/url_request_delegate.h"
-#include "runtime/base/lynx_object_template.h"
+#include "runtime/base/lynx_object.h"
 
 namespace jscore {
 
-    class JSContext;
     class LynxFunction;
 
     class LoaderRequestDelegate : public net::URLRequestDelegate {
@@ -37,24 +35,15 @@ namespace jscore {
         base::ScopedPtr<LynxFunction> js_error_function_;
     };
     
-    class Loader : public LynxObjectTemplate {
+    class Loader : public LynxObject {
     public:
         Loader(JSContext* context);
         ~Loader();
         void Script(const std::string& url, LynxFunction* succ_func, LynxFunction* error_func);
 
-        inline JSContext* context() {
-            return context_;
-        }
-    private:
+        base::ScopedPtr<LynxValue> Trace(base::ScopedPtr<LynxArray>& array);
+        base::ScopedPtr<LynxValue> Script(base::ScopedPtr<LynxArray>& array);
 
-        static base::ScopedPtr<LynxValue>
-        TraceCallback(LynxObjectTemplate* object, base::ScopedPtr<LynxArray>& array);
-
-        static base::ScopedPtr<LynxValue>
-        ScriptCallback(LynxObjectTemplate* object, base::ScopedPtr<LynxArray>& array);
-
-        JSContext* context_;
     };
 }
 

@@ -6,7 +6,7 @@
 #include "base/string/platform_string_impl.h"
 #include "net/url_request_context.h"
 #include "net/url_request_ghost_delegate.h"
-#include "runtime/js_context.h"
+#include "runtime/js/js_context.h"
 
 // This method will be called on UI thread
 void OnSuccess(JNIEnv* env,

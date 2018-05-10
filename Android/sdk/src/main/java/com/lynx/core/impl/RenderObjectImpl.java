@@ -8,7 +8,7 @@ import com.lynx.base.Style;
 import com.lynx.base.SupposeJSThread;
 import com.lynx.core.base.LynxArray;
 import com.lynx.core.base.LynxHolder;
-import com.lynx.core.base.LynxObject;
+import com.lynx.core.base.LynxMap;
 import com.lynx.ui.LynxUI;
 import com.lynx.ui.LynxUIFactory;
 import com.lynx.ui.anim.AnimInfoParser;
@@ -265,7 +265,7 @@ public class RenderObjectImpl extends LynxHolder {
     }
 
     @CalledByNative
-    public void animate(LynxArray keyframes, LynxObject options) {
+    public void animate(LynxArray keyframes, LynxMap options) {
         if (mLynxUI != null) {
             mLynxUI.animate(AnimInfoParser.parseKeyFrames(keyframes),
                     AnimInfoParser.parseOption(options));

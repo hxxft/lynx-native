@@ -5,20 +5,11 @@
 
 #include <JavaScriptCore/JavaScript.h>
 #include <string>
-#include "runtime/base/lynx_array.h"
 #include "runtime/base/lynx_value.h"
-#include "runtime/base/lynx_object.h"
-#include "runtime/base/lynx_object_template.h"
-#include "runtime/base/lynx_holder.h"
-#include "config/global_config_data.h"
-
-#define PixelToSP(value) (value / \
-config::GlobalConfigData::GetInstance()->screen_density())
-
-#define SPToPixel(value) (value * \
-config::GlobalConfigData::GetInstance()->screen_density())
 
 namespace jscore {
+    class LynxObject;
+
     class JSCHelper {
         public:
         static bool ConvertToBool(JSContextRef ctx, JSValueRef value) {
@@ -26,25 +17,21 @@ namespace jscore {
         }
         static std::string ConvertToString(JSContextRef ctx, JSValueRef value);
         static std::string ConvertToString(JSContextRef ctx, JSStringRef value);
-        static std::string ConvertToString(LynxValue* value);
         static base::ScopedPtr<LynxValue> ConvertToLynxValue(JSContextRef ctx, JSValueRef value);
         static base::ScopedPtr<LynxArray> ConvertToLynxArray(JSContextRef ctx, JSObjectRef value);
         static base::ScopedPtr<LynxArray> ConvertToLynxArray(JSContextRef ctx, JSValueRef *value, size_t length);
-        static base::ScopedPtr<LynxObject> ConvertToLynxObject(JSContextRef ctx, JSObjectRef value);
-        static LynxObjectTemplate* ConvertToLynxObjectTemplate(JSContextRef ctx, JSObjectRef value);
+        static base::ScopedPtr<LynxMap> ConvertToLynxMap(JSContextRef ctx, JSObjectRef value);
+        static LynxObject* ConvertToLynxObject(JSContextRef ctx, JSObjectRef value);
         static base::ScopedPtr<LynxValue> ConvertToLynxFunction(JSContextRef ctx, JSObjectRef value);
 
         static JSValueRef ConvertToJSString(JSContextRef ctx, const std::string &s);
         static JSValueRef ConvertToJSString(JSContextRef ctx, const char* s);
 
-        static JSValueRef* ConvertToJSValueRefArray(JSContextRef ctx, jscore::LynxArray* args);
-        static JSObjectRef ConvertToJSArray(JSContextRef ctx, jscore::LynxArray* args);
-        static JSValueRef ConvertToJSValue(JSContextRef ctx, jscore::LynxValue* value);
-        static JSObjectRef ConvertToJSObject(JSContextRef ctx, jscore::LynxObject* object);
-        static JSObjectRef ConvertToJSObject(JSContextRef ctx, jscore::LynxObjectTemplate *object);
-        static JSObjectRef ConvertToJSFunctionObject(JSContextRef ctx, jscore::LynxFunctionObject* object);
-        static JSObjectRef ConvertToObjectWrap(JSContextRef ctx, ObjectWrap* object);
-        static JSValueRef ConvertToJSObject(JSContextRef ctx, jscore::LynxHolder* holder);
+        static JSValueRef* ConvertToJSValueRefArray(JSContextRef ctx, LynxArray* args);
+        static JSObjectRef ConvertToJSArray(JSContextRef ctx, LynxArray* args);
+        static JSValueRef ConvertToJSValue(JSContextRef ctx, LynxValue* value);
+        static JSObjectRef ConvertToJSObject(JSContextRef ctx, LynxMap* object);
+        static JSObjectRef ConvertToJSObject(JSContextRef ctx, LynxObject *object);
 
         static void SetFunctionProperty(JSContextRef context,
                                         JSObjectRef object,

@@ -1,9 +1,9 @@
 // Copyright 2017 The Lynx Authors. All rights reserved.
 
 #include "runtime/timed_task.h"
-#include "runtime/js_context.h"
+#include "runtime/global.h"
+#include "runtime/js/js_context.h"
 #include "base/debug/memory_debug.h"
-
 
 namespace jscore {
     
@@ -21,7 +21,7 @@ namespace jscore {
     
     void TimedTask::Run() {
         if (js_function_.Get() != NULL) {
-            js_function_->Run(reinterpret_cast<void*>(TargetState::Global), NULL);
+            js_function_->Run(js_function_->context()->global(), NULL);
         }
     }
 }

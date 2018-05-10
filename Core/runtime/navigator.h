@@ -4,11 +4,10 @@
 #define LYNX_RUNTIME_NAVIGATOR_H_
 
 #include "runtime/config.h"
-#include "runtime/base/lynx_object_template.h"
-#include "runtime/js_context.h"
+#include "runtime/base/lynx_object.h"
 
 namespace jscore {
-    class Navigator : public LynxObjectTemplate {
+    class Navigator : public LynxObject {
     public:
         Navigator(JSContext* context);
         virtual ~Navigator();
@@ -31,15 +30,12 @@ namespace jscore {
             return APP_NAME;
         }
 
-    private:
+        base::ScopedPtr<LynxValue> GetUserAgent();
+        base::ScopedPtr<LynxValue> GetAppCodeName();
+        base::ScopedPtr<LynxValue> GetAppName();
+        base::ScopedPtr<LynxValue> GetPlatform();
+        base::ScopedPtr<LynxValue> GetAppVersion();
 
-        static base::ScopedPtr<LynxValue> GetUserAgentCallback(LynxObjectTemplate* object);
-        static base::ScopedPtr<LynxValue> GetAppCodeNameCallback(LynxObjectTemplate* object);
-        static base::ScopedPtr<LynxValue> GetAppNameCallback(LynxObjectTemplate* object);
-        static base::ScopedPtr<LynxValue> GetPlatformCallback(LynxObjectTemplate* object);
-        static base::ScopedPtr<LynxValue> GetAppVersionCallback(LynxObjectTemplate* object);
-
-        JSContext* context_;
     };
 }
 #endif // LYNX_RUNTIME_NAVIGATOR_H_

@@ -21,12 +21,14 @@ public class LynxRuntimeManager {
     private static LynxRuntime mIdleRuntime = null;
 
     public static void prepare(Context context, List<? extends LynxModule> modules) {
-        prepare(context, LynxRuntime.DEFAULT_ZOOM_REF);
-        ModuleManager.registerExtModule(modules);
-        ModuleManager.createUIComponent();
+        prepare(context, LynxRuntime.DEFAULT_ZOOM_REF, modules);
     }
 
     public static void prepare(Context context, int zoomRatioPx) {
+        prepare(context, zoomRatioPx, null);
+    }
+    public static void prepare(Context context, int zoomRatioPx,
+                               List<? extends LynxModule> modules) {
         ScreenUtil.init(context);
         PixelUtil.init(zoomRatioPx);
         Style.init(ScreenUtil.getScreenDensity());
@@ -35,6 +37,8 @@ public class LynxRuntimeManager {
         ResourceManager.init(context);
         LynxRuntime.prepare(zoomRatioPx);
         initialize();
+        ModuleManager.registerExtModule(modules);
+        ModuleManager.createUIComponent();
     }
 
     private static synchronized void initialize() {

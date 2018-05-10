@@ -29,7 +29,7 @@ public class CrdActionExecutor {
         if (!TextUtils.isEmpty(result.getEvent())) {
             String eventName = result.getEvent().toLowerCase();
             LynxEvent event = new LynxEvent(eventName);
-            event.setProperty("detail", result.getParamsForEvent());
+            event.set("detail", result.getParamsForEvent());
             mUI.postEvent(eventName, event);
         }
     }

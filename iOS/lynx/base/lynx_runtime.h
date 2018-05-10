@@ -7,7 +7,7 @@
 #import <UIKit/UIKit.h>
 
 #include "base/render_tree_host_impl_bridge.h"
-#include "base/lynx_function_object.h"
+#include "base/lynx_object.h"
 
 #include "runtime/runtime.h"
 
@@ -34,7 +34,7 @@
 
 - (NSString *) runScript:(NSString *)script;
 
-- (void) addJavaScriptInterface:(LxFunctionObject *) object withName:(NSString *) name ;
+- (void) addJavaScriptInterface:(LxObject *) object withName:(NSString *) name ;
 
 - (void) destroy;
 @end

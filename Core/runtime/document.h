@@ -3,13 +3,13 @@
 #ifndef ANDROID_DOCUMENT_H
 #define ANDROID_DOCUMENT_H
 
-#include "runtime/base/lynx_object_template.h"
+#include "runtime/base/lynx_object.h"
 
 namespace jscore {
     class JSContext;
     class Element;
 
-    class Document : public LynxObjectTemplate {
+    class Document : public LynxObject {
     public:
         Document(JSContext* context);
         virtual ~Document();
@@ -19,47 +19,30 @@ namespace jscore {
         Element* GetElementById(std::string& id);
         Element* QuerySelector(std::string &element);
 
+        base::ScopedPtr<LynxValue> CreateElement(base::ScopedPtr<LynxArray>& array);
+        base::ScopedPtr<LynxValue> CreateDom(base::ScopedPtr<LynxArray>& array);
+        base::ScopedPtr<LynxValue> CreateTextNode(base::ScopedPtr<LynxArray>& array);
+        base::ScopedPtr<LynxValue> AddEventListener(base::ScopedPtr<LynxArray>& array);
+        base::ScopedPtr<LynxValue> RemoveEventListener(base::ScopedPtr<LynxArray>& array);
+        base::ScopedPtr<LynxValue> DispatchEvent(base::ScopedPtr<LynxArray>& array);
+        base::ScopedPtr<LynxValue> CreateEvent(base::ScopedPtr<LynxArray>& array);
+        base::ScopedPtr<LynxValue> GetElementById(base::ScopedPtr<LynxArray>& array);
+        base::ScopedPtr<LynxValue> QuerySelector(base::ScopedPtr<LynxArray>& array);
+
+        base::ScopedPtr<LynxValue> GetDomain();
+        base::ScopedPtr<LynxValue> GetCookie();
+        base::ScopedPtr<LynxValue> GetReadyState();
+        base::ScopedPtr<LynxValue> GetBody();
+
+        void SetDomain(base::ScopedPtr<jscore::LynxValue> value);
+        void SetCookie(base::ScopedPtr<jscore::LynxValue> value);
+        void SetReadyState(base::ScopedPtr<jscore::LynxValue> value);
+        void SetOnTouchStart(base::ScopedPtr<jscore::LynxValue> value);
+        void SetOnTouchEnd(base::ScopedPtr<jscore::LynxValue> value);
+        void SetOnTouchMove(base::ScopedPtr<jscore::LynxValue> value);
+
     private:
-
-        JSContext* context_;
-
-        static base::ScopedPtr<LynxValue>
-        CreateElementCallback(LynxObjectTemplate* object, base::ScopedPtr<LynxArray>& array);
-        static base::ScopedPtr<LynxValue>
-        CreateDomCallback(LynxObjectTemplate* object, base::ScopedPtr<LynxArray>& array);
-        static base::ScopedPtr<LynxValue>
-        CreateTextNodeCallback(LynxObjectTemplate* object, base::ScopedPtr<LynxArray>& array);
-        static base::ScopedPtr<LynxValue>
-        AddEventListenerCallback(LynxObjectTemplate* object, base::ScopedPtr<LynxArray>& array);
-        static base::ScopedPtr<LynxValue>
-        RemoveEventListenerCallback(LynxObjectTemplate* object, base::ScopedPtr<LynxArray>& array);
-        static base::ScopedPtr<LynxValue>
-        DispatchEventCallback(LynxObjectTemplate* object, base::ScopedPtr<LynxArray>& array);
-        static base::ScopedPtr<LynxValue>
-        CreateEventCallback(LynxObjectTemplate* object, base::ScopedPtr<LynxArray>& array);
-        static base::ScopedPtr<LynxValue>
-        GetElementByIdCallback(LynxObjectTemplate* object, base::ScopedPtr<LynxArray>& array);
-        static base::ScopedPtr<LynxValue>
-        QuerySelectorCallback(LynxObjectTemplate* object, base::ScopedPtr<LynxArray>& array);
-
-        static base::ScopedPtr<LynxValue> GetDomainCallback(LynxObjectTemplate* object);
-        static base::ScopedPtr<LynxValue> GetCookieCallback(LynxObjectTemplate* object);
-        static base::ScopedPtr<LynxValue> GetReadyStateCallback(LynxObjectTemplate* object);
-
-
-        static void SetDomainCallback(LynxObjectTemplate* object,
-                                    base::ScopedPtr<jscore::LynxValue> value);
-        static void SetCookieCallback(LynxObjectTemplate* object,
-                                    base::ScopedPtr<jscore::LynxValue> value);
-        static void SetReadyStateCallback(LynxObjectTemplate* object,
-                                        base::ScopedPtr<jscore::LynxValue> value);
-        static void SetOnTouchStartCallback(LynxObjectTemplate* object,
-                                        base::ScopedPtr<jscore::LynxValue> value);
-        static void SetOnTouchEndCallback(LynxObjectTemplate* object,
-                                        base::ScopedPtr<jscore::LynxValue> value);
-        static void SetOnTouchMoveCallback(LynxObjectTemplate* object,
-                                        base::ScopedPtr<jscore::LynxValue> value);
-
+        Element* body_;
     };
 }
 

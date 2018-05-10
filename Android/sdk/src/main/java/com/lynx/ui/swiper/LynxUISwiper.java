@@ -134,7 +134,7 @@ public class LynxUISwiper<T extends AndroidSwiper> extends LynxUIGroup<T> {
             if (mRenderObjectImpl != null && mView.mAdapter.getActualChildCount() != 0) {
                 int i = position % mView.mAdapter.getActualChildCount();
                 LynxEvent event = new LynxEvent(EVENT_PAGE_CHANGE);
-                event.setProperty("index", i);
+                event.set("index", i);
                 postEvent(EVENT_PAGE_CHANGE, event);
             }
         }

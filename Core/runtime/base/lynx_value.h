@@ -3,17 +3,16 @@
 #ifndef LYNX_RUNTIME_LYNX_VALUE_H_
 #define LYNX_RUNTIME_LYNX_VALUE_H_
 
-#include "base/scoped_ptr.h"
 #include <string>
+#include "base/scoped_ptr.h"
 
 namespace jscore {
 
     class LynxArray;
+    class LynxMap;
     class LynxObject;
-    class LynxObjectTemplate;
     class ObjectWrap;
     class PlatformValue;
-    class LynxFunctionObject;
     class LynxFunction;
     class LynxHolder;
 
@@ -26,14 +25,14 @@ namespace jscore {
             VALUE_FLOAT,
             VALUE_DOUBLE,
             VALUE_STRING,
-            VALUE_LYNX_OBJECT,
+            VALUE_LYNX_MAP,
             VALUE_LYNX_ARRAY,
-            VALUE_LYNX_FUNCTION_OBJECT,
-            VALUE_LYNX_OBJECT_TEMPLATE,
+            VALUE_LYNX_OBJECT,
             VALUE_LYNX_FUNCTION,
             VALUE_LYNX_HOLDER,
             VALUE_PLATFORM,
             VALUE_NULL,
+            VALUE_UNDEFINED
         };
 
         Type type_;
@@ -45,9 +44,8 @@ namespace jscore {
             double d;
             const char* str;
             LynxArray* lynx_array;
+            LynxMap* lynx_map;
             LynxObject* lynx_object;
-            LynxFunctionObject* lynx_function_object;
-            LynxObjectTemplate* lynx_object_template;
             LynxFunction* lynx_function;
             PlatformValue* platform_value;
             LynxHolder* lynx_holder;
@@ -112,17 +110,10 @@ namespace jscore {
             return lynx_value;
         }
 
-        inline static base::ScopedPtr<LynxValue> MakeFunctionObject(LynxFunctionObject* object) {
+        inline static base::ScopedPtr<LynxValue> MakeObject(LynxObject *object) {
             base::ScopedPtr<LynxValue> lynx_object(
-                    lynx_new LynxValue(LynxValue::Type::VALUE_LYNX_FUNCTION_OBJECT));
-            lynx_object->data_.lynx_function_object = object;
-            return lynx_object;
-        }
-
-        inline static base::ScopedPtr<LynxValue> MakeObjectTemplate(LynxObjectTemplate *object) {
-            base::ScopedPtr<LynxValue> lynx_object(
-                    lynx_new LynxValue(LynxValue::Type::VALUE_LYNX_OBJECT_TEMPLATE));
-            lynx_object->data_.lynx_object_template = object;
+                    lynx_new LynxValue(LynxValue::Type::VALUE_LYNX_OBJECT));
+            lynx_object->data_.lynx_object = object;
             return lynx_object;
         }
 
@@ -147,13 +138,26 @@ namespace jscore {
             return lynx_object;
         }
 
-        static base::ScopedPtr<LynxValue> MakeValueScoped(LynxValue* lynx_value) ;
+        static base::ScopedPtr<LynxValue> MakeNull() {
+            base::ScopedPtr<LynxValue> null(lynx_new LynxValue(LynxValue::Type::VALUE_NULL));
+            return null;
+        }
 
-        static base::ScopedPtr<LynxArray> MakeArrayScoped(LynxArray* lynx_array) ;
+        static base::ScopedPtr<LynxValue> MakeUndefined() {
+            base::ScopedPtr<LynxValue> undefined(
+                    lynx_new LynxValue(LynxValue::Type::VALUE_UNDEFINED));
+            return undefined;
+        }
 
-        static base::ScopedPtr<LynxObject> MakeObjectScoped(LynxObject* lynx_object) ;
+        static base::ScopedPtr<LynxValue> MakeValueScoped(LynxValue* lynx_value);
+
+        static base::ScopedPtr<LynxArray> MakeArrayScoped(LynxArray* lynx_array);
+
+        static base::ScopedPtr<LynxMap> MakeMapScoped(LynxMap *lynx_object);
 
         virtual ~LynxValue();
+
+        virtual std::string ToString();
 
     protected:
 

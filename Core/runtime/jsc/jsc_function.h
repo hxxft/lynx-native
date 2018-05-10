@@ -3,19 +3,20 @@
 #ifndef LYNX_RUNTIME_JSC_JSC_FUNCTION_H_
 #define LYNX_RUNTIME_JSC_JSC_FUNCTION_H_
 
-#include "runtime/base/lynx_function.h"
-#include "base/scoped_ptr.h"
 #include <JavaScriptCore/JavaScript.h>
 
+#include "runtime/base/lynx_function.h"
+#include "base/scoped_ptr.h"
+
 namespace jscore {
-    
+
     class JSCContext;
     
     class JSCFunction : public LynxFunction {
     public:
         JSCFunction(JSCContext* context, JSObjectRef function);
         virtual ~JSCFunction();
-        virtual void Run(void* target, LynxArray* args);
+        virtual void Run(LynxObject* target, LynxArray* args);
     private:
         std::string lynx_function_key_;
     };

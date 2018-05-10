@@ -17,7 +17,7 @@ import android.widget.TextView;
 
 import com.lynx.base.Style;
 import com.lynx.core.base.LynxEvent;
-import com.lynx.core.base.LynxObject;
+import com.lynx.core.base.LynxMap;
 import com.lynx.core.impl.RenderObjectImpl;
 import com.lynx.ui.LynxUI;
 
@@ -311,12 +311,12 @@ public class LynxUIInput extends LynxUI<AndroidInput> {
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
             LynxEvent event = new LynxEvent(EVENT_INPUT);
-            LynxObject detail = new LynxObject();
-            detail.setProperty("oldText", mView.getText().toString());
-            detail.setProperty("newText", s.toString());
-            detail.setProperty("start", start);
-            detail.setProperty("count", count);
-            event.setProperty("detail", detail);
+            LynxMap detail = new LynxMap();
+            detail.set("oldText", mView.getText().toString());
+            detail.set("newText", s.toString());
+            detail.set("start", start);
+            detail.set("count", count);
+            event.set("detail", detail);
             postEvent(EVENT_INPUT, event);
         }
 

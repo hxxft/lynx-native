@@ -1,10 +1,10 @@
 // Copyright 2017 The Lynx Authors. All rights reserved.
 
-#include "runtime/js_context.h"
+#include "runtime/js/js_context.h"
 #include "runtime/runtime.h"
 #include "parser/render_parser.h"
 #include "render/render_tree_host_impl.h"
-#include "runtime/base/lynx_function_object.h"
+#include "runtime/base/lynx_object_platform.h"
 #include "loader/utils.h"
 
 #include "base/trace_event/trace_event_common.h"
@@ -104,15 +104,11 @@ namespace jscore {
         loader_->Flush();
     }
 
-    void Runtime::AddJavaScriptInterface(const std::string& name, LynxFunctionObject* object) {
-        base::ScopedPtr<LynxFunctionObject> scoped_ptr(object);
+    void Runtime::AddJavaScriptInterface(const std::string& name, LynxObjectPlatform* object) {
+        base::ScopedPtr<LynxObjectPlatform> scoped_ptr(object);
         thread_manager_->RunOnJSThread(
-                base::Bind(&Runtime::AddJavaScriptInterfaceOnJSThread, base::ScopedRefPtr<Runtime>(this), name, scoped_ptr));
-    }
-
-    void Runtime::AddJavaScriptInterfaceOnJSThread(const std::string& name,
-                                                   base::ScopedPtr<LynxFunctionObject> object) {
-        context_->AddJavaScriptInterface(name, object.Release());
+                base::Bind(&JSContext::AddJavaScriptInterface,
+                           base::ScopedRefPtr<JSContext>(context_), name, scoped_ptr));
     }
 
     void Runtime::Destroy() {

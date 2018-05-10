@@ -8,7 +8,7 @@
 #include "runtime/base/lynx_value.h"
 #include "base/scoped_ptr.h"
 #include "runtime/base/lynx_array.h"
-#include "runtime/base/lynx_object.h"
+#include "runtime/base/lynx_map.h"
 
 namespace base {
     namespace ios {
@@ -18,10 +18,10 @@ namespace base {
             static NSString* ConvertToOCString(jscore::LynxValue* value);
             static id ConvertToOCValue(jscore::LynxValue* value);
             static NSArray* ConvertToOCArray(jscore::LynxArray* array);
-            static NSDictionary* ConvertToOCObject(jscore::LynxObject* object);
+            static NSDictionary* ConvertToOCMap(jscore::LynxMap* object);
             
             static base::ScopedPtr<jscore::LynxArray> ConvertToLynxArray(NSArray *array);
-            static base::ScopedPtr<jscore::LynxObject> ConvertToLynxObject(NSDictionary *dic);
+            static base::ScopedPtr<jscore::LynxMap> ConvertToLynxMap(NSDictionary *dic);
             static base::ScopedPtr<jscore::LynxValue> ConvertToLynxValue(id value);
         };
     }

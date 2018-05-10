@@ -7,7 +7,7 @@
 #import <objc/runtime.h>
 
 #include "base/oc_method.h"
-#include "base/lynx_function_object.h"
+#include "base/lynx_object.h"
 
 @interface LxOcCenter : NSObject
 

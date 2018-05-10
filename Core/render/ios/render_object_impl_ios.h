@@ -20,7 +20,7 @@ namespace lynx {
         
         void DispatchEvent(const std::string& event, NSArray *array);
         void UpdateData(int attr, id value);
-        virtual base::ScopedPtr<jscore::LynxObject> GetImagePixel(int x, int y, int w,int h);
+        virtual base::ScopedPtr<jscore::LynxMap> GetImagePixel(int x, int y, int w,int h);
         
         RenderObjectImplBridge* renderer_bridge() {
             return renderer_bridge_;
@@ -39,7 +39,7 @@ namespace lynx {
         virtual void RemoveEventListener(const std::string& event);
         virtual void SetData(int attr, base::ScopedPtr<jscore::LynxValue> value);
         virtual void Animate(base::ScopedPtr<jscore::LynxArray> &keyframes,
-                             base::ScopedPtr<jscore::LynxObject> &options);
+                             base::ScopedPtr<jscore::LynxMap> &options);
         virtual void CancelAnimation(const std::string &id);
         
         void DispatchEventOnJSThread(const std::string& event, base::ScopedPtr<jscore::LynxArray> array);

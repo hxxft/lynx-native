@@ -10,8 +10,9 @@
 #include "base/android/lynx_java_type.h"
 #include "runtime/base/lynx_value.h"
 #include "runtime/base/lynx_array.h"
-#include "runtime/base/lynx_object.h"
+#include "runtime/base/lynx_map.h"
 #include "runtime/base/lynx_holder.h"
+#include "runtime/base/lynx_object_platform.h"
 
 namespace base {
     namespace android {
@@ -38,7 +39,7 @@ namespace base {
             static base::android::ScopedLocalJavaRef<jobject> ConvertToJNIArray
                     (JNIEnv* env, jscore::LynxArray*);
             static base::android::ScopedLocalJavaRef<jobject> ConvertToJNIObject
-                    (JNIEnv* env, jscore::LynxObject*);
+                    (JNIEnv* env, jscore::LynxMap*);
 
             inline static int ConvertToInt(JNIEnv* env, jobject jobj) {
                 int value = JType::IntValue(env, jobj);
@@ -65,9 +66,9 @@ namespace base {
                 return (bool)(value == JNI_TRUE);
             }
 
-            static base::ScopedPtr<jscore::LynxObject> ConvertToLynxObject(JNIEnv *env,
-                                                           jobject value);
-            static base::ScopedPtr<jscore::LynxFunctionObject> ConvertToLynxFunctionObject(
+            static base::ScopedPtr<jscore::LynxMap> ConvertToLynxMap(JNIEnv *env,
+                                                                     jobject value);
+            static base::ScopedPtr<jscore::LynxObjectPlatform> ConvertToLynxObjectPlatform(
                     JNIEnv *env,
                     jobject value);
             static base::ScopedPtr<jscore::LynxValue> ConvertToLynxHolder(

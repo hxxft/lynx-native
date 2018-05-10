@@ -4,7 +4,7 @@ package com.lynx.ui.anim;
 import android.support.annotation.NonNull;
 
 import com.lynx.core.base.LynxArray;
-import com.lynx.core.base.LynxObject;
+import com.lynx.core.base.LynxMap;
 import com.lynx.utils.PixelUtil;
 
 import java.util.ArrayList;
@@ -16,7 +16,7 @@ public class AnimInfoParser {
         return KeyFrame.create(keyframes);
     }
 
-    public static AnimInfo.Option parseOption(LynxObject options) {
+    public static AnimInfo.Option parseOption(LynxMap options) {
         return Options.create(options);
     }
 
@@ -42,8 +42,8 @@ public class AnimInfoParser {
         public static List<AnimInfo> create(@NonNull LynxArray array) {
             List<AnimInfo> infoList = new ArrayList<>();
             for (int i = 0; i < array.length(); i++) {
-                if (array.get(i) instanceof LynxObject) {
-                    AnimInfo temp = create((LynxObject) array.get(i));
+                if (array.get(i) instanceof LynxMap) {
+                    AnimInfo temp = create((LynxMap) array.get(i));
                     infoList.add(temp);
                 } else throw new RuntimeException("Item in array should be a LynxObject!");
             }
@@ -51,57 +51,57 @@ public class AnimInfoParser {
             return infoList;
         }
 
-        public static AnimInfo create(LynxObject keyframe) {
+        public static AnimInfo create(LynxMap keyframe) {
             AnimInfo info = new AnimInfo();
 
             info.option = new AnimInfo.Option();
-            info.option.offset = Cast.toFloat(keyframe.getProperty(OFFSET), 0);
+            info.option.offset = Cast.toFloat(keyframe.get(OFFSET), 0);
 
-            info.opacity = Cast.toFloat(keyframe.getProperty(OPACITY), 1);
+            info.opacity = Cast.toFloat(keyframe.get(OPACITY), 1);
 
-            Object transformOrigin = keyframe.getProperty(TRANSFORM_ORIGIN);
+            Object transformOrigin = keyframe.get(TRANSFORM_ORIGIN);
             if (transformOrigin != null) {
                 info.pivotX = Cast.toFloat(((LynxArray) transformOrigin).get(0), 0.5F);
                 info.pivotY = Cast.toFloat(((LynxArray) transformOrigin).get(1), 0.5F);
             }
 
-            Object easing = keyframe.getProperty("easing");
+            Object easing = keyframe.get("easing");
             if (easing != null) {
                 info.option.interpolator = TimingFunction.transform(
                         Cast.toString(easing, TimingFunction.EASING_LINEAR));
             }
 
-            if (keyframe.getProperty(TRANSFORM) == null
-                    || !(keyframe.getProperty(TRANSFORM) instanceof LynxObject)) {
+            if (keyframe.get(TRANSFORM) == null
+                    || !(keyframe.get(TRANSFORM) instanceof LynxMap)) {
                 return info;
             }
-            LynxObject transform = (LynxObject) keyframe.getProperty(TRANSFORM);
+            LynxMap transform = (LynxMap) keyframe.get(TRANSFORM);
             extract(transform, info);
             return info;
         }
 
-        private static void extract(LynxObject transform, AnimInfo info) {
+        private static void extract(LynxMap transform, AnimInfo info) {
 
             info.translateX = (float) PixelUtil.dpToPx(
-                    Cast.toFloat(transform.getProperty(TRANSLATE_X), 0));
+                    Cast.toFloat(transform.get(TRANSLATE_X), 0));
             info.translateY = (float) PixelUtil.dpToPx(
-                    Cast.toFloat(transform.getProperty(TRANSLATE_Y), 0));
+                    Cast.toFloat(transform.get(TRANSLATE_Y), 0));
             info.translateZ = (float) PixelUtil.dpToPx(
-                    Cast.toFloat(transform.getProperty(TRANSLATE_Z), 0));
+                    Cast.toFloat(transform.get(TRANSLATE_Z), 0));
 
-            info.rotateX = Cast.toFloat(transform.getProperty(ROTATE_X), 0);
-            info.rotateY = Cast.toFloat(transform.getProperty(ROTATE_Y), 0);
-            info.rotateZ = Cast.toFloat(transform.getProperty(ROTATE_Z), 0);
+            info.rotateX = Cast.toFloat(transform.get(ROTATE_X), 0);
+            info.rotateY = Cast.toFloat(transform.get(ROTATE_Y), 0);
+            info.rotateZ = Cast.toFloat(transform.get(ROTATE_Z), 0);
 
-            info.scaleX = Cast.toFloat(transform.getProperty(SCALE_X), 1);
-            info.scaleY = Cast.toFloat(transform.getProperty(SCALE_Y), 1);
-            info.scaleZ = Cast.toFloat(transform.getProperty(SCALE_Z), 1);
+            info.scaleX = Cast.toFloat(transform.get(SCALE_X), 1);
+            info.scaleY = Cast.toFloat(transform.get(SCALE_Y), 1);
+            info.scaleZ = Cast.toFloat(transform.get(SCALE_Z), 1);
 
-            info.skewX = Cast.toFloat(transform.getProperty(SKEW_X), 0);
-            info.skewY = Cast.toFloat(transform.getProperty(SKEW_Y), 0);
+            info.skewX = Cast.toFloat(transform.get(SKEW_X), 0);
+            info.skewY = Cast.toFloat(transform.get(SKEW_Y), 0);
 
             info.perspective = (float) PixelUtil.dpToPx(
-                    Cast.toFloat(transform.getProperty(PERSPECTIVE), Integer.MAX_VALUE));
+                    Cast.toFloat(transform.get(PERSPECTIVE), Integer.MAX_VALUE));
         }
     }
 
@@ -116,14 +116,14 @@ public class AnimInfoParser {
         public final static String FILL_FORWARDS = "forwards";
         public final static String FILL_BOTH = "both";
 
-        public static AnimInfo.Option create(LynxObject object) {
+        public static AnimInfo.Option create(LynxMap object) {
             AnimInfo.Option option = new AnimInfo.Option();
-            option.id = Cast.toString(object.getProperty("id"), "");
-            option.duration = Cast.toInt(object.getProperty("duration"), 0);
-            option.delay = Cast.toInt(object.getProperty("delay"), 0);
-            option.endDelay = Cast.toInt(object.getProperty("endDelay"), 0);
+            option.id = Cast.toString(object.get("id"), "");
+            option.duration = Cast.toInt(object.get("duration"), 0);
+            option.delay = Cast.toInt(object.get("delay"), 0);
+            option.endDelay = Cast.toInt(object.get("endDelay"), 0);
             // direction
-            String direction = Cast.toString(object.getProperty("direction"), DIRECTION_NORMAL);
+            String direction = Cast.toString(object.get("direction"), DIRECTION_NORMAL);
             switch (direction) {
                 case DIRECTION_ALTERNATE:
                     option.repeatMode = AnimInfo.Option.REVERSE;
@@ -144,10 +144,10 @@ public class AnimInfoParser {
                 default: break;
             }
             // interpolator
-            String easing = Cast.toString(object.getProperty("easing"), TimingFunction.EASING_LINEAR);
+            String easing = Cast.toString(object.get("easing"), TimingFunction.EASING_LINEAR);
             option.interpolator = TimingFunction.transform(easing);
             // fill
-            String fill = Cast.toString(object.getProperty("fill"), "");
+            String fill = Cast.toString(object.get("fill"), "");
             switch (fill) {
                 case FILL_BACKWARDS:
                     option.fillBefore = true;
@@ -162,7 +162,7 @@ public class AnimInfoParser {
                 default: break;
             }
             // iterations
-            Object iterationsObject = object.getProperty("iterations");
+            Object iterationsObject = object.get("iterations");
             if (iterationsObject instanceof Double
                     && (Double)iterationsObject == Double.POSITIVE_INFINITY) {
                 option.iterations = AnimInfo.Option.INFINITY;

@@ -24,6 +24,8 @@ namespace jscore {
             ptrs_.release();
         }
 
+        virtual std::string ToString();
+
     private:
         void RemovePtr(LynxValue* value);
         void AddPtr(LynxValue* value);

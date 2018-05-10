@@ -39,32 +39,32 @@ jint LxJType::GetLynxArrayLength(JNIEnv* env, jobject array) {
 }
 
 // LynxObject
-ScopedLocalJavaRef<jobject> LxJType::NewLynxObject(JNIEnv* env) {
-  EnsureInstance(env, kLynxObjectType);
-  jobject result = env->NewObject(lynx_object_clazz, lynx_object_ctor);
+ScopedLocalJavaRef<jobject> LxJType::NewLynxMap(JNIEnv *env) {
+  EnsureInstance(env, kLynxMapType);
+  jobject result = env->NewObject(lynx_map_clazz, lynx_map_ctor);
   return ScopedLocalJavaRef<jobject>(env, result);
 }
 
-void LxJType::SetLynxObjectProperties(JNIEnv* env,
-                                      jobject jjsobj,
-                                      jobject array) {
-  EnsureInstance(env, kLynxObjectType);
-  env->CallVoidMethod(jjsobj, lynx_object_set_properties_method, array);
+void LxJType::SetLynxMapProperties(JNIEnv *env,
+                                   jobject jjsobj,
+                                   jobject array) {
+  EnsureInstance(env, kLynxMapType);
+  env->CallVoidMethod(jjsobj, lynx_map_set_properties_method, array);
 }
 
-void LxJType::SetLynxObjectProperty(JNIEnv* env,
-                                    jobject jjsobj,
-                                    jobject key,
-                                    jobject value) {
-  EnsureInstance(env, kLynxObjectType);
-  env->CallVoidMethod(jjsobj, lynx_object_set_property_method, key, value);
+void LxJType::SetLynxMapProperty(JNIEnv *env,
+                                 jobject jjsobj,
+                                 jobject key,
+                                 jobject value) {
+  EnsureInstance(env, kLynxMapType);
+  env->CallVoidMethod(jjsobj, lynx_map_set_method, key, value);
 }
 
-ScopedLocalJavaRef<jobject> LxJType::GetLynxObjectProperties(JNIEnv* env,
-                                                             jobject jjsobj) {
-  EnsureInstance(env, kLynxObjectType);
+ScopedLocalJavaRef<jobject> LxJType::GetLynxMapProperties(JNIEnv *env,
+                                                          jobject jjsobj) {
+  EnsureInstance(env, kLynxMapType);
   jobject result =
-      env->CallObjectMethod(jjsobj, lynx_object_get_properties_method);
+      env->CallObjectMethod(jjsobj, lynx_map_get_properties_method);
   return ScopedLocalJavaRef<jobject>(env, result);
 }
 
@@ -100,23 +100,23 @@ void LxJType::Init(JNIEnv* env, char type) {
             env->GetMethodID(lynx_array_clazz, "length", "()I");
       }
       break;
-    case kLynxObjectType:
-      if (lynx_object_clazz == nullptr) {
-        lynx_object_clazz = (jclass)env->NewGlobalRef(
-            env->FindClass("com/lynx/core/base/LynxObject"));
+    case kLynxMapType:
+      if (lynx_map_clazz == nullptr) {
+        lynx_map_clazz = (jclass)env->NewGlobalRef(
+            env->FindClass("com/lynx/core/base/LynxMap"));
 
-        lynx_object_ctor = env->GetMethodID(lynx_object_clazz, "<init>", "()V");
+        lynx_map_ctor = env->GetMethodID(lynx_map_clazz, "<init>", "()V");
 
-        lynx_object_set_properties_method =
-            env->GetMethodID(lynx_object_clazz, "setProperties",
-                             "(Lcom/lynx/core/base/LynxArray;)V");
-
-        lynx_object_set_property_method =
-            env->GetMethodID(lynx_object_clazz, "setProperty",
+        lynx_map_set_method =
+            env->GetMethodID(lynx_map_clazz, "set",
                              "(Ljava/lang/Object;Ljava/lang/Object;)V");
 
-        lynx_object_get_properties_method =
-            env->GetMethodID(lynx_object_clazz, "getProperties",
+        lynx_map_set_properties_method =
+                env->GetMethodID(lynx_map_clazz, "setProperties",
+                                 "(Lcom/lynx/core/base/LynxArray;)V");
+
+        lynx_map_get_properties_method =
+            env->GetMethodID(lynx_map_clazz, "getProperties",
                              "()Lcom/lynx/core/base/LynxArray;");
       }
       break;
@@ -143,11 +143,11 @@ jmethodID LxJType::lynx_array_get_element_type_method;
 jmethodID LxJType::lynx_array_length_method;
 
 // LynxObject
-jclass LxJType::lynx_object_clazz;
-jmethodID LxJType::lynx_object_ctor;
-jmethodID LxJType::lynx_object_set_properties_method;
-jmethodID LxJType::lynx_object_set_property_method;
-jmethodID LxJType::lynx_object_get_properties_method;
+jclass LxJType::lynx_map_clazz;
+jmethodID LxJType::lynx_map_ctor;
+jmethodID LxJType::lynx_map_set_properties_method;
+jmethodID LxJType::lynx_map_set_method;
+jmethodID LxJType::lynx_map_get_properties_method;
 
 // LynxObject
 jclass LxJType::lynx_holder_clazz;

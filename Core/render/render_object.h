@@ -24,7 +24,6 @@ namespace lynx {
 class TouchEvent;
 class RenderObjectImpl;
 class RenderTreeHost;
-class Animation;
 class RenderObject : public LayoutObject, public EventTarget {
  public:
 
@@ -101,9 +100,9 @@ class RenderObject : public LayoutObject, public EventTarget {
   virtual int GetNodeType() {return 1;}
   inline int scroll_top() { return scroll_top_; }
 
-  base::ScopedPtr<Animation> Animate(
+  std::string Animate(
       base::ScopedPtr<jscore::LynxArray>& keyframes,
-      base::ScopedPtr<jscore::LynxObject>& options);
+      base::ScopedPtr<jscore::LynxMap>& options);
   void CancelAnimation(const std::string& id);
 
   RenderObjectImpl* impl() { return impl_.Get(); }
@@ -134,6 +133,8 @@ class RenderObject : public LayoutObject, public EventTarget {
   jscore::Element* GetJSRef() { return GetTarget(); }
 
   uint64_t id() { return id_; }
+
+  base::WeakPtr<RenderObject>& weak_ptr() { return weak_ptr_; }
 
   void ReceiveCanvasRenderCmd(base::ScopedPtr<base::CanvasRenderCommand>& cmd);
 

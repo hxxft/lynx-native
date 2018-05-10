@@ -1,6 +1,6 @@
 // Copyright 2017 The Lynx Authors. All rights reserved.
 
-#include "runtime/js_vm.h"
+#include "runtime/js/js_vm.h"
 
 #include "v8.h"
 #include "libplatform/libplatform.h"

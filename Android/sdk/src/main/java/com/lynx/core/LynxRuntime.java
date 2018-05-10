@@ -4,7 +4,7 @@ package com.lynx.core;
 import android.content.Context;
 import android.view.View;
 
-import com.lynx.core.base.LynxFunctionObject;
+import com.lynx.core.base.LynxObject;
 import com.lynx.core.tree.LynxRenderTreeHostImpl;
 import com.lynx.modules.ext.ModuleManager;
 import com.lynx.utils.DeviceInfoUtil;
@@ -44,7 +44,7 @@ public class LynxRuntime {
 
     private native void nativeSetUserAgent(long runtime, String ua);
 
-    private native void nativeAddJavascriptInterface(long runtime, LynxFunctionObject object,
+    private native void nativeAddJavascriptInterface(long runtime, LynxObject object,
                                                      String name);
 
     private native void nativeSetExceptionListner(long runtime, Object listener);
@@ -100,15 +100,16 @@ public class LynxRuntime {
         return mHost;
     }
 
-    public void registerModule(LynxFunctionObject object, String name) {
+    public void registerModule(LynxObject object, String name) {
         nativeAddJavascriptInterface(mNativeRuntime, object, name);
     }
 
     public void addJavascriptInterface(Object object, String name) {
-        nativeAddJavascriptInterface(mNativeRuntime, new LynxFunctionObject(object), name);
+        nativeAddJavascriptInterface(mNativeRuntime, new LynxObject(object), name);
     }
 
     public void destroy() {
+        if (mNativeRuntime == 0) return;
 
         nativeDestroyNativeJSRuntime(mNativeRuntime);
         mNativeRuntime = 0;

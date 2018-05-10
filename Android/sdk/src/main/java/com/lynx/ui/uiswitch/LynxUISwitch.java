@@ -9,7 +9,7 @@ import android.text.TextUtils;
 import android.widget.CompoundButton;
 
 import com.lynx.core.base.LynxEvent;
-import com.lynx.core.base.LynxObject;
+import com.lynx.core.base.LynxMap;
 import com.lynx.core.impl.RenderObjectImpl;
 import com.lynx.ui.LynxUI;
 
@@ -108,9 +108,9 @@ public class LynxUISwitch extends LynxUI<SwitchCompat> {
         @Override
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
             LynxEvent event = new LynxEvent(EVENT_CHANGE);
-            LynxObject detail = new LynxObject();
-            detail.setProperty("checked", isChecked);
-            event.setProperty("detail", detail);
+            LynxMap detail = new LynxMap();
+            detail.set("checked", isChecked);
+            event.set("detail", detail);
             postEvent(EVENT_CHANGE, event);
         }
     }

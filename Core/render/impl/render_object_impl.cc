@@ -19,9 +19,9 @@ RenderObjectImpl::~RenderObjectImpl() {
 
 base::ScopedPtr<jscore::LynxValue> RenderObjectImpl::GetLynxValue() {
     if (render_object_weak_ptr_.IsValid()) {
-        return jscore::LynxValue::MakeObjectTemplate(render_object_weak_ptr_->GetJSRef());
+        return jscore::LynxValue::MakeObject(render_object_weak_ptr_->GetJSRef());
     } else {
-        return jscore::LynxValue::MakeObjectTemplate(NULL);
+        return jscore::LynxValue::MakeObject(NULL);
     }
 }
 

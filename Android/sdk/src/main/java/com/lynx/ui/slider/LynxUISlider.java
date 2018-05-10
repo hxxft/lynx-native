@@ -6,7 +6,7 @@ import android.support.v7.widget.AppCompatSeekBar;
 import android.widget.SeekBar;
 
 import com.lynx.core.base.LynxEvent;
-import com.lynx.core.base.LynxObject;
+import com.lynx.core.base.LynxMap;
 import com.lynx.core.impl.RenderObjectImpl;
 import com.lynx.ui.LynxUI;
 
@@ -140,10 +140,10 @@ public class LynxUISlider extends LynxUI<AppCompatSeekBar>{
 
             if (mIsChangeEventEnabled) {
                 LynxEvent event = new LynxEvent(EVENT_CHANGE);
-                LynxObject detail = new LynxObject();
-                detail.setProperty("progress",
+                LynxMap detail = new LynxMap();
+                detail.set("progress",
                         progress * (mMax - mMin) / (mSliderMax - mSliderMin) + mMin);
-                event.setProperty("detail", detail);
+                event.set("detail", detail);
                 postEvent(EVENT_CHANGE, event);
             }
 

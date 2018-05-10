@@ -18,11 +18,11 @@ namespace lynx{
 
     }
 
-    base::ScopedPtr<jscore::LynxObject> CanvasView::getImageData(int x, int y, int w, int h) {
+    base::ScopedPtr<jscore::LynxMap> CanvasView::GetImageData(int x, int y, int w, int h) {
         if(impl_.Get() != NULL){
             return impl_->GetImagePixel(x, y, w, h);
         }
-        return base::ScopedPtr<jscore::LynxObject>();
+        return base::ScopedPtr<jscore::LynxMap>();
     }
 
 }

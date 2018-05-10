@@ -11,8 +11,6 @@ public class TouchEventInfo extends EventInfo<TouchTarget> {
     public final static String END = "touchend";
     public final static String CANCEL = "touchcancel";
 
-    private TouchTarget mCurTarget;
-
     private long mTimeStamp;
     private TouchAxis mTouchAxis;
     private TouchAxis mRawTouchAxis;
@@ -63,14 +61,6 @@ public class TouchEventInfo extends EventInfo<TouchTarget> {
 
     public long getTimeStamp() {
         return mTimeStamp;
-    }
-
-    public void setCurTarget(TouchTarget curTarget) {
-        mCurTarget = curTarget;
-    }
-
-    public TouchTarget getCurTarget() {
-        return mCurTarget;
     }
 
     public SparseArray<TouchEventInfo> getInfoListOnScreen() {

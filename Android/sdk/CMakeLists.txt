@@ -3,7 +3,6 @@ cmake_minimum_required(VERSION 3.4.1)
 add_compile_options(-std=c++11)
 add_compile_options(-fexceptions)
 
-add_definitions(-DUSING_V8=0)
 add_definitions(-DOS_ANDROID=1)
 add_definitions(-DGNU_SUPPORT=1)
 add_definitions(-DJSONCPP_NO_LOCALE_SUPPORT=1)
@@ -14,7 +13,6 @@ add_definitions(-DENABLE_TRACING=0)
 #set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall")
 
 MESSAGE(${CMAKE_BUILD_TYPE})
-
 
 if (CMAKE_BUILD_TYPE MATCHES "Release")
 
@@ -44,21 +42,33 @@ set(UNITTEST_SRC_LIST
 
 endif()
 
-include_directories(${CMAKE_SOURCE_DIR}/../../Core
-                    ${CMAKE_SOURCE_DIR}/../../Core/gen
-                    ${CMAKE_SOURCE_DIR}/../../Core/base/android
-                    #${CMAKE_SOURCE_DIR}/../../Core/runtime/v8
-                    #${CMAKE_SOURCE_DIR}/../../Core/runtime/v8/include
-                    #${CMAKE_SOURCE_DIR}/../../Core/v8
-                    #${CMAKE_SOURCE_DIR}/../../Core/v8/include
-                    ${CMAKE_SOURCE_DIR}/../../Core/third_party/jsoncpp/src/lib_json
-                    ${CMAKE_SOURCE_DIR}/../../Core/third_party/jsoncpp/include
-                    ${CMAKE_SOURCE_DIR}/../../Core/third_party/JavaScriptCore
-                    ${CMAKE_SOURCE_DIR}/../../Core/lepus
-                   )
+# js engine
+if (JS_ENGINE_TYPE MATCHES "v8")
+    add_definitions(-DUSING_V8=1)
+    set(JS_ENGINE_HEADERS ${CMAKE_SOURCE_DIR}/../../Core/v8/include)
+    set(JS_ENGINE_LIBRARY
+        ${CMAKE_SOURCE_DIR}/../libs/v8/armeabi-v7a/libv8.cr.so
+        ${CMAKE_SOURCE_DIR}/../libs/v8/armeabi-v7a/libv8_libbase.cr.so
+        ${CMAKE_SOURCE_DIR}/../libs/v8/armeabi-v7a/libv8_libplatform.cr.so)
+    aux_source_directory(${CMAKE_SOURCE_DIR}/../../Core/runtime/v8 JS_ENGINE_EXTENSION_FILES)
+elseif(JS_ENGINE_TYPE MATCHES "jsc")
+    add_definitions(-DUSING_V8=0)
+    set(JS_ENGINE_HEADERS ${CMAKE_SOURCE_DIR}/../../Core/third_party/JavaScriptCore)
+    set(JS_ENGINE_LIBRARY ${CMAKE_SOURCE_DIR}/../libs/jsc/armeabi-v7a/libjsc.so)
+    file(GLOB JS_ENGINE_EXTENSION_FILES "${CMAKE_SOURCE_DIR}/../../Core/runtime/jsc/*.cc")
+endif()
 
+# lepus
 aux_source_directory(${CMAKE_SOURCE_DIR}/../../Core/lepus
                      LEPUS_SOURCE_FILES)
+
+include_directories(${CMAKE_SOURCE_DIR}/../../Core
+                    ${CMAKE_SOURCE_DIR}/../../Core/gen
+                    ${CMAKE_SOURCE_DIR}/../../Core/third_party/jsoncpp/src/lib_json
+                    ${CMAKE_SOURCE_DIR}/../../Core/third_party/jsoncpp/include
+                    ${CMAKE_SOURCE_DIR}/../../Core/lepus
+                    ${JS_ENGINE_HEADERS}
+                   )
 
 add_library(lynx SHARED
                 ${CMAKE_SOURCE_DIR}/../../Core/base/android/java_type.cc
@@ -117,7 +127,6 @@ add_library(lynx SHARED
             	${CMAKE_SOURCE_DIR}/../../Core/render/text_area.cc
             	${CMAKE_SOURCE_DIR}/../../Core/render/scroll_view.cc
             	${CMAKE_SOURCE_DIR}/../../Core/render/list_shadow.cc
-            	${CMAKE_SOURCE_DIR}/../../Core/render/animation.cc
             	${CMAKE_SOURCE_DIR}/../../Core/render/android/render_object_impl_android.cc
             	${CMAKE_SOURCE_DIR}/../../Core/render/android/label_measurer_android.cc
             	${CMAKE_SOURCE_DIR}/../../Core/render/android/render_tree_host_impl_android.cc
@@ -132,18 +141,18 @@ add_library(lynx SHARED
             	${CMAKE_SOURCE_DIR}/../../Core/layout/container_node.cc
                 ${CMAKE_SOURCE_DIR}/../../Core/layout/layout_object.cc
                 ${CMAKE_SOURCE_DIR}/../../Core/runtime/android/jni_runtime_bridge.cc
+                ${CMAKE_SOURCE_DIR}/../../Core/runtime/android/lynx_object_android.cc
                 ${CMAKE_SOURCE_DIR}/../../Core/runtime/android/element_register_util.cc
                 ${CMAKE_SOURCE_DIR}/../../Core/runtime/android/result_callback.cc
                 ${CMAKE_SOURCE_DIR}/../../Core/runtime/base/lynx_array.cc
-                ${CMAKE_SOURCE_DIR}/../../Core/runtime/base/lynx_object.cc
+                ${CMAKE_SOURCE_DIR}/../../Core/runtime/base/lynx_map.cc
                 ${CMAKE_SOURCE_DIR}/../../Core/runtime/base/lynx_value.cc
-                ${CMAKE_SOURCE_DIR}/../../Core/runtime/base/lynx_function_object.cc
-                ${CMAKE_SOURCE_DIR}/../../Core/runtime/base/lynx_object_template.cc
-                ${CMAKE_SOURCE_DIR}/../../Core/runtime/base/lynx_function_object_android.cc
+                ${CMAKE_SOURCE_DIR}/../../Core/runtime/base/lynx_object.cc
+                ${CMAKE_SOURCE_DIR}/../../Core/runtime/base/lynx_object_platform.cc
+            	${CMAKE_SOURCE_DIR}/../../Core/runtime/animation.cc
             	${CMAKE_SOURCE_DIR}/../../Core/runtime/loader.cc
             	${CMAKE_SOURCE_DIR}/../../Core/runtime/runtime.cc
-            	${CMAKE_SOURCE_DIR}/../../Core/runtime/js_context.cc
-            	${CMAKE_SOURCE_DIR}/../../Core/runtime/jsc/js_vm.cc
+            	${CMAKE_SOURCE_DIR}/../../Core/runtime/global.cc
             	${CMAKE_SOURCE_DIR}/../../Core/runtime/navigator.cc
             	${CMAKE_SOURCE_DIR}/../../Core/runtime/screen.cc
             	${CMAKE_SOURCE_DIR}/../../Core/runtime/console.cc
@@ -152,17 +161,10 @@ add_library(lynx SHARED
             	${CMAKE_SOURCE_DIR}/../../Core/runtime/canvas_2d_context.cc
             	${CMAKE_SOURCE_DIR}/../../Core/runtime/element.cc
             	${CMAKE_SOURCE_DIR}/../../Core/runtime/timed_task.cc
-            	${CMAKE_SOURCE_DIR}/../../Core/runtime/js_event.cc
-            	${CMAKE_SOURCE_DIR}/../../Core/runtime/jsc/jsc_helper.cc
-            	${CMAKE_SOURCE_DIR}/../../Core/runtime/jsc/jsc_context.cc
-            	${CMAKE_SOURCE_DIR}/../../Core/runtime/jsc/js_value_ext.cc
-            	#${CMAKE_SOURCE_DIR}/../../Core/runtime/v8/simple_allocator.cc
-            	${CMAKE_SOURCE_DIR}/../../Core/runtime/jsc/jsc_function.cc
-            	${CMAKE_SOURCE_DIR}/../../Core/runtime/jsc/timeout_callback.cc
-            	#${CMAKE_SOURCE_DIR}/../../Core/runtime/jsc/params_transform.cc
-            	${CMAKE_SOURCE_DIR}/../../Core/runtime/jsc/objects/window_object.cc
-            	${CMAKE_SOURCE_DIR}/../../Core/runtime/jsc/objects/object_template.cc
-                ${CMAKE_SOURCE_DIR}/../../Core/runtime/jsc/objects/function_object.cc
+            	${CMAKE_SOURCE_DIR}/../../Core/runtime/js/js_context.cc
+            	${CMAKE_SOURCE_DIR}/../../Core/runtime/js/class_template.cc
+            	${CMAKE_SOURCE_DIR}/../../Core/runtime/js/object_wrap.cc
+            	${CMAKE_SOURCE_DIR}/../../Core/runtime/js/class_template_storage.cc
 				${CMAKE_SOURCE_DIR}/../../Core/net/base/net_errors.cc
 				${CMAKE_SOURCE_DIR}/../../Core/net/base/net_errors_posix.cc
 				${CMAKE_SOURCE_DIR}/../../Core/net/socket/socket.cc
@@ -200,6 +202,7 @@ add_library(lynx SHARED
 
             	${LEPUS_SOURCE_FILES}
                 ${UNITTEST_SRC_LIST}
+                ${JS_ENGINE_EXTENSION_FILES}
             	)
 
 
@@ -208,19 +211,6 @@ target_link_libraries(lynx
                       android
                       log
                       z
-                      ${CMAKE_SOURCE_DIR}/src/main/jniLibs/armeabi-v7a/libjsc.so
-                      #${CMAKE_SOURCE_DIR}/../../Core/v8/libv8.cr.so
-                      #${CMAKE_SOURCE_DIR}/../../Core/v8/libv8_libbase.cr.so
-                      #${CMAKE_SOURCE_DIR}/../../Core/v8/libv8_libplatform.cr.so
+                      ${JS_ENGINE_LIBRARY}
                       jnigraphics
                       )
-
-#target_link_libraries(lynx
-#                      android
-#                      log
-#                      z
-#                      ${CMAKE_SOURCE_DIR}/../../Core/runtime/v8/libs/libv8_base.a
-#                      ${CMAKE_SOURCE_DIR}/../../Core/runtime/v8/libs/libv8_libplatform.a
-#                      ${CMAKE_SOURCE_DIR}/../../Core/runtime/v8/libs/libv8_libbase.a
-#                      ${CMAKE_SOURCE_DIR}/../../Core/runtime/v8/libs/libv8_nosnapshot.a
-#                      )

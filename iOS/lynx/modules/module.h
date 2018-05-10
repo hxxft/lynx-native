@@ -5,9 +5,9 @@
 
 #import <Foundation/Foundation.h>
 
-#include "base/lynx_function_object.h"
+#include "base/lynx_object.h"
 
-@interface LxModule : LxFunctionObject
+@interface LxModule : LxObject
 
 #define LX_REGISTER_MODULE(module) \
 - (NSString *) moduleName { return @#module; }

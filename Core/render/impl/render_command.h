@@ -12,7 +12,7 @@
 #include "base/weak_ptr.h"
 #include "runtime/base/lynx_value.h"
 #include "runtime/base/lynx_array.h"
-#include "runtime/base/lynx_object.h"
+#include "runtime/base/lynx_map.h"
 #include "runtime/canvas_cmd.h"
 #include "layout/css_style.h"
 
@@ -149,7 +149,7 @@ class RenderCommand : public base::Clouse {
     public:
         explicit RendererAnimateCommand(RenderObjectImpl* host,
                                         base::ScopedPtr<jscore::LynxArray> keyframes,
-                                        base::ScopedPtr<jscore::LynxObject> options)
+                                        base::ScopedPtr<jscore::LynxMap> options)
                 : RenderCommand(host, CMD_ANIMATE), options_(options), keyframes_(keyframes){
 
         }
@@ -157,7 +157,7 @@ class RenderCommand : public base::Clouse {
         virtual void Execute();
 
     private:
-        base::ScopedPtr<jscore::LynxObject> options_;
+        base::ScopedPtr<jscore::LynxMap> options_;
         base::ScopedPtr<jscore::LynxArray> keyframes_;
     };
 

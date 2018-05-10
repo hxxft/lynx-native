@@ -28,7 +28,7 @@ class RenderObjectImplAndroid : public RenderObjectImpl {
     void UpdateData(JNIEnv *env, jint attr, jobject value);
     void FreeJavaRef(JNIEnv *env);
     void ConstructJavaRef(JNIEnv *env, jobject object);
-    base::ScopedPtr<jscore::LynxObject> GetImagePixel(int x, int y, int w,int h);
+    base::ScopedPtr<jscore::LynxMap> GetImagePixel(int x, int y, int w,int h);
 
     base::android::ScopedGlobalJavaRef<jobject> native_bitmap_;
 
@@ -45,7 +45,7 @@ class RenderObjectImplAndroid : public RenderObjectImpl {
     virtual void RemoveEventListener(const std::string& event);
     virtual void SetData(int key, base::ScopedPtr<jscore::LynxValue> value);
     virtual void Animate(base::ScopedPtr<jscore::LynxArray> &keyframes,
-                         base::ScopedPtr<jscore::LynxObject> &options);
+                         base::ScopedPtr<jscore::LynxMap> &options);
     virtual void CancelAnimation(const std::string &id);
 
  private:

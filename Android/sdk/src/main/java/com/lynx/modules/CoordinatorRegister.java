@@ -4,7 +4,7 @@ package com.lynx.modules;
 import com.lynx.core.annotation.JSObject;
 import com.lynx.core.annotation.JSMethod;
 import com.lynx.core.LynxRuntime;
-import com.lynx.core.base.LynxObject;
+import com.lynx.core.base.LynxMap;
 import com.lynx.modules.ext.JSComponent;
 import com.lynx.ui.LynxUI;
 import com.lynx.ui.coordinator.TransferStation;
@@ -44,7 +44,7 @@ public class CoordinatorRegister extends JSComponent {
 
     @JSMethod
     public void updateProperties(final String sponsorAffinity, final String responderAffinity,
-                                 final LynxObject object, final boolean notify) {
+                                 final LynxMap object, final boolean notify) {
         final LynxUI ui = mRuntime.getHost().mRootRender.getUI();
         ui.getView().post(new Runnable() {
             @Override

@@ -16,7 +16,7 @@ import android.util.LruCache;
 import android.view.View;
 
 import com.lynx.core.base.LynxArray;
-import com.lynx.core.base.LynxObject;
+import com.lynx.core.base.LynxMap;
 import com.lynx.core.impl.RenderObjectAttr;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
@@ -85,7 +85,7 @@ public class XCanvasInterpreter {
         }
         int length = canvasCmds.length();
         for(int i = 0; i<length; i++){
-            exeSingleCmd((LynxObject) canvasCmds.get(i), mImpl);
+            exeSingleCmd((LynxMap) canvasCmds.get(i), mImpl);
         }
         // 最后将生成的mOriginBitMap绘制到mParentCanvas上
         if(mPaint == null){
@@ -97,8 +97,8 @@ public class XCanvasInterpreter {
         mUI.updateData(RenderObjectAttr.CANVAS_IMAGE_DATA, mCacheBitMap);
     }
 
-    private void exeSingleCmd(LynxObject cmdObject, View mImpl) {
-        String type = (String) cmdObject.getProperty("type");
+    private void exeSingleCmd(LynxMap cmdObject, View mImpl) {
+        String type = (String) cmdObject.get("type");
         switch (type){
             case "fr":
                 fillRect(cmdObject);
@@ -200,21 +200,21 @@ public class XCanvasInterpreter {
     /**
      * 三阶贝塞尔曲线
      */
-    private void bezierCurveTo(LynxObject param) {
-        mPath.cubicTo((float)param.getProperty("cp1x"),(float)param.getProperty("cp1y"),
-                (float)param.getProperty("cp2x"),(float)param.getProperty("cp2y"),
-                (float)param.getProperty("x"),(float)param.getProperty("y"));
+    private void bezierCurveTo(LynxMap param) {
+        mPath.cubicTo((float)param.get("cp1x"),(float)param.get("cp1y"),
+                (float)param.get("cp2x"),(float)param.get("cp2y"),
+                (float)param.get("x"),(float)param.get("y"));
     }
 
     /**
      * 二阶贝塞尔曲线
      */
-    private void quadraticCurveTo(LynxObject param) {
-        mPath.quadTo((float)param.getProperty("cpx"),(float)param.getProperty("cpy"),
-                (float)param.getProperty("x"),(float)param.getProperty("y"));
+    private void quadraticCurveTo(LynxMap param) {
+        mPath.quadTo((float)param.get("cpx"),(float)param.get("cpy"),
+                (float)param.get("x"),(float)param.get("y"));
     }
 
-    private void setTransform(LynxObject param) {
+    private void setTransform(LynxMap param) {
 //        String[] attributes = getArray(param,",");
 //        Matrix mMatrix = new Matrix();
 //        mMatrix.setValues(new float[]{Float.parseFloat(attributes[0]),Float.parseFloat(attributes[2]),
@@ -224,23 +224,23 @@ public class XCanvasInterpreter {
 //        mDrawCanvas.setMatrix(mMatrix);
     }
 
-    private void scale(LynxObject param) {
-        mDrawCanvas.scale((float)param.getProperty("scalewidth"), (float)param.getProperty("scaleheight"));
+    private void scale(LynxMap param) {
+        mDrawCanvas.scale((float)param.get("scalewidth"), (float)param.get("scaleheight"));
     }
 
-    private void rotate(LynxObject param) {
-        mDrawCanvas.rotate((float) ((float)param.getProperty("angle") / Math.PI * 180));
+    private void rotate(LynxMap param) {
+        mDrawCanvas.rotate((float) ((float)param.get("angle") / Math.PI * 180));
     }
 
-    private void translate(LynxObject param) {
-        mDrawCanvas.translate((float)param.getProperty("x"), (float)param.getProperty("y"));
+    private void translate(LynxMap param) {
+        mDrawCanvas.translate((float)param.get("x"), (float)param.get("y"));
     }
 
-    private void transform(LynxObject param) {
+    private void transform(LynxMap param) {
         Matrix mMatrix = new Matrix();
-        mMatrix.setValues(new float[]{(float) param.getProperty("m11"), (float) param.getProperty("m12"),
-                (float) param.getProperty("dx"), (float) param.getProperty("m21"),
-                (float) param.getProperty("m22"), (float) param.getProperty("dy"),
+        mMatrix.setValues(new float[]{(float) param.get("m11"), (float) param.get("m12"),
+                (float) param.get("dx"), (float) param.get("m21"),
+                (float) param.get("m22"), (float) param.get("dy"),
                 0,0,1});
         mDrawCanvas.concat(mMatrix);
     }
@@ -253,23 +253,23 @@ public class XCanvasInterpreter {
         mDrawCanvas.save();
     }
 
-    private void drawImage(LynxObject param, final View mImpl) {
-        float x = (float) param.getProperty("x");
-        float y = (float) param.getProperty("y");
-        float width = (float) param.getProperty("width");
-        float height = (float) param.getProperty("height");
-        final String img = (String) param.getProperty("img");
+    private void drawImage(LynxMap param, final View mImpl) {
+        float x = (float) param.get("x");
+        float y = (float) param.get("y");
+        float width = (float) param.get("width");
+        float height = (float) param.get("height");
+        final String img = (String) param.get("img");
 
         if(null != mImageCache.get(img)){
-            if(param.getPropertyNames().size() == 6){
+            if(param.getKeySet().size() == 6){
                 mDrawCanvas.drawBitmap(mImageCache.get(img), null, new RectF(x,
                         y, x+width,
                         y+height), mDrawPaint);
-            }else if(param.getPropertyNames().size() == 10){
-                float sx = (float) param.getProperty("sx");
-                float sy = (float) param.getProperty("sy");
-                float swidth = (float) param.getProperty("swidth");
-                float sheight = (float) param.getProperty("sheight");
+            }else if(param.getKeySet().size() == 10){
+                float sx = (float) param.get("sx");
+                float sy = (float) param.get("sy");
+                float swidth = (float) param.get("swidth");
+                float sheight = (float) param.get("sheight");
                 mDrawCanvas.drawBitmap(mImageCache.get(img), new Rect((int)sx, (int)sy,(int)(sx+swidth),
                         (int)(sy+sheight)),new RectF(x, y, x+width,
                         y+height),mDrawPaint);
@@ -300,15 +300,15 @@ public class XCanvasInterpreter {
 
     }
 
-    private void setFont(LynxObject param) {
-        String value = (String) param.getProperty("value");
+    private void setFont(LynxMap param) {
+        String value = (String) param.get("value");
         String[] fontParams = value.split(" ");
         mDrawPaint.setTextSize(Float.parseFloat(fontParams[0].replace("px", "")));
     }
 
-    private void drawText(LynxObject param) {
-        mDrawCanvas.drawText((String)param.getProperty("text"), (float)param.getProperty("x") ,
-                (float)param.getProperty("y") ,mDrawPaint);
+    private void drawText(LynxMap param) {
+        mDrawCanvas.drawText((String)param.get("text"), (float)param.get("x") ,
+                (float)param.get("y") ,mDrawPaint);
     }
 
     private void closePath() {
@@ -317,57 +317,57 @@ public class XCanvasInterpreter {
         }
     }
 
-    private void setFillStyle(LynxObject param){
-        mFillStyle = (Integer) param.getProperty("value");
+    private void setFillStyle(LynxMap param){
+        mFillStyle = (Integer) param.get("value");
         mDrawPaint.setColor(mFillStyle);
     }
 
-    private void setStrokeStyle(LynxObject param){
-        mStrokeStyle = (Integer) param.getProperty("value");
+    private void setStrokeStyle(LynxMap param){
+        mStrokeStyle = (Integer) param.get("value");
         mDrawPaint.setColor(mStrokeStyle);
     }
 
-    private void clearRect(LynxObject param) {
+    private void clearRect(LynxMap param) {
     // todo 暂未实现
     }
 
-    private void strokeRect(LynxObject param) {
+    private void strokeRect(LynxMap param) {
         mDrawPaint.setStyle(Paint.Style.STROKE);
         mDrawPaint.setColor(mStrokeStyle);
-        mDrawCanvas.drawRect( (float)(param.getProperty("x")), (float)(param.getProperty("y")),
-                (float)(param.getProperty("width"))+(float)(param.getProperty("x")),
-                (float)(param.getProperty("height"))+(float)(param.getProperty("y")), mDrawPaint);
+        mDrawCanvas.drawRect( (float)(param.get("x")), (float)(param.get("y")),
+                (float)(param.get("width"))+(float)(param.get("x")),
+                (float)(param.get("height"))+(float)(param.get("y")), mDrawPaint);
     }
 
-    private void fillRect(LynxObject param) {
+    private void fillRect(LynxMap param) {
         mDrawPaint.setStyle(Paint.Style.FILL);
         mDrawPaint.setColor(mFillStyle);
-        mDrawCanvas.drawRect( (float)(param.getProperty("x")), (float)(param.getProperty("y")),
-                (float)(param.getProperty("width"))+(float)(param.getProperty("x")),
-                (float)(param.getProperty("height"))+(float)(param.getProperty("y")), mDrawPaint);
+        mDrawCanvas.drawRect( (float)(param.get("x")), (float)(param.get("y")),
+                (float)(param.get("width"))+(float)(param.get("x")),
+                (float)(param.get("height"))+(float)(param.get("y")), mDrawPaint);
     }
     private void beginPath() {
         mPath = new Path();
     }
-    private void moveTo(LynxObject param) {
+    private void moveTo(LynxMap param) {
         if(null != mPath){
-            mPath.moveTo((float)(param.getProperty("x")), (float)(param.getProperty("y")));
+            mPath.moveTo((float)(param.get("x")), (float)(param.get("y")));
         }
     }
-    private void lineTo(LynxObject param) {
+    private void lineTo(LynxMap param) {
         if(null != mPath){
-            mPath.lineTo((float)(param.getProperty("x")), (float)(param.getProperty("y")));
+            mPath.lineTo((float)(param.get("x")), (float)(param.get("y")));
         }
     }
     //left,top,right,bottom,startAngle,sweepAngle
-    private void arc(LynxObject param) {
+    private void arc(LynxMap param) {
         if(null != mPath){
-            float x = (float) param.getProperty("x");
-            float y = (float) param.getProperty("y");
-            float radius = (float) param.getProperty("r");
-            float startAngle = (float) param.getProperty("sAngle");
-            float endAngle =(float) param.getProperty("eAngle");
-            boolean anticlockwise = (boolean) param.getProperty("counterclockwise");
+            float x = (float) param.get("x");
+            float y = (float) param.get("y");
+            float radius = (float) param.get("r");
+            float startAngle = (float) param.get("sAngle");
+            float endAngle =(float) param.get("eAngle");
+            boolean anticlockwise = (boolean) param.get("counterclockwise");
 
             double sweepAngle = endAngle - startAngle;
             double sweepDegress = sweepAngle * 180 / Math.PI % 360;
@@ -399,12 +399,12 @@ public class XCanvasInterpreter {
     }
     }
 
-    private void setLineWidth(LynxObject params) {
-        mDrawPaint.setStrokeWidth((int) params.getProperty("value"));
+    private void setLineWidth(LynxMap params) {
+        mDrawPaint.setStrokeWidth((int) params.get("value"));
     }
 
-    private void setLineCap(LynxObject params) {
-        String value = (String) params.getProperty("value");
+    private void setLineCap(LynxMap params) {
+        String value = (String) params.get("value");
         if(TextUtils.isEmpty(value)) return;
         switch (value){
             case "butt":
@@ -420,8 +420,8 @@ public class XCanvasInterpreter {
         }
     }
 
-    private void setTextAlign(LynxObject params) {
-        String value = (String) params.getProperty("value");
+    private void setTextAlign(LynxMap params) {
+        String value = (String) params.get("value");
         if(TextUtils.isEmpty(value)) return;
         switch (value){
             case "center":
@@ -442,8 +442,8 @@ public class XCanvasInterpreter {
         }
     }
 
-    private void setLineJoin(LynxObject params) {
-        String value = (String) params.getProperty("value");
+    private void setLineJoin(LynxMap params) {
+        String value = (String) params.get("value");
         if(TextUtils.isEmpty(value)) return;
         switch (value){
             case "bevel":
@@ -479,11 +479,11 @@ public class XCanvasInterpreter {
         }
     }
 
-    private void setGlobalCompositeOperation(LynxObject params) {
+    private void setGlobalCompositeOperation(LynxMap params) {
         if(needBitMapCanvas){
             mixCanvas();
         }
-        String value = (String) params.getProperty("value");
+        String value = (String) params.get("value");
         if(TextUtils.isEmpty(value)) return;
         switch (value){
             case "source-over":

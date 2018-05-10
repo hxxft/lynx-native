@@ -6,8 +6,7 @@ import android.util.SparseArray;
 import com.lynx.core.base.LynxArray;
 import com.lynx.core.base.LynxEvent;
 import com.lynx.core.base.LynxHolder;
-import com.lynx.core.base.LynxObject;
-import com.lynx.core.impl.RenderObjectImpl;
+import com.lynx.core.base.LynxMap;
 import com.lynx.core.touch.TouchEventInfo;
 import com.lynx.ui.LynxUI;
 import com.lynx.utils.PixelUtil;
@@ -38,17 +37,17 @@ import com.lynx.utils.PixelUtil;
     }
 
     private void setSrcElement(LynxHolder srcElement) {
-        setProperty(KEY_SRC_ELEMENT, srcElement);
+        set(KEY_SRC_ELEMENT, srcElement);
     }
 
     private void initChangedTouches(TouchEventInfo info) {
         // Add extra property
         LynxArray changedTouches = new LynxArray();
-        setProperty(KEY_CHANGED_TOUCHES, changedTouches);
+        set(KEY_CHANGED_TOUCHES, changedTouches);
         SparseArray<TouchEventInfo> infoList = info.getChangedInfoList();
         for (int i = 0; i < infoList.size(); ++i) {
             info = infoList.valueAt(i);
-            LynxObject axis = new LynxObject();
+            LynxMap axis = new LynxMap();
             setClientAxis(axis,
                     (float) PixelUtil.pxToLynxNumber(info.getX()),
                     (float) PixelUtil.pxToLynxNumber(info.getY()));
@@ -62,11 +61,11 @@ import com.lynx.utils.PixelUtil;
     private void initTouches(TouchEventInfo info) {
         // Add extra property
         LynxArray touches = new LynxArray();
-        setProperty(KEY_TOUCHES, touches);
+        set(KEY_TOUCHES, touches);
         SparseArray<TouchEventInfo> infoList = info.getInfoListOnScreen();
         for (int i = 0; i < infoList.size(); ++i) {
             info = infoList.valueAt(i);
-            LynxObject axis = new LynxObject();
+            LynxMap axis = new LynxMap();
             setClientAxis(axis,
                     (float) PixelUtil.pxToLynxNumber(info.getX()),
                     (float) PixelUtil.pxToLynxNumber(info.getY()));
@@ -77,14 +76,14 @@ import com.lynx.utils.PixelUtil;
         }
     }
 
-    private void setClientAxis(LynxObject axis, float x, float y) {
-        axis.setProperty(KEY_CLIENT_X, x);
-        axis.setProperty(KEY_CLIENT_Y, y);
+    private void setClientAxis(LynxMap axis, float x, float y) {
+        axis.set(KEY_CLIENT_X, x);
+        axis.set(KEY_CLIENT_Y, y);
     }
 
-    private void setScreenAxis(LynxObject axis, float x, float y) {
-        axis.setProperty(KEY_SCREEN_X, x);
-        axis.setProperty(KEY_SCREEN_Y, y);
+    private void setScreenAxis(LynxMap axis, float x, float y) {
+        axis.set(KEY_SCREEN_X, x);
+        axis.set(KEY_SCREEN_Y, y);
     }
 
     @Override

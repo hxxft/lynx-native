@@ -2,12 +2,12 @@
 
 #include "runtime/jsc/jsc_function.h"
 
+#include <sstream>
 #include "base/log/logging.h"
+#include "runtime/base/lynx_array.h"
 #include "runtime/jsc/jsc_context.h"
 #include "runtime/jsc/object_wrap.h"
-#include "runtime/jsc/objects/object_template.h"
 #include "runtime/jsc/jsc_helper.h"
-#include <sstream>
 
 namespace jscore {
     JSCFunction::JSCFunction(JSCContext* context, JSObjectRef function) : LynxFunction(context) {
@@ -37,17 +37,13 @@ namespace jscore {
         }
     }
 
-    void JSCFunction::Run(void* target, LynxArray* args) {
+    void JSCFunction::Run(LynxObject* target, LynxArray* args) {
         if (target == 0) {
             return;
         }
         JSContextRef ctx = static_cast<JSCContext*>(context_)->GetContext();
-        JSObjectRef target_object;
-        if ((intptr_t) target == (intptr_t) TargetState::Global) {
-            target_object = JSContextGetGlobalObject(ctx);
-        } else {
-            target_object = static_cast<LynxObjectTemplate *>(target)->object_wrap()->js_ref();
-        }
+        auto object_wrap = static_cast<JSCObjectWrap*>(target->object_wrap());
+        JSObjectRef target_object = object_wrap->js_ref();
 
         base::ScopedPtr<JSValueRef[]> array;
         int argc = 0;
@@ -68,7 +64,7 @@ namespace jscore {
 
             std::string str = JSCHelper::ConvertToString(ctx, exception);
             if (!str.empty()) {
-                context_->OnExceptionOccured(str);
+                context_->OnExceptionOccurred(str);
                 DLOG(ERROR) << str;
             }
         }

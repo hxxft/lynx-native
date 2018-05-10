@@ -10,7 +10,7 @@
 #include "parser/render_parser.h"
 #include "render/render_tree_host.h"
 #include "render/ios/render_tree_host_impl_ios.h"
-#include "runtime/base/lynx_function_object_ios.h"
+#include "runtime/ios/lynx_object_ios.h"
 #include "runtime/jsc/jsc_context.h"
 
 #include "base/string/platform_string_impl.h"
@@ -76,9 +76,9 @@ static CGFloat kDefaultZoomRatio = -1;
     return @"";
 }
 
-- (void) addJavaScriptInterface:(LxFunctionObject *) object
+- (void) addJavaScriptInterface:(LxObject *) object
                        withName:(NSString *) name {
-    runtime_->AddJavaScriptInterface([name UTF8String], new jscore::LynxFunctionObjectIOS(object));
+    runtime_->AddJavaScriptInterface([name UTF8String], new jscore::LynxObjectIOS(object));
 }
 
 - (void)destroy {
