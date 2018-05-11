@@ -11,6 +11,8 @@
 #include "config/global_config_data.h"
 #include "parser/render_parser.h"
 
+
+#include "base/log/logging.h"
 using namespace lynx;
 
 @implementation LxContentView
@@ -33,9 +35,8 @@ using namespace lynx;
         [_renderTreeHostImpl updateViewport:frame];
         
         // Connect RenderTreeHost and BodyView
-        LynxUI* ui = [[_renderTreeHostImpl rootRenderObjectImpl] createLynxUI];
-        LxUIBody* LxUIBody = ui;
-        [LxUIBody resetView:self];
+        _uiBody = (LxUIBody*)[[_renderTreeHostImpl rootRenderObjectImpl] createLynxUI];
+        [_uiBody resetView:self];
         
         // Create FrameRateController
         _controller = [[LynxFrameRateController alloc] initWithVSyncListener:_renderTreeHostImpl];
@@ -110,7 +111,9 @@ using namespace lynx;
 }
 
 - (void)destroy {
-//    [_runtime destroy];
+    [_runtime destroy];
+    _runtime = nil;
+    _renderTreeHostImpl = nil;
 }
 
 @end
