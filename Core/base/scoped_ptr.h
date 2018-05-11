@@ -146,6 +146,11 @@ class ScopedPtr<T[]> {
  private:
   element_type* ptr_;
 };
+    
+template <typename T>
+ScopedPtr<T> MakeScopedPtr(T* t) {
+    return ScopedPtr<T>(t);
+}
 
 }  // namespace base
 

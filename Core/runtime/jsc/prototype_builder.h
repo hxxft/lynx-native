@@ -19,7 +19,7 @@ namespace jscore {
             js_class_definition_.finalize = JSCObjectWrap::FinalizeCallback;
         }
 
-        ~JSCPrototypeBuilder() {
+        virtual ~JSCPrototypeBuilder() {
             if (class_ref_ != 0) {
                 JSClassRelease(class_ref_);
             }

@@ -37,10 +37,10 @@ namespace jscore {
         LynxValue* temp = values_[index];
         values_[index] = NULL;
         RemovePtr(temp);
-        return jscore::LynxValue::MakeValueScoped(temp);
+        return base::MakeScopedPtr(temp);
     }
 
-    int LynxArray::Size() {
+    size_t LynxArray::Size() {
         return values_.size();
     }
 

@@ -18,7 +18,7 @@ namespace jscore {
         LynxValue* Pop();
         LynxValue* Get(int index);
         base::ScopedPtr<LynxValue> Release(int index);
-        int Size();
+        size_t Size();
 
         void Release() {
             ptrs_.release();

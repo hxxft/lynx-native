@@ -149,12 +149,6 @@ namespace jscore {
             return undefined;
         }
 
-        static base::ScopedPtr<LynxValue> MakeValueScoped(LynxValue* lynx_value);
-
-        static base::ScopedPtr<LynxArray> MakeArrayScoped(LynxArray* lynx_array);
-
-        static base::ScopedPtr<LynxMap> MakeMapScoped(LynxMap *lynx_object);
-
         virtual ~LynxValue();
 
         virtual std::string ToString();

@@ -29,18 +29,6 @@ namespace jscore {
         }
     }
 
-    base::ScopedPtr<LynxValue> LynxValue::MakeValueScoped(LynxValue* js_value) {
-        return base::ScopedPtr<LynxValue>(js_value);
-    }
-
-    base::ScopedPtr<LynxArray> LynxValue::MakeArrayScoped(LynxArray* lynx_array) {
-        return base::ScopedPtr<LynxArray>(lynx_array);
-    }
-
-    base::ScopedPtr<LynxMap> LynxValue::MakeMapScoped(LynxMap *lynx_object) {
-        return base::ScopedPtr<LynxMap>(lynx_object);
-    }
-
     std::string LynxValue::ToString() {
         std::string result = "";
         switch (type_) {

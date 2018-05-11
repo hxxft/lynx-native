@@ -43,7 +43,7 @@ namespace jscore {
     }
 
     base::ScopedPtr<LynxValue> Loader::Trace(base::ScopedPtr<LynxArray>& array) {
-        return LynxValue::MakeValueScoped(NULL);
+        return base::MakeScopedPtr<LynxArray>(NULL);
     }
 
     base::ScopedPtr<LynxValue> Loader::Script(base::ScopedPtr<LynxArray>& array) {
@@ -58,7 +58,7 @@ namespace jscore {
                                 array->Get(2)->data_.lynx_function : NULL;
             Script(url, succ, error);
         }
-        return LynxValue::MakeValueScoped(NULL);
+        return base::MakeScopedPtr<LynxValue>(NULL);
     }
     
     void LoaderRequestDelegate::OnFailed(base::ScopedPtr<base::PlatformString> url,

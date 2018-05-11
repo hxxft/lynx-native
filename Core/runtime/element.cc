@@ -325,7 +325,7 @@ namespace jscore {
             Element* parent_element = parent->GetJSRef();
             return LynxValue::MakeObject(parent_element);
         }
-        return LynxValue::MakeValueScoped(NULL);
+        return base::MakeScopedPtr<LynxValue>(NULL);
     }
 
     base::ScopedPtr<LynxValue> Element::GetOffsetTop() {
@@ -405,7 +405,7 @@ namespace jscore {
                 static_cast<lynx::RenderObject*>(render_object_->FirstChild());
         LynxArray* array = lynx_new LynxArray();
         if(render_object_->GetChildCount() == 0) {
-            return LynxValue::MakeValueScoped(array);
+            return base::MakeScopedPtr(array);
         }
 
         while (render_child) {
@@ -422,7 +422,7 @@ namespace jscore {
             array->Push(LynxValue::MakeObject(child_element).Release());
             render_child = static_cast<lynx::RenderObject*>(render_child->Next());
         }
-        return LynxValue::MakeValueScoped(array);
+        return base::MakeScopedPtr(array);
     }
 
     void Element::SetScrollTop(base::ScopedPtr<jscore::LynxValue> value) {
@@ -440,9 +440,9 @@ namespace jscore {
                 && array->Get(0)->type_ == LynxValue::Type::VALUE_LYNX_ARRAY
                 && array->Get(1)->type_ == LynxValue::Type::VALUE_LYNX_MAP) {
             base::ScopedPtr<LynxArray> keyframes =
-                    LynxValue::MakeArrayScoped(array->Release(0).Release()->data_.lynx_array);
+                    base::MakeScopedPtr(array->Release(0).Release()->data_.lynx_array);
             base::ScopedPtr<LynxMap> options =
-                    LynxValue::MakeMapScoped(array->Release(1).Release()->data_.lynx_map);
+                    base::MakeScopedPtr(array->Release(1).Release()->data_.lynx_map);
 
             auto animation = lynx_new Animation(context_, render_object_->Animate(keyframes, options));
             animation->set_render_object(render_object_->weak_ptr());
