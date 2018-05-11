@@ -17,11 +17,11 @@ namespace jscore {
         Global(JSContext* context);
         virtual ~Global();
         void OnJSObjectAttached();
-        inline Console* console() { return console_; }
-        inline Navigator* navigator() { return navigator_; }
-        inline Screen* screen() { return screen_; }
-        inline Loader* loader() { return loader_; }
-        inline Document* document() { return document_; }
+        inline Console* console() { return console_.Get(); }
+        inline Navigator* navigator() { return navigator_.Get(); }
+        inline Screen* screen() { return screen_.Get(); }
+        inline Loader* loader() { return loader_.Get(); }
+        inline Document* document() { return document_.Get(); }
 
         base::ScopedPtr<LynxValue> SetTimeout(base::ScopedPtr<LynxArray> &array);
         base::ScopedPtr<LynxValue> SetInterval(base::ScopedPtr<LynxArray> &array);
@@ -36,12 +36,13 @@ namespace jscore {
         base::ScopedPtr<LynxValue> GetDocument();
 
     private:
-        Console* console_;
-        Navigator* navigator_;
-        Screen* screen_;
-        Loader* loader_;
-        Document* document_;
+        base::ScopedRefPtr<Console> console_;
+        base::ScopedRefPtr<Navigator> navigator_;
+        base::ScopedRefPtr<Screen> screen_;
+        base::ScopedRefPtr<Loader> loader_;
+        base::ScopedRefPtr<Document> document_;
 
+        DISALLOW_COPY_AND_ASSIGN(Global);
     };
 }
 

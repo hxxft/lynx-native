@@ -34,31 +34,32 @@ namespace jscore {
 
     void LynxObject::SetObjectWrap(ObjectWrap* object_wrap) {
         object_wrap_ = object_wrap;
-        while (protect_times_ > 0) {
-            object_wrap_->Protect();
-            protect_times_--;
+        if (object_wrap != NULL) {
+            for (int i = 0; i < protect_times_; i++) {
+                object_wrap_->Protect();
+            }
+            // Register dynamic function
+            for (auto it = methods_.begin(); it != methods_.end(); ++it) {
+                object_wrap_->RegisterMethodCallback(it->first, it->second);
+            }
+            OnJSObjectAttached();
+        } else {
+            OnJSObjectDetached();
         }
-        // Register dynamic function
-        for (auto it = methods_.begin(); it != methods_.end(); ++it) {
-            object_wrap_->RegisterMethodCallback(it->first, it->second);
-        }
-        OnJSObjectAttached();
     }
 
     void LynxObject::ProtectJSObject() {
         if (object_wrap_ != NULL) {
             object_wrap_->Protect();
-        } else {
-            protect_times_++;
         }
+        protect_times_++;
     }
 
     void LynxObject::UnprotectJSObject() {
         if (object_wrap_ != NULL) {
             object_wrap_->Unprotect();
-        } else {
-            protect_times_--;
         }
+        protect_times_--;
     }
 
 }

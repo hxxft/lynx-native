@@ -42,7 +42,7 @@ namespace jscore {
         void SetOnTouchMove(base::ScopedPtr<jscore::LynxValue> value);
 
     private:
-        Element* body_;
+        base::ScopedRefPtr<Element> body_;
     };
 }
 

@@ -41,6 +41,7 @@ namespace jscore {
     }
 
     void V8ObjectWrap::OnJSObjectFinalize() {
+        lynx_object_->SetObjectWrap(NULL);
         lynx_delete(this);
     }
 }

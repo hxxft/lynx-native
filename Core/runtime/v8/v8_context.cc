@@ -16,6 +16,8 @@
 namespace jscore {
 
 V8Context::~V8Context() {
+    // Global should be release before context release
+    global_->Release();
     Clear();
     context_.Reset();
 }
@@ -36,13 +38,14 @@ void V8Context::Initialize(JSVM* vm, Runtime* runtime) {
     v8::V8::AddMessageListener(V8Context::OnUncaughtError);
 
     global_ = lynx_new Global(this);
+    global_->AddRef();
     auto global_template = static_cast<V8PrototypeBuilder*>(
             global_->class_template()->prototype_builder())->GetClass(isolate)->InstanceTemplate();
     auto context = v8::Context::New(isolate, nullptr, global_template);
     v8::Context::Scope context_scope(context);
     context_.Reset(isolate, context);
     auto global_object = context->Global();
-    V8ObjectWrap::Wrap(this, global_, global_object);
+    V8ObjectWrap::Wrap(this, global(), global_object);
     global_object->Set(context, V8Helper::ConvertToV8String(isolate, "global"),
                        global_object).FromJust();
     global_object->Set(context, V8Helper::ConvertToV8String(isolate, "window"),

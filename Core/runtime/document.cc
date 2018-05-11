@@ -52,10 +52,11 @@ namespace jscore {
 
     Document::Document(JSContext* context) : LynxObject(context, DEFAULT_CLASS_TEMPLATE(context)){
         body_ = lynx_new Element(context, context->runtime()->render_tree_host()->render_root());
+        body_->ProtectJSObject();
     }
 
     Document::~Document() {
-
+        body_->UnprotectJSObject();
     }
 
     Element* Document::CreateElement(std::string &tag_name) {
@@ -85,7 +86,7 @@ namespace jscore {
         if(array.Get() != NULL && array->Size() > 0) {
             std::string text = array->Get(0)->data_.str;
             return LynxValue::MakeObject(QuerySelector(text));
-    }
+        }
         return base::ScopedPtr<LynxValue>(NULL);
     }
 
@@ -172,7 +173,7 @@ namespace jscore {
     }
 
     base::ScopedPtr<LynxValue> Document::GetBody() {
-        return LynxValue::MakeObject(body_);
+        return LynxValue::MakeObject(body_.Get());
     }
 
     void Document::SetDomain(base::ScopedPtr<jscore::LynxValue> value) {

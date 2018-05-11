@@ -7,7 +7,7 @@
 #include <unordered_map>
 #include <vector>
 
-#include "base/scoped_ptr.h"
+#include "base/ref_counted_ptr.h"
 #include "runtime/js/defines.h"
 
 namespace jscore {
@@ -17,7 +17,7 @@ namespace jscore {
     class ClassTemplate;
     class JSContext;
 
-    class LynxObject {
+    class LynxObject : public base::RefCountPtr<LynxObject> {
 
     public:
 
@@ -48,6 +48,7 @@ namespace jscore {
         void ProtectJSObject();
         void UnprotectJSObject();
         virtual void OnJSObjectAttached() {}
+        virtual void OnJSObjectDetached() {}
 
     protected:
         JSContext* context_;
@@ -58,6 +59,8 @@ namespace jscore {
 
         std::unordered_map<std::string, JSMethodCallback> methods_;
         int protect_times_;
+        
+        DISALLOW_COPY_AND_ASSIGN(LynxObject);
     };
 }
 
