@@ -59,6 +59,7 @@ namespace jscore {
     public:
         class PrototypeBuilder {
         public:
+            virtual ~PrototypeBuilder() {}
             virtual void FinishCreation(ClassTemplate* class_template) = 0;
         };
 

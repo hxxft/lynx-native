@@ -36,6 +36,7 @@ namespace jscore {
     }
 
     void JSCObjectWrap::OnJSObjectFinalize() {
+        lynx_object_->SetObjectWrap(NULL);
         assert(JSObjectSetPrivate(js_object_, NULL));
         lynx_delete(this);
     }

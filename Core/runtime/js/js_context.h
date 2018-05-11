@@ -15,18 +15,9 @@ class Global;
 class LynxObjectPlatform;
 class JSContext : public base::RefCountPtr<Runtime> {
  public:
-    JSContext()
-            : runtime_(NULL),
-              vm_(NULL),
-              ua_(),
-              class_template_storage_(lynx_new ClassTemplateStorage),
-              global_(NULL) {
+    JSContext();
 
-    }
-
-    virtual ~JSContext() {
-        Finalize();
-    }
+    virtual ~JSContext();
 
     virtual void Initialize(JSVM* vm, Runtime* runtime) {
         vm_ = vm;
@@ -85,7 +76,7 @@ class JSContext : public base::RefCountPtr<Runtime> {
     base::ObserverList observers_;
     UserAgent ua_;
     base::ScopedPtr<ClassTemplateStorage> class_template_storage_;
-    Global* global_;
+    Global* global_; // Should release in subclass before real js context release!
 
     DISALLOW_COPY_AND_ASSIGN(JSContext);
 };

@@ -15,7 +15,7 @@ namespace jscore {
         base::ScopedPtr<LynxValue> GetContext(base::ScopedPtr<LynxArray>& array);
 
     private:
-        Canvas2DContext* context_2d_;
+        base::ScopedRefPtr<Canvas2DContext> context_2d_;
 
     };
 }

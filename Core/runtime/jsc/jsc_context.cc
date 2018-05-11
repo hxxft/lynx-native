@@ -20,6 +20,9 @@ namespace jscore {
     }
 
     JSCContext::~JSCContext() {
+        // Global should be release before context release
+        global_->Release();
+        global_ = NULL;
         JSGlobalContextRef temp = context_;
         context_ = NULL;
         JSGlobalContextRelease(temp);
@@ -31,14 +34,15 @@ namespace jscore {
         JSContextGroupRef context_group = static_cast<JSContextGroupRef>(vm->vm());
         
         global_ = lynx_new Global(this);
+        global_->AddRef();
         JSCPrototypeBuilder *global_prototype_builder = static_cast<JSCPrototypeBuilder*>(
                 global_->class_template()->prototype_builder());
         global_prototype_builder->SetJSClassAttributes(kJSClassAttributeNoAutomaticPrototype);
         context_ = JSGlobalContextCreateInGroup(context_group, global_prototype_builder->class_ref());
-
+        
         JSObjectRef global_object = JSContextGetGlobalObject(context_);
-        JSCObjectWrap::Wrap(this, global_, global_object);
-
+        JSCObjectWrap::Wrap(this, global(), global_object);
+        
         JSCHelper::SetValueProperty(context_, global_object, "window", global_object,
                                     kJSPropertyAttributeNone, 0);
         JSCHelper::SetValueProperty(context_, global_object, "global", global_object,

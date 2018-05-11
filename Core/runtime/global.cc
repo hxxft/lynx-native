@@ -106,23 +106,23 @@ namespace jscore {
     }
 
     base::ScopedPtr<LynxValue> Global::GetConsole() {
-        return LynxValue::MakeObject(console_);
+        return LynxValue::MakeObject(console());
     }
 
     base::ScopedPtr<LynxValue> Global::GetNavigator() {
-        return LynxValue::MakeObject(navigator_);
+        return LynxValue::MakeObject(navigator());
     }
 
     base::ScopedPtr<LynxValue> Global::GetScreen() {
-        return LynxValue::MakeObject(screen_);
+        return LynxValue::MakeObject(screen());
     }
 
     base::ScopedPtr<LynxValue> Global::GetLoader() {
-        return LynxValue::MakeObject(loader_);
+        return LynxValue::MakeObject(loader());
     }
 
     base::ScopedPtr<LynxValue> Global::GetDocument() {
-        return LynxValue::MakeObject(document_);
+        return LynxValue::MakeObject(document());
     }
 
 }

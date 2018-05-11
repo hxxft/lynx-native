@@ -28,15 +28,16 @@ namespace jscore {
     }
 
     Canvas::~Canvas() {
-        context_2d_->UnprotectJSObject();
+        if (context_2d_.Get() != NULL) {
+            context_2d_->UnprotectJSObject();
+        }
     }
 
     base::ScopedPtr<LynxValue> Canvas::GetContext(base::ScopedPtr<LynxArray>& array) {
-        if(context_2d_ == NULL) {
+        if(context_2d_.Get() == NULL) {
             context_2d_ = lynx_new Canvas2DContext(context(), render_object());
+            context_2d_->ProtectJSObject();
         }
-
-        context_2d_->ProtectJSObject();
-        return base::ScopedPtr<LynxValue>(LynxValue::MakeObject(context_2d_));
+        return base::ScopedPtr<LynxValue>(LynxValue::MakeObject(context_2d_.Get()));
     }
 }

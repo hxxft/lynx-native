@@ -3,7 +3,7 @@
 #ifndef LYNX_RUNTIME_JS_OBJECT_WRAP_H_
 #define LYNX_RUNTIME_JS_OBJECT_WRAP_H_
 
-#include "base/scoped_ptr.h"
+#include "base/ref_counted_ptr.h"
 #include "base/observer/observer.h"
 #include "base/debug/memory_debug.h"
 #include "runtime/js/base.h"
@@ -38,7 +38,7 @@ namespace jscore {
         virtual void OnJSObjectFinalize() = 0;
 
         JSContext* context_;
-        base::ScopedPtr<LynxObject> lynx_object_;
+        base::ScopedRefPtr<LynxObject> lynx_object_;
 
         friend class LynxObject;
 
