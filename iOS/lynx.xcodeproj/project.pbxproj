@@ -145,6 +145,222 @@
 		4217A90420994F04001B8A48 /* json_valueiterator.inl in Resources */ = {isa = PBXBuildFile; fileRef = 4217A26220994EFA001B8A48 /* json_valueiterator.inl */; };
 		4217A90520994F04001B8A48 /* init.sh in Resources */ = {isa = PBXBuildFile; fileRef = 4217A26320994EFA001B8A48 /* init.sh */; };
 		4239864B1F793F42008775F6 /* file_path_utility.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4239864A1F793F42008775F6 /* file_path_utility.mm */; };
+		425BC90320A69D71008AAFC0 /* view_wrapper.mm in Sources */ = {isa = PBXBuildFile; fileRef = BC5DBDB31F5EC7BE005A47E3 /* view_wrapper.mm */; };
+		425BC90420A69D71008AAFC0 /* coordinator_pretreatment.mm in Sources */ = {isa = PBXBuildFile; fileRef = 421438D5207DE59E00ECF750 /* coordinator_pretreatment.mm */; };
+		425BC90520A69D71008AAFC0 /* url_request_context.cc in Sources */ = {isa = PBXBuildFile; fileRef = 42177F8220994E6A001B8A48 /* url_request_context.cc */; };
+		425BC90620A69D71008AAFC0 /* ui_event_action.mm in Sources */ = {isa = PBXBuildFile; fileRef = BC31B01C1F6271BE00C0234C /* ui_event_action.mm */; };
+		425BC90720A69D71008AAFC0 /* source_cache_manager.cc in Sources */ = {isa = PBXBuildFile; fileRef = 42178DBD20994E79001B8A48 /* source_cache_manager.cc */; };
+		425BC90820A69D71008AAFC0 /* html_loader.cc in Sources */ = {isa = PBXBuildFile; fileRef = 42178DC520994E79001B8A48 /* html_loader.cc */; };
+		425BC90920A69D71008AAFC0 /* framerate_controller.mm in Sources */ = {isa = PBXBuildFile; fileRef = BC5DBD821F5E7A05005A47E3 /* framerate_controller.mm */; };
+		425BC90A20A69D71008AAFC0 /* cell_container.cc in Sources */ = {isa = PBXBuildFile; fileRef = 421780C220994E6A001B8A48 /* cell_container.cc */; };
+		425BC90B20A69D71008AAFC0 /* resource_reader.mm in Sources */ = {isa = PBXBuildFile; fileRef = 421438ED207DF52D00ECF750 /* resource_reader.mm */; };
+		425BC90C20A69D71008AAFC0 /* ui_update_data_action.mm in Sources */ = {isa = PBXBuildFile; fileRef = BC31B01F1F6273A500C0234C /* ui_update_data_action.mm */; };
+		425BC90D20A69D71008AAFC0 /* timed_task.cc in Sources */ = {isa = PBXBuildFile; fileRef = 4217805E20994E6A001B8A48 /* timed_task.cc */; };
+		425BC90E20A69D71008AAFC0 /* socket_posix.cc in Sources */ = {isa = PBXBuildFile; fileRef = 42177FE420994E6A001B8A48 /* socket_posix.cc */; };
+		425BC91020A69D71008AAFC0 /* module_bundle.mm in Sources */ = {isa = PBXBuildFile; fileRef = BC8040A61FCBCB930041CF01 /* module_bundle.mm */; };
+		425BC91120A69D71008AAFC0 /* object_wrap.cc in Sources */ = {isa = PBXBuildFile; fileRef = BCDEC7CE209C518B000B0D50 /* object_wrap.cc */; };
+		425BC91220A69D71008AAFC0 /* render_tree_host.cc in Sources */ = {isa = PBXBuildFile; fileRef = 421780C320994E6A001B8A48 /* render_tree_host.cc */; };
+		425BC91320A69D71008AAFC0 /* json_reader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4217A25E20994EFA001B8A48 /* json_reader.cpp */; };
+		425BC91420A69D71008AAFC0 /* time_utils.cc in Sources */ = {isa = PBXBuildFile; fileRef = 42178DF820994E79001B8A48 /* time_utils.cc */; };
+		425BC91520A69D71008AAFC0 /* prototype_builder.cc in Sources */ = {isa = PBXBuildFile; fileRef = BCDEC7BA209C5167000B0D50 /* prototype_builder.cc */; };
+		425BC91620A69D71008AAFC0 /* string_utils.cc in Sources */ = {isa = PBXBuildFile; fileRef = 42178E2820994E7A001B8A48 /* string_utils.cc */; };
+		425BC91720A69D71008AAFC0 /* jsc_helper.cc in Sources */ = {isa = PBXBuildFile; fileRef = 4217808320994E6A001B8A48 /* jsc_helper.cc */; };
+		425BC91820A69D71008AAFC0 /* css_style.cc in Sources */ = {isa = PBXBuildFile; fileRef = 4217800B20994E6A001B8A48 /* css_style.cc */; };
+		425BC91920A69D71008AAFC0 /* page_info.mm in Sources */ = {isa = PBXBuildFile; fileRef = 421438F2207DF52D00ECF750 /* page_info.mm */; };
+		425BC91A20A69D71008AAFC0 /* render_style.cc in Sources */ = {isa = PBXBuildFile; fileRef = 4217810C20994E6A001B8A48 /* render_style.cc */; };
+		425BC91B20A69D71008AAFC0 /* lynx_ui_scrollview.mm in Sources */ = {isa = PBXBuildFile; fileRef = BC5DBDAC1F5E9D87005A47E3 /* lynx_ui_scrollview.mm */; };
+		425BC91C20A69D71008AAFC0 /* screen.cc in Sources */ = {isa = PBXBuildFile; fileRef = 4217806E20994E6A001B8A48 /* screen.cc */; };
+		425BC91D20A69D71008AAFC0 /* global.cc in Sources */ = {isa = PBXBuildFile; fileRef = BCDEC7D2209C518C000B0D50 /* global.cc */; };
+		425BC91E20A69D71008AAFC0 /* lynx_object_ios.mm in Sources */ = {isa = PBXBuildFile; fileRef = BC1F2E4F209C5755008E188D /* lynx_object_ios.mm */; };
+		425BC91F20A69D71008AAFC0 /* debug_session.cc in Sources */ = {isa = PBXBuildFile; fileRef = 42178DD720994E79001B8A48 /* debug_session.cc */; };
+		425BC92020A69D71008AAFC0 /* websocket_frame.cc in Sources */ = {isa = PBXBuildFile; fileRef = 42177FCF20994E6A001B8A48 /* websocket_frame.cc */; };
+		425BC92120A69D71008AAFC0 /* net_errors_posix.cc in Sources */ = {isa = PBXBuildFile; fileRef = 42177FDE20994E6A001B8A48 /* net_errors_posix.cc */; };
+		425BC92220A69D71008AAFC0 /* render_command.cc in Sources */ = {isa = PBXBuildFile; fileRef = 421780AD20994E6A001B8A48 /* render_command.cc */; };
+		425BC92320A69D71008AAFC0 /* coordinator_register.mm in Sources */ = {isa = PBXBuildFile; fileRef = BC8798771FC7C61200F76993 /* coordinator_register.mm */; };
+		425BC92420A69D71008AAFC0 /* scroll_view.cc in Sources */ = {isa = PBXBuildFile; fileRef = 421780BA20994E6A001B8A48 /* scroll_view.cc */; };
+		425BC92520A69D71008AAFC0 /* object_wrap.cc in Sources */ = {isa = PBXBuildFile; fileRef = BCDEC7B8209C5167000B0D50 /* object_wrap.cc */; };
+		425BC92620A69D71008AAFC0 /* lynx_runtime.mm in Sources */ = {isa = PBXBuildFile; fileRef = BC31B0251F6282AB00C0234C /* lynx_runtime.mm */; };
+		425BC92720A69D71008AAFC0 /* lynx_swiper_controller.mm in Sources */ = {isa = PBXBuildFile; fileRef = BC6748EE1F66775700D50971 /* lynx_swiper_controller.mm */; };
+		425BC92820A69D71008AAFC0 /* lynx_object.cc in Sources */ = {isa = PBXBuildFile; fileRef = 4217809720994E6A001B8A48 /* lynx_object.cc */; };
+		425BC92920A69D71008AAFC0 /* script_request_delegate.cc in Sources */ = {isa = PBXBuildFile; fileRef = 42178DC820994E79001B8A48 /* script_request_delegate.cc */; };
+		425BC92A20A69D71008AAFC0 /* css_layout.cc in Sources */ = {isa = PBXBuildFile; fileRef = 4217800620994E6A001B8A48 /* css_layout.cc */; };
+		425BC92B20A69D71008AAFC0 /* debug_client.cc in Sources */ = {isa = PBXBuildFile; fileRef = 42178DCE20994E79001B8A48 /* debug_client.cc */; };
+		425BC92C20A69D71008AAFC0 /* lynx_object_platform.cc in Sources */ = {isa = PBXBuildFile; fileRef = BCDEC7C0209C517D000B0D50 /* lynx_object_platform.cc */; };
+		425BC92D20A69D71008AAFC0 /* label_wrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = BC6748EB1F66394000D50971 /* label_wrapper.m */; };
+		425BC92E20A69D71008AAFC0 /* parser.cc in Sources */ = {isa = PBXBuildFile; fileRef = 42177F6720994E6A001B8A48 /* parser.cc */; };
+		425BC92F20A69D71008AAFC0 /* js_value_ext.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4217807320994E6A001B8A48 /* js_value_ext.mm */; };
+		425BC93020A69D71008AAFC0 /* thread_local_posix.cc in Sources */ = {isa = PBXBuildFile; fileRef = 42178E3E20994E7A001B8A48 /* thread_local_posix.cc */; };
+		425BC93120A69D71008AAFC0 /* url_request_ios.mm in Sources */ = {isa = PBXBuildFile; fileRef = 42177FD720994E6A001B8A48 /* url_request_ios.mm */; };
+		425BC93220A69D71008AAFC0 /* switch.cc in Sources */ = {isa = PBXBuildFile; fileRef = 42177F7220994E6A001B8A48 /* switch.cc */; };
+		425BC93320A69D71008AAFC0 /* span.cc in Sources */ = {isa = PBXBuildFile; fileRef = 42709AEB20A04D1800FD3466 /* span.cc */; };
+		425BC93420A69D71008AAFC0 /* layout_object.cc in Sources */ = {isa = PBXBuildFile; fileRef = 4217800720994E6A001B8A48 /* layout_object.cc */; };
+		425BC93520A69D71008AAFC0 /* memory_debug.cc in Sources */ = {isa = PBXBuildFile; fileRef = 42178E4920994E7A001B8A48 /* memory_debug.cc */; };
+		425BC93620A69D71008AAFC0 /* render_object_impl_ios.mm in Sources */ = {isa = PBXBuildFile; fileRef = 421780D520994E6A001B8A48 /* render_object_impl_ios.mm */; };
+		425BC93720A69D71008AAFC0 /* image_downloader.mm in Sources */ = {isa = PBXBuildFile; fileRef = BC5DBD931F5E7D96005A47E3 /* image_downloader.mm */; };
+		425BC93820A69D71008AAFC0 /* rich_text.cc in Sources */ = {isa = PBXBuildFile; fileRef = 42709AE720A04D0E00FD3466 /* rich_text.cc */; };
+		425BC93920A69D71008AAFC0 /* observer_list.cc in Sources */ = {isa = PBXBuildFile; fileRef = 42178DFD20994E79001B8A48 /* observer_list.cc */; };
+		425BC93A20A69D71008AAFC0 /* listview_controller.mm in Sources */ = {isa = PBXBuildFile; fileRef = BC5DBD9D1F5E7E5D005A47E3 /* listview_controller.mm */; };
+		425BC93B20A69D71008AAFC0 /* trace_writer.cc in Sources */ = {isa = PBXBuildFile; fileRef = 42178DEB20994E79001B8A48 /* trace_writer.cc */; };
+		425BC93C20A69D71008AAFC0 /* coordinator_transfer_station.mm in Sources */ = {isa = PBXBuildFile; fileRef = 421438D6207DE59E00ECF750 /* coordinator_transfer_station.mm */; };
+		425BC93D20A69D71008AAFC0 /* ui_action.mm in Sources */ = {isa = PBXBuildFile; fileRef = BC31B0091F611D5200C0234C /* ui_action.mm */; };
+		425BC93E20A69D71008AAFC0 /* message_pump_posix.cc in Sources */ = {isa = PBXBuildFile; fileRef = 42178E3120994E7A001B8A48 /* message_pump_posix.cc */; };
+		425BC93F20A69D71008AAFC0 /* module_register.mm in Sources */ = {isa = PBXBuildFile; fileRef = BC8040A31FCBCB800041CF01 /* module_register.mm */; };
+		425BC94020A69D71008AAFC0 /* jsc_function.cc in Sources */ = {isa = PBXBuildFile; fileRef = 4217808620994E6A001B8A48 /* jsc_function.cc */; };
+		425BC94120A69D71008AAFC0 /* debug_host_impl.mm in Sources */ = {isa = PBXBuildFile; fileRef = 42178DD020994E79001B8A48 /* debug_host_impl.mm */; };
+		425BC94220A69D71008AAFC0 /* canvas.cc in Sources */ = {isa = PBXBuildFile; fileRef = 4217803220994E6A001B8A48 /* canvas.cc */; };
+		425BC94320A69D71008AAFC0 /* device_info_util.mm in Sources */ = {isa = PBXBuildFile; fileRef = BC5D48FB2066443100424ABA /* device_info_util.mm */; };
+		425BC94420A69D71008AAFC0 /* websocket_frame_parser.cc in Sources */ = {isa = PBXBuildFile; fileRef = 42177FCA20994E6A001B8A48 /* websocket_frame_parser.cc */; };
+		425BC94520A69D71008AAFC0 /* vm_context.cc in Sources */ = {isa = PBXBuildFile; fileRef = 42177F6920994E6A001B8A48 /* vm_context.cc */; };
+		425BC94620A69D71008AAFC0 /* loader.cc in Sources */ = {isa = PBXBuildFile; fileRef = 4217803920994E6A001B8A48 /* loader.cc */; };
+		425BC94720A69D71008AAFC0 /* list_view.cc in Sources */ = {isa = PBXBuildFile; fileRef = 421780EB20994E6A001B8A48 /* list_view.cc */; };
+		425BC94820A69D71008AAFC0 /* message_pump_ios.mm in Sources */ = {isa = PBXBuildFile; fileRef = 42178E4120994E7A001B8A48 /* message_pump_ios.mm */; };
+		425BC94920A69D71008AAFC0 /* render_tree_host_impl_ios.mm in Sources */ = {isa = PBXBuildFile; fileRef = 421780D220994E6A001B8A48 /* render_tree_host_impl_ios.mm */; };
+		425BC94A20A69D71008AAFC0 /* element.cc in Sources */ = {isa = PBXBuildFile; fileRef = 4217806920994E6A001B8A48 /* element.cc */; };
+		425BC94B20A69D71008AAFC0 /* command_collector.cc in Sources */ = {isa = PBXBuildFile; fileRef = 421780AC20994E6A001B8A48 /* command_collector.cc */; };
+		425BC94C20A69D71008AAFC0 /* render_tree_host_impl_bridge.mm in Sources */ = {isa = PBXBuildFile; fileRef = BC31B0281F6284D200C0234C /* render_tree_host_impl_bridge.mm */; };
+		425BC94D20A69D71008AAFC0 /* select_poller.cc in Sources */ = {isa = PBXBuildFile; fileRef = 42178DE420994E79001B8A48 /* select_poller.cc */; };
+		425BC94E20A69D71008AAFC0 /* class_template.cc in Sources */ = {isa = PBXBuildFile; fileRef = BCDEC7CF209C518B000B0D50 /* class_template.cc */; };
+		425BC94F20A69D71008AAFC0 /* input_stream.cc in Sources */ = {isa = PBXBuildFile; fileRef = 4217810920994E6A001B8A48 /* input_stream.cc */; };
+		425BC95020A69D71008AAFC0 /* tree_builder.cc in Sources */ = {isa = PBXBuildFile; fileRef = 4217810B20994E6A001B8A48 /* tree_builder.cc */; };
+		425BC95120A69D71008AAFC0 /* css_type.cc in Sources */ = {isa = PBXBuildFile; fileRef = 4217800420994E6A001B8A48 /* css_type.cc */; };
+		425BC95220A69D71008AAFC0 /* cell_view.cc in Sources */ = {isa = PBXBuildFile; fileRef = 421780B320994E6A001B8A48 /* cell_view.cc */; };
+		425BC95320A69D71008AAFC0 /* lynx_ui_view.mm in Sources */ = {isa = PBXBuildFile; fileRef = BC5DBDAF1F5E9D87005A47E3 /* lynx_ui_view.mm */; };
+		425BC95420A69D71008AAFC0 /* lynx_object.mm in Sources */ = {isa = PBXBuildFile; fileRef = BC1F2E52209C5F7D008E188D /* lynx_object.mm */; };
+		425BC95520A69D71008AAFC0 /* scrollview_wrapper.mm in Sources */ = {isa = PBXBuildFile; fileRef = BC5DBDB91F5EF76F005A47E3 /* scrollview_wrapper.mm */; };
+		425BC95620A69D71008AAFC0 /* input.cc in Sources */ = {isa = PBXBuildFile; fileRef = 421780D020994E6A001B8A48 /* input.cc */; };
+		425BC95720A69D71008AAFC0 /* memory_tracker.cc in Sources */ = {isa = PBXBuildFile; fileRef = 42178E4D20994E7A001B8A48 /* memory_tracker.cc */; };
+		425BC95820A69D71008AAFC0 /* ui_factory.mm in Sources */ = {isa = PBXBuildFile; fileRef = BC31B0191F6264E600C0234C /* ui_factory.mm */; };
+		425BC95920A69D71008AAFC0 /* coordinator_executor.cc in Sources */ = {isa = PBXBuildFile; fileRef = 421780B820994E6A001B8A48 /* coordinator_executor.cc */; };
+		425BC95A20A69D71008AAFC0 /* net_errors.cc in Sources */ = {isa = PBXBuildFile; fileRef = 42177FE120994E6A001B8A48 /* net_errors.cc */; };
+		425BC95B20A69D71008AAFC0 /* view_stub.cc in Sources */ = {isa = PBXBuildFile; fileRef = 421780E820994E6A001B8A48 /* view_stub.cc */; };
+		425BC95C20A69D71008AAFC0 /* coordinator_action.cc in Sources */ = {isa = PBXBuildFile; fileRef = 421780B620994E6A001B8A48 /* coordinator_action.cc */; };
+		425BC95D20A69D71008AAFC0 /* render_object.cc in Sources */ = {isa = PBXBuildFile; fileRef = 421780E720994E6A001B8A48 /* render_object.cc */; };
+		425BC95E20A69D71008AAFC0 /* script_loader.cc in Sources */ = {isa = PBXBuildFile; fileRef = 42178DC720994E79001B8A48 /* script_loader.cc */; };
+		425BC95F20A69D71008AAFC0 /* source_cache.cc in Sources */ = {isa = PBXBuildFile; fileRef = 42178DBE20994E79001B8A48 /* source_cache.cc */; };
+		425BC96020A69D71008AAFC0 /* file_path_utility.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4239864A1F793F42008775F6 /* file_path_utility.mm */; };
+		425BC96120A69D71008AAFC0 /* canvas_2d_context.cc in Sources */ = {isa = PBXBuildFile; fileRef = 4217806B20994E6A001B8A48 /* canvas_2d_context.cc */; };
+		425BC96220A69D71008AAFC0 /* lepus_string.cc in Sources */ = {isa = PBXBuildFile; fileRef = 42177F7820994E6A001B8A48 /* lepus_string.cc */; };
+		425BC96320A69D71008AAFC0 /* io_buffer.cc in Sources */ = {isa = PBXBuildFile; fileRef = 42178E4520994E7A001B8A48 /* io_buffer.cc */; };
+		425BC96420A69D71008AAFC0 /* application_info.mm in Sources */ = {isa = PBXBuildFile; fileRef = 421438EE207DF52D00ECF750 /* application_info.mm */; };
+		425BC96520A69D71008AAFC0 /* event_target.cc in Sources */ = {isa = PBXBuildFile; fileRef = 421780D820994E6A001B8A48 /* event_target.cc */; };
+		425BC96620A69D71008AAFC0 /* lynx_ui_image.mm in Sources */ = {isa = PBXBuildFile; fileRef = BC5DBD951F5E7D96005A47E3 /* lynx_ui_image.mm */; };
+		425BC96720A69D71008AAFC0 /* coordinator_commands.mm in Sources */ = {isa = PBXBuildFile; fileRef = 421438D1207DE59E00ECF750 /* coordinator_commands.mm */; };
+		425BC96820A69D71008AAFC0 /* render_object_impl.cc in Sources */ = {isa = PBXBuildFile; fileRef = 421780AA20994E6A001B8A48 /* render_object_impl.cc */; };
+		425BC96920A69D71008AAFC0 /* jsc_context.cc in Sources */ = {isa = PBXBuildFile; fileRef = 4217807120994E6A001B8A48 /* jsc_context.cc */; };
+		425BC96A20A69D71008AAFC0 /* syntax_tree.cc in Sources */ = {isa = PBXBuildFile; fileRef = 42177F6520994E6A001B8A48 /* syntax_tree.cc */; };
+		425BC96B20A69D71008AAFC0 /* table.cc in Sources */ = {isa = PBXBuildFile; fileRef = 42177F5C20994E6A001B8A48 /* table.cc */; };
+		425BC96C20A69D71008AAFC0 /* page_navigator.mm in Sources */ = {isa = PBXBuildFile; fileRef = BC87985E1FC7B30900F76993 /* page_navigator.mm */; };
+		425BC96D20A69D71008AAFC0 /* vm.cc in Sources */ = {isa = PBXBuildFile; fileRef = 42177F7020994E6A001B8A48 /* vm.cc */; };
+		425BC96E20A69D71008AAFC0 /* json_value.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4217A26120994EFA001B8A48 /* json_value.cpp */; };
+		425BC96F20A69D71008AAFC0 /* render_parser.cc in Sources */ = {isa = PBXBuildFile; fileRef = 4217810520994E6A001B8A48 /* render_parser.cc */; };
+		425BC97020A69D71008AAFC0 /* code_generator.cc in Sources */ = {isa = PBXBuildFile; fileRef = 42177F6020994E6A001B8A48 /* code_generator.cc */; };
+		425BC97120A69D71008AAFC0 /* coordinator_cmd_executor.mm in Sources */ = {isa = PBXBuildFile; fileRef = 421438DF207DE59E00ECF750 /* coordinator_cmd_executor.mm */; };
+		425BC97220A69D71008AAFC0 /* message_pump_io_posix.cc in Sources */ = {isa = PBXBuildFile; fileRef = 42178E4020994E7A001B8A48 /* message_pump_io_posix.cc */; };
+		425BC97320A69D71008AAFC0 /* url_request_ghost_delegate.cc in Sources */ = {isa = PBXBuildFile; fileRef = 42177FDC20994E6A001B8A48 /* url_request_ghost_delegate.cc */; };
+		425BC97420A69D71008AAFC0 /* json_writer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4217A25B20994EFA001B8A48 /* json_writer.cpp */; };
+		425BC97520A69D71008AAFC0 /* global_config_data.cc in Sources */ = {isa = PBXBuildFile; fileRef = 42177FEC20994E6A001B8A48 /* global_config_data.cc */; };
+		425BC97620A69D71008AAFC0 /* websocket.cc in Sources */ = {isa = PBXBuildFile; fileRef = 42177F8420994E6A001B8A48 /* websocket.cc */; };
+		425BC97720A69D71008AAFC0 /* class_template_storage.cc in Sources */ = {isa = PBXBuildFile; fileRef = BCDEC7C9209C518B000B0D50 /* class_template_storage.cc */; };
+		425BC97820A69D71008AAFC0 /* js_context.cc in Sources */ = {isa = PBXBuildFile; fileRef = BCDEC7C7209C518B000B0D50 /* js_context.cc */; };
+		425BC97920A69D71008AAFC0 /* message_loop.cc in Sources */ = {isa = PBXBuildFile; fileRef = 42178E3620994E7A001B8A48 /* message_loop.cc */; };
+		425BC97A20A69D71008AAFC0 /* container_node.cc in Sources */ = {isa = PBXBuildFile; fileRef = 4217800020994E6A001B8A48 /* container_node.cc */; };
+		425BC97B20A69D71008AAFC0 /* semantic_analysis.cc in Sources */ = {isa = PBXBuildFile; fileRef = 42177F6C20994E6A001B8A48 /* semantic_analysis.cc */; };
+		425BC97C20A69D71008AAFC0 /* oc_method.mm in Sources */ = {isa = PBXBuildFile; fileRef = BC80409A1FCB07950041CF01 /* oc_method.mm */; };
+		425BC97D20A69D71008AAFC0 /* lynx_ui_label.mm in Sources */ = {isa = PBXBuildFile; fileRef = BC5DBDA51F5E7E79005A47E3 /* lynx_ui_label.mm */; };
+		425BC97E20A69D71008AAFC0 /* render_tree_host_impl.cc in Sources */ = {isa = PBXBuildFile; fileRef = 421780CB20994E6A001B8A48 /* render_tree_host_impl.cc */; };
+		425BC97F20A69D71008AAFC0 /* lynx_map.cc in Sources */ = {isa = PBXBuildFile; fileRef = BCDEC7BF209C517D000B0D50 /* lynx_map.cc */; };
+		425BC98020A69D71008AAFC0 /* builtin.cc in Sources */ = {isa = PBXBuildFile; fileRef = 42177F5B20994E6A001B8A48 /* builtin.cc */; };
+		425BC98120A69D71008AAFC0 /* oc_property.mm in Sources */ = {isa = PBXBuildFile; fileRef = BC8040A01FCBB8D40041CF01 /* oc_property.mm */; };
+		425BC98220A69D71008AAFC0 /* scanner.cc in Sources */ = {isa = PBXBuildFile; fileRef = 42177F7720994E6A001B8A48 /* scanner.cc */; };
+		425BC98320A69D71008AAFC0 /* body.cc in Sources */ = {isa = PBXBuildFile; fileRef = 421780EC20994E6A001B8A48 /* body.cc */; };
+		425BC98420A69D71008AAFC0 /* module.mm in Sources */ = {isa = PBXBuildFile; fileRef = BC8040941FCA5C620041CF01 /* module.mm */; };
+		425BC98520A69D71008AAFC0 /* html_request_delegate.cc in Sources */ = {isa = PBXBuildFile; fileRef = 42178DC420994E79001B8A48 /* html_request_delegate.cc */; };
+		425BC98620A69D71008AAFC0 /* js_vm.cc in Sources */ = {isa = PBXBuildFile; fileRef = 4217808420994E6A001B8A48 /* js_vm.cc */; };
+		425BC98720A69D71008AAFC0 /* websocket_errors.cc in Sources */ = {isa = PBXBuildFile; fileRef = 42177FC920994E6A001B8A48 /* websocket_errors.cc */; };
+		425BC98820A69D71008AAFC0 /* render_tokenizer.cc in Sources */ = {isa = PBXBuildFile; fileRef = 4217810620994E6A001B8A48 /* render_tokenizer.cc */; };
+		425BC98920A69D71008AAFC0 /* lynx_value.cc in Sources */ = {isa = PBXBuildFile; fileRef = 4217809420994E6A001B8A48 /* lynx_value.cc */; };
+		425BC98A20A69D71008AAFC0 /* label.cc in Sources */ = {isa = PBXBuildFile; fileRef = 421780D720994E6A001B8A48 /* label.cc */; };
+		425BC98B20A69D71008AAFC0 /* string_number_convert.cc in Sources */ = {isa = PBXBuildFile; fileRef = 42178E2C20994E7A001B8A48 /* string_number_convert.cc */; };
+		425BC98C20A69D71008AAFC0 /* utility.cc in Sources */ = {isa = PBXBuildFile; fileRef = 42178DE220994E79001B8A48 /* utility.cc */; };
+		425BC98D20A69D71008AAFC0 /* css_color.cc in Sources */ = {isa = PBXBuildFile; fileRef = 4217800920994E6A001B8A48 /* css_color.cc */; };
+		425BC98E20A69D71008AAFC0 /* lynx_ui_body.mm in Sources */ = {isa = PBXBuildFile; fileRef = BC31B0131F624F6D00C0234C /* lynx_ui_body.mm */; };
+		425BC98F20A69D71008AAFC0 /* extended_view.cc in Sources */ = {isa = PBXBuildFile; fileRef = 421780CF20994E6A001B8A48 /* extended_view.cc */; };
+		425BC99020A69D71008AAFC0 /* coordinator_action_executor.mm in Sources */ = {isa = PBXBuildFile; fileRef = 421438DA207DE59E00ECF750 /* coordinator_action_executor.mm */; };
+		425BC99120A69D71008AAFC0 /* coordinator_types.mm in Sources */ = {isa = PBXBuildFile; fileRef = 421438D9207DE59E00ECF750 /* coordinator_types.mm */; };
+		425BC99220A69D71008AAFC0 /* swiper_view.cc in Sources */ = {isa = PBXBuildFile; fileRef = 421780C920994E6A001B8A48 /* swiper_view.cc */; };
+		425BC99320A69D71008AAFC0 /* canvas_view.cc in Sources */ = {isa = PBXBuildFile; fileRef = 421780BE20994E6A001B8A48 /* canvas_view.cc */; };
+		425BC99420A69D71008AAFC0 /* timer_heap.cc in Sources */ = {isa = PBXBuildFile; fileRef = 42178DF920994E79001B8A48 /* timer_heap.cc */; };
+		425BC99520A69D71008AAFC0 /* socket.cc in Sources */ = {isa = PBXBuildFile; fileRef = 42177FE320994E6A001B8A48 /* socket.cc */; };
+		425BC99620A69D71008AAFC0 /* render_token.cc in Sources */ = {isa = PBXBuildFile; fileRef = 4217810D20994E6A001B8A48 /* render_token.cc */; };
+		425BC99720A69D71008AAFC0 /* style_convector.mm in Sources */ = {isa = PBXBuildFile; fileRef = BC5DBD7F1F5E79D8005A47E3 /* style_convector.mm */; };
+		425BC99820A69D71008AAFC0 /* runtime.cc in Sources */ = {isa = PBXBuildFile; fileRef = 4217806720994E6A001B8A48 /* runtime.cc */; };
+		425BC99920A69D71008AAFC0 /* coordinator_treatment.mm in Sources */ = {isa = PBXBuildFile; fileRef = 421438E1207DE59E00ECF750 /* coordinator_treatment.mm */; };
+		425BC99A20A69D71008AAFC0 /* image_view.cc in Sources */ = {isa = PBXBuildFile; fileRef = 421780E420994E6A001B8A48 /* image_view.cc */; };
+		425BC99B20A69D71008AAFC0 /* document.cc in Sources */ = {isa = PBXBuildFile; fileRef = 4217803B20994E6A001B8A48 /* document.cc */; };
+		425BC99C20A69D71008AAFC0 /* base64.cc in Sources */ = {isa = PBXBuildFile; fileRef = 42178E4720994E7A001B8A48 /* base64.cc */; };
+		425BC99D20A69D71008AAFC0 /* view.cc in Sources */ = {isa = PBXBuildFile; fileRef = 421780C020994E6A001B8A48 /* view.cc */; };
+		425BC99E20A69D71008AAFC0 /* logging.cc in Sources */ = {isa = PBXBuildFile; fileRef = 42178E2420994E7A001B8A48 /* logging.cc */; };
+		425BC99F20A69D71008AAFC0 /* oc_center.mm in Sources */ = {isa = PBXBuildFile; fileRef = BC8040971FCB07750041CF01 /* oc_center.mm */; };
+		425BC9A020A69D71008AAFC0 /* rand_util.cc in Sources */ = {isa = PBXBuildFile; fileRef = 42178E1B20994E7A001B8A48 /* rand_util.cc */; };
+		425BC9A120A69D71008AAFC0 /* websocket_hand_shake.cc in Sources */ = {isa = PBXBuildFile; fileRef = 42177FCE20994E6A001B8A48 /* websocket_hand_shake.cc */; };
+		425BC9A220A69D71008AAFC0 /* lynx_content_view.mm in Sources */ = {isa = PBXBuildFile; fileRef = BC31B0151F624F6D00C0234C /* lynx_content_view.mm */; };
+		425BC9A320A69D71008AAFC0 /* pixel_util.mm in Sources */ = {isa = PBXBuildFile; fileRef = BC8A0D341FB3EFE7002B0370 /* pixel_util.mm */; };
+		425BC9A420A69D71008AAFC0 /* lynx_ui_listview.mm in Sources */ = {isa = PBXBuildFile; fileRef = BC5DBD9F1F5E7E5D005A47E3 /* lynx_ui_listview.mm */; };
+		425BC9A520A69D71008AAFC0 /* render_object_impl_bridge.mm in Sources */ = {isa = PBXBuildFile; fileRef = BC31B00F1F613AE000C0234C /* render_object_impl_bridge.mm */; };
+		425BC9A620A69D71008AAFC0 /* resource_manager.mm in Sources */ = {isa = PBXBuildFile; fileRef = 421438F4207DF52D00ECF750 /* resource_manager.mm */; };
+		425BC9A720A69D71008AAFC0 /* ui_action_collector.mm in Sources */ = {isa = PBXBuildFile; fileRef = BC31B0061F611A3900C0234C /* ui_action_collector.mm */; };
+		425BC9A820A69D71008AAFC0 /* text_area.cc in Sources */ = {isa = PBXBuildFile; fileRef = 421780B220994E6A001B8A48 /* text_area.cc */; };
+		425BC9A920A69D71008AAFC0 /* lynx_ui.mm in Sources */ = {isa = PBXBuildFile; fileRef = BC31B0221F627DE700C0234C /* lynx_ui.mm */; };
+		425BC9AA20A69D71008AAFC0 /* label_measurer_ios.mm in Sources */ = {isa = PBXBuildFile; fileRef = 421780D620994E6A001B8A48 /* label_measurer_ios.mm */; };
+		425BC9AB20A69D71008AAFC0 /* websocket_stream.cc in Sources */ = {isa = PBXBuildFile; fileRef = 42177FCD20994E6A001B8A48 /* websocket_stream.cc */; };
+		425BC9AC20A69D71008AAFC0 /* timer.cc in Sources */ = {isa = PBXBuildFile; fileRef = 42178DF720994E79001B8A48 /* timer.cc */; };
+		425BC9AD20A69D71008AAFC0 /* screen_util.mm in Sources */ = {isa = PBXBuildFile; fileRef = BC8A0D371FB3F041002B0370 /* screen_util.mm */; };
+		425BC9AE20A69D71008AAFC0 /* thread.cc in Sources */ = {isa = PBXBuildFile; fileRef = 42178E4220994E7A001B8A48 /* thread.cc */; };
+		425BC9AF20A69D71008AAFC0 /* navigator.cc in Sources */ = {isa = PBXBuildFile; fileRef = 4217803620994E6A001B8A48 /* navigator.cc */; };
+		425BC9B020A69D71008AAFC0 /* lynx_view_controller.mm in Sources */ = {isa = PBXBuildFile; fileRef = 42B4F1FF1F7E420B001519E1 /* lynx_view_controller.mm */; };
+		425BC9B120A69D71008AAFC0 /* list_shadow.cc in Sources */ = {isa = PBXBuildFile; fileRef = 421780E620994E6A001B8A48 /* list_shadow.cc */; };
+		425BC9B220A69D71008AAFC0 /* style_parser.cc in Sources */ = {isa = PBXBuildFile; fileRef = 4217810E20994E6A001B8A48 /* style_parser.cc */; };
+		425BC9B320A69D71008AAFC0 /* lynx_array.cc in Sources */ = {isa = PBXBuildFile; fileRef = 4217809620994E6A001B8A48 /* lynx_array.cc */; };
+		425BC9B420A69D71008AAFC0 /* oc_field.mm in Sources */ = {isa = PBXBuildFile; fileRef = BC80409D1FCB08EC0041CF01 /* oc_field.mm */; };
+		425BC9B520A69D71008AAFC0 /* animation.cc in Sources */ = {isa = PBXBuildFile; fileRef = BCDEC7D1209C518B000B0D50 /* animation.cc */; };
+		425BC9B620A69D71008AAFC0 /* oc_helper.mm in Sources */ = {isa = PBXBuildFile; fileRef = 42178E0320994E7A001B8A48 /* oc_helper.mm */; };
+		425BC9B720A69D71008AAFC0 /* oc_property_transformer.mm in Sources */ = {isa = PBXBuildFile; fileRef = BC8040AA1FCE8FB00041CF01 /* oc_property_transformer.mm */; };
+		425BC9B820A69D71008AAFC0 /* lynx_swiper_view.mm in Sources */ = {isa = PBXBuildFile; fileRef = BC6748E81F6585D400D50971 /* lynx_swiper_view.mm */; };
+		425BC9B920A69D71008AAFC0 /* console.cc in Sources */ = {isa = PBXBuildFile; fileRef = 4217806C20994E6A001B8A48 /* console.cc */; };
+		425BC9BA20A69D71008AAFC0 /* trace_logger.cc in Sources */ = {isa = PBXBuildFile; fileRef = 42178DED20994E79001B8A48 /* trace_logger.cc */; };
+		425BC9BB20A69D71008AAFC0 /* function.cc in Sources */ = {isa = PBXBuildFile; fileRef = 42177F5F20994E6A001B8A48 /* function.cc */; };
+		425BC9BC20A69D71008AAFC0 /* app_delegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 42B4F2041F7E470F001519E1 /* app_delegate.mm */; };
+		425BC9BE20A69D71008AAFC0 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCE8BAAE1DF59F9A008B4A45 /* Foundation.framework */; };
+		425BC9BF20A69D71008AAFC0 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCE8BA791DF54DA0008B4A45 /* CoreFoundation.framework */; };
+		425BC9C020A69D71008AAFC0 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 42D7BD741DCB8C27000BE5A5 /* UIKit.framework */; };
+		425BC9C120A69D71008AAFC0 /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 42D7BD6C1DCB7E99000BE5A5 /* JavaScriptCore.framework */; };
+		425BC9C220A69D71008AAFC0 /* libPods-lynx.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DC31330FD8AEB81CA3C6EA60 /* libPods-lynx.a */; };
+		425BC9C420A69D71008AAFC0 /* sconscript in Resources */ = {isa = PBXBuildFile; fileRef = 4217A26020994EFA001B8A48 /* sconscript */; };
+		425BC9C520A69D71008AAFC0 /* json_valueiterator.inl in Resources */ = {isa = PBXBuildFile; fileRef = 4217A26220994EFA001B8A48 /* json_valueiterator.inl */; };
+		425BC9C620A69D71008AAFC0 /* init.sh in Resources */ = {isa = PBXBuildFile; fileRef = 4217A26320994EFA001B8A48 /* init.sh */; };
+		425BC9C720A69D71008AAFC0 /* version.h.in in Resources */ = {isa = PBXBuildFile; fileRef = 4217A25D20994EFA001B8A48 /* version.h.in */; };
+		425BC9C820A69D71008AAFC0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BC9D342D1E1DEC92009BD30A /* Assets.xcassets */; };
+		425BC9C920A69D71008AAFC0 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = BC5DBD6C1F5C60A5005A47E3 /* Info.plist */; };
+		425BC9CA20A69D71008AAFC0 /* CMakeLists.txt in Resources */ = {isa = PBXBuildFile; fileRef = 4217A21A20994EFA001B8A48 /* CMakeLists.txt */; };
+		425BC9CB20A69D71008AAFC0 /* assets.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 42B4F2011F7E42CB001519E1 /* assets.bundle */; };
+		425BC9CC20A69D71008AAFC0 /* CMakeLists.txt in Resources */ = {isa = PBXBuildFile; fileRef = 4217A25C20994EFA001B8A48 /* CMakeLists.txt */; };
+		425BC9CD20A69D71008AAFC0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BC5DBD6D1F5C60A5005A47E3 /* LaunchScreen.storyboard */; };
+		425BCA0120A69F3E008AAFC0 /* gtest-tuple.h.pump in Resources */ = {isa = PBXBuildFile; fileRef = 425BC9DD20A69F3E008AAFC0 /* gtest-tuple.h.pump */; };
+		425BCA0220A69F3E008AAFC0 /* gtest-type-util.h.pump in Resources */ = {isa = PBXBuildFile; fileRef = 425BC9DF20A69F3E008AAFC0 /* gtest-type-util.h.pump */; };
+		425BCA0320A69F3E008AAFC0 /* gtest-param-util-generated.h.pump in Resources */ = {isa = PBXBuildFile; fileRef = 425BC9EC20A69F3E008AAFC0 /* gtest-param-util-generated.h.pump */; };
+		425BCA0420A69F3E008AAFC0 /* gtest-param-test.h.pump in Resources */ = {isa = PBXBuildFile; fileRef = 425BC9F220A69F3E008AAFC0 /* gtest-param-test.h.pump */; };
+		425BCA0E20A69F51008AAFC0 /* gtest-all.cc in Sources */ = {isa = PBXBuildFile; fileRef = 425BC9FF20A69F3E008AAFC0 /* gtest-all.cc */; };
+		425BCA1020A69FD2008AAFC0 /* unittests.mm in Sources */ = {isa = PBXBuildFile; fileRef = 425BCA0F20A69FD2008AAFC0 /* unittests.mm */; };
+		425BCA1620A6A0F0008AAFC0 /* weak_ptr_unittest.cc in Sources */ = {isa = PBXBuildFile; fileRef = 425BCA1120A6A0EF008AAFC0 /* weak_ptr_unittest.cc */; };
+		425BCA1720A6A0F0008AAFC0 /* ref_counted_ptr_unittest.cc in Sources */ = {isa = PBXBuildFile; fileRef = 425BCA1220A6A0EF008AAFC0 /* ref_counted_ptr_unittest.cc */; };
+		425BCA1820A6A0F0008AAFC0 /* vector2d_unittest.cc in Sources */ = {isa = PBXBuildFile; fileRef = 425BCA1320A6A0EF008AAFC0 /* vector2d_unittest.cc */; };
+		425BCA1920A6A0F0008AAFC0 /* scoped_ptr_unittest.cc in Sources */ = {isa = PBXBuildFile; fileRef = 425BCA1420A6A0F0008AAFC0 /* scoped_ptr_unittest.cc */; };
+		425BCA1A20A6A0F0008AAFC0 /* position_unittest.cc in Sources */ = {isa = PBXBuildFile; fileRef = 425BCA1520A6A0F0008AAFC0 /* position_unittest.cc */; };
+		425BCA1C20A6A140008AAFC0 /* string_number_convert_unittest.cc in Sources */ = {isa = PBXBuildFile; fileRef = 425BCA1B20A6A140008AAFC0 /* string_number_convert_unittest.cc */; };
+		425BCA1E20A6A14E008AAFC0 /* render_tokenizer_unittest.cc in Sources */ = {isa = PBXBuildFile; fileRef = 425BCA1D20A6A14E008AAFC0 /* render_tokenizer_unittest.cc */; };
+		425BCA2220A6A169008AAFC0 /* css_color_unittest.cc in Sources */ = {isa = PBXBuildFile; fileRef = 425BCA1F20A6A169008AAFC0 /* css_color_unittest.cc */; };
+		425BCA2320A6A169008AAFC0 /* css_style_unittest.cc in Sources */ = {isa = PBXBuildFile; fileRef = 425BCA2020A6A169008AAFC0 /* css_style_unittest.cc */; };
+		425BCA2420A6A169008AAFC0 /* css_type_unittest.cc in Sources */ = {isa = PBXBuildFile; fileRef = 425BCA2120A6A169008AAFC0 /* css_type_unittest.cc */; };
 		42709AE920A04D0E00FD3466 /* rich_text.cc in Sources */ = {isa = PBXBuildFile; fileRef = 42709AE720A04D0E00FD3466 /* rich_text.cc */; };
 		42709AEC20A04D1800FD3466 /* span.cc in Sources */ = {isa = PBXBuildFile; fileRef = 42709AEB20A04D1800FD3466 /* span.cc */; };
 		42B4F2001F7E420B001519E1 /* lynx_view_controller.mm in Sources */ = {isa = PBXBuildFile; fileRef = 42B4F1FF1F7E420B001519E1 /* lynx_view_controller.mm */; };
@@ -209,23 +425,6 @@
 		BCE8BA7A1DF54DA0008B4A45 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCE8BA791DF54DA0008B4A45 /* CoreFoundation.framework */; };
 		BCE8BAAF1DF59F9A008B4A45 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCE8BAAE1DF59F9A008B4A45 /* Foundation.framework */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXContainerItemProxy section */
-		42D7BCF01DCB440C000BE5A5 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 42D7BCCE1DCB440C000BE5A5 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 42D7BCD51DCB440C000BE5A5;
-			remoteInfo = lynx;
-		};
-		42D7BCFB1DCB440C000BE5A5 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 42D7BCCE1DCB440C000BE5A5 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 42D7BCD51DCB440C000BE5A5;
-			remoteInfo = lynx;
-		};
-/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		37642C29A967697753057F9F /* Pods-lynx.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-lynx.debug.xcconfig"; path = "Pods/Target Support Files/Pods-lynx/Pods-lynx.debug.xcconfig"; sourceTree = "<group>"; };
@@ -580,6 +779,47 @@
 		4217A26320994EFA001B8A48 /* init.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = init.sh; sourceTree = "<group>"; };
 		423986491F793E5B008775F6 /* file_path_utility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = file_path_utility.h; sourceTree = "<group>"; };
 		4239864A1F793F42008775F6 /* file_path_utility.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = file_path_utility.mm; sourceTree = "<group>"; };
+		425BC9D320A69D71008AAFC0 /* unittests.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = unittests.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		425BC9D820A69F3E008AAFC0 /* gtest-death-test.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "gtest-death-test.h"; sourceTree = "<group>"; };
+		425BC9D920A69F3E008AAFC0 /* gtest-spi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "gtest-spi.h"; sourceTree = "<group>"; };
+		425BC9DB20A69F3E008AAFC0 /* gtest-linked_ptr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "gtest-linked_ptr.h"; sourceTree = "<group>"; };
+		425BC9DC20A69F3E008AAFC0 /* gtest-string.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "gtest-string.h"; sourceTree = "<group>"; };
+		425BC9DD20A69F3E008AAFC0 /* gtest-tuple.h.pump */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "gtest-tuple.h.pump"; sourceTree = "<group>"; };
+		425BC9DE20A69F3E008AAFC0 /* gtest-death-test-internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "gtest-death-test-internal.h"; sourceTree = "<group>"; };
+		425BC9DF20A69F3E008AAFC0 /* gtest-type-util.h.pump */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "gtest-type-util.h.pump"; sourceTree = "<group>"; };
+		425BC9E020A69F3E008AAFC0 /* gtest-port.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "gtest-port.h"; sourceTree = "<group>"; };
+		425BC9E120A69F3E008AAFC0 /* gtest-port-arch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "gtest-port-arch.h"; sourceTree = "<group>"; };
+		425BC9E220A69F3E008AAFC0 /* gtest-internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "gtest-internal.h"; sourceTree = "<group>"; };
+		425BC9E320A69F3E008AAFC0 /* gtest-param-util-generated.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "gtest-param-util-generated.h"; sourceTree = "<group>"; };
+		425BC9E420A69F3E008AAFC0 /* gtest-param-util.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "gtest-param-util.h"; sourceTree = "<group>"; };
+		425BC9E520A69F3E008AAFC0 /* gtest-type-util.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "gtest-type-util.h"; sourceTree = "<group>"; };
+		425BC9E620A69F3E008AAFC0 /* gtest-filepath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "gtest-filepath.h"; sourceTree = "<group>"; };
+		425BC9E820A69F3E008AAFC0 /* gtest-port.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "gtest-port.h"; sourceTree = "<group>"; };
+		425BC9E920A69F3E008AAFC0 /* gtest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = gtest.h; sourceTree = "<group>"; };
+		425BC9EA20A69F3E008AAFC0 /* gtest-printers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "gtest-printers.h"; sourceTree = "<group>"; };
+		425BC9EB20A69F3E008AAFC0 /* gtest-tuple.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "gtest-tuple.h"; sourceTree = "<group>"; };
+		425BC9EC20A69F3E008AAFC0 /* gtest-param-util-generated.h.pump */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "gtest-param-util-generated.h.pump"; sourceTree = "<group>"; };
+		425BC9ED20A69F3E008AAFC0 /* gtest-message.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "gtest-message.h"; sourceTree = "<group>"; };
+		425BC9EE20A69F3E008AAFC0 /* gtest-param-test.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "gtest-param-test.h"; sourceTree = "<group>"; };
+		425BC9EF20A69F3E008AAFC0 /* gtest-typed-test.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "gtest-typed-test.h"; sourceTree = "<group>"; };
+		425BC9F020A69F3E008AAFC0 /* gtest_pred_impl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = gtest_pred_impl.h; sourceTree = "<group>"; };
+		425BC9F120A69F3E008AAFC0 /* gtest_prod.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = gtest_prod.h; sourceTree = "<group>"; };
+		425BC9F220A69F3E008AAFC0 /* gtest-param-test.h.pump */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "gtest-param-test.h.pump"; sourceTree = "<group>"; };
+		425BC9F320A69F3E008AAFC0 /* gtest-test-part.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "gtest-test-part.h"; sourceTree = "<group>"; };
+		425BC9F420A69F3E008AAFC0 /* gtest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = gtest.h; sourceTree = "<group>"; };
+		425BC9F520A69F3E008AAFC0 /* gtest-printers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "gtest-printers.h"; sourceTree = "<group>"; };
+		425BC9FF20A69F3E008AAFC0 /* gtest-all.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = "gtest-all.cc"; sourceTree = "<group>"; };
+		425BCA0F20A69FD2008AAFC0 /* unittests.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = unittests.mm; sourceTree = "<group>"; };
+		425BCA1120A6A0EF008AAFC0 /* weak_ptr_unittest.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = weak_ptr_unittest.cc; sourceTree = "<group>"; };
+		425BCA1220A6A0EF008AAFC0 /* ref_counted_ptr_unittest.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ref_counted_ptr_unittest.cc; sourceTree = "<group>"; };
+		425BCA1320A6A0EF008AAFC0 /* vector2d_unittest.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = vector2d_unittest.cc; sourceTree = "<group>"; };
+		425BCA1420A6A0F0008AAFC0 /* scoped_ptr_unittest.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = scoped_ptr_unittest.cc; sourceTree = "<group>"; };
+		425BCA1520A6A0F0008AAFC0 /* position_unittest.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = position_unittest.cc; sourceTree = "<group>"; };
+		425BCA1B20A6A140008AAFC0 /* string_number_convert_unittest.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = string_number_convert_unittest.cc; sourceTree = "<group>"; };
+		425BCA1D20A6A14E008AAFC0 /* render_tokenizer_unittest.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = render_tokenizer_unittest.cc; sourceTree = "<group>"; };
+		425BCA1F20A6A169008AAFC0 /* css_color_unittest.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = css_color_unittest.cc; sourceTree = "<group>"; };
+		425BCA2020A6A169008AAFC0 /* css_style_unittest.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = css_style_unittest.cc; sourceTree = "<group>"; };
+		425BCA2120A6A169008AAFC0 /* css_type_unittest.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = css_type_unittest.cc; sourceTree = "<group>"; };
 		42709AE720A04D0E00FD3466 /* rich_text.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = rich_text.cc; sourceTree = "<group>"; };
 		42709AE820A04D0E00FD3466 /* rich_text.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = rich_text.h; sourceTree = "<group>"; };
 		42709AEA20A04D1700FD3466 /* span.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = span.h; sourceTree = "<group>"; };
@@ -590,8 +830,6 @@
 		42B4F2031F7E470F001519E1 /* app_delegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = app_delegate.h; sourceTree = "<group>"; };
 		42B4F2041F7E470F001519E1 /* app_delegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = app_delegate.mm; sourceTree = "<group>"; };
 		42D7BCD61DCB440C000BE5A5 /* lynx.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = lynx.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		42D7BCEF1DCB440C000BE5A5 /* lynx.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = lynx.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		42D7BCFA1DCB440C000BE5A5 /* lynx.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = lynx.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		42D7BD6C1DCB7E99000BE5A5 /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		42D7BD741DCB8C27000BE5A5 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		BC1F2E4F209C5755008E188D /* lynx_object_ios.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = lynx_object_ios.mm; sourceTree = "<group>"; };
@@ -710,6 +948,18 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		425BC9BD20A69D71008AAFC0 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				425BC9BE20A69D71008AAFC0 /* Foundation.framework in Frameworks */,
+				425BC9BF20A69D71008AAFC0 /* CoreFoundation.framework in Frameworks */,
+				425BC9C020A69D71008AAFC0 /* UIKit.framework in Frameworks */,
+				425BC9C120A69D71008AAFC0 /* JavaScriptCore.framework in Frameworks */,
+				425BC9C220A69D71008AAFC0 /* libPods-lynx.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		42D7BCD31DCB440C000BE5A5 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -719,20 +969,6 @@
 				42D7BD751DCB8C27000BE5A5 /* UIKit.framework in Frameworks */,
 				42D7BD6D1DCB7E99000BE5A5 /* JavaScriptCore.framework in Frameworks */,
 				2B11C0E0617DBCF3013F55AB /* libPods-lynx.a in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		42D7BCEC1DCB440C000BE5A5 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		42D7BCF71DCB440C000BE5A5 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -926,6 +1162,9 @@
 		42177FF920994E6A001B8A48 /* layout */ = {
 			isa = PBXGroup;
 			children = (
+				425BCA1F20A6A169008AAFC0 /* css_color_unittest.cc */,
+				425BCA2020A6A169008AAFC0 /* css_style_unittest.cc */,
+				425BCA2120A6A169008AAFC0 /* css_type_unittest.cc */,
 				42177FFA20994E6A001B8A48 /* css_type.h */,
 				42177FFB20994E6A001B8A48 /* css_style.h */,
 				42177FFD20994E6A001B8A48 /* layout_object.h */,
@@ -1121,6 +1360,7 @@
 		421780FD20994E6A001B8A48 /* parser */ = {
 			isa = PBXGroup;
 			children = (
+				425BCA1D20A6A14E008AAFC0 /* render_tokenizer_unittest.cc */,
 				421780FE20994E6A001B8A48 /* utils.h */,
 				421780FF20994E6A001B8A48 /* tree_builder.h */,
 				4217810120994E6A001B8A48 /* render_tokenizer.h */,
@@ -1211,6 +1451,11 @@
 		42178DDD20994E79001B8A48 /* base */ = {
 			isa = PBXGroup;
 			children = (
+				425BCA1520A6A0F0008AAFC0 /* position_unittest.cc */,
+				425BCA1220A6A0EF008AAFC0 /* ref_counted_ptr_unittest.cc */,
+				425BCA1420A6A0F0008AAFC0 /* scoped_ptr_unittest.cc */,
+				425BCA1320A6A0EF008AAFC0 /* vector2d_unittest.cc */,
+				425BCA1120A6A0EF008AAFC0 /* weak_ptr_unittest.cc */,
 				42178DDE20994E79001B8A48 /* scoped_ptr.h */,
 				42178DDF20994E79001B8A48 /* size.h */,
 				42178DE020994E79001B8A48 /* poller */,
@@ -1328,6 +1573,7 @@
 		42178E2520994E7A001B8A48 /* string */ = {
 			isa = PBXGroup;
 			children = (
+				425BCA1B20A6A140008AAFC0 /* string_number_convert_unittest.cc */,
 				42178E2620994E7A001B8A48 /* string_utils.h */,
 				42178E2720994E7A001B8A48 /* string_number_convert.h */,
 				42178E2820994E7A001B8A48 /* string_utils.cc */,
@@ -1376,6 +1622,7 @@
 		421795E520994EEA001B8A48 /* third_party */ = {
 			isa = PBXGroup;
 			children = (
+				425BC9D520A69F3E008AAFC0 /* googletest */,
 				4217A17220994EF9001B8A48 /* jsoncpp */,
 				4217A26320994EFA001B8A48 /* init.sh */,
 			);
@@ -1441,6 +1688,82 @@
 			path = lib_json;
 			sourceTree = "<group>";
 		};
+		425BC9D520A69F3E008AAFC0 /* googletest */ = {
+			isa = PBXGroup;
+			children = (
+				425BC9D620A69F3E008AAFC0 /* include */,
+				425BC9F620A69F3E008AAFC0 /* src */,
+			);
+			path = googletest;
+			sourceTree = "<group>";
+		};
+		425BC9D620A69F3E008AAFC0 /* include */ = {
+			isa = PBXGroup;
+			children = (
+				425BC9D720A69F3E008AAFC0 /* gtest */,
+			);
+			path = include;
+			sourceTree = "<group>";
+		};
+		425BC9D720A69F3E008AAFC0 /* gtest */ = {
+			isa = PBXGroup;
+			children = (
+				425BC9D820A69F3E008AAFC0 /* gtest-death-test.h */,
+				425BC9D920A69F3E008AAFC0 /* gtest-spi.h */,
+				425BC9DA20A69F3E008AAFC0 /* internal */,
+				425BC9ED20A69F3E008AAFC0 /* gtest-message.h */,
+				425BC9EE20A69F3E008AAFC0 /* gtest-param-test.h */,
+				425BC9EF20A69F3E008AAFC0 /* gtest-typed-test.h */,
+				425BC9F020A69F3E008AAFC0 /* gtest_pred_impl.h */,
+				425BC9F120A69F3E008AAFC0 /* gtest_prod.h */,
+				425BC9F220A69F3E008AAFC0 /* gtest-param-test.h.pump */,
+				425BC9F320A69F3E008AAFC0 /* gtest-test-part.h */,
+				425BC9F420A69F3E008AAFC0 /* gtest.h */,
+				425BC9F520A69F3E008AAFC0 /* gtest-printers.h */,
+			);
+			path = gtest;
+			sourceTree = "<group>";
+		};
+		425BC9DA20A69F3E008AAFC0 /* internal */ = {
+			isa = PBXGroup;
+			children = (
+				425BC9DB20A69F3E008AAFC0 /* gtest-linked_ptr.h */,
+				425BC9DC20A69F3E008AAFC0 /* gtest-string.h */,
+				425BC9DD20A69F3E008AAFC0 /* gtest-tuple.h.pump */,
+				425BC9DE20A69F3E008AAFC0 /* gtest-death-test-internal.h */,
+				425BC9DF20A69F3E008AAFC0 /* gtest-type-util.h.pump */,
+				425BC9E020A69F3E008AAFC0 /* gtest-port.h */,
+				425BC9E120A69F3E008AAFC0 /* gtest-port-arch.h */,
+				425BC9E220A69F3E008AAFC0 /* gtest-internal.h */,
+				425BC9E320A69F3E008AAFC0 /* gtest-param-util-generated.h */,
+				425BC9E420A69F3E008AAFC0 /* gtest-param-util.h */,
+				425BC9E520A69F3E008AAFC0 /* gtest-type-util.h */,
+				425BC9E620A69F3E008AAFC0 /* gtest-filepath.h */,
+				425BC9E720A69F3E008AAFC0 /* custom */,
+				425BC9EB20A69F3E008AAFC0 /* gtest-tuple.h */,
+				425BC9EC20A69F3E008AAFC0 /* gtest-param-util-generated.h.pump */,
+			);
+			path = internal;
+			sourceTree = "<group>";
+		};
+		425BC9E720A69F3E008AAFC0 /* custom */ = {
+			isa = PBXGroup;
+			children = (
+				425BC9E820A69F3E008AAFC0 /* gtest-port.h */,
+				425BC9E920A69F3E008AAFC0 /* gtest.h */,
+				425BC9EA20A69F3E008AAFC0 /* gtest-printers.h */,
+			);
+			path = custom;
+			sourceTree = "<group>";
+		};
+		425BC9F620A69F3E008AAFC0 /* src */ = {
+			isa = PBXGroup;
+			children = (
+				425BC9FF20A69F3E008AAFC0 /* gtest-all.cc */,
+			);
+			path = src;
+			sourceTree = "<group>";
+		};
 		42D7BCCD1DCB440C000BE5A5 = {
 			isa = PBXGroup;
 			children = (
@@ -1461,8 +1784,7 @@
 			isa = PBXGroup;
 			children = (
 				42D7BCD61DCB440C000BE5A5 /* lynx.app */,
-				42D7BCEF1DCB440C000BE5A5 /* lynx.xctest */,
-				42D7BCFA1DCB440C000BE5A5 /* lynx.xctest */,
+				425BC9D320A69D71008AAFC0 /* unittests.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1492,6 +1814,7 @@
 			isa = PBXGroup;
 			children = (
 				BC9D34341E1DEC92009BD30A /* main.m */,
+				425BCA0F20A69FD2008AAFC0 /* unittests.mm */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -1712,6 +2035,26 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		425BC90020A69D71008AAFC0 /* unittests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 425BC9D020A69D71008AAFC0 /* Build configuration list for PBXNativeTarget "unittests" */;
+			buildPhases = (
+				425BC90120A69D71008AAFC0 /* [CP] Check Pods Manifest.lock */,
+				425BC90220A69D71008AAFC0 /* Sources */,
+				425BC9BD20A69D71008AAFC0 /* Frameworks */,
+				425BC9C320A69D71008AAFC0 /* Resources */,
+				425BC9CE20A69D71008AAFC0 /* [CP] Embed Pods Frameworks */,
+				425BC9CF20A69D71008AAFC0 /* [CP] Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = unittests;
+			productName = lynx;
+			productReference = 425BC9D320A69D71008AAFC0 /* unittests.app */;
+			productType = "com.apple.product-type.application";
+		};
 		42D7BCD51DCB440C000BE5A5 /* lynx */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 42D7BD031DCB440C000BE5A5 /* Build configuration list for PBXNativeTarget "lynx" */;
@@ -1732,42 +2075,6 @@
 			productReference = 42D7BCD61DCB440C000BE5A5 /* lynx.app */;
 			productType = "com.apple.product-type.application";
 		};
-		42D7BCEE1DCB440C000BE5A5 /* lynxTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 42D7BD061DCB440C000BE5A5 /* Build configuration list for PBXNativeTarget "lynxTests" */;
-			buildPhases = (
-				42D7BCEB1DCB440C000BE5A5 /* Sources */,
-				42D7BCEC1DCB440C000BE5A5 /* Frameworks */,
-				42D7BCED1DCB440C000BE5A5 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				42D7BCF11DCB440C000BE5A5 /* PBXTargetDependency */,
-			);
-			name = lynxTests;
-			productName = lynxTests;
-			productReference = 42D7BCEF1DCB440C000BE5A5 /* lynx.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
-		42D7BCF91DCB440C000BE5A5 /* lynxUITests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 42D7BD091DCB440C000BE5A5 /* Build configuration list for PBXNativeTarget "lynxUITests" */;
-			buildPhases = (
-				42D7BCF61DCB440C000BE5A5 /* Sources */,
-				42D7BCF71DCB440C000BE5A5 /* Frameworks */,
-				42D7BCF81DCB440C000BE5A5 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				42D7BCFC1DCB440C000BE5A5 /* PBXTargetDependency */,
-			);
-			name = lynxUITests;
-			productName = lynxUITests;
-			productReference = 42D7BCFA1DCB440C000BE5A5 /* lynx.xctest */;
-			productType = "com.apple.product-type.bundle.ui-testing";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -1777,19 +2084,12 @@
 				LastUpgradeCheck = 0730;
 				ORGANIZATIONNAME = lynx;
 				TargetAttributes = {
+					425BC90020A69D71008AAFC0 = {
+						DevelopmentTeam = PM93V4ARD4;
+					};
 					42D7BCD51DCB440C000BE5A5 = {
 						CreatedOnToolsVersion = 7.2;
 						DevelopmentTeam = PM93V4ARD4;
-					};
-					42D7BCEE1DCB440C000BE5A5 = {
-						CreatedOnToolsVersion = 7.2;
-						DevelopmentTeam = PM93V4ARD4;
-						TestTargetID = 42D7BCD51DCB440C000BE5A5;
-					};
-					42D7BCF91DCB440C000BE5A5 = {
-						CreatedOnToolsVersion = 7.2;
-						DevelopmentTeam = PM93V4ARD4;
-						TestTargetID = 42D7BCD51DCB440C000BE5A5;
 					};
 				};
 			};
@@ -1807,41 +2107,47 @@
 			projectRoot = "";
 			targets = (
 				42D7BCD51DCB440C000BE5A5 /* lynx */,
-				42D7BCEE1DCB440C000BE5A5 /* lynxTests */,
-				42D7BCF91DCB440C000BE5A5 /* lynxUITests */,
+				425BC90020A69D71008AAFC0 /* unittests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		425BC9C320A69D71008AAFC0 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				425BC9C420A69D71008AAFC0 /* sconscript in Resources */,
+				425BC9C520A69D71008AAFC0 /* json_valueiterator.inl in Resources */,
+				425BC9C620A69D71008AAFC0 /* init.sh in Resources */,
+				425BC9C720A69D71008AAFC0 /* version.h.in in Resources */,
+				425BC9C820A69D71008AAFC0 /* Assets.xcassets in Resources */,
+				425BC9C920A69D71008AAFC0 /* Info.plist in Resources */,
+				425BC9CA20A69D71008AAFC0 /* CMakeLists.txt in Resources */,
+				425BC9CB20A69D71008AAFC0 /* assets.bundle in Resources */,
+				425BC9CC20A69D71008AAFC0 /* CMakeLists.txt in Resources */,
+				425BC9CD20A69D71008AAFC0 /* LaunchScreen.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		42D7BCD41DCB440C000BE5A5 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				425BCA0320A69F3E008AAFC0 /* gtest-param-util-generated.h.pump in Resources */,
 				4217A90220994F04001B8A48 /* sconscript in Resources */,
 				4217A90420994F04001B8A48 /* json_valueiterator.inl in Resources */,
 				4217A90520994F04001B8A48 /* init.sh in Resources */,
 				4217A90020994F04001B8A48 /* version.h.in in Resources */,
 				BC9D343A1E1DEC92009BD30A /* Assets.xcassets in Resources */,
+				425BCA0120A69F3E008AAFC0 /* gtest-tuple.h.pump in Resources */,
 				BC5DBD731F5C60A5005A47E3 /* Info.plist in Resources */,
 				4217A8D320994F04001B8A48 /* CMakeLists.txt in Resources */,
+				425BCA0420A69F3E008AAFC0 /* gtest-param-test.h.pump in Resources */,
 				42B4F2021F7E42CC001519E1 /* assets.bundle in Resources */,
+				425BCA0220A69F3E008AAFC0 /* gtest-type-util.h.pump in Resources */,
 				4217A8FF20994F04001B8A48 /* CMakeLists.txt in Resources */,
 				BC5DBD741F5C60A5005A47E3 /* LaunchScreen.storyboard in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		42D7BCED1DCB440C000BE5A5 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		42D7BCF81DCB440C000BE5A5 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1849,6 +2155,54 @@
 
 /* Begin PBXShellScriptBuildPhase section */
 		30354A0EF161827A241B5D60 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-lynx/Pods-lynx-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		425BC90120A69D71008AAFC0 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-lynx-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		425BC9CE20A69D71008AAFC0 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-lynx/Pods-lynx-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		425BC9CF20A69D71008AAFC0 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1899,6 +2253,210 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		425BC90220A69D71008AAFC0 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				425BC90320A69D71008AAFC0 /* view_wrapper.mm in Sources */,
+				425BC90420A69D71008AAFC0 /* coordinator_pretreatment.mm in Sources */,
+				425BC90520A69D71008AAFC0 /* url_request_context.cc in Sources */,
+				425BC90620A69D71008AAFC0 /* ui_event_action.mm in Sources */,
+				425BC90720A69D71008AAFC0 /* source_cache_manager.cc in Sources */,
+				425BC90820A69D71008AAFC0 /* html_loader.cc in Sources */,
+				425BC90920A69D71008AAFC0 /* framerate_controller.mm in Sources */,
+				425BC90A20A69D71008AAFC0 /* cell_container.cc in Sources */,
+				425BC90B20A69D71008AAFC0 /* resource_reader.mm in Sources */,
+				425BC90C20A69D71008AAFC0 /* ui_update_data_action.mm in Sources */,
+				425BC90D20A69D71008AAFC0 /* timed_task.cc in Sources */,
+				425BC90E20A69D71008AAFC0 /* socket_posix.cc in Sources */,
+				425BC91020A69D71008AAFC0 /* module_bundle.mm in Sources */,
+				425BC91120A69D71008AAFC0 /* object_wrap.cc in Sources */,
+				425BC91220A69D71008AAFC0 /* render_tree_host.cc in Sources */,
+				425BC91320A69D71008AAFC0 /* json_reader.cpp in Sources */,
+				425BC91420A69D71008AAFC0 /* time_utils.cc in Sources */,
+				425BCA2320A6A169008AAFC0 /* css_style_unittest.cc in Sources */,
+				425BC91520A69D71008AAFC0 /* prototype_builder.cc in Sources */,
+				425BC91620A69D71008AAFC0 /* string_utils.cc in Sources */,
+				425BC91720A69D71008AAFC0 /* jsc_helper.cc in Sources */,
+				425BC91820A69D71008AAFC0 /* css_style.cc in Sources */,
+				425BC91920A69D71008AAFC0 /* page_info.mm in Sources */,
+				425BC91A20A69D71008AAFC0 /* render_style.cc in Sources */,
+				425BC91B20A69D71008AAFC0 /* lynx_ui_scrollview.mm in Sources */,
+				425BC91C20A69D71008AAFC0 /* screen.cc in Sources */,
+				425BC91D20A69D71008AAFC0 /* global.cc in Sources */,
+				425BC91E20A69D71008AAFC0 /* lynx_object_ios.mm in Sources */,
+				425BC91F20A69D71008AAFC0 /* debug_session.cc in Sources */,
+				425BC92020A69D71008AAFC0 /* websocket_frame.cc in Sources */,
+				425BC92120A69D71008AAFC0 /* net_errors_posix.cc in Sources */,
+				425BC92220A69D71008AAFC0 /* render_command.cc in Sources */,
+				425BC92320A69D71008AAFC0 /* coordinator_register.mm in Sources */,
+				425BC92420A69D71008AAFC0 /* scroll_view.cc in Sources */,
+				425BC92520A69D71008AAFC0 /* object_wrap.cc in Sources */,
+				425BC92620A69D71008AAFC0 /* lynx_runtime.mm in Sources */,
+				425BC92720A69D71008AAFC0 /* lynx_swiper_controller.mm in Sources */,
+				425BC92820A69D71008AAFC0 /* lynx_object.cc in Sources */,
+				425BC92920A69D71008AAFC0 /* script_request_delegate.cc in Sources */,
+				425BC92A20A69D71008AAFC0 /* css_layout.cc in Sources */,
+				425BC92B20A69D71008AAFC0 /* debug_client.cc in Sources */,
+				425BC92C20A69D71008AAFC0 /* lynx_object_platform.cc in Sources */,
+				425BC92D20A69D71008AAFC0 /* label_wrapper.m in Sources */,
+				425BC92E20A69D71008AAFC0 /* parser.cc in Sources */,
+				425BC92F20A69D71008AAFC0 /* js_value_ext.mm in Sources */,
+				425BC93020A69D71008AAFC0 /* thread_local_posix.cc in Sources */,
+				425BC93120A69D71008AAFC0 /* url_request_ios.mm in Sources */,
+				425BC93220A69D71008AAFC0 /* switch.cc in Sources */,
+				425BC93320A69D71008AAFC0 /* span.cc in Sources */,
+				425BC93420A69D71008AAFC0 /* layout_object.cc in Sources */,
+				425BC93520A69D71008AAFC0 /* memory_debug.cc in Sources */,
+				425BC93620A69D71008AAFC0 /* render_object_impl_ios.mm in Sources */,
+				425BC93720A69D71008AAFC0 /* image_downloader.mm in Sources */,
+				425BC93820A69D71008AAFC0 /* rich_text.cc in Sources */,
+				425BC93920A69D71008AAFC0 /* observer_list.cc in Sources */,
+				425BC93A20A69D71008AAFC0 /* listview_controller.mm in Sources */,
+				425BC93B20A69D71008AAFC0 /* trace_writer.cc in Sources */,
+				425BC93C20A69D71008AAFC0 /* coordinator_transfer_station.mm in Sources */,
+				425BC93D20A69D71008AAFC0 /* ui_action.mm in Sources */,
+				425BC93E20A69D71008AAFC0 /* message_pump_posix.cc in Sources */,
+				425BC93F20A69D71008AAFC0 /* module_register.mm in Sources */,
+				425BCA1820A6A0F0008AAFC0 /* vector2d_unittest.cc in Sources */,
+				425BCA1020A69FD2008AAFC0 /* unittests.mm in Sources */,
+				425BC94020A69D71008AAFC0 /* jsc_function.cc in Sources */,
+				425BC94120A69D71008AAFC0 /* debug_host_impl.mm in Sources */,
+				425BC94220A69D71008AAFC0 /* canvas.cc in Sources */,
+				425BC94320A69D71008AAFC0 /* device_info_util.mm in Sources */,
+				425BC94420A69D71008AAFC0 /* websocket_frame_parser.cc in Sources */,
+				425BC94520A69D71008AAFC0 /* vm_context.cc in Sources */,
+				425BC94620A69D71008AAFC0 /* loader.cc in Sources */,
+				425BC94720A69D71008AAFC0 /* list_view.cc in Sources */,
+				425BC94820A69D71008AAFC0 /* message_pump_ios.mm in Sources */,
+				425BC94920A69D71008AAFC0 /* render_tree_host_impl_ios.mm in Sources */,
+				425BC94A20A69D71008AAFC0 /* element.cc in Sources */,
+				425BC94B20A69D71008AAFC0 /* command_collector.cc in Sources */,
+				425BC94C20A69D71008AAFC0 /* render_tree_host_impl_bridge.mm in Sources */,
+				425BC94D20A69D71008AAFC0 /* select_poller.cc in Sources */,
+				425BC94E20A69D71008AAFC0 /* class_template.cc in Sources */,
+				425BC94F20A69D71008AAFC0 /* input_stream.cc in Sources */,
+				425BC95020A69D71008AAFC0 /* tree_builder.cc in Sources */,
+				425BC95120A69D71008AAFC0 /* css_type.cc in Sources */,
+				425BC95220A69D71008AAFC0 /* cell_view.cc in Sources */,
+				425BC95320A69D71008AAFC0 /* lynx_ui_view.mm in Sources */,
+				425BC95420A69D71008AAFC0 /* lynx_object.mm in Sources */,
+				425BC95520A69D71008AAFC0 /* scrollview_wrapper.mm in Sources */,
+				425BCA1C20A6A140008AAFC0 /* string_number_convert_unittest.cc in Sources */,
+				425BC95620A69D71008AAFC0 /* input.cc in Sources */,
+				425BC95720A69D71008AAFC0 /* memory_tracker.cc in Sources */,
+				425BC95820A69D71008AAFC0 /* ui_factory.mm in Sources */,
+				425BC95920A69D71008AAFC0 /* coordinator_executor.cc in Sources */,
+				425BC95A20A69D71008AAFC0 /* net_errors.cc in Sources */,
+				425BC95B20A69D71008AAFC0 /* view_stub.cc in Sources */,
+				425BC95C20A69D71008AAFC0 /* coordinator_action.cc in Sources */,
+				425BC95D20A69D71008AAFC0 /* render_object.cc in Sources */,
+				425BC95E20A69D71008AAFC0 /* script_loader.cc in Sources */,
+				425BC95F20A69D71008AAFC0 /* source_cache.cc in Sources */,
+				425BCA1720A6A0F0008AAFC0 /* ref_counted_ptr_unittest.cc in Sources */,
+				425BC96020A69D71008AAFC0 /* file_path_utility.mm in Sources */,
+				425BC96120A69D71008AAFC0 /* canvas_2d_context.cc in Sources */,
+				425BC96220A69D71008AAFC0 /* lepus_string.cc in Sources */,
+				425BC96320A69D71008AAFC0 /* io_buffer.cc in Sources */,
+				425BC96420A69D71008AAFC0 /* application_info.mm in Sources */,
+				425BC96520A69D71008AAFC0 /* event_target.cc in Sources */,
+				425BC96620A69D71008AAFC0 /* lynx_ui_image.mm in Sources */,
+				425BC96720A69D71008AAFC0 /* coordinator_commands.mm in Sources */,
+				425BC96820A69D71008AAFC0 /* render_object_impl.cc in Sources */,
+				425BC96920A69D71008AAFC0 /* jsc_context.cc in Sources */,
+				425BC96A20A69D71008AAFC0 /* syntax_tree.cc in Sources */,
+				425BCA2420A6A169008AAFC0 /* css_type_unittest.cc in Sources */,
+				425BC96B20A69D71008AAFC0 /* table.cc in Sources */,
+				425BC96C20A69D71008AAFC0 /* page_navigator.mm in Sources */,
+				425BC96D20A69D71008AAFC0 /* vm.cc in Sources */,
+				425BC96E20A69D71008AAFC0 /* json_value.cpp in Sources */,
+				425BC96F20A69D71008AAFC0 /* render_parser.cc in Sources */,
+				425BC97020A69D71008AAFC0 /* code_generator.cc in Sources */,
+				425BC97120A69D71008AAFC0 /* coordinator_cmd_executor.mm in Sources */,
+				425BC97220A69D71008AAFC0 /* message_pump_io_posix.cc in Sources */,
+				425BC97320A69D71008AAFC0 /* url_request_ghost_delegate.cc in Sources */,
+				425BC97420A69D71008AAFC0 /* json_writer.cpp in Sources */,
+				425BCA0E20A69F51008AAFC0 /* gtest-all.cc in Sources */,
+				425BC97520A69D71008AAFC0 /* global_config_data.cc in Sources */,
+				425BCA1920A6A0F0008AAFC0 /* scoped_ptr_unittest.cc in Sources */,
+				425BC97620A69D71008AAFC0 /* websocket.cc in Sources */,
+				425BC97720A69D71008AAFC0 /* class_template_storage.cc in Sources */,
+				425BC97820A69D71008AAFC0 /* js_context.cc in Sources */,
+				425BC97920A69D71008AAFC0 /* message_loop.cc in Sources */,
+				425BC97A20A69D71008AAFC0 /* container_node.cc in Sources */,
+				425BC97B20A69D71008AAFC0 /* semantic_analysis.cc in Sources */,
+				425BC97C20A69D71008AAFC0 /* oc_method.mm in Sources */,
+				425BC97D20A69D71008AAFC0 /* lynx_ui_label.mm in Sources */,
+				425BC97E20A69D71008AAFC0 /* render_tree_host_impl.cc in Sources */,
+				425BC97F20A69D71008AAFC0 /* lynx_map.cc in Sources */,
+				425BC98020A69D71008AAFC0 /* builtin.cc in Sources */,
+				425BC98120A69D71008AAFC0 /* oc_property.mm in Sources */,
+				425BC98220A69D71008AAFC0 /* scanner.cc in Sources */,
+				425BC98320A69D71008AAFC0 /* body.cc in Sources */,
+				425BC98420A69D71008AAFC0 /* module.mm in Sources */,
+				425BC98520A69D71008AAFC0 /* html_request_delegate.cc in Sources */,
+				425BC98620A69D71008AAFC0 /* js_vm.cc in Sources */,
+				425BC98720A69D71008AAFC0 /* websocket_errors.cc in Sources */,
+				425BC98820A69D71008AAFC0 /* render_tokenizer.cc in Sources */,
+				425BC98920A69D71008AAFC0 /* lynx_value.cc in Sources */,
+				425BC98A20A69D71008AAFC0 /* label.cc in Sources */,
+				425BC98B20A69D71008AAFC0 /* string_number_convert.cc in Sources */,
+				425BC98C20A69D71008AAFC0 /* utility.cc in Sources */,
+				425BC98D20A69D71008AAFC0 /* css_color.cc in Sources */,
+				425BC98E20A69D71008AAFC0 /* lynx_ui_body.mm in Sources */,
+				425BC98F20A69D71008AAFC0 /* extended_view.cc in Sources */,
+				425BC99020A69D71008AAFC0 /* coordinator_action_executor.mm in Sources */,
+				425BC99120A69D71008AAFC0 /* coordinator_types.mm in Sources */,
+				425BC99220A69D71008AAFC0 /* swiper_view.cc in Sources */,
+				425BC99320A69D71008AAFC0 /* canvas_view.cc in Sources */,
+				425BC99420A69D71008AAFC0 /* timer_heap.cc in Sources */,
+				425BC99520A69D71008AAFC0 /* socket.cc in Sources */,
+				425BC99620A69D71008AAFC0 /* render_token.cc in Sources */,
+				425BC99720A69D71008AAFC0 /* style_convector.mm in Sources */,
+				425BC99820A69D71008AAFC0 /* runtime.cc in Sources */,
+				425BC99920A69D71008AAFC0 /* coordinator_treatment.mm in Sources */,
+				425BC99A20A69D71008AAFC0 /* image_view.cc in Sources */,
+				425BCA1A20A6A0F0008AAFC0 /* position_unittest.cc in Sources */,
+				425BC99B20A69D71008AAFC0 /* document.cc in Sources */,
+				425BC99C20A69D71008AAFC0 /* base64.cc in Sources */,
+				425BC99D20A69D71008AAFC0 /* view.cc in Sources */,
+				425BC99E20A69D71008AAFC0 /* logging.cc in Sources */,
+				425BC99F20A69D71008AAFC0 /* oc_center.mm in Sources */,
+				425BC9A020A69D71008AAFC0 /* rand_util.cc in Sources */,
+				425BC9A120A69D71008AAFC0 /* websocket_hand_shake.cc in Sources */,
+				425BCA1620A6A0F0008AAFC0 /* weak_ptr_unittest.cc in Sources */,
+				425BC9A220A69D71008AAFC0 /* lynx_content_view.mm in Sources */,
+				425BC9A320A69D71008AAFC0 /* pixel_util.mm in Sources */,
+				425BC9A420A69D71008AAFC0 /* lynx_ui_listview.mm in Sources */,
+				425BCA1E20A6A14E008AAFC0 /* render_tokenizer_unittest.cc in Sources */,
+				425BCA2220A6A169008AAFC0 /* css_color_unittest.cc in Sources */,
+				425BC9A520A69D71008AAFC0 /* render_object_impl_bridge.mm in Sources */,
+				425BC9A620A69D71008AAFC0 /* resource_manager.mm in Sources */,
+				425BC9A720A69D71008AAFC0 /* ui_action_collector.mm in Sources */,
+				425BC9A820A69D71008AAFC0 /* text_area.cc in Sources */,
+				425BC9A920A69D71008AAFC0 /* lynx_ui.mm in Sources */,
+				425BC9AA20A69D71008AAFC0 /* label_measurer_ios.mm in Sources */,
+				425BC9AB20A69D71008AAFC0 /* websocket_stream.cc in Sources */,
+				425BC9AC20A69D71008AAFC0 /* timer.cc in Sources */,
+				425BC9AD20A69D71008AAFC0 /* screen_util.mm in Sources */,
+				425BC9AE20A69D71008AAFC0 /* thread.cc in Sources */,
+				425BC9AF20A69D71008AAFC0 /* navigator.cc in Sources */,
+				425BC9B020A69D71008AAFC0 /* lynx_view_controller.mm in Sources */,
+				425BC9B120A69D71008AAFC0 /* list_shadow.cc in Sources */,
+				425BC9B220A69D71008AAFC0 /* style_parser.cc in Sources */,
+				425BC9B320A69D71008AAFC0 /* lynx_array.cc in Sources */,
+				425BC9B420A69D71008AAFC0 /* oc_field.mm in Sources */,
+				425BC9B520A69D71008AAFC0 /* animation.cc in Sources */,
+				425BC9B620A69D71008AAFC0 /* oc_helper.mm in Sources */,
+				425BC9B720A69D71008AAFC0 /* oc_property_transformer.mm in Sources */,
+				425BC9B820A69D71008AAFC0 /* lynx_swiper_view.mm in Sources */,
+				425BC9B920A69D71008AAFC0 /* console.cc in Sources */,
+				425BC9BA20A69D71008AAFC0 /* trace_logger.cc in Sources */,
+				425BC9BB20A69D71008AAFC0 /* function.cc in Sources */,
+				425BC9BC20A69D71008AAFC0 /* app_delegate.mm in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		42D7BCD21DCB440C000BE5A5 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -2092,36 +2650,101 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		42D7BCEB1DCB440C000BE5A5 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		42D7BCF61DCB440C000BE5A5 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
 
-/* Begin PBXTargetDependency section */
-		42D7BCF11DCB440C000BE5A5 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 42D7BCD51DCB440C000BE5A5 /* lynx */;
-			targetProxy = 42D7BCF01DCB440C000BE5A5 /* PBXContainerItemProxy */;
-		};
-		42D7BCFC1DCB440C000BE5A5 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 42D7BCD51DCB440C000BE5A5 /* lynx */;
-			targetProxy = 42D7BCFB1DCB440C000BE5A5 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
-
 /* Begin XCBuildConfiguration section */
+		425BC9D120A69D71008AAFC0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 37642C29A967697753057F9F /* Pods-lynx.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = PM93V4ARD4;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
+					"$(PROJECT_DIR)/lynx",
+				);
+				GCC_INPUT_FILETYPE = automatic;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+					"IOS=1",
+					"OS_IOS=1",
+				);
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"${PODS_ROOT}/Headers/Public\"",
+					"\"${PODS_ROOT}/Headers/Public/SDWebImage\"",
+					"\"${PODS_ROOT}/Headers/Public/libwebp\"",
+					"$(PROJECT_DIR)/../Core",
+					"$(PROJECT_DIR)/../Core/third_party/jsoncpp/src/lib_json",
+					"$(PROJECT_DIR)/../Core/third_party/jsoncpp/include",
+					"$(PROJECT_DIR)/lynx",
+					"$(PROJECT_DIR)/../Core/third_party/googletest",
+					"$(PROJECT_DIR)/../Core/third_party/googletest/include",
+				);
+				INFOPLIST_FILE = lynx/info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/../Android/app/src/main/cpp/lynx/runtime/v8/libs",
+				);
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.lynx.example;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+			};
+			name = Debug;
+		};
+		425BC9D220A69D71008AAFC0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3D8F19BA8FC5B5A4678479B7 /* Pods-lynx.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = PM93V4ARD4;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
+					"$(PROJECT_DIR)/lynx",
+				);
+				GCC_INPUT_FILETYPE = automatic;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"COCOAPODS=1",
+					"$(inherited)",
+					"SD_WEBP=1",
+					"OS_IOS=1",
+				);
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"${PODS_ROOT}/Headers/Public\"",
+					"\"${PODS_ROOT}/Headers/Public/SDWebImage\"",
+					"\"${PODS_ROOT}/Headers/Public/libwebp\"",
+					"$(PROJECT_DIR)/../Core",
+					"$(PROJECT_DIR)/../Core/third_party/jsoncpp/src/lib_json",
+					"$(PROJECT_DIR)/../Core/third_party/jsoncpp/include",
+					"$(PROJECT_DIR)/lynx",
+					"$(PROJECT_DIR)/../Core/third_party/googletest",
+					"$(PROJECT_DIR)/../Core/third_party/googletest/include",
+				);
+				INFOPLIST_FILE = lynx/info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/../Android/app/src/main/cpp/lynx/runtime/v8/libs",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.lynx.example;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+			};
+			name = Release;
+		};
 		42D7BD011DCB440C000BE5A5 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -2297,57 +2920,18 @@
 			};
 			name = Release;
 		};
-		42D7BD071DCB440C000BE5A5 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				INFOPLIST_FILE = lynxTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = lynx.lynxTests;
-				PRODUCT_NAME = lynx;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/lynx.app/lynx";
-			};
-			name = Debug;
-		};
-		42D7BD081DCB440C000BE5A5 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				INFOPLIST_FILE = lynxTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = lynx.lynxTests;
-				PRODUCT_NAME = lynx;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/lynx.app/lynx";
-			};
-			name = Release;
-		};
-		42D7BD0A1DCB440C000BE5A5 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				INFOPLIST_FILE = lynxUITests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = lynx.lynxUITests;
-				PRODUCT_NAME = lynx;
-				TEST_TARGET_NAME = lynx;
-				USES_XCTRUNNER = YES;
-			};
-			name = Debug;
-		};
-		42D7BD0B1DCB440C000BE5A5 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				INFOPLIST_FILE = lynxUITests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = lynx.lynxUITests;
-				PRODUCT_NAME = lynx;
-				TEST_TARGET_NAME = lynx;
-				USES_XCTRUNNER = YES;
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		425BC9D020A69D71008AAFC0 /* Build configuration list for PBXNativeTarget "unittests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				425BC9D120A69D71008AAFC0 /* Debug */,
+				425BC9D220A69D71008AAFC0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		42D7BCD11DCB440C000BE5A5 /* Build configuration list for PBXProject "lynx" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -2362,24 +2946,6 @@
 			buildConfigurations = (
 				42D7BD041DCB440C000BE5A5 /* Debug */,
 				42D7BD051DCB440C000BE5A5 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		42D7BD061DCB440C000BE5A5 /* Build configuration list for PBXNativeTarget "lynxTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				42D7BD071DCB440C000BE5A5 /* Debug */,
-				42D7BD081DCB440C000BE5A5 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		42D7BD091DCB440C000BE5A5 /* Build configuration list for PBXNativeTarget "lynxUITests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				42D7BD0A1DCB440C000BE5A5 /* Debug */,
-				42D7BD0B1DCB440C000BE5A5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
