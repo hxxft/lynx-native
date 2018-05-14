@@ -5,6 +5,7 @@ package com.lynx.dev;
 public class DevSupportManager extends DebugHostImpl {
 
     private static DevSupportManager mDevSupportManager;
+    private boolean mEnable = false;
 
     public static DevSupportManager getInstance() {
         if(mDevSupportManager == null) {
@@ -14,10 +15,13 @@ public class DevSupportManager extends DebugHostImpl {
     }
 
     public void setDebugDevHost(DebugDevHost host) {
-        mHost = host;
+        if(mEnable) {
+            mHost = host;
+        }
     }
 
     public void initialize() {
+        mEnable = true;
         mDevSupportManager.nativeAttach();
     }
 

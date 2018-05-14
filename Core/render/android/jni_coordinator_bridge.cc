@@ -122,6 +122,7 @@ jlong Prepare(JNIEnv *env, jclass jcaller, jstring executable) {
 }
 
 void Destroy(JNIEnv *env, jclass jcaller, jlong ptr) {
+    lynx_delete(reinterpret_cast<lynx::CoordinatorExecutor *>(ptr));
 }
 
 jboolean UpdateProperty(JNIEnv *env,

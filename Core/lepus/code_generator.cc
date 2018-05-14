@@ -71,10 +71,10 @@ namespace lepus {
     
     
     void CodeGenerator::EnterFunction() {
-        FunctionGenerate* function = new FunctionGenerate;
+        FunctionGenerate* function = lynx_new FunctionGenerate;
         function->parent_ = current_function_;
         current_function_.Reset(function);
-        function->function_ = new Function;
+        function->function_ = lynx_new Function;
          FunctionGenerate* parent = function->parent_.Get();
         if(parent) {
             function->function_->set_index(parent->function_->AddChildFunction(function->function_));
@@ -90,7 +90,7 @@ namespace lepus {
     }
     
     void CodeGenerator::EnterBlock() {
-        BlockGenerate* block = new BlockGenerate;
+        BlockGenerate* block = lynx_new BlockGenerate;
         block->parent_ = current_function_->current_block_;
         current_function_->current_block_.Reset(block);
     }
@@ -101,7 +101,7 @@ namespace lepus {
     }
     
     void CodeGenerator::EnterLoop() {
-        LoopGenerate* loop = new LoopGenerate;
+        LoopGenerate* loop = lynx_new LoopGenerate;
         loop->loop_start_index_ = current_function_->function_->OpCodeSize();
         loop->parent_ = current_function_->current_loop_;
         current_function_->current_loop_.Reset(loop);
@@ -211,7 +211,7 @@ namespace lepus {
             Guard<CodeGenerator> g(this, &CodeGenerator::EnterBlock, &CodeGenerator::LeaveBlock);
             ast->block()->Accept(this, nullptr);
             Value* top = context_->heap().top_++;
-            top->closure_ = new Closure(static_cast<Function*>(current_function_->function_));
+            top->closure_ = lynx_new Closure(static_cast<Function*>(current_function_->function_));
             top->type_ = Value_Closure;
         }
         context_->root_function_.Reset(static_cast<Function*>(current_function_->function_));

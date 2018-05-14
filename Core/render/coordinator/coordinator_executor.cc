@@ -11,7 +11,7 @@ namespace lynx {
 
     CoordinatorExecutor::CoordinatorExecutor(const std::string &executable) {
 
-        vm_ = new lepus::VM();
+        vm_ = lynx_new lepus::VM();
         lepus::VMContext* ctx = new lepus::VMContext();
         ctx->Initialize();
 

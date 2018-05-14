@@ -6,7 +6,7 @@ namespace lepus{
     String::String(const char* str, std::size_t len, StringPool* string_pool) {
         string_pool_ = string_pool;
         length_ = len;
-        str_ = new char[len + 1];
+        str_ = lynx_new char[len + 1];
         memcpy(str_, str, len);
         str_[len] = 0;
         Hash(str_);
@@ -14,7 +14,7 @@ namespace lepus{
     
     String::~String(){
         string_pool_->Earse(this);
-        delete[] str_;
+        lynx_deleteA(str_);
     }
     
     void String::Hash(const char *s)
@@ -36,7 +36,7 @@ namespace lepus{
         if(iter != string_map_.end()) {
             return iter->second;
         }
-        String* string = new String(str.c_str(), str.size(), this);
+        String* string = lynx_new String(str.c_str(), str.size(), this);
         string_map_.insert(std::make_pair(str, string));
         return string;
     }

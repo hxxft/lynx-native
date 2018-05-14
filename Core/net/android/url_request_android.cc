@@ -19,9 +19,9 @@ void OnSuccess(JNIEnv* env,
   if (ghost_delegate == NULL)
     return;
   base::ScopedPtr<base::PlatformString> scoped_url(
-      new base::PlatformStringImpl(env, url));
+      lynx_new base::PlatformStringImpl(env, url));
   base::ScopedPtr<base::PlatformString> scoped_response(
-      new base::PlatformStringImpl(env, response));
+      lynx_new base::PlatformStringImpl(env, response));
   ghost_delegate->DeliverSuccess(scoped_url, scoped_response);
 }
 
@@ -36,9 +36,9 @@ void OnFailed(JNIEnv* env,
   if (ghost_delegate == NULL)
     return;
   base::ScopedPtr<base::PlatformString> scoped_url(
-      new base::PlatformStringImpl(env, url));
+      lynx_new base::PlatformStringImpl(env, url));
   base::ScopedPtr<base::PlatformString> scoped_error(
-      new base::PlatformStringImpl(env, error));
+      lynx_new base::PlatformStringImpl(env, error));
   ghost_delegate->DeliverError(scoped_url, scoped_error);
 }
 

@@ -4,7 +4,7 @@
 
 namespace lepus {
     SwitchInfo* SwitchInfo::Create(base::ScopedVector<ASTree>& cases) {
-        SwitchInfo* info = new SwitchInfo;
+        SwitchInfo* info = lynx_new SwitchInfo;
         CaseStatementAST* ast = static_cast<CaseStatementAST*>(cases[0]);
         if(ast->key().token_ == Token_Number) {
             info->key_type_ = Token_Number;

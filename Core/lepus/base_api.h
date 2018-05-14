@@ -40,7 +40,7 @@ namespace lepus {
     }
     
     void RegisterBaseAPI(Context* ctx) {
-        Dictonary* table = new Dictonary;
+        Dictonary* table = lynx_new Dictonary;
         RegisterTableFunction(ctx, table, "log", &Print);
         RegisterTableFunction(ctx, table, "assert", &Assert);
         RegisterFunctionTable(ctx, "console", table);

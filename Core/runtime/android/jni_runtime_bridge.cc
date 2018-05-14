@@ -45,7 +45,7 @@ void RunScript(JNIEnv *env, jobject jcaller,
                jstring source,
                jobject callback) {
     jscore::Runtime *runtime_ptr = reinterpret_cast<jscore::Runtime *>(runtime);
-    base::ScopedPtr<base::PlatformString> platform_string(new base::PlatformStringImpl(env, source));
+    base::ScopedPtr<base::PlatformString> platform_string(lynx_new base::PlatformStringImpl(env, source));
     base::ScopedPtr<jscore::ResultCallback> cb;
     if (callback != NULL) {
         cb.Reset(lynx_new jscore::ResultCallbackAndroid(env, callback));
@@ -56,8 +56,8 @@ void RunScript(JNIEnv *env, jobject jcaller,
 void LoadHTML(JNIEnv *env, jobject jcaller, jlong runtime, jstring url, jstring source) {
   DCHECK(runtime);
   jscore::Runtime* runtime_ptr = reinterpret_cast<jscore::Runtime*>(runtime);
-  base::ScopedPtr<base::PlatformString> platform_string(new base::PlatformStringImpl(env, source));
-  base::ScopedPtr<base::PlatformString> platform_url(new base::PlatformStringImpl(env, url));
+  base::ScopedPtr<base::PlatformString> platform_string(lynx_new base::PlatformStringImpl(env, source));
+  base::ScopedPtr<base::PlatformString> platform_url(lynx_new base::PlatformStringImpl(env, url));
   runtime_ptr->LoadHTML(platform_url->ToString(), platform_string->ToString());
 }
 

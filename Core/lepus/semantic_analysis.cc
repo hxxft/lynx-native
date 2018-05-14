@@ -27,7 +27,7 @@ namespace lepus {
     };
     
     void SemanticAnalysis::EnterFunction() {
-        LexicalFunction* function = new LexicalFunction;
+        LexicalFunction* function = lynx_new LexicalFunction;
         function->parent_ = current_function_;
         current_function_.Reset(function);
     }
@@ -38,7 +38,7 @@ namespace lepus {
     }
     
     void SemanticAnalysis::EnterBlock() {
-        LexicalBlock* block = new LexicalBlock;
+        LexicalBlock* block = lynx_new LexicalBlock;
         block->parent_ = current_function_->current_block_;
         current_function_->current_block_.Reset(block);
     }

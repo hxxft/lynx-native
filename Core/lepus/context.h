@@ -22,7 +22,7 @@ namespace lepus {
             for(;iter != global_.end(); ++iter) {
                 iter->first->Release();
                 if(global_content_[iter->second].type_ == Value_Table){
-                    delete static_cast<Dictonary*>(global_content_[iter->second].table_);
+                    lynx_delete(static_cast<Dictonary*>(global_content_[iter->second].table_));
                 }
             }
         }

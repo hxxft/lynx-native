@@ -118,6 +118,8 @@ public class CrdTransferStation implements TransferStation {
             return;
         }
         responderAffinityList.remove(responderAffinity);
+        CrdCommandExecutor executor = mExecutorPool.get(responderAffinity);
+        executor.stop();
         mExecutorPool.remove(responderAffinity);
     }
 
@@ -127,6 +129,9 @@ public class CrdTransferStation implements TransferStation {
             mAffinityRelationShip.clear();
         }
         if (mExecutorPool != null) {
+            for(CrdCommandExecutor  executor : mExecutorPool.values()) {
+                executor.stop();
+            }
             mExecutorPool.clear();
         }
     }

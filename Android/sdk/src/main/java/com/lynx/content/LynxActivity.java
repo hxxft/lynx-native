@@ -5,6 +5,9 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
+import com.lynx.base.InputMethodManagerLeakHelper;
+
+
 public class LynxActivity extends Activity {
     private LynxActivityDelegate mDelegate;
 
@@ -27,4 +30,9 @@ public class LynxActivity extends Activity {
         mDelegate.onStop();
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        InputMethodManagerLeakHelper.resolve(this);
+    }
 }

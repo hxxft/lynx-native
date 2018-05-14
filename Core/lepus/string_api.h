@@ -21,7 +21,7 @@ namespace lepus {
     }
     
     void RegisterStringAPI(Context* ctx) {
-        Dictonary* table = new Dictonary;
+        Dictonary* table = lynx_new Dictonary;
         RegisterTableFunction(ctx, table, "indexOf", &IndexOf);
         RegisterFunctionTable(ctx, "String", table);
     }

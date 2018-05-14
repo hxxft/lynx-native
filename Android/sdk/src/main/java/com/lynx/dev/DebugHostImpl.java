@@ -15,11 +15,12 @@ public class DebugHostImpl {
 
     public final static int DEBUG_TYPE_RELOAD = 0;
 
-    protected DebugDevHost mHost;
+    protected DebugDevHost mHost = null;
 
 
     @CalledByNative
     public void runDebug(int type) {
+        if(mHost == null) return;
         switch (type) {
             case DEBUG_TYPE_RELOAD:
                 mHost.debugHotReload("Debug://");

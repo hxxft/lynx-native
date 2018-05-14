@@ -362,7 +362,7 @@ namespace lepus {
         Closure* current_closure = frame->function_->closure_;
         Function *function = current_closure->function()->GetChildFunction(index);
         
-        Closure* closure = new Closure(function);
+        Closure* closure = lynx_new Closure(function);
         
         std::size_t upvalues_count = function->UpvaluesSize();
         for(std::size_t i = 0; i < upvalues_count; ++i) {

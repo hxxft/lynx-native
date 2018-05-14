@@ -133,7 +133,7 @@ namespace lepus {
     
     
     void RegisterMathAPI(Context* ctx) {
-        Dictonary* table = new Dictonary;
+        Dictonary* table = lynx_new Dictonary;
         RegisterTableFunction(ctx, table, "sin", &Sin);
         RegisterTableFunction(ctx, table, "abs", &Abs);
         RegisterTableFunction(ctx, table, "acos", &Acos);

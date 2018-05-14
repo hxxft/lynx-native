@@ -8,14 +8,18 @@ namespace base {
 class ScopedTracer {
  public:
   ScopedTracer() {}
-  ~ScopedTracer() { 
+  ~ScopedTracer() {
+#if ENABLE_TRACING
     event_->end_timestamp_ = CurrentTimeMicroseconds();
     TraceLogger::Instance()->AddTraceEvent(event_.Release());
+#endif
   }
 
   void Initialize(const char* category, const char* name) {
+#if ENABLE_TRACING
     event_.Reset(new TraceEvent(category, name));
     event_->begin_timestamp_ = CurrentTimeMicroseconds();
+#endif
   }
 
  private:

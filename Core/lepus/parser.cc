@@ -23,11 +23,11 @@ namespace lepus {
         if(NextToken().token_ != Token_EOF) {
             throw CompileException("Expect <EOF>", current_token_);
         }
-        return new ChunkAST(block);
+        return lynx_new ChunkAST(block);
     }
     
     ASTree* Parser::ParseBlock() {
-        BlockAST* block = new BlockAST;
+        BlockAST* block = lynx_new BlockAST;
         while(LookAhead().token_ != Token_EOF &&
               LookAhead().token_ != Token_Else &&
               LookAhead().token_ != Token_Elseif &&
@@ -42,7 +42,7 @@ namespace lepus {
     }
     
     ASTree* Parser::ParseBlockSingleLine() {
-        BlockAST* block = new BlockAST;
+        BlockAST* block = lynx_new BlockAST;
         ASTree* statement = ParseStatement();
         if(statement)
             block->statements().push_back(statement);
@@ -51,13 +51,13 @@ namespace lepus {
     
     ASTree* Parser::ParseReturnStatement() {
         NextToken();
-        ReturnStatementAST* return_statement = new ReturnStatementAST;
+        ReturnStatementAST* return_statement = lynx_new ReturnStatementAST;
         return_statement->expression().Reset(ParseExpression());
         return return_statement;
     }
     
     ASTree* Parser::ParseBreakStatement() {
-        return new BreakStatementAST(NextToken());
+        return lynx_new BreakStatementAST(NextToken());
     }
     
     ASTree* Parser::ParseForStatement() {
@@ -65,7 +65,7 @@ namespace lepus {
         if(LookAhead().token_ != '(') {
             throw CompileException("expect '('", current_token_);
         }
-        ForStatementAST* ast = new ForStatementAST;
+        ForStatementAST* ast = lynx_new ForStatementAST;
         NextToken();
         ast->statement1().Reset(ParseStatement());
         if(ast->statement1().Get() != nullptr) {
@@ -123,7 +123,7 @@ namespace lepus {
             throw CompileException("expect ';'", current_token_);
         }
         
-        return new DoWhileStatementAST(condition, block);
+        return lynx_new DoWhileStatementAST(condition, block);
     }
     
     ASTree* Parser::ParseWhileStatement() {
@@ -132,7 +132,7 @@ namespace lepus {
         ASTree* condition = ParseExpression();
         if(NextToken().token_ != '{') {
             // signal line block
-            return new WhileStatementAST(condition, ParseBlockSingleLine());
+            return lynx_new WhileStatementAST(condition, ParseBlockSingleLine());
         }
         
         ASTree* block = ParseBlock();
@@ -141,7 +141,7 @@ namespace lepus {
             throw CompileException("expect '}'", current_token_);
         }
             
-        return new WhileStatementAST(condition, block);
+        return lynx_new WhileStatementAST(condition, block);
     }
     
     ASTree* Parser::ParseIfStatement() {
@@ -168,7 +168,7 @@ namespace lepus {
             false_branch = ParseElseIfStatement();
         }
             
-        return new IfStatementAST(condition, true_branch, false_branch);
+        return lynx_new IfStatementAST(condition, true_branch, false_branch);
     }
     
     ASTree* Parser::ParseElseStatement() {
@@ -185,7 +185,7 @@ namespace lepus {
         }else {
             block = ParseBlockSingleLine();
         }
-        return new ElseStatementAST(block);
+        return lynx_new ElseStatementAST(block);
     }
     
     ASTree* Parser::ParseElseIfStatement() {
@@ -211,7 +211,7 @@ namespace lepus {
         else if(LookAhead().token_ == Token_Elseif) {
             false_branch = ParseElseIfStatement();
         }
-        return new IfStatementAST(condition, true_branch, false_branch);
+        return lynx_new IfStatementAST(condition, true_branch, false_branch);
     }
     
     ASTree* Parser::ParseFunctionStatement() {
@@ -225,9 +225,9 @@ namespace lepus {
             throw CompileException("expect '(' ", LookAhead());
         }
         
-        FunctionStatementAST* function = new FunctionStatementAST(current_token_);
+        FunctionStatementAST* function = lynx_new FunctionStatementAST(current_token_);
         
-        NamesAST* names = new NamesAST;
+        NamesAST* names = lynx_new NamesAST;
         while(NextToken().token_ != ')') {
             if(current_token_.token_ == Token_Id) {
                 names->names().push_back(current_token_);
@@ -252,7 +252,7 @@ namespace lepus {
     ASTree* Parser::ParseSwitchStatement() {
         NextToken();
         ASTree* expression = ParseExpression();
-        SwitchStatementAST* switch_statement = new SwitchStatementAST(expression);
+        SwitchStatementAST* switch_statement = lynx_new SwitchStatementAST(expression);
         if(LookAhead().token_  != '{') {
             throw CompileException("expect '{' ", current_token_);
         }
@@ -284,17 +284,17 @@ namespace lepus {
         }
         NextToken();
         
-        return new CaseStatementAST(is_default, key, ParseBlock());
+        return lynx_new CaseStatementAST(is_default, key, ParseBlock());
     }
     
     ASTree* Parser::ParseVarStatement() {
-        VariableListAST* var_list = new VariableListAST;
+        VariableListAST* var_list = lynx_new VariableListAST;
         do {
             NextToken();
             if(LookAhead().token_ != Token_Id) {
                 throw CompileException("invalid assign", LookAhead());
             }
-            VariableAST* var = new VariableAST;
+            VariableAST* var = lynx_new VariableAST;
             NextToken();
             var->identifier() = current_token_;
             if(LookAhead().token_ == '=') {
@@ -323,7 +323,7 @@ namespace lepus {
                LookAhead().token_ == Token_ASSIGN_BIT_XOR) {
                 Token assignment = NextToken();
                 ast = ParseExpression();
-                return new AssignStatement(assignment, expr, ast);
+                return lynx_new AssignStatement(assignment, expr, ast);
             }else{
                 return expr;
             }
@@ -368,7 +368,7 @@ namespace lepus {
     }
     
     ASTree* Parser::ParseExpressionList() {
-        ExpressionListAST* ast = new ExpressionListAST;
+        ExpressionListAST* ast = lynx_new ExpressionListAST;
         do {
             NextToken();
             ast->expressions().push_back(ParseExpression());
@@ -380,9 +380,9 @@ namespace lepus {
         ASTree* expression = nullptr;
         if(LookAhead().token_ == '-' || LookAhead().token_ == '!') {
             NextToken();
-            expression = new UnaryExpression;
+            expression = lynx_new UnaryExpression;
             static_cast<UnaryExpression*>(expression)->op_token() = current_token_;
-            static_cast<UnaryExpression*>(expression)->expression().Reset(ParseExpression(new ASTree, 90, Token()));
+            static_cast<UnaryExpression*>(expression)->expression().Reset(ParseExpression(lynx_new ASTree, 90, Token()));
         }else if(IsPrimaryExpr(LookAhead().token_)){
             expression = ParsePrimaryExpr();
         }else if(LookAhead().token_ == ')'){
@@ -399,10 +399,10 @@ namespace lepus {
             }else if(left_priority == 0){
                 return expression;
             }else if(left_priority == right_priority) {
-                expression = new BinaryExprAST(left, expression, token);
+                expression = lynx_new BinaryExprAST(left, expression, token);
                 return ParseExpression(expression, right_priority, NextToken());
             }else {
-                return new BinaryExprAST(left, expression, token);
+                return lynx_new BinaryExprAST(left, expression, token);
             }
         }
         
@@ -413,7 +413,7 @@ namespace lepus {
         ASTree* expr = nullptr;
         switch (LookAhead().token_) {
             case Token_Nil:
-                expr = new LiteralAST(NextToken());
+                expr = lynx_new LiteralAST(NextToken());
                 break;
             case Token_Function:
                 break;
@@ -450,7 +450,7 @@ namespace lepus {
             expr = ParseExpression();
             if(type) *type = ExprType_Var;
         } else {
-            expr = new LiteralAST(LookAhead());
+            expr = lynx_new LiteralAST(LookAhead());
             if(type) *type = ExprType_Var;
             NextToken();
         }
@@ -500,7 +500,7 @@ namespace lepus {
         }
         NextToken();
         ASTree* exprFalse = ParseExpression();
-        return new TernaryStatementAST(condition, exprTrue, exprFalse);
+        return lynx_new TernaryStatementAST(condition, exprTrue, exprFalse);
     }
     
     ASTree* Parser::ParseVar(ASTree* table) {
@@ -508,7 +508,7 @@ namespace lepus {
         if(current_token_.token_ == '.'){
             if(NextToken().token_ != Token_Id)
                 throw CompileException("expect <id>", LookAhead());
-            return new MemberAccessorAST(table, current_token_);
+            return lynx_new MemberAccessorAST(table, current_token_);
         }
         return nullptr;
     }
@@ -517,7 +517,7 @@ namespace lepus {
         if(NextToken().token_ != Token_Id) {
             throw CompileException("error name", current_token_);
         }
-        NamesAST* names = new NamesAST;
+        NamesAST* names = lynx_new NamesAST;
         names->names().push_back(current_token_);
         while(LookAhead().token_ == ',') {
             NextToken();
@@ -531,7 +531,7 @@ namespace lepus {
     
     ASTree* Parser::ParseFunctionCall(ASTree* caller) {
         ASTree* args = ParseExpressionList();
-        return new FunctionCallAST(caller, args);
+        return lynx_new FunctionCallAST(caller, args);
     }
     
 }
