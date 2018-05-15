@@ -21,7 +21,7 @@ namespace {
         void** current;
         void** end;
     };
-
+#if OS_ANDROID
     static _Unwind_Reason_Code unwindCallback(struct _Unwind_Context* context, void* arg)
     {
         BacktraceState* state = static_cast<BacktraceState*>(arg);
@@ -35,6 +35,7 @@ namespace {
         }
         return _URC_NO_REASON;
     }
+#endif
 
 }
 namespace base {

@@ -66,7 +66,10 @@ void MessagePumpIOPosix::Run(Delegate* delegate) {
 
 void MessagePumpIOPosix::OnFileCanRead(int fd) {
   char buf;
-  int nread = read(fd, &buf, 1);
+  size_t nread = read(fd, &buf, 1);
+  if(nread != 1) {
+    DLOG(ERROR) <<"MessagePumpIOPosix Read Error";
+  }
 }
 
 void MessagePumpIOPosix::OnFileCanWrite(int fd) {}

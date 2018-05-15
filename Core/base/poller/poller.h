@@ -30,7 +30,7 @@ class Poller {
 
   virtual void RemoveFileDescriptor(int fd) = 0;
 
-  virtual void Poll(int timeout) = 0;
+  virtual void Poll(int64_t timeout) = 0;
 
  protected:
   ScopedPtrMap<int, FileDescriptor> file_descriptors_;

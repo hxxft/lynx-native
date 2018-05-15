@@ -7,7 +7,7 @@
 namespace base {
 class IOBuffer : public base::RefCountPtr<IOBuffer> {
  public:
-  IOBuffer(size_t size);
+  IOBuffer(int size);
   IOBuffer() : data_(NULL) {}
   virtual ~IOBuffer();
   char* data() { return data_; }
@@ -19,13 +19,13 @@ class IOBuffer : public base::RefCountPtr<IOBuffer> {
 
 class IOBufferWithSize : public IOBuffer {
  public:
-  explicit IOBufferWithSize(size_t size);
+  explicit IOBufferWithSize(int size);
   virtual ~IOBufferWithSize() {}
 
-  size_t size() const { return size_; }
+  int size() const { return size_; }
 
  protected:
-  size_t size_;
+  int size_;
 };
 
 class StringIOBuffer : public IOBuffer {
@@ -45,7 +45,7 @@ class StringIOBuffer : public IOBuffer {
 
 class DrainableIOBuffer : public IOBuffer {
  public:
-  DrainableIOBuffer(IOBuffer* base, size_t size)
+  DrainableIOBuffer(IOBuffer* base, int size)
       : IOBuffer(base->data()), base_(base), size_(size), used_(0) {}
 
   virtual ~DrainableIOBuffer() { data_ = nullptr; }
@@ -62,8 +62,8 @@ class DrainableIOBuffer : public IOBuffer {
  private:
   base::ScopedRefPtr<IOBuffer> base_;
 
-  size_t size_;
-  size_t used_;
+  int size_;
+  int used_;
 };
 
 class GrowableIOBuffer : public IOBuffer {

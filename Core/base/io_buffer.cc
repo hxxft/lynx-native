@@ -1,7 +1,7 @@
 #include "base/io_buffer.h"
 
 namespace base {
-IOBuffer::IOBuffer(size_t size) {
+IOBuffer::IOBuffer(int size) {
   data_ = new char[size];
 }
 
@@ -12,7 +12,7 @@ IOBuffer::~IOBuffer() {
   data_ = nullptr;
 }
 
-IOBufferWithSize::IOBufferWithSize(size_t size) : IOBuffer(size), size_(size) {}
+IOBufferWithSize::IOBufferWithSize(int size) : IOBuffer(size), size_(size) {}
 
 GrowableIOBuffer::GrowableIOBuffer() : IOBuffer(), capacity_(0), offset_(0) {}
 

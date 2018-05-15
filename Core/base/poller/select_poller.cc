@@ -13,7 +13,7 @@ SelectPoller::~SelectPoller() {}
 
 void SelectPoller::WatchFileDescriptor(FileDescriptor* descriptor) {
   int fd = descriptor->fd();
-  int event = descriptor->event();
+
   auto iter = file_descriptors_.find(fd);
   if (iter != file_descriptors_.end()) {
     return;
@@ -41,7 +41,7 @@ void SelectPoller::RemoveFileDescriptor(int fd) {
   fd_set_.erase(fd);
 }
 
-void SelectPoller::Poll(int timeout) {
+void SelectPoller::Poll(int64_t timeout) {
   struct timeval tv = {0, 0};
   struct timeval* ptv = &tv;
 

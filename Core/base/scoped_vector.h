@@ -29,7 +29,7 @@ class ScopedVector {
 
     bool empty() { return vector_.empty(); }
 
-    T* operator[] (int index) {
+    T* operator[] (size_t index) {
         return vector_[index];
     }
 
@@ -43,7 +43,7 @@ class ScopedVector {
         vector_.pop_back();
     }
 
-    T* at(int n) {
+    T* at(size_t n) {
         return vector_.at(n);
     }
 

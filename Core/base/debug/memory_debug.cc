@@ -4,7 +4,7 @@
 #include "base/debug/memory_tracker.h"
 
 #if DEBUG_MEMORY
-void * operator new (size_t size, const char* file, int line) {
+void * operator new (size_t size, const char* file, int line) noexcept {
     if(0 == size){
         return NULL;
     }
@@ -13,7 +13,7 @@ void * operator new (size_t size, const char* file, int line) {
     return p;
 }
 
-void * operator new [](size_t size, const char* file, int line) {
+void * operator new [](size_t size, const char* file, int line) noexcept {
     void *p = ::operator new(size);
     base::MemoryTracker::Instance()->AddMemInfo(reinterpret_cast<intptr_t>(p), file, line);
     return p;

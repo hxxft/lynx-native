@@ -9,7 +9,7 @@ void RandomBuffer(char* buffer, size_t length) {
   if (!seeded) {
     seeded = true;
     // could fread from /dev/random
-    srand(time(NULL));
+    srand((unsigned)time(NULL));
   }
   size_t i;
   for (i = 0; i < length; i++) {

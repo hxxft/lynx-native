@@ -8,8 +8,8 @@
 
 #if DEBUG_MEMORY
 
-void * operator new (size_t size, const char* file, int line) ;
-void * operator new [](size_t size, const char* file, int line) ;
+void * operator new (size_t size, const char* file, int line) noexcept;
+void * operator new [](size_t size, const char* file, int line) noexcept;
 void operator delete (void * pointer, const char* file, int line) noexcept;
 void operator delete[](void * pointer, const char* file, int line) noexcept;
 

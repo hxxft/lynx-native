@@ -18,7 +18,7 @@ class SelectPoller : public Poller {
 
   virtual void RemoveFileDescriptor(int fd);
 
-  virtual void Poll(int timeout);
+  virtual void Poll(int64_t timeout);
 
  private:
   void ResetFileDescriptor();
