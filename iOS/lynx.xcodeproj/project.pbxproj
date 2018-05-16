@@ -334,7 +334,6 @@
 		425BC9BF20A69D71008AAFC0 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCE8BA791DF54DA0008B4A45 /* CoreFoundation.framework */; };
 		425BC9C020A69D71008AAFC0 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 42D7BD741DCB8C27000BE5A5 /* UIKit.framework */; };
 		425BC9C120A69D71008AAFC0 /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 42D7BD6C1DCB7E99000BE5A5 /* JavaScriptCore.framework */; };
-		425BC9C220A69D71008AAFC0 /* libPods-lynx.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DC31330FD8AEB81CA3C6EA60 /* libPods-lynx.a */; };
 		425BC9C420A69D71008AAFC0 /* sconscript in Resources */ = {isa = PBXBuildFile; fileRef = 4217A26020994EFA001B8A48 /* sconscript */; };
 		425BC9C520A69D71008AAFC0 /* json_valueiterator.inl in Resources */ = {isa = PBXBuildFile; fileRef = 4217A26220994EFA001B8A48 /* json_valueiterator.inl */; };
 		425BC9C620A69D71008AAFC0 /* init.sh in Resources */ = {isa = PBXBuildFile; fileRef = 4217A26320994EFA001B8A48 /* init.sh */; };
@@ -424,11 +423,10 @@
 		BCDEC7DA209C518C000B0D50 /* global.cc in Sources */ = {isa = PBXBuildFile; fileRef = BCDEC7D2209C518C000B0D50 /* global.cc */; };
 		BCE8BA7A1DF54DA0008B4A45 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCE8BA791DF54DA0008B4A45 /* CoreFoundation.framework */; };
 		BCE8BAAF1DF59F9A008B4A45 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCE8BAAE1DF59F9A008B4A45 /* Foundation.framework */; };
+		EBB6FA348FFFC3DC35058697 /* libPods-lynx.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DC31330FD8AEB81CA3C6EA60 /* libPods-lynx.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		37642C29A967697753057F9F /* Pods-lynx.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-lynx.debug.xcconfig"; path = "Pods/Target Support Files/Pods-lynx/Pods-lynx.debug.xcconfig"; sourceTree = "<group>"; };
-		3D8F19BA8FC5B5A4678479B7 /* Pods-lynx.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-lynx.release.xcconfig"; path = "Pods/Target Support Files/Pods-lynx/Pods-lynx.release.xcconfig"; sourceTree = "<group>"; };
 		421438D1207DE59E00ECF750 /* coordinator_commands.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = coordinator_commands.mm; sourceTree = "<group>"; };
 		421438D2207DE59E00ECF750 /* coordinator_object.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = coordinator_object.h; sourceTree = "<group>"; };
 		421438D3207DE59E00ECF750 /* coordinator_types.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = coordinator_types.h; sourceTree = "<group>"; };
@@ -832,6 +830,8 @@
 		42D7BCD61DCB440C000BE5A5 /* lynx.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = lynx.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		42D7BD6C1DCB7E99000BE5A5 /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		42D7BD741DCB8C27000BE5A5 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		92DECFDC416C9267B009FF2A /* Pods-lynx.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-lynx.release.xcconfig"; path = "Pods/Target Support Files/Pods-lynx/Pods-lynx.release.xcconfig"; sourceTree = "<group>"; };
+		BB3794C05B4B41607B71DF7E /* Pods-lynx.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-lynx.debug.xcconfig"; path = "Pods/Target Support Files/Pods-lynx/Pods-lynx.debug.xcconfig"; sourceTree = "<group>"; };
 		BC1F2E4F209C5755008E188D /* lynx_object_ios.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = lynx_object_ios.mm; sourceTree = "<group>"; };
 		BC1F2E50209C5755008E188D /* lynx_object_ios.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lynx_object_ios.h; sourceTree = "<group>"; };
 		BC1F2E52209C5F7D008E188D /* lynx_object.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = lynx_object.mm; path = lynx/base/lynx_object.mm; sourceTree = SOURCE_ROOT; };
@@ -956,7 +956,6 @@
 				425BC9BF20A69D71008AAFC0 /* CoreFoundation.framework in Frameworks */,
 				425BC9C020A69D71008AAFC0 /* UIKit.framework in Frameworks */,
 				425BC9C120A69D71008AAFC0 /* JavaScriptCore.framework in Frameworks */,
-				425BC9C220A69D71008AAFC0 /* libPods-lynx.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -969,6 +968,7 @@
 				42D7BD751DCB8C27000BE5A5 /* UIKit.framework in Frameworks */,
 				42D7BD6D1DCB7E99000BE5A5 /* JavaScriptCore.framework in Frameworks */,
 				2B11C0E0617DBCF3013F55AB /* libPods-lynx.a in Frameworks */,
+				EBB6FA348FFFC3DC35058697 /* libPods-lynx.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1822,8 +1822,8 @@
 		5140B8D04A411B08E1254440 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				37642C29A967697753057F9F /* Pods-lynx.debug.xcconfig */,
-				3D8F19BA8FC5B5A4678479B7 /* Pods-lynx.release.xcconfig */,
+				BB3794C05B4B41607B71DF7E /* Pods-lynx.debug.xcconfig */,
+				92DECFDC416C9267B009FF2A /* Pods-lynx.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -2039,12 +2039,9 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 425BC9D020A69D71008AAFC0 /* Build configuration list for PBXNativeTarget "unittests" */;
 			buildPhases = (
-				425BC90120A69D71008AAFC0 /* [CP] Check Pods Manifest.lock */,
 				425BC90220A69D71008AAFC0 /* Sources */,
 				425BC9BD20A69D71008AAFC0 /* Frameworks */,
 				425BC9C320A69D71008AAFC0 /* Resources */,
-				425BC9CE20A69D71008AAFC0 /* [CP] Embed Pods Frameworks */,
-				425BC9CF20A69D71008AAFC0 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -2155,54 +2152,6 @@
 
 /* Begin PBXShellScriptBuildPhase section */
 		30354A0EF161827A241B5D60 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-lynx/Pods-lynx-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		425BC90120A69D71008AAFC0 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-lynx-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		425BC9CE20A69D71008AAFC0 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-lynx/Pods-lynx-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		425BC9CF20A69D71008AAFC0 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -2655,7 +2604,7 @@
 /* Begin XCBuildConfiguration section */
 		425BC9D120A69D71008AAFC0 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 37642C29A967697753057F9F /* Pods-lynx.debug.xcconfig */;
+			baseConfigurationReference = BB3794C05B4B41607B71DF7E /* Pods-lynx.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -2701,7 +2650,7 @@
 		};
 		425BC9D220A69D71008AAFC0 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 3D8F19BA8FC5B5A4678479B7 /* Pods-lynx.release.xcconfig */;
+			baseConfigurationReference = 92DECFDC416C9267B009FF2A /* Pods-lynx.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -2834,7 +2783,7 @@
 		};
 		42D7BD041DCB440C000BE5A5 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 37642C29A967697753057F9F /* Pods-lynx.debug.xcconfig */;
+			baseConfigurationReference = BB3794C05B4B41607B71DF7E /* Pods-lynx.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -2878,7 +2827,7 @@
 		};
 		42D7BD051DCB440C000BE5A5 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 3D8F19BA8FC5B5A4678479B7 /* Pods-lynx.release.xcconfig */;
+			baseConfigurationReference = 92DECFDC416C9267B009FF2A /* Pods-lynx.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";

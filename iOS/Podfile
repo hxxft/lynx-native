@@ -8,11 +8,3 @@ pod 'SDWebImage', '~> 4.0'
 pod 'SDWebImage/WebP'
 pod 'AFNetworking', '~> 3.0'
 end
-
-target 'unittests' do
-project 'unittests.xcodeproj'
-workspace 'lynx.xcworkspace'
-pod 'SDWebImage', '~> 4.0'
-pod 'SDWebImage/WebP'
-pod 'AFNetworking', '~> 3.0'
-end
