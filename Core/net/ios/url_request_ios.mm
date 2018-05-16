@@ -53,6 +53,9 @@ namespace net {
             }
             
             [g_network_ GET:ns_url.absoluteString parameters:nil
+                    progress:^(NSProgress * _Nonnull downloadProgress) {
+                       
+                    }
                     success:^(NSURLSessionDataTask* task, id responseObject)
                     {
                         if (ghost_delegate_ != 0) {

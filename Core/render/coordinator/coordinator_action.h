@@ -14,7 +14,7 @@ namespace lynx {
 
 #define SetCoordinatorNumber(name, value) \
     static lepus::Value name(lepus::Context* context) { \
-        int params_count = context->GetParamsSize(); \
+        long params_count = context->GetParamsSize(); \
         for(int i = 0; i < params_count; i++) { \
             lepus::Value* v = context->GetParam(i);  \
             switch (v->type_) { \
@@ -29,7 +29,7 @@ namespace lynx {
 
 #define SetCoordinatorBool(name, value) \
     static lepus::Value name(lepus::Context* context) { \
-        int params_count = context->GetParamsSize(); \
+        long params_count = context->GetParamsSize(); \
         for(int i = 0; i < params_count; i++) { \
             lepus::Value* v = context->GetParam(i);  \
             switch (v->type_) { \
@@ -66,7 +66,7 @@ namespace lynx {
         SetCoordinatorBool(SetConsumed, consumed_)
 
         static lepus::Value DispatchEvent(lepus::Context* context) {
-            int params_count = context->GetParamsSize();
+            long params_count = context->GetParamsSize();
             if (params_count > 0) {
                 event_ = context->GetParam(0)->str_->c_str();
             }

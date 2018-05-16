@@ -18,8 +18,8 @@ namespace lepus {
         virtual void Initialize();
         virtual void Execute(const std::string& source);
         virtual Value Call(const std::string& name, const std::vector<Value>& args);
-        virtual int GetParamsSize();
-        virtual Value* GetParam(int index);
+        virtual long GetParamsSize();
+        virtual Value* GetParam(long index);
         virtual bool UpdateTopLevelVariable(const std::string &name, Value value);
     protected:
         friend class CodeGenerator;
@@ -29,13 +29,13 @@ namespace lepus {
     private:
         void Run();
         void RunFrame();
-        bool CallFunction(Value* function, int argc, Value* ret);
-        void GenerateClosure(Value* value, int index);
+        bool CallFunction(Value* function, size_t argc, Value* ret);
+        void GenerateClosure(Value* value, long index);
         Heap heap_;
         std::list<Frame> frames_;
     protected:
         friend class CodeGenerator;
-        std::unordered_map<String*, int> top_level_variables_;
+        std::unordered_map<String*, long> top_level_variables_;
         base::ScopedPtr<Function> root_function_;
     };
 }

@@ -68,7 +68,7 @@ namespace jscore {
 
     std::string LynxMap::ToString() {
         std::stringstream stream;
-        int length = Size();
+        size_t length = Size();
         stream << "{";
         for (int i = 0; i < length; ++i) {
             std::string name = GetName(i);

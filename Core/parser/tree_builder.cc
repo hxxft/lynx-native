@@ -73,8 +73,6 @@ namespace parser {
         if(token.tag_name() == kBodyTag) {
             renderer = lynx::RenderFactory::CreateRenderObject(
                     runtime_->thread_manager(), token.tag_name(), tree_host_);
-
-            lynx::RenderObject* body = tree_host_->render_root();
         }
  
 

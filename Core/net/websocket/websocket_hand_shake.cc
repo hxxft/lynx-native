@@ -51,7 +51,7 @@ namespace net {
             //        }
             out_buffer += sprintf(out_buffer, "\r\n");
             
-            return out_buffer - buffer->data();
+            return (int)(out_buffer - buffer->data());
             
         }
     }

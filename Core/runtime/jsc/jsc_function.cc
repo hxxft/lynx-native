@@ -46,7 +46,7 @@ namespace jscore {
         JSObjectRef target_object = object_wrap->js_ref();
 
         base::ScopedPtr<JSValueRef[]> array;
-        int argc = 0;
+        size_t argc = 0;
         if (args != 0) {
             array.Reset(JSCHelper::ConvertToJSValueRefArray(ctx, args));
             argc = args->Size();
@@ -60,7 +60,6 @@ namespace jscore {
         JSStringRelease(function_key);
 
         if (exception) {
-            int type = JSValueGetType(ctx, exception);
 
             std::string str = JSCHelper::ConvertToString(ctx, exception);
             if (!str.empty()) {

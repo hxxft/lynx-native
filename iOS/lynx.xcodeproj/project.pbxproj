@@ -381,7 +381,6 @@
 		BC31B0261F6282AB00C0234C /* lynx_runtime.mm in Sources */ = {isa = PBXBuildFile; fileRef = BC31B0251F6282AB00C0234C /* lynx_runtime.mm */; };
 		BC31B0291F6284D200C0234C /* render_tree_host_impl_bridge.mm in Sources */ = {isa = PBXBuildFile; fileRef = BC31B0281F6284D200C0234C /* render_tree_host_impl_bridge.mm */; };
 		BC5D48FC2066443200424ABA /* device_info_util.mm in Sources */ = {isa = PBXBuildFile; fileRef = BC5D48FB2066443100424ABA /* device_info_util.mm */; };
-		BC5DBD731F5C60A5005A47E3 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = BC5DBD6C1F5C60A5005A47E3 /* Info.plist */; };
 		BC5DBD741F5C60A5005A47E3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BC5DBD6D1F5C60A5005A47E3 /* LaunchScreen.storyboard */; };
 		BC5DBD801F5E79D8005A47E3 /* style_convector.mm in Sources */ = {isa = PBXBuildFile; fileRef = BC5DBD7F1F5E79D8005A47E3 /* style_convector.mm */; };
 		BC5DBD831F5E7A05005A47E3 /* framerate_controller.mm in Sources */ = {isa = PBXBuildFile; fileRef = BC5DBD821F5E7A05005A47E3 /* framerate_controller.mm */; };
@@ -423,10 +422,10 @@
 		BCDEC7DA209C518C000B0D50 /* global.cc in Sources */ = {isa = PBXBuildFile; fileRef = BCDEC7D2209C518C000B0D50 /* global.cc */; };
 		BCE8BA7A1DF54DA0008B4A45 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCE8BA791DF54DA0008B4A45 /* CoreFoundation.framework */; };
 		BCE8BAAF1DF59F9A008B4A45 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCE8BAAE1DF59F9A008B4A45 /* Foundation.framework */; };
-		EBB6FA348FFFC3DC35058697 /* libPods-lynx.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DC31330FD8AEB81CA3C6EA60 /* libPods-lynx.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		4093A05AEBA68F2DD7F7F1B0 /* Pods-lynx.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-lynx.release.xcconfig"; path = "Pods/Target Support Files/Pods-lynx/Pods-lynx.release.xcconfig"; sourceTree = "<group>"; };
 		421438D1207DE59E00ECF750 /* coordinator_commands.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = coordinator_commands.mm; sourceTree = "<group>"; };
 		421438D2207DE59E00ECF750 /* coordinator_object.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = coordinator_object.h; sourceTree = "<group>"; };
 		421438D3207DE59E00ECF750 /* coordinator_types.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = coordinator_types.h; sourceTree = "<group>"; };
@@ -830,8 +829,7 @@
 		42D7BCD61DCB440C000BE5A5 /* lynx.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = lynx.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		42D7BD6C1DCB7E99000BE5A5 /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		42D7BD741DCB8C27000BE5A5 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
-		92DECFDC416C9267B009FF2A /* Pods-lynx.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-lynx.release.xcconfig"; path = "Pods/Target Support Files/Pods-lynx/Pods-lynx.release.xcconfig"; sourceTree = "<group>"; };
-		BB3794C05B4B41607B71DF7E /* Pods-lynx.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-lynx.debug.xcconfig"; path = "Pods/Target Support Files/Pods-lynx/Pods-lynx.debug.xcconfig"; sourceTree = "<group>"; };
+		A17E6B6A4913772EE2CA74F9 /* Pods-lynx.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-lynx.debug.xcconfig"; path = "Pods/Target Support Files/Pods-lynx/Pods-lynx.debug.xcconfig"; sourceTree = "<group>"; };
 		BC1F2E4F209C5755008E188D /* lynx_object_ios.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = lynx_object_ios.mm; sourceTree = "<group>"; };
 		BC1F2E50209C5755008E188D /* lynx_object_ios.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lynx_object_ios.h; sourceTree = "<group>"; };
 		BC1F2E52209C5F7D008E188D /* lynx_object.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = lynx_object.mm; path = lynx/base/lynx_object.mm; sourceTree = SOURCE_ROOT; };
@@ -968,7 +966,6 @@
 				42D7BD751DCB8C27000BE5A5 /* UIKit.framework in Frameworks */,
 				42D7BD6D1DCB7E99000BE5A5 /* JavaScriptCore.framework in Frameworks */,
 				2B11C0E0617DBCF3013F55AB /* libPods-lynx.a in Frameworks */,
-				EBB6FA348FFFC3DC35058697 /* libPods-lynx.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1822,8 +1819,8 @@
 		5140B8D04A411B08E1254440 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				BB3794C05B4B41607B71DF7E /* Pods-lynx.debug.xcconfig */,
-				92DECFDC416C9267B009FF2A /* Pods-lynx.release.xcconfig */,
+				A17E6B6A4913772EE2CA74F9 /* Pods-lynx.debug.xcconfig */,
+				4093A05AEBA68F2DD7F7F1B0 /* Pods-lynx.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -2078,7 +2075,7 @@
 		42D7BCCE1DCB440C000BE5A5 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0730;
+				LastUpgradeCheck = 0920;
 				ORGANIZATIONNAME = lynx;
 				TargetAttributes = {
 					425BC90020A69D71008AAFC0 = {
@@ -2138,7 +2135,6 @@
 				4217A90020994F04001B8A48 /* version.h.in in Resources */,
 				BC9D343A1E1DEC92009BD30A /* Assets.xcassets in Resources */,
 				425BCA0120A69F3E008AAFC0 /* gtest-tuple.h.pump in Resources */,
-				BC5DBD731F5C60A5005A47E3 /* Info.plist in Resources */,
 				4217A8D320994F04001B8A48 /* CMakeLists.txt in Resources */,
 				425BCA0420A69F3E008AAFC0 /* gtest-param-test.h.pump in Resources */,
 				42B4F2021F7E42CC001519E1 /* assets.bundle in Resources */,
@@ -2604,7 +2600,6 @@
 /* Begin XCBuildConfiguration section */
 		425BC9D120A69D71008AAFC0 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = BB3794C05B4B41607B71DF7E /* Pods-lynx.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -2650,7 +2645,6 @@
 		};
 		425BC9D220A69D71008AAFC0 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 92DECFDC416C9267B009FF2A /* Pods-lynx.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -2702,13 +2696,21 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -2749,13 +2751,21 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -2783,7 +2793,7 @@
 		};
 		42D7BD041DCB440C000BE5A5 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = BB3794C05B4B41607B71DF7E /* Pods-lynx.debug.xcconfig */;
+			baseConfigurationReference = A17E6B6A4913772EE2CA74F9 /* Pods-lynx.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -2827,7 +2837,7 @@
 		};
 		42D7BD051DCB440C000BE5A5 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 92DECFDC416C9267B009FF2A /* Pods-lynx.release.xcconfig */;
+			baseConfigurationReference = 4093A05AEBA68F2DD7F7F1B0 /* Pods-lynx.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";

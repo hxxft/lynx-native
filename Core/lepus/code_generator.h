@@ -29,8 +29,8 @@ namespace lepus {
     
     struct LoopInfo {
         LoopJmpType type_;
-        int op_index_;
-        LoopInfo(LoopJmpType type, int index)
+        long op_index_;
+        LoopInfo(LoopJmpType type, long index)
             :type_(type), op_index_(index){}
     };
     
@@ -38,13 +38,13 @@ namespace lepus {
         Function* function_;
         base::ScopedPtr<LoopGenerate> parent_;
         std::vector<LoopInfo> loop_infos_; //jmp head or jmp tail, loop controller op index in function
-        int loop_start_index_;
+        size_t loop_start_index_;
         LoopGenerate():function_(nullptr),parent_(),loop_infos_(), loop_start_index_(0){}
     };
     
     struct BlockGenerate {
         Function* function_;
-        std::unordered_map<String*, int> variables_map_;
+        std::unordered_map<String*, long> variables_map_;
         base::ScopedPtr<BlockGenerate> parent_;
         int register_id_;
         BlockGenerate():function_(nullptr), variables_map_(),
@@ -56,7 +56,7 @@ namespace lepus {
         base::ScopedPtr<BlockGenerate> current_block_;
         base::ScopedPtr<LoopGenerate> current_loop_;
         Function* function_;
-        int register_id_;
+        long register_id_;
         
         FunctionGenerate():parent_(),
                     current_block_(),
@@ -110,33 +110,33 @@ namespace lepus {
         void EnterRegister();
         void LeaveRegister();
         
-        void InsertVariable(String* name, int register_id);
-        int SearchVariable(String* name);
-        int SearchVariable(String* name, FunctionGenerate* current);
-        int SearchGlobal(String* name);
-        int ManageUpvalues(String* name);
+        void InsertVariable(String* name, long register_id);
+        long SearchVariable(String* name);
+        long SearchVariable(String* name, FunctionGenerate* current);
+        long SearchGlobal(String* name);
+        long ManageUpvalues(String* name);
         
-        void WriteLocalValue(LexicalOp op, int dst, int src);
-        void WriteUpValue(LexicalOp op, int dst, int src);
+        void WriteLocalValue(LexicalOp op, long dst, long src);
+        void WriteUpValue(LexicalOp op, long dst, long src);
         
-        void AutomaticLocalValue(AutomaticType type, int dst, int src);
-        void AutomaticUpValue(AutomaticType type, int dst, int src);
+        void AutomaticLocalValue(AutomaticType type, long dst, long src);
+        void AutomaticUpValue(AutomaticType type, long dst, long src);
         
-        int GenerateRegisiterId() {
-            int register_id = current_function_->register_id_++;
+        long GenerateRegisiterId() {
+            long register_id = current_function_->register_id_++;
             return register_id;
         }
         
-        int CurrentRegisiterId() {
+        long CurrentRegisiterId() {
             return current_function_->register_id_;
         }
         
-        void ResetRegisiterId(int register_id) {
+        void ResetRegisiterId(long register_id) {
             current_function_->register_id_ = register_id;
         }
         
         VMContext* context_;
-        int register_id_;
+        long register_id_;
         String* current_function_name_;
         base::ScopedPtr<FunctionGenerate> current_function_;
     };

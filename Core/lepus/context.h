@@ -71,8 +71,8 @@ namespace lepus {
         virtual void Initialize() = 0;
         virtual void Execute(const std::string& source) = 0;
         virtual Value Call(const std::string& name, const std::vector<Value>& args) = 0;
-        virtual int GetParamsSize() = 0;
-        virtual Value* GetParam(int index) = 0;
+        virtual long GetParamsSize() = 0;
+        virtual Value* GetParam(long index) = 0;
         void SetGlobalData(String* name, Value& value) {
             global_.Add(name, value);
         }

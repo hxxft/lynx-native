@@ -56,7 +56,7 @@ namespace lepus {
             return child_functions_.size() - 1;
         }
         
-        Function* GetChildFunction(int index) {
+        Function* GetChildFunction(long index) {
             return child_functions_[index];
         }
         
@@ -67,8 +67,8 @@ namespace lepus {
                 &const_values_[index] : nullptr;
         }
         
-        size_t SearchUpvalue(String* name) {
-            for(size_t i = 0; i < upvalues_.size(); ++i) {
+        long SearchUpvalue(String* name) {
+            for(long i = 0; i < upvalues_.size(); ++i) {
                 if(upvalues_[i].name_ == name) {
                     return i;
                 }
@@ -76,7 +76,7 @@ namespace lepus {
             return -1;
         }
         
-        std::size_t AddUpvalue(String* name, int register_index, bool in_parent_vars) {
+        long AddUpvalue(String* name, long register_index, bool in_parent_vars) {
             upvalues_.push_back(UpvalueInfo(name, register_index, in_parent_vars));
             return upvalues_.size() - 1;
         }
@@ -90,7 +90,7 @@ namespace lepus {
             return switches_.size() - 1;
         }
         
-        SwitchInfo* GetSwitch(int index) {
+        SwitchInfo* GetSwitch(long index) {
             return switches_[index];
         }
         
@@ -139,7 +139,7 @@ namespace lepus {
             upvalues_.push_back(value);
         }
         
-        Value* GetUpvalue(int index) {
+        Value* GetUpvalue(long index) {
             return upvalues_[index];
         }
         

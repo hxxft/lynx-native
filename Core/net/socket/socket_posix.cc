@@ -16,14 +16,14 @@ namespace net {
     
     namespace {
         
-        int MapAcceptError(int os_error) {
-            switch (os_error) {
-                case ECONNABORTED:
-                    return ERR_IO_PENDING;
-                default:
-                    return MapSystemError(os_error);
-            }
-        }
+//        int MapAcceptError(int os_error) {
+//            switch (os_error) {
+//                case ECONNABORTED:
+//                    return ERR_IO_PENDING;
+//                default:
+//                    return MapSystemError(os_error);
+//            }
+//        }
         
         int MapConnectError(int os_error) {
             switch (os_error) {

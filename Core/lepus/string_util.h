@@ -7,7 +7,7 @@
 
 namespace lepus {
     void DeleteZero(std::string &str) {
-        int pos = str.size() - 1 ;
+        size_t pos = str.size() - 1 ;
         if(str.find('.') != std::string::npos){
             while(str.at(pos) == '0' && str.at(pos) != '.'){
                 pos--;

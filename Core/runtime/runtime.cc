@@ -5,7 +5,6 @@
 #include "parser/render_parser.h"
 #include "render/render_tree_host_impl.h"
 #include "runtime/base/lynx_object_platform.h"
-#include "loader/utils.h"
 
 #include "base/trace_event/trace_event_common.h"
 #include "base/log/logging.h"

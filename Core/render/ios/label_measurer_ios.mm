@@ -17,8 +17,6 @@ namespace lynx {
         
         int width = base::Size::Descriptor::GetSize(size.width_);
         int height = base::Size::Descriptor::GetSize(size.height_);
-        int widthMode = base::Size::Descriptor::GetMode(size.width_);
-        int heightMode = base::Size::Descriptor::GetMode(size.height_);
         
         CSSStyle style = render_object->css_style();
         NSString* label_text = [[NSString alloc]initWithUTF8String:text.c_str()];

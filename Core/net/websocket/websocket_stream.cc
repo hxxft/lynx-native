@@ -9,8 +9,8 @@ namespace net {
         const uint64_t kMaxControlFramePayload = 125;
         
         int CalculateSerializedSizeAndTurnOnMaskBit(const base::ScopedPtr<WebSocketFrame>& frame) {
-            const uint64_t kMaximumTotalSize = std::numeric_limits<int>::max();
-            
+//            const uint64_t kMaximumTotalSize = std::numeric_limits<int>::max();
+//
             uint64_t total_size = 0;
             
             frame->header_.masked_ = true;
@@ -154,7 +154,7 @@ namespace net {
             is_first_chunk = true;
             current_frame_header_.Swap(chunk->header);
         }
-        const int chunk_size = chunk->data.Get() ? chunk->data->size() : 0;
+        //const int chunk_size = chunk->data.Get() ? chunk->data->size() : 0;
         base::ScopedRefPtr<base::IOBufferWithSize> data_buffer;
         data_buffer.Swap(chunk->data);
         const bool is_final_chunk = chunk->final_chunk;

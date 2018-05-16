@@ -183,7 +183,7 @@ namespace jscore {
     }
 
     JSValueRef* JSCHelper::ConvertToJSValueRefArray(JSContextRef ctx, LynxArray* args) {
-        int length = args->Size();
+        size_t length = args->Size();
         int i = 0;
         JSValueRef* values = lynx_new JSValueRef[length];
         for (; i < length; ++i) {

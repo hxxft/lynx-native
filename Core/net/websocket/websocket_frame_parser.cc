@@ -87,10 +87,10 @@ namespace net {
         
         // Sanity check: the size of carried-over data should not exceed
         // the maximum possible length of a frame header.
-        static const size_t kMaximumFrameHeaderSize =
-        WebSocketFrameHeader::kBaseHeaderSize +
-        WebSocketFrameHeader::kMaximumExtendedLengthSize +
-        WebSocketFrameHeader::kMaskingKeyLength;
+//        static const size_t kMaximumFrameHeaderSize =
+//        WebSocketFrameHeader::kBaseHeaderSize +
+//        WebSocketFrameHeader::kMaximumExtendedLengthSize +
+//        WebSocketFrameHeader::kMaskingKeyLength;
         //DCHECK_LT(buffer_.size(), kMaximumFrameHeaderSize);
         
         return true;

@@ -8,10 +8,10 @@
 
 namespace lepus {
     Value IndexOf(Context* context) {
-        int params_count = context->GetParamsSize();
+        long params_count = context->GetParamsSize();
         Value* thiz = context->GetParam(0);
         Value* arg = context->GetParam(1);
-        int index = params_count == 2 ? 0 : context->GetParam(2)->number_;
+        long index = params_count == 2 ? 0 : context->GetParam(2)->number_;
         
         if(thiz->type_ == Value_String && arg->type_ == Value_String) {
             return Value(thiz->str_->find(*arg->str_, index));

@@ -8,8 +8,8 @@
 
 namespace lepus {
     Value Print(Context* context) {
-        int params_count = context->GetParamsSize();
-        for(int i = 0; i < params_count; i++) {
+        long params_count = context->GetParamsSize();
+        for(long i = 0; i < params_count; i++) {
             Value* v = context->GetParam(i);
             switch (v->type_) {
                 case Value_Nil:

@@ -7,10 +7,10 @@
 namespace lepus {
     struct UpvalueInfo {
         String* name_;
-        int register_;
+        long register_;
         bool in_parent_vars_;
         
-        UpvalueInfo(String* name, int register_id, bool in_parent_vars)
+        UpvalueInfo(String* name, long register_id, bool in_parent_vars)
         : name_(name),
         register_(register_id),
         in_parent_vars_(in_parent_vars){

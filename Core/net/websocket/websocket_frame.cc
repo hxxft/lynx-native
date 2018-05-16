@@ -176,7 +176,7 @@ namespace net {
             // practice, this will work for the compilers and architectures currently
             // supported by Chromium, and the tests are extremely unlikely to pass if a
             // future compiler/architecture breaks it.
-            *reinterpret_cast<size_t*>(merged) ^= packed_mask_key;
+            //*reinterpret_cast<size_t*>(merged) ^= packed_mask_key;
         }
         
         MaskWebSocketFramePayloadByBytes(

@@ -7,7 +7,6 @@
 #include "loader/html/html_loader.h"
 #include "runtime/runtime.h"
 #include "loader/html/html_request_delegate.h"
-#include "loader/utils.h"
 
 namespace loader {
 

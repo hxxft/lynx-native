@@ -31,6 +31,7 @@ namespace net {
         
         class Listener {
         public:
+            virtual ~Listener(){}
             virtual void OnOpen(const base::ScopedRefPtr<base::IOBuffer>& data_buffer, uint64_t size) = 0;
             virtual void OnMessage(const base::ScopedRefPtr<base::IOBuffer>& data_buffer, uint64_t size) = 0;
             virtual void OnClosing() = 0;

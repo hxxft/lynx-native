@@ -99,7 +99,6 @@ LX_NOT_IMPLEMENTED(-(instancetype) init)
     
     _argumentTypes = [[LxOcProperty alloc] initWithInfos:propertyInfos];
     // Generate return type
-    const char * temp = methodSignature.methodReturnType;
 }
 
 + (NSString *)generateSingatureWithReciever:(Class)clazz

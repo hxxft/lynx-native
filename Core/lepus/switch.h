@@ -20,30 +20,30 @@ namespace lepus {
         
         SwitchInfo()
             :key_type_(0),
-             min_(INT_MAX),
+             min_(LONG_MAX),
              max_(0),
              default_offset_(-1),
              switch_table_(){}
         
-        void Modify(Token& key, int offset);
-        int BinarySearchTable(int key);
+        void Modify(Token& key, long offset);
+        long BinarySearchTable(long key);
         static bool SortTable(const std::pair<int, int> &v1, const std::pair<int, int> &v2 );
         void Adjust();
-        int Switch(Value* value);
-        int default_offset() {
+        long Switch(Value* value);
+        long default_offset() {
             return default_offset_;
         }
         
-        void set_default_offset(int offset) {
+        void set_default_offset(long offset) {
             default_offset_ = offset;
         }
     private:
         SwitchType type_;
-        int key_type_;
-        int min_;
-        int max_;
-        int default_offset_;
-        std::vector<std::pair<int, int> > switch_table_;
+        long key_type_;
+        long min_;
+        long max_;
+        long default_offset_;
+        std::vector<std::pair<long, long> > switch_table_;
     };
 }
 

@@ -32,7 +32,7 @@ namespace lepus {
     c = GET_REGISTER_C(i);
     
     VMContext::~VMContext() {
-        std::unordered_map<String*, int>::iterator iter;
+        std::unordered_map<String*, long>::iterator iter;
         for(iter = top_level_variables_.begin(); iter != top_level_variables_.end(); ++iter) {
             iter->first->Release();
         }
@@ -67,7 +67,7 @@ namespace lepus {
         auto reg_info = top_level_variables_.find(scoped_str.Get());
         if(reg_info == top_level_variables_.end())
             return Value();
-        int reg = reg_info->second;
+        long reg = reg_info->second;
         Value* function = heap_.top_;
         *(heap_.top_++) = *(heap_.base() + reg + 1);
         for(std::size_t i = 0; i < args.size(); ++i) {
@@ -79,11 +79,11 @@ namespace lepus {
     }
     
     
-    int VMContext::GetParamsSize() {
+    long VMContext::GetParamsSize() {
         return heap().top_ - frames_.back().register_;
     }
     
-    Value* VMContext::GetParam(int index) {
+    Value* VMContext::GetParam(long index) {
         return frames_.back().register_ + index;
     }
 
@@ -91,12 +91,12 @@ namespace lepus {
         auto reg_info = top_level_variables_.find(string_pool()->NewString(name));
         if(reg_info == top_level_variables_.end())
             return false;
-        int reg = reg_info->second;
+        long reg = reg_info->second;
         *(heap_.base() + reg + 1) = value;
         return true;
     }
     
-    bool VMContext::CallFunction(Value* function, int argc, Value* ret) {
+    bool VMContext::CallFunction(Value* function, size_t argc, Value* ret) {
         if(function->type_ == Value_Closure) {
             heap_.top_ = function + 1;
             Frame frame;
@@ -180,14 +180,14 @@ namespace lepus {
                 case TypeOp_Closure:
                 {
                     a = GET_REGISTER_A(i);
-                    int index = Instruction::GetParamBx(i);
+                    long index = Instruction::GetParamBx(i);
                     GenerateClosure(a, index);
                 }
                     break;
                 case TypeOp_Call:
                 {
                     a = GET_REGISTER_A(i);
-                    int argc = Instruction::GetParamB(i);
+                    long argc = Instruction::GetParamB(i);
                     c = GET_REGISTER_C(i);
                     if(CallFunction(a, argc, c))
                         return;
@@ -330,8 +330,8 @@ namespace lepus {
                 case TypeOp_Switch:
                 {
                     a = GET_REGISTER_A(i);
-                    int index = Instruction::GetParamBx(i);
-                    int jmp = function->GetSwitch(index)->Switch(a);
+                    long index = Instruction::GetParamBx(i);
+                    long jmp = function->GetSwitch(index)->Switch(a);
                     frame->instruction_ += -1 + jmp;
                 }
                     break;
@@ -357,7 +357,7 @@ namespace lepus {
         frames_.pop_back();
     }
     
-    void VMContext::GenerateClosure(Value* value, int index) {
+    void VMContext::GenerateClosure(Value* value, long index) {
         Frame* frame = &frames_.back();
         Closure* current_closure = frame->function_->closure_;
         Function *function = current_closure->function()->GetChildFunction(index);
@@ -365,7 +365,7 @@ namespace lepus {
         Closure* closure = lynx_new Closure(function);
         
         std::size_t upvalues_count = function->UpvaluesSize();
-        for(std::size_t i = 0; i < upvalues_count; ++i) {
+        for(int i = 0; i < upvalues_count; ++i) {
             UpvalueInfo* info = function->GetUpvalue(i);
             if(info->in_parent_vars_) {
                 Value* v = frame->register_ + info->register_;

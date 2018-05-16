@@ -13,8 +13,8 @@ public:
   Span(jscore::ThreadManager *manager, const char *tag_name, uint64_t id,
        RenderTreeHost *host);
   virtual ~Span() {}
-  virtual void FlushStyle() {};
-  virtual void Layout(int left, int top, int right, int bottom) {}
+  virtual void FlushStyle() override {};
+  virtual void Layout(int left, int top, int right, int bottom) override {}
   virtual void SetAttribute(const std::string& key, const std::string& value) override ;
   virtual const std::string &GetText() override;
   virtual void InsertChild(ContainerNode *child, int index) override;

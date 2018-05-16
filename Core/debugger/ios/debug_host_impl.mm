@@ -12,7 +12,7 @@
    
         //Update UI in UI thread here
         
-    UINavigationController *controller = [UIApplication sharedApplication].keyWindow.rootViewController;
+    UINavigationController *controller = (UINavigationController *)[[[UIApplication sharedApplication] keyWindow] rootViewController];
     [controller popViewControllerAnimated:false];
     [controller pushViewController:[[LynxViewController alloc] initWithProtocal:@"Debug://" forName:@""] animated:false];
     

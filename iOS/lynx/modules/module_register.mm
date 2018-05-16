@@ -5,6 +5,9 @@
 #include "modules/module.h"
 #include "base/defines.h"
 
+#include "modules/coordinator_register.h"
+#include "modules/page_navigator.h"
+
 @implementation LxModuleRegister
 
 LX_NOT_IMPLEMENTED(- (instancetype)init)
@@ -18,6 +21,16 @@ LX_NOT_IMPLEMENTED(- (instancetype)init)
         }
     }
     return self;
+}
+
++ (void) registeWithRuntime: (LynxRuntime *) runtime {
+    NSMutableArray<LxModule *> *modulePacket = [[NSMutableArray alloc] init];
+    [modulePacket addObject:[[LxPageNavigator alloc] init]];
+    [modulePacket addObject:[[LxCrdRegister alloc] initWithRuntime:runtime]];
+    
+    for (LxModule *module in modulePacket) {
+        [runtime addJavaScriptInterface:module withName:[module moduleName]];
+    }
 }
 
 @end

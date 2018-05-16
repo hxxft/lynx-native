@@ -11,6 +11,7 @@ class DebugSession {
  public:
   class Dispatcher {
    public:
+    virtual ~Dispatcher() {}
     virtual void DispatchMessage(
         const base::ScopedRefPtr<base::IOBuffer>& data_buffer,
         uint64_t size) = 0;

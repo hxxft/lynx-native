@@ -13,6 +13,7 @@ enum DebugType {
 
 class DebugHost {
  public:
+  virtual ~DebugHost() {}
   virtual void Run(DebugType type) = 0;
 };
 }  // namespace debug

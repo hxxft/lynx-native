@@ -79,8 +79,9 @@
         && _parent != 0
         && _parent->render_object_impl_->render_object_type() == lynx::LYNX_LISTVIEW
         && _parent.ui) {
-        LxUIListView *LxUIListView = _parent.ui;
-        [LxUIListView reloadData];
+        
+        LynxUI *listview = _parent.ui;
+        [((LxUIListView *)listview) reloadData];
     }
 }
 
@@ -97,8 +98,8 @@
         && _parent != 0
         && _parent->render_object_impl_->render_object_type() == lynx::LYNX_LISTVIEW
         && _parent.ui) {
-        LxUIListView *LxUIListView = _parent.ui;
-        [LxUIListView reloadData];
+        LynxUI *listview = _parent.ui;
+        [((LxUIListView *)listview) reloadData];
     }
 }
 

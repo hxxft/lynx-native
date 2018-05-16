@@ -41,21 +41,21 @@ namespace lepus {
     };
     
     struct Instruction {
-        unsigned int op_code_;
+        unsigned long op_code_;
         
         Instruction() : op_code_(0) {
             
         }
         
-        Instruction(TypeOpCode op_code, int a, int b, int c) : op_code_(op_code) {
+        Instruction(TypeOpCode op_code, long a, long b, long c) : op_code_(op_code) {
             op_code_ = (op_code_ << 24) | ((a & 0xFF) << 16) | ((b & 0xFF) << 8) | (c & 0xFF);
         }
         
-        Instruction(TypeOpCode op_code, int a, short b) : op_code_(op_code) {
+        Instruction(TypeOpCode op_code, long a, short b) : op_code_(op_code) {
             op_code_ = (op_code_ << 24) | ((a & 0xFF) << 16) | (static_cast<int>(b) & 0xFFFF);
         }
         
-        Instruction(TypeOpCode op_code, int a, unsigned short b) : op_code_(op_code) {
+        Instruction(TypeOpCode op_code, long a, unsigned short b) : op_code_(op_code) {
             op_code_ = (op_code_ << 24) | ((a & 0xFF) << 16) | (static_cast<int>(b) & 0xFFFF);
         }
         
@@ -63,52 +63,52 @@ namespace lepus {
             op_code_ = (op_code_ & 0xFFFF0000) | (static_cast<int>(b) & 0xFFFF);
         }
         
-        static Instruction ABCCode(TypeOpCode op, int a, int b, int c)
+        static Instruction ABCCode(TypeOpCode op, long a, long b, long c)
         {
             return Instruction(op, a, b, c);
         }
         
-        static Instruction ABCode(TypeOpCode op, int a, int b)
+        static Instruction ABCode(TypeOpCode op, long a, long b)
         {
             return Instruction(op, a, b, 0);
         }
         
-        static Instruction ACode(TypeOpCode op, int a)
+        static Instruction ACode(TypeOpCode op, long a)
         {
             return Instruction(op, a, 0, 0);
         }
         
-        static Instruction ABxCode(TypeOpCode op, int a, int b)
+        static Instruction ABxCode(TypeOpCode op, long a, long b)
         {
             return Instruction(op, a, static_cast<unsigned short>(b));
         }
         
-        static int GetOpCode(Instruction i)
+        static long GetOpCode(Instruction i)
         {
             return (i.op_code_ >> 24) & 0xFF;
         }
         
-        static int GetParamA(Instruction i)
+        static long GetParamA(Instruction i)
         {
             return (i.op_code_ >> 16) & 0xFF;
         }
         
-        static int GetParamB(Instruction i)
+        static long GetParamB(Instruction i)
         {
             return (i.op_code_ >> 8) & 0xFF;
         }
         
-        static int GetParamC(Instruction i)
+        static long GetParamC(Instruction i)
         {
             return i.op_code_ & 0xFF;
         }
         
-        static int GetParamsBx(Instruction i)
+        static long GetParamsBx(Instruction i)
         {
             return static_cast<short>(i.op_code_ & 0xFFFF);
         }
         
-        static int GetParamBx(Instruction i)
+        static long GetParamBx(Instruction i)
         {
             return static_cast<unsigned short>(i.op_code_ & 0xFFFF);
         }

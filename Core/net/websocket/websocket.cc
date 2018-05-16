@@ -8,7 +8,6 @@
 
 namespace net {
     namespace {
-        const int kBufferSize = 1024;
         const size_t kWebSocketCloseCodeLength = 2;
         void GetFrameTypeForOpcode(WebSocketFrameHeader::OpCode opcode,
                                    std::string* name) {
@@ -270,13 +269,13 @@ namespace net {
     void WebSocket::SendClose(uint16_t code,
                                              const std::string& reason) {
         base::ScopedRefPtr<base::IOBuffer> body;
-        uint64_t size = 0;
+        size_t size = 0;
         state_ = WS_STATE_CLOSE_WAIT;
         if (code == kWebSocketErrorNoStatusReceived) {
-            body = new base::IOBuffer(size);
+            body = new base::IOBuffer((int)size);
         } else {
             const size_t payload_length = kWebSocketCloseCodeLength + reason.length();
-            body = new base::IOBuffer(payload_length);
+            body = new base::IOBuffer((int)payload_length);
             size = payload_length;
             base::WriteBigEndian(body->data(), code);
             std::copy(reason.begin(), reason.end(), body->data() + kWebSocketCloseCodeLength);

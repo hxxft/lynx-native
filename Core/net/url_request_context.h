@@ -19,7 +19,7 @@ class URLRequestDelegate;
 class URLRequestContext {
 public:
     URLRequestContext(jscore::Runtime* runtime);
-    ~URLRequestContext();
+    virtual ~URLRequestContext();
 
     // ThreadSafe
     URLRequest* CreateRequest(const std::string& url, URLRequestDelegate* delegate);
