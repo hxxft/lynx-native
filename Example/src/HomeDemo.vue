@@ -114,8 +114,8 @@ export default {
           groupName: "Demos",
           itemList: [
             {
-              title: "Animations",
-              introduction: "Scroll Animation"
+              title: "Animation",
+              introduction: "Basic Animation Example"
             },
             {
               title: "Shopping",
@@ -151,7 +151,7 @@ export default {
       }
     },
     pageEnable(page) {
-      if (page.startsWith("Animations") || page.startsWith("Shopping")) {
+      if (page.startsWith("Shopping")) {
         return false
       }
       return true
