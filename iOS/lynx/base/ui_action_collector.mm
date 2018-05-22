@@ -49,7 +49,7 @@
 }
 
 - (BOOL)needDoAction {
-    return !(_eventActions.count == 0 && _updateDataActions.count == 0);
+    return !(_eventActions && _eventActions.count == 0 && _updateDataActions && _updateDataActions.count == 0);
 }
 
 - (void)doActions {

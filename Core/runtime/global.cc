@@ -12,6 +12,7 @@
 #include "runtime/base/lynx_array.h"
 #include "runtime/js/defines.h"
 #include "runtime/js/js_context.h"
+#include "plugin/base/plugin_manager.h"
 
 namespace jscore {
 
@@ -27,7 +28,8 @@ namespace jscore {
         V(Global, Navigator)                \
         V(Global, Screen)                   \
         V(Global, Loader)                   \
-        V(Global, Document)
+        V(Global, Document)                 \
+        V(Global, Plugin)
 
     // Defines methods and fields
     FOR_EACH_METHOD_BINDING(DEFINE_METHOD_CALLBACK)
@@ -66,6 +68,9 @@ namespace jscore {
         loader_->ProtectJSObject();
         document_ = lynx_new Document(context_);
         document_->ProtectJSObject();
+        
+        plugin_ = lynx_new plugin::PluginManager(context_);
+        plugin_->ProtectJSObject();
     }
 
     base::ScopedPtr<LynxValue> Global::SetTimeout(base::ScopedPtr<LynxArray> &array) {
@@ -125,5 +130,8 @@ namespace jscore {
         return LynxValue::MakeObject(document());
     }
 
+    base::ScopedPtr<LynxValue> Global::GetPlugin() {
+        return LynxValue::MakeObject(plugin());
+    }
 }
 

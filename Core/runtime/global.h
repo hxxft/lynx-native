@@ -5,6 +5,10 @@
 
 #include "runtime/base/lynx_object.h"
 
+namespace plugin{
+    class PluginManager;
+}
+
 namespace jscore {
     class Console;
     class Navigator;
@@ -22,6 +26,7 @@ namespace jscore {
         inline Screen* screen() { return screen_.Get(); }
         inline Loader* loader() { return loader_.Get(); }
         inline Document* document() { return document_.Get(); }
+        inline plugin::PluginManager* plugin() { return plugin_.Get(); }
 
         base::ScopedPtr<LynxValue> SetTimeout(base::ScopedPtr<LynxArray> &array);
         base::ScopedPtr<LynxValue> SetInterval(base::ScopedPtr<LynxArray> &array);
@@ -34,6 +39,7 @@ namespace jscore {
         base::ScopedPtr<LynxValue> GetScreen();
         base::ScopedPtr<LynxValue> GetLoader();
         base::ScopedPtr<LynxValue> GetDocument();
+        base::ScopedPtr<LynxValue> GetPlugin();
 
     private:
         base::ScopedRefPtr<Console> console_;
@@ -41,7 +47,7 @@ namespace jscore {
         base::ScopedRefPtr<Screen> screen_;
         base::ScopedRefPtr<Loader> loader_;
         base::ScopedRefPtr<Document> document_;
-
+        base::ScopedRefPtr<plugin::PluginManager> plugin_;
         DISALLOW_COPY_AND_ASSIGN(Global);
     };
 }

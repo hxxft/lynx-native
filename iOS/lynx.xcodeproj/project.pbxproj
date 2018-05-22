@@ -19,6 +19,15 @@
 		421438F7207DF52E00ECF750 /* application_info.mm in Sources */ = {isa = PBXBuildFile; fileRef = 421438EE207DF52D00ECF750 /* application_info.mm */; };
 		421438F8207DF52E00ECF750 /* page_info.mm in Sources */ = {isa = PBXBuildFile; fileRef = 421438F2207DF52D00ECF750 /* page_info.mm */; };
 		421438F9207DF52E00ECF750 /* resource_manager.mm in Sources */ = {isa = PBXBuildFile; fileRef = 421438F4207DF52D00ECF750 /* resource_manager.mm */; };
+		4214C31720B17EEC005EC1ED /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4214C31620B17EEC005EC1ED /* CoreTelephony.framework */; };
+		4214C32F20B2D4D3005EC1ED /* netinfo.js in Resources */ = {isa = PBXBuildFile; fileRef = 4214C31F20B2D4D3005EC1ED /* netinfo.js */; };
+		4214C33020B2D4D3005EC1ED /* clipboard.js in Resources */ = {isa = PBXBuildFile; fileRef = 4214C32120B2D4D3005EC1ED /* clipboard.js */; };
+		4214C33120B2D4D3005EC1ED /* plugin.js in Resources */ = {isa = PBXBuildFile; fileRef = 4214C32220B2D4D3005EC1ED /* plugin.js */; };
+		4214C33220B2D4D3005EC1ED /* plugin_manager.cc in Sources */ = {isa = PBXBuildFile; fileRef = 4214C32520B2D4D3005EC1ED /* plugin_manager.cc */; };
+		4214C33320B2D4D3005EC1ED /* plugin.cc in Sources */ = {isa = PBXBuildFile; fileRef = 4214C32720B2D4D3005EC1ED /* plugin.cc */; };
+		4214C33420B2D4D3005EC1ED /* plugin_builder.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4214C32920B2D4D3005EC1ED /* plugin_builder.mm */; };
+		4214C33520B2D4D3005EC1ED /* plugin_impl.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4214C32B20B2D4D3005EC1ED /* plugin_impl.mm */; };
+		4214C33920B2D5D3005EC1ED /* net_info_plugin.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4214C33720B2D5D3005EC1ED /* net_info_plugin.mm */; };
 		42178E7F20994E7B001B8A48 /* builtin.cc in Sources */ = {isa = PBXBuildFile; fileRef = 42177F5B20994E6A001B8A48 /* builtin.cc */; };
 		42178E8020994E7B001B8A48 /* table.cc in Sources */ = {isa = PBXBuildFile; fileRef = 42177F5C20994E6A001B8A48 /* table.cc */; };
 		42178E8120994E7B001B8A48 /* function.cc in Sources */ = {isa = PBXBuildFile; fileRef = 42177F5F20994E6A001B8A48 /* function.cc */; };
@@ -453,6 +462,20 @@
 		421438F3207DF52D00ECF750 /* application_info.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = application_info.h; sourceTree = "<group>"; };
 		421438F4207DF52D00ECF750 /* resource_manager.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = resource_manager.mm; sourceTree = "<group>"; };
 		421438F5207DF52D00ECF750 /* resource_reader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = resource_reader.h; sourceTree = "<group>"; };
+		4214C31620B17EEC005EC1ED /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
+		4214C31F20B2D4D3005EC1ED /* netinfo.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = netinfo.js; sourceTree = "<group>"; };
+		4214C32120B2D4D3005EC1ED /* clipboard.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = clipboard.js; sourceTree = "<group>"; };
+		4214C32220B2D4D3005EC1ED /* plugin.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = plugin.js; sourceTree = "<group>"; };
+		4214C32420B2D4D3005EC1ED /* plugin_builder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = plugin_builder.h; sourceTree = "<group>"; };
+		4214C32520B2D4D3005EC1ED /* plugin_manager.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = plugin_manager.cc; sourceTree = "<group>"; };
+		4214C32620B2D4D3005EC1ED /* plugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = plugin.h; sourceTree = "<group>"; };
+		4214C32720B2D4D3005EC1ED /* plugin.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = plugin.cc; sourceTree = "<group>"; };
+		4214C32920B2D4D3005EC1ED /* plugin_builder.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = plugin_builder.mm; sourceTree = "<group>"; };
+		4214C32A20B2D4D3005EC1ED /* plugin_impl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = plugin_impl.h; sourceTree = "<group>"; };
+		4214C32B20B2D4D3005EC1ED /* plugin_impl.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = plugin_impl.mm; sourceTree = "<group>"; };
+		4214C32D20B2D4D3005EC1ED /* plugin_manager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = plugin_manager.h; sourceTree = "<group>"; };
+		4214C33720B2D5D3005EC1ED /* net_info_plugin.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = net_info_plugin.mm; sourceTree = "<group>"; };
+		4214C33820B2D5D3005EC1ED /* net_info_plugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = net_info_plugin.h; sourceTree = "<group>"; };
 		42177F5920994E6A001B8A48 /* semantic_analysis.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = semantic_analysis.h; sourceTree = "<group>"; };
 		42177F5A20994E6A001B8A48 /* utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = utils.h; sourceTree = "<group>"; };
 		42177F5B20994E6A001B8A48 /* builtin.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = builtin.cc; sourceTree = "<group>"; };
@@ -961,6 +984,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4214C31720B17EEC005EC1ED /* CoreTelephony.framework in Frameworks */,
 				BCE8BAAF1DF59F9A008B4A45 /* Foundation.framework in Frameworks */,
 				BCE8BA7A1DF54DA0008B4A45 /* CoreFoundation.framework in Frameworks */,
 				42D7BD751DCB8C27000BE5A5 /* UIKit.framework in Frameworks */,
@@ -1014,9 +1038,78 @@
 			path = app;
 			sourceTree = "<group>";
 		};
+		4214C31A20B2D4D3005EC1ED /* plugin */ = {
+			isa = PBXGroup;
+			children = (
+				4214C31B20B2D4D3005EC1ED /* impl */,
+				4214C32220B2D4D3005EC1ED /* plugin.js */,
+				4214C32320B2D4D3005EC1ED /* base */,
+			);
+			path = plugin;
+			sourceTree = "<group>";
+		};
+		4214C31B20B2D4D3005EC1ED /* impl */ = {
+			isa = PBXGroup;
+			children = (
+				4214C32020B2D4D3005EC1ED /* clipboard */,
+				4214C31C20B2D4D3005EC1ED /* net_info */,
+			);
+			path = impl;
+			sourceTree = "<group>";
+		};
+		4214C31C20B2D4D3005EC1ED /* net_info */ = {
+			isa = PBXGroup;
+			children = (
+				4214C33620B2D5D3005EC1ED /* ios */,
+				4214C31F20B2D4D3005EC1ED /* netinfo.js */,
+			);
+			path = net_info;
+			sourceTree = "<group>";
+		};
+		4214C32020B2D4D3005EC1ED /* clipboard */ = {
+			isa = PBXGroup;
+			children = (
+				4214C32120B2D4D3005EC1ED /* clipboard.js */,
+			);
+			path = clipboard;
+			sourceTree = "<group>";
+		};
+		4214C32320B2D4D3005EC1ED /* base */ = {
+			isa = PBXGroup;
+			children = (
+				4214C32420B2D4D3005EC1ED /* plugin_builder.h */,
+				4214C32520B2D4D3005EC1ED /* plugin_manager.cc */,
+				4214C32620B2D4D3005EC1ED /* plugin.h */,
+				4214C32720B2D4D3005EC1ED /* plugin.cc */,
+				4214C32820B2D4D3005EC1ED /* ios */,
+				4214C32D20B2D4D3005EC1ED /* plugin_manager.h */,
+			);
+			path = base;
+			sourceTree = "<group>";
+		};
+		4214C32820B2D4D3005EC1ED /* ios */ = {
+			isa = PBXGroup;
+			children = (
+				4214C32920B2D4D3005EC1ED /* plugin_builder.mm */,
+				4214C32A20B2D4D3005EC1ED /* plugin_impl.h */,
+				4214C32B20B2D4D3005EC1ED /* plugin_impl.mm */,
+			);
+			path = ios;
+			sourceTree = "<group>";
+		};
+		4214C33620B2D5D3005EC1ED /* ios */ = {
+			isa = PBXGroup;
+			children = (
+				4214C33720B2D5D3005EC1ED /* net_info_plugin.mm */,
+				4214C33820B2D5D3005EC1ED /* net_info_plugin.h */,
+			);
+			path = ios;
+			sourceTree = "<group>";
+		};
 		42177F3F20994E6A001B8A48 /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				4214C31A20B2D4D3005EC1ED /* plugin */,
 				421795E520994EEA001B8A48 /* third_party */,
 				42177F5820994E6A001B8A48 /* lepus */,
 				42177F7F20994E6A001B8A48 /* net */,
@@ -2024,6 +2117,7 @@
 		C87C9478FB7710D58B019813 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				4214C31620B17EEC005EC1ED /* CoreTelephony.framework */,
 				DC31330FD8AEB81CA3C6EA60 /* libPods-lynx.a */,
 			);
 			name = Frameworks;
@@ -2131,7 +2225,10 @@
 				425BCA0320A69F3E008AAFC0 /* gtest-param-util-generated.h.pump in Resources */,
 				4217A90220994F04001B8A48 /* sconscript in Resources */,
 				4217A90420994F04001B8A48 /* json_valueiterator.inl in Resources */,
+				4214C33120B2D4D3005EC1ED /* plugin.js in Resources */,
 				4217A90520994F04001B8A48 /* init.sh in Resources */,
+				4214C33020B2D4D3005EC1ED /* clipboard.js in Resources */,
+				4214C32F20B2D4D3005EC1ED /* netinfo.js in Resources */,
 				4217A90020994F04001B8A48 /* version.h.in in Resources */,
 				BC9D343A1E1DEC92009BD30A /* Assets.xcassets in Resources */,
 				425BCA0120A69F3E008AAFC0 /* gtest-tuple.h.pump in Resources */,
@@ -2407,6 +2504,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BC5DBDB41F5EC7BE005A47E3 /* view_wrapper.mm in Sources */,
+				4214C33520B2D4D3005EC1ED /* plugin_impl.mm in Sources */,
 				421438E5207DE59F00ECF750 /* coordinator_pretreatment.mm in Sources */,
 				42178E8B20994E7B001B8A48 /* url_request_context.cc in Sources */,
 				BC31B01D1F6271BE00C0234C /* ui_event_action.mm in Sources */,
@@ -2480,6 +2578,7 @@
 				42178F0520994E7B001B8A48 /* element.cc in Sources */,
 				42178F2120994E7B001B8A48 /* command_collector.cc in Sources */,
 				BC31B0291F6284D200C0234C /* render_tree_host_impl_bridge.mm in Sources */,
+				4214C33220B2D4D3005EC1ED /* plugin_manager.cc in Sources */,
 				421795BA20994E84001B8A48 /* select_poller.cc in Sources */,
 				BCDEC7D8209C518C000B0D50 /* class_template.cc in Sources */,
 				42178F4320994E7B001B8A48 /* input_stream.cc in Sources */,
@@ -2536,6 +2635,8 @@
 				42178E8920994E7B001B8A48 /* scanner.cc in Sources */,
 				42178F3F20994E7B001B8A48 /* body.cc in Sources */,
 				BC8040951FCA5C620041CF01 /* module.mm in Sources */,
+				4214C33920B2D5D3005EC1ED /* net_info_plugin.mm in Sources */,
+				4214C33320B2D4D3005EC1ED /* plugin.cc in Sources */,
 				421795AD20994E84001B8A48 /* html_request_delegate.cc in Sources */,
 				42178F1020994E7B001B8A48 /* js_vm.cc in Sources */,
 				42178EC220994E7B001B8A48 /* websocket_errors.cc in Sources */,
@@ -2545,6 +2646,7 @@
 				421795D020994E85001B8A48 /* string_number_convert.cc in Sources */,
 				421795B920994E84001B8A48 /* utility.cc in Sources */,
 				42178EDB20994E7B001B8A48 /* css_color.cc in Sources */,
+				4214C33420B2D4D3005EC1ED /* plugin_builder.mm in Sources */,
 				BC31B0161F624F6D00C0234C /* lynx_ui_body.mm in Sources */,
 				42178F2F20994E7B001B8A48 /* extended_view.cc in Sources */,
 				421438E8207DE59F00ECF750 /* coordinator_action_executor.mm in Sources */,

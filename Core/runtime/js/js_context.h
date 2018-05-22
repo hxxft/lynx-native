@@ -13,7 +13,7 @@ namespace jscore {
 class Runtime;
 class Global;
 class LynxObjectPlatform;
-class JSContext : public base::RefCountPtr<Runtime> {
+class JSContext : public base::RefCountPtr<JSContext> {
  public:
     JSContext();
 
