@@ -12,14 +12,14 @@ void MessagePumpPosix::ScheduleWork() {
     condition_.Signal();
 }
 
-void MessagePumpPosix::ScheduleDelayedWork(Clouse* clouse, int delayed_time) {
-    TimerNode node(clouse, delayed_time);
+void MessagePumpPosix::ScheduleDelayedWork(Closure* closure, int delayed_time) {
+    TimerNode node(closure, delayed_time);
     timer_.SetTimerNode(node);
     condition_.Signal();
 }
 
-void MessagePumpPosix::ScheduleIntervalWork(Clouse* clouse, int delayed_time) {
-    TimerNode node(clouse, delayed_time, true);
+void MessagePumpPosix::ScheduleIntervalWork(Closure* closure, int delayed_time) {
+    TimerNode node(closure, delayed_time, true);
     timer_.SetTimerNode(node);
     condition_.Signal();
 }

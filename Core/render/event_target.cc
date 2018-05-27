@@ -29,10 +29,9 @@ void EventTarget::AddEventListener(const std::string& event,
     if (iter == event_listener_map_.end()) {
         iter = event_listener_map_.add(event,
                         lynx_new base::ScopedVector<EventListener>()).first;
+        RegisterEvent(event, EVENT_ADD);
     }
     iter->second->push_back(lynx_new EventListener(function, capture));
-
-    RegisterEvent(event, EVENT_ADD);
 }
 
 void EventTarget::RemoveEventListener(const std::string& event,
@@ -51,8 +50,9 @@ void EventTarget::RemoveEventListener(const std::string& event,
             break;
         }
     }
-
-    RegisterEvent(event, EVENT_REMOVE);
+    if(iter->second->empty()) {
+        RegisterEvent(event, EVENT_REMOVE);
+    }
 }
 
 void EventTarget::RemoveEventListener(const std::string& event) {

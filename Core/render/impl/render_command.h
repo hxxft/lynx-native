@@ -18,7 +18,7 @@
 
 namespace lynx {
 class RenderObjectImpl;
-class RenderCommand : public base::Clouse {
+class RenderCommand : public base::Closure {
  public:
     explicit RenderCommand(RenderObjectImpl* host, int type);
     virtual ~RenderCommand();

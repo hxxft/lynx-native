@@ -10,15 +10,15 @@ namespace base {
 
 class TimerNode {
  public:
-    TimerNode(Clouse* clouse, int interval_time)
-        : task_(clouse),
+    TimerNode(Closure* closure, int interval_time)
+        : task_(closure),
         interval_time_(interval_time),
         need_loop_(false) {
         next_timeout_ = CurrentTimeMillis() + interval_time_;
     }
 
-    TimerNode(Clouse* clouse, int interval_time, bool need_loop)
-        : task_(clouse),
+    TimerNode(Closure* closure, int interval_time, bool need_loop)
+        : task_(closure),
         interval_time_(interval_time),
         need_loop_(need_loop) {
         next_timeout_ = CurrentTimeMillis() + interval_time_;

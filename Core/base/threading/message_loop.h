@@ -24,17 +24,19 @@ class MessageLoop : public MessagePump::Delegate {
     MESSAGE_LOOP_IO,
   };
   explicit MessageLoop(MESSAGE_LOOP_TYPE type = MESSAGE_LOOP_POSIX);
-  void PostTask(Clouse* clouse);
-  void PostDelayedTask(Clouse* clouse, int delayed_time);
-  void PostIntervalTask(Clouse* clouse, int delayed_time);
+  void PostTask(Closure* closure);
+  void PostDelayedTask(Closure* closure, int delayed_time);
+  void PostIntervalTask(Closure* closure, int delayed_time);
   virtual bool DoWork();
   virtual void DoQuit();
   void Run();
-  void Quit(base::Clouse* closue);
+  void Quit(base::Closure* closure);
   void Stop();
   void BindToCurrentThread();
 
   MessagePump* pump() { return pump_.Get(); }
+
+  MESSAGE_LOOP_TYPE type() { return loop_type_; } 
 
   static MessageLoop* current();
 

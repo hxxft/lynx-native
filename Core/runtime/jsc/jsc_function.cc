@@ -38,12 +38,13 @@ namespace jscore {
     }
 
     void JSCFunction::Run(LynxObject* target, LynxArray* args) {
-        if (target == 0) {
-            return;
-        }
+  
         JSContextRef ctx = static_cast<JSCContext*>(context_)->GetContext();
-        auto object_wrap = static_cast<JSCObjectWrap*>(target->object_wrap());
-        JSObjectRef target_object = object_wrap->js_ref();
+        JSObjectRef target_object = JSContextGetGlobalObject(ctx);
+        if(target != nullptr) {
+            auto object_wrap = static_cast<JSCObjectWrap*>(target->object_wrap());
+            target_object = object_wrap->js_ref();
+        }
 
         base::ScopedPtr<JSValueRef[]> array;
         size_t argc = 0;

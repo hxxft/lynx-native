@@ -43,19 +43,19 @@ MessagePump* MessageLoop::CreatePump(MESSAGE_LOOP_TYPE type) {
   return pump;
 }
 
-void MessageLoop::PostTask(Clouse* clouse) {
+void MessageLoop::PostTask(Closure* closure) {
   AutoLock lock(lock_);
-  Task task(clouse);
+  Task task(closure);
   incoming_task_queue_.push(task);
   pump_->ScheduleWork();
 }
 
-void MessageLoop::PostDelayedTask(Clouse* clouse, int delayed_time) {
-  pump_->ScheduleDelayedWork(clouse, delayed_time);
+void MessageLoop::PostDelayedTask(Closure* closure, int delayed_time) {
+  pump_->ScheduleDelayedWork(closure, delayed_time);
 }
 
-void MessageLoop::PostIntervalTask(Clouse* clouse, int delayed_time) {
-  pump_->ScheduleIntervalWork(clouse, delayed_time);
+void MessageLoop::PostIntervalTask(Closure* closure, int delayed_time) {
+  pump_->ScheduleIntervalWork(closure, delayed_time);
 }
 
 bool MessageLoop::DoWork() {
@@ -84,9 +84,9 @@ void MessageLoop::DoQuit() {
   quit_task_.Run();
 }
 
-void MessageLoop::Quit(base::Clouse* closue) {
+void MessageLoop::Quit(base::Closure* closure) {
   AutoLock lock(lock_);
-  quit_task_.Reset(closue);
+  quit_task_.Reset(closure);
   pump_->ScheduleWork();
 }
 

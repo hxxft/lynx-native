@@ -25,7 +25,7 @@ class Thread {
 
   virtual void Start();
 
-  virtual void Quit(base::Clouse* closue);
+  virtual void Quit(base::Closure* closure);
 
   void Run();
 

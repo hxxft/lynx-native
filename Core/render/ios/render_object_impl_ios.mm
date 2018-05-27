@@ -93,7 +93,10 @@ namespace lynx {
         }
         base::ScopedRefPtr<RenderObjectImplIOS> ref(this);
         base::ScopedPtr<jscore::LynxArray> param(base::ios::OCHelper::ConvertToLynxArray(array));
-        thread_manager_->RunOnJSThread(base::Bind(&RenderObjectImplIOS::DispatchEventOnJSThread, ref, event, param));
+        //thread_manager_->RunOnJSThread(base::Bind(&RenderObjectImplIOS::DispatchEventOnJSThread, ref, event, param));
+        if (render_object_weak_ptr_.IsValid()) {
+            render_object_weak_ptr_->DispatchEvent(event, param);
+        }
     }
     
     void RenderObjectImplIOS::DispatchEventOnJSThread(const std::string& event, base::ScopedPtr<jscore::LynxArray> array) {
@@ -105,7 +108,11 @@ namespace lynx {
     void RenderObjectImplIOS::UpdateData(int attr, id value) {
         base::ScopedPtr<jscore::LynxValue> value_transformed(base::ios::OCHelper::ConvertToLynxValue(value));
         base::ScopedRefPtr<RenderObjectImplIOS> ref(this);
-        thread_manager_->RunOnJSThread(base::Bind(&RenderObjectImplIOS::UpdateDataOnJSThread, ref, attr, value_transformed));
+        //thread_manager_->RunOnJSThread(base::Bind(&RenderObjectImplIOS::UpdateDataOnJSThread, ref, attr, value_transformed));
+        
+        if (render_object_weak_ptr_.IsValid()) {
+            render_object_weak_ptr_->UpdateData(attr, value_transformed);
+        }
     }
     
     void RenderObjectImplIOS::UpdateDataOnJSThread(int attr, base::ScopedPtr<jscore::LynxValue> value) {

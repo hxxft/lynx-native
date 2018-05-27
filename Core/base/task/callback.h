@@ -15,15 +15,15 @@
 
 namespace base {
 
-class Clouse {
+class Closure {
  public:
-  Clouse() {}
-  virtual ~Clouse() {}
+  Closure() {}
+  virtual ~Closure() {}
   virtual void Run() {}
 };
 #if !GNU_SUPPORT && OS_ANDROID
 template <class Class>
-class Callback0 : public Clouse {
+class Callback0 : public Closure {
  public:
   typedef void (Class::*CallbackFunc)();
 
@@ -43,7 +43,7 @@ class Callback0 : public Clouse {
 };
 
 template <class Class, class FuncArg1, class Arg1>
-class Callback1 : public Clouse {
+class Callback1 : public Closure {
  public:
   typedef void (Class::*CallbackFunc)(FuncArg1 arg1);
 
@@ -65,7 +65,7 @@ class Callback1 : public Clouse {
 };
 
 template <class Class, class FuncArg1, class FuncArg2, class Arg1, class Arg2>
-class Callback2 : public Clouse {
+class Callback2 : public Closure {
  public:
   typedef void (Class::*CallbackFunc)(FuncArg1 arg1, FuncArg2 arg2);
 
@@ -89,19 +89,19 @@ class Callback2 : public Clouse {
 };
 
 template <class Class>
-Clouse* Bind(void (Class::*CallbackFunc)(), WeakPtr<Class>& ptr) {
+Closure* Bind(void (Class::*CallbackFunc)(), WeakPtr<Class>& ptr) {
   return lynx_new Callback0<Class>(CallbackFunc, ptr);
 }
 
 template <class Class, class FuncArg1, class Arg1>
-Clouse* Bind(void (Class::*CallbackFunc)(FuncArg1 arg1),
+Closure* Bind(void (Class::*CallbackFunc)(FuncArg1 arg1),
              WeakPtr<Class>& ptr,
              Arg1& arg1) {
   return lynx_new Callback1<Class, FuncArg1, Arg1>(CallbackFunc, ptr, arg1);
 }
 
 template <class Class, class FuncArg1, class FuncArg2, class Arg1, class Arg2>
-Clouse* Bind(void (Class::*CallbackFunc)(FuncArg1 arg1, FuncArg2 arg2),
+Closure* Bind(void (Class::*CallbackFunc)(FuncArg1 arg1, FuncArg2 arg2),
              WeakPtr<Class>& ptr,
              Arg1& arg1,
              Arg2& arg2) {
@@ -157,7 +157,7 @@ struct InvokeHelper<false, P, F, T> {
 };
 
 template <typename Functor, typename Pointer, typename... Args>
-class Callback : public Clouse {
+class Callback : public Closure {
  public:
   using BoundIndices = MakeIndexSequence<sizeof...(Args)>;
 
@@ -182,7 +182,7 @@ class Callback : public Clouse {
 };
 
 template <typename Functor, typename Pointer, typename... Args>
-Clouse* Bind(Functor f, Pointer p, Args&... args) {
+Closure* Bind(Functor f, Pointer p, Args&... args) {
   return lynx_new Callback<Functor, Pointer, Args...>(f, p, args...);
 }
 #endif
@@ -211,7 +211,7 @@ class CompletionCallback : public CompletionCallbackBase {
 
   Type* ptr_;
 
-  base::ScopedPtr<Clouse> callback_;
+  base::ScopedPtr<Closure> callback_;
 };
 }  // namespace base
 

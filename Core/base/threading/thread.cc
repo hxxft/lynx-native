@@ -49,6 +49,8 @@ Thread::Thread(MessageLoop::MESSAGE_LOOP_TYPE type)
 Thread::~Thread() {}
 
 void Thread::Start() {
+  if(message_loop_.type() == MessageLoop::MESSAGE_LOOP_UI)
+    return;
   bool err = pthread_create(&thread_handle_, NULL, ThreadFunc, this);
 
   if (err) {
@@ -65,8 +67,8 @@ void Thread::Run() {
   message_loop_.Run();
 }
 
-void Thread::Quit(base::Clouse* closue) {
-  message_loop_.Quit(closue);
+void Thread::Quit(base::Closure* closure) {
+  message_loop_.Quit(closure);
 }
 
 }  // namespace base

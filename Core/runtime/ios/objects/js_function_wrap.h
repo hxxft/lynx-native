@@ -10,7 +10,7 @@
 #include "js_function.h"
 
 namespace jscore {
-    class JSFunctionWrap : public base::Clouse, public JSFunction{
+    class JSFunctionWrap : public base::Closure, public JSFunction{
     public:
         JSFunctionWrap(JSValue* value);
         JSFunctionWrap(JSFunctionWrap& wrap);

@@ -20,9 +20,9 @@ class MessagePumpPosix : public MessagePump {
 
     virtual void ScheduleWork();
 
-    virtual void ScheduleDelayedWork(Clouse* clouse, int delayed_time);
+    virtual void ScheduleDelayedWork(Closure* closure, int delayed_time);
 
-    virtual void ScheduleIntervalWork(Clouse* clouse, int delayed_time);
+    virtual void ScheduleIntervalWork(Closure* closure, int delayed_time);
 
  private:
     Condition condition_;

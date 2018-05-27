@@ -13,7 +13,7 @@ namespace jscore {
     
     class JSContext;
     
-    class TimedTask : public base::Clouse{
+    class TimedTask : public base::Closure{
     public:
         
         TimedTask(LynxFunction* js_function) : js_function_(js_function) {}

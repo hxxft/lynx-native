@@ -12,7 +12,7 @@
 namespace base {
 class Task {
  public:
-    explicit Task(Clouse* clouse) : runnable_(clouse) {}
+    explicit Task(Closure* closure) : runnable_(closure) {}
 
     Task(Task& other) : runnable_(other.runnable_) {}
 
@@ -22,8 +22,8 @@ class Task {
 
     ~Task() {}
 
-    void Reset(Clouse* clouse) {
-      runnable_.Reset(clouse);
+    void Reset(Closure* closure) {
+      runnable_.Reset(closure);
     }
 
     void Run() { runnable_->Run(); }
@@ -33,7 +33,7 @@ class Task {
     }
 
  private:
-    ScopedPtr<Clouse> runnable_;
+    ScopedPtr<Closure> runnable_;
 };
 
 class TaskQueue : public std::queue<Task> {

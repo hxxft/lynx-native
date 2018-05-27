@@ -17,23 +17,23 @@ class ThreadManager {
     js_thread_->Start();
   }
 
-  void RunOnUIThread(base::Clouse* clouse) {
-    ui_thread_->Looper()->PostTask(clouse);
+  void RunOnUIThread(base::Closure* closure) {
+    ui_thread_->Looper()->PostTask(closure);
   }
 
-  void RunOnJSThread(base::Clouse* closue) {
-    js_thread_->Looper()->PostTask(closue);
+  void RunOnJSThread(base::Closure* closure) {
+    js_thread_->Looper()->PostTask(closure);
   }
 
-  void RunOnJSThreadDelay(base::Clouse* closue, int delayed_time) {
-    js_thread_->Looper()->PostDelayedTask(closue, delayed_time);
+  void RunOnJSThreadDelay(base::Closure* closure, int delayed_time) {
+    js_thread_->Looper()->PostDelayedTask(closure, delayed_time);
   }
 
-  void RunOnJSThreadInterval(base::Clouse* closue, int delayed_time) {
-    js_thread_->Looper()->PostIntervalTask(closue, delayed_time);
+  void RunOnJSThreadInterval(base::Closure* closure, int delayed_time) {
+    js_thread_->Looper()->PostIntervalTask(closure, delayed_time);
   }
 
-  void QuitJSThread(base::Clouse* closue) { js_thread_->Quit(closue); }
+  void QuitJSThread(base::Closure* closure) { js_thread_->Quit(closure); }
 
   void DetachUIThread() { ui_thread_->Looper()->Stop(); }
 

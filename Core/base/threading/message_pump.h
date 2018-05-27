@@ -26,9 +26,9 @@ class MessagePump {
 
     virtual void ScheduleWork() = 0;
 
-    virtual void ScheduleDelayedWork(Clouse* clouse, int delayed_time) = 0;
+    virtual void ScheduleDelayedWork(Closure* closure, int delayed_time) = 0;
 
-    virtual void ScheduleIntervalWork(Clouse* clouse, int delayed_time) = 0;
+    virtual void ScheduleIntervalWork(Closure* closure, int delayed_time) = 0;
     
     static MessagePump* Create(Delegate* delegate);
 };

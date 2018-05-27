@@ -130,7 +130,7 @@ class RenderObject : public LayoutObject, public EventTarget {
 
   void SetJSRef(jscore::Element* js_ref) { SetTarget(js_ref); }
 
-  jscore::Element* GetJSRef() { return GetTarget(); }
+  jscore::Element* GetJSRef() { return static_cast<jscore::Element*>(GetTarget()); }
 
   uint64_t id() { return id_; }
 

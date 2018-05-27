@@ -36,15 +36,15 @@ void MessagePumpIOPosix::ScheduleWork() {
   write(wakeup_pipe_in_, &buf, 1);
 }
 
-void MessagePumpIOPosix::ScheduleDelayedWork(Clouse* clouse, int delayed_time) {
-  TimerNode node(clouse, delayed_time);
+void MessagePumpIOPosix::ScheduleDelayedWork(Closure* closure, int delayed_time) {
+  TimerNode node(closure, delayed_time);
   timer_.SetTimerNode(node);
   ScheduleWork();
 }
 
-void MessagePumpIOPosix::ScheduleIntervalWork(Clouse* clouse,
+void MessagePumpIOPosix::ScheduleIntervalWork(Closure* closure,
                                               int delayed_time) {
-  TimerNode node(clouse, delayed_time, true);
+  TimerNode node(closure, delayed_time, true);
   timer_.SetTimerNode(node);
   ScheduleWork();
 }

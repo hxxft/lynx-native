@@ -40,11 +40,11 @@ class EventTarget {
     virtual void RemoveEventListener(const std::string& event, jscore::LynxFunction* listener);
     virtual void RemoveEventListener(const std::string& event);
 
-    jscore::Element* GetTarget() {
+    jscore::LynxObject* GetTarget() {
         return target_data_;
     }
 
-    void SetTarget(jscore::Element* target) {
+    void SetTarget(jscore::LynxObject* target) {
         target_data_ = target;
     }
 
@@ -61,7 +61,7 @@ class EventTarget {
 protected:
     typedef base::ScopedPtrMap<std::string, base::ScopedVector<EventListener>> EventListenerMap;
 
-    jscore::Element* target_data_;
+    jscore::LynxObject* target_data_;
 
     EventListenerMap event_listener_map_;
 };
