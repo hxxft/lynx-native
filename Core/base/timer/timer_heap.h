@@ -13,7 +13,7 @@ class TimerHeap {
  public:
     TimerHeap(): lock_() {}
     ~TimerHeap() {}
-    uint64_t NextTimeout() { return !min_heap_.empty() ? min_heap_[0].next_timeout_ : ULONG_MAX; }
+    uint64_t NextTimeout() { return !min_heap_.empty() ? min_heap_[0].next_timeout_ : ULLONG_MAX; }
     bool IsEmpty() { return min_heap_.empty(); }
     void Remove();
     TimerNode Pop();
