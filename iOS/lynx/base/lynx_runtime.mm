@@ -28,12 +28,13 @@ static CGFloat kDefaultZoomRatio = -1;
     if (self) {
         runtime_ = new jscore::Runtime(new jscore::JSCContext());
         // Default
-        runtime_->InitRuntime("");
     }
     return self;
 }
 
 - (void) prepare {
+    runtime_->InitRuntime("");
+    [LxModuleRegister registeWithRuntime:self];
     [self prepareWithZoomRatio: -1];
 }
 
@@ -50,7 +51,6 @@ static CGFloat kDefaultZoomRatio = -1;
     // Create RenderTreeHost
     lynx::RenderTreeHost* render_tree_host = runtime_->SetupRenderHost();
 //    LxModuleRegister *moduleRegister = [[LxModuleRegister alloc] initWithRuntime:self];
-    [LxModuleRegister registeWithRuntime:self];
     _host = reinterpret_cast<lynx::RenderTreeHostImplIOS*>(render_tree_host->host_impl())->tree_host_bridge();
     return _host;
 }
@@ -84,6 +84,10 @@ static CGFloat kDefaultZoomRatio = -1;
 
 - (void)destroy {
     runtime_->Destroy();
+}
+
+-(void) dealloc {
+    
 }
 
 @end

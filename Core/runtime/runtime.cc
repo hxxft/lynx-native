@@ -20,7 +20,7 @@ namespace jscore {
       base::TraceLogger::Instance()->Start();
 #endif
       //inspector_ = new debug::Inspector(thread_manager_->js_thread(), "InspectorThread");
-                  AddRef();
+      AddRef();
     }
     
     Runtime::~Runtime() {
@@ -114,11 +114,12 @@ namespace jscore {
         //inspector_->Detach();
         url_request_context_->Stop();
         thread_manager_->DetachUIThread();
-        thread_manager_->QuitJSThread(base::Bind(&Runtime::DestroyOnJSThread, base::ScopedRefPtr<Runtime>(this)));
+        base::ScopedRefPtr<Runtime> ref(this);
+        Release();
+        thread_manager_->QuitJSThread(base::Bind(&Runtime::DestroyOnJSThread, ref));
 #if ENABLE_TRACING
         base::TraceLogger::Instance()->Stop();
 #endif
-        Release();
     }
 
     void Runtime::InitRuntimeOnJSThread(const char *arg) {
@@ -153,7 +154,6 @@ namespace jscore {
     }
 
     void Runtime::DestroyOnJSThread() {
-        //lynx_delete(this);
         Release();
     }
 
@@ -167,6 +167,5 @@ namespace jscore {
 
     std::string Runtime::GetPageUrl() {
         return render_tree_host()->page_location();
-//        return context_->GetPageUrl();
     }
 }  // namespace jscore

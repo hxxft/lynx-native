@@ -14,6 +14,7 @@ namespace jscore {
     }
 
     JSCObjectWrap::~JSCObjectWrap() {
+        js_object_ = nullptr;
     }
 
     void JSCObjectWrap::FinalizeCallback(JSObjectRef object) {

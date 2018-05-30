@@ -28,9 +28,8 @@ using namespace lynx;
         
         // Init Runtime
         _runtime = [[LynxRuntime alloc] init];
-        [_runtime prepare];
         _renderTreeHostImpl = [_runtime active];
-        
+        [_runtime prepare];
         // Update viewport
         [_renderTreeHostImpl updateViewport:frame];
         
