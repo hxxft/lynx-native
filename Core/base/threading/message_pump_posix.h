@@ -23,13 +23,14 @@ class MessagePumpPosix : public MessagePump {
     virtual void ScheduleDelayedWork(Closure* closure, int delayed_time);
 
     virtual void ScheduleIntervalWork(Closure* closure, int delayed_time);
-
+    
+    virtual void Stop();
  private:
     Condition condition_;
 
     Timer timer_;
 
-    bool loop_running_;
+    bool keep_running_;
 };
 }  // namespace base
 

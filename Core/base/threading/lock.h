@@ -19,6 +19,7 @@ class Lock {
     void Release() { pthread_mutex_unlock(&mutex_); }
 
     friend class Condition;
+    friend class CompletionEvent;
  private:
     pthread_mutex_t mutex_;
 };

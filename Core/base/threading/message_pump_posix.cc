@@ -4,7 +4,7 @@
 
 namespace base {
 
-MessagePumpPosix::MessagePumpPosix() : condition_(), loop_running_(true) {}
+MessagePumpPosix::MessagePumpPosix() : condition_(), keep_running_(true) {}
 
 MessagePumpPosix::~MessagePumpPosix() {}
 
@@ -25,13 +25,18 @@ void MessagePumpPosix::ScheduleIntervalWork(Closure* closure, int delayed_time) 
 }
 
 void MessagePumpPosix::Run(Delegate *delegate) {
-    while (loop_running_) {
+    while (keep_running_) {
         timer_.Loop();
-        loop_running_ = delegate->DoWork();
-        if(loop_running_) {
+        keep_running_ &= delegate->DoWork();
+        if(keep_running_) {
             condition_.Wait(timer_.NextTimeout() - CurrentTimeMillis());
         }
     }
     delegate->DoQuit();
+}
+
+//Can only be called from the thread that owns the MessageLoop.
+void MessagePumpPosix::Stop (){
+    keep_running_ = false;
 }
 }  // namespace base

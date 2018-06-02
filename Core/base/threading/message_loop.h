@@ -19,6 +19,7 @@ namespace base {
 class MessageLoop : public MessagePump::Delegate {
  public:
   enum MESSAGE_LOOP_TYPE {
+    MESSAGE_LOOP_NONE,
     MESSAGE_LOOP_UI,
     MESSAGE_LOOP_POSIX,
     MESSAGE_LOOP_IO,
