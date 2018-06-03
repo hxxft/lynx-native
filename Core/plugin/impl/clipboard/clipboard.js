@@ -1,9 +1,15 @@
+var exec = require('../exec').exec
+
 var Clipboard = {}
-Clipboard.getString = function(callback) {
-    exec('NetInfo', 'getString', [], callback, null)
+Clipboard.getString = function() {
+    return new Promise((resolve, reject)=>{
+                       exec('Clipboard', 'getString', [], function(content){ resolve(content) }, null)
+                       });
 }
 
 Clipboard.setString = function(content) {
-    exec('NetInfo', 'setString', [content], null, null)
+    exec('Clipboard', 'setString', [content], null, null)
 }
+
+module.exports = Clipboard
 

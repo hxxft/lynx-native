@@ -22,12 +22,15 @@
 		4214C31720B17EEC005EC1ED /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4214C31620B17EEC005EC1ED /* CoreTelephony.framework */; };
 		4214C32F20B2D4D3005EC1ED /* netinfo.js in Resources */ = {isa = PBXBuildFile; fileRef = 4214C31F20B2D4D3005EC1ED /* netinfo.js */; };
 		4214C33020B2D4D3005EC1ED /* clipboard.js in Resources */ = {isa = PBXBuildFile; fileRef = 4214C32120B2D4D3005EC1ED /* clipboard.js */; };
-		4214C33120B2D4D3005EC1ED /* plugin.js in Resources */ = {isa = PBXBuildFile; fileRef = 4214C32220B2D4D3005EC1ED /* plugin.js */; };
-		4214C33220B2D4D3005EC1ED /* plugin_manager.cc in Sources */ = {isa = PBXBuildFile; fileRef = 4214C32520B2D4D3005EC1ED /* plugin_manager.cc */; };
 		4214C33320B2D4D3005EC1ED /* plugin.cc in Sources */ = {isa = PBXBuildFile; fileRef = 4214C32720B2D4D3005EC1ED /* plugin.cc */; };
-		4214C33420B2D4D3005EC1ED /* plugin_builder.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4214C32920B2D4D3005EC1ED /* plugin_builder.mm */; };
 		4214C33520B2D4D3005EC1ED /* plugin_impl.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4214C32B20B2D4D3005EC1ED /* plugin_impl.mm */; };
 		4214C33920B2D5D3005EC1ED /* net_info_plugin.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4214C33720B2D5D3005EC1ED /* net_info_plugin.mm */; };
+		4214C33C20B3EEAE005EC1ED /* exec.js in Resources */ = {isa = PBXBuildFile; fileRef = 4214C33A20B3EEAE005EC1ED /* exec.js */; };
+		4214C33D20B3EEAE005EC1ED /* main.js in Resources */ = {isa = PBXBuildFile; fileRef = 4214C33B20B3EEAE005EC1ED /* main.js */; };
+		4214C34120B3FF9F005EC1ED /* clipboard_plugin.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4214C33F20B3FF9F005EC1ED /* clipboard_plugin.mm */; };
+		4214C34920B98EFD005EC1ED /* lynx_thread_impl.cc in Sources */ = {isa = PBXBuildFile; fileRef = 4214C34720B98EFC005EC1ED /* lynx_thread_impl.cc */; };
+		4214C34E20BFEAC2005EC1ED /* plugin_server_impl.cc in Sources */ = {isa = PBXBuildFile; fileRef = 4214C34A20BFEAC1005EC1ED /* plugin_server_impl.cc */; };
+		4214C34F20BFEAC2005EC1ED /* plugin_client.cc in Sources */ = {isa = PBXBuildFile; fileRef = 4214C34C20BFEAC1005EC1ED /* plugin_client.cc */; };
 		42178E7F20994E7B001B8A48 /* builtin.cc in Sources */ = {isa = PBXBuildFile; fileRef = 42177F5B20994E6A001B8A48 /* builtin.cc */; };
 		42178E8020994E7B001B8A48 /* table.cc in Sources */ = {isa = PBXBuildFile; fileRef = 42177F5C20994E6A001B8A48 /* table.cc */; };
 		42178E8120994E7B001B8A48 /* function.cc in Sources */ = {isa = PBXBuildFile; fileRef = 42177F5F20994E6A001B8A48 /* function.cc */; };
@@ -465,17 +468,23 @@
 		4214C31620B17EEC005EC1ED /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
 		4214C31F20B2D4D3005EC1ED /* netinfo.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = netinfo.js; sourceTree = "<group>"; };
 		4214C32120B2D4D3005EC1ED /* clipboard.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = clipboard.js; sourceTree = "<group>"; };
-		4214C32220B2D4D3005EC1ED /* plugin.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = plugin.js; sourceTree = "<group>"; };
-		4214C32420B2D4D3005EC1ED /* plugin_builder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = plugin_builder.h; sourceTree = "<group>"; };
-		4214C32520B2D4D3005EC1ED /* plugin_manager.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = plugin_manager.cc; sourceTree = "<group>"; };
 		4214C32620B2D4D3005EC1ED /* plugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = plugin.h; sourceTree = "<group>"; };
 		4214C32720B2D4D3005EC1ED /* plugin.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = plugin.cc; sourceTree = "<group>"; };
-		4214C32920B2D4D3005EC1ED /* plugin_builder.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = plugin_builder.mm; sourceTree = "<group>"; };
 		4214C32A20B2D4D3005EC1ED /* plugin_impl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = plugin_impl.h; sourceTree = "<group>"; };
 		4214C32B20B2D4D3005EC1ED /* plugin_impl.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = plugin_impl.mm; sourceTree = "<group>"; };
-		4214C32D20B2D4D3005EC1ED /* plugin_manager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = plugin_manager.h; sourceTree = "<group>"; };
 		4214C33720B2D5D3005EC1ED /* net_info_plugin.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = net_info_plugin.mm; sourceTree = "<group>"; };
 		4214C33820B2D5D3005EC1ED /* net_info_plugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = net_info_plugin.h; sourceTree = "<group>"; };
+		4214C33A20B3EEAE005EC1ED /* exec.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = exec.js; sourceTree = "<group>"; };
+		4214C33B20B3EEAE005EC1ED /* main.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = main.js; sourceTree = "<group>"; };
+		4214C33F20B3FF9F005EC1ED /* clipboard_plugin.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = clipboard_plugin.mm; sourceTree = "<group>"; };
+		4214C34020B3FF9F005EC1ED /* clipboard_plugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = clipboard_plugin.h; sourceTree = "<group>"; };
+		4214C34720B98EFC005EC1ED /* lynx_thread_impl.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = lynx_thread_impl.cc; sourceTree = "<group>"; };
+		4214C34820B98EFC005EC1ED /* lynx_thread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lynx_thread.h; sourceTree = "<group>"; };
+		4214C34A20BFEAC1005EC1ED /* plugin_server_impl.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = plugin_server_impl.cc; sourceTree = "<group>"; };
+		4214C34B20BFEAC1005EC1ED /* plugin_server.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = plugin_server.h; sourceTree = "<group>"; };
+		4214C34C20BFEAC1005EC1ED /* plugin_client.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = plugin_client.cc; sourceTree = "<group>"; };
+		4214C34D20BFEAC1005EC1ED /* plugin_client.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = plugin_client.h; sourceTree = "<group>"; };
+		4214C35020C130F3005EC1ED /* completion_event.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = completion_event.h; sourceTree = "<group>"; };
 		42177F5920994E6A001B8A48 /* semantic_analysis.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = semantic_analysis.h; sourceTree = "<group>"; };
 		42177F5A20994E6A001B8A48 /* utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = utils.h; sourceTree = "<group>"; };
 		42177F5B20994E6A001B8A48 /* builtin.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = builtin.cc; sourceTree = "<group>"; };
@@ -1041,9 +1050,12 @@
 		4214C31A20B2D4D3005EC1ED /* plugin */ = {
 			isa = PBXGroup;
 			children = (
-				4214C31B20B2D4D3005EC1ED /* impl */,
-				4214C32220B2D4D3005EC1ED /* plugin.js */,
+				4214C34C20BFEAC1005EC1ED /* plugin_client.cc */,
+				4214C34D20BFEAC1005EC1ED /* plugin_client.h */,
+				4214C34A20BFEAC1005EC1ED /* plugin_server_impl.cc */,
+				4214C34B20BFEAC1005EC1ED /* plugin_server.h */,
 				4214C32320B2D4D3005EC1ED /* base */,
+				4214C31B20B2D4D3005EC1ED /* impl */,
 			);
 			path = plugin;
 			sourceTree = "<group>";
@@ -1051,6 +1063,8 @@
 		4214C31B20B2D4D3005EC1ED /* impl */ = {
 			isa = PBXGroup;
 			children = (
+				4214C33A20B3EEAE005EC1ED /* exec.js */,
+				4214C33B20B3EEAE005EC1ED /* main.js */,
 				4214C32020B2D4D3005EC1ED /* clipboard */,
 				4214C31C20B2D4D3005EC1ED /* net_info */,
 			);
@@ -1069,6 +1083,7 @@
 		4214C32020B2D4D3005EC1ED /* clipboard */ = {
 			isa = PBXGroup;
 			children = (
+				4214C33E20B3FF9F005EC1ED /* ios */,
 				4214C32120B2D4D3005EC1ED /* clipboard.js */,
 			);
 			path = clipboard;
@@ -1077,12 +1092,9 @@
 		4214C32320B2D4D3005EC1ED /* base */ = {
 			isa = PBXGroup;
 			children = (
-				4214C32420B2D4D3005EC1ED /* plugin_builder.h */,
-				4214C32520B2D4D3005EC1ED /* plugin_manager.cc */,
-				4214C32620B2D4D3005EC1ED /* plugin.h */,
-				4214C32720B2D4D3005EC1ED /* plugin.cc */,
 				4214C32820B2D4D3005EC1ED /* ios */,
-				4214C32D20B2D4D3005EC1ED /* plugin_manager.h */,
+				4214C32720B2D4D3005EC1ED /* plugin.cc */,
+				4214C32620B2D4D3005EC1ED /* plugin.h */,
 			);
 			path = base;
 			sourceTree = "<group>";
@@ -1090,7 +1102,6 @@
 		4214C32820B2D4D3005EC1ED /* ios */ = {
 			isa = PBXGroup;
 			children = (
-				4214C32920B2D4D3005EC1ED /* plugin_builder.mm */,
 				4214C32A20B2D4D3005EC1ED /* plugin_impl.h */,
 				4214C32B20B2D4D3005EC1ED /* plugin_impl.mm */,
 			);
@@ -1106,9 +1117,28 @@
 			path = ios;
 			sourceTree = "<group>";
 		};
+		4214C33E20B3FF9F005EC1ED /* ios */ = {
+			isa = PBXGroup;
+			children = (
+				4214C33F20B3FF9F005EC1ED /* clipboard_plugin.mm */,
+				4214C34020B3FF9F005EC1ED /* clipboard_plugin.h */,
+			);
+			path = ios;
+			sourceTree = "<group>";
+		};
+		4214C34620B98EFC005EC1ED /* content */ = {
+			isa = PBXGroup;
+			children = (
+				4214C34720B98EFC005EC1ED /* lynx_thread_impl.cc */,
+				4214C34820B98EFC005EC1ED /* lynx_thread.h */,
+			);
+			path = content;
+			sourceTree = "<group>";
+		};
 		42177F3F20994E6A001B8A48 /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				4214C34620B98EFC005EC1ED /* content */,
 				4214C31A20B2D4D3005EC1ED /* plugin */,
 				421795E520994EEA001B8A48 /* third_party */,
 				42177F5820994E6A001B8A48 /* lepus */,
@@ -1677,6 +1707,7 @@
 		42178E3020994E7A001B8A48 /* threading */ = {
 			isa = PBXGroup;
 			children = (
+				4214C35020C130F3005EC1ED /* completion_event.h */,
 				42178E3120994E7A001B8A48 /* message_pump_posix.cc */,
 				42178E3320994E7A001B8A48 /* message_loop.h */,
 				42178E3420994E7A001B8A48 /* condition.h */,
@@ -2222,14 +2253,15 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4214C33D20B3EEAE005EC1ED /* main.js in Resources */,
 				425BCA0320A69F3E008AAFC0 /* gtest-param-util-generated.h.pump in Resources */,
 				4217A90220994F04001B8A48 /* sconscript in Resources */,
 				4217A90420994F04001B8A48 /* json_valueiterator.inl in Resources */,
-				4214C33120B2D4D3005EC1ED /* plugin.js in Resources */,
 				4217A90520994F04001B8A48 /* init.sh in Resources */,
 				4214C33020B2D4D3005EC1ED /* clipboard.js in Resources */,
 				4214C32F20B2D4D3005EC1ED /* netinfo.js in Resources */,
 				4217A90020994F04001B8A48 /* version.h.in in Resources */,
+				4214C33C20B3EEAE005EC1ED /* exec.js in Resources */,
 				BC9D343A1E1DEC92009BD30A /* Assets.xcassets in Resources */,
 				425BCA0120A69F3E008AAFC0 /* gtest-tuple.h.pump in Resources */,
 				4217A8D320994F04001B8A48 /* CMakeLists.txt in Resources */,
@@ -2504,9 +2536,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				BC5DBDB41F5EC7BE005A47E3 /* view_wrapper.mm in Sources */,
+				4214C34E20BFEAC2005EC1ED /* plugin_server_impl.cc in Sources */,
 				4214C33520B2D4D3005EC1ED /* plugin_impl.mm in Sources */,
 				421438E5207DE59F00ECF750 /* coordinator_pretreatment.mm in Sources */,
 				42178E8B20994E7B001B8A48 /* url_request_context.cc in Sources */,
+				4214C34120B3FF9F005EC1ED /* clipboard_plugin.mm in Sources */,
 				BC31B01D1F6271BE00C0234C /* ui_event_action.mm in Sources */,
 				421795AB20994E84001B8A48 /* source_cache_manager.cc in Sources */,
 				421795AE20994E84001B8A48 /* html_loader.cc in Sources */,
@@ -2522,6 +2556,7 @@
 				42178F2B20994E7B001B8A48 /* render_tree_host.cc in Sources */,
 				4217A90120994F04001B8A48 /* json_reader.cpp in Sources */,
 				421795BE20994E84001B8A48 /* time_utils.cc in Sources */,
+				4214C34F20BFEAC2005EC1ED /* plugin_client.cc in Sources */,
 				BCDEC7BE209C5168000B0D50 /* prototype_builder.cc in Sources */,
 				421795CE20994E85001B8A48 /* string_utils.cc in Sources */,
 				42178F0F20994E7B001B8A48 /* jsc_helper.cc in Sources */,
@@ -2578,7 +2613,6 @@
 				42178F0520994E7B001B8A48 /* element.cc in Sources */,
 				42178F2120994E7B001B8A48 /* command_collector.cc in Sources */,
 				BC31B0291F6284D200C0234C /* render_tree_host_impl_bridge.mm in Sources */,
-				4214C33220B2D4D3005EC1ED /* plugin_manager.cc in Sources */,
 				421795BA20994E84001B8A48 /* select_poller.cc in Sources */,
 				BCDEC7D8209C518C000B0D50 /* class_template.cc in Sources */,
 				42178F4320994E7B001B8A48 /* input_stream.cc in Sources */,
@@ -2592,6 +2626,7 @@
 				421795DE20994E85001B8A48 /* memory_tracker.cc in Sources */,
 				BC31B01A1F6264E600C0234C /* ui_factory.mm in Sources */,
 				42178F2620994E7B001B8A48 /* coordinator_executor.cc in Sources */,
+				4214C34920B98EFD005EC1ED /* lynx_thread_impl.cc in Sources */,
 				42178ECB20994E7B001B8A48 /* net_errors.cc in Sources */,
 				42178F3D20994E7B001B8A48 /* view_stub.cc in Sources */,
 				42178F2520994E7B001B8A48 /* coordinator_action.cc in Sources */,
@@ -2646,7 +2681,6 @@
 				421795D020994E85001B8A48 /* string_number_convert.cc in Sources */,
 				421795B920994E84001B8A48 /* utility.cc in Sources */,
 				42178EDB20994E7B001B8A48 /* css_color.cc in Sources */,
-				4214C33420B2D4D3005EC1ED /* plugin_builder.mm in Sources */,
 				BC31B0161F624F6D00C0234C /* lynx_ui_body.mm in Sources */,
 				42178F2F20994E7B001B8A48 /* extended_view.cc in Sources */,
 				421438E8207DE59F00ECF750 /* coordinator_action_executor.mm in Sources */,
@@ -2912,6 +2946,7 @@
 					"DEBUG=1",
 					"IOS=1",
 					"OS_IOS=1",
+					"PLUGIN_ENABLE=1",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2957,6 +2992,7 @@
 					"$(inherited)",
 					"SD_WEBP=1",
 					"OS_IOS=1",
+					"PLUGIN_ENABLE=1",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",

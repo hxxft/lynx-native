@@ -46,6 +46,8 @@ class Runtime : public base::RefCountPtr<Runtime>{
     void LoadHTML(const std::string& url, const std::string& html);
     void Reload(bool force);
     void Destroy();
+    void Pause();
+    void Resume();
     void AddJavaScriptInterface(const std::string& name,
                                 LynxObjectPlatform* object);
 

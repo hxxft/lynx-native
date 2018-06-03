@@ -6,7 +6,7 @@
 #include "runtime/base/lynx_object.h"
 
 namespace plugin {
-class PluginManager;
+class PluginClient;
 }
 
 namespace jscore {
@@ -27,7 +27,7 @@ class Global : public LynxObject {
   inline Loader* loader() { return loader_.Get(); }
   inline Document* document() { return document_.Get(); }
 #if PLUGIN_ENABLE
-  inline plugin::PluginManager* plugin() { return plugin_.Get(); }
+  inline plugin::PluginClient* plugin() { return plugin_.Get(); }
 #endif
 
   base::ScopedPtr<LynxValue> SetTimeout(base::ScopedPtr<LynxArray>& array);
@@ -50,7 +50,7 @@ class Global : public LynxObject {
   base::ScopedRefPtr<Loader> loader_;
   base::ScopedRefPtr<Document> document_;
 #if PLUGIN_ENABLE
-  base::ScopedRefPtr<plugin::PluginManager> plugin_;
+  base::ScopedRefPtr<plugin::PluginClient> plugin_;
 #endif
   DISALLOW_COPY_AND_ASSIGN(Global);
 };

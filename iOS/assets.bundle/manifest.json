@@ -1,5 +1,5 @@
 {
-  "debug": false,
+  "debug": true,
   "application": {
     "packageName": "com.demo",
     "icon": "icon.png",

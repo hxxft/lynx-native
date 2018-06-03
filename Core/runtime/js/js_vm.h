@@ -8,17 +8,19 @@
 #include "base/ref_counted_ptr.h"
 
 namespace jscore {
-class JSVM : public base::RefCountPtr<JSVM>{
-public:
-    JSVM(): vm_(NULL) {}
-    ~JSVM();
-    void Initialize();
+class JSVM : public base::RefCountPtr<JSVM> {
+ public:
+  JSVM() : vm_(NULL) {}
+  ~JSVM();
 
-    void* vm() {
-        return vm_;
-    }
-private:
-    void* vm_;
+  static JSVM* Instance();
+
+  void Initialize();
+
+  void* vm() { return vm_; }
+
+ private:
+  void* vm_;
 };
 }  // namespace jscore
 

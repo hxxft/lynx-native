@@ -6,6 +6,9 @@
 #include "lynx_view_controller.h"
 #include "debugger/debug_client.h"
 #include "debugger/ios/debug_host_impl.h"
+#include "plugin/plugin_server.h"
+#include "content/lynx_thread.h"
+#include "runtime/js/js_vm.h"
 
 @interface LxAppDelegate ()
 
@@ -30,9 +33,13 @@
     if([appInfo debugable]) {
         debug::DebugClient::Debugger()->Initialize(lynx_new debug::DebugHostImpl);
     }
+    content::LynxThread::Initialize();
+    plugin::PluginServer::Initialize();
+    //jscore::JSVM::Instance()->Initialize();
     
     UINavigationController *navController = [[UINavigationController alloc]initWithRootViewController:[[LynxViewController alloc] initWithName:appInfo.mainPage]];
     self.window.rootViewController = navController;
+    
     [self.window makeKeyAndVisible];
     
     

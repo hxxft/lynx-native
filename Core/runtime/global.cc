@@ -2,7 +2,7 @@
 
 #include "runtime/global.h"
 
-#include "plugin/base/plugin_manager.h"
+#include "plugin/plugin_client.h"
 #include "runtime/base/lynx_array.h"
 #include "runtime/base/lynx_value.h"
 #include "runtime/console.h"
@@ -69,7 +69,7 @@ void Global::OnJSObjectAttached() {
   document_ = lynx_new Document(context_);
   document_->ProtectJSObject();
 #if PLUGIN_ENABLE
-  plugin_ = lynx_new plugin::PluginManager(context_);
+  plugin_ = lynx_new plugin::PluginClient(context_);
   plugin_->ProtectJSObject();
 #endif
 }

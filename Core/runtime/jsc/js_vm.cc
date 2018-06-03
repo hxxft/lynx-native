@@ -2,8 +2,17 @@
 
 #include <JavaScriptCore/JavaScript.h>
 #include "runtime/js/js_vm.h"
+#include "base/lazy_instance.h"
 
 namespace jscore {
+    namespace {
+        base::LazyInstance<JSVM> g_vm;
+    }
+    
+    JSVM* JSVM::Instance() {
+        return g_vm.Get();
+    }
+    
     void JSVM::Initialize() {
         JSContextGroupRef context_group = JSContextGroupCreate();
         vm_ = static_cast<void*>(const_cast<OpaqueJSContextGroup*>(context_group));

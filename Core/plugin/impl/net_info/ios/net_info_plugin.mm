@@ -1,30 +1,19 @@
-//
-//  net_info_plugin.m
-//  lynx
-//
-//  Created by dli on 2018/5/20.
-//  Copyright © 2018年 lynx. All rights reserved.
-//
+// Copyright 2017 The Lynx Authors. All rights reserved.
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 #import <CoreTelephony/CTTelephonyNetworkInfo.h>
 #import "AFNetworkReachabilityManager.h"
 
-#include "plugin/impl/net_info/ios/net_info_plugin.h"
+#import "plugin/impl/net_info/ios/net_info_plugin.h"
 
 @implementation NetInfoPlugin
 
 
-+(void) createWithManager: (plugin::PluginManager*)manager {
-    [[NetInfoPlugin alloc] initWithManager:manager];
-}
-
--(id) initWithManager: (plugin::PluginManager*)manager {
-    self = [super initWithName:@"NetInfo" pluginManager:manager];
+-(id) init {
+    self = [super init];
     if(self != nil) {
-        self.networkStatus = @"unknown";
-        [self startNetworkStatusObserver];
+        self.pluginName = @"NetInfo";
     }
     return self;
 }
@@ -33,34 +22,55 @@
     [self stopNetworkStatusObserver];
 }
 
--(void) getConnectInfo: (NSNumber*)methodId arguments:(NSArray*) args {
+-(void) getConnectInfo:(NSInteger)clientId method:(NSNumber*)methodId arguments:(NSArray*) args {
+    __weak typeof(self) weakSelf = self;
  dispatch_sync(dispatch_get_main_queue(), ^{
+     __strong __typeof(weakSelf)strongSelf = weakSelf;
     NSMutableArray* result = [[NSMutableArray alloc]init];
-    [result addObject:[self networkingStatesFromStatebar]];
-    [self Return:methodId resultType:plugin::Plugin::ResultType_Success argments:result];
+     [result addObject:[strongSelf networkingStatesFromStatebar] ? : @'unknown'];
+     [strongSelf returnBack:clientId method:methodId successed:true argments:result];
  });
 }
 
--(void) startNetworkStatusObserver {
+-(void) addEvent:(NSString*) event {
+    if([event isEqualToString:@"connectionChange"]) {
+        [self startNetworkStatusObserver:event];
+    }
+    
+}
+
+-(void) removeEvent:(NSString*) event {
+    if([event isEqualToString:@"connectionChange"]) {
+        [self stopNetworkStatusObserver];
+    }
+}
+
+-(void) startNetworkStatusObserver:(NSString*)event {
     AFNetworkReachabilityManager *mgr = [AFNetworkReachabilityManager sharedManager];
+     __weak typeof(self) weakSelf = self;
     [mgr setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status) {
+        NSString* networkStatus = nil;
         switch (status) {
             case AFNetworkReachabilityStatusUnknown://未知网络
-                _networkStatus = @"unknown";
+                networkStatus = @"unknown";
                 break;
             case AFNetworkReachabilityStatusNotReachable://没有网络(断网)
-                _networkStatus = @"none";
+                networkStatus = @"none";
                 break;
             case AFNetworkReachabilityStatusReachableViaWWAN://手机自带网络
-                _networkStatus = [self getCellularStates];
+                networkStatus = [self getCellularStates];
                 break;
             case AFNetworkReachabilityStatusReachableViaWiFi:// WIFI
-                _networkStatus = @"wifi";
+                networkStatus = @"wifi";
                 break;
             default:
-                _networkStatus = @"unknown";
+                networkStatus = @"unknown";
                 break;
         }
+        __strong __typeof(weakSelf)strongSelf = weakSelf;
+        NSMutableArray* result = [[NSMutableArray alloc]init];
+        [result addObject:networkStatus];
+        [strongSelf dispatchEvent:event argments:result];
         
     }];
     [mgr startMonitoring];

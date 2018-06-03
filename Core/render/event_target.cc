@@ -15,9 +15,7 @@ void EventTarget::DispatchEvent(const std::string& event, base::ScopedPtr<jscore
     if (iter == event_listener_map_.end()) return;
     size_t length = iter->second->size();
     for (int i = 0; i < length; i++) {
-        if (target_data_ != NULL) {
-            (*iter->second)[i]->function_->Run(target_data_, args.Get());
-        }
+        (*iter->second)[i]->function_->Run(target_data_, args.Get());
     }
 }
 

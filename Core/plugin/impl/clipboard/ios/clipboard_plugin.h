@@ -2,7 +2,7 @@
 
 #include "plugin/base/ios/plugin_impl.h"
 
-@interface NetInfoPlugin : LynxPlugin
+@interface ClipboardPlugin : LynxPlugin
 
 -(id) init;
 

@@ -2,12 +2,16 @@
 
 #include "runtime/js/js_context.h"
 #include "runtime/runtime.h"
+#include "runtime/global.h"
 #include "parser/render_parser.h"
 #include "render/render_tree_host_impl.h"
 #include "runtime/base/lynx_object_platform.h"
 
 #include "base/trace_event/trace_event_common.h"
 #include "base/log/logging.h"
+
+#include "plugin/plugin_server.h"
+#include "base/threading/completion_event.h"
 
 namespace jscore {
 
@@ -124,9 +128,13 @@ namespace jscore {
 
     void Runtime::InitRuntimeOnJSThread(const char *arg) {
         TRACE_EVENT0("js", "Runtime::InitRuntimeOnJSThread");
-        vm_ = lynx_new JSVM();
+        //vm_ = JSVM::Instance();
+        vm_ = lynx_new JSVM;
         vm_->Initialize();
         context_->Initialize(vm_.Get(), this);
+#if ENABLE_PLUGIN
+        plugin::PluginServer::Register(context_->global()->plugin());
+#endif
         //inspector_->Attach(this);
     }
 
@@ -154,6 +162,9 @@ namespace jscore {
     }
 
     void Runtime::DestroyOnJSThread() {
+#if ENABLE_PLUGIN
+        plugin::PluginServer::UnRegister(context_->global()->plugin());
+#endif
         Release();
     }
 
