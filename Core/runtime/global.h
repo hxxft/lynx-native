@@ -26,7 +26,7 @@ class Global : public LynxObject {
   inline Screen* screen() { return screen_.Get(); }
   inline Loader* loader() { return loader_.Get(); }
   inline Document* document() { return document_.Get(); }
-#if PLUGIN_ENABLE
+#if ENABLE_PLUGIN
   inline plugin::PluginClient* plugin() { return plugin_.Get(); }
 #endif
 
@@ -49,7 +49,7 @@ class Global : public LynxObject {
   base::ScopedRefPtr<Screen> screen_;
   base::ScopedRefPtr<Loader> loader_;
   base::ScopedRefPtr<Document> document_;
-#if PLUGIN_ENABLE
+#if ENABLE_PLUGIN
   base::ScopedRefPtr<plugin::PluginClient> plugin_;
 #endif
   DISALLOW_COPY_AND_ASSIGN(Global);

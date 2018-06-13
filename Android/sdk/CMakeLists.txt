@@ -9,6 +9,7 @@ add_definitions(-DJSONCPP_NO_LOCALE_SUPPORT=1)
 add_definitions(-DDEBUG_MEMORY=0)
 add_definitions(-DCOMPILER_GCC=1)
 add_definitions(-DENABLE_TRACING=0)
+add_definitions(-DENABLE_PLUGIN=1)
 
 #set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall")
 
@@ -199,6 +200,16 @@ add_library(lynx SHARED
             	${CMAKE_SOURCE_DIR}/../../Core/render/android/jni_coordinator_bridge.cc
             	${CMAKE_SOURCE_DIR}/../../Core/render/coordinator/coordinator_action.cc
             	${CMAKE_SOURCE_DIR}/../../Core/render/coordinator/coordinator_executor.cc
+
+
+				${CMAKE_SOURCE_DIR}/../../Core/plugin/plugin_client.cc
+				${CMAKE_SOURCE_DIR}/../../Core/plugin/plugin_server_impl.cc
+				${CMAKE_SOURCE_DIR}/../../Core/plugin/base/android/plugin_impl.cc
+				${CMAKE_SOURCE_DIR}/../../Core/plugin/base/plugin.cc
+
+
+				${CMAKE_SOURCE_DIR}/../../Core/content/lynx_thread_impl.cc
+				${CMAKE_SOURCE_DIR}/../../Core/content/content_main.cc
 
             	${LEPUS_SOURCE_FILES}
                 ${UNITTEST_SRC_LIST}

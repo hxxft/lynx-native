@@ -68,7 +68,7 @@ void Global::OnJSObjectAttached() {
   loader_->ProtectJSObject();
   document_ = lynx_new Document(context_);
   document_->ProtectJSObject();
-#if PLUGIN_ENABLE
+#if ENABLE_PLUGIN
   plugin_ = lynx_new plugin::PluginClient(context_);
   plugin_->ProtectJSObject();
 #endif
@@ -134,7 +134,7 @@ base::ScopedPtr<LynxValue> Global::GetDocument() {
 }
 
 base::ScopedPtr<LynxValue> Global::GetPlugin() {
-#if PLUGIN_ENABLE
+#if ENABLE_PLUGIN
   return LynxValue::MakeObject(plugin());
 #else
   return base::ScopedPtr<LynxValue>();

@@ -10,4 +10,6 @@ com/lynx/core/tree/LynxRenderTreeHostImpl.java
 com/lynx/ui/coordinator/CrdCommandExecutor.java
 com/lynx/utils/RegisterUtil.java
 com/lynx/dev/DebugHostImpl.java
+com/lynx/plugin/PluginImpl.java
+com/lynx/content/LynxContent.java
 ../../debug/java/com/lynx/gtest/GTestDriver.java

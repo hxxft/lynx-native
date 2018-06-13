@@ -2,7 +2,6 @@
 package com.lynx.core.base;
 
 import android.support.annotation.NonNull;
-import android.util.SparseArray;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,7 +13,7 @@ import java.util.Map;
  * method invoking and field setting
  */
 
-/* package */ class JavaCenter {
+/* package */ public class JavaCenter {
     private static JavaCenter sCenter;
     // Uses for finding the matched method while params need to be transformed
     private Map<Class<?>, Map<String, List<JavaMethod>>> mMethods;

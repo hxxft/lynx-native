@@ -61,8 +61,4 @@ public class LynxRuntimeManager {
             return runtime;
         }
     }
-
-    static {
-        System.loadLibrary("lynx");
-    }
 }

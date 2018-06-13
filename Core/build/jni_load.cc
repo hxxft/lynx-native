@@ -11,6 +11,8 @@
 #include "render/android/jni_coordinator_bridge.h"
 #include "runtime/android/result_callback.h"
 #include "debugger/android/debug_host_impl.h"
+#include "plugin/base/android/plugin_impl.h"
+#include "content/content_main.h"
 #if GTEST_ENABLE
 #include "test/gtest_driver.h"
 #endif
@@ -33,6 +35,8 @@ JNIEXPORT jint JNICALL JNI_OnLoad(JavaVM *vm, void *reserved)
     lynx::JNICoordinatorBridge::RegisterJNIUtils(env);
     jscore::ResultCallbackAndroid::RegisterJNIUtils(env);
     debug::DebugHostImpl::RegisterJNIUtils(env);
+    content::ContentMain::RegisterContentMain(env);
+    plugin::PluginImpl::RegisterJNIUtils(env);
     #if GTEST_ENABLE
     test::GTestBridge::RegisterJNIUtils(env);
     #endif

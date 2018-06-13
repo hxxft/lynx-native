@@ -6,6 +6,8 @@ import com.google.gson.Gson;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayDeque;
+import java.util.Queue;
 
 /**
  * Created by dli on 2017/9/28.
@@ -29,9 +31,8 @@ public class ResourceReader {
     }
 
     private Resource getResourceFromAssets(String path, Resource.Type type) {
-        path = path.replace(ResourceManager.kAssetModeApplicationLocation, "");
+        path = PathFormat(path.replace(ResourceManager.kAssetModeApplicationLocation, ""));
         InputStream in = null;
-
         try {
             in = mContext.getAssets().open(path);
             return Resource.Convector.toResouce(in, type);
@@ -48,6 +49,34 @@ public class ResourceReader {
         }
         return null;
 
+    }
+
+    private String PathFormat(String path) {
+        Queue<String> paths = new ArrayDeque<>();
+        while(true) {
+            int index = path.indexOf("/");
+            if(index == -1) {
+                paths.add(path);
+                break;
+            }
+            String left = path.substring(0, index);
+            String right = path.substring(index+1, path.length());
+            if(left.equals("..")  && !paths.isEmpty()) {
+                paths.poll();
+            }else if(left != "/" && left != ".") {
+                paths.add(left);
+            }
+            path = right;
+        }
+
+        String result = "";
+
+        while(paths.size() > 1) {
+            result += paths.poll();
+            result += "/";
+        }
+        result += paths.poll();
+        return result;
     }
 
 }

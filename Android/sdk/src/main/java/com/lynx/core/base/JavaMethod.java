@@ -8,7 +8,7 @@ import java.lang.reflect.Method;
  * An identifiable wrapper for Java method
  */
 
-/* package */ class JavaMethod {
+/* package */ public class JavaMethod {
     private Method mMethod;
     private String mSignature;
     private JavaProperty mParamsTypes;

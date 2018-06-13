@@ -31,6 +31,7 @@
 		4214C34920B98EFD005EC1ED /* lynx_thread_impl.cc in Sources */ = {isa = PBXBuildFile; fileRef = 4214C34720B98EFC005EC1ED /* lynx_thread_impl.cc */; };
 		4214C34E20BFEAC2005EC1ED /* plugin_server_impl.cc in Sources */ = {isa = PBXBuildFile; fileRef = 4214C34A20BFEAC1005EC1ED /* plugin_server_impl.cc */; };
 		4214C34F20BFEAC2005EC1ED /* plugin_client.cc in Sources */ = {isa = PBXBuildFile; fileRef = 4214C34C20BFEAC1005EC1ED /* plugin_client.cc */; };
+		4214C35320D100A0005EC1ED /* content_main.cc in Sources */ = {isa = PBXBuildFile; fileRef = 4214C35120D100A0005EC1ED /* content_main.cc */; };
 		42178E7F20994E7B001B8A48 /* builtin.cc in Sources */ = {isa = PBXBuildFile; fileRef = 42177F5B20994E6A001B8A48 /* builtin.cc */; };
 		42178E8020994E7B001B8A48 /* table.cc in Sources */ = {isa = PBXBuildFile; fileRef = 42177F5C20994E6A001B8A48 /* table.cc */; };
 		42178E8120994E7B001B8A48 /* function.cc in Sources */ = {isa = PBXBuildFile; fileRef = 42177F5F20994E6A001B8A48 /* function.cc */; };
@@ -485,6 +486,8 @@
 		4214C34C20BFEAC1005EC1ED /* plugin_client.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = plugin_client.cc; sourceTree = "<group>"; };
 		4214C34D20BFEAC1005EC1ED /* plugin_client.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = plugin_client.h; sourceTree = "<group>"; };
 		4214C35020C130F3005EC1ED /* completion_event.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = completion_event.h; sourceTree = "<group>"; };
+		4214C35120D100A0005EC1ED /* content_main.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = content_main.cc; sourceTree = "<group>"; };
+		4214C35220D100A0005EC1ED /* content_main.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = content_main.h; sourceTree = "<group>"; };
 		42177F5920994E6A001B8A48 /* semantic_analysis.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = semantic_analysis.h; sourceTree = "<group>"; };
 		42177F5A20994E6A001B8A48 /* utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = utils.h; sourceTree = "<group>"; };
 		42177F5B20994E6A001B8A48 /* builtin.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = builtin.cc; sourceTree = "<group>"; };
@@ -1129,6 +1132,8 @@
 		4214C34620B98EFC005EC1ED /* content */ = {
 			isa = PBXGroup;
 			children = (
+				4214C35120D100A0005EC1ED /* content_main.cc */,
+				4214C35220D100A0005EC1ED /* content_main.h */,
 				4214C34720B98EFC005EC1ED /* lynx_thread_impl.cc */,
 				4214C34820B98EFC005EC1ED /* lynx_thread.h */,
 			);
@@ -2685,6 +2690,7 @@
 				42178F2F20994E7B001B8A48 /* extended_view.cc in Sources */,
 				421438E8207DE59F00ECF750 /* coordinator_action_executor.mm in Sources */,
 				421438E7207DE59F00ECF750 /* coordinator_types.mm in Sources */,
+				4214C35320D100A0005EC1ED /* content_main.cc in Sources */,
 				42178F2D20994E7B001B8A48 /* swiper_view.cc in Sources */,
 				42178F2820994E7B001B8A48 /* canvas_view.cc in Sources */,
 				421795BF20994E84001B8A48 /* timer_heap.cc in Sources */,
@@ -2946,7 +2952,7 @@
 					"DEBUG=1",
 					"IOS=1",
 					"OS_IOS=1",
-					"PLUGIN_ENABLE=1",
+					"ENABLE_PLUGIN=1",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2992,7 +2998,7 @@
 					"$(inherited)",
 					"SD_WEBP=1",
 					"OS_IOS=1",
-					"PLUGIN_ENABLE=1",
+					"ENABLE_PLUGIN=1",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
