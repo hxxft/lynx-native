@@ -1,7 +1,7 @@
 // Copyright 2017 The Lynx Authors. All rights reserved.
 
-#ifndef XCORE_ANDROID_USER_AGENT_H
-#define XCORE_ANDROID_USER_AGENT_H
+#ifndef LYNX_ANDROID_USER_AGENT_H
+#define LYNX_ANDROID_USER_AGENT_H
 
 #include <string>
 #include <base/threading/read_write_lock.h>
@@ -39,4 +39,4 @@ namespace jscore {
     };
 }
 
-#endif //XCORE_ANDROID_USER_AGENT_H
+#endif //LYNX_ANDROID_USER_AGENT_H

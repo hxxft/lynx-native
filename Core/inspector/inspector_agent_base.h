@@ -1,8 +1,8 @@
 #ifndef LYNX_INSPECTOR_INSPECTOR_AGENT_BASE_H_
 #define LYNX_INSPECTOR_INSPECTOR_AGENT_BASE_H_
 
-#include <string>
 #include <map>
+#include <string>
 
 #include "third_party/jsoncpp/include/json/json.h"
 
@@ -11,10 +11,10 @@
 //#define INSPECTOR_TEST
 
 namespace debug {
-    class InspectorAgentBase : public base::RefCountPtr<InspectorAgentBase>{
-    public:
-        virtual Json::Value CallMethod(Json::Value& content) = 0;
-    };
-}
+class InspectorAgentBase : public base::RefCountPtr<InspectorAgentBase> {
+ public:
+  virtual Json::Value CallMethod(Json::Value& content) = 0;
+};
+}  // namespace debug
 
 #endif
